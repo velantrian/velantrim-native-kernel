@@ -32,7 +32,7 @@ CI workflow
 - [ ] `python -m pytest` passes in repository CI.
 - [ ] Python 3.11 and 3.12 behaviour is checked.
 - [ ] Selective and broad-query benchmark cases are reproducible.
-- [ ] `STATUS.md` is updated from `DOCUMENTATION-FIRST` to `RUNNABLE RESEARCH PROTOTYPE` only after evidence exists.
+- [ ] `STATUS.md` is updated from `DOCUMENTED_ONLY` to `RUNNABLE RESEARCH PROTOTYPE` only after evidence exists.
 - [ ] No production-ready claim is introduced.
 
 ## Deliberately deferred
