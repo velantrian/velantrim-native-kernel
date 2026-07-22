@@ -169,7 +169,7 @@ The project rejects:
 - claiming consciousness or personhood;
 - equating repeated use with correctness;
 - hiding unresolved conflicts;
-- calling lexical context selection genuine sufficient Grip;
+- calling lexical context selection genuine sufficient evidence grip;
 - binding the architecture permanently to one database;
 - direct research-runtime writes into Crystal Canon;
 - promoting proposals based solely on multi-model consensus.
