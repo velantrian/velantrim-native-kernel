@@ -2,7 +2,7 @@
 
 > **Date:** 2026-07-22  
 > **Prototype track:** `v0.1.2.1`  
-> **Repository status:** `RESEARCH / DOCUMENTATION-FIRST / NOT PRODUCTION-READY`
+> **Repository status:** `RESEARCH / DOCUMENTED_ONLY / NOT PRODUCTION-READY`
 
 ## Reading rule
 
@@ -80,4 +80,4 @@ The next PR should import the exact `v0.1.2.1` prototype and tests without seman
 5. code-to-document parity;
 6. no unsupported production claims.
 
-Only after that PR passes review may this status change from `DOCUMENTATION-FIRST` to `RUNNABLE RESEARCH PROTOTYPE`.
+Only after that PR passes review may this status change from `DOCUMENTED_ONLY` to `RUNNABLE RESEARCH PROTOTYPE`.
