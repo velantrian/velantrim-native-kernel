@@ -1,6 +1,6 @@
 # Velantrim Native Kernel
 
-> **Status:** `RESEARCH / EXPERIMENTAL / NOT PRODUCTION-READY`  
+> **Status:** `RESEARCH / DOCUMENTED_ONLY / NOT PRODUCTION-READY`  
 > **Current prototype track:** `v0.1.2.1`  
 > **Relationship:** independent Velantrim research project; not part of Crystal runtime
 
