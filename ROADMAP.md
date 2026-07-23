@@ -1,14 +1,27 @@
 # Roadmap
 
+Velantrim Native Kernel has two parallel research tracks:
+
+```text
+Track A — executable validation
+exact import → tests → read path → Shadow → Event Integrity
+
+Track B — long-horizon architecture
+Canon → abstract contracts → implementation profiles → portability evidence
+```
+
+Track B is independent of the Crystal grant roadmap. It may continue as documentation and bounded experiments while Track A preserves strict implementation evidence.
+
 ## Stage 0 — Repository bootstrap
 
-Status: current pull request
+Status: complete in `main`; documentation refinement continues.
 
 - publish explicit research boundary;
 - establish Canon / Experimental / Anti-Canon separation;
 - document benchmark and integration rules;
 - keep the existing prototype outside `main` until exact code and tests are imported reviewably;
-- keep license unset until publication terms are decided.
+- keep license unset until publication terms are decided;
+- establish Native Kernel as an independent, personal, long-horizon research project.
 
 ## Stage 1 — Controlled prototype import
 
@@ -30,6 +43,8 @@ Exit gate:
 - no code is silently rewritten during import;
 - any version-label inconsistencies are corrected explicitly;
 - status changes to `RUNNABLE RESEARCH PROTOTYPE` only after review.
+
+Long-horizon documentation may evolve during this stage, but it must not alter the imported semantic baseline.
 
 ## v0.1.2.2 — Read-Path Completion
 
@@ -108,6 +123,69 @@ Requirements:
 - operator-visible receipts;
 - compare-and-swap only where concurrent writers require it.
 
+## Long-horizon architecture track
+
+This track develops the architecture as a technology-independent blueprint rather than a commitment to a specific 2026 implementation stack.
+
+### A. Abstract contract map
+
+Define explicit contracts for:
+
+- storage and authoritative history;
+- projection and rebuild;
+- retrieval and activation;
+- compute and reduction;
+- admission and policy;
+- audit and Receipt;
+- migration and interchange.
+
+### B. Implementation profiles
+
+Document profiles rather than hard-code one permanent stack.
+
+Initial profile candidates:
+
+```text
+Python
+SQLite / append-only files
+FTS / lexical retrieval
+Graph adapters
+Vector / hybrid retrieval
+LLM adapters
+Conventional CPU / GPU
+```
+
+Future profiles may explore different runtimes, memory media, representations, or computational substrates.
+
+### C. Portability evaluation
+
+Candidate evidence:
+
+- replay the same authoritative history through multiple storage adapters;
+- rebuild projections from zero;
+- compare semantic state, lineage, temporal meaning, conflicts, and Receipts;
+- verify that adapter replacement does not require Canon redesign;
+- document semantic differences rather than hiding them;
+- define neutral export and import forms.
+
+### D. Future substrate research
+
+Possible research directions include neuromorphic, photonic, analog, probabilistic, non-binary, or other future systems.
+
+These remain research possibilities. No roadmap item may claim that a future substrate is available, superior, or compatible without implementation evidence.
+
+### E. Architecture promotion gate
+
+```text
+research hypothesis
+→ abstract contract
+→ bounded implementation profile
+→ tests and failure cases
+→ cross-profile comparison
+→ explicit decision record
+→ operator approval
+```
+
 ## Later research
 
 - full bi-temporal queries;
@@ -118,17 +196,21 @@ Requirements:
 - real task-sufficiency evaluation;
 - alternative projection adapters;
 - storage migration tests;
-- multi-writer replication models.
+- multi-writer replication models;
+- snapshot policy as a separate RFC if replay cost justifies it;
+- architecture decision records for major Canon and adapter choices.
 
 ## Promotion rule
 
 ```text
 research hypothesis
 → reproducible code and tests
-→ Offline Shadow evidence
+→ Offline Shadow evidence where applicable
 → explicit decision record
 → bounded integration proposal
 → threat model and rollback
 → separate implementation PR
 → operator approval
 ```
+
+Architecture research and executable implementation may progress at different speeds, but their statuses must never be collapsed.
