@@ -4,6 +4,16 @@
 > **Track:** independent personal research  
 > **Relationship to Crystal:** separate from the grant-facing product roadmap
 
+## Companion documents
+
+- [`FOUNDATIONAL_INTENT.md`](./FOUNDATIONAL_INTENT.md) — plain-language explanation of why Native Kernel exists as a separate system;
+- [`CONFORMANCE_MODEL.md`](./CONFORMANCE_MODEL.md) — how present and future implementations can demonstrate architectural compatibility;
+- [`DECISION_PROCESS.md`](./DECISION_PROCESS.md) — how architectural decisions, AI inputs, evidence, and operator approval remain separate;
+- [`adr/README.md`](./adr/README.md) — durable Architecture Decision Records.
+
+> [!NOTE]
+> This document explains the long-term direction. The companion documents explain how to test that direction and how to prevent design discussions from silently becoming Canon.
+
 ## 1. Purpose
 
 Velantrim Native Kernel is an independent, long-horizon architecture research project.
@@ -188,6 +198,29 @@ A portability evaluation may require:
 
 Bit-for-bit equality is not always required across future substrates. The required equivalence level must be stated explicitly.
 
+### First reference experiment
+
+The first proof should remain deliberately small:
+
+```text
+Claims + Events
+      ↓
+derived semantic state
+      ↓
+delete disposable projections
+      ↓
+rebuild from authoritative history
+      ↓
+compare declared semantic equivalence
+      ↓
+reconstruction Receipt
+```
+
+See [`CONFORMANCE_MODEL.md`](./CONFORMANCE_MODEL.md) and [`ADR-0004`](./adr/0004-rebuild-from-authoritative-history.md).
+
+> [!IMPORTANT]
+> A passing reconstruction experiment demonstrates a bounded history/reduction/projection property. It does not prove retrieval quality, autonomous cognition, security, scalability, or production readiness.
+
 ---
 
 ## 7. Relationship to Titan and Crystal
@@ -242,6 +275,8 @@ research hypothesis
 ```
 
 An idea does not become Canon because it is futuristic, elegant, popular, or supported by several language models.
+
+The durable decision path is defined in [`DECISION_PROCESS.md`](./DECISION_PROCESS.md).
 
 ---
 
