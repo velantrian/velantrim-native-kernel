@@ -2,17 +2,19 @@
 
 # 🧬 Velantrim Native Kernel
 
-### A storage-, model-, and hardware-independent research kernel for verifiable memory
+### A storage-, model-, runtime-, and hardware-independent research architecture for verifiable memory
+
+**[English](./README.md) · [Русский](./README.ru.md)**
 
 ![Status](https://img.shields.io/badge/status-DOCUMENTED__ONLY-6f42c1)
 ![Maturity](https://img.shields.io/badge/maturity-RESEARCH-blue)
 ![Runtime](https://img.shields.io/badge/runtime-NOT%20IN%20MAIN-lightgrey)
 ![Production](https://img.shields.io/badge/production-NOT%20READY-red)
 
-**Claims · Events · Provenance · Time · Rebuildable projections · Auditable context selection**
+**Claims · Events · Provenance · Time · Conflict visibility · Rebuildable projections · Auditable context selection**
 
-> **One history, one trace, one decision gate.  
-> Verify before promotion; preserve meaning when technologies change.**
+> **Preserve meaning when technologies change.  
+> Verify before promotion.**
 
 </div>
 
@@ -25,24 +27,33 @@
 
 ## ⚡ In 30 seconds
 
-Velantrim Native Kernel explores a durable semantic foundation for memory systems.
+Velantrim Native Kernel is an independent, personal, long-horizon research project.
+
+It studies how memory and epistemic state can preserve their meaning when databases, indexes, programming languages, model providers, processor assumptions, and future computational substrates change.
 
 ```text
 🧩 Claim
    ↓
-📜 Append-only Event
+📜 Append-only Event History
    ↓
-🧠 Deterministic state reconstruction
+🧠 Deterministic State Reconstruction
    ↓
-🗂️ Rebuildable projections
+🗂️ Rebuildable Projections
    ↓
-🎯 Task-specific context selection
+🎯 Task-Specific Context Selection
    ↓
 🧾 Auditable Receipt
 ```
 
-> **Databases, indexes, model APIs, runtimes, and hardware may change.  
-> The semantic meaning of memory should not have to be rewritten with them.**
+```text
+modern technology
+      =
+research instrument
+      ≠
+architecture definition
+```
+
+The project does **not** reject Python, SQLite, FTS, graphs, vector retrieval, LLMs, CPU, or GPU execution. It uses them as current implementation profiles without allowing them to become the permanent semantic definition of the system.
 
 | Area | Current status |
 |---|---|
@@ -55,258 +66,392 @@ Velantrim Native Kernel explores a durable semantic foundation for memory system
 | 💎 Crystal integration | Not active and not required |
 | 🚀 Production readiness | **Not claimed** |
 
-> Only code and tests present in the repository count as publicly implemented.  
-> Local measurements remain external until reproduced from committed code.
+> Only code and tests present in this repository count as publicly implemented.  
+> Architecture may develop faster than runtime evidence, but their statuses must never be collapsed.
+
+---
+
+## 🌐 Language
+
+- **English:** [`README.md`](./README.md)
+- **Русский:** [`README.ru.md`](./README.ru.md)
+
+The two README files should remain semantically aligned. Translation may adapt wording for readability, but must not change maturity, implementation, benchmark, security, or integration claims.
 
 ---
 
 ## 🧭 Navigation
 
-[🔬 Research update](#-source-verified-research-update) ·
 [💡 Purpose](#-why-this-project-exists) ·
-[🗺️ Ecosystem](#-velantrim-ecosystem) ·
-[⚖️ Comparison](#-native-kernel-vs-titan-vs-crystal) ·
-[🏗️ Architecture](#️-architecture) ·
-[🧩 Lifecycle](#-claim-lifecycle) ·
-[🔌 Independence](#-stable-contracts-vs-replaceable-technology) ·
-[🌳 Mind map](#-mind-map) ·
-[🏛️ Discipline](#️-canon-experimental-and-anti-canon) ·
-[🔍 Gate](#-research-gate) ·
+[🏗️ Layers](#️-architecture-layers) ·
+[🧬 Canon](#-canon-shape) ·
+[📐 Contracts](#-abstract-contracts) ·
+[🔌 Profiles](#-implementation-profiles) ·
+[📸 Checkpoints](#-state-checkpoints-research) ·
+[⚔️ Conflicts](#️-conflict-lifecycle-research) ·
+[📝 ADRs](#-architecture-decision-records) ·
+[🗺️ Ecosystem](#️-velantrim-ecosystem) ·
 [📊 Status](#-maturity-boundary) ·
-[🗺️ Roadmap](#️-roadmap) ·
-[📚 Docs](#-repository-map)
-
----
-
-# 🔬 Source-Verified Research Update
-
-A source-verification assessment initially confirmed Crystal and Titan, but could not locate Native Kernel primitives inside Crystal.
-
-The reason is now explicit:
-
-```text
-BEFORE
-────────────────────────────────────────────────────────
-Crystal was public and verifiable.
-Native Kernel concepts were described externally.
-The location of the prototype was unclear.
-
-                         ↓
-
-NOW
-────────────────────────────────────────────────────────
-Native Kernel has its own public research repository.
-Architecture, status, roadmap, and boundaries are explicit.
-Issue #1 tracks the exact v0.1.2.1 + 44-test import.
-```
-
-## 🔥 What is now verified
-
-| Finding | Evidence | Meaning |
-|---|---|---|
-| 🧬 Native Kernel is a real separate track | This repository | It is not a Crystal module or a name collision |
-| 📦 The checkpoint is identified | `v0.1.2.1` + 44 tests | The intended baseline is explicit |
-| 🧾 Import discipline is formalized | Issue #1 | Import first; redesign later |
-| 📊 Benchmark honesty is required | Issue #1 + benchmark policy | Local numbers remain external until reproduced |
-| 👤 Operator approval is required | `CONTRIBUTING.md` | Multi-model agreement is advisory |
-| 🔗 Crystal boundaries are explicit | `docs/INTEGRATION_BOUNDARIES.md` | No direct Native Event Log → Crystal Canon path |
-| 🚫 Production status is denied | README + `STATUS.md` | Public research is not production readiness |
-
-### The central correction
-
-```text
-💎 Crystal
-implemented verifiable-memory product
-with its own Canon and TruthGate rules
-
-🧬 Native Kernel
-independent semantic research substrate
-whose runnable checkpoint still awaits controlled import
-```
-
-> Crystal does not need Native Kernel in order to work.  
-> Native Kernel must not become a second hidden truth authority for Crystal.
-
-## ✅ What the repository proves — and what it does not
-
-| ✅ Publicly established | 🟡 Still pending |
-|---|---|
-| Repository and research track exist | Runnable `kernel.py` in public `main` |
-| Architecture and invariants are documented | Public execution of all 44 tests |
-| Integration boundaries are explicit | Reproducible benchmark from committed code |
-| Controlled import procedure exists | Public CI on the imported checkpoint |
-| Promotion requires evidence and operator decision | Offline Shadow results on Titan |
-| Local checkpoint is identified | Production, security, or scalability evidence |
-
-```text
-architectural verifiability      ✅ available
-runtime reproducibility          🟡 pending Issue #1
-production evidence              🚫 not claimed
-```
-
-## 🧪 Why Issue #1 is strict
-
-```text
-exact snapshot
-     ↓
-exact 44-test suite
-     ↓
-reproducible environment
-     ↓
-public CI
-     ↓
-benchmark reproduction
-     ↓
-independent review
-```
-
-The import must not include:
-
-```text
-🚫 silent semantic rewrite
-🚫 read-path redesign
-🚫 Titan or Crystal integration
-🚫 production claims
-🚫 benchmark promotion without reproduction
-```
-
-> Importing and redesigning at the same time would destroy the evidence boundary.  
-> Reviewers could no longer determine whether the verified baseline was preserved.
-
-## 🔒 Promotion rule
-
-```text
-elegant idea
-     ≠
-real source
-     ≠
-supported claim
-     ≠
-reproduced defect
-     ≠
-accepted architecture
-```
-
-Promotion requires:
-
-```text
-source verification
-        +
-claim verification
-        +
-architecture applicability
-        +
-tests / benchmark evidence
-        +
-failure and rollback analysis
-        +
-explicit operator decision
-```
-
-Several language models may agree and still be wrong.
-
-## 📚 What the external research contributed
-
-| Native Kernel question | Research line | Potential use |
-|---|---|---|
-| ⚖️ Conflict lifecycle | JTMS / ATMS / AGM | Justifications, incompatible environments, revision vs update |
-| 🎯 Minimal evidence context | Hitting sets / abduction | Formal target for approximate Grip research |
-| ⏳ Temporal semantics | Bi-temporal models / TSQL2 | Valid time vs record or knowledge time |
-| 🧠 Consolidation | Complementary Learning Systems | Episodic → semantic consolidation with parent provenance |
-| 📜 Durable history | Event sourcing / CQRS | Replay, idempotency, projections, expected version later |
-
-These are **research anchors**, not implementation commands.
-
-```text
-academic formalism
-        ↓
-research note / RFC
-        ↓
-bounded prototype
-        ↓
-tests and failure cases
-        ↓
-Offline Shadow
-        ↓
-operator decision
-```
-
-### Convergent validity
-
-Independent projects have explored similar combinations:
-
-- append-only histories;
-- provenance-grounded memory;
-- admission-time gating;
-- bi-temporal facts;
-- explicit contradictions;
-- rebuildable projections.
-
-This indicates that the direction belongs to a real research field.
-
-It does **not** prove that this implementation is correct, sufficient, scalable, secure, or ready for integration.
-
-## 🚫 What this research does not authorize
-
-```text
-🚫 No immediate Crystal / Native convergence.
-🚫 No direct TruthGate → Native Kernel cutover.
-🚫 No full ATMS engine in the import PR.
-🚫 No exact NP-hard Grip solver as P0.
-🚫 No CAS or distributed stack without a multi-writer need.
-🚫 No charge formula promoted to Canon by model opinion.
-🚫 No benchmark promoted before repository reproduction.
-```
-
-> **The public repository closes the architectural-location gap, not the runtime-evidence gap.**
-
-The next correct step remains the controlled import.
+[🛣️ Roadmap](#️-roadmap) ·
+[📚 Files](#-repository-map)
 
 ---
 
 ## 💡 Why this project exists
 
-Many memory systems gradually bind meaning to implementation:
+Many memory systems gradually bind meaning to one implementation:
 
 ```text
 memory = database schema
 memory = graph model
 memory = vector index
-memory = one vendor API
-memory = one model context window
+memory = one model API
+memory = one runtime
+memory = one processor assumption
 ```
 
-That works until the technology changes.
+This works until the technology changes.
 
-Velantrim Native Kernel separates:
+Velantrim Native Kernel separates durable semantic contracts from replaceable implementations:
 
 ```text
 ┌──────────────────────────────────────────────────────────────┐
-│ 🏛️ STABLE SEMANTIC CONTRACTS                               │
-│ Claim · Event · Provenance · Time · State · Receipt         │
+│ 🏛️ ARCHITECTURE CANON                                      │
+│ Identity · History · Provenance · Time · Conflict · Receipt │
 └──────────────────────────────────────────────────────────────┘
                               │
                               ▼
 ┌──────────────────────────────────────────────────────────────┐
-│ 🔌 REPLACEABLE IMPLEMENTATIONS                              │
-│ SQLite · FTS · Graph · Vector · Files · Future engines      │
+│ 📐 ABSTRACT CONTRACTS                                      │
+│ Storage · Projection · Retrieval · Compute · Admission     │
+└──────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌──────────────────────────────────────────────────────────────┐
+│ 🔌 REPLACEABLE IMPLEMENTATION PROFILES                     │
+│ Python · SQLite · Files · FTS · Graph · Vector · LLM       │
 └──────────────────────────────────────────────────────────────┘
 ```
 
-> The kernel does not attempt to predict the winning future database.  
-> It preserves enough semantic structure to replace storage without redefining memory.
+The project is therefore closer to a **future architecture blueprint** than to a commitment to one contemporary stack.
 
 ### Why “Native Kernel”?
 
 “Native” does not mean an operating-system kernel, hypervisor, scheduler, or hardware controller.
 
-It means a **native semantic substrate** beneath higher-level memory and agent systems:
+It means a native semantic substrate beneath higher-level memory and agent systems:
 
-- small enough to reason about;
+- explicit about identity and lineage;
+- explicit about provenance, uncertainty, time, and conflict;
 - deterministic where possible;
-- model-independent;
-- storage-independent;
-- explicit about provenance, uncertainty, time, and conflict.
+- independent from one model or database;
+- auditable through Receipts;
+- portable at the contract level rather than by marketing claim.
+
+See [`docs/LONG_HORIZON_VISION.md`](./docs/LONG_HORIZON_VISION.md).
+
+---
+
+## 🏗️ Architecture layers
+
+```text
+Architecture Canon
+        ↓
+Abstract Contracts
+        ↓
+Replaceable Implementation Profiles
+        ↓
+Reproducible Evaluation Evidence
+```
+
+These layers must remain distinct:
+
+```text
+Architecture Canon
+≠ abstract contract
+≠ implementation profile
+≠ implemented runtime
+≠ production evidence
+```
+
+### 🏛️ Architecture Canon
+
+The Canon defines what meaning must survive technology replacement.
+
+### 📐 Abstract Contracts
+
+Contracts define required behaviour without prescribing SQLite, Python, a graph engine, an LLM, or a processor model.
+
+### 🔌 Implementation Profiles
+
+Profiles bind the contracts to technologies available at a particular time.
+
+### 🧪 Evaluation Evidence
+
+A profile becomes credible through reproducible tests, replay, failure cases, benchmarks, Shadow evaluation where applicable, and explicit operator decisions.
+
+---
+
+## 🧬 Canon Shape
+
+```mermaid
+flowchart LR
+    C["🧩 Claim<br/>semantic identity"] --> E["📜 Append-only Event History<br/>authoritative record"]
+    E --> S["🧠 Deterministic Reduction<br/>derived epistemic state"]
+    S --> P["🗂️ Rebuildable Projections<br/>fast read models"]
+    P --> X["🎯 Context Selection<br/>task-specific eligible context"]
+    X --> R["🧾 Receipt<br/>auditable processing record"]
+
+    P -. adapters .-> A["🔌 SQLite / Graph / FTS / Vector / Future"]
+    E -. replay .-> S
+```
+
+| Component | Meaning |
+|---|---|
+| 🧩 **Claim** | Stable semantic identity; existence does not imply truth |
+| 📜 **Event** | Explicit append-only record of change |
+| 🧠 **Reducer** | Reconstructs state from authoritative history |
+| ⚖️ **Epistemic State** | Derived from provenance, evidence, validity, outcomes, and policy |
+| 🗂️ **Projection** | Disposable, rebuildable read model |
+| 🎯 **Selection** | Chooses task-relevant eligible context |
+| 🧾 **Receipt** | Records processing, inclusion, omission, conflict, and uncertainty |
+
+The current research event vocabulary is deliberately small:
+
+```text
+ADMIT · LINK · UTILIZED · SUPERSEDED · ERASED
+```
+
+Future event verbs require explicit architectural decisions and must not be silently inserted into the controlled `v0.1.2.1` import.
+
+---
+
+## 📐 Abstract contracts
+
+A technology-independent implementation should preserve or explicitly translate these contracts.
+
+| Contract | Required meaning |
+|---|---|
+| **Identity** | Claim identity and lineage do not depend only on backend-generated IDs |
+| **History** | Changes remain explicit and replayable |
+| **Reduction** | Declared state can be reconstructed from authoritative history |
+| **Projection** | Read models can be destroyed and rebuilt |
+| **Temporal** | Valid time, record time, and write order are not collapsed |
+| **Conflict** | Contradictions and divergent states remain visible |
+| **Admission** | Policy decisions are explicit and receipted |
+| **Retrieval** | Relevance does not silently become truth |
+| **Audit** | Selection and state transitions can produce an accountable Receipt |
+| **Migration** | Adapter replacement preserves documented semantic equivalence |
+
+```text
+same authoritative history
+→ implementation profile A
+→ semantic state A
+
+same authoritative history
+→ implementation profile B
+→ semantic state B
+
+required result:
+explicitly documented semantic equivalence
+```
+
+Bit-for-bit equality is not assumed across every possible future substrate. The required equivalence level must be defined and tested.
+
+---
+
+## 🔌 Implementation profiles
+
+### Current laboratory candidates
+
+```text
+Python
+SQLite / append-only files
+FTS / lexical retrieval
+Graph adapters
+Vector / hybrid retrieval
+Local or remote model adapters
+Conventional CPU / GPU execution
+```
+
+### Possible future research
+
+The long-horizon track may study different runtimes, memory media, representations, analog or probabilistic mechanisms, neuromorphic systems, photonic systems, non-binary systems, or other future substrates.
+
+These are research possibilities only.
+
+> Technology independence is currently an architectural hypothesis.  
+> It is not yet demonstrated across arbitrary hardware or future computational systems.
+
+---
+
+## 🔒 Core invariants
+
+1. Append-only event history is authoritative about what the system recorded.
+2. Event history is **not** equivalent to admitted truth.
+3. Claims are immutable semantic records; revisions are explicit.
+4. Current state is derived rather than silently overwritten.
+5. Projections are disposable and rebuildable.
+6. Selection relevance is not epistemic validity.
+7. Utility and repeated success are not truth evidence by default.
+8. Candidate contradiction is not established contradiction.
+9. Conflict detection is not conflict resolution.
+10. Receipt replayability does not imply task sufficiency.
+11. SQLite, graphs, FTS, vectors, models, runtimes, and processors are implementation choices, not the architecture.
+12. Replacing technology must not silently change epistemic meaning.
+13. Legal deletion and restriction requirements are not cancelled by append-only design.
+14. Production promotion requires independent evidence, threat analysis, and rollback behaviour.
+15. Multi-model agreement is advisory, not approval.
+16. Only the operator or maintainer may approve a proposal as an accepted architecture decision.
+
+---
+
+## ⚖️ Truth, relevance, utility, and freshness
+
+```text
+truth
+  ≠ relevance
+  ≠ past utility
+  ≠ freshness
+  ≠ write order
+```
+
+A frequently used Claim is not automatically correct.  
+A recent Claim is not automatically trustworthy.  
+A useful Claim is not automatically evidence.  
+The last written Claim is not automatically the semantically correct Claim.
+
+```text
+🛡️ Eligibility / Admission Boundary
+provenance + evidence + state + access + temporal rules
+                           │
+                           ▼
+🎯 Ranking / Activation
+relevance + task policy + utility + recency where appropriate
+```
+
+The exact `charge` formula remains experimental.
+
+---
+
+## 📸 State Checkpoints — research
+
+**Status:** `PROPOSED / NOT IMPLEMENTED / NOT PART OF ISSUE #1`
+
+A State Checkpoint is a replay accelerator, not authoritative history.
+
+```text
+state at source position V
++
+authoritative events after V
+=
+current derived state
+```
+
+The architecture-level invariants are:
+
+1. deleting every checkpoint must not destroy authoritative history;
+2. checkpoint plus uncovered history must match full replay under a documented equivalence rule;
+3. corrupt or incompatible checkpoints must be discardable;
+4. checkpoint scope and source position must be explicit;
+5. checkpoint policy must remain an implementation profile, not permanent Canon.
+
+Terminology must remain distinct:
+
+| Term | Meaning |
+|---|---|
+| **State Checkpoint** | Cached reducer state at a declared source position |
+| **Read Snapshot** | Structural read representation used by a read path |
+| **Evaluation Snapshot** | Frozen dataset used for an experiment such as Offline Shadow |
+| **Claim freshness** | Operational recency/decay concept, unrelated to checkpoint completeness |
+
+The repository deliberately does **not** prescribe `every_n`, time thresholds, SQLite tables, or Claim-per-stream as architectural Canon.
+
+See [`docs/adr/0002-state-checkpoints-are-disposable.md`](./docs/adr/0002-state-checkpoints-are-disposable.md).
+
+---
+
+## ⚔️ Conflict Lifecycle — research
+
+**Status:** `PROPOSED / PARTIALLY DOCUMENTED / NOT IMPLEMENTED`
+
+The architecture distinguishes:
+
+```text
+duplicate delivery
+≠ write-version race
+≠ divergent history
+≠ semantic contradiction
+≠ epistemic disagreement
+≠ projection drift
+```
+
+A key research principle is:
+
+> **Write order may establish deterministic ordering. It must not independently establish semantic correctness.**
+
+A future Conflict Set may preserve:
+
+- involved Claims or histories;
+- detection basis;
+- candidate vs established status;
+- provenance and temporal scope;
+- operator or policy review;
+- explicit resolution history;
+- Receipts and failure cases.
+
+Possible future lifecycle verbs such as `CONFLICT_OPENED`, `CONFLICT_REVIEWED`, `CONFLICT_RESOLVED`, or `CONFLICT_REOPENED` are proposals, not part of the current event vocabulary.
+
+The project does not yet canonize OCC, CRDT policy, multi-writer merge, Claim-per-stream, LWW, or a particular human-review API.
+
+See [`docs/adr/0003-semantic-conflicts-require-explicit-resolution.md`](./docs/adr/0003-semantic-conflicts-require-explicit-resolution.md).
+
+---
+
+## 📝 Architecture Decision Records
+
+Architecture decisions must not disappear inside chats or multi-model summaries.
+
+The ADR system separates:
+
+```text
+Decision status
+≠ evidence level
+≠ implementation status
+```
+
+### Decision status
+
+```text
+PROPOSED · ACCEPTED · REJECTED · DEPRECATED · SUPERSEDED
+```
+
+### Evidence level
+
+```text
+DOCUMENTED
+EXTERNALLY_OBSERVED
+LOCALLY_TESTED
+REPOSITORY_REPRODUCED
+SHADOW_EVALUATED
+OPERATOR_APPROVED
+```
+
+### Implementation status
+
+```text
+NOT_STARTED · PARTIAL · COMPLETE
+```
+
+Current ADRs:
+
+| ADR | Decision status | Purpose |
+|---|---|---|
+| [`0001`](./docs/adr/0001-architecture-canon-vs-implementation-profiles.md) | **ACCEPTED** | Separate durable architecture from replaceable technology |
+| [`0002`](./docs/adr/0002-state-checkpoints-are-disposable.md) | **PROPOSED** | Define checkpoints as discardable replay accelerators |
+| [`0003`](./docs/adr/0003-semantic-conflicts-require-explicit-resolution.md) | **PROPOSED** | Keep semantic conflict visible until explicit resolution |
+
+See [`docs/adr/README.md`](./docs/adr/README.md) and [`docs/adr/0000-template.md`](./docs/adr/0000-template.md).
 
 ---
 
@@ -319,284 +464,32 @@ It means a **native semantic substrate** beneath higher-level memory and agent s
              │                     │                     │
              ▼                     ▼                     ▼
     🧬 Native Kernel           🔱 Titan              💎 Crystal
-    research substrate     full Exo-Cortex       verifiable product
+    architecture research   Exo-Cortex research   verifiable product
              │                     │                     │
      Claims / Events       memory / reasoning      TruthGate / TRACE
-     time / lineage        experiments / agents    local-first runtime
-     projections           Offline Shadow          governance / audit
-             │                     │                     │
-             └──── evaluation ─────┘                     │
-                                                        │
-                      future primitive transfer ─────────┘
-                      only through RFC + tests + review
+     time / lineage        experiments / agents    governance / audit
+     abstract contracts    Offline Shadow target   independent Canon
 ```
 
-- 🧬 **Native Kernel** studies reusable semantic contracts.
-- 🔱 **Titan** is the broader Exo-Cortex research environment and future Shadow testbed.
-- 💎 **Crystal** is an independent, implemented verifiable-memory product.
+- **Native Kernel** is an independent long-horizon architecture research project.
+- **Titan** is a broader Exo-Cortex research environment and future Offline Shadow testbed.
+- **Crystal** is an independent verifiable-memory product and grant-facing track.
 
-Native Kernel does not replace Titan or Crystal.
-
----
-
-## ⚖️ Native Kernel vs Titan vs Crystal
-
-| Dimension | 🧬 Native Kernel | 🔱 Titan | 💎 Crystal |
-|---|---|---|---|
-| Role | Semantic research substrate | Full Exo-Cortex research environment | Verifiable-memory product |
-| Question | What must memory mean across technologies? | How do memory, reasoning, retrieval, planning, and agents work together? | How is trustworthy memory delivered, audited, and governed? |
-| Concepts | Claim, Event, reduction, time, lineage, projection, Receipt | Layered memory, retrieval, reasoning, observers, consolidation | TruthGate, TRACE, FactsPack, provenance, L0–L3 |
-| Maturity | Documented; checkpoint pending import | Broader research runtime | Implemented and tested product track |
-| Integration | No live integration | Future Offline Shadow target | Independent of Native Kernel |
-| Promotion | Tests → Shadow → explicit decision | Research governance | RFC + threat model + tests + rollback + PR |
-
-> “Native Kernel = Canon, Titan = projections, Crystal = executor” is too simplistic.  
-> Titan is broader than projections, and Crystal is a complete independent product.
-
-### Mandatory boundaries
+Mandatory boundaries:
 
 ```text
 ✅ Crystal works without Native Kernel.
 ✅ Titan remains independent during evaluation.
 ✅ Native projections are rebuildable and non-authoritative.
-✅ Future transfer requires a bounded RFC.
+✅ Ideas may transfer only through bounded RFC/ADR, tests, review, and approval.
 
 🚫 No Native Event Log → Crystal Canon path.
 🚫 No live dual-write at the current stage.
 🚫 No claim that Crystal already runs on Native Kernel.
-🚫 No prototype benchmark presented as Crystal production evidence.
+🚫 No TruthGate dependency inserted into the controlled import.
 ```
 
----
-
-## 🏗️ Architecture
-
-```mermaid
-flowchart LR
-    C["🧩 Claim<br/>semantic identity"] --> E["📜 Append-only Event Log<br/>authoritative history"]
-    E --> S["🧠 Deterministic Reduction<br/>derived epistemic state"]
-    S --> P["🗂️ Rebuildable Projections<br/>fast read models"]
-    P --> X["🎯 Context Selection<br/>task-specific evidence"]
-    X --> R["🧾 Receipt<br/>auditable processing record"]
-
-    P -. adapters .-> A["🔌 SQLite / Graph / FTS / Vector"]
-    E -. replay .-> S
-```
-
-### Components
-
-| Component | Meaning |
-|---|---|
-| 🧩 **Claim** | Stable semantic identity; existence does not imply truth |
-| 📜 **Event** | Explicit append-only change history |
-| 🧠 **Reducer** | Reconstructs state from history |
-| 🗂️ **Projection** | Disposable, rebuildable read model |
-| 🎯 **Selection** | Chooses task-relevant eligible context |
-| 🧾 **Receipt** | Records selection, exclusions, conflicts, and processing |
-
-The research event vocabulary is deliberately small:
-
-```text
-ADMIT · LINK · UTILIZED · SUPERSEDED · ERASED
-```
-
----
-
-## 🧩 Claim lifecycle
-
-```mermaid
-flowchart LR
-    A["📝 New information"] --> B["🧩 Claim"]
-    B --> C["📜 ADMIT"]
-    C --> D["🧠 Reducer"]
-    D --> E["⚖️ Epistemic state"]
-    E --> F["🗂️ Projections"]
-    F --> G["🎯 Selection"]
-    G --> H["🧾 Receipt"]
-
-    I["🔗 LINK"] --> D
-    J["📌 UTILIZED"] --> D
-    K["♻️ SUPERSEDED"] --> D
-    L["🗑️ ERASED"] --> D
-```
-
-```text
-1. A source contains a statement.
-2. The statement receives Claim identity.
-3. ADMIT records its entry into history.
-4. Provenance and evidence affect derived state.
-5. Projections provide fast reading.
-6. Eligibility is checked before ranking.
-7. Receipt records selection, omission, conflict, and unknowns.
-```
-
-> Storage is not promotion.
-
----
-
-## ⏳ Time is not one field
-
-| Time dimension | Meaning |
-|---|---|
-| 🌍 **Valid time** | When the Claim is asserted to hold in the represented world |
-| 🧠 **Record / knowledge time** | When the system learned or recorded it |
-| ✍️ **Write order** | Deterministic ordering for replay or concurrency |
-
-```text
-🌍 UPDATE
-The represented world changed.
-
-🧠 REVISION / CORRECTION
-The system discovered that its previous model was wrong.
-```
-
-Full bi-temporal query semantics remain future research.
-
----
-
-## ⚖️ Truth, relevance, utility, and freshness
-
-```text
-truth
-  ≠ relevance
-  ≠ past utility
-  ≠ freshness
-```
-
-A frequently used Claim is not automatically correct.  
-A recent Claim is not automatically trustworthy.  
-A useful Claim is not automatically evidence.
-
-```text
-🛡️ Eligibility Gate
-evidence + state + provenance + access + temporal rules
-                         │
-                         ▼
-🎯 Ranking
-relevance + task policy + utility + recency where appropriate
-```
-
-> The exact `charge` formula is experimental.  
-> Scoring must never silently convert relevance or repeated use into truth.
-
----
-
-## 🔌 Stable contracts vs replaceable technology
-
-| 🏛️ Stable contract | 🔌 Replaceable implementation |
-|---|---|
-| Claim identity | SQLite row, graph node, document record |
-| Event history | SQLite log, file log, event database |
-| Reduction | Python, Rust, future runtime |
-| Projection | SQLite, FTS, graph, vector index |
-| Typed links | Adjacency table, graph edge, document relation |
-| Temporal semantics | Columns, temporal engine, event reconstruction |
-| Context selection | Lexical, graph, hybrid, future policy |
-| Receipt | JSON, signed envelope, audit artifact |
-| Model interface | Local LLM, cloud API, future model |
-| Storage medium | Disk, embedded DB, controlled service |
-
-```text
-Today:
-Event history → SQLite projection → FTS
-
-Later:
-Event history → another engine → hybrid retrieval
-
-Preserved:
-identity · provenance · lineage · time · Receipt semantics
-```
-
----
-
-## 🌳 Mind map
-
-```mermaid
-mindmap
-  root((🧬 Velantrim Native Kernel))
-    🔬 Verified boundary
-      📦 Issue 1 import
-      ✅ 44 external tests
-      🚫 runtime not in main
-      👤 operator approval
-    🏛️ Canon Shape
-      🧩 Claim identity
-      📜 Append-only events
-      🧠 Deterministic reduction
-      🗂️ Rebuildable projections
-      🧾 Receipts
-      🔌 Technology independence
-    🧪 Experimental
-      ⚡ Charge formula
-      🔎 Lexical activation
-      🔗 Propagation weights
-      ✂️ Greedy ablation
-      ⚔️ Conflict heuristics
-    ⏳ Semantics
-      🌍 Valid time
-      🧠 Record time
-      ✍️ Write order
-      🧬 Lineage
-      ⚖️ Epistemic state
-    🛰️ Evaluation
-      ✅ Regression tests
-      📊 Benchmarks
-      🧪 Offline Shadow
-      🧾 Receipt comparison
-      🚨 Failure analysis
-    🔒 Boundaries
-      🔱 Titan evaluation
-      💎 Crystal independence
-      🚫 No direct Canon writes
-      🚫 No production claims
-    📚 Research anchors
-      ⚖️ TMS and belief revision
-      🎯 Hitting sets and abduction
-      ⏳ Bi-temporal models
-      🧠 Complementary learning systems
-```
-
----
-
-## 🏛️ Canon, Experimental, and Anti-Canon
-
-### 🏛️ Canon Shape
-
-```text
-🧩 Claim identity
-📜 Append-only event authority
-🧠 Deterministic reconstruction
-🗂️ Replaceable projections
-⚖️ Explicit epistemic boundaries
-🧾 Auditable receipts
-🔌 Storage and model independence
-```
-
-### 🧪 Experimental
-
-```text
-⚡ Charge formula
-🔎 Lexical activation
-🔗 Propagation weights
-✂️ Greedy ablation
-⚔️ Conflict heuristics
-🎚️ Validation thresholds
-🗄️ Current SQLite schema
-```
-
-### 🚫 Anti-Canon
-
-```text
-embedding similarity = truth
-graph edge = proof
-repeated use = correctness
-storage = promotion
-hidden conflict = resolution
-one database vendor = architecture
-LLM fluency = evidence
-multi-model consensus = approval
-research runtime → direct Crystal Canon writes
-```
+See [`docs/INTEGRATION_BOUNDARIES.md`](./docs/INTEGRATION_BOUNDARIES.md).
 
 ---
 
@@ -611,42 +504,18 @@ research runtime → direct Crystal Canon writes
         ↓
 🧩 Claim applies to this architecture?
         ↓
-🐞 Defect is reproduced?
+🐞 Defect or need is reproduced?
         ↓
-🧪 Tests support the change?
+🧪 Tests / benchmark support the change?
+        ↓
+🚨 Failure and rollback analysed?
+        ↓
+📝 ADR / RFC recorded?
         ↓
 👤 Operator approval
 ```
 
-A fabricated citation may look precise.  
-A real citation may not support the attached Claim.  
-A valid external result may not apply to this architecture.
-
-Only the operator or maintainer may promote a proposal.
-
----
-
-## 📐 Read model and complexity boundary
-
-| Component | Role |
-|---|---|
-| 🗂️ **ReadIndex** | Stable structural indexes built once per snapshot |
-| 🎯 **PullContext** | Query-, task-, and time-dependent state for one selection |
-
-```text
-Snapshot construction target:
-O(events + links + claims)
-```
-
-The full pipeline is not guaranteed linear. Greedy ablation may approach:
-
-```text
-O(K²)
-```
-
-where `K` is the activated candidate set.
-
-> Local observations are not public benchmark evidence until reproduced from committed code and fixtures.
+Several language models may agree and still be wrong.
 
 ---
 
@@ -655,11 +524,15 @@ where `K` is the activated candidate set.
 | Area | Current status |
 |---|---|
 | Architecture | **Documented** |
+| Long-horizon vision | **Documented** |
 | Local checkpoint | `v0.1.2.1`, externally verified |
 | Regression evidence | 44 tests, external until import |
 | Runnable public package | **Not yet present** |
-| Public CI | Pending import |
-| Public benchmark | Pending import |
+| Public CI | Pending controlled import |
+| Public benchmark | Pending controlled import |
+| State Checkpoints | Proposed research |
+| Conflict lifecycle | Proposed / partially documented research |
+| ADR governance | Documented in this branch |
 | Offline Shadow | Planned |
 | Titan integration | Not active |
 | Crystal integration | Not active |
@@ -667,23 +540,67 @@ where `K` is the activated candidate set.
 
 ### May claim
 
-- documented architecture;
-- explicit boundaries;
-- staged roadmap;
-- benchmark methodology;
-- controlled import plan;
-- public reviewable research track.
+- documented architecture and invariants;
+- explicit status and integration boundaries;
+- long-horizon technology-independent research direction;
+- staged roadmap and benchmark methodology;
+- proposed checkpoint and conflict contracts;
+- ADR governance process.
 
 ### Must not claim
 
 - runnable public kernel;
 - public reproduction of 44 tests;
-- complete Event Integrity;
+- implemented checkpoint store;
+- complete write idempotency or OCC;
 - multi-writer safety;
+- accepted CRDT policy;
+- implemented conflict resolution lifecycle;
+- complete Event Integrity;
 - universal linear-time selection;
-- proven sufficient Grip;
-- production security or privacy;
+- proven sufficient evidence selection;
+- production security, privacy, or hardware portability;
 - live Titan or Crystal integration.
+
+---
+
+## 🛣️ Roadmap
+
+### Track A — executable validation
+
+```text
+📦 Exact v0.1.2.1 + 44-test import
+        ↓
+⚡ v0.1.2.2 Read-Path Completion
+        ↓
+🛰️ Offline Shadow on recorded Titan queries
+        ↓
+🛡️ v0.1.3 Event Integrity
+        ↓
+🔬 Controlled integration research
+```
+
+The controlled import must not contain semantic redesign, checkpoint implementation, new conflict verbs, TruthGate integration, Titan/Crystal integration, or unsupported production claims.
+
+### Track B — long-horizon architecture
+
+```text
+Architecture Canon
+        ↓
+Abstract Contract Map
+        ↓
+Implementation Profiles
+        ↓
+Portability Evidence
+        ↓
+ADRs / bounded RFCs
+        ↓
+Operator Decisions
+```
+
+Track B may document State Checkpoints, conflict lifecycle, future substrates, migration, and portability while Track A preserves exact implementation evidence.
+
+See [`ROADMAP.md`](./ROADMAP.md).
 
 ---
 
@@ -694,136 +611,12 @@ where `K` is the activated candidate set.
 | 🌐 Broad queries | May remain superlinear |
 | 🔁 Idempotency | Read deduplication is not durable command idempotency |
 | 📎 Evidence | Non-empty evidence is hygiene, not proof |
-| 🛡️ Event integrity | Full envelope and threat model remain future work |
-| ⚔️ Conflicts | Lifecycle and resolution policy remain research |
+| 🛡️ Event Integrity | Full envelope and threat model remain future work |
+| ⚔️ Conflicts | Directionality, admission, lifecycle, and resolution remain research |
+| 📸 Checkpoints | Contract proposed; implementation and policy not selected |
 | 🎯 Sufficiency | Current proxy ablation does not prove sufficient context |
-
----
-
-## 🗺️ Roadmap
-
-```text
-✅ Stage 0
-Documentation and governance
-        │
-        ▼
-📦 Stage 1
-Exact v0.1.2.1 + 44-test controlled import
-        │
-        ▼
-⚡ v0.1.2.2
-Read-Path Completion
-        │
-        ▼
-🛰️ Offline Shadow
-~100 recorded Titan queries, no live writes
-        │
-        ▼
-🛡️ v0.1.3
-Event Integrity
-        │
-        ▼
-🔬 Later research
-live shadow · bi-temporal queries · conflict lifecycle
-```
-
-### Stage 1
-
-- exact code;
-- complete 44-test suite;
-- reproducible environment;
-- supported-version CI;
-- exact commands;
-- benchmark reproduction;
-- code-to-document parity review.
-
-### v0.1.2.2
-
-- incoming and outgoing adjacency indexes;
-- removal of repeated neighbor scans;
-- bounded or redesigned ablation;
-- broad-query benchmarks;
-- stable regression checks;
-- candidate-conflict directionality;
-- explicit write-idempotency contract.
-
-### Offline Shadow
-
-Compare approximately 100 recorded Titan queries:
-
-- selected context;
-- omitted evidence;
-- conflict visibility;
-- temporal correctness;
-- latency;
-- Receipt quality;
-- failure cases;
-- operator judgment.
-
-No Shadow output writes to Titan or Crystal truth stores.
-
-### v0.1.3 Event Integrity
-
-```text
-event_id
-global_seq
-timestamp
-schema_version
-actor
-command_id / idempotency_key
-claim_id
-verb
-payload_hash
-previous_hash
-```
-
-A hash chain alone is insufficient. Crash consistency, replay rules, ordering semantics, corruption tests, truncation tests, and a threat model are also required.
-
----
-
-## ✅ What it is — and 🚫 what it is not
-
-| ✅ Studies | 🚫 Does not claim |
-|---|---|
-| Event-sourced semantic memory | Consciousness or personhood |
-| Deterministic state reconstruction | Autonomous truth |
-| Provenance and lineage | Finished production database |
-| Replaceable adapters | Replacement for Crystal |
-| Temporal semantics | Complete bi-temporal runtime |
-| Conflict visibility | Automatic conflict resolution |
-| Selection receipts | Proven sufficient context |
-| Technology resilience | Independence proven on every backend |
-
----
-
-## 🔗 Integration rules
-
-### Native Kernel and Titan
-
-Titan is the future evaluation environment through:
-
-- recorded-query replay;
-- Offline Shadow;
-- isolated adapters;
-- Receipt comparison;
-- conflict and omission analysis.
-
-### Native Kernel and Crystal
-
-Crystal remains independent.
-
-Any future transfer requires:
-
-```text
-Crystal RFC
-+ threat model
-+ tests
-+ security/privacy review
-+ rollback plan
-+ separate PR
-+ status update
-+ operator approval
-```
+| 🔌 Portability | Not yet demonstrated across multiple implementation profiles |
+| 🔐 Security | No production security or privacy guarantee |
 
 ---
 
@@ -831,40 +624,48 @@ Crystal RFC
 
 | Path | Purpose |
 |---|---|
-| [`README.md`](./README.md) | 🧭 Human- and AI-readable overview |
-| [`STATUS.md`](./STATUS.md) | 📊 Authoritative implementation boundary |
-| [`ARCHITECTURE.md`](./ARCHITECTURE.md) | 🏛️ Invariants, semantics, complexity |
-| [`ROADMAP.md`](./ROADMAP.md) | 🗺️ Staged validation plan |
-| [`docs/BENCHMARKS.md`](./docs/BENCHMARKS.md) | 📈 Benchmark policy |
-| [`docs/INTEGRATION_BOUNDARIES.md`](./docs/INTEGRATION_BOUNDARIES.md) | 🔗 Titan and Crystal rules |
-| [`prototype/README.md`](./prototype/README.md) | 📦 Controlled import plan |
-| [`SECURITY.md`](./SECURITY.md) | 🛡️ Research-stage security |
-| [`CONTRIBUTING.md`](./CONTRIBUTING.md) | 🤝 Contribution and decision rules |
+| [`README.md`](./README.md) | English project overview |
+| [`README.ru.md`](./README.ru.md) | Русский обзор проекта |
+| [`STATUS.md`](./STATUS.md) | Authoritative implementation boundary |
+| [`ARCHITECTURE.md`](./ARCHITECTURE.md) | Invariants, semantics, and portability contracts |
+| [`ROADMAP.md`](./ROADMAP.md) | Parallel executable and long-horizon tracks |
+| [`docs/LONG_HORIZON_VISION.md`](./docs/LONG_HORIZON_VISION.md) | Future-facing architecture vision |
+| [`docs/adr/README.md`](./docs/adr/README.md) | ADR index and governance |
+| [`docs/adr/0000-template.md`](./docs/adr/0000-template.md) | Architecture decision template |
+| [`docs/BENCHMARKS.md`](./docs/BENCHMARKS.md) | Benchmark policy |
+| [`docs/INTEGRATION_BOUNDARIES.md`](./docs/INTEGRATION_BOUNDARIES.md) | Titan and Crystal boundaries |
+| [`prototype/README.md`](./prototype/README.md) | Controlled import plan |
+| [`SECURITY.md`](./SECURITY.md) | Research-stage security policy |
+| [`CONTRIBUTING.md`](./CONTRIBUTING.md) | Contribution and decision rules |
 
 ---
 
 ## 🤝 Contribution discipline
 
-Contributions must distinguish:
+A proposal must distinguish:
 
 ```text
-implemented
-planned
-experimentally observed
-externally verified
-publicly reproduced
-production-ready
+architecture hypothesis
+planned mechanism
+implemented code
+locally tested result
+repository-reproduced result
+Shadow-evaluated result
+operator-approved decision
+production evidence
 ```
+
+Major architectural changes should link an ADR or create one.
 
 A proposal should identify:
 
-- reproduced defect or research question;
-- affected invariant;
-- expected failure modes;
-- tests or benchmark method;
-- rollback behavior;
-- Canon or experimental scope;
-- Titan or Crystal boundary impact.
+- affected invariant and architectural layer;
+- source and actual support;
+- failure modes and rollback behaviour;
+- tests or benchmark methodology;
+- implementation-profile assumptions;
+- Titan or Crystal boundary impact;
+- decision status, evidence level, and implementation status.
 
 ---
 
@@ -880,6 +681,8 @@ The repository is public for research visibility and review, but absence of a li
 
 ### 🧬 Preserve meaning. Replace technology. Verify before promotion.
 
-**Velantrim Native Kernel — research toward durable, auditable, technology-independent memory semantics.**
+**Velantrim Native Kernel — long-horizon research toward durable, auditable, technology-independent memory semantics.**
+
+**[English](./README.md) · [Русский](./README.ru.md)**
 
 </div>
