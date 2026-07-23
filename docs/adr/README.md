@@ -1,10 +1,13 @@
 # 📝 Architecture Decision Records
 
-[← Project README](../../README.md) · [Русский README](../../README.ru.md)
+[← Project README](../../README.md) · [Русский README](../../README.ru.md) · [Decision process](../DECISION_PROCESS.md)
 
 Architecture Decision Records preserve **why** a durable architectural choice was made.
 
 They do not turn a proposal into implementation evidence.
+
+> [!NOTE]
+> An ADR is the project's memory of a decision. It should explain why a boundary exists so that a future maintainer, reviewer, or AI does not remove it as apparent complexity.
 
 ## Three independent dimensions
 
@@ -42,6 +45,7 @@ Decision status
 | `NOT_STARTED` | No implementation claim |
 | `PARTIAL` | Some mechanism exists but the full contract is incomplete |
 | `COMPLETE` | Implementation satisfies the ADR's declared acceptance criteria |
+| `REMOVED` | A former implementation is no longer present; historical reasoning remains |
 
 ## Index
 
@@ -50,6 +54,7 @@ Decision status
 | [`0001`](./0001-architecture-canon-vs-implementation-profiles.md) | Architecture Canon is separate from Implementation Profiles | `ACCEPTED` | `DOCUMENTED` + `OPERATOR_APPROVED` | Documentation complete; runtime portability unproven |
 | [`0002`](./0002-state-checkpoints-are-disposable.md) | State Checkpoints are disposable replay accelerators | `PROPOSED` | `DOCUMENTED` | `NOT_STARTED` |
 | [`0003`](./0003-semantic-conflicts-require-explicit-resolution.md) | Semantic conflicts require explicit resolution | `PROPOSED` | `DOCUMENTED` | `NOT_STARTED` |
+| [`0004`](./0004-rebuild-from-authoritative-history.md) | Rebuild from authoritative history is the first conformance experiment | `PROPOSED` | `DOCUMENTED` | `NOT_STARTED` |
 
 ## When an ADR is required
 
@@ -77,6 +82,7 @@ An ADR is usually unnecessary for formatting, typo fixes, local refactors that p
 5. An accepted decision may be superseded, but historical reasoning remains visible.
 6. Issue #1 controlled import remains separate from ADR-driven redesign.
 7. Translation must preserve status and evidence meaning.
+8. Explanatory comments should state **why** a boundary exists, not merely repeat the boundary.
 
 ## Naming
 
