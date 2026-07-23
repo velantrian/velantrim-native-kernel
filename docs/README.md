@@ -11,7 +11,7 @@ This directory separates project purpose, architecture, conformance, research pr
 
 | Document | Purpose | Status |
 |---|---|---|
-| [`FOUNDATIONAL_INTENT.md`](./FOUNDATIONAL_INTENT.md) | Why Native Kernel exists as a separate system | architectural intent |
+| [`FOUNDATIONAL_INTENT.md`](./FOUNDATIONAL_INTENT.md) · [Русский](./FOUNDATIONAL_INTENT.ru.md) | Deep explanation of why Native Kernel exists as a separate system, what problem it studies, and what success would mean | architectural intent |
 | [`LONG_HORIZON_VISION.md`](./LONG_HORIZON_VISION.md) | Architecture Canon, contracts, profiles, and future substrates | research vision |
 | [`CONFORMANCE_MODEL.md`](./CONFORMANCE_MODEL.md) | How an implementation can demonstrate compatibility | proposed documentation contract |
 | [`DECISION_PROCESS.md`](./DECISION_PROCESS.md) | How decisions, evidence, implementation, AI input, and operator approval remain separate | governance process |
@@ -47,6 +47,25 @@ Architecture Canon
 
 Modern tools are used as laboratories. They do not automatically define permanent architecture.
 
+## The deeper rationale
+
+Native Kernel exists because contemporary memory systems often allow the current database, graph engine, vector index, model API, runtime, or processor assumptions to define what memory means.
+
+This project reverses that order:
+
+```text
+meaning and invariants first
+        ↓
+abstract contracts second
+        ↓
+replaceable technology profiles third
+```
+
+The deeper explanation, including the transportation-blueprint analogy, success criteria, research method, and explicit non-claims, is maintained in:
+
+- [`FOUNDATIONAL_INTENT.md`](./FOUNDATIONAL_INTENT.md)
+- [`FOUNDATIONAL_INTENT.ru.md`](./FOUNDATIONAL_INTENT.ru.md)
+
 ## For AI reviewers
 
 Before proposing a change:
@@ -56,4 +75,5 @@ Before proposing a change:
 3. preserve Native Kernel / Titan / Crystal boundaries;
 4. separate proposal, evidence, implementation, and approval;
 5. create or update an ADR for durable architectural decisions;
-6. do not expand Issue #1 with redesign.
+6. do not expand Issue #1 with redesign;
+7. do not turn a current technology into permanent Canon merely because it is useful today.
