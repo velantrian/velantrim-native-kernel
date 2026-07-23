@@ -2,12 +2,15 @@
 
 - **Decision status:** `PROPOSED | ACCEPTED | REJECTED | DEPRECATED | SUPERSEDED`
 - **Evidence level:** `DOCUMENTED | EXTERNALLY_OBSERVED | LOCALLY_TESTED | REPOSITORY_REPRODUCED | SHADOW_EVALUATED | OPERATOR_APPROVED`
-- **Implementation status:** `NOT_STARTED | PARTIAL | COMPLETE`
+- **Implementation status:** `NOT_STARTED | PARTIAL | COMPLETE | REMOVED`
 - **Date:** `YYYY-MM-DD`
 - **Deciders:** `@maintainer`
 - **Track:** `Architecture Canon | Abstract Contract | Implementation Profile | Evaluation | Integration Boundary`
 - **Related:** `Issue #… | PR #… | ADR-… | commit SHA`
 - **Tags:** `tag-one, tag-two`
+
+> [!NOTE]
+> Explain why this decision needs to exist. A future maintainer or AI should be able to understand which failure or architectural confusion this boundary prevents.
 
 ## Context 🧭
 
@@ -19,6 +22,26 @@ Describe the actual problem, constraints, current evidence, and why a durable de
 - **Current implementation boundary:**
 - **Source-derived facts:**
 - **Open uncertainty:**
+
+## Inputs considered 🔍
+
+List code findings, experiments, papers, human reviews, and AI opinions separately.
+
+```text
+Repository evidence:
+- ...
+
+External research:
+- ...
+
+AI-generated inputs:
+- ...
+
+Operator interpretation:
+- ...
+```
+
+AI-generated inputs are design inputs, not approval or implementation evidence.
 
 ## Decision drivers 🎯
 
@@ -137,6 +160,7 @@ Remove drivers that do not apply and add missing ones.
 
 - How can this decision be disabled, reverted, or superseded?
 - Which data or history must remain readable?
+- What changed evidence or constraint would justify supersession?
 
 ## Consistency checklist 🔱
 
@@ -153,3 +177,5 @@ Remove drivers that do not apply and add missing ones.
 ## References 📚
 
 List sources as inputs. A citation alone is not proof that the decision applies to Native Kernel.
+
+See [`README.md`](./README.md) and [`../DECISION_PROCESS.md`](../DECISION_PROCESS.md) for the governance rules.
