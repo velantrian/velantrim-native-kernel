@@ -227,6 +227,70 @@ See:
 - `docs/research/BIO_INSPIRED_COMPUTATION_AND_KITARA.md`;
 - `docs/research/PHYSARUM_ROUTING_EXPERIMENT.md`.
 
+### G. Optional Curiosity Core research
+
+**Status:** `PROPOSED / DOCUMENTED_ONLY / NOT IMPLEMENTED / OUTSIDE ISSUE #1`
+
+Curiosity Core studies a bounded active-investigation layer above Native Kernel contracts. It may detect meaningful unknowns, prioritize attention, formulate precise questions and competing hypotheses, request evidence through controlled capabilities, and create falsifiable System Insights.
+
+It is not a truth authority and is not required for Kernel replay or integrity.
+
+```text
+Native Kernel
+→ preserves Claims, history, state, and Receipts
+
+Curiosity Core
+→ decides which unknown deserves bounded investigation
+
+Action Gate
+→ controls tools and external actions
+
+TruthGate
+→ controls epistemic promotion
+```
+
+Hard boundaries:
+
+- no direct Canon or Epistemic State mutation;
+- operational Event Admission, Action Gate, and TruthGate remain distinct;
+- attention, novelty, utility, and repeated use are not evidence;
+- temporal decay affects attention or dormancy, not truth confidence;
+- System Insights do not modify code, policies, or architecture automatically;
+- every investigation requires budget, stopping, suspension, and reopen conditions;
+- adaptive policies begin in Shadow and require operator approval;
+- Titan is the primary candidate host for a full profile;
+- Crystal may only consider a separate restricted Audit Curiosity profile;
+- no proposed event verb enters the controlled import.
+
+Proposed experiment order:
+
+1. documentation and authority-boundary review;
+2. passive evaluator on frozen synthetic snapshots;
+3. conflict/evidence-gap detection precision;
+4. explainable static scoring with adapter versions;
+5. deduplication, cooldown, budget, and replay tests;
+6. receipted Attention Allocation in Offline Shadow;
+7. structured questions and competing Hypothesis Sets;
+8. sandboxed tools only after Action Gate and threat-model validation;
+9. System Insights and calibration;
+10. Shadow-only policy adaptation before any operator-approved influence.
+
+Exit gates for a first implementation proposal:
+
+- Issue #1 import is complete and unchanged;
+- Event Integrity assumptions are explicit;
+- pure trigger/scoring functions have deterministic tests;
+- duplicate and runaway cycles are bounded;
+- no direct epistemic promotion path exists;
+- safety, privacy, deletion, rollback, and disablement are documented;
+- an Offline Shadow dataset and evaluation metrics are approved.
+
+See:
+
+- `docs/rfc/0001-curiosity-core-architecture.md`;
+- `docs/rfc/0001-curiosity-core-architecture.ru.md`;
+- `docs/adr/0005-curiosity-core-is-optional-and-non-authoritative.md`.
+
 ## Later research
 
 - full bi-temporal queries;
@@ -240,7 +304,9 @@ See:
 - multi-writer replication models;
 - snapshot policy as a separate RFC if replay cost justifies it;
 - architecture decision records for major Canon and adapter choices;
-- bounded bio-inspired routing and gain experiments under separate research status.
+- bounded bio-inspired routing and gain experiments under separate research status;
+- passive Curiosity Core Shadow evaluation after the controlled prototype import;
+- restricted Crystal Audit Curiosity only through a separate Crystal RFC.
 
 ## Promotion rule
 

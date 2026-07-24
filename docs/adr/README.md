@@ -1,6 +1,6 @@
 # 📝 Architecture Decision Records
 
-[← Project README](../../README.md) · [Русский README](../../README.ru.md) · [Decision process](../DECISION_PROCESS.md)
+[← Project README](../../README.md) · [Русский README](../../README.ru.md) · [Decision process](../DECISION_PROCESS.md) · [Research RFCs](../rfc/README.md)
 
 Architecture Decision Records preserve **why** a durable architectural choice was made.
 
@@ -55,6 +55,7 @@ Decision status
 | [`0002`](./0002-state-checkpoints-are-disposable.md) | State Checkpoints are disposable replay accelerators | `PROPOSED` | `DOCUMENTED` | `NOT_STARTED` |
 | [`0003`](./0003-semantic-conflicts-require-explicit-resolution.md) | Semantic conflicts require explicit resolution | `PROPOSED` | `DOCUMENTED` | `NOT_STARTED` |
 | [`0004`](./0004-rebuild-from-authoritative-history.md) | Rebuild from authoritative history is the first conformance experiment | `PROPOSED` | `DOCUMENTED` | `NOT_STARTED` |
+| [`0005`](./0005-curiosity-core-is-optional-and-non-authoritative.md) | Curiosity Core is optional and non-authoritative | `PROPOSED` | `DOCUMENTED` | `NOT_STARTED` |
 
 ## When an ADR is required
 
