@@ -18,6 +18,8 @@
 | [`adr/README.md`](./adr/README.md) | Индекс Architecture Decision Records | действующий процесс документации |
 | [`INTEGRATION_BOUNDARIES.md`](./INTEGRATION_BOUNDARIES.md) | Границы между Native Kernel, Titan и Crystal | документированная граница |
 | [`BENCHMARKS.md`](./BENCHMARKS.md) | Правила бенчмарков и доказательств | исследовательская политика |
+| [`research/BIO_INSPIRED_COMPUTATION_AND_KITARA.ru.md`](./research/BIO_INSPIRED_COMPUTATION_AND_KITARA.ru.md) · [English](./research/BIO_INSPIRED_COMPUTATION_AND_KITARA.md) | Отдельный био-вдохновлённый и Kitara research-трек | proposed / experimental / not implemented |
+| [`research/PHYSARUM_ROUTING_EXPERIMENT.ru.md`](./research/PHYSARUM_ROUTING_EXPERIMENT.ru.md) · [English](./research/PHYSARUM_ROUTING_EXPERIMENT.md) | Ограниченный эксперимент адаптивной flow-маршрутизации | proposed / not implemented |
 
 ## Рекомендуемый порядок чтения
 
@@ -33,6 +35,8 @@
 5. DECISION_PROCESS + ADR
         ↓
 6. STATUS.md и ROADMAP.md
+        ↓
+7. Необязательные экспериментальные research notes
 ```
 
 ## Главное различие
@@ -80,6 +84,23 @@ Native Kernel существует потому, что современные m
 - [`FOUNDATIONAL_INTENT.ru.md`](./FOUNDATIONAL_INTENT.ru.md)
 - [`FOUNDATIONAL_INTENT.md`](./FOUNDATIONAL_INTENT.md)
 
+## Необязательный экспериментальный трек
+
+Некоторые внешние материалы содержат полезные идеи, которые пока не входят в Canon Native Kernel. Они сохраняются как явно ограниченные research notes.
+
+Био-вдохновлённый трек сейчас включает:
+
+```text
+периферийную обработку событий
+Adaptive Gain
+процедурную / моторную память
+сенсомоторные петли
+адаптацию распределённой сети
+Physarum-подобную маршрутизацию
+```
+
+Эти механизмы можно проверять как заменяемые profiles. Они не должны определять истину, обходить policy, превращаться в runtime claims или расширять Issue #1.
+
 ## Для ИИ и ревьюеров
 
 Перед предложением изменения необходимо:
@@ -90,4 +111,5 @@ Native Kernel существует потому, что современные m
 4. разделить предложение, доказательства, реализацию и одобрение;
 5. создать или обновить ADR для долговременного архитектурного решения;
 6. не расширять Issue #1 архитектурным redesign;
-7. не превращать современную технологию в постоянный Canon только потому, что она полезна сегодня.
+7. не превращать современную технологию в постоянный Canon только потому, что она полезна сегодня;
+8. не превращать биологическую метафору или adaptive routing в эпистемический авторитет.

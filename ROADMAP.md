@@ -186,6 +186,47 @@ research hypothesis
 → operator approval
 ```
 
+### F. Optional bio-inspired / Kitara research
+
+**Status:** `PROPOSED / EXPERIMENTAL / NOT IMPLEMENTED / OUTSIDE ISSUE #1`
+
+This optional branch records patterns extracted from an external Grok audit and design discussion. It does not change Native Kernel Canon and does not claim scientific proof or runtime support.
+
+Candidate patterns:
+
+```text
+peripheral event processing
+adaptive gain
+procedural / motor memory
+sensorimotor loops
+distributed network adaptation
+Physarum-like routing
+multimodal sensor fusion
+```
+
+Hard boundaries:
+
+- routing, salience, gain, and repeated use do not determine truth;
+- biological metaphors do not become architectural evidence;
+- physical sensors and actuators remain outside Native Kernel Canon;
+- Kitara remains a possible separate future research system;
+- no mechanism enters runtime through documentation alone;
+- the controlled prototype import remains unchanged.
+
+Initial experiment order:
+
+1. Physarum-like routing on a seeded synthetic Claim graph;
+2. adaptive gain versus fixed ranking;
+3. peripheral filtering on recorded sensor data;
+4. procedural-memory representation;
+5. multimodal fusion;
+6. embodied sensorimotor loops only after safety and authorization design.
+
+See:
+
+- `docs/research/BIO_INSPIRED_COMPUTATION_AND_KITARA.md`;
+- `docs/research/PHYSARUM_ROUTING_EXPERIMENT.md`.
+
 ## Later research
 
 - full bi-temporal queries;
@@ -198,7 +239,8 @@ research hypothesis
 - storage migration tests;
 - multi-writer replication models;
 - snapshot policy as a separate RFC if replay cost justifies it;
-- architecture decision records for major Canon and adapter choices.
+- architecture decision records for major Canon and adapter choices;
+- bounded bio-inspired routing and gain experiments under separate research status.
 
 ## Promotion rule
 
