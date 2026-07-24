@@ -18,6 +18,8 @@ This directory separates project purpose, architecture, conformance, research pr
 | [`adr/README.md`](./adr/README.md) | Architecture Decision Record index | active governance |
 | [`INTEGRATION_BOUNDARIES.md`](./INTEGRATION_BOUNDARIES.md) | Native Kernel, Titan, and Crystal boundaries | documented boundary |
 | [`BENCHMARKS.md`](./BENCHMARKS.md) | Benchmark methodology and evidence rules | research policy |
+| [`research/BIO_INSPIRED_COMPUTATION_AND_KITARA.md`](./research/BIO_INSPIRED_COMPUTATION_AND_KITARA.md) · [Русский](./research/BIO_INSPIRED_COMPUTATION_AND_KITARA.ru.md) | Optional bio-inspired and Kitara research boundary | proposed / experimental / not implemented |
+| [`research/PHYSARUM_ROUTING_EXPERIMENT.md`](./research/PHYSARUM_ROUTING_EXPERIMENT.md) · [Русский](./research/PHYSARUM_ROUTING_EXPERIMENT.ru.md) | Bounded adaptive-flow routing experiment | proposed / not implemented |
 
 ## Reading order
 
@@ -33,6 +35,8 @@ This directory separates project purpose, architecture, conformance, research pr
 5. DECISION_PROCESS + ADRs
         ↓
 6. STATUS.md and ROADMAP.md
+        ↓
+7. Optional experimental research notes
 ```
 
 ## The central distinction
@@ -66,6 +70,23 @@ The deeper explanation, including the transportation-blueprint analogy, success 
 - [`FOUNDATIONAL_INTENT.md`](./FOUNDATIONAL_INTENT.md)
 - [`FOUNDATIONAL_INTENT.ru.md`](./FOUNDATIONAL_INTENT.ru.md)
 
+## Optional experimental research
+
+Some source materials contain useful ideas that are not part of Native Kernel Canon. They are preserved as explicitly bounded research notes.
+
+The bio-inspired track currently records:
+
+```text
+peripheral event processing
+adaptive gain
+procedural / motor memory
+sensorimotor loops
+distributed network adaptation
+Physarum-like routing
+```
+
+These mechanisms may be tested as replaceable profiles. They must not determine truth, bypass policy, become runtime claims, or expand Issue #1.
+
 ## For AI reviewers
 
 Before proposing a change:
@@ -76,4 +97,5 @@ Before proposing a change:
 4. separate proposal, evidence, implementation, and approval;
 5. create or update an ADR for durable architectural decisions;
 6. do not expand Issue #1 with redesign;
-7. do not turn a current technology into permanent Canon merely because it is useful today.
+7. do not turn a current technology into permanent Canon merely because it is useful today;
+8. do not promote biological metaphor or adaptive routing into epistemic authority.
