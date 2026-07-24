@@ -1,6 +1,6 @@
 # Current Status
 
-> **Date:** 2026-07-23  
+> **Date:** 2026-07-24  
 > **Prototype track:** `v0.1.2.1`  
 > **Repository status:** `RESEARCH / DOCUMENTED_ONLY / NOT PRODUCTION-READY`
 
@@ -42,7 +42,8 @@ Therefore the public repository may currently claim:
 - benchmark methodology;
 - Titan and Crystal integration boundaries;
 - a controlled import plan for the existing prototype;
-- current technologies as candidate laboratory adapters rather than permanent architecture.
+- current technologies as candidate laboratory adapters rather than permanent architecture;
+- a proposed, documentation-only Curiosity Core research RFC with explicit authority and safety boundaries.
 
 It must not yet claim:
 
@@ -57,7 +58,34 @@ It must not yet claim:
 - production security or privacy;
 - demonstrated portability across arbitrary hardware or future computational substrates;
 - superiority of non-binary, neuromorphic, photonic, or other speculative execution models;
-- that SQLite, graph, vector retrieval, LLMs, or conventional processors are rejected.
+- that SQLite, graph, vector retrieval, LLMs, or conventional processors are rejected;
+- an implemented Curiosity Core runtime;
+- accepted curiosity event verbs;
+- autonomous self-modification, autonomous truth promotion, or live Titan/Crystal curiosity integration.
+
+## Curiosity Core research track
+
+**Status:** `PROPOSED / DOCUMENTED_ONLY / NOT IMPLEMENTED / OUTSIDE ISSUE #1`
+
+Curiosity Core is documented as an optional, non-authoritative active-investigation module. It may detect meaningful unknowns, prioritize bounded investigation, form questions and competing hypotheses, and create falsifiable System Insights.
+
+Mandatory current boundaries:
+
+- no direct Canon or Epistemic State mutation;
+- no new curiosity event verbs in the controlled `v0.1.2.1` import;
+- operational Event Admission, external Action Gate, and epistemic TruthGate remain distinct;
+- attention, novelty, utility, and repeated use are not truth evidence;
+- temporal decay may affect attention or dormancy, not evidence-derived truth confidence;
+- adaptive policies remain Shadow-only until explicit operator approval;
+- Titan is the primary future host for a full profile;
+- Crystal may only consider a separate restricted Audit Curiosity profile;
+- no runtime, benchmark, safety, or production claim is made.
+
+See:
+
+- [`docs/rfc/0001-curiosity-core-architecture.md`](./docs/rfc/0001-curiosity-core-architecture.md);
+- [`docs/rfc/0001-curiosity-core-architecture.ru.md`](./docs/rfc/0001-curiosity-core-architecture.ru.md);
+- [`docs/adr/0005-curiosity-core-is-optional-and-non-authoritative.md`](./docs/adr/0005-curiosity-core-is-optional-and-non-authoritative.md).
 
 ## Existing external prototype checkpoint
 
@@ -109,6 +137,10 @@ Candidate and canonical conflicts are separated conceptually, but directionality
 
 The current prototype uses lexical proxy ablation. It must not be described as proven sufficient or globally minimal evidence selection.
 
+### Curiosity evaluation
+
+No trigger, scoring adapter, Attention Allocator, Investigation Runtime, Hypothesis Set, SystemInsight, calibration loop, or Safety and Resource Guard has been implemented or evaluated. Proposed formulas and event vocabulary remain research inputs only.
+
 ### Technology portability
 
 Technology independence is currently an architectural target. It has not yet been demonstrated across multiple storage engines, runtimes, processors, or future computational substrates.
@@ -124,6 +156,6 @@ The next implementation PR should import the exact `v0.1.2.1` prototype and test
 5. code-to-document parity;
 6. no unsupported production claims.
 
-The long-horizon architecture track may continue in documentation and bounded research notes, but it must not alter the controlled import baseline.
+The long-horizon architecture track, including Curiosity Core documentation, may continue in bounded research notes, but it must not alter the controlled import baseline.
 
 Only after the import PR passes review may this status change from `DOCUMENTED_ONLY` to `RUNNABLE RESEARCH PROTOTYPE`.
