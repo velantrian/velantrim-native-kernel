@@ -43,7 +43,8 @@ Therefore the public repository may currently claim:
 - Titan and Crystal integration boundaries;
 - a controlled import plan for the existing prototype;
 - current technologies as candidate laboratory adapters rather than permanent architecture;
-- a proposed, documentation-only Curiosity Core research RFC with explicit authority and safety boundaries.
+- a proposed, documentation-only Curiosity Core research RFC with explicit authority and safety boundaries;
+- an accepted, documentation-only decision that future causality belongs on typed directed relations rather than `knowledge_type` or lineage.
 
 It must not yet claim:
 
@@ -61,6 +62,7 @@ It must not yet claim:
 - that SQLite, graph, vector retrieval, LLMs, or conventional processors are rejected;
 - an implemented Curiosity Core runtime;
 - accepted curiosity event verbs;
+- an implemented causal relation, causal read model, or `CausalContextBuilder`;
 - autonomous self-modification, autonomous truth promotion, or live Titan/Crystal curiosity integration.
 
 ## Curiosity Core research track
@@ -141,6 +143,10 @@ The current prototype uses lexical proxy ablation. It must not be described as p
 
 No trigger, scoring adapter, Attention Allocator, Investigation Runtime, Hypothesis Set, SystemInsight, calibration loop, or Safety and Resource Guard has been implemented or evaluated. Proposed formulas and event vocabulary remain research inputs only.
 
+### Causal semantics
+
+ADR-0006 accepts causal relations as the future abstract placement for causality. No public runtime, directed-link contract, causal event vocabulary, query implementation, or repository test exists yet. The reported external `CAUSES` link remains external evidence until the exact prototype is imported and reproduced.
+
 ### Technology portability
 
 Technology independence is currently an architectural target. It has not yet been demonstrated across multiple storage engines, runtimes, processors, or future computational substrates.
@@ -149,12 +155,13 @@ Technology independence is currently an architectural target. It has not yet bee
 
 The next implementation PR should import the exact `v0.1.2.1` prototype and tests without semantic redesign, then establish:
 
-1. reproducible Python environment;
-2. exact test command;
-3. CI on supported Python versions;
-4. benchmark script and methodology;
-5. code-to-document parity;
-6. no unsupported production claims.
+1. a manifest with hashes for the authentic source snapshot;
+2. reproducible Python environment;
+3. exact test command;
+4. CI on Python 3.11 and 3.12;
+5. benchmark script, stable benchmark IDs, and methodology;
+6. code-to-document parity;
+7. no unsupported production claims.
 
 The long-horizon architecture track, including Curiosity Core documentation, may continue in bounded research notes, but it must not alter the controlled import baseline.
 

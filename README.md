@@ -440,7 +440,7 @@ OPERATOR_APPROVED
 ### Implementation status
 
 ```text
-NOT_STARTED · PARTIAL · COMPLETE
+NOT_STARTED · PARTIAL · COMPLETE · REMOVED
 ```
 
 Current ADRs:
@@ -450,6 +450,9 @@ Current ADRs:
 | [`0001`](./docs/adr/0001-architecture-canon-vs-implementation-profiles.md) | **ACCEPTED** | Separate durable architecture from replaceable technology |
 | [`0002`](./docs/adr/0002-state-checkpoints-are-disposable.md) | **PROPOSED** | Define checkpoints as discardable replay accelerators |
 | [`0003`](./docs/adr/0003-semantic-conflicts-require-explicit-resolution.md) | **PROPOSED** | Keep semantic conflict visible until explicit resolution |
+| [`0004`](./docs/adr/0004-rebuild-from-authoritative-history.md) | **PROPOSED** | Make rebuild from authoritative history the first conformance experiment |
+| [`0005`](./docs/adr/0005-curiosity-core-is-optional-and-non-authoritative.md) | **PROPOSED** | Keep Curiosity Core optional and outside epistemic authority |
+| [`0006`](./docs/adr/0006-causal-links-are-relations.md) | **ACCEPTED** | Represent causality through typed directed relations, not knowledge type or lineage |
 
 See [`docs/adr/README.md`](./docs/adr/README.md) and [`docs/adr/0000-template.md`](./docs/adr/0000-template.md).
 

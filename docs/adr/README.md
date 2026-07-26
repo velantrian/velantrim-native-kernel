@@ -56,6 +56,7 @@ Decision status
 | [`0003`](./0003-semantic-conflicts-require-explicit-resolution.md) | Semantic conflicts require explicit resolution | `PROPOSED` | `DOCUMENTED` | `NOT_STARTED` |
 | [`0004`](./0004-rebuild-from-authoritative-history.md) | Rebuild from authoritative history is the first conformance experiment | `PROPOSED` | `DOCUMENTED` | `NOT_STARTED` |
 | [`0005`](./0005-curiosity-core-is-optional-and-non-authoritative.md) | Curiosity Core is optional and non-authoritative | `PROPOSED` | `DOCUMENTED` | `NOT_STARTED` |
+| [`0006`](./0006-causal-links-are-relations.md) | Causal links are relations, not knowledge types | `ACCEPTED` | `DOCUMENTED` + `OPERATOR_APPROVED` | `NOT_STARTED` |
 
 ## When an ADR is required
 

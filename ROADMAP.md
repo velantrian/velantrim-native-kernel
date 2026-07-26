@@ -31,11 +31,12 @@ Required artifacts:
 
 1. `kernel.py` or an equivalent package layout;
 2. the complete 44-test regression suite;
-3. reproducible Python environment metadata;
-4. CI for supported Python versions;
-5. exact commands and expected results;
-6. benchmark script with selective and broad-query workloads;
-7. parity review against the architecture and status documents.
+3. a source manifest with hashes for the exact imported snapshot;
+4. reproducible Python environment metadata;
+5. CI for Python 3.11 and 3.12;
+6. exact commands and expected results;
+7. benchmark script with stable IDs plus selective and broad-query workloads;
+8. parity review against the architecture and status documents.
 
 Exit gate:
 
@@ -295,6 +296,8 @@ See:
 
 - full bi-temporal queries;
 - directed link contracts;
+- typed causal relations only after directed-link and temporal prerequisites, as accepted in `docs/adr/0006-causal-links-are-relations.md`;
+- causal read models and higher-level `CausalContextBuilder` profiles only after the typed-relation contract is tested;
 - conflict lifecycle and human resolution;
 - validation-policy plugins;
 - evidence integrity and source verification;
@@ -307,6 +310,18 @@ See:
 - bounded bio-inspired routing and gain experiments under separate research status;
 - passive Curiosity Core Shadow evaluation after the controlled prototype import;
 - restricted Crystal Audit Curiosity only through a separate Crystal RFC.
+
+Causal research ordering is explicit:
+
+```text
+directed-link contract
+→ temporal semantics required by the causal payload
+→ typed CAUSES relation contract tests
+→ rebuildable causal read model
+→ bounded Titan profile, if separately approved
+```
+
+ADR-0006 accepts where causality belongs. It does not claim the relation, event vocabulary, query runtime, or Titan integration is implemented.
 
 ## Promotion rule
 

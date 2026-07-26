@@ -192,6 +192,8 @@ DENY
 HALT
 ```
 
+Every permitted tool execution must be bound to an immutable Action Gate decision reference. The decision records the requested-action digest, granted scope, limits, actor, policy version, and expiry where applicable. A later tool result cannot use an unrelated or broader permission.
+
 ## 6. Safety and Resource Guard
 
 The Guard is a wrapper around the entire lifecycle, not a final filter.
@@ -835,6 +837,7 @@ CuriosityEvaluation {
   conflict_severity
   actionability
   downstream_impact
+  time_urgency
   novelty
 
   estimated_cost
@@ -842,6 +845,7 @@ CuriosityEvaluation {
   duplication_penalty
   context_switch_cost
   repeated_failure_penalty
+  staleness
 
   raw_score
   normalized_priority
@@ -852,6 +856,8 @@ CuriosityEvaluation {
   evaluated_at
 }
 ```
+
+Every term used by the active scoring policy must be persisted in the evaluation or referenced through the immutable frozen input snapshot. A Receipt must not claim exact score reproduction when a scored input, normalization rule, adapter version, or external model setting is missing.
 
 ### 14.4 AttentionAllocation
 
@@ -937,12 +943,38 @@ ResourceBudget {
   max_tool_calls
   max_projection_expansion
   max_depth
+  max_active_context_items
+  max_active_context_tokens
   max_hypotheses
   max_questions
   max_system_insights
   max_retries
+  max_context_switches
+  max_human_attention_requests
 }
 ```
+
+Every hard quota enabled by the Guard policy must appear explicitly in the persisted ResourceBudget with a declared measurement unit. Missing quota fields must fail contract validation; they must not silently mean “unlimited.”
+
+### 14.9 ToolExecutionRecord
+
+```text
+ToolExecutionRecord {
+  tool_request_id
+  action_gate_decision_ref
+  action_gate_policy_version
+  decision
+  approved_action_digest
+  executed_action_digest
+  permission_scope
+  granted_limits
+  tool_result_ref
+  execution_status
+  executed_at
+}
+```
+
+`decision` must permit execution, the approved and executed action digests must match, and actual use must remain within `permission_scope` and `granted_limits`. Event Admission rejects `curiosity.tool_result_attached` when this provenance is absent, mismatched, expired, denied, or otherwise insufficient.
 
 ## 15. Proposed event namespace
 
@@ -976,6 +1008,8 @@ curiosity.tool_requested
 curiosity.tool_result_attached
 ```
 
+`curiosity.tool_result_attached` is an operational process record, not proof of authorization. Its payload must reference a valid `ToolExecutionRecord` and therefore the exact Action Gate decision that permitted the execution.
+
 ### Hypotheses
 
 ```text
@@ -1007,13 +1041,20 @@ curiosity.budget_exhausted
 curiosity.policy_denied
 ```
 
-### Promotion
+### Promotion request — Curiosity-owned
 
 ```text
 curiosity.promotion_requested
-curiosity.promotion_approved
-curiosity.promotion_rejected
 ```
+
+### Promotion decision — TruthGate-owned
+
+```text
+truthgate.promotion_approved
+truthgate.promotion_rejected
+```
+
+Curiosity may request promotion, but it cannot approve or reject it. A TruthGate decision event must carry TruthGate provenance, including the request reference, policy version, evidence references, actor, and decision rationale. These names remain proposed research vocabulary and do not enter Issue #1.
 
 ## 16. Replay, time, and idempotency
 
@@ -1073,6 +1114,7 @@ Times must be timezone-aware, preferably UTC.
 Exact score reproduction requires:
 
 - a frozen input snapshot;
+- every scored input used by the active policy;
 - policy version;
 - metric-adapter versions;
 - normalization version;
@@ -1141,6 +1183,10 @@ Reopen conditions may include:
 19. Every investigation has budget, stopping, suspension, and reopen conditions.
 20. `UNKNOWN` and `INSUFFICIENT_EVIDENCE` are valid outcomes.
 21. Issue #1 controlled import remains unchanged.
+22. Every priority term used by policy is persisted or immutably referenced.
+23. Every enabled hard Guard quota is explicit in the persisted ResourceBudget.
+24. Every attached tool result references a matching permissive Action Gate decision.
+25. Promotion approval or rejection is owned by TruthGate, never Curiosity Core.
 
 ## 19. Integration with Velantrim modules
 
@@ -1292,6 +1338,7 @@ No hardware claim is promoted without implementation evidence.
 - same authoritative events yield equivalent state;
 - replay creates no new IDs or times;
 - frozen-input scoring is reproducible under the declared policy;
+- every scored priority input is present or immutably referenced;
 - adapter and policy versions are present.
 
 ### Authority boundaries
@@ -1299,11 +1346,13 @@ No hardware claim is promoted without implementation evidence.
 - Curiosity cannot directly change Epistemic State;
 - SystemInsight cannot apply changes;
 - tools cannot run without Action Gate;
+- a tool result without a matching Action Gate decision reference is rejected;
 - a hypothesis cannot become Canon automatically.
 
 ### Safety and resources
 
 - budget exhaustion suspends or halts;
+- active-context, context-switch, and human-attention quotas are enforced;
 - recursive investigation is bounded;
 - meta-reflection loop is blocked;
 - denied action is not executed;
