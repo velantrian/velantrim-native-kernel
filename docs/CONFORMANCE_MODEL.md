@@ -82,7 +82,27 @@ A conforming implementation should explicitly map its behaviour to the following
 
 - admission decisions are explicit;
 - the decision, policy version, evidence, and result can be receipted;
-- no specific Crystal or Titan component is required by the abstract contract.
+- no specific Crystal or Titan component is required by the abstract contract;
+- implementation-profile names such as `GATE`, `TruthGate`, `Guardian`, `L3`, or an LLM filter do not become universal contract terms merely because one profile uses them.
+
+### World and epistemic boundaries
+
+A conforming profile should map the following documentation-level assertions:
+
+| Assertion ID | Required meaning |
+|---|---|
+| `NK-EPI-001` | a representation is not silently treated as the represented reality |
+| `NK-EPI-002` | an observation is not silently treated as a complete explanation |
+| `NK-EPI-003` | transformation or assembly is not silently treated as proof of origin |
+| `NK-EPI-004` | unknown or unanswered is not silently treated as false |
+| `NK-EPI-005` | missing provenance remains explicit as a provenance gap |
+| `NK-EPI-006` | a current observer, method, or profile limit is not silently universalized into impossibility |
+| `NK-EPI-007` | worldview-sensitive claims retain explicit domain and scope |
+| `NK-EPI-008` | observations, models, hypotheses, retrieval results, utility outcomes, and proposals are not silently promoted into admitted knowledge |
+
+The assertions are defined by [`WORLD_AND_EPISTEMIC_BOUNDARIES.md`](./WORLD_AND_EPISTEMIC_BOUNDARIES.md) and proposed through [`ADR-0008`](./adr/0008-epistemic-boundaries-are-representation-disciplines.md).
+
+An implementation may use different schemas and vocabulary, but it must demonstrate the declared semantic equivalence rather than merely repeat these labels.
 
 ### Retrieval and selection
 
@@ -118,11 +138,27 @@ contracts/
 ├── replay/                  # reducer and projection rebuild vectors
 ├── conflict/                # candidate/canonical conflict fixtures
 ├── temporal/                # valid-time and record-time fixtures
+├── epistemic/               # NK-EPI positive and negative fixtures
 ├── deletion/                # restriction and erasure expectations
 └── evidence/                # machine-readable conformance records
 ```
 
 A cross-profile runner should consume the same fixtures and report allowed and forbidden differences under a declared equivalence class.
+
+### Proposed epistemic fixture families
+
+Future fixtures for `NK-EPI-001` through `NK-EPI-008` should include at least:
+
+- a model output that resembles an observation but lacks observation provenance;
+- a transformation result incorrectly presented as proof of ultimate origin;
+- missing evidence incorrectly collapsed to a negative result;
+- an unknown provenance segment incorrectly filled by an assumption;
+- a profile limitation incorrectly promoted to universal impossibility;
+- a worldview Claim presented without domain or scope;
+- a retrieval result silently promoted into admitted knowledge;
+- a valid profile that preserves the gap, scope, and admission decision explicitly.
+
+These fixtures are proposed only. No executable pack currently exists.
 
 ## 5. Reference conformance experiment
 
@@ -154,6 +190,8 @@ Minimum assertions:
 6. invalid events fail in declared ways;
 7. the evidence record names the exact fixture and implementation commit.
 
+The first replay experiment does not by itself prove the eight `NK-EPI` assertions. Each assertion requires its own traceable fixture and expected semantic result.
+
 ## 6. Semantic equivalence
 
 Different substrates may represent the same meaning differently.
@@ -164,7 +202,7 @@ A conformance test must declare its equivalence class.
 |---|---|
 | **Byte equality** | deterministic canonical serialization in the same declared profile/version |
 | **Structural equality** | same Claims, Events, links, and statuses despite allowed non-semantic field ordering |
-| **Semantic equality** | equivalent identity, lineage, temporal meaning, conflict visibility, and policy result |
+| **Semantic equality** | equivalent identity, lineage, temporal meaning, conflict visibility, epistemic boundaries, and policy result |
 | **Behavioural equality** | same accepted commands and observable results under a bounded workload |
 
 > [!IMPORTANT]
@@ -180,6 +218,10 @@ A conformance claim must point from prose to executable evidence.
 | Replay reconstructs declared state | `<id>` | `<path>` | structural | pass/fail | `<limit>` |
 | Candidate conflict is not canonical conflict | `<id>` | `<path>` | behavioural | pass/fail | `<limit>` |
 | Relevance is not truth evidence | `<id>` | `<path>` | behavioural | pass/fail | `<limit>` |
+| `NK-EPI-001` representation is not reality | `<id>` | `<path>` | semantic | pass/fail | `<limit>` |
+| `NK-EPI-003` transformation is not origin | `<id>` | `<path>` | semantic | pass/fail | `<limit>` |
+| `NK-EPI-005` provenance gap is preserved | `<id>` | `<path>` | structural/semantic | pass/fail | `<limit>` |
+| `NK-EPI-008` no silent semantic promotion | `<id>` | `<path>` | behavioural | pass/fail | `<limit>` |
 
 Missing mappings remain explicit gaps. A line-by-line prose review is not a substitute for traceability.
 
@@ -221,6 +263,12 @@ AI-generated reviews, architectural discussions, and external model consensus ma
 ❌ A replacement suite has 44 tests but is presented as the lost original suite.
 ❌ Operator approval is presented as empirical proof.
 ❌ A GitHub-hosted timing is presented as historical hardware-equivalent performance without comparability evidence.
+❌ A model or simulation is presented as the represented reality without declared equivalence limits.
+❌ Successful transformation or assembly is presented as proof of ultimate origin.
+❌ Missing evidence is presented as a negative result.
+❌ A provenance gap is filled by an unmarked assumption or worldview statement.
+❌ A current implementation limitation is presented as universal impossibility.
+❌ A metaphysical, religious, anti-religious, cultural, or ethical Claim is presented as unmarked empirical fact.
 ```
 
 ## 10. Relationship to Issue #1
@@ -239,8 +287,8 @@ sealed exact import
 → contract-to-test traceability
 ```
 
-Issue #1 is not expected to prove full technology independence.
+Issue #1 is not expected to prove full technology independence or the proposed `NK-EPI` assertion family.
 
-A successful import may establish C2 evidence only for the specific assertions demonstrated by the authentic imported profile. It does not establish C3 cross-profile equivalence, C4 Shadow value, C5 operational validation, production readiness, or universal substrate portability.
+A successful import may establish C2 evidence only for the specific assertions demonstrated by the authentic imported profile. It does not establish C3 cross-profile equivalence, C4 Shadow value, C5 operational validation, production readiness, universal substrate portability, or compliance with `NK-EPI-001` through `NK-EPI-008` unless dedicated fixtures prove them.
 
 See [`ISSUE_1_IMPORT_SPEC.md`](./ISSUE_1_IMPORT_SPEC.md) and [`ISSUE_1_IMPORT_SPEC.ru.md`](./ISSUE_1_IMPORT_SPEC.ru.md).
