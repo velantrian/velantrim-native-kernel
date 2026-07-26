@@ -1,8 +1,9 @@
 # Current Status
 
-> **Date:** 2026-07-24  
-> **Prototype track:** `v0.1.2.1`  
-> **Repository status:** `RESEARCH / DOCUMENTED_ONLY / NOT PRODUCTION-READY`
+> **Date:** 2026-07-26  
+> **Reported external prototype track:** `v0.1.2.1`  
+> **Repository status:** `RESEARCH / DOCUMENTED_ONLY / NOT PRODUCTION-READY`  
+> **Issue #1 state:** `BLOCKED BY AUTHENTIC SOURCE RECOVERY`
 
 ## Project identity
 
@@ -25,12 +26,16 @@ architecture Canon
 ≠ abstract contract
 ≠ implementation profile
 ≠ implemented runtime
+≠ empirical evidence
+≠ operator approval
 ≠ production evidence
 ```
 
 ## Current public repository state
 
-The repository currently contains the research specification and governance boundary. The previously tested Python prototype and its 44-test suite are not yet merged into this repository.
+The repository currently contains the research specification and governance boundary. No runnable Native Kernel implementation or repository test suite is present in `main`.
+
+A local research checkpoint identified as `v0.1.2.1` was previously reported to have passed 44 deterministic tests. The authentic source files, original test suite, source archive, complete environment, and benchmark harness have not been located in the repository, linked project documentation, or the currently accessible archive sweep.
 
 Therefore the public repository may currently claim:
 
@@ -39,9 +44,9 @@ Therefore the public repository may currently claim:
 - a separation between Architecture Canon, Abstract Contracts, and Implementation Profiles;
 - an explicit Canon / Experimental / Anti-Canon separation;
 - a staged roadmap;
-- benchmark methodology;
+- benchmark methodology and stable record identifiers;
 - Titan and Crystal integration boundaries;
-- a controlled import plan for the existing prototype;
+- a blocked controlled-import process with an explicit source-recovery gate;
 - current technologies as candidate laboratory adapters rather than permanent architecture;
 - a proposed, documentation-only Curiosity Core research RFC with explicit authority and safety boundaries;
 - an accepted, documentation-only decision that future causality belongs on typed directed relations rather than `knowledge_type` or lineage.
@@ -50,6 +55,8 @@ It must not yet claim:
 
 - a runnable public kernel implementation;
 - public reproduction of the 44-test result;
+- authenticity or availability of the reported `v0.1.2.1` source snapshot;
+- that a reconstructed implementation is the validated snapshot;
 - production-ready event sourcing;
 - complete write idempotency;
 - full Event Integrity;
@@ -65,6 +72,29 @@ It must not yet claim:
 - an implemented causal relation, causal read model, or `CausalContextBuilder`;
 - autonomous self-modification, autonomous truth promotion, or live Titan/Crystal curiosity integration.
 
+## Issue #1 source-recovery blocker
+
+The controlled `v0.1.2.1` import is blocked.
+
+Do not reconstruct, regenerate, refactor, or approximate an implementation and label it as the validated snapshot. Matching behaviour, matching terminology, or a replacement suite with 44 tests does not prove source authenticity.
+
+The import may begin only after:
+
+1. an authentic source archive or original source location is identified;
+2. source lineage is documented;
+3. the archive is preserved read-only and hashed;
+4. the original test inventory is present;
+5. the operator records explicit GO.
+
+See:
+
+- [`docs/ISSUE_1_IMPORT_SPEC.md`](./docs/ISSUE_1_IMPORT_SPEC.md);
+- [`docs/ISSUE_1_IMPORT_SPEC.ru.md`](./docs/ISSUE_1_IMPORT_SPEC.ru.md);
+- [`prototype/README.md`](./prototype/README.md);
+- [Issue #1](https://github.com/velantrian/velantrim-native-kernel/issues/1).
+
+If authentic recovery ultimately fails, `v0.1.2.1` must be recorded as `LOST / NON-REPRODUCIBLE EXTERNAL CHECKPOINT`. A clean implementation must use a new version and evidence lineage.
+
 ## Curiosity Core research track
 
 **Status:** `PROPOSED / DOCUMENTED_ONLY / NOT IMPLEMENTED / OUTSIDE ISSUE #1`
@@ -74,12 +104,12 @@ Curiosity Core is documented as an optional, non-authoritative active-investigat
 Mandatory current boundaries:
 
 - no direct Canon or Epistemic State mutation;
-- no new curiosity event verbs in the controlled `v0.1.2.1` import;
+- no new curiosity event verbs in the controlled import;
 - operational Event Admission, external Action Gate, and epistemic TruthGate remain distinct;
 - attention, novelty, utility, and repeated use are not truth evidence;
 - temporal decay may affect attention or dormancy, not evidence-derived truth confidence;
 - adaptive policies remain Shadow-only until explicit operator approval;
-- Titan is the primary future host for a full profile;
+- Titan is a possible future evaluation host, not a parent runtime or current dependency;
 - Crystal may only consider a separate restricted Audit Curiosity profile;
 - no runtime, benchmark, safety, or production claim is made.
 
@@ -91,13 +121,15 @@ See:
 
 ## Existing external prototype checkpoint
 
-A local research snapshot identified as `v0.1.2.1` previously passed:
+The reported external checkpoint remains:
 
 ```text
+v0.1.2.1
 44 deterministic tests
+source and original suite not currently located
 ```
 
-This result remains external evidence until the exact code, tests, environment, and commands are imported into a reviewable pull request and pass repository CI.
+This is historical external evidence only. It cannot become repository evidence until authentic provenance, exact code, exact tests, environment, commands, and reviewable artifacts exist.
 
 ## Current implementation profile
 
@@ -115,21 +147,37 @@ These choices are implementation candidates. They do not redefine the Architectu
 
 ## Known architectural limitations
 
+### Claim identity and canonical encoding
+
+Stable semantic identity is an architectural requirement, but the repository does not yet define normative canonical bytes, Unicode normalization, hash domain/version separation, collision handling, or identity migration rules. These belong to a separate contract and test suite, not the controlled import.
+
 ### Broad-query scaling
 
-Typical read-path work was substantially reduced through event indexing and charge caching, but broad queries remain superlinear because neighbour discovery and greedy ablation still contain repeated work.
+The reported external checkpoint described event indexing and charge caching improvements, but broad queries remained superlinear because neighbour discovery and greedy ablation contained repeated work. This remains external, unreproduced evidence.
 
 ### Write idempotency
 
-Read-time deduplication is not equivalent to durable command idempotency. Duplicate writes require an explicit event-level contract.
+Read-time deduplication is not equivalent to durable command idempotency. Duplicate writes require an explicit command and event-level contract.
 
 ### Evidence integrity
 
 A non-empty evidence string is only a hygiene condition. It is not source verification, cryptographic evidence, or proof of truth.
 
-### Event-envelope integrity
+### Event-envelope and append integrity
 
 A future event envelope must bind ordering, actor, timestamp, schema version, idempotency key, payload commitment, and previous hash under an explicit threat model.
+
+The full command path remains undefined and unimplemented:
+
+```text
+command validation
+→ durable idempotency
+→ atomic append
+→ ordering
+→ crash recovery
+→ schema upcast
+→ deterministic replay
+```
 
 ### Conflict semantics
 
@@ -137,7 +185,15 @@ Candidate and canonical conflicts are separated conceptually, but directionality
 
 ### Context selection
 
-The current prototype uses lexical proxy ablation. It must not be described as proven sufficient or globally minimal evidence selection.
+The reported prototype used lexical proxy ablation. It must not be described as proven sufficient or globally minimal evidence selection.
+
+### Legal erasure and restriction
+
+The `ERASED` event concept does not by itself define deletion or restriction for source payloads, projections, vector indexes, exports, Receipts, Shadow datasets, or backups. A separate deletion/crypto-erasure contract and threat model are required.
+
+### Executable conformance
+
+The C0–C5 model is a documentation contract. Executable schemas, golden vectors, invalid-event corpora, expected reducer outputs, and cross-profile runners are not yet present.
 
 ### Curiosity evaluation
 
@@ -145,7 +201,7 @@ No trigger, scoring adapter, Attention Allocator, Investigation Runtime, Hypothe
 
 ### Causal semantics
 
-ADR-0006 accepts causal relations as the future abstract placement for causality. No public runtime, directed-link contract, causal event vocabulary, query implementation, or repository test exists yet. The reported external `CAUSES` link remains external evidence until the exact prototype is imported and reproduced.
+ADR-0006 accepts causal relations as the future abstract placement for causality. No public runtime, directed-link contract, causal event vocabulary, query implementation, or repository test exists yet. The reported external `CAUSES` link remains external evidence until authentic source is recovered and reproduced.
 
 ### Technology portability
 
@@ -153,16 +209,20 @@ Technology independence is currently an architectural target. It has not yet bee
 
 ## Next repository gate
 
-The next implementation PR should import the exact `v0.1.2.1` prototype and tests without semantic redesign, then establish:
+The immediate gate is **Stage 0.5 — Authentic Source Recovery**, not implementation work.
 
-1. a manifest with hashes for the authentic source snapshot;
-2. reproducible Python environment;
-3. exact test command;
-4. CI on Python 3.11 and 3.12;
-5. benchmark script, stable benchmark IDs, and methodology;
-6. code-to-document parity;
-7. no unsupported production claims.
+Only after Stage 0.5 succeeds may a dedicated import PR establish:
 
-The long-horizon architecture track, including Curiosity Core documentation, may continue in bounded research notes, but it must not alter the controlled import baseline.
+1. a sealed authentic source snapshot;
+2. archive-level and per-file provenance hashes;
+3. preserved and hashed original test inventory;
+4. historical reproduction environment;
+5. exact test command;
+6. compatibility CI on Python 3.11 and 3.12;
+7. benchmark workload reproduction with separate timing evidence;
+8. contract-to-test traceability;
+9. no unsupported production claims.
 
-Only after the import PR passes review may this status change from `DOCUMENTED_ONLY` to `RUNNABLE RESEARCH PROTOTYPE`.
+The long-horizon architecture track may continue only as bounded, clearly labelled documentation. It must not alter or simulate the missing import baseline.
+
+Only after authentic import, independent review, evidence, and operator approval may this status change from `DOCUMENTED_ONLY` to `RUNNABLE RESEARCH PROTOTYPE`.
