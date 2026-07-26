@@ -140,8 +140,48 @@ A Receipt records what the engine selected and how it processed a request. A rec
 20. Technology independence is a research hypothesis until demonstrated across multiple implementation profiles.
 21. Speculative future substrates are research possibilities, not implementation evidence.
 22. Modern technologies may be used fully as a laboratory without becoming permanent architectural dependencies.
+23. A representation is not the represented reality.
+24. Observation is not automatically explanation.
+25. Transformation or assembly is not proof of origin.
+26. Unknown is not equivalent to false.
+27. Missing provenance remains explicit as a provenance gap.
+28. Current inability is not universal impossibility without declared grounds and scope.
+29. Worldview claims must retain explicit domain and scope when that distinction affects interpretation or admission.
+30. No observation, model, hypothesis, retrieval result, useful outcome, or proposal may be silently promoted into admitted knowledge.
 
-## 5. Temporal model
+See [`docs/WORLD_AND_EPISTEMIC_BOUNDARIES.md`](./docs/WORLD_AND_EPISTEMIC_BOUNDARIES.md) and [`ADR-0008`](./docs/adr/0008-epistemic-boundaries-are-representation-disciplines.md).
+
+## 5. World and epistemic boundary
+
+Native Kernel defines an epistemic discipline rather than a fixed worldview.
+
+```text
+representation   ≠ represented reality
+observation      ≠ explanation
+transformation   ≠ origin
+unknown          ≠ false
+current limit    ≠ universal impossibility
+worldview claim  ≠ unmarked empirical fact
+```
+
+The abstract architectural boundary is **Admission Policy**. Labels such as `GATE`, `TruthGate`, `Guardian`, `L3`, LLM filters, human boards, or future mechanisms belong to implementation profiles unless separately accepted as abstract contracts.
+
+A missing provenance segment must remain explicit. It must not be silently converted into creation from nothing, originlessness, a preferred worldview explanation, generated continuity, or proof of impossibility.
+
+The following documentation-level conformance IDs are reserved:
+
+- `NK-EPI-001` — representation is not represented reality;
+- `NK-EPI-002` — observation is not automatically explanation;
+- `NK-EPI-003` — transformation is not origin;
+- `NK-EPI-004` — unknown is not false;
+- `NK-EPI-005` — provenance gaps remain explicit;
+- `NK-EPI-006` — current inability is not universal impossibility;
+- `NK-EPI-007` — worldview domain and scope remain explicit;
+- `NK-EPI-008` — semantic layers are not silently promoted.
+
+These IDs do not imply executable fixtures, runtime support, or a conformance level.
+
+## 6. Temporal model
 
 The architecture distinguishes at least:
 
@@ -153,7 +193,7 @@ These dimensions must not be collapsed into one overloaded version field.
 
 The current prototype has partial temporal support. Full bi-temporal query semantics remain future work.
 
-## 6. Event Integrity target
+## 7. Event Integrity target
 
 A future complete event envelope should bind fields such as:
 
@@ -172,7 +212,7 @@ previous_hash
 
 The envelope requires a threat model, crash-consistency rules, replay rules, and multi-writer ordering. A simple hash chain alone is not sufficient.
 
-## 7. Read model separation
+## 8. Read model separation
 
 Two concepts must remain distinct:
 
@@ -181,7 +221,7 @@ Two concepts must remain distinct:
 
 This separation avoids rebuilding structural information for every inner operation while preserving deterministic query-specific behaviour.
 
-## 8. Complexity boundary
+## 9. Complexity boundary
 
 The desired snapshot build cost is approximately `O(E + L + C)` for events, links, and claims. The complete selection pipeline is not yet guaranteed linear because greedy ablation may approach `O(K²)` in the number of activated candidates.
 
@@ -194,7 +234,7 @@ Performance statements must distinguish:
 - conflict analysis;
 - ablation.
 
-## 9. Portability contract
+## 10. Portability contract
 
 A new implementation profile is acceptable only if it can preserve or explicitly translate:
 
@@ -203,6 +243,7 @@ A new implementation profile is acceptable only if it can preserve or explicitly
 - provenance and temporal meaning;
 - conflict visibility;
 - epistemic-state boundaries;
+- world and epistemic boundary assertions;
 - Receipt semantics.
 
 Candidate portability evidence includes:
@@ -219,45 +260,3 @@ same authoritative history
 required result:
 explicitly defined semantic equivalence
 ```
-
-Bit-for-bit equality is not assumed across all future substrates. The required equivalence level must be documented and tested.
-
-## 10. Canon, Experimental, Anti-Canon
-
-### Canon Shape
-
-- Claim as semantic identity;
-- append-only event authority;
-- deterministic reduction;
-- replaceable projections;
-- explicit epistemic boundaries;
-- auditable receipts;
-- storage, model, runtime, and hardware independence at the contract level.
-
-### Experimental
-
-- current charge formula;
-- lexical activation;
-- propagation weights;
-- greedy ablation;
-- candidate-conflict heuristics;
-- validation thresholds;
-- current SQLite schema;
-- current Python runtime;
-- current retrieval and model adapters;
-- future-substrate portability experiments.
-
-### Anti-Canon
-
-The project rejects:
-
-- treating embeddings or graph edges as truth;
-- claiming consciousness or personhood;
-- equating repeated use with correctness;
-- hiding unresolved conflicts;
-- calling lexical context selection genuine sufficient evidence grip;
-- binding the architecture permanently to one database, language, model provider, processor, or hardware platform;
-- treating current binary execution as the ontology of memory;
-- treating speculative future hardware as proof that the architecture works;
-- direct research-runtime writes into Crystal Canon;
-- promoting proposals based solely on multi-model consensus.
