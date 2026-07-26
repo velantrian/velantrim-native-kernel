@@ -1,0 +1,61 @@
+{
+  "manifest_version": "1.1",
+  "snapshot_id": "v0.1.2.1",
+  "snapshot_status": "UNVERIFIED_CANDIDATE",
+  "generated_at": "YYYY-MM-DDTHH:MM:SSZ",
+  "generator": {
+    "name": "tools/source_recovery/generate_manifest.py",
+    "version": "1"
+  },
+  "provenance": {
+    "recovered_from": "<operator-controlled location description>",
+    "recovered_by": "<actor>",
+    "recovered_at": "YYYY-MM-DDTHH:MM:SSZ",
+    "chain_of_custody_notes": "<preservation and access notes>",
+    "operator_decision": "PENDING"
+  },
+  "source_archive": {
+    "filename": "<original archive filename or null>",
+    "sha256": "<archive SHA-256 or null>",
+    "size_bytes": 0
+  },
+  "files": [
+    {
+      "original_path": "kernel.py",
+      "repository_path": null,
+      "source_sha256": "<SHA-256>",
+      "repository_sha256": null,
+      "size_bytes": 0,
+      "role": "runtime",
+      "transformation": "UNVERIFIED"
+    }
+  ],
+  "test_inventory": {
+    "declared_count": 44,
+    "collected_count": null,
+    "node_ids_sha256": null,
+    "node_ids_artifact": null,
+    "original_command": null
+  },
+  "environment": {
+    "original_python": null,
+    "python_implementation": null,
+    "os": null,
+    "architecture": null,
+    "locale": null,
+    "timezone": null,
+    "dependency_lock_path": null,
+    "dependency_lock_sha256": null,
+    "environment_notes": null
+  },
+  "repository": {
+    "import_pr": null,
+    "import_commit": null
+  },
+  "authenticity": {
+    "decision": "PENDING",
+    "decided_by": null,
+    "decided_at": null,
+    "rationale": null
+  }
+}
