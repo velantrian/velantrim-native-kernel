@@ -17,7 +17,7 @@ See [`docs/LONG_HORIZON_VISION.md`](./docs/LONG_HORIZON_VISION.md).
 
 ## Reading rule
 
-This file is the current implementation boundary for this repository. Architectural documents may describe future mechanisms or future computational substrates, but only code and tests present in the repository count as implemented.
+This file is the current implementation boundary for this repository. Architectural documents may describe future mechanisms or future computational substrates, but only code and tests present in the repository count as implemented in their declared scope.
 
 The following distinctions are mandatory:
 
@@ -25,7 +25,8 @@ The following distinctions are mandatory:
 architecture Canon
 ≠ abstract contract
 ≠ implementation profile
-≠ implemented runtime
+≠ support/recovery tooling
+≠ implemented Kernel runtime
 ≠ empirical evidence
 ≠ operator approval
 ≠ production evidence
@@ -33,9 +34,13 @@ architecture Canon
 
 ## Current public repository state
 
-The repository currently contains the research specification and governance boundary. No runnable Native Kernel implementation or repository test suite is present in `main`.
+The repository currently contains the research specification, governance boundary, and source-recovery support tooling. No runnable Native Kernel implementation or original Kernel regression suite is present in `main`.
 
-A local research checkpoint identified as `v0.1.2.1` was previously reported to have passed 44 deterministic tests. The authentic source files, original test suite, source archive, complete environment, and benchmark harness have not been located in the repository, linked project documentation, or the currently accessible archive sweep.
+The source-recovery utilities and their isolated utility tests are not Kernel runtime evidence. Their CI verifies only safe inventory and hash-checking behaviour; it does not reproduce the reported 44-test checkpoint.
+
+A local research checkpoint identified as `v0.1.2.1` was previously reported to have passed 44 deterministic tests. The authentic source files, original test suite, source archive, complete environment, and benchmark harness have not been located in the repository, linked project documentation, connected GitHub repositories, connected Notion workspace, ChatGPT Library, or current conversation files.
+
+The accessible-source search supports `NOT_FOUND_IN_ACCESSIBLE_SOURCES`. It does not prove `GLOBALLY LOST`, because operator-controlled local devices, backups, private archives, and inaccessible historical environments have not been inspected through these connectors.
 
 Therefore the public repository may currently claim:
 
@@ -47,15 +52,20 @@ Therefore the public repository may currently claim:
 - benchmark methodology and stable record identifiers;
 - Titan and Crystal integration boundaries;
 - a blocked controlled-import process with an explicit source-recovery gate;
+- a documented accessible-source recovery sweep;
+- deterministic source-recovery manifest and verification utilities with isolated Python 3.11/3.12 utility CI;
 - current technologies as candidate laboratory adapters rather than permanent architecture;
 - a proposed, documentation-only Curiosity Core research RFC with explicit authority and safety boundaries;
 - an accepted, documentation-only decision that future causality belongs on typed directed relations rather than `knowledge_type` or lineage.
 
 It must not yet claim:
 
-- a runnable public kernel implementation;
+- a runnable public Kernel implementation;
+- a public Kernel regression suite;
 - public reproduction of the 44-test result;
+- that source-recovery utility CI is Kernel CI;
 - authenticity or availability of the reported `v0.1.2.1` source snapshot;
+- that the source is globally lost without an operator-completed local search;
 - that a reconstructed implementation is the validated snapshot;
 - production-ready event sourcing;
 - complete write idempotency;
@@ -82,7 +92,7 @@ The import may begin only after:
 
 1. an authentic source archive or original source location is identified;
 2. source lineage is documented;
-3. the archive is preserved read-only and hashed;
+3. the original container is preserved read-only and hashed;
 4. the original test inventory is present;
 5. the operator records explicit GO.
 
@@ -91,13 +101,39 @@ See:
 - [`docs/ISSUE_1_IMPORT_SPEC.md`](./docs/ISSUE_1_IMPORT_SPEC.md);
 - [`docs/ISSUE_1_IMPORT_SPEC.ru.md`](./docs/ISSUE_1_IMPORT_SPEC.ru.md);
 - [`prototype/README.md`](./prototype/README.md);
+- [`docs/source-recovery/README.md`](./docs/source-recovery/README.md);
+- [`docs/source-recovery/2026-07-26-accessible-sources-sweep.md`](./docs/source-recovery/2026-07-26-accessible-sources-sweep.md);
 - [Issue #1](https://github.com/velantrian/velantrim-native-kernel/issues/1).
 
-If authentic recovery ultimately fails, `v0.1.2.1` must be recorded as `LOST / NON-REPRODUCIBLE EXTERNAL CHECKPOINT`. A clean implementation must use a new version and evidence lineage.
+If authentic recovery ultimately fails after the declared local and connected-source process, `v0.1.2.1` must be recorded through an explicit operator decision as `LOST / NON-REPRODUCIBLE EXTERNAL CHECKPOINT`. A clean implementation must use a new version and evidence lineage.
+
+## Source-recovery tooling
+
+The repository contains standard-library utilities under [`tools/source_recovery/`](./tools/source_recovery/):
+
+- `generate_manifest.py` inventories a quarantined candidate and always emits `UNVERIFIED_CANDIDATE`;
+- `verify_manifest.py` checks paths, sizes, SHA-256 values, optional archive bytes, and optional normalized test node IDs;
+- the tools reject symlinks, traversal, duplicates, and byte drift;
+- the tools do not unpack archives, execute candidate code, install candidate dependencies, or authenticate provenance;
+- `.github/workflows/source-recovery-tools.yml` tests only these utilities on Python 3.11 and 3.12.
+
+A successful utility verification means:
+
+```text
+candidate bytes match the candidate manifest
+```
+
+It does not mean:
+
+```text
+candidate is historically authentic
+or
+reported v0.1.2.1 behaviour is reproduced
+```
 
 ## Curiosity Core research track
 
-**Status:** `PROPOSED / DOCUMENTED_ONLY / NOT IMPLEMENTED / OUTSIDE ISSUE #1`
+**Status:** `PROPOSED / DOCUMENTED_ONLY / NOT IMPLEMENTED / OUTSIDE ISSUE #1 / SCOPE-FROZEN`
 
 Curiosity Core is documented as an optional, non-authoritative active-investigation module. It may detect meaningful unknowns, prioritize bounded investigation, form questions and competing hypotheses, and create falsifiable System Insights.
 
@@ -201,7 +237,7 @@ No trigger, scoring adapter, Attention Allocator, Investigation Runtime, Hypothe
 
 ### Causal semantics
 
-ADR-0006 accepts causal relations as the future abstract placement for causality. No public runtime, directed-link contract, causal event vocabulary, query implementation, or repository test exists yet. The reported external `CAUSES` link remains external evidence until authentic source is recovered and reproduced.
+ADR-0006 accepts causal relations as the future abstract placement for causality. No public runtime, directed-link contract, causal event vocabulary, query implementation, or Kernel test exists yet. The reported external `CAUSES` link remains external evidence until authentic source is recovered and reproduced.
 
 ### Technology portability
 
@@ -209,7 +245,9 @@ Technology independence is currently an architectural target. It has not yet bee
 
 ## Next repository gate
 
-The immediate gate is **Stage 0.5 — Authentic Source Recovery**, not implementation work.
+The immediate gate is **operator-controlled local source recovery**, supported by the Stage 0.5 records and tooling.
+
+The connected GitHub, Notion, ChatGPT Library, and current conversation sweep is complete for the accessible surfaces and found no candidate bytes. Remaining search surfaces include local filesystems, IDE history, local Git reflogs/stashes/branches, backups, removable media, disconnected cloud folders, email attachments, and inaccessible private repositories or workspaces.
 
 Only after Stage 0.5 succeeds may a dedicated import PR establish:
 

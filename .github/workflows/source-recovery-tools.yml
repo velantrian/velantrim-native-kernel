@@ -1,0 +1,46 @@
+name: Source recovery tools
+
+on:
+  pull_request:
+    paths:
+      - "tools/source_recovery/**"
+      - "tests/test_source_recovery_tools.py"
+      - "prototype/manifests/**"
+      - ".github/workflows/source-recovery-tools.yml"
+  push:
+    branches:
+      - main
+    paths:
+      - "tools/source_recovery/**"
+      - "tests/test_source_recovery_tools.py"
+      - "prototype/manifests/**"
+      - ".github/workflows/source-recovery-tools.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Python ${{ matrix.python-version }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Compile source-recovery utilities
+        run: python -m compileall -q tools/source_recovery tests/test_source_recovery_tools.py
+
+      - name: Run source-recovery utility tests
+        run: python -m unittest discover -s tests -p 'test_source_recovery_tools.py' -v
