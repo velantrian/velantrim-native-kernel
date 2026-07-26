@@ -4,115 +4,209 @@ Velantrim Native Kernel has two parallel research tracks:
 
 ```text
 Track A — executable validation
-exact import → tests → read path → Shadow → Event Integrity
+source recovery → exact import → tests → read path → Offline Shadow → Event Integrity
 
 Track B — long-horizon architecture
-Canon → abstract contracts → implementation profiles → portability evidence
+Canon → abstract contracts → implementation profiles → executable conformance → portability evidence
 ```
 
-Track B is independent of the Crystal grant roadmap. It may continue as documentation and bounded experiments while Track A preserves strict implementation evidence.
+Track B is independent of the Crystal grant roadmap. It may continue as bounded documentation and isolated experiments while Track A preserves strict implementation evidence.
+
+Architecture research and executable implementation may progress at different speeds, but their statuses must never be collapsed.
 
 ## Stage 0 — Repository bootstrap
 
-Status: complete in `main`; documentation refinement continues.
+**Status:** `COMPLETE IN MAIN / DOCUMENTATION CONTINUES`
 
 - publish explicit research boundary;
 - establish Canon / Experimental / Anti-Canon separation;
 - document benchmark and integration rules;
-- keep the existing prototype outside `main` until exact code and tests are imported reviewably;
+- keep unverified runtime artifacts outside `main`;
 - keep license unset until publication terms are decided;
 - establish Native Kernel as an independent, personal, long-horizon research project.
 
-## Stage 1 — Controlled prototype import
+## Stage 0.5 — Authentic Source Recovery
 
-Primary goal: import the exact locally tested `v0.1.2.1` snapshot without semantic redesign.
+**Status:** `BLOCKED / ACTIVE EVIDENCE-RECOVERY GATE`
 
-Required artifacts:
+Primary goal: identify the authentic source archive or original location for the reported external `v0.1.2.1` checkpoint and original 44-test suite.
 
-1. `kernel.py` or an equivalent package layout;
-2. the complete 44-test regression suite;
-3. a source manifest with hashes for the exact imported snapshot;
-4. reproducible Python environment metadata;
-5. CI for Python 3.11 and 3.12;
-6. exact commands and expected results;
-7. benchmark script with stable IDs plus selective and broad-query workloads;
-8. parity review against the architecture and status documents.
+Current facts:
+
+- no runnable kernel implementation exists in `main`;
+- the authentic source and original test suite have not been located in the currently accessible GitHub, Notion, or project archive sweep;
+- documentation-derived reconstruction is not source recovery;
+- matching behaviour or matching test count is not provenance.
+
+Allowed work:
+
+1. search known archives, backups, previous environments, old branches, and exports;
+2. record every location checked and its result;
+3. preserve candidate artifacts read-only;
+4. prepare provenance-manifest, CI, benchmark, and traceability templates without runtime claims.
+
+Prohibited work:
+
+1. reconstruct an approximation and label it `v0.1.2.1`;
+2. replace the original suite with newly written tests;
+3. upgrade external evidence to repository evidence;
+4. change status to `RUNNABLE RESEARCH PROTOTYPE`;
+5. mix source recovery with architecture redesign or Titan/Crystal integration.
 
 Exit gate:
 
-- repository CI reproduces the deterministic test baseline;
-- no code is silently rewritten during import;
-- any version-label inconsistencies are corrected explicitly;
-- status changes to `RUNNABLE RESEARCH PROTOTYPE` only after review.
+- authentic source archive or original location identified;
+- lineage documented;
+- archive preserved and hashed;
+- original test inventory present;
+- operator GO recorded.
+
+Failure branch:
+
+```text
+authentic source recovered
+→ Stage 1 exact controlled import
+
+authentic source not recoverable after declared search
+→ record v0.1.2.1 as LOST / NON-REPRODUCIBLE EXTERNAL CHECKPOINT
+→ begin a new clean implementation under a new version and evidence lineage
+```
+
+See [`docs/ISSUE_1_IMPORT_SPEC.md`](./docs/ISSUE_1_IMPORT_SPEC.md) and [`docs/ISSUE_1_IMPORT_SPEC.ru.md`](./docs/ISSUE_1_IMPORT_SPEC.ru.md).
+
+## Stage 1 — Controlled prototype import
+
+**Status:** `BLOCKED BY STAGE 0.5`
+
+Primary goal: import the exact authentic `v0.1.2.1` snapshot without semantic redesign.
+
+Required artifacts:
+
+1. sealed recovered source snapshot;
+2. complete original 44-test regression suite;
+3. archive-level and per-file provenance manifest;
+4. preserved and hashed test node-ID inventory;
+5. historical reproduction environment metadata;
+6. exact commands and expected results;
+7. minimal repository wrapper, declared separately from recovered source;
+8. compatibility CI for Python 3.11 and 3.12;
+9. benchmark harness with stable IDs and separate workload/timing evidence;
+10. contract-to-test traceability matrix.
+
+Import invariants:
+
+- no silent semantic rewrite;
+- no read-path redesign;
+- no packaging cleanup beyond a declared minimal wrapper;
+- every transformation recorded;
+- source and repository hashes both recorded;
+- no Titan or Crystal runtime dependency;
+- no Curiosity Core, causality, Event Integrity, checkpoint, conflict-lifecycle, or other post-baseline redesign;
+- no production claim.
+
+Exit gate:
+
+- authentic provenance accepted;
+- original test inventory reproduced;
+- exact historical command succeeds in the closest recoverable environment;
+- Python 3.11 and 3.12 compatibility is checked separately;
+- benchmark workloads are reproducible and claims remain correctly scoped;
+- traceability review is complete;
+- independent review is complete;
+- operator approval is recorded;
+- status changes to `RUNNABLE RESEARCH PROTOTYPE` only after all evidence exists.
 
 Long-horizon documentation may evolve during this stage, but it must not alter the imported semantic baseline.
 
 ## v0.1.2.2 — Read-Path Completion
 
-Primary goal: finish the remaining structural performance work without changing the semantic contract.
+**Blocked by:** successful Stage 1 import.
+
+Primary goal: finish remaining structural performance work without changing the semantic contract.
 
 Planned work:
 
 1. build incoming and outgoing adjacency indexes;
 2. eliminate repeated canonical-neighbour event scans;
 3. optimize, bound, or redesign greedy ablation;
-4. add broad-query benchmark cases activating 80–100% of claims;
-5. add performance regression checks that avoid unstable microsecond promises;
+4. add broad-query cases activating 80–100% of Claims;
+5. add performance regression checks without unstable microsecond promises;
 6. replace direct SQL test manipulation with controlled clock or test APIs;
 7. define candidate-conflict directionality;
-8. clarify or implement write-level idempotency.
+8. clarify or implement durable write-level idempotency.
 
 Exit gate:
 
-- semantic parity with `v0.1.2.1`;
-- all existing tests pass;
+- semantic parity with the imported baseline;
+- all baseline tests pass;
 - broad-query tests and benchmarks are reproducible;
-- no claim of universal linear complexity unless demonstrated.
+- workload evidence, timing evidence, and scaling claims remain separate;
+- no universal linear-complexity claim unless demonstrated.
 
 ## Offline Shadow
 
-Primary goal: evaluate value without allowing the kernel to affect live Titan or Crystal state.
+**Blocked by:** v0.1.2.2 Read-Path Completion.
+
+Primary goal: evaluate value without allowing the Kernel to affect live Titan or Crystal state.
 
 Design:
 
 - replay approximately 100 recorded Titan queries;
-- compare selected context, conflicts, omissions, latency, and receipt quality;
-- use a static snapshot;
+- compare selected context, conflicts, omissions, latency, and Receipt quality;
+- use a static, privacy-reviewed snapshot;
 - prohibit writes into Titan or Crystal truth stores;
-- record failure cases and operator judgments.
+- record failure cases and operator judgments;
+- define deletion and retention rules for the Shadow dataset.
 
 Offline Shadow does not require compare-and-swap because it has no concurrent live writers.
 
 Exit gate:
 
 - measurable improvement on defined tasks;
-- no unacceptable regression in omission, conflict visibility, or latency;
-- documented cases where the kernel should not be used.
+- no unacceptable regression in omission, conflict visibility, privacy, or latency;
+- documented cases where the Kernel should not be used;
+- reproducible Receipts and evaluation artifacts.
 
 ## v0.1.3 — Event Integrity
 
+**Blocked by:** Offline Shadow evidence and separately approved contract work.
+
 Primary goal: make replay and write semantics durable enough for controlled integration experiments.
+
+Required command path:
+
+```text
+command validation
+→ durable idempotency
+→ atomic append
+→ deterministic ordering
+→ crash recovery
+→ schema upcast
+→ deterministic replay
+```
 
 Planned work:
 
-- full event envelope;
-- durable command or idempotency keys;
+- complete event envelope;
+- durable command/idempotency keys;
 - actor and schema-version binding;
 - complete payload commitment;
 - ordering and crash-consistency rules;
 - replay verification;
 - tamper and truncation tests;
-- explicit threat model.
+- explicit threat model;
+- declared multi-writer model or explicit single-writer boundary.
 
 Exit gate:
 
 - deterministic replay from an empty projection store;
 - duplicate commands produce defined no-op or replay behaviour;
-- corruption and truncation are detected within the stated threat model.
+- corruption and truncation are detected within the stated threat model;
+- crash boundaries and ordering semantics are tested.
 
 ## Live Shadow / dual-write research
 
-This stage is blocked until Event Integrity is complete.
+**Status:** `BLOCKED UNTIL EVENT INTEGRITY`
 
 Requirements:
 
@@ -121,89 +215,85 @@ Requirements:
 - write idempotency;
 - rollback and divergence detection;
 - privacy and deletion semantics;
-- operator-visible receipts;
-- compare-and-swap only where concurrent writers require it.
+- operator-visible Receipts;
+- compare-and-swap only where concurrent writers require it;
+- explicit disablement and incident procedure.
 
 ## Long-horizon architecture track
 
-This track develops the architecture as a technology-independent blueprint rather than a commitment to a specific 2026 implementation stack.
+This track develops a technology-independent blueprint rather than a commitment to a specific 2026 stack.
 
 ### A. Abstract contract map
 
 Define explicit contracts for:
 
-- storage and authoritative history;
-- projection and rebuild;
+- semantic identity and canonical encoding;
+- authoritative storage and history;
+- command admission and atomic append;
+- deterministic reduction and schema evolution;
+- disposable projection and rebuild;
 - retrieval and activation;
-- compute and reduction;
-- admission and policy;
+- conflict visibility and resolution boundaries;
 - audit and Receipt;
-- migration and interchange.
+- deletion, restriction, retention, and migration;
+- neutral interchange and portability.
 
 ### B. Implementation profiles
 
 Document profiles rather than hard-code one permanent stack.
 
-Initial profile candidates:
+Current laboratory candidates include Python, SQLite or append-only files, lexical/FTS retrieval, graph adapters, vector or hybrid adapters, model adapters, and conventional CPU/GPU execution.
 
-```text
-Python
-SQLite / append-only files
-FTS / lexical retrieval
-Graph adapters
-Vector / hybrid retrieval
-LLM adapters
-Conventional CPU / GPU
-```
+Future profiles may explore different runtimes, memory media, representations, or computational substrates. No profile becomes Canon by implementation convenience.
 
-Future profiles may explore different runtimes, memory media, representations, or computational substrates.
+### C. Executable conformance
 
-### C. Portability evaluation
+Turn the C0–C5 documentation model into reviewable artifacts:
+
+- normative schemas;
+- canonical encoding vectors where byte identity is required;
+- golden event histories;
+- invalid-event corpora;
+- expected reducer outputs;
+- projection deletion/rebuild vectors;
+- conflict and temporal fixtures;
+- cross-profile comparison runner;
+- machine-readable evidence records.
+
+### D. Portability evaluation
 
 Candidate evidence:
 
 - replay the same authoritative history through multiple storage adapters;
 - rebuild projections from zero;
-- compare semantic state, lineage, temporal meaning, conflicts, and Receipts;
+- compare identity, lineage, temporal meaning, conflicts, policy results, and Receipts;
 - verify that adapter replacement does not require Canon redesign;
 - document semantic differences rather than hiding them;
 - define neutral export and import forms.
 
-### D. Future substrate research
+### E. Future substrate research
 
-Possible research directions include neuromorphic, photonic, analog, probabilistic, non-binary, or other future systems.
+Possible directions include neuromorphic, photonic, analog, probabilistic, non-binary, or other future systems.
 
-These remain research possibilities. No roadmap item may claim that a future substrate is available, superior, or compatible without implementation evidence.
+These remain research possibilities. No roadmap item may claim availability, superiority, or compatibility without implementation evidence.
 
-### E. Architecture promotion gate
+### F. Contract-hardening backlog
 
-```text
-research hypothesis
-→ abstract contract
-→ bounded implementation profile
-→ tests and failure cases
-→ cross-profile comparison
-→ explicit decision record
-→ operator approval
-```
+The following are P1 architecture contracts but remain outside Issue #1:
 
-### F. Optional bio-inspired / Kitara research
+1. canonical Claim bytes, Unicode normalization, hash domain/version, collision handling, and identity migration;
+2. complete command-to-replay integrity contract;
+3. legal erasure, crypto-erasure, restriction, retention, and backup semantics;
+4. executable conformance fixtures and runners;
+5. four independent governance dimensions: decision, evidence, implementation, and operator approval.
 
-**Status:** `PROPOSED / EXPERIMENTAL / NOT IMPLEMENTED / OUTSIDE ISSUE #1`
+Each requires separately scoped contracts, ADRs where applicable, tests, and PRs.
 
-This optional branch records patterns extracted from an external Grok audit and design discussion. It does not change Native Kernel Canon and does not claim scientific proof or runtime support.
+### G. Optional bio-inspired / Kitara research
 
-Candidate patterns:
+**Status:** `PROPOSED / EXPERIMENTAL / NOT IMPLEMENTED / OUTSIDE ISSUE #1 / SCOPE-FROZEN`
 
-```text
-peripheral event processing
-adaptive gain
-procedural / motor memory
-sensorimotor loops
-distributed network adaptation
-Physarum-like routing
-multimodal sensor fusion
-```
+Candidate patterns include peripheral event processing, adaptive gain, procedural memory, sensorimotor loops, distributed adaptation, Physarum-like routing, and multimodal sensor fusion.
 
 Hard boundaries:
 
@@ -212,29 +302,15 @@ Hard boundaries:
 - physical sensors and actuators remain outside Native Kernel Canon;
 - Kitara remains a possible separate future research system;
 - no mechanism enters runtime through documentation alone;
-- the controlled prototype import remains unchanged.
+- no implementation work begins before Stage 1 evidence exists.
 
-Initial experiment order:
+See `docs/research/BIO_INSPIRED_COMPUTATION_AND_KITARA.md` and `docs/research/PHYSARUM_ROUTING_EXPERIMENT.md`.
 
-1. Physarum-like routing on a seeded synthetic Claim graph;
-2. adaptive gain versus fixed ranking;
-3. peripheral filtering on recorded sensor data;
-4. procedural-memory representation;
-5. multimodal fusion;
-6. embodied sensorimotor loops only after safety and authorization design.
+### H. Optional Curiosity Core research
 
-See:
+**Status:** `PROPOSED / DOCUMENTED_ONLY / NOT IMPLEMENTED / OUTSIDE ISSUE #1 / SCOPE-FROZEN`
 
-- `docs/research/BIO_INSPIRED_COMPUTATION_AND_KITARA.md`;
-- `docs/research/PHYSARUM_ROUTING_EXPERIMENT.md`.
-
-### G. Optional Curiosity Core research
-
-**Status:** `PROPOSED / DOCUMENTED_ONLY / NOT IMPLEMENTED / OUTSIDE ISSUE #1`
-
-Curiosity Core studies a bounded active-investigation layer above Native Kernel contracts. It may detect meaningful unknowns, prioritize attention, formulate precise questions and competing hypotheses, request evidence through controlled capabilities, and create falsifiable System Insights.
-
-It is not a truth authority and is not required for Kernel replay or integrity.
+Curiosity Core studies a bounded active-investigation layer above Native Kernel contracts. It is not a truth authority and is not required for Kernel replay or integrity.
 
 ```text
 Native Kernel
@@ -259,45 +335,19 @@ Hard boundaries:
 - System Insights do not modify code, policies, or architecture automatically;
 - every investigation requires budget, stopping, suspension, and reopen conditions;
 - adaptive policies begin in Shadow and require operator approval;
-- Titan is the primary candidate host for a full profile;
+- Titan is only a possible future evaluation host;
 - Crystal may only consider a separate restricted Audit Curiosity profile;
-- no proposed event verb enters the controlled import.
+- no proposed event verb enters the controlled import;
+- no implementation work begins before Stage 1 evidence exists.
 
-Proposed experiment order:
-
-1. documentation and authority-boundary review;
-2. passive evaluator on frozen synthetic snapshots;
-3. conflict/evidence-gap detection precision;
-4. explainable static scoring with adapter versions;
-5. deduplication, cooldown, budget, and replay tests;
-6. receipted Attention Allocation in Offline Shadow;
-7. structured questions and competing Hypothesis Sets;
-8. sandboxed tools only after Action Gate and threat-model validation;
-9. System Insights and calibration;
-10. Shadow-only policy adaptation before any operator-approved influence.
-
-Exit gates for a first implementation proposal:
-
-- Issue #1 import is complete and unchanged;
-- Event Integrity assumptions are explicit;
-- pure trigger/scoring functions have deterministic tests;
-- duplicate and runaway cycles are bounded;
-- no direct epistemic promotion path exists;
-- safety, privacy, deletion, rollback, and disablement are documented;
-- an Offline Shadow dataset and evaluation metrics are approved.
-
-See:
-
-- `docs/rfc/0001-curiosity-core-architecture.md`;
-- `docs/rfc/0001-curiosity-core-architecture.ru.md`;
-- `docs/adr/0005-curiosity-core-is-optional-and-non-authoritative.md`.
+See `docs/rfc/0001-curiosity-core-architecture.md`, its Russian translation, and ADR-0005.
 
 ## Later research
 
 - full bi-temporal queries;
-- directed link contracts;
-- typed causal relations only after directed-link and temporal prerequisites, as accepted in `docs/adr/0006-causal-links-are-relations.md`;
-- causal read models and higher-level `CausalContextBuilder` profiles only after the typed-relation contract is tested;
+- directed-link contracts;
+- typed causal relations after directed-link and temporal prerequisites;
+- causal read models and bounded `CausalContextBuilder` profiles;
 - conflict lifecycle and human resolution;
 - validation-policy plugins;
 - evidence integrity and source verification;
@@ -305,17 +355,16 @@ See:
 - alternative projection adapters;
 - storage migration tests;
 - multi-writer replication models;
-- snapshot policy as a separate RFC if replay cost justifies it;
-- architecture decision records for major Canon and adapter choices;
-- bounded bio-inspired routing and gain experiments under separate research status;
-- passive Curiosity Core Shadow evaluation after the controlled prototype import;
+- snapshot policy if replay cost justifies it;
+- bounded bio-inspired routing experiments;
+- passive Curiosity Core Shadow evaluation after controlled import;
 - restricted Crystal Audit Curiosity only through a separate Crystal RFC.
 
 Causal research ordering is explicit:
 
 ```text
 directed-link contract
-→ temporal semantics required by the causal payload
+→ temporal semantics required by causal payload
 → typed CAUSES relation contract tests
 → rebuildable causal read model
 → bounded Titan profile, if separately approved
@@ -327,13 +376,13 @@ ADR-0006 accepts where causality belongs. It does not claim the relation, event 
 
 ```text
 research hypothesis
+→ explicit contract
 → reproducible code and tests
+→ failure cases
 → Offline Shadow evidence where applicable
 → explicit decision record
 → bounded integration proposal
-→ threat model and rollback
+→ threat model, deletion, and rollback
 → separate implementation PR
 → operator approval
 ```
-
-Architecture research and executable implementation may progress at different speeds, but their statuses must never be collapsed.
