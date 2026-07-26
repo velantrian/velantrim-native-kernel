@@ -187,6 +187,8 @@ DENY
 HALT
 ```
 
+Каждый разрешённый запуск инструмента должен быть связан с неизменяемой ссылкой на решение Action Gate. Решение фиксирует digest запрошенного действия, выданный scope, ограничения, actor, policy version и срок действия, где применимо. Последующий tool result не может использовать несвязанное или более широкое разрешение.
+
 ## 6. Safety & Resource Guard
 
 Guard является обёрткой всего lifecycle, а не последним фильтром.
@@ -732,12 +734,14 @@ CuriosityEvaluation {
   conflict_severity
   actionability
   downstream_impact
+  time_urgency
   novelty
   estimated_cost
   safety_risk
   duplication_penalty
   context_switch_cost
   repeated_failure_penalty
+  staleness
   raw_score
   normalized_priority
   metric_versions
@@ -746,6 +750,8 @@ CuriosityEvaluation {
   evaluated_at
 }
 ```
+
+Каждый term, который использует активная scoring policy, должен сохраняться в evaluation или ссылаться на неизменяемый frozen input snapshot. Receipt не должен заявлять точное воспроизведение score, если отсутствует scored input, normalization rule, adapter version или настройка внешней модели.
 
 ### AttentionAllocation
 
@@ -831,12 +837,38 @@ ResourceBudget {
   max_tool_calls
   max_projection_expansion
   max_depth
+  max_active_context_items
+  max_active_context_tokens
   max_hypotheses
   max_questions
   max_system_insights
   max_retries
+  max_context_switches
+  max_human_attention_requests
 }
 ```
+
+Каждая hard quota, включённая Guard policy, должна явно присутствовать в persisted ResourceBudget с объявленной единицей измерения. Отсутствующее поле quota является ошибкой валидации контракта и не должно молча означать «без ограничений».
+
+### ToolExecutionRecord
+
+```text
+ToolExecutionRecord {
+  tool_request_id
+  action_gate_decision_ref
+  action_gate_policy_version
+  decision
+  approved_action_digest
+  executed_action_digest
+  permission_scope
+  granted_limits
+  tool_result_ref
+  execution_status
+  executed_at
+}
+```
+
+`decision` обязан разрешать запуск, digests разрешённого и выполненного действия должны совпадать, а фактическое использование обязано оставаться внутри `permission_scope` и `granted_limits`. Event Admission отклоняет `curiosity.tool_result_attached`, если provenance отсутствует, не совпадает, истекло, содержит отказ или иначе недостаточно.
 
 ## 15. Предлагаемое event namespace
 
@@ -879,9 +911,18 @@ curiosity.budget_exhausted
 curiosity.policy_denied
 
 curiosity.promotion_requested
-curiosity.promotion_approved
-curiosity.promotion_rejected
 ```
+
+`curiosity.tool_result_attached` является operational process record, а не доказательством авторизации. Его payload обязан ссылаться на валидный `ToolExecutionRecord` и тем самым на точное решение Action Gate, разрешившее запуск.
+
+Curiosity владеет только `curiosity.promotion_requested`. Решение принадлежит TruthGate:
+
+```text
+truthgate.promotion_approved
+truthgate.promotion_rejected
+```
+
+Curiosity может запросить promotion, но не может одобрить или отклонить его. TruthGate decision event обязан содержать TruthGate provenance: ссылку на request, policy version, evidence refs, actor и rationale. Эти названия остаются proposed research vocabulary и не входят в Issue #1.
 
 ## 16. Replay, time и idempotency
 
@@ -936,7 +977,7 @@ recorded_at
 
 Время timezone-aware, предпочтительно UTC.
 
-Точное повторение score требует frozen snapshot, policy version, metric-adapter versions, normalization version, стабильных external inputs и deterministic model settings. Если это невозможно, Receipt честно фиксирует уровень воспроизводимости.
+Точное повторение score требует frozen snapshot, всех scored inputs активной policy, policy version, metric-adapter versions, normalization version, стабильных external inputs и deterministic model settings. Если это невозможно, Receipt честно фиксирует уровень воспроизводимости.
 
 ## 17. Deduplication, cooldown и reopen
 
@@ -987,6 +1028,10 @@ Reopen возможен при новом evidence, новой цели, нов�
 19. Каждое investigation имеет budget, stopping, suspension и reopen conditions.
 20. `UNKNOWN` и `INSUFFICIENT_EVIDENCE` — допустимые результаты.
 21. Controlled import Issue #1 остаётся без изменений.
+22. Каждый priority term активной policy сохраняется или неизменяемо referenced.
+23. Каждая включённая hard Guard quota явно присутствует в persisted ResourceBudget.
+24. Каждый attached tool result ссылается на совпадающее разрешающее решение Action Gate.
+25. Promotion approval или rejection принадлежат TruthGate, а не Curiosity Core.
 
 ## 19. Связь с модулями Velantrim
 
@@ -1127,11 +1172,14 @@ Crystal работает без Native Kernel. Любой перенос тре�
 
 - replay не создаёт новые IDs/times;
 - frozen-input score воспроизводим по declared policy;
+- каждый scored priority input присутствует или неизменяемо referenced;
 - Curiosity не меняет Epistemic State напрямую;
 - SystemInsight не применяет изменения;
 - tools не запускаются без Action Gate;
+- tool result без совпадающей ссылки на решение Action Gate отклоняется;
 - hypothesis не становится Canon автоматически;
 - budget exhaustion приводит к suspend/halt;
+- active-context, context-switch и human-attention quotas применяются;
 - recursion и meta-reflection ограничены;
 - repeated command не создаёт duplicate hypotheses;
 - competing hypotheses сохраняются;

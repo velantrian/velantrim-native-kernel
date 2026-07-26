@@ -440,7 +440,7 @@ OPERATOR_APPROVED
 ### Статус реализации
 
 ```text
-NOT_STARTED · PARTIAL · COMPLETE
+NOT_STARTED · PARTIAL · COMPLETE · REMOVED
 ```
 
 Текущие ADR:
@@ -450,6 +450,9 @@ NOT_STARTED · PARTIAL · COMPLETE
 | [`0001`](./docs/adr/0001-architecture-canon-vs-implementation-profiles.md) | **ACCEPTED** | Разделить устойчивую архитектуру и заменяемые технологии |
 | [`0002`](./docs/adr/0002-state-checkpoints-are-disposable.md) | **PROPOSED** | Определить checkpoints как удаляемые ускорители replay |
 | [`0003`](./docs/adr/0003-semantic-conflicts-require-explicit-resolution.md) | **PROPOSED** | Сохранять семантический конфликт видимым до явного решения |
+| [`0004`](./docs/adr/0004-rebuild-from-authoritative-history.md) | **PROPOSED** | Сделать восстановление из авторитетной истории первым conformance experiment |
+| [`0005`](./docs/adr/0005-curiosity-core-is-optional-and-non-authoritative.md) | **PROPOSED** | Сохранить Curiosity Core опциональным и вне epistemic authority |
+| [`0006`](./docs/adr/0006-causal-links-are-relations.md) | **ACCEPTED** | Представлять причинность типизированным направленным отношением, а не knowledge type или lineage |
 
 См. [`docs/adr/README.md`](./docs/adr/README.md) и [`docs/adr/0000-template.md`](./docs/adr/0000-template.md).
 
