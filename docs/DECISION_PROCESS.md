@@ -1,7 +1,7 @@
 # 📝 Architecture Decision Process
 
 > **Status:** `DOCUMENTED GOVERNANCE PROCESS`  
-> **Purpose:** preserve why important decisions were made and prevent AI discussions, implementation details, and architectural Canon from being silently merged
+> **Purpose:** preserve why important decisions were made and prevent AI discussions, implementation details, empirical evidence, and architectural Canon from being silently merged
 
 ## 1. Why this document exists
 
@@ -18,6 +18,10 @@ working local code
 with
 publicly reproduced evidence
 
+reproducible behaviour
+with
+operator authorization
+
 several AI opinions
 with
 operator approval
@@ -28,11 +32,18 @@ Architecture Decision Records — ADRs — preserve the question, alternatives, 
 > [!NOTE]
 > An ADR is not decorative documentation. It is the project's memory of why a boundary exists.
 
----
+## 2. Four independent governance dimensions
 
-## 2. Separate three dimensions
+Every important proposal has four independent dimensions:
 
-Every important proposal has three independent dimensions.
+```text
+Decision status
+≠ Evidence level
+≠ Implementation status
+≠ Operator approval
+```
+
+This separation is accepted in ADR-0007.
 
 ### Decision status
 
@@ -44,6 +55,8 @@ DEPRECATED
 SUPERSEDED
 ```
 
+Decision status answers: **what architectural or governance decision has been made?**
+
 ### Evidence level
 
 ```text
@@ -52,8 +65,12 @@ EXTERNALLY_OBSERVED
 LOCALLY_TESTED
 REPOSITORY_REPRODUCED
 SHADOW_EVALUATED
-OPERATOR_APPROVED
+OPERATIONALLY_VALIDATED
 ```
+
+Evidence level answers: **what empirical, reproducible, or operational support exists?**
+
+`OPERATOR_APPROVED` is not an evidence level.
 
 ### Implementation status
 
@@ -64,19 +81,42 @@ COMPLETE
 REMOVED
 ```
 
+Implementation status answers: **what mechanism exists in the declared scope?**
+
+### Operator approval
+
+```text
+NOT_REQUESTED
+PENDING
+APPROVED
+WITHDRAWN
+```
+
+Operator approval answers: **has the authorized operator accepted the decision or promotion?**
+
 These dimensions must not be collapsed.
 
 Example:
 
 ```yaml
-status: ACCEPTED
+decision_status: ACCEPTED
 evidence_level: DOCUMENTED
 implementation_status: NOT_STARTED
+operator_approval: APPROVED
 ```
 
-This means the architectural decision is accepted, but no implementation claim is being made.
+This means the architectural decision is approved and documented, but no implementation or runtime proof is claimed.
 
----
+Another valid state:
+
+```yaml
+decision_status: PROPOSED
+evidence_level: REPOSITORY_REPRODUCED
+implementation_status: PARTIAL
+operator_approval: PENDING
+```
+
+This means a bounded mechanism exists and is reproducible, but it has not been accepted as architecture or approved for promotion.
 
 ## 3. When an ADR is required
 
@@ -86,10 +126,13 @@ Create or update an ADR when a change:
 - defines a new abstract contract;
 - selects a long-lived implementation-profile boundary;
 - adds an event verb or changes event meaning;
+- changes Claim identity, canonical encoding, or migration semantics;
 - changes conflict, temporal, admission, deletion, or Receipt semantics;
+- changes replay, ordering, idempotency, or authoritative-history semantics;
 - introduces a dependency between Native Kernel, Titan, or Crystal;
 - changes the meaning of a public maturity or implementation claim;
-- accepts a significant security, privacy, replay, or migration trade-off.
+- changes governance dimensions or promotion authority;
+- accepts a significant security, privacy, replay, erasure, or migration trade-off.
 
 An ADR is usually unnecessary for:
 
@@ -98,9 +141,10 @@ An ADR is usually unnecessary for:
 - comments that do not change meaning;
 - local refactoring that preserves contracts;
 - disposable benchmark scripts;
-- experimental code clearly isolated from Canon.
+- experimental code clearly isolated from Canon;
+- byte-faithful execution of an already approved import gate.
 
----
+A controlled import stops being ADR-free if it changes semantics, identity, event vocabulary, public contract meaning, or long-lived profile boundaries.
 
 ## 4. Decision workflow
 
@@ -123,6 +167,8 @@ implementation in separate scope
    ↓
 reproducible evidence
    ↓
+separate promotion decision where applicable
+   ↓
 review / supersession when needed
 ```
 
@@ -135,21 +181,22 @@ AI systems may:
 - summarize research;
 - draft ADRs;
 - review consistency;
-- propose tests.
+- propose tests;
+- report evidence and uncertainty.
 
 AI systems may not independently:
 
 - promote a proposal to Canon;
 - claim implementation without repository evidence;
+- treat reproducibility as automatic approval;
 - merge Titan or Crystal semantics into Native Kernel;
 - treat multi-model agreement as verification;
-- silently change maturity labels.
+- silently change maturity labels;
+- upgrade evidence because a document is detailed or persuasive.
 
----
+## 5. Recording evidence and external AI opinions
 
-## 5. Recording external AI opinions
-
-AI opinions may be included under an `Inputs considered` section.
+AI opinions may be included under an `Inputs considered` section. They are inputs, not evidence and not approval.
 
 Recommended form:
 
@@ -162,6 +209,9 @@ Inputs considered:
 - Model B warned about scope expansion.
 - Repository review found Titan-specific ontology outside Kernel Canon.
 
+Evidence:
+- linked contracts, tests, experiments, or repository state.
+
 Operator decision:
 Do not include Titan CausalGraph as Kernel Canon.
 Define a technology-neutral relation contract and evaluate adapters separately.
@@ -171,18 +221,32 @@ A second graph implementation should preserve the declared contract without chan
 ```
 
 > [!IMPORTANT]
-> Model names and confident wording are not evidence. Repository state, tests, experiments, and explicit operator decisions are evidence-bearing artifacts.
+> Model names, confident wording, and consensus are not evidence. Repository state, tests, experiments, reviewable artifacts, and explicit operator decisions must be recorded in their correct independent dimensions.
 
----
+## 6. Evidence promotion discipline
 
-## 6. Repository layout
+Evidence transitions require concrete artifacts.
+
+| Evidence level | Minimum expected support |
+|---|---|
+| `DOCUMENTED` | explicit reasoning and declared limits |
+| `EXTERNALLY_OBSERVED` | identifiable external report or artifact |
+| `LOCALLY_TESTED` | recorded local command, environment, and result |
+| `REPOSITORY_REPRODUCED` | committed code, tests, environment, and reviewable command |
+| `SHADOW_EVALUATED` | bounded dataset, metrics, Receipts, failures, and report |
+| `OPERATIONALLY_VALIDATED` | security, rollback, observability, incident, privacy, and operational evidence |
+
+Evidence levels do not imply decision status, implementation completeness, or operator approval.
+
+## 7. Repository layout
 
 ```text
 docs/adr/
 ├── README.md
 ├── 0000-template.md
-├── 0001-separate-architecture-from-implementation.md
-└── future decisions...
+├── 0001-architecture-canon-vs-implementation-profiles.md
+├── ...
+└── 0007-operator-approval-is-not-evidence.md
 ```
 
 The ADR index should show:
@@ -191,11 +255,10 @@ The ADR index should show:
 - decision status;
 - evidence level;
 - implementation status;
+- operator approval;
 - superseding ADR where applicable.
 
----
-
-## 7. Review comments for humans and AI
+## 8. Review comments for humans and AI
 
 Important architecture documents should include short explanatory callouts where a reader may otherwise misinterpret the boundary.
 
@@ -212,9 +275,7 @@ Use comments such as:
 
 Comments should explain **why** a boundary exists, not merely repeat the rule.
 
----
-
-## 8. Superseding decisions
+## 9. Superseding decisions
 
 Architecture can evolve.
 
@@ -224,6 +285,7 @@ When a decision changes:
 2. mark the old ADR `SUPERSEDED`;
 3. link to the new ADR;
 4. explain what evidence or changed constraint caused the revision;
-5. document migration and compatibility consequences.
+5. document migration and compatibility consequences;
+6. record whether operator approval was withdrawn or replaced.
 
 This mirrors the Kernel principle that explicit history is more trustworthy than silent overwrite.
