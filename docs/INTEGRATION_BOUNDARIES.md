@@ -1,12 +1,14 @@
 # Integration Boundaries
 
+> See the bilingual cross-project navigation map: [`VELANTRIM_ECOSYSTEM.md`](./VELANTRIM_ECOSYSTEM.md).
+
 ## Native Kernel project identity
 
 Velantrim Native Kernel is an independent, personal, long-horizon architecture research project.
 
-It is not the Crystal grant deliverable, not a hidden Crystal runtime, and not constrained by Crystal product milestones.
+It is not the Crystal grant deliverable, not a hidden Crystal runtime, not Titan's mandatory storage layer, and not Mentaury's identity authority.
 
-The project may study or reuse ideas from Titan, Crystal, academic work, and external systems. Any adoption must preserve Native Kernel's own architecture, status discipline, and evidence gates.
+The project may study or reuse ideas from Titan, Crystal, Mentaury, academic work, and external systems. Any adoption must preserve Native Kernel's own architecture, status discipline, and evidence gates.
 
 Modern technologies such as Python, SQLite, graph engines, FTS, vectors, retrieval pipelines, LLMs, and conventional CPU/GPU systems are treated as replaceable implementation profiles and research instruments.
 
@@ -50,6 +52,37 @@ Potential future transfer is limited to narrowly scoped mechanisms such as:
 - event-envelope integrity.
 
 Each mechanism requires a separate Crystal RFC, threat model, tests, security and privacy review, rollback plan, pull request, and implementation-status update.
+
+## Native Kernel and Mentaury Soul
+
+Mentaury Soul is an independent research track for digital individuality, identity continuity, relationships, commitments and governed development.
+
+Native Kernel may eventually contribute bounded substrate primitives such as append-only events, deterministic replay, lineage, redaction-aware history or auditable Receipts. Those primitives do not define personal identity by themselves.
+
+Mandatory boundaries:
+
+- Native event identity is not personal identity.
+- Replay consistency is not continuity proof.
+- A valid hash chain is not consent, relationship continuity or capability authority.
+- Kernel projections do not become Mentaury M2 beliefs or M3 identity state automatically.
+- Copy, fork, restore or migration does not inherit credentials, consent, relationships or commitments from event storage alone.
+- Mentaury Canon and Non-Projection review remain independent authority boundaries.
+- Any future adapter requires explicit schemas, provenance, privacy review, deterministic tests, rollback, Receipts and operator approval.
+
+Safe relationship:
+
+```text
+Native Kernel event / projection / Receipt
+→ bounded evidence or infrastructure input
+→ Mentaury provenance and source classification
+→ uncertainty + contradiction analysis
+→ Non-Projection review
+→ possible M2 candidate
+→ governed longitudinal promotion
+
+Never:
+Native Kernel event → direct Mentaury M3 write
+```
 
 ## Native Kernel and Curiosity Core
 
@@ -177,7 +210,9 @@ Velantrim Native Kernel is a separate, independent long-horizon research project
 exploring a model-, storage-, runtime-, and hardware-independent semantic memory
 architecture. Current technologies are used as replaceable implementation profiles.
 Titan may evaluate it in Offline Shadow. Crystal remains independent and may only
-adopt separately validated primitives through its own review process. Curiosity Core
+adopt separately validated primitives through its own review process. Mentaury remains
+an independent identity-continuity research track and may only consume bounded,
+provenance-preserving infrastructure inputs through its own governance. Curiosity Core
 is a proposed optional non-authoritative research module for bounded investigation.
 ```
 
@@ -187,6 +222,8 @@ Unsafe wording:
 Crystal runs on Native Kernel.
 Native Kernel is the production source of truth for Velantrim.
 Titan is only a Native Kernel projection layer.
+Native Kernel event identity proves Mentaury personal identity.
+Kernel replay automatically preserves consent, relationships or commitments.
 Curiosity Core makes the Kernel conscious or alive.
 Curiosity Core can write truth directly into Canon.
 Curiosity priority proves importance or validity.
@@ -203,8 +240,8 @@ Native Kernel research
 → abstract contract
 → reproducible prototype and tests
 → cross-profile or Offline Shadow evidence
-→ bounded Titan or Crystal RFC where applicable
-→ threat model and rollback
+→ bounded Titan, Crystal or Mentaury RFC where applicable
+→ threat model, privacy review and rollback
 → separate integration PR
 → operator approval
 ```
@@ -221,4 +258,4 @@ documented boundary
 → operator approval
 ```
 
-No package transfer of the complete research kernel into Crystal is implied or approved by this document.
+No package transfer of the complete research kernel into Crystal, Titan or Mentaury is implied or approved by this document.
