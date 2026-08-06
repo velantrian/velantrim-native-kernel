@@ -33,24 +33,35 @@ Artifacts:
 - bilingual `docs/contracts/NORMATIVE_CONTRACTS_V1*`;
 - ADR-0011 through ADR-0014;
 - `contracts/registry.json` with 72 unique assertion IDs;
-- `contracts/schema-bundle.json` and `contracts/fixture-pack.json`;
+- schema bundle plus standalone evidence-report schema;
+- identity/event/idempotency/deletion/epistemic fixture corpora;
 - `tools/conformance/runner.py` and guide;
 - `tests/test_conformance_runner.py`;
 - proposed Python 3.11/3.12 fixture-integrity workflow.
 
-Local authoring validation:
+Local authoring validation after manual hardening review:
 
 ```text
-Focused unit tests:          5 PASS
+Focused unit tests:          8 PASS
 Unique assertion IDs:        72
+Assertion result coverage:   72 explicit statuses; no silent skip
 Identity golden vectors:     2 matched
 Identity invalid vectors:    4 rejected
-Event scenarios:             2 validated
+Event chain scenarios:       2 validated
+Idempotency scenarios:       2 validated
 Deletion scenarios:          2 validated
 NK-EPI-001…008:              positive + negative fixture for each
 Reported runtime support:    UNSUPPORTED
 Evidence level:              LOCALLY_TESTED
 ```
+
+Manual review found and fixed three actionable gaps before merge:
+
+1. stored `payload_hash` was not compared directly;
+2. idempotency semantics lacked dedicated executable scenarios;
+3. adapter reports did not require complete assertion coverage.
+
+Hardening now rejects payload-hash tampering, incomplete assertion sets, duplicate assertion results and silent skips.
 
 Evidence boundary:
 
@@ -116,13 +127,7 @@ Added mandatory-file, selected-link, checkpoint existence/ancestry and status-bo
 
 ## 2026-08-06 — AI context and documentation-continuity governance
 
-```text
-Status:          MERGED / NOTION SYNCED
-PR:              #24
-Merge SHA:       d5989742f987b610b5a81bb59a14c0a11518aeea
-```
-
-Introduced `AGENTS.md`, `docs/ai`, risk/work logs, audit playbook, PR documentation gate and GitHub↔Notion protocol. No runtime claim was added.
+PR #24 → `d5989742f987b610b5a81bb59a14c0a11518aeea`. Introduced `AGENTS.md`, `docs/ai`, risk/work logs, audit playbook, PR documentation gate and GitHub↔Notion protocol. No runtime claim was added.
 
 ---
 
