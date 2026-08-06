@@ -1,0 +1,29 @@
+{
+  "fixture_version": "nk-fixture/1",
+  "family": "NK-EVT",
+  "scenarios": [
+    {
+      "scenario_id": "NK-EVT-IDEMPOTENCY-001",
+      "scope": "writer:primary",
+      "idempotency_key": "idem:claim-admit-001",
+      "first_command_digest": "cmdsha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "retry_command_digest": "cmdsha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "conflicting_command_digest": "cmdsha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "first_result": "APPENDED",
+      "retry_result": "RETURN_ORIGINAL_APPEND_RESULT",
+      "conflict_result": "IDEMPOTENCY_CONFLICT",
+      "expected_event_count": 1
+    },
+    {
+      "scenario_id": "NK-EVT-IDEMPOTENCY-002",
+      "scope": "writer:primary",
+      "idempotency_key": "idem:concurrent-002",
+      "attempt_digests": [
+        "cmdsha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "cmdsha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      ],
+      "allowed_results": ["APPENDED", "RETURN_ORIGINAL_APPEND_RESULT"],
+      "expected_event_count": 1
+    }
+  ]
+}

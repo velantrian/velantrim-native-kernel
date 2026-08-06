@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://velantrim.dev/native-kernel/schemas/evidence-report-v1.schema.json",
+  "title": "Native Kernel Evidence Report v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "report_version",
+    "profile_id",
+    "support_state",
+    "kernel_runtime_conformance",
+    "evidence_level",
+    "assertion_results",
+    "checks",
+    "limitations"
+  ],
+  "properties": {
+    "report_version": {"const": "nk-evidence-report/1"},
+    "profile_id": {"type": "string", "minLength": 1},
+    "support_state": {"enum": ["SUPPORTED", "UNSUPPORTED", "PARTIAL", "FAILED"]},
+    "kernel_runtime_conformance": {"enum": ["UNSUPPORTED", "C0", "C1", "C2", "C3", "C4", "C5"]},
+    "evidence_level": {"enum": ["DOCUMENTED", "LOCALLY_TESTED", "REPOSITORY_REPRODUCED", "SHADOW_EVALUATED", "OPERATIONALLY_VALIDATED"]},
+    "assertion_results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["assertion_id", "status"],
+        "properties": {
+          "assertion_id": {"type": "string", "pattern": "^NK-[A-Z]+-[0-9]{3}$"},
+          "status": {"enum": ["SUPPORTED", "UNSUPPORTED", "PARTIAL", "FAILED"]},
+          "evidence": {"type": "array", "items": {"type": "string"}},
+          "limitations": {"type": "array", "items": {"type": "string"}}
+        }
+      }
+    },
+    "checks": {"type": "array", "items": {"type": "object"}},
+    "limitations": {"type": "array", "items": {"type": "string"}}
+  }
+}
