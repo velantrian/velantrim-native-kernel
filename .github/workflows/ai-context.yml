@@ -1,0 +1,64 @@
+name: AI context integrity
+
+on:
+  pull_request:
+    paths:
+      - "AGENTS.md"
+      - "CONTRIBUTING.md"
+      - ".github/copilot-instructions.md"
+      - ".github/pull_request_template.md"
+      - ".github/workflows/ai-context.yml"
+      - "docs/README.md"
+      - "docs/README.ru.md"
+      - "docs/ai/**"
+      - "tools/ai_context/**"
+      - "tests/test_ai_context_validator.py"
+  push:
+    branches:
+      - main
+    paths:
+      - "AGENTS.md"
+      - "CONTRIBUTING.md"
+      - ".github/copilot-instructions.md"
+      - ".github/pull_request_template.md"
+      - ".github/workflows/ai-context.yml"
+      - "docs/README.md"
+      - "docs/README.ru.md"
+      - "docs/ai/**"
+      - "tools/ai_context/**"
+      - "tests/test_ai_context_validator.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Python ${{ matrix.python-version }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+
+    steps:
+      - name: Check out exact commit with complete history
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Compile AI-context tooling
+        run: python -m compileall -q tools/ai_context tests/test_ai_context_validator.py
+
+      - name: Run AI-context unit tests
+        run: python -m unittest discover -s tests -p 'test_ai_context_validator.py' -v
+
+      - name: Validate repository AI context
+        run: python tools/ai_context/validate_context.py --repo .
