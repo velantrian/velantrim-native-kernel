@@ -15,10 +15,10 @@
 | [`ai/README.md`](./ai/README.md) | AI context pack: текущее состояние, карта документов, риски, метод аудита, журнал и протокол GitHub↔Notion | действующий слой непрерывности |
 | [`FOUNDATIONAL_INTENT.ru.md`](./FOUNDATIONAL_INTENT.ru.md) · [English](./FOUNDATIONAL_INTENT.md) | Глубокое объяснение, зачем Native Kernel существует отдельно, какую проблему исследует и что будет означать успех | архитектурный замысел |
 | [`FOUNDATIONAL_CONTRACT_SKELETON.ru.md`](./FOUNDATIONAL_CONTRACT_SKELETON.ru.md) · [English](./FOUNDATIONAL_CONTRACT_SKELETON.md) | Каркас из шести семейств: семантические роли, идентичность, события, полномочия, конфликт/unknown и семантическая эквивалентность | принятая abstract-contract map; не реализована |
-| [`contracts/NORMATIVE_CONTRACTS_V1.ru.md`](./contracts/NORMATIVE_CONTRACTS_V1.ru.md) · [English](./contracts/NORMATIVE_CONTRACTS_V1.md) | Предлагаемые точные v1-контракты для identity, single-writer append/replay, deletion/restriction и executable fixtures | proposed; fixture tooling проверено локально; Kernel runtime не реализован |
+| [`contracts/NORMATIVE_CONTRACTS_V1.ru.md`](./contracts/NORMATIVE_CONTRACTS_V1.ru.md) · [English](./contracts/NORMATIVE_CONTRACTS_V1.md) | Точные v1-контракты identity, single-writer append/replay, deletion/restriction и executable fixtures | приняты ADR-0011…0014; fixture tooling проверено локально; Kernel runtime не реализован |
 | [`LONG_HORIZON_VISION.md`](./LONG_HORIZON_VISION.md) | Архитектурный Canon, контракты, профили и будущие технологии | исследовательское видение |
 | [`STORAGE_AND_EXECUTION_PROFILES.ru.md`](./STORAGE_AND_EXECUTION_PROFILES.ru.md) · [English](./STORAGE_AND_EXECUTION_PROFILES.md) | PostgreSQL как основной полный профиль, SQLite как опциональный embedded-профиль, offline-работа, выбор профиля и миграция | принятое направление; не реализовано |
-| [`CONFORMANCE_MODEL.md`](./CONFORMANCE_MODEL.md) | Как проверить соответствие реализации архитектуре | предлагаемый контракт проверки; fixture-integrity tooling существует |
+| [`CONFORMANCE_MODEL.md`](./CONFORMANCE_MODEL.md) | Как проверить соответствие реализации архитектуре | принятый abstract contract; fixture-integrity tooling существует; Kernel runtime evidence отсутствует |
 | [`DECISION_PROCESS.md`](./DECISION_PROCESS.md) | Как разделять решение, доказательства, реализацию, мнение ИИ и одобрение оператора | процесс управления решениями |
 | [`adr/README.md`](./adr/README.md) | Индекс Architecture Decision Records | действующий governance-процесс |
 | [`VELANTRIM_ECOSYSTEM.md`](./VELANTRIM_ECOSYSTEM.md) | Роли и ссылки Native Kernel, Mentaury Soul, Titan и Crystal | карта навигации и границ |
@@ -58,7 +58,7 @@
 ```text
 Архитектурный Canon
 ≠ Абстрактный контракт
-≠ Предлагаемый точный контракт
+≠ Принятый точный контракт
 ≠ Fixture-integrity tooling
 ≠ Профиль реализации
 ≠ Реализованный Kernel runtime
@@ -101,17 +101,19 @@ Native Kernel нужен, чтобы:
 
 ## Граница executable fixtures
 
-В репозитории могут появиться schemas, golden/invalid vectors и standard-library fixture validator до появления Kernel runtime.
+В репозитории уже есть принятые schemas, golden/invalid vectors и standard-library fixture validator до появления Kernel runtime.
 
 ```text
 fixture pack PASS
 ≠ Kernel runtime реализован
-≠ C2 repository conformance
+≠ C2 Kernel profile conformance
 ≠ C3 cross-profile equivalence
 ≠ production deletion guarantee
 ```
 
-Команды описаны в [`../tools/conformance/README.md`](../tools/conformance/README.md). Machine-readable артефакты: `contracts/registry.json`, `contracts/schema-bundle.json`, `contracts/fixture-pack.json`.
+Команды описаны в [`../tools/conformance/README.md`](../tools/conformance/README.md). Machine-readable артефакты: `contracts/registry.json`, `contracts/schema-bundle.json`, `contracts/evidence-report-v1.schema.json`, `contracts/fixture-pack.json`, `contracts/idempotency-scenarios.json`.
+
+Conformance workflow поддерживает PR/push triggers и ручной `workflow_dispatch`; доступный trigger ещё не является выполненным run.
 
 ## Необязательный экспериментальный трек
 

@@ -10,8 +10,8 @@ Use exact SHAs, statuses and evidence. Document presence is not runtime wiring.
 | `STATUS.md` | Current implementation and evidence boundary | Authoritative for public status claims |
 | `ARCHITECTURE.md` | Canon shape, invariants and portability target | Architecture, not runtime proof |
 | `docs/FOUNDATIONAL_CONTRACT_SKELETON*` | Accepted six-family ownership map | ADR-0010 accepted; runtime absent |
-| `docs/contracts/NORMATIVE_CONTRACTS_V1*` | Proposed exact v1 identity/event/deletion/fixture contracts | ADR-0011…0014 pending operator decision |
-| `contracts/*.json` | Registry, schema bundle and executable fixture corpus | Machine-readable proposal/evidence surface, not runtime |
+| `docs/contracts/NORMATIVE_CONTRACTS_V1*` | Accepted exact v1 identity/event/deletion/fixture contracts | ADR-0011…0014 accepted; runtime absent |
+| `contracts/*.json` | Registry, schema bundle and executable fixture corpus | Machine-readable accepted contract/evidence surface, not runtime |
 | `tools/conformance/` | Fixture-integrity reader and adapter protocol | Support tooling; reports Kernel runtime as `UNSUPPORTED` |
 | `docs/ai/*` | Current orientation, risks, logs and sync protocol | Last-verified operational context |
 | `tools/ai_context/` | Context-pack integrity checks | Governance tooling, not Kernel runtime evidence |
@@ -23,7 +23,7 @@ ARCHITECTURE.md
         ↓
 FOUNDATIONAL_CONTRACT_SKELETON (accepted ownership map)
         ↓
-NORMATIVE_CONTRACTS_V1 (proposed exact contracts)
+NORMATIVE_CONTRACTS_V1 (accepted exact contracts)
         ↓
 contracts/registry + schemas + fixtures
         ↓
@@ -46,21 +46,20 @@ NK-EPI — proposed epistemic fixture family
 
 ### Issues #14–#17 ownership
 
-| Issue | Owning proposal | Machine-readable evidence |
+| Issue | Accepted contract | Machine-readable evidence |
 |---|---|---|
-| #14 identity/canonical encoding | ADR-0011 + identity section of `NORMATIVE_CONTRACTS_V1` | `registry.json`, identity golden/invalid fixtures, reference canonicalizer |
-| #15 append/idempotency/order/replay | ADR-0012 + event section | command/event schemas and event-chain scenarios |
-| #16 deletion/restriction/retention | ADR-0013 + deletion section | deletion Receipt schema and state-machine scenarios |
-| #17 executable conformance | ADR-0014 + fixture protocol section | registry, schema/fixture bundles, runner, tests and workflow |
+| #14 identity/canonical encoding | ADR-0011 + `nk-id/1.0` | `registry.json`, identity golden/invalid fixtures, reference canonicalizer |
+| #15 append/idempotency/order/replay | ADR-0012 + `nk-event/1.0` | command/event schemas, event-chain and idempotency scenarios |
+| #16 deletion/restriction/retention | ADR-0013 + `nk-deletion/1.0` | deletion Receipt schema and state-machine scenarios |
+| #17 executable conformance | ADR-0014 + `nk-fixtures/1.0` | registry, schema/fixture bundles, runner, tests and workflow |
 
 Authority boundary:
 
 ```text
-proposed exact contract
+accepted exact contract
 + locally passing fixture tooling
-≠ operator-accepted architecture
 ≠ implemented Kernel runtime
-≠ C2 repository conformance until exact CI evidence
+≠ C2 repository conformance until exact runtime/profile evidence
 ≠ C3 cross-profile equivalence
 ```
 
@@ -72,25 +71,29 @@ Start with:
 - ADR-0011 through ADR-0014;
 - `contracts/registry.json`;
 - `contracts/schema-bundle.json`;
+- `contracts/evidence-report-v1.schema.json`;
 - `contracts/fixture-pack.json`;
+- `contracts/idempotency-scenarios.json`;
 - `tools/conformance/README.md`;
 - `tools/conformance/runner.py`;
 - `tests/test_conformance_runner.py`;
 - `.github/workflows/conformance-fixtures.yml`.
 
-The runner validates assertion uniqueness, identity vectors, event chains, deletion transitions and positive/negative `NK-EPI-001…008` coverage. Its evidence report deliberately states:
+The runner validates assertion uniqueness, identity vectors, event commitments/chains, idempotency cases, deletion transitions and positive/negative `NK-EPI-001…008` coverage. Its evidence report deliberately states:
 
 ```text
 support_state: SUPPORTED
 kernel_runtime_conformance: UNSUPPORTED
 ```
 
+Workflow entry points are PR path match, push-to-main path match and manual `workflow_dispatch`. A declared workflow is not an executed result.
+
 ## Source recovery boundary
 
 Start with `STATUS.md`, Issue #1, import specs, `docs/source-recovery/`, `tools/source_recovery/` and its isolated workflow.
 
 ```text
-Issues #14–#17 proposal lineage
+Issues #14–#17 accepted architecture lineage
 ≠ controlled v0.1.2.1 import
 ≠ recovered original tests
 ≠ historical reproduction evidence
@@ -117,7 +120,7 @@ missing provenance ≠ permission to invent provenance
 retrieval/model output ≠ admitted knowledge
 ```
 
-ADR-0008 and `NK-EPI-001…008` remain proposed until explicit operator acceptance. Executable fixtures improve reviewability but do not promote them automatically.
+ADR-0008 and `NK-EPI-001…008` remain proposed until separate explicit operator acceptance. Executable fixtures improve reviewability but do not promote them automatically.
 
 ## Ecosystem boundaries
 
@@ -147,6 +150,6 @@ Cross-links do not authorize runtime integration, shared storage, shared Canon o
 | Deletion contract | ADR-0013 → location inventory/state machine/Receipt fixtures |
 | Conformance evidence | ADR-0014 → registry/schema/fixture pack → runner/tests/CI |
 | Source candidate | Issue #1 spec → source-recovery tooling → provenance manifest |
-| New implementation profile | profile docs → exact contracts → conformance model → separate ADR/evidence plan |
+| New implementation profile | profile docs → accepted exact contracts → conformance model → separate ADR/evidence plan |
 | Cross-project reference | ecosystem map → integration boundaries → affected project docs |
 | Notion unavailable | complete GitHub → `NOTION_HANDOFF.md` |

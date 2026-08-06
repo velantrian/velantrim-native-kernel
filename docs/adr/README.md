@@ -75,10 +75,10 @@ Approval and evidence must remain separate. A decision may be approved with only
 | [`0008`](./0008-epistemic-boundaries-are-representation-disciplines.md) | Epistemic boundaries are representation disciplines, not a fixed worldview | `PROPOSED` | `DOCUMENTED` | `NOT_STARTED` | `PENDING` |
 | [`0009`](./0009-postgresql-primary-sqlite-optional-profile.md) | PostgreSQL is the primary full profile and SQLite is optional | `ACCEPTED` | `DOCUMENTED` | `NOT_STARTED` | `APPROVED` |
 | [`0010`](./0010-foundational-contract-families.md) | Foundational contracts are separated by semantic role | `ACCEPTED` | `DOCUMENTED` | `NOT_STARTED` | `APPROVED` |
-| [`0011`](./0011-canonical-identity-contract-v1.md) | Canonical identity contract v1 | `PROPOSED` | reference vectors `LOCALLY_TESTED` | support tooling `PARTIAL`; runtime `NOT_STARTED` | `PENDING` |
-| [`0012`](./0012-single-writer-append-and-replay-contract-v1.md) | Single-writer append and replay contract v1 | `PROPOSED` | fixture integrity `LOCALLY_TESTED` | support tooling `PARTIAL`; runtime `NOT_STARTED` | `PENDING` |
-| [`0013`](./0013-deletion-restriction-retention-contract-v1.md) | Deletion, restriction and retention contract v1 | `PROPOSED` | state-machine fixtures `LOCALLY_TESTED` | support tooling `PARTIAL`; runtime `NOT_STARTED` | `PENDING` |
-| [`0014`](./0014-executable-conformance-fixture-protocol-v1.md) | Executable conformance fixture protocol v1 | `PROPOSED` | fixture tooling `LOCALLY_TESTED` | fixture tooling `PARTIAL`; Kernel runtime unsupported | `PENDING` |
+| [`0011`](./0011-canonical-identity-contract-v1.md) | Canonical identity contract v1 | `ACCEPTED` | reference vectors `LOCALLY_TESTED` | support tooling `PARTIAL`; runtime `NOT_STARTED` | `APPROVED` |
+| [`0012`](./0012-single-writer-append-and-replay-contract-v1.md) | Single-writer append and replay contract v1 | `ACCEPTED` | fixture integrity `LOCALLY_TESTED` | support tooling `PARTIAL`; runtime `NOT_STARTED` | `APPROVED` |
+| [`0013`](./0013-deletion-restriction-retention-contract-v1.md) | Deletion, restriction and retention contract v1 | `ACCEPTED` | state-machine fixtures `LOCALLY_TESTED` | support tooling `PARTIAL`; runtime `NOT_STARTED` | `APPROVED` |
+| [`0014`](./0014-executable-conformance-fixture-protocol-v1.md) | Executable conformance fixture protocol v1 | `ACCEPTED` | fixture tooling `LOCALLY_TESTED` | fixture tooling `PARTIAL`; Kernel runtime unsupported | `APPROVED` |
 
 ## When an ADR is required
 

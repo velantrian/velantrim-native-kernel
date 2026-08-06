@@ -15,10 +15,10 @@ This directory separates project purpose, architecture, conformance, research pr
 | [`ai/README.md`](./ai/README.md) | AI context-pack manifest: current state, component map, risks, audit method, work log and GitHub↔Notion protocol | active continuity layer |
 | [`FOUNDATIONAL_INTENT.md`](./FOUNDATIONAL_INTENT.md) · [Русский](./FOUNDATIONAL_INTENT.ru.md) | Deep explanation of why Native Kernel exists as a separate system, what problem it studies, and what success would mean | architectural intent |
 | [`FOUNDATIONAL_CONTRACT_SKELETON.md`](./FOUNDATIONAL_CONTRACT_SKELETON.md) · [Русский](./FOUNDATIONAL_CONTRACT_SKELETON.ru.md) | Six-family skeleton for semantic roles, identity, events, authority, conflict/unknowns, and semantic equivalence | accepted abstract-contract map; not implemented |
-| [`contracts/NORMATIVE_CONTRACTS_V1.md`](./contracts/NORMATIVE_CONTRACTS_V1.md) · [Русский](./contracts/NORMATIVE_CONTRACTS_V1.ru.md) | Proposed exact v1 contracts for identity, single-writer append/replay, deletion/restriction and executable fixtures | proposed; fixture tooling locally tested; Kernel runtime not implemented |
+| [`contracts/NORMATIVE_CONTRACTS_V1.md`](./contracts/NORMATIVE_CONTRACTS_V1.md) · [Русский](./contracts/NORMATIVE_CONTRACTS_V1.ru.md) | Exact v1 contracts for identity, single-writer append/replay, deletion/restriction and executable fixtures | accepted under ADR-0011…0014; fixture tooling locally tested; Kernel runtime not implemented |
 | [`LONG_HORIZON_VISION.md`](./LONG_HORIZON_VISION.md) | Architecture Canon, contracts, profiles, and future substrates | research vision |
 | [`STORAGE_AND_EXECUTION_PROFILES.md`](./STORAGE_AND_EXECUTION_PROFILES.md) · [Русский](./STORAGE_AND_EXECUTION_PROFILES.ru.md) | PostgreSQL as the primary full contemporary profile, SQLite as an optional embedded profile, offline local-model operation, profile selection, and migration boundaries | accepted implementation-profile direction; not implemented |
-| [`CONFORMANCE_MODEL.md`](./CONFORMANCE_MODEL.md) | How an implementation can demonstrate compatibility | proposed documentation contract; fixture-integrity tooling exists |
+| [`CONFORMANCE_MODEL.md`](./CONFORMANCE_MODEL.md) | How an implementation can demonstrate compatibility | accepted abstract contract; fixture-integrity tooling exists; no Kernel runtime evidence |
 | [`DECISION_PROCESS.md`](./DECISION_PROCESS.md) | How decisions, evidence, implementation, AI input, and operator approval remain separate | governance process |
 | [`adr/README.md`](./adr/README.md) | Architecture Decision Record index | active governance |
 | [`VELANTRIM_ECOSYSTEM.md`](./VELANTRIM_ECOSYSTEM.md) | Roles and links for Native Kernel, Mentaury Soul, Titan and Crystal | navigation/boundary map |
@@ -58,7 +58,7 @@ This directory separates project purpose, architecture, conformance, research pr
 ```text
 Architecture Canon
 ≠ Abstract Contract
-≠ Proposed exact contract
+≠ Accepted exact contract
 ≠ Fixture-integrity tooling
 ≠ Implementation Profile
 ≠ Implemented Kernel Runtime
@@ -92,17 +92,19 @@ The deeper explanation is maintained in:
 
 ## Executable fixture boundary
 
-The repository may include schemas, golden/invalid vectors and a standard-library fixture validator before any Kernel runtime exists.
+The repository includes accepted schemas, golden/invalid vectors and a standard-library fixture validator before any Kernel runtime exists.
 
 ```text
 fixture pack PASS
 ≠ Kernel runtime implemented
-≠ C2 repository conformance
+≠ C2 Kernel profile conformance
 ≠ C3 cross-profile equivalence
 ≠ production deletion guarantee
 ```
 
-Use [`../tools/conformance/README.md`](../tools/conformance/README.md) and inspect `contracts/registry.json`, `contracts/schema-bundle.json` and `contracts/fixture-pack.json`.
+Use [`../tools/conformance/README.md`](../tools/conformance/README.md) and inspect `contracts/registry.json`, `contracts/schema-bundle.json`, `contracts/evidence-report-v1.schema.json`, `contracts/fixture-pack.json` and `contracts/idempotency-scenarios.json`.
+
+The conformance workflow supports PR/push triggers and manual `workflow_dispatch`; an available trigger is not an executed result.
 
 ## Optional experimental research
 
