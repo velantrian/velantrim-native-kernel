@@ -51,23 +51,11 @@ Exact v1 proposals for Issues #14–#17 are maintained in:
 - [`contracts/NORMATIVE_CONTRACTS_V1.md`](./contracts/NORMATIVE_CONTRACTS_V1.md);
 - [`contracts/NORMATIVE_CONTRACTS_V1.ru.md`](./contracts/NORMATIVE_CONTRACTS_V1.ru.md);
 - ADR-0011 through ADR-0014;
-- machine-readable `../contracts/registry.json`.
+- machine-readable [`../contracts/registry.json`](../contracts/registry.json).
 
 ## 4. Required semantic areas
 
-A profile must explicitly map supported and unsupported assertions for:
-
-- identity and lineage;
-- authoritative history and ordering;
-- deterministic reduction and schema/reducer versioning;
-- disposable projections and rebuild;
-- valid/observation/record time;
-- conflict detection versus resolution;
-- admission authority and policy;
-- retrieval/selection without truth promotion;
-- Receipt proof boundaries;
-- deletion, restriction, retention and residual data;
-- world/epistemic representation discipline where claimed.
+A profile must explicitly map supported and unsupported assertions for identity/lineage, authoritative history/order, deterministic reduction/versioning, disposable projections/rebuild, time, conflicts, authority/admission, retrieval/selection, Receipt boundaries, deletion/retention and epistemic discipline where claimed.
 
 Unsupported assertions remain visible. A profile cannot obtain a higher level by silently skipping them.
 
@@ -77,23 +65,28 @@ The proposal branch `agent/contracts-14-17` introduces:
 
 ```text
 contracts/
-├── registry.json        # stable family/assertion registry
-├── schema-bundle.json   # neutral JSON Schema bundle
-└── fixture-pack.json    # identity, event, deletion and epistemic corpora
+├── README.md
+├── registry.json
+├── schema-bundle.json
+├── evidence-report-v1.schema.json
+├── fixture-pack.json
+└── idempotency-scenarios.json
 
 tools/conformance/
-├── runner.py            # standard-library fixture validator / adapter launcher
+├── runner.py
 └── README.md
 
 tests/test_conformance_runner.py
 .github/workflows/conformance-fixtures.yml
 ```
 
-Current evidence boundary:
+Current local evidence boundary:
 
 ```text
 fixture-integrity tooling: IMPLEMENTED IN BRANCH
-local focused tests:       5 PASS
+local focused tests:       8 PASS
+assertion IDs:              72 unique
+assertion report coverage:  72 explicit statuses
 local fixture validation:  PASS
 Kernel runtime:            NOT IMPLEMENTED
 Kernel conformance:        UNSUPPORTED
@@ -107,17 +100,21 @@ The built-in Python reader validates fixture integrity and deterministic referen
 
 ### Identity
 
-The proposed `nk-id/1` vectors cover:
+The proposed `nk-id/1` vectors cover deterministic key ordering, NFC enforcement, rejection of floats/null, domain-separated IDs and golden/invalid cases.
 
-- deterministic key ordering;
-- NFC enforcement;
-- rejection of floats and explicit null;
-- domain-separated content/Claim/lineage IDs;
-- golden and invalid cases.
+### Event, idempotency and replay boundary
 
-### Event and replay boundary
+The proposed corpus covers:
 
-The proposed scenarios cover contiguous single-writer ordering, payload/event commitments, previous-hash continuity and projection failure after committed history. They do not constitute a durable append implementation or crash-injection evidence.
+- contiguous single-writer global and stream ordering;
+- direct `payload_hash` verification;
+- event commitment and previous-hash continuity;
+- retry with the same digest returning the original result;
+- same idempotency key with a different digest producing `IDEMPOTENCY_CONFLICT`;
+- concurrent same-digest attempts producing one append;
+- projection failure after committed history.
+
+These fixtures do not constitute a durable append implementation or crash-injection evidence.
 
 ### Deletion and restriction
 
@@ -159,22 +156,38 @@ The support runner may invoke an external profile adapter:
 python tools/conformance/runner.py adapter --output report.json -- <adapter-command>
 ```
 
-The fixture-pack path is appended to the command. The adapter must emit one JSON report. Non-zero exit, malformed output, missing support state or silent skip is a failure.
+The fixture-pack path is appended to the command. The adapter must emit one JSON report conforming to `evidence-report-v1.schema.json`.
 
-A profile evidence report should include:
+The runner rejects:
+
+- non-zero process exit;
+- malformed JSON;
+- missing required report fields;
+- duplicate assertion results;
+- missing registered assertions;
+- unknown extra assertion IDs;
+- invalid support statuses.
+
+Every one of the 72 registered assertions must appear exactly once as `SUPPORTED`, `UNSUPPORTED`, `PARTIAL` or `FAILED`. This prevents silent skip.
+
+A profile evidence report includes:
 
 ```yaml
 report_version: nk-evidence-report/1
 profile_id: <profile>
-repository_commit: <sha>
-contract_versions: [<versions>]
-fixture_ids: [<ids>]
 support_state: SUPPORTED | UNSUPPORTED | PARTIAL | FAILED
 kernel_runtime_conformance: UNSUPPORTED | C0 | C1 | C2 | C3 | C4 | C5
 evidence_level: DOCUMENTED | LOCALLY_TESTED | REPOSITORY_REPRODUCED | SHADOW_EVALUATED | OPERATIONALLY_VALIDATED
+assertion_results:
+  - assertion_id: NK-ID-001
+    status: SUPPORTED | UNSUPPORTED | PARTIAL | FAILED
+    evidence: [<references>]
+    limitations: [<limits>]
 checks: [<results>]
 limitations: [<limits>]
 ```
+
+The built-in fixture reader emits all 72 assertions as `UNSUPPORTED`; its `support_state: SUPPORTED` means only that the fixture-integrity tool completed successfully.
 
 ## 9. First real Kernel experiment
 
