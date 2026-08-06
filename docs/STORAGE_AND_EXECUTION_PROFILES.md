@@ -2,106 +2,247 @@
 
 **[English](./STORAGE_AND_EXECUTION_PROFILES.md) · [Русский](./STORAGE_AND_EXECUTION_PROFILES.ru.md)**
 
-- **Decision status:** `ACCEPTED`
-- **Evidence level:** `DOCUMENTED`
-- **Implementation status:** `NOT_STARTED`
-- **Operator approval:** `APPROVED`
-- **Scope:** current implementation-profile direction; not Architecture Canon
+| 🧭 Dimension | 📌 State |
+|---|---|
+| **Decision status** | `ACCEPTED` |
+| **Evidence level** | `DOCUMENTED` |
+| **Implementation status** | `NOT_STARTED` |
+| **Operator approval** | `APPROVED` |
+| **Architecture layer** | present-day Implementation Profile direction, not Architecture Canon |
 
 > [!IMPORTANT]
-> PostgreSQL and SQLite are replaceable present-day implementation profiles. Neither database defines Claim, Event, Relation, epistemic state, conflict, Projection, or Receipt semantics.
+> **PostgreSQL and SQLite are replaceable present-day implementation profiles.** Neither database defines the meaning of a Claim, Event, Relation, Epistemic State, Conflict, Projection, or Receipt.
 
-## 🧭 The decision in one view
+> *Comment:* *this document does not answer “which database is eternal?” It answers “how can we implement Kernel today without turning a current database into the definition of a future architecture?”*
+
+---
+
+## 👁️ How to read this document
 
 ```text
-🏛️ Architecture Canon
-identity · history · provenance · time · conflict · receipt
-                       │
-                       ▼
-📐 Abstract Storage Contract
-append · read history · replay · verify · rebuild · migrate
-                       │
-          ┌────────────┴─────────────┐
-          ▼                          ▼
-🐘 PostgreSQL profile          📦 SQLite profile
-primary full profile           optional embedded profile
-local or remote                local single-file deployment
-concurrent/server-oriented     compact/reference/test-oriented
+🏛️  Canon            — meaning that must survive technology replacement
+📐  Contract         — behaviour every conforming profile must preserve
+🔌  Profile          — a concrete present-day contract implementation
+🐘  PostgreSQL       — preferred full local / server profile
+📦  SQLite           — optional embedded / portable profile
+🧪  Evidence         — replay, migration, tests, and equivalence checks
+🌌  Future substrate — a future storage form that may not resemble SQL
 ```
 
-The current direction is:
+> *Reading hint:* *begin with the compact map and decision tree. Detailed invariants and evidence requirements appear in the second half.*
 
-- 🐘 **PostgreSQL is the primary full contemporary storage profile** for a serious local or server deployment.
-- 📦 **SQLite remains an optional embedded, portable, reference, test, recovery, or constrained-device profile.**
-- 🧪 An in-memory profile may be used for narrow deterministic tests.
-- 🌌 Future profiles may use technologies or physical substrates that do not resemble SQL databases.
+---
 
-This is a profile selection, not a permanent statement that PostgreSQL is the architecture.
+## ⚡ The decision in 30 seconds
+
+```text
+                         🧬 NATIVE KERNEL
+                                │
+                                ▼
+                    🏛️ ARCHITECTURE CANON
+          identity · history · provenance · time · conflict
+                                │
+                                ▼
+                      📐 STORAGE CONTRACT
+       append · read · replay · verify · rebuild · migrate
+                                │
+              ┌─────────────────┴─────────────────┐
+              │                                   │
+              ▼                                   ▼
+      🐘 PostgreSQL Profile               📦 SQLite Profile
+      preferred full profile              optional embedded profile
+      local / server / concurrent          single-file / portable
+      long-running deployment              test / recovery / device
+```
+
+### Compact formula
+
+```text
+🐘 PostgreSQL
+= preferred full present-day profile
+≠ Architecture Canon
+
+📦 SQLite
+= useful compact profile
+≠ mandatory offline database
+
+🤖 Local LLM + 🐘 Local PostgreSQL
+= a fully autonomous system without internet access
+```
+
+---
+
+## 🌳 Native Kernel profile tree
+
+```text
+🧬 Native Kernel Implementation Profiles
+│
+├── 🗄️ Storage Profiles
+│   ├── 🐘 PostgreSQL
+│   │   ├── 💻 local localhost deployment
+│   │   ├── 🌐 remote server deployment
+│   │   ├── 👥 multiple processes / agents
+│   │   ├── 🔐 roles and access separation
+│   │   └── 🔄 backup / restore / replication
+│   │
+│   ├── 📦 SQLite
+│   │   ├── 🧩 embedded application
+│   │   ├── 💾 one portable file
+│   │   ├── 🧪 fixtures and CI
+│   │   ├── 🛠️ recovery / diagnostics
+│   │   └── 📱 constrained device
+│   │
+│   ├── 🧪 In-memory
+│   │   └── fast deterministic tests
+│   │
+│   └── 🌌 Future Substrate
+│       └── storage that may have no tables or SQL
+│
+└── 🧠 Compute Profiles
+    ├── 🤖 local small model
+    ├── 🧠 local large model
+    ├── ☁️ remote model
+    ├── 🧮 symbolic / deterministic engine
+    └── 🌌 future compute substrate
+```
+
+> *Comment:* *Storage Profile and Compute Profile are adjacent axes, not a parent-child hierarchy. Model selection must not silently determine database selection.*
+
+---
+
+## 🧠 Mindmap: what remains and what can be replaced
+
+```mermaid
+flowchart TD
+    K["🧬 Native Kernel"]
+
+    K --> C["🏛️ Preserved meaning"]
+    C --> C1["🧩 Identity"]
+    C --> C2["📜 Authoritative History"]
+    C --> C3["🧬 Provenance & Lineage"]
+    C --> C4["⏳ Temporal Meaning"]
+    C --> C5["⚔️ Conflict Visibility"]
+    C --> C6["🧾 Receipts"]
+
+    K --> P["🔌 Replaceable profiles"]
+    P --> P1["🐘 PostgreSQL"]
+    P --> P2["📦 SQLite"]
+    P --> P3["🧪 In-memory"]
+    P --> P4["📁 Files / Object Store"]
+    P --> P5["🌌 Future Substrate"]
+
+    K --> E["🧪 Conformance evidence"]
+    E --> E1["🔁 Replay"]
+    E --> E2["🏗️ Rebuild"]
+    E --> E3["🔄 Migration"]
+    E --> E4["⚖️ Semantic Equivalence"]
+    E --> E5["🚨 Failure Cases"]
+```
+
+*The central message of the mindmap: technologies may change; semantic obligations and verification rules must not disappear with them.*
+
+---
 
 ## 📴 Offline does not mean SQLite
 
-A fully offline workstation may run all required components locally:
+A fully autonomous computer can run every component locally:
 
 ```text
-💻 One local computer — no Internet required
+💻 One local computer — internet not required
 │
-├── 🤖 local small or large model
+├── 🤖 small or large local LLM
 ├── 🧬 Native Kernel implementation
 ├── 🐘 PostgreSQL on localhost
 ├── 🔎 local indexes and projections
-└── 📁 local documents and model files
+├── 📁 local documents
+└── 🧾 local Receipts and verification logs
 ```
 
-PostgreSQL is a local server process as well as a network server. A local model can interact with a local Kernel service, and the Kernel can use PostgreSQL through `localhost`, without cloud services or Internet access.
+```mermaid
+flowchart LR
+    U["👤 User"] --> A["🤖 Local model"]
+    A --> K["🧬 Native Kernel API"]
+    K --> P["🐘 PostgreSQL localhost"]
+    K --> R["🔎 Local projections / retrieval"]
+    K --> D["📁 Local documents"]
+    K --> X["🧾 Receipts"]
 
-```text
-Local model
-    │ requests through a declared Kernel interface
-    ▼
-Native Kernel implementation
-    │ storage contract
-    ▼
-PostgreSQL on localhost
+    N["🌐 Internet"] -. "not required" .-> A
 ```
 
-Therefore the architecture must not encode the false equivalence:
+PostgreSQL can run as a local server process. A local model communicates with the Kernel service, and Kernel uses PostgreSQL through `localhost` without cloud infrastructure.
 
 ```text
 ❌ offline = SQLite
 ❌ online  = PostgreSQL
+
+✅ full local / server profile = PostgreSQL
+✅ compact embedded profile    = SQLite
 ```
 
-The more accurate distinction is:
+> *Comment:* *“server process” does not mean “remote cloud.” The PostgreSQL server may run on the same computer as Kernel and the local model.*
+
+---
+
+## 🧭 Decision tree: PostgreSQL or SQLite?
 
 ```text
-✅ full local/server profile = PostgreSQL
-✅ compact embedded profile  = SQLite
+Begin profile selection
+        │
+        ├── Do you need concurrent writers, multiple agents,
+        │   or a long-running service?
+        │          ├── Yes → 🐘 PostgreSQL
+        │          └── No
+        │
+        ├── Do you need roles, network access, backup/restore,
+        │   large histories, or complex queries?
+        │          ├── Yes → 🐘 PostgreSQL
+        │          └── No
+        │
+        ├── Do you need one portable file without a separate service?
+        │          ├── Yes → 📦 SQLite
+        │          └── No
+        │
+        ├── Is this a fixture, CI job, recovery tool, or demo?
+        │          ├── Yes → 📦 SQLite or 🧪 In-memory
+        │          └── No
+        │
+        └── Is this an unusual future medium?
+                   └── 🌌 New adapter + Conformance Suite
 ```
 
-## ⚙️ Compute profiles and storage profiles are independent
+> *Practical rule:* *for a full local Titan/Kernel service on an ordinary computer, PostgreSQL is the preferred starting point. For a self-contained component inside an application or a portable utility, SQLite may fit the role more precisely.*
 
-The system must separate two choices:
+---
+
+## ⚙️ Compute and Storage are independent axes
+
+| 🧠 Compute Profile | 🗄️ Possible Storage Profile | Example |
+|---|---|---|
+| Local small model | PostgreSQL or SQLite | compact local assistant |
+| Local large model | PostgreSQL | full autonomous system |
+| Remote model | PostgreSQL or SQLite | client with remote compute |
+| Symbolic engine | any conforming profile | formal replay / validation |
+| Future compute | future storage or current adapter | experimental substrate |
 
 ```text
-🧠 Compute Profile
-├── local small model
-├── local large model
-├── remote model
-├── symbolic engine
-└── future compute substrate
+🧠 Compute Profile                 🗄️ Storage Profile
+├── local small model              ├── PostgreSQL
+├── local large model              ├── SQLite
+├── remote model                   ├── in-memory test store
+├── symbolic engine                └── future substrate
+└── future compute
 
-🗄️ Storage Profile
-├── PostgreSQL
-├── SQLite
-├── in-memory test store
-└── future storage substrate
+              ↘ independent settings ↙
 ```
 
-A local LLM does not require SQLite. A remote model does not require PostgreSQL. Compute selection and storage selection are orthogonal unless a specific implementation profile explicitly documents a constraint.
+A local LLM does not require SQLite. A remote model does not require PostgreSQL. A specific implementation profile may declare constraints, but those constraints must be explicit.
 
-## 🔀 Profile Selector, not per-request database routing
+---
 
-The active authoritative storage profile should normally be selected at process, node, or deployment startup:
+## 🔀 Profile Selector instead of per-request database routing
+
+The active authoritative Storage Profile is selected at process, node, or deployment startup:
 
 ```yaml
 storage:
@@ -120,17 +261,16 @@ storage:
   path: ./native-kernel.db
 ```
 
-```text
-Kernel startup
-      ↓
-read declared profile
-      ↓
-construct one Storage Adapter
-      ↓
-use one authoritative history for that instance
+```mermaid
+flowchart TD
+    S["🚀 Kernel startup"] --> C["⚙️ Read configuration"]
+    C --> V["✅ Validate capability profile"]
+    V --> A["🔌 Create one Storage Adapter"]
+    A --> H["📜 Open one authoritative history"]
+    H --> R["🟢 Begin serving requests"]
 ```
 
-A normal request router must not alternate authoritative writes between databases:
+A normal Router may select compute or retrieval mechanisms, but it must not distribute authoritative writes across databases:
 
 ```text
 ❌ request A → SQLite
@@ -138,142 +278,302 @@ A normal request router must not alternate authoritative writes between database
 ❌ request C → SQLite again
 ```
 
-That pattern can split history, reorder events, duplicate Claims, and make the source of truth ambiguous.
-
-## 🔄 Switching profiles is a migration
-
-Changing the authoritative storage profile is a controlled substrate migration, not an ordinary routing decision:
+Why this is dangerous:
 
 ```text
-1. stop or fence writes
-2. record the source position and migration Receipt
-3. export authoritative history in a canonical interchange form
-4. verify identity, ordering, hashes, provenance, and counts
-5. import into the destination profile
-6. perform full replay
-7. compare declared semantic state
-8. activate the destination profile
-9. preserve rollback evidence
+different authoritative stores
+          ↓
+different event ordering
+          ↓
+duplicated or missing Claims
+          ↓
+ambiguous current state
+          ↓
+non-reproducible Receipt
 ```
 
-The required result is documented semantic equivalence, not necessarily identical physical bytes:
+> *Comment:* *Router answers “how should this task be executed?” Storage authority answers “where is the authoritative history of this instance?” These are different responsibilities.*
+
+---
+
+## 🔄 Switching profiles is substrate migration
+
+Changing the authoritative Storage Profile is not an ordinary Router decision.
+
+```mermaid
+sequenceDiagram
+    participant O as 👤 Operator
+    participant K as 🧬 Kernel
+    participant S as 🗄️ Source Profile
+    participant T as 🗄️ Target Profile
+    participant V as 🧪 Verifier
+
+    O->>K: Fence new writes
+    K->>S: Record source position
+    K->>K: Create migration Receipt
+    S-->>K: Export authoritative history
+    K->>V: Verify identity, order, hashes, provenance, counts
+    V-->>K: Validation result
+    K->>T: Import history
+    T->>T: Perform full replay
+    T->>V: Submit reduced semantic state
+    V-->>K: A ≡ B or failure
+    K-->>O: Activate / rollback decision
+```
+
+### Migration checklist
 
 ```text
-same authoritative history
-        ↓
-PostgreSQL reducer path
-        ↓
-semantic state A
-
-same authoritative history
-        ↓
-SQLite reducer path
-        ↓
-semantic state B
-
-required: A ≡ B under a declared conformance rule
+1️⃣ stop or fence new writes
+2️⃣ record source position and migration Receipt
+3️⃣ export authoritative history
+4️⃣ verify identity, ordering, hashes, provenance, and counts
+5️⃣ import history into the target profile
+6️⃣ perform full replay
+7️⃣ compare semantic state under the declared rule
+8️⃣ activate the new profile
+9️⃣ preserve rollback evidence
 ```
 
-## 🐘 Why PostgreSQL is the primary full profile
+```text
+one authoritative history
+          ├──► 🐘 PostgreSQL reducer ──► semantic state A
+          └──► 📦 SQLite reducer     ──► semantic state B
 
-PostgreSQL is a stronger fit when an implementation needs:
+requirement: A ≡ B under the declared conformance rule
+```
 
-- multiple concurrent writers or readers;
-- long-running local services;
-- multiple agents, processes, users, or devices;
-- transactional integrity across related writes;
-- roles, permissions, and operational isolation;
-- large event histories and complex temporal queries;
-- JSON, recursive queries, full-text search, and extensions;
-- backup, restore, replication, and operational tooling;
-- a path from one local computer to a remote server without changing the semantic contracts.
+*Physical byte-for-byte equality is not mandatory. Declared semantic equivalence and observable contractual behaviour are mandatory.*
 
-A capable offline computer that can run a local model can normally also run a local PostgreSQL service. This makes PostgreSQL a reasonable primary laboratory and deployment profile for the full system.
+---
+
+## 🐘 Why PostgreSQL is the preferred full profile
+
+PostgreSQL is preferred when the implementation needs:
+
+- 👥 multiple concurrent readers or writers;
+- 🤖 multiple agents, processes, users, or devices;
+- 🟢 a continuously running local service;
+- 🔐 roles, permissions, and operational isolation;
+- 🧾 transactional integrity across related operations;
+- 📜 large event histories and complex temporal queries;
+- 🧩 JSON, recursive queries, full-text search, and extensions;
+- 💾 backup, restore, replication, and mature operational tooling;
+- 🌐 a path from localhost to a remote server without changing semantic contracts.
+
+```text
+💻 Local workstation
+      │
+      ├── 🤖 Local LLM
+      ├── 🧬 Kernel service
+      └── 🐘 PostgreSQL
+
+                 ↓ workload growth
+
+🖥️ Dedicated host / VPS / cluster
+      ├── 🧬 Kernel services
+      └── 🐘 PostgreSQL profile
+```
+
+> *Nuance:* *PostgreSQL is the preferred profile not because it is “closer to truth,” but because its operational envelope better fits a full multi-process system.*
+
+---
 
 ## 📦 Why SQLite remains useful
 
-SQLite is retained for a narrower but valid role:
+SQLite retains a narrower but complete role:
 
-- embedded desktop or mobile applications;
-- compact single-process tools;
-- portable snapshots or demonstrations;
-- deterministic fixtures and CI tests;
-- recovery and diagnostic utilities;
-- constrained devices;
-- installations where a separate database service is deliberately undesirable.
-
-SQLite is not a degraded statement of the architecture. It is a different operational profile with a smaller concurrency and administration envelope.
-
-## 🧩 Adapter boundary
-
-Kernel semantics should depend on an abstract contract, not SQL dialect details:
+- 🧩 embedded desktop and mobile applications;
+- 💾 compact single-process tools;
+- 🧳 portable snapshots and demonstrations;
+- 🧪 deterministic fixtures and CI tests;
+- 🛠️ recovery and diagnostic utilities;
+- 📱 constrained devices;
+- 🔌 installations where a separate database service is deliberately undesirable.
 
 ```text
-StorageContract
+📱 / 💻 Embedded application
+            │
+            ├── application runtime
+            ├── Kernel adapter
+            └── 📦 native-kernel.db
+```
+
+SQLite is not a “degraded architecture.” It is a different operational profile with a smaller concurrency and administration envelope.
+
+> *Nuance:* *SQLite should not be retained only as a symbolic claim of neutrality. It should serve real use cases and pass the same Conformance Suite.*
+
+---
+
+## ⚖️ Profile comparison
+
+| Criterion | 🐘 PostgreSQL | 📦 SQLite |
+|---|---|---|
+| Primary role | full local/server profile | embedded/portable profile |
+| Separate process | yes | no |
+| One portable file | no | yes |
+| Concurrent writers | major strength | constrained envelope |
+| Multiple agents/services | preferred | limited scenarios only |
+| Roles and permissions | mature | not the primary model |
+| Network access | native | requires an external wrapper |
+| Backup/restore operations | mature tooling | file-oriented strategies |
+| Complex queries and extensions | major strength | compact feature set |
+| Embedded distribution | more complex | major strength |
+| Architecture Canon | ❌ no | ❌ no |
+| Offline | ✅ yes | ✅ yes |
+
+---
+
+## 🧩 Storage Adapter boundary
+
+Kernel semantics must depend on an abstract contract, not on SQL dialect details:
+
+```text
+📐 StorageContract
+│
 ├── append_event(...)
 ├── read_authoritative_history(...)
 ├── verify_integrity(...)
 ├── load_projection_source(...)
+├── rebuild_from_history(...)
 ├── record_migration_receipt(...)
 └── expose_declared_capabilities(...)
 ```
 
-Example implementations may include:
-
 ```text
-PostgreSQLStorageAdapter
-SQLiteStorageAdapter
-InMemoryTestAdapter
-FutureSubstrateAdapter
+                 📐 StorageContract
+                         │
+        ┌────────────────┼─────────────────┐
+        ▼                ▼                 ▼
+🐘 PostgreSQL       📦 SQLite        🧪 InMemory
+StorageAdapter      StorageAdapter    TestAdapter
+        │                │                 │
+        └────────────────┼─────────────────┘
+                         ▼
+               🌌 FutureSubstrateAdapter
 ```
 
-Backend-generated row IDs, SQL tables, foreign keys, indexes, WAL settings, extensions, and transaction syntax must remain implementation details unless an explicit cross-profile contract promotes a behaviour above the adapter boundary.
+Backend-generated row IDs, tables, foreign keys, indexes, WAL settings, extensions, and transaction syntax remain profile details unless a separate cross-profile contract explicitly raises a behaviour above the adapter boundary.
+
+---
+
+## 🚨 Antipatterns
+
+```text
+❌ Claim identity = PostgreSQL SERIAL
+❌ Event meaning  = SQL INSERT
+❌ Relation       = only a foreign key
+❌ Truth          = latest value in a row
+❌ Offline        = necessarily SQLite
+❌ Router         = writes randomly to different authoritative stores
+❌ Replica/cache  = source of truth
+❌ One backend    = proven storage neutrality
+```
+
+Correct form:
+
+```text
+✅ Claim identity survives backend-generated ID replacement
+✅ Event meaning survives a specific SQL command
+✅ Relation has an independent semantic contract
+✅ Current state is derived from authoritative history
+✅ Storage profile is selected explicitly
+✅ Migration includes Receipt and replay
+✅ Neutrality is supported by cross-profile evidence
+```
+
+---
 
 ## 🔒 Invariants
 
-1. PostgreSQL is the preferred current full profile, not permanent Canon.
-2. SQLite is optional and must not be equated with offline operation.
-3. One Kernel instance has one declared authoritative history unless a separate distributed-history protocol is explicitly specified.
-4. Compute routing must not silently change storage authority.
-5. Per-request routing may select compute or retrieval mechanisms, but not alternate authoritative stores without a protocol.
-6. Profile migration must be receipted, verifiable, replayable, and reversible where declared.
-7. PostgreSQL and SQLite profiles must preserve the same declared semantic contracts.
-8. Cache, replica, snapshot, and projection roles must never be confused with authoritative history.
-9. A local model may operate entirely offline with local PostgreSQL.
-10. Future storage substrates remain admissible through conformance, not by resemblance to SQL.
+1. 🏛️ PostgreSQL is the preferred current full profile, but it is not permanent Canon.
+2. 📦 SQLite is optional and is not equivalent to offline mode.
+3. 📜 One Kernel instance has one declared authoritative history unless a distributed-history protocol is separately specified.
+4. 🧠 Compute routing must not silently change storage authority.
+5. 🔀 A Router may choose compute/retrieval, but not alternate authoritative stores without a protocol.
+6. 🔄 Migration requires a Receipt, validation, replay, and a declared rollback path.
+7. ⚖️ PostgreSQL and SQLite profiles must preserve the same declared semantic contracts.
+8. 🗂️ Cache, replica, snapshot, and Projection are not authoritative history.
+9. 📴 A local model may operate fully autonomously with local PostgreSQL.
+10. 🌌 Future substrates enter through conformance, not through resemblance to SQL.
 
-## 🧪 Required evidence before implementation claims
+---
 
-The repository currently contains no public runtime implementing this decision. A future profile claim should require at least:
+## 🧪 Evidence required before implementation claims
 
-- a committed `StorageContract` or equivalent interface;
-- one canonical event-history fixture;
-- expected reduced semantic state;
-- PostgreSQL replay and rebuild tests;
-- SQLite replay and rebuild tests if SQLite is claimed;
-- cross-profile semantic-equivalence tests;
-- migration and rollback tests;
-- duplicate, ordering, interruption, and corruption failure cases;
-- explicit Receipts for migration and rebuild;
-- documented operational limits for each profile.
+Public `main` does not yet contain a runtime implementing this decision. A future profile must provide:
 
-> One passing PostgreSQL implementation would demonstrate a PostgreSQL profile. It would not by itself prove storage neutrality. Neutrality requires at least one materially different conforming profile or equivalent cross-substrate evidence.
+```text
+📐 Contract evidence
+├── committed StorageContract
+├── capability declaration
+└── documented failure semantics
 
-## 🚫 Non-goals
+📜 History evidence
+├── canonical event fixture
+├── expected reduced semantic state
+└── deterministic replay
+
+🐘 PostgreSQL evidence
+├── append / replay / rebuild tests
+├── concurrency and interruption cases
+└── backup / restore validation
+
+📦 SQLite evidence
+├── append / replay / rebuild tests
+├── locking and interruption cases
+└── portable-file validation
+
+⚖️ Cross-profile evidence
+├── semantic-equivalence tests
+├── migration tests
+├── rollback tests
+└── Receipts for migration and recovery
+```
+
+> [!NOTE]
+> One working PostgreSQL implementation proves the PostgreSQL profile. It does **not prove storage neutrality**. Neutrality requires another substantially different conforming profile or equivalent cross-substrate evidence.
+
+---
+
+## 🚫 What this decision does not do
 
 This document does not:
 
 - require PostgreSQL in every implementation;
-- require SQLite support in every product;
+- require SQLite in every product;
 - define a production schema;
-- select a PostgreSQL extension as Canon;
+- turn a PostgreSQL extension into Canon;
 - define distributed consensus or offline multi-writer synchronization;
-- claim that a runtime already exists in `main`;
-- bind Titan, Crystal, Mentaury, or another project to this profile decision.
+- claim that runtime code already exists in `main`;
+- require Titan, Crystal, Mentaury, or another project to follow this selection.
+
+*This is an implementation direction for Native Kernel, not a universal mandate for the entire Velantrim ecosystem.*
+
+---
+
+## 🧾 Final memory aid
+
+```text
+🏛️ Canon defines meaning
+📐 Contract defines required behaviour
+🔌 Adapter binds a contract to technology
+🐘 PostgreSQL serves the full present-day profile
+📦 SQLite serves the compact embedded profile
+🔀 Selector chooses authority at startup
+🔄 Migration changes profile under control
+🧪 Conformance demonstrates preserved meaning
+🌌 Future substrate remains possible
+```
+
+> *Final comment:* *a good future architecture does not have to avoid strong present-day technologies. It has to use them in a way that allows their eventual replacement without losing meaning.*
+
+---
 
 ## 📚 Related documents
 
 - [`FOUNDATIONAL_INTENT.md`](./FOUNDATIONAL_INTENT.md)
+- [`LONG_HORIZON_VISION.md`](./LONG_HORIZON_VISION.md)
 - [`CONFORMANCE_MODEL.md`](./CONFORMANCE_MODEL.md)
 - [`INTEGRATION_BOUNDARIES.md`](./INTEGRATION_BOUNDARIES.md)
 - [`adr/0001-architecture-canon-vs-implementation-profiles.md`](./adr/0001-architecture-canon-vs-implementation-profiles.md)
