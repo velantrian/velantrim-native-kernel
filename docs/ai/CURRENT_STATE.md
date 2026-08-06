@@ -2,7 +2,7 @@
 
 **Verified:** 2026-08-06  
 **Last verified public `main`:** `2a03c871e5f7250c917c060cc112a9ea1497e9c4`  
-**Latest governance checkpoint:** PR #28 — foundational contract skeleton accepted; merge pending at `0a0c62ad12afc52c46aa050a289b4793aae8152d`  
+**Latest governance checkpoint:** PR #28 — foundational contract skeleton accepted; merge pending  
 **Repository status:** `RESEARCH / DOCUMENTED_ONLY / NOT PRODUCTION-READY`  
 **Primary executable gate:** Issue #1 / Stage 0.5 authentic source recovery
 
