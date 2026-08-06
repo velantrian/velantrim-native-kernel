@@ -188,7 +188,7 @@ Merge SHA: fa8b2d9356486d6d78074e8bd6eb3b14ebfd2249
 Scope:     bilingual documentation and Notion visual sync
 ```
 
-Added layered ASCII maps, emoji trees, Mermaid flows, comparison tables, anti-patterns and italic rationale to PostgreSQL/SQLite profile guidance.
+Added layered ASCII maps, emoji trees, Mermaid flows, comparison tables, anti-patterns and italic explanatory notes to PostgreSQL/SQLite profile guidance.
 No runtime implementation claim was added.
 
 ---
