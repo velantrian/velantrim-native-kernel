@@ -5,95 +5,82 @@ Re-verify exact SHAs, PR state and current repository evidence before using an e
 
 ---
 
-## 2026-08-06 — Exact contract and executable fixture proposal for Issues #14–#17
+## 2026-08-06 — Exact contracts and fixture package published
 
 ```text
-Status:          DRAFT PR / PROPOSED / LOCAL VALIDATION PASS / NOTION SYNCED
+Status:          MERGED / ADRs PROPOSED / LOCAL VALIDATION PASS / NOTION MERGE SYNC PENDING
 PR:              #35
 Base main:       c7610bc42fbc879c24e1a3a1408ebfaae1ac7340
-Branch:          agent/contracts-14-17
-Head at PR open: bd8cbdb70ebd0df21dc3ac5ed9f36e3b155f3c73
-Scope:           architecture contracts + fixture-integrity support tooling
+Final PR head:   270596d672f740cc9123d506af3b10f50e691ad6
+Merge SHA:       0552ae284d56148972e9bcc8de5f80a7f462c0f3
+Scope:           architecture proposals + fixture-integrity support tooling
 Runtime:         unchanged; no Native Kernel implementation added
 Decisions:       ADR-0011…0014 PROPOSED; operator approval PENDING
-Notion impact:   GITHUB_AND_NOTION → PROPOSAL SYNCED
 Notion record:   Exact Contracts & Conformance Fixtures — PR #35
 Issue #1 impact: NONE
 ```
 
-The PR turns the remaining ADR-0010 architecture track into a reviewable package:
+Published package:
 
-- `nk-id/1.0-proposed` — NFC UTF-8 compact sorted JSON subset, identity domains, collision/migration rules;
+- `nk-id/1.0-proposed` — canonical identity and migration/collision rules;
 - `nk-event/1.0-proposed` — single-writer append/idempotency/order/replay boundary;
-- `nk-deletion/1.0-proposed` — restriction, logical erase, physical deletion and crypto-erasure lifecycle;
-- `nk-fixtures/1.0-proposed` — assertion registry, schemas, fixtures and external adapter protocol.
+- `nk-deletion/1.0-proposed` — restriction, logical erase, physical deletion and crypto-erasure;
+- `nk-fixtures/1.0-proposed` — registry, schemas, fixtures and external adapter protocol.
 
-Artifacts:
+Artifacts include bilingual contracts, ADR-0011…0014, 72 assertion IDs, schema/evidence bundles, identity/event/idempotency/deletion/epistemic corpora, standard-library runner, eight tests and an active Python 3.11/3.12 workflow definition.
 
-- bilingual `docs/contracts/NORMATIVE_CONTRACTS_V1*`;
-- ADR-0011 through ADR-0014;
-- `contracts/registry.json` with 72 unique assertion IDs;
-- schema bundle plus standalone evidence-report schema;
-- identity/event/idempotency/deletion/epistemic fixture corpora;
-- `tools/conformance/runner.py` and guide;
-- `tests/test_conformance_runner.py`;
-- proposed Python 3.11/3.12 fixture-integrity workflow.
-
-Local authoring validation after manual hardening review:
+### Review and hardening evidence
 
 ```text
-Focused unit tests:          8 PASS
-Unique assertion IDs:        72
-Assertion result coverage:   72 explicit statuses; no silent skip
-Identity golden vectors:     2 matched
-Identity invalid vectors:    4 rejected
-Event chain scenarios:       2 validated
-Idempotency scenarios:       2 validated
-Deletion scenarios:          2 validated
-NK-EPI-001…008:              positive + negative fixture for each
-Reported runtime support:    UNSUPPORTED
-Evidence level:              LOCALLY_TESTED
+Changed files:                 24
+Branch behind base:            0
+Unresolved review threads:     0
+Submitted reviews:             0
+Actionable comments:           0
+Codex automated review:        unavailable due usage limit
+Local tests:                   8 PASS
+Kernel runtime conformance:    UNSUPPORTED
 ```
 
-Manual review found and fixed three actionable gaps before merge:
+Manual review found and fixed:
 
-1. stored `payload_hash` was not compared directly;
-2. idempotency semantics lacked dedicated executable scenarios;
-3. adapter reports did not require complete assertion coverage.
+1. missing direct comparison of stored `payload_hash`;
+2. missing executable idempotency scenarios;
+3. missing complete assertion coverage enforcement for adapter reports.
 
-Hardening now rejects payload-hash tampering, incomplete assertion sets, duplicate assertion results and silent skips.
+The final suite rejects payload tampering, conflicting idempotency-key reuse, missing assertions, duplicate assertion results and silent skip.
 
-Evidence boundary:
+### CI bootstrap
+
+The new workflow was not available in the PR base and no run appeared for the PR #35 merge SHA. This absence is not a PASS.
+
+A follow-up checkpoint branch updates `contracts/README.md`, which matches the workflow's `main` push path filter. Its merge is intended to create the first exact repository run.
 
 ```text
-local fixture PASS
-≠ operator acceptance
-≠ repository-reproduced C2
+current fixture evidence: LOCALLY_TESTED
+repository CI evidence:   PENDING CHECKPOINT PUSH
+Kernel runtime evidence:  ABSENT / UNSUPPORTED
+```
+
+### Governance boundary
+
+```text
+merged proposal
+≠ accepted ADR
+≠ operator approval
 ≠ Kernel runtime
-≠ C3 cross-profile equivalence
-≠ production deletion or security evidence
+≠ C2/C3 Kernel conformance
 ```
 
-No new event verb is accepted. Issue #1 remains separate. Titan, Mentaury and Crystal receive no inherited authority or runtime wiring.
-
-GitHub↔Notion:
-
-- deep Notion record created under Core Architecture;
-- Hub block records Draft PR #35, base main and head at creation;
-- public main remains unchanged;
-- GitHub remains technically sufficient without Notion.
-
-CI nuance:
-
-The new workflow does not exist in the base branch, so no PR run appeared for it. The package may be merged while retaining `PROPOSED` decision status. A subsequent main-push run can establish repository evidence only for fixture-integrity tooling. Merge does not equal operator acceptance.
+No new event verb, storage adapter, ecosystem authority or historical-source claim was introduced.
 
 Remaining gates:
 
-1. final diff/review-thread check;
-2. publish/merge the proposal package with statuses unchanged;
-3. inspect and record exact main-push workflow evidence;
+1. merge the checkpoint;
+2. inspect the exact main-push workflow jobs/artifacts;
+3. synchronize final main/CI evidence to Notion;
 4. obtain a separate explicit operator decision on ADR-0011…0014;
-5. keep runtime adoption and independent-profile C3 as future work.
+5. keep runtime implementation and C3 as future work.
 
 ---
 
@@ -125,27 +112,12 @@ Added mandatory-file, selected-link, checkpoint existence/ancestry and status-bo
 
 ---
 
-## 2026-08-06 — AI context and documentation-continuity governance
+## Earlier 2026-08-06 checkpoints
 
-PR #24 → `d5989742f987b610b5a81bb59a14c0a11518aeea`. Introduced `AGENTS.md`, `docs/ai`, risk/work logs, audit playbook, PR documentation gate and GitHub↔Notion protocol. No runtime claim was added.
-
----
-
-## 2026-08-06 — Ecosystem roles clarified
-
-PR #23 → `18ee09c870f7416932de29a2b2f5de53202fcb2e`. Added role/navigation boundaries for Native Kernel, Mentaury, Titan and Crystal.
-
----
-
-## 2026-08-06 — Storage profile documentation visualized
-
-PR #22 → `fa8b2d9356486d6d78074e8bd6eb3b14ebfd2249`. Added bilingual architecture maps; no runtime implementation.
-
----
-
-## 2026-08-06 — PostgreSQL/SQLite profile direction accepted
-
-PR #21; PostgreSQL preferred full profile and SQLite optional embedded profile. Implementation remains `NOT_STARTED` and storage neutrality unproven.
+- PR #24 → `d5989742f987b610b5a81bb59a14c0a11518aeea`: AI/documentation continuity governance.
+- PR #23 → `18ee09c870f7416932de29a2b2f5de53202fcb2e`: ecosystem role clarification.
+- PR #22 → `fa8b2d9356486d6d78074e8bd6eb3b14ebfd2249`: visual storage-profile documentation.
+- PR #21: PostgreSQL preferred full profile and SQLite optional profile; implementation remains `NOT_STARTED`.
 
 ---
 
