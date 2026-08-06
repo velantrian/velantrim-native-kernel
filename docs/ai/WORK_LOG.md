@@ -4,25 +4,26 @@ This is a concise chronology and hand-off surface. Re-verify exact SHAs and evid
 
 ---
 
-## 2026-08-06 — Clean PostgreSQL reference profile RFC proposed
+## 2026-08-06 — Clean PostgreSQL reference profile RFC published
 
 ```text
-Status:          DRAFT PR / RFC PROPOSED / IMPLEMENTATION NOT_STARTED
+Status:          MERGED / RFC PROPOSED / IMPLEMENTATION NOT_STARTED
 PR:              #41
 Issue:           #40
 Base main:       350734c8ce8d8cbc742def7df9f3d5044a5953ab
-Branch:          agent/postgresql-reference-profile-rfc
-Head at PR open: 0c05f38dfc4f760a05d3deb0d15a7dd281c3065f
+Final PR head:   ab0e80b0833e96ef98ef4feec9e92b4153176083
+Merge SHA:       1e721aeb5b116694a0dbb417c377aa9f92b6f8e5
+Changed files:   12
 Profile ID:      native-kernel/postgresql-reference
 Planning:        nk-pg-profile/0.1-proposed
 Evidence line:   clean/postgresql-reference/0.1
 Operator:        PENDING
 Runtime:         ABSENT / UNSUPPORTED
 Issue #1:        ACTIVE / INDEPENDENT
-Notion impact:   GITHUB_AND_NOTION
+Notion:          deep RFC record + Hub proposal block
 ```
 
-RFC-0002 proposes the first clean contemporary implementation profile after acceptance of ADR-0011–0014. It does not reconstruct or replace the historical `v0.1.2.1` checkpoint.
+RFC-0002 publishes the first clean contemporary implementation-profile plan after acceptance of ADR-0011–0014. It does not reconstruct or replace the historical `v0.1.2.1` checkpoint.
 
 Architecture plan:
 
@@ -37,19 +38,17 @@ semantic core
 → conformance adapter
 ```
 
-The RFC specifies:
+Published scope:
 
-- one authoritative writer;
-- atomic transaction/idempotency outcomes;
+- one authoritative writer and atomic command/idempotency outcomes;
 - PostgreSQL schema as replaceable profile detail;
 - identity independent from surrogate database keys;
-- replay from empty and projection rebuild;
+- replay from empty and projection rebuild protocol;
 - deletion data-location inventory and proof limits;
 - neutral export/import and migration Receipt boundary;
 - P1–P5 implementation phases;
-- test/fault matrix;
-- C0→C5 evidence gates;
-- packaging, license, security and incident open decisions.
+- test/fault matrix and C0→C5 gates;
+- packaging, licensing, security and incident open decisions.
 
 Machine-readable planning manifest:
 
@@ -72,7 +71,18 @@ false runtime support rejected
 historical v0.1.2.1 lineage rejected
 ```
 
-The expanded Python 3.11/3.12 workflow validates both accepted fixture integrity and proposed profile-manifest integrity. An exact repository run is not claimed until GitHub records it.
+Review/evidence record:
+
+```text
+Branch behind base:        0
+Unresolved review threads: 0
+Submitted reviews:         0
+Actionable findings:       0
+Codex review:              unavailable due external usage limit
+Repository Actions run:    NOT RECORDED
+```
+
+The expanded workflow validates accepted fixtures and the proposed profile manifest on Python 3.11/3.12, but no exact run was created for PR #41 or merge `1e721aeb…`.
 
 Governance boundary:
 
@@ -86,12 +96,11 @@ merged RFC proposal
 
 Remaining gates:
 
-1. complete GitHub↔Notion sync and final PR review;
-2. merge PR #41 as `PROPOSED`;
-3. obtain explicit operator acceptance of RFC-0002/profile lineage;
-4. obtain a separate GO before P1 runtime code;
-5. settle language/dependency/license and PostgreSQL version decisions;
-6. execute exact repository workflow evidence.
+1. merge final publication checkpoint and synchronize exact main to Notion;
+2. obtain explicit operator acceptance/revision/rejection of RFC-0002;
+3. obtain a separate GO before P1 runtime code;
+4. settle language/dependency/license/PostgreSQL version decisions;
+5. execute exact repository workflow evidence.
 
 ---
 
@@ -129,15 +138,6 @@ PR #28 → `2d42a1517ba87b39d2395aa5c22b966328615305`. ADR-0010 accepted/approve
 ## 2026-08-06 — AI context freshness guard
 
 PR #26 → `099ae235ff935948348f2101804eb53ac9eeae1a`. Structural context validation passed on Python 3.11/3.12 in its recorded runs. It does not prove semantic freshness or Notion synchronization.
-
----
-
-## Earlier checkpoints
-
-- PR #24 → `d5989742f987b610b5a81bb59a14c0a11518aeea`: AI/documentation continuity governance.
-- PR #23 → `18ee09c870f7416932de29a2b2f5de53202fcb2e`: ecosystem roles.
-- PR #22 → `fa8b2d9356486d78074e8bd6eb3b14ebfd2249`: storage-profile diagrams.
-- PR #21: PostgreSQL preferred full profile / SQLite optional; implementation `NOT_STARTED`.
 
 ---
 
