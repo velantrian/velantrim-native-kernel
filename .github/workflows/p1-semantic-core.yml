@@ -1,0 +1,48 @@
+name: P1 semantic core
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'native_kernel/**'
+      - 'profiles/postgresql-reference-v0/p1-manifest.json'
+      - 'tools/profiles/validate_p1_manifest.py'
+      - 'tests/test_semantic_core.py'
+      - 'tests/test_p1_manifest.py'
+      - 'docs/adr/0015-*.md'
+      - 'docs/rfc/0002-*.md'
+      - '.github/workflows/p1-semantic-core.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'native_kernel/**'
+      - 'profiles/postgresql-reference-v0/p1-manifest.json'
+      - 'tools/profiles/validate_p1_manifest.py'
+      - 'tests/test_semantic_core.py'
+      - 'tests/test_p1_manifest.py'
+      - 'docs/adr/0015-*.md'
+      - 'docs/rfc/0002-*.md'
+      - '.github/workflows/p1-semantic-core.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  p1-integrity:
+    strategy:
+      matrix:
+        python-version: ['3.11', '3.12']
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: python -m unittest discover -s tests -p 'test_semantic_core.py' -v
+      - run: python -m unittest discover -s tests -p 'test_p1_manifest.py' -v
+      - run: python -m compileall -q native_kernel
+      - run: python tools/profiles/validate_p1_manifest.py --output p1-manifest-evidence.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: p1-semantic-core-python-${{ matrix.python-version }}
+          path: p1-manifest-evidence.json
