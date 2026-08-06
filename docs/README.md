@@ -14,6 +14,7 @@ This directory separates project purpose, architecture, conformance, research pr
 | [`../AGENTS.md`](../AGENTS.md) | Mandatory first-read rules for AI agents, auditors and reviewers | active repository guidance |
 | [`ai/README.md`](./ai/README.md) | AI context-pack manifest: current state, component map, risks, audit method, work log and GitHub↔Notion protocol | active continuity layer |
 | [`FOUNDATIONAL_INTENT.md`](./FOUNDATIONAL_INTENT.md) · [Русский](./FOUNDATIONAL_INTENT.ru.md) | Deep explanation of why Native Kernel exists as a separate system, what problem it studies, and what success would mean | architectural intent |
+| [`FOUNDATIONAL_CONTRACT_SKELETON.md`](./FOUNDATIONAL_CONTRACT_SKELETON.md) · [Русский](./FOUNDATIONAL_CONTRACT_SKELETON.ru.md) | Six-family skeleton for semantic roles, identity, events, authority, conflict/unknowns, and semantic equivalence | accepted abstract-contract map; not implemented |
 | [`LONG_HORIZON_VISION.md`](./LONG_HORIZON_VISION.md) | Architecture Canon, contracts, profiles, and future substrates | research vision |
 | [`STORAGE_AND_EXECUTION_PROFILES.md`](./STORAGE_AND_EXECUTION_PROFILES.md) · [Русский](./STORAGE_AND_EXECUTION_PROFILES.ru.md) | PostgreSQL as the primary full contemporary profile, SQLite as an optional embedded profile, offline local-model operation, profile selection, and migration boundaries | accepted implementation-profile direction; not implemented |
 | [`CONFORMANCE_MODEL.md`](./CONFORMANCE_MODEL.md) | How an implementation can demonstrate compatibility | proposed documentation contract |
@@ -34,17 +35,19 @@ This directory separates project purpose, architecture, conformance, research pr
         ↓
 3. FOUNDATIONAL_INTENT
         ↓
-4. LONG_HORIZON_VISION
+4. FOUNDATIONAL_CONTRACT_SKELETON
         ↓
-5. STORAGE_AND_EXECUTION_PROFILES
+5. LONG_HORIZON_VISION
         ↓
-6. ARCHITECTURE.md in repository root
+6. STORAGE_AND_EXECUTION_PROFILES
         ↓
-7. CONFORMANCE_MODEL
+7. ARCHITECTURE.md in repository root
         ↓
-8. DECISION_PROCESS + ADRs
+8. CONFORMANCE_MODEL
         ↓
-9. ROADMAP + optional research notes
+9. DECISION_PROCESS + ADRs
+        ↓
+10. ROADMAP + optional research notes
 ```
 
 ## The central distinction
@@ -78,6 +81,8 @@ The deeper explanation is maintained in:
 
 - [`FOUNDATIONAL_INTENT.md`](./FOUNDATIONAL_INTENT.md)
 - [`FOUNDATIONAL_INTENT.ru.md`](./FOUNDATIONAL_INTENT.ru.md)
+- [`FOUNDATIONAL_CONTRACT_SKELETON.md`](./FOUNDATIONAL_CONTRACT_SKELETON.md)
+- [`FOUNDATIONAL_CONTRACT_SKELETON.ru.md`](./FOUNDATIONAL_CONTRACT_SKELETON.ru.md)
 
 ## Optional experimental research
 

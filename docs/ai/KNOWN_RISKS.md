@@ -1,7 +1,7 @@
 # ⚠️ Native Kernel Known Risks and Required Proof
 
 **Snapshot:** 2026-08-06  
-**Last verified public `main`:** `099ae235ff935948348f2101804eb53ac9eeae1a`
+**Last verified public `main`:** `2a03c871e5f7250c917c060cc112a9ea1497e9c4`
 
 A detailed document, accepted ADR or passing support-tool test does not close a runtime risk.
 Closure requires evidence in the declared scope.
@@ -95,6 +95,40 @@ Risks include treating:
 - shared terminology as proven semantic equivalence.
 
 Required proof before any integration claim: scoped RFC/ADR, mapping contract, tests, threat/privacy review, rollback and explicit approvals.
+
+## P1 — Foundational contract responsibilities can be silently collapsed
+
+**State:** `NARROWED BY ACCEPTED ADR-0010`, not closed
+
+The architecture previously named Claims, Events, provenance, admission, conflicts, unknowns, Receipts and conformance without one accepted ownership map. A profile could therefore collapse:
+
+```text
+semantic content
+= source assertion
+= observation
+= evidence
+= admitted knowledge
+= storage record
+```
+
+ADR-0010 and the bilingual `foundational-skeleton/1.0` contract accept six separate families:
+
+- `NK-SEM` — semantic roles;
+- `NK-ID` — identity and canonical encoding;
+- `NK-EVT` — event, observation and recorded change;
+- `NK-AUT` — authority and admission;
+- `NK-CFL` — conflict and explicit unknowns;
+- `NK-EQV` — conformance and semantic equivalence.
+
+This closes the missing architecture-ownership map only. It does not establish schemas, fixtures, runtime behaviour, deletion guarantees or cross-profile evidence.
+
+Residual proof required:
+
+- exact versioned contracts for identity, events, authority, conflict and equivalence;
+- valid and invalid fixtures;
+- profile mappings and evidence records;
+- no silent skip of unsupported assertions;
+- at least two materially different profiles before C3 claims.
 
 ## P1 — Storage neutrality is unproven
 

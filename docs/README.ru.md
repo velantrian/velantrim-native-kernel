@@ -14,6 +14,7 @@
 | [`../AGENTS.md`](../AGENTS.md) | Обязательные правила первого чтения для ИИ, аудиторов и ревьюеров | действующее руководство репозитория |
 | [`ai/README.md`](./ai/README.md) | AI context pack: текущее состояние, карта документов, риски, метод аудита, журнал и протокол GitHub↔Notion | действующий слой непрерывности |
 | [`FOUNDATIONAL_INTENT.ru.md`](./FOUNDATIONAL_INTENT.ru.md) · [English](./FOUNDATIONAL_INTENT.md) | Глубокое объяснение, зачем Native Kernel существует отдельно, какую проблему исследует и что будет означать успех | архитектурный замысел |
+| [`FOUNDATIONAL_CONTRACT_SKELETON.ru.md`](./FOUNDATIONAL_CONTRACT_SKELETON.ru.md) · [English](./FOUNDATIONAL_CONTRACT_SKELETON.md) | Каркас из шести семейств: семантические роли, идентичность, события, полномочия, конфликт/unknown и семантическая эквивалентность | принятая abstract-contract map; не реализована |
 | [`LONG_HORIZON_VISION.md`](./LONG_HORIZON_VISION.md) | Архитектурный Canon, контракты, профили и будущие технологии | исследовательское видение |
 | [`STORAGE_AND_EXECUTION_PROFILES.ru.md`](./STORAGE_AND_EXECUTION_PROFILES.ru.md) · [English](./STORAGE_AND_EXECUTION_PROFILES.md) | PostgreSQL как основной полный профиль, SQLite как опциональный embedded-профиль, offline-работа, выбор профиля и миграция | принятое направление; не реализовано |
 | [`CONFORMANCE_MODEL.md`](./CONFORMANCE_MODEL.md) | Как проверить соответствие реализации архитектуре | предлагаемый контракт проверки |
@@ -34,17 +35,19 @@
         ↓
 3. FOUNDATIONAL_INTENT
         ↓
-4. LONG_HORIZON_VISION
+4. FOUNDATIONAL_CONTRACT_SKELETON
         ↓
-5. STORAGE_AND_EXECUTION_PROFILES
+5. LONG_HORIZON_VISION
         ↓
-6. ARCHITECTURE.md в корне
+6. STORAGE_AND_EXECUTION_PROFILES
         ↓
-7. CONFORMANCE_MODEL
+7. ARCHITECTURE.md в корне
         ↓
-8. DECISION_PROCESS + ADR
+8. CONFORMANCE_MODEL
         ↓
-9. ROADMAP + необязательные research notes
+9. DECISION_PROCESS + ADR
+        ↓
+10. ROADMAP + необязательные research notes
 ```
 
 ## Главное различие
@@ -87,6 +90,8 @@ Native Kernel нужен, чтобы:
 
 - [`FOUNDATIONAL_INTENT.ru.md`](./FOUNDATIONAL_INTENT.ru.md)
 - [`FOUNDATIONAL_INTENT.md`](./FOUNDATIONAL_INTENT.md)
+- [`FOUNDATIONAL_CONTRACT_SKELETON.ru.md`](./FOUNDATIONAL_CONTRACT_SKELETON.ru.md)
+- [`FOUNDATIONAL_CONTRACT_SKELETON.md`](./FOUNDATIONAL_CONTRACT_SKELETON.md)
 
 ## Необязательный экспериментальный трек
 
