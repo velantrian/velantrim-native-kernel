@@ -5,22 +5,22 @@ Re-verify exact SHAs, PR state and current repository evidence before using an e
 
 ---
 
-## 2026-08-06 — Foundational contract skeleton
+## 2026-08-06 — Foundational contract skeleton accepted
 
 ```text
-Status:          DRAFT PR / PROPOSED / NOTION SYNCED / REVIEW PENDING
+Status:          DRAFT PR / ADR ACCEPTED / MERGE PENDING
 PR:              #28
 Base main:       2a03c871e5f7250c917c060cc112a9ea1497e9c4
 Branch:          agent/foundational-contract-skeleton
-Notion-sync head: ec22f24b82df77cec47fac4d01ba81c3e7f0461b
+Acceptance checkpoint: bde098800edce815649516cf4f8cb37bcb1b5f32
 Scope:           foundational architecture / abstract-contract documentation
 Runtime:         unchanged; no Native Kernel implementation added
-Decision:        ADR-0010 PROPOSED; operator approval PENDING
-Notion impact:   GITHUB_AND_NOTION → SYNCED
+Decision:        ADR-0010 ACCEPTED; operator approval APPROVED
+Notion impact:   GITHUB_AND_NOTION → acceptance sync required before merge
 Notion record:   Foundational Contract Skeleton — PR #28
 ```
 
-Draft PR #28 introduces a bilingual architecture skeleton that separates six foundational responsibilities:
+PR #28 defines and accepts a bilingual architecture skeleton that separates six foundational responsibilities:
 
 - `NK-SEM` — semantic roles;
 - `NK-ID` — identity and canonical encoding;
@@ -29,7 +29,18 @@ Draft PR #28 introduces a bilingual architecture skeleton that separates six fou
 - `NK-CFL` — conflict and explicit unknowns;
 - `NK-EQV` — conformance and semantic equivalence.
 
-The proposal preserves `Claim` as the current durable root record while requiring semantic-role distinctions or explicit profile translations. It also proposes stable assertion namespaces, an Authority Envelope meaning, explicit conflict/unknown preservation, and a future contract registry linking assertions to fixtures, profile mappings and evidence records.
+The accepted contract preserves `Claim` as the current durable root record while requiring semantic-role distinctions or explicit profile translations. It establishes stable assertion namespaces, Authority Envelope meaning, explicit conflict/unknown preservation, and a future contract registry linking assertions to fixtures, profile mappings and evidence records.
+
+Operator decision recorded on 2026-08-06:
+
+```text
+ADR-0010:          ACCEPTED
+Operator approval: APPROVED
+Evidence level:    DOCUMENTED
+Implementation:    NOT_STARTED
+```
+
+Acceptance establishes the architecture and contract ownership map. It does not establish executable schemas, runtime behaviour, C1–C5 conformance, production readiness or proven portability.
 
 Boundaries preserved:
 
@@ -38,7 +49,7 @@ Boundaries preserved:
 - no database, language, model, processor or future substrate became Canon;
 - Issue #1 and the missing `v0.1.2.1` source boundary remain unchanged;
 - Titan, Mentaury and Crystal do not inherit or grant Kernel authority implicitly;
-- the proposal does not establish C1–C5 conformance or proven portability.
+- accepted architecture does not equal implementation evidence.
 
 GitHub documentation added or updated:
 
@@ -49,16 +60,17 @@ GitHub documentation added or updated:
 - ADR index;
 - AI component map and known-risk register.
 
-Notion synchronization added a deep child record under Core Architecture and a concise status block on the Native Kernel Hub. The Hub continues to record public `main` as `2a03c871e5f7250c917c060cc112a9ea1497e9c4`; the draft branch is not described as merged reality.
+Notion synchronization originally added a deep child record under Core Architecture and a concise status block on the Native Kernel Hub while the decision was proposed. Both records must be promoted to `ACCEPTED / APPROVED` and later receive the final merge SHA. The Hub continues to distinguish public `main` from the PR branch until merge.
 
 Remaining gates:
 
-1. operator review of ADR-0010: accept, revise or reject;
-2. exact identity contract under Issue #14;
-3. append/idempotency/ordering/replay contract under Issue #15;
-4. deletion/restriction contract under Issue #16;
-5. executable fixtures and cross-profile runner under Issue #17;
-6. structural CI and review evidence for the final PR head.
+1. synchronize the acceptance state in Notion;
+2. verify final PR head, changed files, review threads and available checks;
+3. merge PR #28 and record final merge SHA;
+4. keep exact identity contract under Issue #14;
+5. keep append/idempotency/ordering/replay contract under Issue #15;
+6. keep deletion/restriction contract under Issue #16;
+7. build executable fixtures and cross-profile runner under Issue #17.
 
 ---
 
