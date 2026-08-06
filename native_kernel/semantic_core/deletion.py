@@ -60,7 +60,25 @@ _ALLOWED: dict[DeletionState, frozenset[DeletionState]] = {
 }
 
 
+def _nonempty(name: str, value: object) -> str:
+    if not isinstance(value, str) or not value:
+        raise ContractViolation(f"{name} must be a non-empty string")
+    return value
+
+
+def _string_tuple(name: str, values: object, *, allow_empty: bool) -> tuple[str, ...]:
+    if not isinstance(values, tuple):
+        raise ContractViolation(f"{name} must be a tuple")
+    if not allow_empty and not values:
+        raise ContractViolation(f"{name} must not be empty")
+    if any(not isinstance(value, str) or not value for value in values):
+        raise ContractViolation(f"{name} must contain non-empty strings")
+    return values
+
+
 def transition(current: DeletionState, target: DeletionState) -> DeletionState:
+    if not isinstance(current, DeletionState) or not isinstance(target, DeletionState):
+        raise ContractViolation("deletion transitions require DeletionState values")
     if target not in _ALLOWED[current]:
         raise InvalidTransition(f"forbidden deletion transition {current.value}->{target.value}")
     return target
@@ -69,6 +87,8 @@ def transition(current: DeletionState, target: DeletionState) -> DeletionState:
 def run_transitions(
     initial: DeletionState, targets: Iterable[DeletionState]
 ) -> DeletionState:
+    if not isinstance(initial, DeletionState):
+        raise ContractViolation("initial must be a DeletionState")
     state = initial
     for target in targets:
         state = transition(state, target)
@@ -87,6 +107,20 @@ class DeletionReceipt:
     claims_complete_global_erasure: bool = False
 
     def __post_init__(self) -> None:
+        _nonempty("request_id", self.request_id)
+        _nonempty("authority_ref", self.authority_ref)
+        _nonempty("policy_ref", self.policy_ref)
+        if not isinstance(self.final_state, DeletionState):
+            raise ContractViolation("final_state must be a DeletionState")
+        if not isinstance(self.claims_complete_global_erasure, bool):
+            raise ContractViolation("claims_complete_global_erasure must be boolean")
+        verified = _string_tuple("verified_locations", self.verified_locations, allow_empty=True)
+        pending = _string_tuple(
+            "unverified_or_pending_locations",
+            self.unverified_or_pending_locations,
+            allow_empty=True,
+        )
+        _string_tuple("known_limits", self.known_limits, allow_empty=False)
         if self.claims_complete_global_erasure:
             raise ReceiptOverclaim(
                 "a P1 deletion Receipt cannot claim complete global erasure"
@@ -99,19 +133,13 @@ class DeletionReceipt:
             DeletionState.FAILED_RETRYABLE,
         }:
             raise ContractViolation("deletion Receipt final_state is not reportable")
-        if len(set(self.verified_locations)) != len(self.verified_locations):
+        if len(set(verified)) != len(verified):
             raise ContractViolation("verified_locations contains duplicates")
-        if len(set(self.unverified_or_pending_locations)) != len(
-            self.unverified_or_pending_locations
-        ):
+        if len(set(pending)) != len(pending):
             raise ContractViolation("unverified_or_pending_locations contains duplicates")
-        overlap = set(self.verified_locations).intersection(
-            self.unverified_or_pending_locations
-        )
+        overlap = set(verified).intersection(pending)
         if overlap:
             raise ContractViolation(f"locations cannot be both verified and pending: {sorted(overlap)}")
-        if self.unverified_or_pending_locations and not self.known_limits:
-            raise ReceiptOverclaim("pending locations require explicit known_limits")
 
     def as_contract_object(self) -> dict[str, object]:
         return {
