@@ -4,104 +4,91 @@ This is a concise chronology and hand-off surface. Re-verify exact SHAs and evid
 
 ---
 
-## 2026-08-06 — Issues #14–#17 architecture/fixture track published
+## 2026-08-06 — ADR-0011 through ADR-0014 accepted by operator
 
 ```text
-Status:          MERGED / ADRs PROPOSED / LOCAL VALIDATION PASS / NOTION FINAL SYNC PENDING
-Package PR:      #35
-Package head:    270596d672f740cc9123d506af3b10f50e691ad6
-Package merge:   0552ae284d56148972e9bcc8de5f80a7f462c0f3
-Checkpoint PR:   #36
-Checkpoint head: b116abe8bc4a9dc1848c03b6f84d2b6633584532
-Checkpoint merge:3243336dc7ff7ef88583c6f2c419c375c26947cf
-Scope:           architecture proposals + fixture-integrity support tooling
+Status:          ACCEPTANCE BRANCH / ADRs ACCEPTED / APPROVAL APPROVED
+Base main:       b0308452473f7577b738e95bbd5e0f9295f0ecce
+Branch:          agent/accept-contracts-11-14
+Scope:           architectural acceptance + registry/docs/workflow synchronization
 Runtime:         unchanged; no Native Kernel implementation
-Decisions:       ADR-0011…0014 PROPOSED / approval PENDING
+Evidence:        existing local fixture evidence remains LOCALLY_TESTED
 Issue #1 impact: NONE
+Notion impact:   GITHUB_AND_NOTION
 ```
 
-Published:
+Operator authorization was recorded after the acceptance gate for ADR-0011–0014 was explicitly presented. The decisions are promoted independently from implementation and empirical evidence.
 
-- canonical identity/collision/migration proposal;
-- single-writer idempotency/append/order/replay proposal;
-- deletion/restriction/retention/crypto-erasure proposal;
-- executable fixture protocol proposal;
-- 72-assertion registry, schemas and fixture corpora;
-- standard-library runner, external adapter validation and eight tests;
-- active Python 3.11/3.12 workflow definition.
-
-### Hardening review
-
-Manual review found and corrected:
-
-1. stored `payload_hash` was not compared directly;
-2. idempotency lacked dedicated executable scenarios;
-3. adapter reports could omit registered assertions.
-
-Final local evidence:
+Accepted contracts:
 
 ```text
-Focused tests:                 8 PASS
-Assertion IDs:                 72 unique
-Assertion report coverage:     72 explicit statuses
-Identity:                      2 golden / 4 invalid
-Event chain:                   2 scenarios
-Idempotency:                   2 scenarios
-Deletion lifecycle:            2 scenarios
-Epistemic fixtures:            positive + negative for NK-EPI-001…008
-Kernel runtime conformance:    UNSUPPORTED
+ADR-0011 → nk-id/1.0
+ADR-0012 → nk-event/1.0
+ADR-0013 → nk-deletion/1.0
+ADR-0014 → nk-fixtures/1.0
 ```
 
-The runner rejects payload tampering, conflicting idempotency reuse, incomplete assertion coverage, duplicate assertion results and silent skip.
+Machine-readable changes:
 
-### Review/merge evidence
+- registry version `nk-contract-registry/1.1.0`;
+- exact assertions under `NK-ID`, `NK-EVT`, deletion-related `NK-AUT`, and `NK-EQV` promoted to `ACCEPTED`;
+- `NK-EPI-001…008` retained as `PROPOSED`;
+- runtime status retained as `NOT_IMPLEMENTED`.
+
+Documentation changes:
+
+- ADR status and operator approval synchronized;
+- English/Russian normative contracts promoted from proposed to accepted;
+- ADR index, conformance model, status, component map, risks and current state updated;
+- contracts README explains accepted-architecture versus runtime/evidence boundaries.
+
+Workflow change:
+
+- `workflow_dispatch` added to `Conformance fixture integrity`;
+- existing PR/push path triggers retained and expanded to exact contract/ADR surfaces;
+- Python 3.11/3.12 jobs unchanged.
+
+Evidence boundary:
 
 ```text
-PR #35 changed files:          24
-Behind base:                   0
-Unresolved review threads:     0
-Submitted reviews:             0
-Actionable comments:           0
-Codex review:                  unavailable due external usage limit
-Merge method:                  squash
+accepted contracts
+≠ repository workflow PASS
+≠ implemented Kernel runtime
+≠ C2
+≠ C3
 ```
 
-### GitHub Actions investigation
-
-The workflow `Conformance fixture integrity` is active as workflow ID `328870784`, with Python 3.11/3.12 jobs and matching PR/push paths.
-
-No workflow run or GitHub Actions check suite was created for the package PR, its merge, checkpoint PR or checkpoint merge. The checkpoint intentionally changed `contracts/README.md` to satisfy the main-push path filter.
-
-Repository Actions settings could not be inspected because the connected integration received `403 Resource not accessible by integration`. External application check suites appeared on the merge commit, but no GitHub Actions suite existed.
-
-Recorded status:
+Existing package evidence retained from PR #35 hardening:
 
 ```text
-workflow definition:            ACTIVE
-local tests:                    PASS
-repository workflow execution:  NOT_TRIGGERED / NOT_RECORDED
-repository evidence level:      NOT ESTABLISHED
-```
-
-The connector cannot dispatch a workflow. A user-originated push or manual GitHub workflow dispatch is required for exact repository CI evidence.
-
-### Governance boundary
-
-```text
-merged proposal
-≠ accepted ADR
-≠ operator approval
-≠ Kernel runtime
-≠ C2/C3 Kernel conformance
+8 focused tests PASS
+72 unique assertion IDs
+72 explicit assertion statuses
+identity: 2 golden / 4 invalid
+2 event-chain scenarios
+2 idempotency scenarios
+2 deletion scenarios
+NK-EPI positive + negative coverage
+Kernel runtime conformance: UNSUPPORTED
 ```
 
 Remaining gates:
 
-1. operator decision on ADR-0011…0014;
-2. user-originated Actions execution;
-3. real implementation profile(s);
-4. independent cross-profile evidence before C3;
-5. independent Issue #1 authentic-source gate.
+1. open/review/merge acceptance PR;
+2. synchronize final PR/head/merge SHA to Notion;
+3. manually dispatch or otherwise execute the workflow from GitHub and capture exact evidence;
+4. define and implement the first clean Kernel profile under a separate evidence lineage;
+5. require two materially independent profiles before C3.
+
+---
+
+## 2026-08-06 — Issues #14–#17 architecture/fixture package published
+
+PR #35 → `0552ae284d56148972e9bcc8de5f80a7f462c0f3`; checkpoint PR #36 → `3243336dc7ff7ef88583c6f2c419c375c26947cf`; final record PR #37 → `b0308452473f7577b738e95bbd5e0f9295f0ecce`.
+
+The package published four proposed exact contracts, 72 assertion IDs, schemas, fixtures, a standard-library runner, external adapter protocol, eight tests and an active workflow definition. Manual hardening corrected payload-hash verification, executable idempotency scenarios and complete assertion-result enforcement.
+
+At publication time ADR-0011–0014 remained proposed. GitHub Actions execution was not recorded, and Kernel runtime remained unsupported.
 
 ---
 
@@ -128,4 +115,4 @@ PR #26 → `099ae235ff935948348f2101804eb53ac9eeae1a`. Structural context valida
 
 ## Continuing rule
 
-For significant work, record exact PR/SHA, scope, evidence, limitations, Notion status and next action. Never infer acceptance, runtime support or CI PASS from document presence.
+For significant work, record exact PR/SHA, scope, evidence, limitations, Notion status and next action. Never infer runtime support or CI PASS from accepted architecture or document presence.
