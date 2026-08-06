@@ -96,7 +96,7 @@ Remaining gates:
 
 ## 2026-08-06 — Issues #14–#17 architecture/fixture package published
 
-PR #35 → `0552ae284d56148972e9bcc8de5f80a7f462c0f3`; checkpoint PR #36 → `3243336dc7ff7ef88583c6f84d2b6633584532`; final record PR #37 → `b0308452473f7577b738e95bbd5e0f9295f0ecce`.
+PR #35 → `0552ae284d56148972e9bcc8de5f80a7f462c0f3`; checkpoint PR #36 → `3243336dc7ff7ef88583c6f2c419c375c26947cf`; final record PR #37 → `b0308452473f7577b738e95bbd5e0f9295f0ecce`.
 
 The package published four proposed exact contracts, 72 assertion IDs, schemas, fixtures, a standard-library runner, external adapter protocol, eight tests and an active workflow definition. Manual hardening corrected payload-hash verification, executable idempotency scenarios and complete assertion-result enforcement.
 
