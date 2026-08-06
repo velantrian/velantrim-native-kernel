@@ -1,10 +1,12 @@
 # 🧬 Контракт идентичности и канонического кодирования v1
 
-- **Контракт:** `nk-id/1.0-proposed`
-- **Решение:** `PROPOSED`
+- **Контракт:** `nk-id/1.0`
+- **Решение:** `ACCEPTED`
+- **Одобрение оператора:** `APPROVED`
 - **Evidence:** `LOCALLY_TESTED` только для reference canonicalizer и vectors
 - **Runtime:** `NOT_IMPLEMENTED`
 - **Issue:** #14
+- **ADR:** ADR-0011
 
 ## Назначение
 
@@ -28,6 +30,14 @@ Identity-bearing objects используют UTF-8 JSON:
 8. timestamp в identity имеет форму `YYYY-MM-DDTHH:MM:SSZ`;
 9. новые identity-bearing fields требуют новой версии контракта.
 
+Reference encoding:
+
+```text
+json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+```
+
+Эта строка пояснительная; нормативное поведение задают правила и golden/invalid vectors.
+
 ## Домены и идентификаторы
 
 | Идентичность | Domain prefix | Внешний вид |
@@ -48,15 +58,19 @@ Identity-bearing objects используют UTF-8 JSON:
 
 ## Граница доказательства
 
-Python canonicalizer и fixtures показывают детерминированность только для заявленных vectors. Они не доказывают cross-language equivalence, storage portability или использование контракта историческим `v0.1.2.1`. Для C3 нужны две существенно независимые реализации.
+Python canonicalizer и fixtures показывают детерминированность только для заявленных vectors. Они не доказывают cross-language equivalence, storage portability, runtime adoption или использование контракта историческим `v0.1.2.1`. Для C3 нужны две существенно независимые реализации.
+
+---
 
 # 📜 Контракт atomic append, ordering и replay v1
 
-- **Контракт:** `nk-event/1.0-proposed`
-- **Решение:** `PROPOSED`
+- **Контракт:** `nk-event/1.0`
+- **Решение:** `ACCEPTED`
+- **Одобрение оператора:** `APPROVED`
 - **Evidence:** `LOCALLY_TESTED` только для fixture integrity
 - **Runtime:** `NOT_IMPLEMENTED`
 - **Issue:** #15
+- **ADR:** ADR-0012
 
 ## Writer model
 
@@ -86,11 +100,13 @@ command intent
 
 ## Event envelope
 
-Envelope связывает command identity, idempotency key, stream, sequence, actor, authority, recorded time, event type, schema version, payload commitment и previous global hash. Словарь остаётся:
+Envelope связывает command identity, idempotency key, stream, sequence, actor, authority, recorded time, event type, schema version, payload commitment и previous global hash. Принятый словарь остаётся:
 
 ```text
 ADMIT · LINK · UTILIZED · SUPERSEDED · ERASED
 ```
+
+Этот контракт не принимает дополнительные verbs.
 
 ## Atomicity и projections
 
@@ -104,13 +120,21 @@ SHA-256 chain помогает обнаружить изменение, truncati
 
 Replay начинается с пустого derived state, читает `global_seq`, использует заявленные schema upcasters и reducer version и создаёт evidence record. Unsupported version завершается явной ошибкой.
 
+## Граница доказательства
+
+Fixture reader проверяет commitments, ordering, idempotency scenarios и replay boundaries. Он не является durable event store, reducer, crash-recovery mechanism или Kernel runtime.
+
+---
+
 # 🔒 Контракт deletion, restriction и retention v1
 
-- **Контракт:** `nk-deletion/1.0-proposed`
-- **Решение:** `PROPOSED`
+- **Контракт:** `nk-deletion/1.0`
+- **Решение:** `ACCEPTED`
+- **Одобрение оператора:** `APPROVED`
 - **Evidence:** `LOCALLY_TESTED` только для state-machine fixtures
 - **Runtime:** `NOT_IMPLEMENTED`
 - **Issue:** #16
+- **ADR:** ADR-0013
 
 ## Главное различие
 
@@ -152,19 +176,40 @@ Retention hold блокирует destructive completion, но не расшир
 
 Deletion Receipt перечисляет verified, pending и unknown locations, policy, authority, attempts, provider acknowledgements и limits. Он не заявляет complete global erasure.
 
+## Граница доказательства
+
+Принятый контракт задаёт смысл, lifecycle и пределы доказательства. Он не устанавливает legal compliance, physical media deletion, поведение providers, завершение backups или реализованный key-management/runtime mechanism.
+
+---
+
 # 🧪 Протокол executable conformance fixtures v1
 
-- **Контракт:** `nk-fixtures/1.0-proposed`
-- **Решение:** `PROPOSED`
+- **Контракт:** `nk-fixtures/1.0`
+- **Решение:** `ACCEPTED`
+- **Одобрение оператора:** `APPROVED`
 - **Tooling:** `IMPLEMENTED / LOCALLY_TESTED`
 - **Kernel runtime conformance:** `UNSUPPORTED`
 - **Issue:** #17
+- **ADR:** ADR-0014
 
 ## Артефакты
 
-`contracts/registry.json` хранит stable assertion IDs и status. `contracts/schemas/` содержит neutral JSON schemas. `contracts/fixtures/` содержит identity, event, deletion и epistemic corpora.
+```text
+contracts/
+├── registry.json
+├── schema-bundle.json
+├── evidence-report-v1.schema.json
+├── fixture-pack.json
+└── idempotency-scenarios.json
 
-Fixture указывает version, expected result и equivalence class. Unsupported assertion нельзя silently skip.
+tools/conformance/
+├── runner.py
+└── README.md
+
+tests/test_conformance_runner.py
+```
+
+Каждый assertion имеет stable ID и status. Fixture указывает family, version, expected result и equivalence class. Unsupported assertion нельзя silently skip.
 
 ## Equivalence
 
@@ -177,12 +222,29 @@ Fixture указывает version, expected result и equivalence class. Unsupp
 
 ```bash
 python tools/conformance/runner.py validate
+python -m unittest discover -s tests -p 'test_conformance_runner.py'
 ```
 
-Проверяются registry uniqueness, identity vectors, event chain, deletion transitions и positive/negative coverage `NK-EPI-001..008`.
+Встроенный reader проверяет registry uniqueness, identity vectors, event commitments/chains, idempotency scenarios, deletion transitions и positive/negative coverage `NK-EPI-001..008`.
 
-External adapter запускается через `adapter --output ... -- <command>` и получает путь к manifest. Ошибка процесса, malformed JSON, missing support state или silent skip считаются failure.
+External adapter запускается через:
+
+```bash
+python tools/conformance/runner.py adapter --output report.json -- <adapter-command>
+```
+
+Runner добавляет путь к fixture pack. Ошибка процесса, malformed JSON, missing/duplicate assertion status или silent skip считаются failure.
 
 ## Граница evidence
 
-Встроенный Python profile — reader fixture integrity, а не Kernel implementation. PASS не доказывает runtime. Для C2 нужен committed CI result, для C3 — две существенно независимые implementation profiles.
+Встроенный Python profile — reader fixture integrity, а не Kernel implementation. PASS подтверждает только fixture protocol в зафиксированном environment. Repository reproduction требует точного committed workflow result. Для C3 нужны две существенно независимые implementation profiles.
+
+## Governance boundary
+
+Принятие делает эти четыре контракта текущей нормативной архитектурой для будущих profiles. Оно не:
+
+- реализует Native Kernel runtime;
+- устанавливает C2 или C3;
+- принимает `NK-EPI` как architecture family сверх его текущего proposed status;
+- изменяет Issue #1 или реконструирует `v0.1.2.1`;
+- разрешает runtime-интеграцию Titan, Mentaury или Crystal.
