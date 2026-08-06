@@ -20,7 +20,7 @@ Use exact SHAs, statuses and evidence. Document presence is not runtime wiring.
 |---|---|---|
 | Why does Kernel exist? | `docs/FOUNDATIONAL_INTENT*` | `docs/LONG_HORIZON_VISION.md` |
 | What meaning must survive? | `ARCHITECTURE.md` | ADR-0001, conformance model |
-| How are the foundational responsibilities separated? | `docs/FOUNDATIONAL_CONTRACT_SKELETON*` | ADR-0010 proposal, Issues #14–#17 |
+| How are the foundational responsibilities separated? | `docs/FOUNDATIONAL_CONTRACT_SKELETON*` | accepted ADR-0010, Issues #14–#17 |
 | What is not Canon? | `ARCHITECTURE.md`, Copilot instructions | profile docs, Anti-Canon statements |
 | How are decisions accepted? | `docs/DECISION_PROCESS.md` | ADR-0007, ADR template/index |
 | How is compatibility demonstrated? | `docs/CONFORMANCE_MODEL.md` | ADR-0004, benchmarks |
@@ -35,7 +35,7 @@ Start with:
 - Issues #14, #15, #16 and #17;
 - `docs/WORLD_AND_EPISTEMIC_BOUNDARIES.md` and ADR-0008.
 
-Proposed family map:
+Accepted family map:
 
 ```text
 NK-SEM — semantic roles
@@ -49,11 +49,11 @@ NK-EQV — conformance and semantic equivalence
 Authority boundary:
 
 ```text
-proposed assertion namespace
-≠ accepted Canon
+accepted assertion namespace
 ≠ executable schema
 ≠ implemented runtime
 ≠ conformance evidence
+≠ proven portability
 ```
 
 ## Source recovery and executable evidence
