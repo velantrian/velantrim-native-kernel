@@ -2,6 +2,20 @@
 
 This directory is a machine-readable review surface for the architecture track. It is not a Kernel runtime.
 
+## Publication status
+
+The package was published to `main` through PR #35 at merge SHA `0552ae284d56148972e9bcc8de5f80a7f462c0f3`.
+
+```text
+published in main
+≠ ADR-0011…0014 accepted
+≠ operator approval
+≠ Kernel runtime implemented
+≠ C2/C3 Kernel conformance
+```
+
+ADR-0011 through ADR-0014 remain `PROPOSED / OPERATOR_APPROVAL_PENDING`. This checkpoint update intentionally touches `contracts/**` so the now-active fixture-integrity workflow can run on a subsequent `main` push.
+
 ## Status semantics
 
 `registry.json` contains two layers:
@@ -16,8 +30,6 @@ family decision_status: ACCEPTED
 + assertion status: PROPOSED
 = accepted ownership namespace with a proposed exact rule
 ```
-
-ADR-0011 through ADR-0014 remain `PROPOSED / OPERATOR_APPROVAL_PENDING` until an explicit operator decision is recorded.
 
 ## Files
 
@@ -34,7 +46,7 @@ python tools/conformance/runner.py validate
 python -m unittest discover -s tests -p 'test_conformance_runner.py'
 ```
 
-Current local authoring result:
+Local authoring result recorded for PR #35:
 
 ```text
 8 unit tests PASS

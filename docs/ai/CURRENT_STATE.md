@@ -1,10 +1,10 @@
 # 📍 Native Kernel Current State Checkpoint
 
 **Verified:** 2026-08-06  
-**Last verified public `main`:** `c7610bc42fbc879c24e1a3a1408ebfaae1ac7340`  
-**Latest merged governance checkpoint:** PR #29 — ADR-0010 merge record finalized  
-**Active proposal:** Draft PR #35 / `agent/contracts-14-17` — exact contracts and executable fixture integrity for Issues #14–#17  
-**Notion proposal record:** `Exact Contracts & Conformance Fixtures — PR #35` synchronized  
+**Last verified public `main`:** `0552ae284d56148972e9bcc8de5f80a7f462c0f3`  
+**Latest merged architecture/fixture package:** PR #35 — ADR-0011…0014 published as proposals  
+**Active checkpoint:** `agent/contracts-14-17-checkpoint` — merge/CI/Notion continuity  
+**Notion record:** `Exact Contracts & Conformance Fixtures — PR #35`  
 **Repository status:** `RESEARCH / DOCUMENTED_ONLY / NOT PRODUCTION-READY`  
 **Primary executable Kernel gate:** Issue #1 / Stage 0.5 authentic source recovery
 
@@ -13,82 +13,86 @@
 ```text
 DOCUMENTED ≠ IMPLEMENTED
 PROPOSED ≠ ACCEPTED
-ACCEPTED ≠ IMPLEMENTED
-IMPLEMENTED ≠ TESTED
+MERGED ≠ ACCEPTED
 FIXTURE TOOLING PASS ≠ KERNEL RUNTIME PASS
 LOCALLY_TESTED ≠ REPOSITORY_REPRODUCED
 C2 ≠ C3
 Operator approval ≠ empirical evidence
 NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GLOBALLY_LOST
-Cross-project link ≠ runtime integration
 ```
 
 ## Current public reality
 
-Public `main` contains Architecture Canon, the accepted ADR-0010 six-family skeleton, governance/source-recovery/AI-continuity records and isolated support tooling. It still contains no public Native Kernel runtime and no authentic `v0.1.2.1` source or original 44-test suite.
+Public `main` now contains:
 
-## Accepted foundational contract skeleton
+- Architecture Canon and the accepted ADR-0010 family skeleton;
+- ADR-0011 through ADR-0014 as **proposals**;
+- bilingual exact-contract drafts for identity, append/replay, deletion and conformance fixtures;
+- machine-readable registry, schemas and fixture corpora;
+- standard-library fixture-integrity support tooling;
+- eight focused tests and an active GitHub Actions workflow definition;
+- no public Native Kernel runtime;
+- no authentic `v0.1.2.1` source snapshot or original 44-test suite.
 
-**Decision:** ADR-0010 `ACCEPTED`  
-**Evidence:** `DOCUMENTED`  
-**Implementation:** `NOT_STARTED`  
-**Operator approval:** `APPROVED`  
-**Contract version:** `foundational-skeleton/1.0`  
-**Merge evidence:** PR #28 → `2d42a1517ba87b39d2395aa5c22b966328615305`
+## PR #35 publication record
 
 ```text
-NK-SEM — semantic roles
-NK-ID  — identity and canonical encoding
-NK-EVT — event, observation and recorded change
-NK-AUT — authority and admission
-NK-CFL — conflict and explicit unknowns
-NK-EQV — conformance and semantic equivalence
+PR:                           #35
+Final head:                   270596d672f740cc9123d506af3b10f50e691ad6
+Squash merge:                 0552ae284d56148972e9bcc8de5f80a7f462c0f3
+Changed files:                24
+Behind base before merge:     0
+Unresolved review threads:    0
+Submitted reviews:            0
+Actionable comments:          0
+Codex automated review:       UNAVAILABLE — service usage limit
 ```
 
-## Draft PR #35 — Issues #14–#17 proposal
-
-PR #35 adds:
-
-- ADR-0011 — canonical identity contract v1;
-- ADR-0012 — single-writer append and deterministic replay v1;
-- ADR-0013 — deletion, restriction and retention v1;
-- ADR-0014 — executable conformance fixture protocol v1;
-- bilingual normative contract documents;
-- machine-readable assertion registry, schemas and fixture corpora;
-- a Python standard-library fixture-integrity runner;
-- eight focused unit tests;
-- a Python 3.11/3.12 workflow proposal.
-
-### Exact status
+### Decision and implementation status
 
 ```text
 ADR-0011…0014:               PROPOSED
 Operator approval:           PENDING
-Reference fixture tooling:   IMPLEMENTED IN PR BRANCH
+Fixture-integrity tooling:   IMPLEMENTED IN MAIN
 Local tests:                 8 PASS
 Local fixture validation:    PASS
 Kernel runtime:              NOT IMPLEMENTED
 Kernel runtime conformance:  UNSUPPORTED
-C2 repository reproduction:  NOT YET ESTABLISHED
 C3 cross-profile evidence:   NOT ESTABLISHED
-Notion proposal sync:        COMPLETE
 Issue #1 impact:             NONE
 ```
 
-Local authoring validation:
+Merging PR #35 published durable proposals and tooling. It did not accept the ADRs.
+
+## Fixture evidence currently available
+
+Local PR-authoring evidence:
 
 - 72 unique assertion IDs;
-- 72 explicit `UNSUPPORTED` assertion results from the non-runtime fixture reader;
+- 72 explicit `UNSUPPORTED` results from the non-runtime reader;
 - two identity golden vectors matched;
 - four invalid identity vectors rejected;
 - two event-chain scenarios validated;
 - two idempotency scenarios validated;
-- direct payload-hash tampering is rejected;
-- incomplete or duplicated adapter assertion results are rejected;
+- payload-hash tampering rejected;
+- incomplete and duplicate adapter assertion results rejected;
 - two deletion state-machine scenarios validated;
 - positive and negative fixtures for each `NK-EPI-001…008`.
 
-The new workflow itself is not present in the base branch. Therefore absence of a PR workflow run is not a PASS. After a proposal merge, a main-push run may establish repository evidence only for fixture tooling, never for Kernel runtime.
+## CI bootstrap status
+
+The conformance workflow is active in GitHub after PR #35. No workflow run was created for the initial PR #35 merge SHA.
+
+This checkpoint intentionally updates `contracts/README.md`, which is within the workflow's `push` path filter. Its merge should create the first exact `main` run.
+
+Until that run exists and passes:
+
+```text
+fixture tooling evidence level: LOCALLY_TESTED
+repository-reproduced workflow: NOT YET RECORDED
+```
+
+Even a passing workflow will prove only fixture-integrity tooling at the exact SHA. It will not prove Kernel runtime, C2 for a Kernel implementation, C3, privacy, deletion or portability.
 
 ## Issue #1 separation
 
@@ -103,41 +107,29 @@ Issue #1 remains blocked by operator-controlled authentic source recovery.
 
 ## Runtime and evidence boundary
 
-May claim on PR #35:
+May claim:
 
-- proposed exact contracts;
+- proposed exact contracts published in `main`;
 - committed registry, schemas and fixtures;
-- fixture-integrity support tooling and focused local tests;
-- complete assertion-status reporting without silent skip;
-- explicit `UNSUPPORTED` Kernel runtime conformance;
-- Notion proposal synchronization.
+- implemented fixture-integrity support tooling;
+- eight locally passing tests;
+- explicit full assertion-status reporting;
+- active workflow definition;
+- explicit `UNSUPPORTED` Kernel runtime conformance.
 
 Must not claim:
 
 - accepted ADR-0011–0014 before operator approval;
-- repository-reproduced CI before an exact run exists;
+- a passing CI run before exact evidence exists;
 - runnable public Kernel or implemented append/replay/deletion;
 - C2/C3 Kernel conformance;
 - production privacy, security, erasure or portability;
 - historical recovery or ecosystem runtime integration.
 
-## Publication and acceptance sequence
+## Remaining gates
 
-```text
-merge PROPOSED contracts/tooling
-→ run exact main-push fixture CI
-→ record repository evidence for tooling
-→ operator separately ACCEPTS / REVISES / REJECTS ADR-0011…0014
-→ future runtime profiles map accepted assertions
-→ two independent profiles required before C3
-```
-
-Merging a `PROPOSED` ADR publishes it for durable review; it does not accept it.
-
-## Immediate gates
-
-1. Review final PR #35 diff and unresolved threads.
-2. Merge the proposal package only if status language and Notion are aligned.
-3. Inspect exact main-push CI and record its limits.
-4. Request a separate explicit operator decision for ADR-0011…0014.
-5. Keep runtime adoption and cross-profile evidence separate.
+1. Merge this checkpoint and inspect the exact conformance workflow run.
+2. Record run/job/artifact evidence and its limits.
+3. Synchronize final `main` SHA and CI status to Notion.
+4. Obtain a separate explicit operator decision: `ACCEPT`, `REVISE` or `REJECT` ADR-0011…0014.
+5. Keep future runtime profiles and C3 evidence separate.
