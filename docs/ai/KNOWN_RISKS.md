@@ -1,7 +1,7 @@
 # ⚠️ Native Kernel Known Risks and Required Proof
 
 **Snapshot:** 2026-08-06  
-**Last verified public `main`:** `099ae235ff935948348f2101804eb53ac9eeae1a`
+**Last verified public `main`:** `2a03c871e5f7250c917c060cc112a9ea1497e9c4`
 
 A detailed document, accepted ADR or passing support-tool test does not close a runtime risk.
 Closure requires evidence in the declared scope.
@@ -98,9 +98,9 @@ Required proof before any integration claim: scoped RFC/ADR, mapping contract, t
 
 ## P1 — Foundational contract responsibilities can be silently collapsed
 
-**State:** `OPEN`; `NARROWED IN DRAFT PR #28`, not closed
+**State:** `NARROWED BY ACCEPTED ADR-0010`, not closed
 
-The architecture names Claims, Events, provenance, admission, conflicts, unknowns, Receipts and conformance, but a profile could still collapse:
+The architecture previously named Claims, Events, provenance, admission, conflicts, unknowns, Receipts and conformance without one accepted ownership map. A profile could therefore collapse:
 
 ```text
 semantic content
@@ -111,7 +111,7 @@ semantic content
 = storage record
 ```
 
-Draft PR #28 proposes a bilingual six-family skeleton and ADR-0010:
+ADR-0010 and the bilingual `foundational-skeleton/1.0` contract now accept six separate families:
 
 - `NK-SEM` — semantic roles;
 - `NK-ID` — identity and canonical encoding;
@@ -120,11 +120,10 @@ Draft PR #28 proposes a bilingual six-family skeleton and ADR-0010:
 - `NK-CFL` — conflict and explicit unknowns;
 - `NK-EQV` — conformance and semantic equivalence.
 
-The proposal improves naming, ownership and traceability only. It does not establish accepted Canon, schemas, fixtures, runtime behaviour or cross-profile evidence.
+This closes the missing architecture-ownership map only. It does not establish schemas, fixtures, runtime behaviour, deletion guarantees or cross-profile evidence.
 
-Required proof for closure or further narrowing:
+Residual proof required:
 
-- explicit operator decision on ADR-0010;
 - exact versioned contracts for identity, events, authority, conflict and equivalence;
 - valid and invalid fixtures;
 - profile mappings and evidence records;
