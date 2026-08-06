@@ -1,13 +1,13 @@
 # ADR-0010: Separate foundational contracts by semantic role
 
-- **Decision status:** `PROPOSED`
+- **Decision status:** `ACCEPTED`
 - **Evidence level:** `DOCUMENTED`
 - **Implementation status:** `NOT_STARTED`
-- **Operator approval:** `PENDING`
+- **Operator approval:** `APPROVED`
 - **Date:** `2026-08-06`
 - **Deciders:** `@velantrian`
 - **Track:** `Architecture Canon / Abstract Contract`
-- **Related:** `Issues #14, #15, #16, #17; ADR-0001, ADR-0003, ADR-0004, ADR-0007, ADR-0008; PR pending`
+- **Related:** `Issues #14, #15, #16, #17; ADR-0001, ADR-0003, ADR-0004, ADR-0007, ADR-0008; PR #28`
 - **Tags:** `semantic-model, identity, events, authority, conflict, conformance`
 
 > [!NOTE]
@@ -17,7 +17,7 @@
 
 The repository already documents Claims, Events, provenance, temporal meaning, conflict visibility, admission, deterministic reduction, rebuildable projections, Receipts, and conformance levels.
 
-However, several foundational boundaries remain distributed across architecture prose, the world/epistemic boundary proposal, the conformance model, and Issues #14–#17.
+However, several foundational boundaries were distributed across architecture prose, the world/epistemic boundary proposal, the conformance model, and Issues #14–#17.
 
 - **Problem:** future profiles could use the same terminology while assigning different meanings to Claim roles, identity, recorded events, authority, conflict, unknowns, or equivalence.
 - **Constraints:** remain technology-neutral; preserve the current maturity boundary; do not alter Issue #1; do not invent implementation evidence; do not accept new event verbs implicitly.
@@ -38,16 +38,17 @@ Repository evidence:
 - STATUS.md and docs/ai risk/context records
 
 External research:
-- none required for this organizational proposal
+- none required for this organizational decision
 
 AI-generated inputs:
 - architecture audit identified overloaded semantic roles and missing authority/identity joints
 
-Operator interpretation:
+Operator interpretation and decision:
 - the immediate project goal is an architecture, framework, foundation, and skeleton rather than a complete runtime
+- the six-family skeleton was explicitly accepted on 2026-08-06
 ```
 
-AI-generated inputs are design inputs, not approval or implementation evidence.
+AI-generated inputs are design inputs, not approval or implementation evidence. Operator acceptance is recorded separately and does not substitute for runtime evidence.
 
 ## Decision drivers 🎯
 
@@ -122,7 +123,7 @@ Separate responsibilities into six contract families while deferring exact schem
 
 ## Decision ✅
 
-**We propose to:**
+**We will:**
 
 1. organize the foundational architecture into six contract families:
    - `NK-SEM` — semantic roles;
@@ -142,9 +143,9 @@ Separate responsibilities into six contract families while deferring exact schem
 
 - accept a new event verb through this umbrella ADR;
 - define a mandatory database schema or class hierarchy;
-- equate the proposed assertion IDs with executable conformance;
+- equate the accepted assertion namespaces with executable conformance;
 - change Issue #1 or claim that the historical external checkpoint used this skeleton;
-- treat this proposal as operator-approved Canon before explicit acceptance.
+- treat operator approval as empirical or implementation evidence.
 
 ### One-line rationale
 
@@ -165,13 +166,14 @@ Separate responsibilities into six contract families while deferring exact schem
 - more documentation and bilingual synchronization are required;
 - exact runtime design remains unresolved;
 - some existing terminology will need mapping rather than direct reuse;
-- future ADRs may revise individual assertion IDs before acceptance.
+- future changes to stable assertion IDs require explicit compatibility and supersession handling.
 
 ### Neutral
 
 - current repository maturity remains `RESEARCH / DOCUMENTED_ONLY / NOT PRODUCTION-READY`;
 - no implementation profile is selected or activated;
-- no source-recovery result changes.
+- no source-recovery result changes;
+- acceptance does not create C1–C5 conformance evidence.
 
 ## Invariants 🔒
 
@@ -189,17 +191,17 @@ Separate responsibilities into six contract families while deferring exact schem
 
 | Question | Answer |
 |---|---|
-| Architecture Canon changed? | `proposed clarification; not accepted yet` |
-| Abstract contract changed? | `yes, proposed taxonomy and assertion namespaces` |
+| Architecture Canon changed? | `yes — accepted foundational organization and boundaries` |
+| Abstract contract changed? | `yes — accepted taxonomy and assertion namespaces` |
 | Implementation profile selected? | `no` |
 | Runtime code exists? | `no` |
 | Production evidence exists? | `no` |
 
 ## Implementation notes 🔧
 
-- primary proposal: `docs/FOUNDATIONAL_CONTRACT_SKELETON.md` and Russian counterpart;
-- update documentation navigation and ADR index;
-- update AI context map, known risks, and work log;
+- normative architecture map: `docs/FOUNDATIONAL_CONTRACT_SKELETON.md` and Russian counterpart;
+- documentation navigation and ADR index must expose ADR-0010 as accepted;
+- AI context map, known risks, and work log must preserve the acceptance/evidence distinction;
 - future exact identity work remains in Issue #14;
 - future append/replay work remains in Issue #15;
 - future deletion/restriction work remains in Issue #16;
@@ -210,12 +212,12 @@ Separate responsibilities into six contract families while deferring exact schem
 
 | Evidence | Artifact / command | Result | Required for next level |
 |---|---|---|---|
-| Documentation | foundational skeleton + ADR | proposed | operator review and acceptance |
-| Link/status validation | AI-context guard / repository review | pending PR CI | clean structural result |
-| Unit tests | not applicable to docs-only proposal | none | future schemas/encoders/runners |
+| Documentation | foundational skeleton + ADR | accepted/documented | maintain bilingual and reference consistency |
+| Link/status validation | AI-context guard / repository review | required on final PR/main head | clean structural result |
+| Unit tests | not applicable to docs-only decision | none | future schemas/encoders/runners |
 | Replay test | not implemented | absent | Issue #15/#17 artifacts |
 | Cross-profile evidence | not implemented | absent | two independent profiles |
-| Operator approval | explicit decision | pending | required for `ACCEPTED` |
+| Operator approval | explicit decision on 2026-08-06 | approved | does not replace empirical evidence |
 
 ## Failure cases 🚨
 
@@ -226,14 +228,14 @@ Separate responsibilities into six contract families while deferring exact schem
 - collapsing unknown into false;
 - forcing a conflict winner through write order;
 - using this document to claim the missing historical source was reconstructed;
-- marking the ADR accepted merely because the proposal was authored by an AI.
+- claiming runtime implementation or portability merely because the architecture was accepted.
 
 ## Rollback / supersession
 
-- The proposal can be rejected without data migration because no runtime contract is implemented.
-- Individual family names or assertion IDs may be revised before acceptance.
+- Because no runtime contract is implemented, supersession currently requires documentation and compatibility handling rather than data migration.
 - After acceptance, supersession must preserve aliases and migration guidance for contract/evidence references.
 - A future alternative is justified if the six-family split prevents necessary semantics, creates irreducible overlap, or fails cross-profile fixture design.
+- ADR-0010 remains historical evidence even if superseded.
 
 ## Consistency checklist 🔱
 
