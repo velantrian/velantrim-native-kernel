@@ -96,6 +96,41 @@ Risks include treating:
 
 Required proof before any integration claim: scoped RFC/ADR, mapping contract, tests, threat/privacy review, rollback and explicit approvals.
 
+## P1 — Foundational contract responsibilities can be silently collapsed
+
+**State:** `OPEN`; `NARROWED IN DRAFT PR #28`, not closed
+
+The architecture names Claims, Events, provenance, admission, conflicts, unknowns, Receipts and conformance, but a profile could still collapse:
+
+```text
+semantic content
+= source assertion
+= observation
+= evidence
+= admitted knowledge
+= storage record
+```
+
+Draft PR #28 proposes a bilingual six-family skeleton and ADR-0010:
+
+- `NK-SEM` — semantic roles;
+- `NK-ID` — identity and canonical encoding;
+- `NK-EVT` — event, observation and recorded change;
+- `NK-AUT` — authority and admission;
+- `NK-CFL` — conflict and explicit unknowns;
+- `NK-EQV` — conformance and semantic equivalence.
+
+The proposal improves naming, ownership and traceability only. It does not establish accepted Canon, schemas, fixtures, runtime behaviour or cross-profile evidence.
+
+Required proof for closure or further narrowing:
+
+- explicit operator decision on ADR-0010;
+- exact versioned contracts for identity, events, authority, conflict and equivalence;
+- valid and invalid fixtures;
+- profile mappings and evidence records;
+- no silent skip of unsupported assertions;
+- at least two materially different profiles before C3 claims.
+
 ## P1 — Storage neutrality is unproven
 
 **State:** `OPEN`
