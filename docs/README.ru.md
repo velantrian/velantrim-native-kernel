@@ -2,44 +2,49 @@
 
 **[English](./README.md) · [Русский](./README.ru.md)**
 
-Эта папка разделяет назначение проекта, архитектуру, проверку соответствия, исследовательские предложения, интеграционные границы и принятые решения.
+Эта папка разделяет назначение проекта, архитектуру, проверку соответствия, исследовательские предложения, интеграционные границы, принятые решения и записи непрерывности для ИИ и людей.
 
 > [!IMPORTANT]
-> Всегда смотрите на статус документа. Описанное или принятое архитектурное решение ещё не означает, что соответствующий механизм уже реализован в коде.
+> Всегда смотрите на статус документа. Описанное или принятое архитектурное решение ещё не означает, что соответствующий механизм реализован в коде.
 
 ## С чего начинать
 
 | Документ | Для чего он нужен | Статус |
 |---|---|---|
+| [`../AGENTS.md`](../AGENTS.md) | Обязательные правила первого чтения для ИИ, аудиторов и ревьюеров | действующее руководство репозитория |
+| [`ai/README.md`](./ai/README.md) | AI context pack: текущее состояние, карта документов, риски, метод аудита, журнал и протокол GitHub↔Notion | действующий слой непрерывности |
 | [`FOUNDATIONAL_INTENT.ru.md`](./FOUNDATIONAL_INTENT.ru.md) · [English](./FOUNDATIONAL_INTENT.md) | Глубокое объяснение, зачем Native Kernel существует отдельно, какую проблему исследует и что будет означать успех | архитектурный замысел |
 | [`LONG_HORIZON_VISION.md`](./LONG_HORIZON_VISION.md) | Архитектурный Canon, контракты, профили и будущие технологии | исследовательское видение |
-| [`STORAGE_AND_EXECUTION_PROFILES.ru.md`](./STORAGE_AND_EXECUTION_PROFILES.ru.md) · [English](./STORAGE_AND_EXECUTION_PROFILES.md) | PostgreSQL как основной полный современный профиль, SQLite как опциональный embedded-профиль, offline-работа локальной модели, выбор профиля и границы миграции | принятое направление профиля реализации; не реализовано |
-| [`CONFORMANCE_MODEL.md`](./CONFORMANCE_MODEL.md) | Как проверить, что конкретная реализация соответствует архитектуре | предлагаемый контракт проверки |
+| [`STORAGE_AND_EXECUTION_PROFILES.ru.md`](./STORAGE_AND_EXECUTION_PROFILES.ru.md) · [English](./STORAGE_AND_EXECUTION_PROFILES.md) | PostgreSQL как основной полный профиль, SQLite как опциональный embedded-профиль, offline-работа, выбор профиля и миграция | принятое направление; не реализовано |
+| [`CONFORMANCE_MODEL.md`](./CONFORMANCE_MODEL.md) | Как проверить соответствие реализации архитектуре | предлагаемый контракт проверки |
 | [`DECISION_PROCESS.md`](./DECISION_PROCESS.md) | Как разделять решение, доказательства, реализацию, мнение ИИ и одобрение оператора | процесс управления решениями |
-| [`adr/README.md`](./adr/README.md) | Индекс Architecture Decision Records | действующий процесс документации |
-| [`INTEGRATION_BOUNDARIES.md`](./INTEGRATION_BOUNDARIES.md) | Границы между Native Kernel, Titan и Crystal | документированная граница |
+| [`adr/README.md`](./adr/README.md) | Индекс Architecture Decision Records | действующий governance-процесс |
+| [`VELANTRIM_ECOSYSTEM.md`](./VELANTRIM_ECOSYSTEM.md) | Роли и ссылки Native Kernel, Mentaury Soul, Titan и Crystal | карта навигации и границ |
+| [`INTEGRATION_BOUNDARIES.md`](./INTEGRATION_BOUNDARIES.md) | Технические границы Native Kernel, Titan, Mentaury и Crystal | документированная граница |
 | [`BENCHMARKS.md`](./BENCHMARKS.md) | Правила бенчмарков и доказательств | исследовательская политика |
-| [`research/BIO_INSPIRED_COMPUTATION_AND_KITARA.ru.md`](./research/BIO_INSPIRED_COMPUTATION_AND_KITARA.ru.md) · [English](./research/BIO_INSPIRED_COMPUTATION_AND_KITARA.md) | Отдельный био-вдохновлённый и Kitara research-трек | proposed / experimental / not implemented |
+| [`research/BIO_INSPIRED_COMPUTATION_AND_KITARA.ru.md`](./research/BIO_INSPIRED_COMPUTATION_AND_KITARA.ru.md) · [English](./research/BIO_INSPIRED_COMPUTATION_AND_KITARA.md) | Био-вдохновлённый и Kitara research-трек | proposed / experimental / not implemented |
 | [`research/PHYSARUM_ROUTING_EXPERIMENT.ru.md`](./research/PHYSARUM_ROUTING_EXPERIMENT.ru.md) · [English](./research/PHYSARUM_ROUTING_EXPERIMENT.md) | Ограниченный эксперимент адаптивной flow-маршрутизации | proposed / not implemented |
 
 ## Рекомендуемый порядок чтения
 
 ```text
-1. FOUNDATIONAL_INTENT
+1. AGENTS.md + STATUS.md
         ↓
-2. LONG_HORIZON_VISION
+2. docs/ai context pack
         ↓
-3. STORAGE_AND_EXECUTION_PROFILES
+3. FOUNDATIONAL_INTENT
         ↓
-4. ARCHITECTURE.md в корне репозитория
+4. LONG_HORIZON_VISION
         ↓
-5. CONFORMANCE_MODEL
+5. STORAGE_AND_EXECUTION_PROFILES
         ↓
-6. DECISION_PROCESS + ADR
+6. ARCHITECTURE.md в корне
         ↓
-7. STATUS.md и ROADMAP.md
+7. CONFORMANCE_MODEL
         ↓
-8. Необязательные экспериментальные research notes
+8. DECISION_PROCESS + ADR
+        ↓
+9. ROADMAP + необязательные research notes
 ```
 
 ## Главное различие
@@ -47,7 +52,8 @@
 ```text
 Архитектурный Canon
 ≠ Абстрактный контракт
-≠ Технологический профиль
+≠ Профиль реализации
+≠ Support / Recovery Tooling
 ≠ Реализованный runtime
 ≠ Production-доказательства
 ```
@@ -56,23 +62,18 @@
 
 ## Простыми словами
 
-Native Kernel нужен для того, чтобы:
+Native Kernel нужен, чтобы:
 
-- сегодня проверять идеи на Python, SQLite, Graph, FTS и других доступных инструментах;
-- завтра заменить эти инструменты без полного переписывания смысла системы;
-- хранить историю того, почему архитектурное решение было принято;
-- не путать красивую идею с работающим кодом;
-- не превращать мнение нескольких ИИ в доказательство;
-- развивать Kernel отдельно от Titan и Crystal.
-
-> [!NOTE]
-> Первый важный эксперимент — удалить все перестраиваемые индексы и проекции, затем восстановить состояние из авторитетной истории и проверить, сохранился ли смысл.
+- сегодня проверять идеи на доступных инструментах;
+- завтра заменять инструменты без переписывания смысла;
+- хранить историю архитектурных решений;
+- не путать идею, принятое решение, код и доказательство;
+- не превращать мнение нескольких ИИ в evidence;
+- развивать Kernel отдельно от Titan, Mentaury и Crystal.
 
 ## Более глубокое объяснение
 
-Native Kernel существует потому, что современные memory-системы часто позволяют базе данных, графу, векторному индексу, API модели, runtime или предположениям о процессоре определять, что именно означает память.
-
-Этот проект меняет порядок:
+Проект меняет обычный порядок:
 
 ```text
 сначала смысл и инварианты
@@ -82,37 +83,37 @@ Native Kernel существует потому, что современные m
 после этого заменяемые технологические профили
 ```
 
-Подробное объяснение проблемы, аналогия с чертежом будущего транспорта, критерии успеха, исследовательский процесс и честные ограничения находятся здесь:
+Подробное объяснение находится здесь:
 
 - [`FOUNDATIONAL_INTENT.ru.md`](./FOUNDATIONAL_INTENT.ru.md)
 - [`FOUNDATIONAL_INTENT.md`](./FOUNDATIONAL_INTENT.md)
 
 ## Необязательный экспериментальный трек
 
-Некоторые внешние материалы содержат полезные идеи, которые пока не входят в Canon Native Kernel. Они сохраняются как явно ограниченные research notes.
-
-Био-вдохновлённый трек сейчас включает:
+Полезные внешние идеи, которые не входят в Canon, сохраняются как явно ограниченные research notes.
 
 ```text
-периферийную обработку событий
+периферийная обработка событий
 Adaptive Gain
-процедурную / моторную память
+процедурная / моторная память
 сенсомоторные петли
-адаптацию распределённой сети
-Physarum-подобную маршрутизацию
+адаптация распределённой сети
+Physarum-подобная маршрутизация
 ```
 
-Эти механизмы можно проверять как заменяемые profiles. Они не должны определять истину, обходить policy, превращаться в runtime claims или расширять Issue #1.
+Эти механизмы могут проверяться как заменяемые profiles. Они не должны определять истину, обходить policy, превращаться в runtime claims или расширять Issue #1.
 
 ## Для ИИ и ревьюеров
 
-Перед предложением изменения необходимо:
+Начинайте с [`../AGENTS.md`](../AGENTS.md) и [`ai/README.md`](./ai/README.md).
+Перед изменением необходимо:
 
-1. проверить фактическое состояние репозитория;
-2. определить, к какому архитектурному уровню относится изменение;
-3. сохранить границы Native Kernel / Titan / Crystal;
-4. разделить предложение, доказательства, реализацию и одобрение;
-5. создать или обновить ADR для долговременного архитектурного решения;
-6. не расширять Issue #1 архитектурным redesign;
-7. не превращать современную технологию в постоянный Canon только потому, что она полезна сегодня;
-8. не превращать биологическую метафору или adaptive routing в эпистемический авторитет.
+1. проверить точный SHA репозитория или PR;
+2. проверить `STATUS.md` и последний verified checkpoint;
+3. определить архитектурный уровень;
+4. сохранить границы Native Kernel / Titan / Mentaury / Crystal;
+5. разделить proposal, acceptance, evidence, implementation и approval;
+6. создать или обновить ADR для долговременного решения;
+7. не расширять Issue #1 redesign-работой;
+8. не превращать технологию, биологическую метафору или adaptive routing в постоянный Canon или epistemic authority;
+9. обновлять AI context pack и GitHub↔Notion record при изменении существенных фактов.

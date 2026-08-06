@@ -2,7 +2,7 @@
 
 **[English](./README.md) · [Русский](./README.ru.md)**
 
-This directory separates project purpose, architecture, conformance, research proposals, integration boundaries, and durable decisions.
+This directory separates project purpose, architecture, conformance, research proposals, integration boundaries, durable decisions, and AI/human continuity records.
 
 > [!IMPORTANT]
 > Read status labels carefully. A documented or accepted architecture decision is not automatically implemented runtime behaviour.
@@ -11,13 +11,16 @@ This directory separates project purpose, architecture, conformance, research pr
 
 | Document | Purpose | Status |
 |---|---|---|
+| [`../AGENTS.md`](../AGENTS.md) | Mandatory first-read rules for AI agents, auditors and reviewers | active repository guidance |
+| [`ai/README.md`](./ai/README.md) | AI context-pack manifest: current state, component map, risks, audit method, work log and GitHub↔Notion protocol | active continuity layer |
 | [`FOUNDATIONAL_INTENT.md`](./FOUNDATIONAL_INTENT.md) · [Русский](./FOUNDATIONAL_INTENT.ru.md) | Deep explanation of why Native Kernel exists as a separate system, what problem it studies, and what success would mean | architectural intent |
 | [`LONG_HORIZON_VISION.md`](./LONG_HORIZON_VISION.md) | Architecture Canon, contracts, profiles, and future substrates | research vision |
 | [`STORAGE_AND_EXECUTION_PROFILES.md`](./STORAGE_AND_EXECUTION_PROFILES.md) · [Русский](./STORAGE_AND_EXECUTION_PROFILES.ru.md) | PostgreSQL as the primary full contemporary profile, SQLite as an optional embedded profile, offline local-model operation, profile selection, and migration boundaries | accepted implementation-profile direction; not implemented |
 | [`CONFORMANCE_MODEL.md`](./CONFORMANCE_MODEL.md) | How an implementation can demonstrate compatibility | proposed documentation contract |
 | [`DECISION_PROCESS.md`](./DECISION_PROCESS.md) | How decisions, evidence, implementation, AI input, and operator approval remain separate | governance process |
 | [`adr/README.md`](./adr/README.md) | Architecture Decision Record index | active governance |
-| [`INTEGRATION_BOUNDARIES.md`](./INTEGRATION_BOUNDARIES.md) | Native Kernel, Titan, and Crystal boundaries | documented boundary |
+| [`VELANTRIM_ECOSYSTEM.md`](./VELANTRIM_ECOSYSTEM.md) | Roles and links for Native Kernel, Mentaury Soul, Titan and Crystal | navigation/boundary map |
+| [`INTEGRATION_BOUNDARIES.md`](./INTEGRATION_BOUNDARIES.md) | Technical boundaries between Native Kernel, Titan, Mentaury and Crystal | documented boundary |
 | [`BENCHMARKS.md`](./BENCHMARKS.md) | Benchmark methodology and evidence rules | research policy |
 | [`research/BIO_INSPIRED_COMPUTATION_AND_KITARA.md`](./research/BIO_INSPIRED_COMPUTATION_AND_KITARA.md) · [Русский](./research/BIO_INSPIRED_COMPUTATION_AND_KITARA.ru.md) | Optional bio-inspired and Kitara research boundary | proposed / experimental / not implemented |
 | [`research/PHYSARUM_ROUTING_EXPERIMENT.md`](./research/PHYSARUM_ROUTING_EXPERIMENT.md) · [Русский](./research/PHYSARUM_ROUTING_EXPERIMENT.ru.md) | Bounded adaptive-flow routing experiment | proposed / not implemented |
@@ -25,21 +28,23 @@ This directory separates project purpose, architecture, conformance, research pr
 ## Reading order
 
 ```text
-1. FOUNDATIONAL_INTENT
+1. AGENTS.md + STATUS.md
         ↓
-2. LONG_HORIZON_VISION
+2. docs/ai context pack
         ↓
-3. STORAGE_AND_EXECUTION_PROFILES
+3. FOUNDATIONAL_INTENT
         ↓
-4. ARCHITECTURE.md in repository root
+4. LONG_HORIZON_VISION
         ↓
-5. CONFORMANCE_MODEL
+5. STORAGE_AND_EXECUTION_PROFILES
         ↓
-6. DECISION_PROCESS + ADRs
+6. ARCHITECTURE.md in repository root
         ↓
-7. STATUS.md and ROADMAP.md
+7. CONFORMANCE_MODEL
         ↓
-8. Optional experimental research notes
+8. DECISION_PROCESS + ADRs
+        ↓
+9. ROADMAP + optional research notes
 ```
 
 ## The central distinction
@@ -48,6 +53,7 @@ This directory separates project purpose, architecture, conformance, research pr
 Architecture Canon
 ≠ Abstract Contract
 ≠ Implementation Profile
+≠ Support / Recovery Tooling
 ≠ Implemented Runtime
 ≠ Production Evidence
 ```
@@ -68,7 +74,7 @@ abstract contracts second
 replaceable technology profiles third
 ```
 
-The deeper explanation, including the transportation-blueprint analogy, success criteria, research method, and explicit non-claims, is maintained in:
+The deeper explanation is maintained in:
 
 - [`FOUNDATIONAL_INTENT.md`](./FOUNDATIONAL_INTENT.md)
 - [`FOUNDATIONAL_INTENT.ru.md`](./FOUNDATIONAL_INTENT.ru.md)
@@ -92,13 +98,15 @@ These mechanisms may be tested as replaceable profiles. They must not determine 
 
 ## For AI reviewers
 
+Start with [`../AGENTS.md`](../AGENTS.md) and [`ai/README.md`](./ai/README.md).
 Before proposing a change:
 
-1. verify the repository state;
-2. identify the architectural layer;
-3. preserve Native Kernel / Titan / Crystal boundaries;
-4. separate proposal, evidence, implementation, and approval;
-5. create or update an ADR for durable architectural decisions;
-6. do not expand Issue #1 with redesign;
-7. do not turn a current technology into permanent Canon merely because it is useful today;
-8. do not promote biological metaphor or adaptive routing into epistemic authority.
+1. verify the exact repository/PR SHA;
+2. check `STATUS.md` and the last verified current-state checkpoint;
+3. identify the architectural layer;
+4. preserve Native Kernel / Titan / Mentaury / Crystal boundaries;
+5. separate proposal, acceptance, evidence, implementation and approval;
+6. create or update an ADR for durable decisions;
+7. do not expand Issue #1 with redesign;
+8. do not turn current technology, biological metaphor or adaptive routing into permanent Canon or epistemic authority;
+9. update the AI context pack and GitHub↔Notion synchronization record when material facts change.
