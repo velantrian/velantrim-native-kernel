@@ -1,7 +1,7 @@
 # Current Status
 
 > **Verified:** 2026-08-06  
-> **Last verified public `main`:** `ff88809fe7d7c79033a150140d20618e04aa1f9d`  
+> **Last verified public `main`:** `1e721aeb5b116694a0dbb417c377aa9f92b6f8e5`  
 > **Repository status:** `RESEARCH / DOCUMENTED_ONLY / NOT PRODUCTION-READY`  
 > **Kernel runtime:** `NOT IMPLEMENTED`  
 > **Issue #1:** `BLOCKED BY AUTHENTIC SOURCE RECOVERY`
@@ -23,14 +23,14 @@ PostgreSQL, SQLite, files, graphs, vectors, LLMs, CPUs, GPUs and future substrat
 
 ```text
 accepted contract
-≠ implemented runtime
+≠ proposed implementation profile
+≠ accepted profile plan
+≠ runtime implementation GO
 ≠ tested runtime
-≠ wired integration
-≠ enabled deployment
 ≠ operational evidence
 ```
 
-Operator approval is authority over architecture. It is not empirical evidence.
+Operator approval is authority over architecture or planning promotion. It is not empirical evidence.
 
 ## Accepted architecture contracts
 
@@ -42,145 +42,114 @@ PR #38 accepted and published:
 - ADR-0014 — `nk-fixtures/1.0` executable fixture/evidence protocol.
 
 ```text
-PR #38 head:  5b003208d93774c1a79e770e8259dda99795eab7
-Merge SHA:    ff88809fe7d7c79033a150140d20618e04aa1f9d
-Decision:     ACCEPTED
-Approval:     APPROVED
+PR #38 merge: ff88809fe7d7c79033a150140d20618e04aa1f9d
+PR #39 final checkpoint: 350734c8ce8d8cbc742def7df9f3d5044a5953ab
+Decision: ACCEPTED
+Approval: APPROVED
 ```
 
-ADR-0010 remains the accepted family-ownership map:
+ADR-0010 remains the accepted family map. `NK-EPI-001…008` and ADR-0008 remain `PROPOSED`.
+
+## Published PostgreSQL profile proposal
+
+PR #41 publishes RFC-0002 as a proposal:
 
 ```text
-NK-SEM — semantic roles
-NK-ID  — identity and canonical encoding
-NK-EVT — event, observation and recorded change
-NK-AUT — authority and admission
-NK-CFL — conflict and explicit unknowns
-NK-EQV — conformance and semantic equivalence
+PR #41 merge:       1e721aeb5b116694a0dbb417c377aa9f92b6f8e5
+Profile ID:         native-kernel/postgresql-reference
+Planning version:   nk-pg-profile/0.1-proposed
+Evidence lineage:   clean/postgresql-reference/0.1
+RFC status:         PROPOSED / DOCUMENTED_ONLY
+Operator approval:  PENDING
+Implementation:     NOT_STARTED
+Runtime support:    UNSUPPORTED
 ```
 
-`NK-EPI-001…008` and ADR-0008 remain `PROPOSED`.
-
-## Exact accepted boundaries
-
-### Identity
-
-- NFC UTF-8 canonical JSON subset;
-- sorted keys and compact encoding;
-- binary floats and explicit null forbidden in identity-bearing objects;
-- content, Claim, lineage and storage identity separated;
-- domain-separated SHA-256 identifiers `nkh1`, `nkc1`, `nkl1`;
-- collisions are hard incidents;
-- migrations preserve inspectable aliases and lineage.
-
-### Event, append and replay
-
-- one authoritative writer in v1;
-- durable idempotency scope;
-- same key plus different command digest is rejected;
-- contiguous global and stream sequence;
-- history append precedes disposable projection updates;
-- hash chain is an integrity signal, not authenticity or consensus;
-- replay binds schema/upcaster/reducer versions.
-
-Accepted event vocabulary remains:
+The plan defines one authoritative writer, transaction/idempotency outcomes, PostgreSQL as a replaceable storage adapter, replay/rebuild, deletion inventory, neutral migration boundaries, tests/faults and C0→C5 promotion gates.
 
 ```text
-ADMIT · LINK · UTILIZED · SUPERSEDED · ERASED
+clean/postgresql-reference/0.1
+≠ recovered v0.1.2.1
+≠ original 44-test evidence
+≠ declaration that historical source is globally lost
 ```
 
-### Deletion and restriction
+Issue #1 remains active and independent. Runtime work requires a separate operator GO after RFC review.
+
+## Machine-readable planning manifest
+
+`profiles/postgresql-reference-v0/profile-manifest.json` currently states:
 
 ```text
-logical ERASED
-≠ restriction
-≠ physical deletion
-≠ crypto-erasure
-≠ global-erasure proof
+72 registry assertions mapped exactly once
+64 accepted-family assertions: PLANNED
+8 NK-EPI assertions: DEFERRED_PROPOSED_FAMILY
+72 runtime-support results: UNSUPPORTED
+72 evidence states: NONE
+historical lineage: null
 ```
 
-Profiles must declare data locations, authority, policy, retries, partial completion, retention holds, restore quarantine, key-destruction evidence and Receipt limits.
+The planning validator and five focused local tests reject missing/duplicate assertions, false runtime support, historical lineage and silent `NK-EPI` promotion.
 
-### Conformance fixtures
-
-The accepted protocol requires stable assertion IDs, versioned schemas/fixtures, declared equivalence classes, explicit assertion results, no silent skip, and exact evidence limitations.
+This validates the planning manifest, not a Kernel runtime.
 
 ## Implemented support tooling
 
 The repository contains:
 
-- registry `nk-contract-registry/1.1.0` with 72 assertion IDs;
-- schemas and evidence-report contract;
-- identity, event, idempotency, deletion and epistemic fixtures;
+- registry `nk-contract-registry/1.1.0` with 72 assertions;
+- schemas and conformance fixtures;
 - standard-library conformance runner;
-- eight focused tests;
-- Python 3.11/3.12 workflow with PR, push and manual `workflow_dispatch` entry points.
+- eight focused fixture tests;
+- profile-manifest validator with five focused tests;
+- Python 3.11/3.12 workflow covering both artifact families.
 
-Recorded local package evidence:
-
-```text
-8 tests PASS
-72 unique assertion IDs
-72 explicit assertion statuses
-2 identity golden vectors matched
-4 invalid identity vectors rejected
-2 event-chain scenarios validated
-2 idempotency scenarios validated
-2 deletion scenarios validated
-NK-EPI-001…008 positive + negative coverage
-```
-
-The built-in reader deliberately reports:
+Recorded local tooling evidence:
 
 ```text
-support_state: SUPPORTED
-kernel_runtime_conformance: UNSUPPORTED
+conformance fixture tests: 8 PASS
+profile manifest tests:     5 PASS
+Kernel runtime:             UNSUPPORTED
 ```
 
 ## Repository CI boundary
 
-No GitHub Actions run was created for PR #38 or merge `ff88809…`. The workflow is active and now supports manual dispatch, but the connected GitHub integration cannot dispatch it and the local environment has no authenticated `gh` executable.
+No GitHub Actions run was created for PR #41 or merge `1e721aeb…`.
 
 ```text
-local fixture evidence:         LOCALLY_TESTED
-repository workflow evidence:   NOT RECORDED
-Kernel profile C2:              NOT ESTABLISHED
-C3 cross-profile equivalence:   NOT ESTABLISHED
+local tooling evidence:       LOCALLY_TESTED
+repository workflow evidence: NOT RECORDED
+Kernel profile C1/C2:         NOT ESTABLISHED
+C3 cross-profile equivalence: NOT ESTABLISHED
 ```
 
 This is neither CI PASS nor test failure.
 
 ## Current public runtime boundary
 
-No runnable Native Kernel implementation or original Kernel regression suite is present in `main`.
+No runnable Native Kernel implementation, PostgreSQL adapter, reducer, replay engine, projection system or deletion mechanism exists in `main`.
 
 The repository must not claim:
 
-- a durable event store, reducer, replay engine or deletion runtime;
 - public reproduction of the historical 44-test checkpoint;
-- C2/C3 Kernel conformance;
+- PostgreSQL profile C1/C2/C3;
 - production event sourcing, privacy, security or erasure;
 - demonstrated portability across arbitrary current or future hardware;
 - active Titan, Mentaury or Crystal runtime integration.
 
-## Issue #1 source-recovery blocker
+## Additional blockers before runtime
 
-The reported external checkpoint remains:
-
-```text
-v0.1.2.1
-44 deterministic tests reported externally
-source and original suite not located in accessible sources
-```
-
-Accessible search supports `NOT_FOUND_IN_ACCESSIBLE_SOURCES`, not `GLOBALLY_LOST`.
-
-Issue #1 remains independent from ADR-0011–0014. The accepted exact contracts are new architecture lineage, not recovered historical design.
+- RFC-0002 operator acceptance is pending;
+- a separate runtime implementation GO is required;
+- language, package layout, PostgreSQL version and writer lease are undecided;
+- Issue #18 licensing/contribution terms remain unresolved;
+- exact repository workflow evidence is missing.
 
 ## Immediate next gates
 
-1. Execute `Conformance fixture integrity` manually in GitHub Actions and record run/job/artifact evidence.
-2. Define the first clean implementation profile under a new version/evidence lineage if authentic source recovery remains blocked.
-3. Implement assertion-scoped profile adapters before any C2 claim.
-4. Build two materially independent profiles before C3.
-5. Keep Issue #1 source recovery and all cross-project integrations separately governed.
+1. Record final PR #41 publication in GitHub and Notion.
+2. Obtain an explicit operator decision on RFC-0002 and the clean profile lineage.
+3. Resolve whether P1 may begin while Issue #1 remains active.
+4. Resolve language/dependency/license/PostgreSQL-version decisions before runtime code.
+5. Require a separate runtime GO before P1.
+6. Implement and evidence each phase through separate PRs; require an independent second profile before C3.
