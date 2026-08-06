@@ -8,36 +8,46 @@ Re-verify exact SHAs, PR state and current repository evidence before using an e
 ## 2026-08-06 — AI context freshness guard
 
 ```text
-Status:          IN REVIEW ON agent/add-ai-context-freshness-guard
+Status:          MERGED / CI VERIFIED / NOTION SYNCED
+PR:              #26
 Base main:       5db894781ac34dd44c1c66b68a00f4c7fe579d32
-Initial guard:   762cacbc5a3e42d85aee472002c073cbab42d021
+Exact PR head:   535afefde53430452676f5ec52482d712be67b93
+Merge SHA:       099ae235ff935948348f2101804eb53ac9eeae1a
 Scope:           support tooling / CI / documentation governance
 Runtime:         unchanged; no Native Kernel implementation added
-Notion impact:   GITHUB_AND_NOTION → PLANNED AFTER MERGE
+Notion impact:   GITHUB_AND_NOTION → SYNCED
+Notion record:   AI Agent Context & Documentation Continuity
 ```
 
-Introduces a standard-library AI-context integrity guard:
+Introduced a standard-library AI-context integrity guard:
 
 - validates mandatory context/governance files;
 - checks selected repository-relative Markdown links;
 - rejects relative links that escape the repository;
 - parses the exact `Last verified public main` SHA from `CURRENT_STATE.md`;
-- proves that the checkpoint commit exists and is an ancestor of the reviewed head;
+- proves that the checkpoint commit exists and is an ancestor of the reviewed commit;
 - preserves core maturity and epistemic status markers;
-- runs read-only on Python 3.11 and 3.12 with full Git history.
+- runs read-only on Python 3.11 and 3.12 with full Git history;
+- checks out the exact PR head rather than relying on a synthetic merge ref.
 
-Local isolated validation before publication:
+Validation evidence:
 
 ```text
-compileall: PASS
-unittest:   6 passed
+local compileall:                     PASS
+local isolated unit tests:            6 PASS
+exact-head CI run 31105098991:         Python 3.11 / 3.12 PASS
+main-push CI run 31105237368:          Python 3.11 / 3.12 PASS
+actual repository context validation: PASS
+unresolved review threads:            0
 ```
 
 Covered failure cases: missing required file, broken relative link, repository-escape link, malformed checkpoint, unknown checkpoint, and a valid ancestor checkpoint.
 
 The guard narrows structural drift only. It does not prove semantic freshness of every statement, Notion synchronization, Architecture Canon correctness, Kernel runtime behavior, or source authenticity.
 
-Final PR number, GitHub Actions evidence, merge SHA and Notion synchronization remain to be recorded.
+The Native Kernel Hub and the dedicated Notion governance record were synchronized to PR #26 merge and CI evidence.
+
+This change did not modify Architecture Canon, Issue #1, source-recovery status, storage-profile implementation status, runtime claims, or Titan/Mentaury/Crystal authority boundaries.
 
 ---
 
