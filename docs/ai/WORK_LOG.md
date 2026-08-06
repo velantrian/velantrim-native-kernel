@@ -5,6 +5,75 @@ Re-verify exact SHAs, PR state and current repository evidence before using an e
 
 ---
 
+## 2026-08-06 — Exact contract and executable fixture proposal for Issues #14–#17
+
+```text
+Status:          BRANCH / PROPOSED / LOCAL VALIDATION PASS / PR PENDING
+Base main:       c7610bc42fbc879c24e1a3a1408ebfaae1ac7340
+Branch:          agent/contracts-14-17
+Scope:           architecture contracts + fixture-integrity support tooling
+Runtime:         unchanged; no Native Kernel implementation added
+Decisions:       ADR-0011…0014 PROPOSED; operator approval PENDING
+Notion impact:   GITHUB_AND_NOTION → SYNC REQUIRED
+Issue #1 impact: NONE
+```
+
+The branch turns the remaining ADR-0010 work into a reviewable package without creating a full machine:
+
+- `nk-id/1.0-proposed` — NFC UTF-8 compact sorted JSON subset, explicit identity domains, collision and migration rules;
+- `nk-event/1.0-proposed` — single-writer append/idempotency/order/replay boundary;
+- `nk-deletion/1.0-proposed` — restriction, logical erase, physical deletion and crypto-erasure lifecycle;
+- `nk-fixtures/1.0-proposed` — assertion registry, schemas, fixtures and external adapter protocol.
+
+Artifacts:
+
+- bilingual `docs/contracts/NORMATIVE_CONTRACTS_V1*`;
+- ADR-0011 through ADR-0014;
+- `contracts/registry.json` with 72 unique assertion IDs;
+- `contracts/schema-bundle.json`;
+- `contracts/fixture-pack.json`;
+- `tools/conformance/runner.py` and guide;
+- `tests/test_conformance_runner.py`;
+- proposed Python 3.11/3.12 fixture-integrity workflow.
+
+Local authoring validation:
+
+```text
+Focused unit tests:          5 PASS
+Unique assertion IDs:        72
+Identity golden vectors:     2 matched
+Identity invalid vectors:    4 rejected
+Event scenarios:             2 validated
+Deletion scenarios:          2 validated
+NK-EPI-001…008:              positive + negative fixture for each
+Reported runtime support:    UNSUPPORTED
+Evidence level:              LOCALLY_TESTED
+```
+
+Evidence boundary:
+
+```text
+local fixture PASS
+≠ operator acceptance
+≠ repository-reproduced C2
+≠ Kernel runtime
+≠ C3 cross-profile equivalence
+≠ production deletion or security evidence
+```
+
+No new event verb is accepted. Issue #1 remains separate. Titan, Mentaury and Crystal receive no inherited authority or runtime wiring.
+
+Remaining gates:
+
+1. open the PR and capture exact head;
+2. synchronize the deep Notion record and Hub proposal status;
+3. inspect review threads and exact workflow results;
+4. request/record explicit operator decision on ADR-0011…0014;
+5. merge only after reality status and evidence are aligned;
+6. keep runtime adoption and independent-profile C3 evidence as separate future work.
+
+---
+
 ## 2026-08-06 — Foundational contract skeleton accepted and merged
 
 ```text
@@ -20,75 +89,11 @@ Notion impact:   GITHUB_AND_NOTION → FINAL MERGE SYNCED
 Notion record:   Foundational Contract Skeleton — PR #28
 ```
 
-PR #28 defines and accepts a bilingual architecture skeleton that separates six foundational responsibilities:
+PR #28 accepted the six-family ownership map: `NK-SEM`, `NK-ID`, `NK-EVT`, `NK-AUT`, `NK-CFL`, `NK-EQV`. It did not implement schemas, runtime behaviour, C1–C5 conformance or portability.
 
-- `NK-SEM` — semantic roles;
-- `NK-ID` — identity and canonical encoding;
-- `NK-EVT` — event, observation and recorded change;
-- `NK-AUT` — authority and admission;
-- `NK-CFL` — conflict and explicit unknowns;
-- `NK-EQV` — conformance and semantic equivalence.
+Validation/review: 10 expected documentation/context files; branch behind_by 0; zero unresolved review threads; no actionable comments; Codex review unavailable due service limit; no GitHub Actions check appeared; squash merge. Absence of a workflow was not recorded as PASS.
 
-The accepted contract preserves `Claim` as the current durable root record while requiring semantic-role distinctions or explicit profile translations. It establishes stable assertion namespaces, Authority Envelope meaning, explicit conflict/unknown preservation, and a future contract registry linking assertions to fixtures, profile mappings and evidence records.
-
-Operator decision recorded on 2026-08-06:
-
-```text
-ADR-0010:          ACCEPTED
-Operator approval: APPROVED
-Evidence level:    DOCUMENTED
-Implementation:    NOT_STARTED
-```
-
-Acceptance establishes the architecture and contract ownership map. It does not establish executable schemas, runtime behaviour, C1–C5 conformance, production readiness or proven portability.
-
-Boundaries preserved:
-
-- no runtime, schema, encoder, fixture runner or storage adapter was implemented;
-- no new event verb was accepted;
-- no database, language, model, processor or future substrate became Canon;
-- Issue #1 and the missing `v0.1.2.1` source boundary remain unchanged;
-- Titan, Mentaury and Crystal do not inherit or grant Kernel authority implicitly;
-- accepted architecture does not equal implementation evidence.
-
-Validation and review evidence:
-
-```text
-Changed files:                10 expected documentation/context files
-Branch divergence:            ahead of base; behind_by 0
-Unresolved review threads:    0
-Actionable review comments:   0
-Codex automated review:       unavailable due service usage limit
-GitHub Actions on PR head:    no workflow/check run appeared
-Runtime tests:                not applicable to documentation-only change
-Merge method:                 squash
-```
-
-The absence of a GitHub Actions run is not a PASS and must not be described as one.
-
-GitHub documentation added or updated:
-
-- `docs/FOUNDATIONAL_CONTRACT_SKELETON.md`;
-- `docs/FOUNDATIONAL_CONTRACT_SKELETON.ru.md`;
-- `docs/adr/0010-foundational-contract-families.md`;
-- bilingual documentation navigation;
-- ADR index;
-- `docs/ai/CURRENT_STATE.md`;
-- AI component map and known-risk register.
-
-Notion synchronization:
-
-- deep record under Core Architecture records `ACCEPTED / APPROVED / MERGED`;
-- Native Kernel Hub records PR #28 and merge SHA `2d42a1517ba87b39d2395aa5c22b966328615305`;
-- Hub exact public `main` was advanced to the same merge SHA.
-
-Remaining gates:
-
-1. keep exact identity contract under Issue #14;
-2. keep append/idempotency/ordering/replay contract under Issue #15;
-3. keep deletion/restriction contract under Issue #16;
-4. build executable fixtures and cross-profile runner under Issue #17;
-5. do not claim implementation or portability until exact evidence exists.
+Notion deep record and Hub were synchronized to the final merge.
 
 ---
 
@@ -97,44 +102,13 @@ Remaining gates:
 ```text
 Status:          MERGED / CI VERIFIED / NOTION SYNCED
 PR:              #26
-Base main:       5db894781ac34dd44c1c66b68a00f4c7fe579d32
 Exact PR head:   535afefde53430452676f5ec52482d712be67b93
 Merge SHA:       099ae235ff935948348f2101804eb53ac9eeae1a
 Scope:           support tooling / CI / documentation governance
-Runtime:         unchanged; no Native Kernel implementation added
-Notion impact:   GITHUB_AND_NOTION → SYNCED
-Notion record:   AI Agent Context & Documentation Continuity
+Runtime:         unchanged
 ```
 
-Introduced a standard-library AI-context integrity guard:
-
-- validates mandatory context/governance files;
-- checks selected repository-relative Markdown links;
-- rejects relative links that escape the repository;
-- parses the exact `Last verified public main` SHA from `CURRENT_STATE.md`;
-- proves that the checkpoint commit exists and is an ancestor of the reviewed commit;
-- preserves core maturity and epistemic status markers;
-- runs read-only on Python 3.11 and 3.12 with full Git history;
-- checks out the exact PR head rather than relying on a synthetic merge ref.
-
-Validation evidence:
-
-```text
-local compileall:                     PASS
-local isolated unit tests:            6 PASS
-exact-head CI run 31105098991:         Python 3.11 / 3.12 PASS
-main-push CI run 31105237368:          Python 3.11 / 3.12 PASS
-actual repository context validation: PASS
-unresolved review threads:            0
-```
-
-Covered failure cases: missing required file, broken relative link, repository-escape link, malformed checkpoint, unknown checkpoint, and a valid ancestor checkpoint.
-
-The guard narrows structural drift only. It does not prove semantic freshness of every statement, Notion synchronization, Architecture Canon correctness, Kernel runtime behavior, or source authenticity.
-
-The Native Kernel Hub and the dedicated Notion governance record were synchronized to PR #26 merge and CI evidence.
-
-This change did not modify Architecture Canon, Issue #1, source-recovery status, storage-profile implementation status, runtime claims, or Titan/Mentaury/Crystal authority boundaries.
+Added mandatory context/governance file checks, selected Markdown link checks, checkpoint existence/ancestry checks and status-boundary markers on Python 3.11/3.12. Six isolated tests and exact-head/main-push runs passed. The guard does not prove semantic freshness or Notion synchronization.
 
 ---
 
@@ -143,42 +117,11 @@ This change did not modify Architecture Canon, Issue #1, source-recovery status,
 ```text
 Status:          MERGED / NOTION SYNCED
 PR:              #24
-Base main:       18ee09c870f7416932de29a2b2f5de53202fcb2e
-PR head:         311577c3912dc6e0d13fda7852eb65df2dd2cfb6
 Merge SHA:       d5989742f987b610b5a81bb59a14c0a11518aeea
 Scope:           documentation/governance only
-Runtime:         unchanged; no public Kernel runtime added
-Notion impact:   GITHUB_AND_NOTION → SYNCED
-Notion record:   AI Agent Context & Documentation Continuity
 ```
 
-Introduced a Native Kernel-specific adaptation of Titan's AI context mechanism:
-
-- root `AGENTS.md` as mandatory entry point;
-- `docs/ai/` context-pack manifest;
-- current-state checkpoint;
-- document/component/authority map;
-- known-risk register;
-- audit playbook;
-- work log;
-- GitHub ↔ Notion synchronization protocol;
-- connectorless Notion hand-off queue;
-- PR template requiring documentation-impact classification.
-
-The design deliberately improves on a discovered Titan weakness: context documents are last-verified checkpoints and must not be treated as automatically current. Every actor is required to compare recorded SHAs with the actual branch or PR.
-
-Validation recorded in PR #24:
-
-- 14 intended documentation/governance files changed;
-- +1402 / −153 lines;
-- relative links and English/Russian semantic guidance reviewed;
-- no runtime tests applicable because no runtime code changed.
-
-The Native Kernel Hub canonical GitHub state and the dedicated Notion governance record were synchronized to the PR #24 merge evidence.
-
-This change did not modify Architecture Canon, Issue #1, ADR decisions, implementation status, runtime claims, or cross-project runtime wiring.
-
-Remaining limitation: the context pack is not an automatically updated state service. Future actors must still update it deliberately and verify every checkpoint against the actual SHA.
+Introduced `AGENTS.md`, the `docs/ai` context pack, risk/work logs, audit playbook, PR documentation gate and GitHub↔Notion protocol. No runtime or architecture implementation claim was added.
 
 ---
 
@@ -190,8 +133,7 @@ Merge SHA: 18ee09c870f7416932de29a2b2f5de53202fcb2e
 Scope:     README documentation only
 ```
 
-Added direct links and role explanations for Native Kernel, Mentaury Soul, Titan and Crystal.
-Recorded that the projects remain independent and do not imply one runtime, database or Canon.
+Added direct links and role explanations for Native Kernel, Mentaury Soul, Titan and Crystal. Cross-links do not imply one runtime, database or Canon.
 
 ---
 
@@ -200,11 +142,10 @@ Recorded that the projects remain independent and do not imply one runtime, data
 ```text
 PR:        #22
 Merge SHA: fa8b2d9356486d6d78074e8bd6eb3b14ebfd2249
-Scope:     bilingual documentation and Notion visual sync
+Scope:     bilingual visual documentation
 ```
 
-Added layered ASCII maps, emoji trees, Mermaid flows, comparison tables, anti-patterns and italic explanatory notes to PostgreSQL/SQLite profile guidance.
-No runtime implementation claim was added.
+Added architecture maps and explanatory notes to PostgreSQL/SQLite guidance. No runtime implementation claim was added.
 
 ---
 
@@ -217,21 +158,10 @@ Decision:       PostgreSQL preferred full profile; SQLite optional embedded prof
 Implementation: NOT_STARTED
 ```
 
-Accepted the profile direction while preserving storage neutrality as an unproven hypothesis pending adapters and conformance evidence.
+Accepted the direction while leaving storage neutrality unproven pending adapters and conformance evidence.
 
 ---
 
 ## Continuing rule
 
-Add an entry for significant work that changes:
-
-- project state or evidence;
-- Architecture Canon or a contract;
-- an ADR/RFC;
-- source-recovery status;
-- profile direction;
-- ecosystem/integration boundaries;
-- known risk;
-- AI first-read paths or documentation governance.
-
-Include exact PR/SHA, scope, evidence, limitations, Notion state and next action.
+Add an entry for significant work that changes project state/evidence, Canon or contracts, ADR/RFC, source recovery, profile direction, integration boundaries, known risk, AI first-read paths or documentation governance. Include exact PR/SHA, scope, evidence, limitations, Notion state and next action.
