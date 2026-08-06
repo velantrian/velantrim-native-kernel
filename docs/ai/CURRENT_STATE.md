@@ -2,11 +2,17 @@
 
 **Verified:** 2026-08-06  
 **Last verified public `main`:** `9ccbb535e22438092393e2686eb76eb362adb29d`  
-**Active branch:** `agent/p1-semantic-core@5507901f688fffa49acc907de185acc287e27c63`  
+**Active branch:** `agent/p1-semantic-core` — re-check exact PR head  
 **Active issue:** #43 — P1 profile-independent semantic core  
 **Repository status:** `RESEARCH / P1 PARTIAL IMPLEMENTATION / NOT PRODUCTION-READY`
 
-> Re-check the branch head, PR and final merge SHA before relying on this checkpoint.
+> Context checkpoint ≠ automatically current main. Re-check the branch, PR, final merge SHA and exact workflow evidence.
+
+Source-recovery result remains:
+
+```text
+NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GLOBALLY_LOST
+```
 
 ```text
 ACCEPTED PROFILE PLAN ≠ COMPLETE PROFILE
@@ -57,11 +63,12 @@ Recorded before publication:
 ```text
 20 semantic-core unit tests PASS
 4 P1-manifest guard tests PASS
+7 AI-context validator tests PASS
 Python compileall PASS
 no PostgreSQL/SQLite/network dependency imports
 ```
 
-Tests cover identity vectors, invalid canonical inputs, command determinism, explicit authority, reducer sequence/version failures, deletion fixture paths and Receipt overclaims.
+Tests cover identity vectors, invalid canonical inputs, command determinism, explicit authority, reducer sequence/version failures, deletion fixture paths, Receipt overclaims and rejection of the superseded `DOCUMENTED_ONLY` context marker.
 
 ## Implementation limits
 
@@ -86,35 +93,22 @@ profile-manifest.json → historical P0 planning snapshot
 p1-manifest.json      → accepted P1 implementation/evidence state
 ```
 
-The P1 validator rejects:
-
-- false C1/C2/C3 promotion;
-- external dependency policy;
-- historical `v0.1.2.1` lineage;
-- recovery claims;
-- removal of explicit PostgreSQL/conformance prohibitions.
+The P1 validator rejects false C1/C2/C3 promotion, external dependency policy, historical `v0.1.2.1` lineage, recovery claims and removal of explicit PostgreSQL/conformance prohibitions.
 
 All 72 contract assertions remain runtime `UNSUPPORTED` until a P4 conformance adapter reports every assertion exactly once.
 
 ## Workflow state
 
-`.github/workflows/p1-semantic-core.yml` declares:
+`.github/workflows/p1-semantic-core.yml` declares PR, push-to-main and manual entry points on Python 3.11/3.12, runs the P1 tests, compiles the package and emits a machine-readable P1 manifest artifact.
 
-- pull-request path trigger;
-- push-to-main path trigger;
-- manual dispatch;
-- Python 3.11 and 3.12;
-- 20 semantic tests;
-- 4 manifest tests;
-- compileall;
-- machine-readable P1 manifest evidence artifact.
+`.github/workflows/ai-context.yml` validates the updated P1 maturity markers and checkpoint ancestry.
 
 No exact GitHub Actions run is yet recorded for the active branch.
 
 ```text
-workflow definition: ACTIVE ON BRANCH
-local evidence:      LOCALLY_TESTED
-repository run:      NOT_RECORDED
+workflow definitions: ACTIVE ON BRANCH
+local evidence:       LOCALLY_TESTED
+repository runs:      NOT_RECORDED
 ```
 
 ## Issue #1 separation
