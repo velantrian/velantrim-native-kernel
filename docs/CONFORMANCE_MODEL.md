@@ -1,13 +1,11 @@
 # 🧪 Conformance Model
 
-> **Status:** `PROPOSED DOCUMENTATION CONTRACT / NOT YET A CERTIFICATION PROGRAM`  
+> **Status:** `PROPOSED DOCUMENTATION CONTRACT / FIXTURE-INTEGRITY TOOLING IMPLEMENTED IN PROPOSAL BRANCH / NOT A CERTIFICATION PROGRAM`  
 > **Purpose:** define how a present or future implementation can demonstrate that it follows Native Kernel architecture
 
 ## 1. Why conformance matters
 
-Technology independence must be tested, not merely declared.
-
-A system is not a Native Kernel implementation because it uses the same terminology. It should demonstrate that it preserves declared semantic contracts.
+Technology independence must be tested, not merely declared. A system is not a Native Kernel implementation because it uses the same terminology.
 
 ```text
 same architectural contract
@@ -15,280 +13,201 @@ same architectural contract
 implementation profile A
 implementation profile B
         ↓
-comparable semantic behaviour
+comparable declared semantic behaviour
 ```
 
-> [!NOTE]
-> Conformance concerns meaning and observable behaviour. It does not require identical source code, storage layout, programming language, or byte representation unless a specific contract declares byte equality.
+Conformance concerns meaning and observable behaviour. Identical code, storage layout or bytes are required only when a specific assertion declares byte equality.
 
 ## 2. Conformance levels
 
 | Level | Meaning | Required evidence |
 |---|---|---|
-| **C0 — Described** | An implementation claims to follow a contract | architecture mapping only |
-| **C1 — Locally exercised** | Core behaviour runs in one recorded controlled environment | local tests, commands, environment, and failure cases |
-| **C2 — Repository reproduced** | A third party can reproduce specific declared behaviour from the repository | committed code, tests, environment, CI, and traceability |
-| **C3 — Cross-profile equivalent** | Two different implementation profiles preserve a declared equivalence class | replay comparison, fixtures, and adapter evidence |
-| **C4 — Shadow evaluated** | Behaviour is compared on recorded external workloads without becoming an authority | approved dataset, metrics, Receipts, failures, and report |
-| **C5 — Operationally validated** | A bounded deployment has security, rollback, observability, privacy, and incident evidence | explicit operational review and evidence |
+| **C0 — Described** | A profile maps itself to a contract | architecture mapping only |
+| **C1 — Locally exercised** | Behaviour runs in a recorded local environment | commands, local tests and failure cases |
+| **C2 — Repository reproduced** | A third party can reproduce the assertion from the repository | committed implementation, tests, environment, CI and traceability |
+| **C3 — Cross-profile equivalent** | Two materially different profiles preserve a declared equivalence | shared fixtures, profile mappings and comparison evidence |
+| **C4 — Shadow evaluated** | Behaviour is compared on approved recorded workloads without authority promotion | dataset, metrics, Receipts, failures and report |
+| **C5 — Operationally validated** | A bounded deployment has security, rollback, privacy and incident evidence | explicit operational review and evidence |
 
-These levels do not replace decision status, project maturity, implementation status, or operator approval. They describe evidence for a particular contract, version, implementation profile, and equivalence definition.
+Levels are assertion-scoped and do not replace decision status, implementation status, evidence level, maturity or operator approval.
 
-Conformance is assertion-scoped. A profile may be C2 for deterministic replay and only C0 for deletion semantics.
+## 3. Contract families
 
-## 3. Required contract families
+The accepted ADR-0010 ownership map is:
 
-A conforming implementation should explicitly map its behaviour to the following contract families.
+```text
+NK-SEM — semantic roles
+NK-ID  — identity and canonical encoding
+NK-EVT — event, observation and recorded change
+NK-AUT — authority and admission
+NK-CFL — conflict and explicit unknowns
+NK-EQV — conformance and semantic equivalence
+```
 
-### Identity
+`NK-EPI-001…008` remains a proposed epistemic assertion family associated with ADR-0008.
 
-- Claims have stable semantic identity.
-- Backend-generated row IDs are not the only source of identity.
-- Lineage and version relationships remain inspectable.
-- When byte-level identity is required, canonical encoding, Unicode normalization, hash domain/version, and migration rules are declared.
+Exact v1 proposals for Issues #14–#17 are maintained in:
 
-### History
+- [`contracts/NORMATIVE_CONTRACTS_V1.md`](./contracts/NORMATIVE_CONTRACTS_V1.md);
+- [`contracts/NORMATIVE_CONTRACTS_V1.ru.md`](./contracts/NORMATIVE_CONTRACTS_V1.ru.md);
+- ADR-0011 through ADR-0014;
+- machine-readable `../contracts/registry.json`.
 
-- Changes are explicit.
-- Authoritative history is not silently rewritten by projection updates.
-- Replay boundaries are defined.
-- Ordering, append atomicity, crash boundaries, and schema evolution are declared for the tested scope.
+## 4. Required semantic areas
 
-### Reduction
+A profile must explicitly map supported and unsupported assertions for:
 
-- Derived state can be reconstructed from declared authoritative history.
-- Non-determinism is prohibited or explicitly bounded and receipted.
-- Reducer/profile versions are identified.
+- identity and lineage;
+- authoritative history and ordering;
+- deterministic reduction and schema/reducer versioning;
+- disposable projections and rebuild;
+- valid/observation/record time;
+- conflict detection versus resolution;
+- admission authority and policy;
+- retrieval/selection without truth promotion;
+- Receipt proof boundaries;
+- deletion, restriction, retention and residual data;
+- world/epistemic representation discipline where claimed.
 
-### Projection
+Unsupported assertions remain visible. A profile cannot obtain a higher level by silently skipping them.
 
-- Read models can be removed and rebuilt.
-- Projection loss does not destroy authoritative history.
-- Projection output does not silently become truth authority.
+## 5. Executable artifact status
 
-### Temporal meaning
-
-- valid time, record/knowledge time, and write order are not silently collapsed;
-- any implementation-specific approximation is documented and tested.
-
-### Conflict
-
-- candidate conflict is distinct from established conflict;
-- detection is distinct from resolution;
-- unresolved semantic conflict remains visible;
-- directionality and lifecycle assumptions are declared.
-
-### Admission
-
-- admission decisions are explicit;
-- the decision, policy version, evidence, and result can be receipted;
-- no specific Crystal or Titan component is required by the abstract contract;
-- implementation-profile names such as `GATE`, `TruthGate`, `Guardian`, `L3`, or an LLM filter do not become universal contract terms merely because one profile uses them.
-
-### World and epistemic boundaries
-
-A conforming profile should map the following documentation-level assertions:
-
-| Assertion ID | Required meaning |
-|---|---|
-| `NK-EPI-001` | a representation is not silently treated as the represented reality |
-| `NK-EPI-002` | an observation is not silently treated as a complete explanation |
-| `NK-EPI-003` | transformation or assembly is not silently treated as proof of origin |
-| `NK-EPI-004` | unknown or unanswered is not silently treated as false |
-| `NK-EPI-005` | missing provenance remains explicit as a provenance gap |
-| `NK-EPI-006` | a current observer, method, or profile limit is not silently universalized into impossibility |
-| `NK-EPI-007` | worldview-sensitive claims retain explicit domain and scope |
-| `NK-EPI-008` | observations, models, hypotheses, retrieval results, utility outcomes, and proposals are not silently promoted into admitted knowledge |
-
-The assertions are defined by [`WORLD_AND_EPISTEMIC_BOUNDARIES.md`](./WORLD_AND_EPISTEMIC_BOUNDARIES.md) and proposed through [`ADR-0008`](./adr/0008-epistemic-boundaries-are-representation-disciplines.md).
-
-An implementation may use different schemas and vocabulary, but it must demonstrate the declared semantic equivalence rather than merely repeat these labels.
-
-### Retrieval and selection
-
-- relevance is not treated as truth;
-- exclusions, conflicts, uncertainty, and limits can be exposed;
-- selection behaviour is reproducible within its declared profile;
-- a Receipt does not imply task sufficiency.
-
-### Audit
-
-- important state transitions and context selections can produce accountable Receipts;
-- a Receipt explains processing but does not prove truth or task sufficiency;
-- Receipt schema and source-range semantics are declared.
-
-### Deletion and restriction
-
-- append-only history does not nullify legal deletion or restriction requirements;
-- payloads, projections, indexes, embeddings, exports, Receipts, Shadow datasets, and backups are included in the declared scope;
-- crypto-erasure or tombstone behaviour must state what remains observable.
-
-## 4. Executable conformance artifacts
-
-Prose is necessary but insufficient. A conformance claim should eventually be backed by reviewable artifacts.
-
-Recommended artifact set:
+The proposal branch `agent/contracts-14-17` introduces:
 
 ```text
 contracts/
-├── schemas/                 # normative event, Claim, Receipt, and export schemas
-├── golden/                  # valid histories and expected semantic outputs
-├── invalid/                 # malformed or forbidden event corpora
-├── canonical/               # canonical encoding and identity vectors
-├── replay/                  # reducer and projection rebuild vectors
-├── conflict/                # candidate/canonical conflict fixtures
-├── temporal/                # valid-time and record-time fixtures
-├── epistemic/               # NK-EPI positive and negative fixtures
-├── deletion/                # restriction and erasure expectations
-└── evidence/                # machine-readable conformance records
+├── registry.json        # stable family/assertion registry
+├── schema-bundle.json   # neutral JSON Schema bundle
+└── fixture-pack.json    # identity, event, deletion and epistemic corpora
+
+tools/conformance/
+├── runner.py            # standard-library fixture validator / adapter launcher
+└── README.md
+
+tests/test_conformance_runner.py
+.github/workflows/conformance-fixtures.yml
 ```
 
-A cross-profile runner should consume the same fixtures and report allowed and forbidden differences under a declared equivalence class.
-
-### Proposed epistemic fixture families
-
-Future fixtures for `NK-EPI-001` through `NK-EPI-008` should include at least:
-
-- a model output that resembles an observation but lacks observation provenance;
-- a transformation result incorrectly presented as proof of ultimate origin;
-- missing evidence incorrectly collapsed to a negative result;
-- an unknown provenance segment incorrectly filled by an assumption;
-- a profile limitation incorrectly promoted to universal impossibility;
-- a worldview Claim presented without domain or scope;
-- a retrieval result silently promoted into admitted knowledge;
-- a valid profile that preserves the gap, scope, and admission decision explicitly.
-
-These fixtures are proposed only. No executable pack currently exists.
-
-## 5. Reference conformance experiment
-
-The first reference experiment should be small and technology-neutral.
+Current evidence boundary:
 
 ```text
-Authoritative history
-        ↓
-Reference implementation profile
-        ↓
-Derived semantic state
-        ↓
-Delete all disposable projections
-        ↓
-Rebuild
-        ↓
-Compare declared equivalence
-        ↓
-Produce reconstruction Receipt
+fixture-integrity tooling: IMPLEMENTED IN BRANCH
+local focused tests:       5 PASS
+local fixture validation:  PASS
+Kernel runtime:            NOT IMPLEMENTED
+Kernel conformance:        UNSUPPORTED
+C2:                        NOT YET ESTABLISHED
+C3:                        NOT ESTABLISHED
 ```
 
-Minimum assertions:
+The built-in Python reader validates fixture integrity and deterministic reference algorithms. It does not store Kernel history, execute a reducer, rebuild a real projection or perform deletion.
 
-1. replay reconstructs the declared state;
-2. removing projections does not remove Canon history;
-3. rebuilt lineage and temporal meaning remain equivalent;
-4. conflicts are not silently lost;
-5. the Receipt identifies source range, reducer/profile version, result, and known limits;
-6. invalid events fail in declared ways;
-7. the evidence record names the exact fixture and implementation commit.
+## 6. Fixture families
 
-The first replay experiment does not by itself prove the eight `NK-EPI` assertions. Each assertion requires its own traceable fixture and expected semantic result.
+### Identity
 
-## 6. Semantic equivalence
+The proposed `nk-id/1` vectors cover:
 
-Different substrates may represent the same meaning differently.
+- deterministic key ordering;
+- NFC enforcement;
+- rejection of floats and explicit null;
+- domain-separated content/Claim/lineage IDs;
+- golden and invalid cases.
 
-A conformance test must declare its equivalence class.
+### Event and replay boundary
 
-| Equivalence class | Example |
+The proposed scenarios cover contiguous single-writer ordering, payload/event commitments, previous-hash continuity and projection failure after committed history. They do not constitute a durable append implementation or crash-injection evidence.
+
+### Deletion and restriction
+
+The proposed state-machine scenarios cover restriction, erase request, partial completion, retry, retention hold, crypto-erasure/physical deletion and Receipt proof limits. They do not prove provider, backup or media deletion.
+
+### Epistemic boundaries
+
+Positive and negative fixtures exist for each proposed assertion:
+
+| Assertion | Required discipline |
 |---|---|
-| **Byte equality** | deterministic canonical serialization in the same declared profile/version |
-| **Structural equality** | same Claims, Events, links, and statuses despite allowed non-semantic field ordering |
-| **Semantic equality** | equivalent identity, lineage, temporal meaning, conflict visibility, epistemic boundaries, and policy result |
-| **Behavioural equality** | same accepted commands and observable results under a bounded workload |
+| `NK-EPI-001` | representation is not silently equated with represented reality |
+| `NK-EPI-002` | observation is not silently equated with complete explanation |
+| `NK-EPI-003` | transformation or assembly is not proof of origin |
+| `NK-EPI-004` | unknown is not silently encoded as false |
+| `NK-EPI-005` | missing provenance remains explicit |
+| `NK-EPI-006` | current profile limits are not universalized into impossibility |
+| `NK-EPI-007` | worldview-sensitive Claims retain domain and scope |
+| `NK-EPI-008` | model/retrieval/utility/proposal output is not silently admitted as knowledge |
 
-> [!IMPORTANT]
-> “Equivalent” must never remain an undefined marketing word. Every test must state what differences are allowed and why they do not change meaning.
+Fixture presence does not accept ADR-0008 or prove runtime enforcement.
 
-## 7. Contract-to-test traceability
+## 7. Equivalence classes
 
-A conformance claim must point from prose to executable evidence.
+| Class | Required comparison |
+|---|---|
+| **Byte** | identical canonical bytes or identifiers under one declared contract/version |
+| **Structural** | equivalent required fields, entities and relations with allowed non-semantic differences |
+| **Semantic** | preserved identity, lineage, time, scope, authority, conflict and unknown meaning |
+| **Behavioural** | equivalent accepted/rejected commands and observable outcomes in a bounded workload |
 
-| Contract assertion | Fixture/test ID | Runtime symbol/path | Equivalence class | Result | Known limit |
-|---|---|---|---|---|---|
-| Claims are immutable semantic records | `<id>` | `<path>` | semantic | pass/fail | `<limit>` |
-| Replay reconstructs declared state | `<id>` | `<path>` | structural | pass/fail | `<limit>` |
-| Candidate conflict is not canonical conflict | `<id>` | `<path>` | behavioural | pass/fail | `<limit>` |
-| Relevance is not truth evidence | `<id>` | `<path>` | behavioural | pass/fail | `<limit>` |
-| `NK-EPI-001` representation is not reality | `<id>` | `<path>` | semantic | pass/fail | `<limit>` |
-| `NK-EPI-003` transformation is not origin | `<id>` | `<path>` | semantic | pass/fail | `<limit>` |
-| `NK-EPI-005` provenance gap is preserved | `<id>` | `<path>` | structural/semantic | pass/fail | `<limit>` |
-| `NK-EPI-008` no silent semantic promotion | `<id>` | `<path>` | behavioural | pass/fail | `<limit>` |
+Every claim must list allowed and forbidden differences. “Equivalent” without a definition is non-conforming language.
 
-Missing mappings remain explicit gaps. A line-by-line prose review is not a substitute for traceability.
+## 8. External adapter protocol
 
-## 8. Evidence record
+The support runner may invoke an external profile adapter:
 
-Each conformance claim should point to:
+```bash
+python tools/conformance/runner.py adapter --output report.json -- <adapter-command>
+```
+
+The fixture-pack path is appended to the command. The adapter must emit one JSON report. Non-zero exit, malformed output, missing support state or silent skip is a failure.
+
+A profile evidence report should include:
 
 ```yaml
-contract_id: <stable-id>
-contract_version: <version>
-assertion_id: <stable-id>
-implementation_profile: <profile>
+report_version: nk-evidence-report/1
+profile_id: <profile>
 repository_commit: <sha>
-source_snapshot_sha256: <sha256-or-not-applicable>
-runtime_environment: <identity>
-test_command: <command>
-test_artifacts:
-  - <path-or-artifact>
-fixture_ids:
-  - <id>
-known_failures:
-  - <value>
-equivalence_definition: <class-and-rules>
-evidence_level: DOCUMENTED | EXTERNALLY_OBSERVED | LOCALLY_TESTED | REPOSITORY_REPRODUCED | SHADOW_EVALUATED | OPERATIONALLY_VALIDATED
-operator_approval: NOT_REQUESTED | PENDING | APPROVED | WITHDRAWN
+contract_versions: [<versions>]
+fixture_ids: [<ids>]
+support_state: SUPPORTED | UNSUPPORTED | PARTIAL | FAILED
+kernel_runtime_conformance: UNSUPPORTED | C0 | C1 | C2 | C3 | C4 | C5
+evidence_level: DOCUMENTED | LOCALLY_TESTED | REPOSITORY_REPRODUCED | SHADOW_EVALUATED | OPERATIONALLY_VALIDATED
+checks: [<results>]
+limitations: [<limits>]
 ```
 
-AI-generated reviews, architectural discussions, and external model consensus may be listed as inputs. They are not conformance evidence by themselves.
+## 9. First real Kernel experiment
 
-## 9. Non-conformance examples
+A future implementation profile should:
+
+```text
+load authoritative history
+→ derive state
+→ destroy all disposable projections
+→ rebuild from empty projections
+→ compare declared equivalence
+→ emit reconstruction Receipt
+```
+
+Minimum proof includes invalid-event handling, exact versions, conflict visibility, temporal preservation and evidence commit. Fixture validation alone cannot satisfy this experiment.
+
+## 10. Non-conformance examples
 
 ```text
 ❌ Projection rows are edited and treated as history.
-❌ A graph edge silently promotes a Claim to truth.
-❌ Replacing SQLite requires changing Claim identity.
-❌ An LLM response becomes Canon without an explicit admission decision.
-❌ A conflict disappears because the newest timestamp wins.
-❌ A README claim has no reproducible code or test artifact.
-❌ A replacement suite has 44 tests but is presented as the lost original suite.
+❌ Backend row IDs silently define semantic identity.
+❌ An LLM or retrieval result becomes admitted knowledge without authority.
+❌ Newest timestamp silently resolves semantic conflict.
+❌ A hash chain is described as complete authenticity or consensus.
+❌ Tombstone/ERASED is described as physical or global deletion.
+❌ Unsupported assertions are omitted from the report.
+❌ Local fixture tests are presented as C2 or C3 Kernel evidence.
+❌ A replacement suite is presented as recovered v0.1.2.1 evidence.
 ❌ Operator approval is presented as empirical proof.
-❌ A GitHub-hosted timing is presented as historical hardware-equivalent performance without comparability evidence.
-❌ A model or simulation is presented as the represented reality without declared equivalence limits.
-❌ Successful transformation or assembly is presented as proof of ultimate origin.
-❌ Missing evidence is presented as a negative result.
-❌ A provenance gap is filled by an unmarked assumption or worldview statement.
-❌ A current implementation limitation is presented as universal impossibility.
-❌ A metaphysical, religious, anti-religious, cultural, or ethical Claim is presented as unmarked empirical fact.
 ```
 
-## 10. Relationship to Issue #1
+## 11. Relationship to Issue #1
 
-Issue #1 is currently blocked by authentic source recovery.
+Issue #1 remains blocked by authentic source recovery. The Issues #14–#17 fixture/contract track is a new, explicitly separated architecture lineage.
 
-```text
-Stage 0.5
-recover authentic v0.1.2.1 source and original suite
-        ↓
-Stage 1
-sealed exact import
-→ preserved test inventory
-→ historical reproduction environment
-→ compatibility CI
-→ contract-to-test traceability
-```
-
-Issue #1 is not expected to prove full technology independence or the proposed `NK-EPI` assertion family.
-
-A successful import may establish C2 evidence only for the specific assertions demonstrated by the authentic imported profile. It does not establish C3 cross-profile equivalence, C4 Shadow value, C5 operational validation, production readiness, universal substrate portability, or compliance with `NK-EPI-001` through `NK-EPI-008` unless dedicated fixtures prove them.
-
-See [`ISSUE_1_IMPORT_SPEC.md`](./ISSUE_1_IMPORT_SPEC.md) and [`ISSUE_1_IMPORT_SPEC.ru.md`](./ISSUE_1_IMPORT_SPEC.ru.md).
+A future authentic import may establish C2 only for assertions proved by its original committed runtime/tests. It does not automatically satisfy the proposed exact contracts, `NK-EPI`, C3, C4, C5 or production readiness.
