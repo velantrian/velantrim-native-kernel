@@ -12,7 +12,7 @@ Status:          DRAFT PR / ADR ACCEPTED / NOTION SYNCED / MERGE PENDING
 PR:              #28
 Base main:       2a03c871e5f7250c917c060cc112a9ea1497e9c4
 Branch:          agent/foundational-contract-skeleton
-Acceptance head: b7f82fa1f3dd8b9e93e6290ad80abde49b257ab1
+Acceptance head: e4eabfb950259b27598239b30c8998feacbe8b1f
 Scope:           foundational architecture / abstract-contract documentation
 Runtime:         unchanged; no Native Kernel implementation added
 Decision:        ADR-0010 ACCEPTED; operator approval APPROVED
@@ -58,6 +58,7 @@ GitHub documentation added or updated:
 - `docs/adr/0010-foundational-contract-families.md`;
 - bilingual documentation navigation;
 - ADR index;
+- `docs/ai/CURRENT_STATE.md`;
 - AI component map and known-risk register.
 
 Notion synchronization:
