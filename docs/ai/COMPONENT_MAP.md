@@ -20,9 +20,41 @@ Use exact SHAs, statuses and evidence. Document presence is not runtime wiring.
 |---|---|---|
 | Why does Kernel exist? | `docs/FOUNDATIONAL_INTENT*` | `docs/LONG_HORIZON_VISION.md` |
 | What meaning must survive? | `ARCHITECTURE.md` | ADR-0001, conformance model |
+| How are the foundational responsibilities separated? | `docs/FOUNDATIONAL_CONTRACT_SKELETON*` | ADR-0010 proposal, Issues #14–#17 |
 | What is not Canon? | `ARCHITECTURE.md`, Copilot instructions | profile docs, Anti-Canon statements |
 | How are decisions accepted? | `docs/DECISION_PROCESS.md` | ADR-0007, ADR template/index |
 | How is compatibility demonstrated? | `docs/CONFORMANCE_MODEL.md` | ADR-0004, benchmarks |
+
+## Foundational contract skeleton
+
+Start with:
+
+- `docs/FOUNDATIONAL_CONTRACT_SKELETON.md`;
+- `docs/FOUNDATIONAL_CONTRACT_SKELETON.ru.md`;
+- ADR-0010;
+- Issues #14, #15, #16 and #17;
+- `docs/WORLD_AND_EPISTEMIC_BOUNDARIES.md` and ADR-0008.
+
+Proposed family map:
+
+```text
+NK-SEM — semantic roles
+NK-ID  — identity and canonical encoding
+NK-EVT — event, observation and recorded change
+NK-AUT — authority and admission
+NK-CFL — conflict and explicit unknowns
+NK-EQV — conformance and semantic equivalence
+```
+
+Authority boundary:
+
+```text
+proposed assertion namespace
+≠ accepted Canon
+≠ executable schema
+≠ implemented runtime
+≠ conformance evidence
+```
 
 ## Source recovery and executable evidence
 
@@ -148,10 +180,11 @@ Cross-links do not authorize runtime integration, shared storage, shared Canon o
 | Task | Minimum route |
 |---|---|
 | General audit | `AGENTS` → `STATUS` → AI pack → affected documents |
+| Foundational semantic/identity/authority change | foundational skeleton → relevant ADR/issue → conformance model |
 | Source candidate | Issue #1 spec → source-recovery README/tooling → provenance manifest |
 | AI-context integrity | AI-context README → validator/tests → workflow result → affected context file |
 | New profile | profile docs → conformance model → ADR → evidence plan |
-| New event or Claim semantics | Architecture → decision process → ADR → conformance fixtures |
+| New event or Claim semantics | foundational skeleton → Architecture → decision process → ADR → conformance fixtures |
 | Cross-project reference | ecosystem map → integration boundaries → affected project docs |
 | Documentation-only polish | paired language files → status check → link validation |
 | Notion unavailable | complete GitHub → `NOTION_HANDOFF.md` |
