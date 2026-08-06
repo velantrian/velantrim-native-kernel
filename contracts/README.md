@@ -2,34 +2,34 @@
 
 This directory is a machine-readable review surface for the architecture track. It is not a Kernel runtime.
 
-## Publication status
+## Decision status
 
-The package was published to `main` through PR #35 at merge SHA `0552ae284d56148972e9bcc8de5f80a7f462c0f3`.
+ADR-0011 through ADR-0014 are now `ACCEPTED / OPERATOR_APPROVAL_APPROVED`.
 
 ```text
-published in main
-≠ ADR-0011…0014 accepted
-≠ operator approval
-≠ Kernel runtime implemented
+accepted contract
+≠ runtime implementation
+≠ repository-reproduced CI
 ≠ C2/C3 Kernel conformance
+≠ production proof
 ```
 
-ADR-0011 through ADR-0014 remain `PROPOSED / OPERATOR_APPROVAL_PENDING`. This checkpoint update intentionally touches `contracts/**` so the now-active fixture-integrity workflow can run on a subsequent `main` push.
-
-## Status semantics
-
-`registry.json` contains two layers:
-
-1. assertion IDs inherited from the accepted ADR-0010 family skeleton;
-2. additional exact-contract assertions proposed by ADR-0011 through ADR-0014.
-
-The family-level `decision_status` records the status of the **family ownership boundary**, not automatic acceptance of every assertion or the named exact contract version. The authoritative status of each row is its own `status` field plus the owning ADR.
+Accepted exact contracts:
 
 ```text
-family decision_status: ACCEPTED
-+ assertion status: PROPOSED
-= accepted ownership namespace with a proposed exact rule
+nk-id/1.0       — canonical identity
+nk-event/1.0    — single-writer append/idempotency/order/replay boundary
+nk-deletion/1.0 — deletion/restriction/retention semantics
+nk-fixtures/1.0 — executable fixture/evidence protocol
 ```
+
+`NK-EPI-001…008` and ADR-0008 remain `PROPOSED`.
+
+## Registry semantics
+
+`registry.json` records accepted family ownership and assertion-level status. The exact assertions governed by ADR-0011 through ADR-0014 are `ACCEPTED`; the epistemic fixture assertions remain `PROPOSED`.
+
+`runtime_status: NOT_IMPLEMENTED` remains authoritative for this package. Assertion acceptance states what future profiles must preserve; it does not state that the built-in reader implements those assertions as Kernel behaviour.
 
 ## Files
 
@@ -46,7 +46,7 @@ python tools/conformance/runner.py validate
 python -m unittest discover -s tests -p 'test_conformance_runner.py'
 ```
 
-Local authoring result recorded for PR #35:
+Local authoring result recorded for the accepted package:
 
 ```text
 8 unit tests PASS
@@ -71,12 +71,24 @@ assertion_results: 72 × UNSUPPORTED
 
 The support state describes the fixture-integrity reader only. It does not claim that a Kernel runtime supports the assertions.
 
+## Workflow
+
+The repository workflow supports:
+
+```text
+pull_request path trigger
+push-to-main path trigger
+manual workflow_dispatch
+```
+
+An active workflow definition is not an executed result. Until an exact run is recorded, evidence remains `LOCALLY_TESTED` rather than `REPOSITORY_REPRODUCED`.
+
 ## Evidence boundary
 
 ```text
 fixture integrity
 ≠ runtime implementation
-≠ operator acceptance
-≠ C2 until exact repository CI exists
+≠ operator evidence substitution
+≠ C2 for a Kernel profile
 ≠ C3 without two materially independent profiles
 ```
