@@ -13,6 +13,7 @@ This directory separates project purpose, architecture, conformance, research pr
 |---|---|---|
 | [`FOUNDATIONAL_INTENT.md`](./FOUNDATIONAL_INTENT.md) · [Русский](./FOUNDATIONAL_INTENT.ru.md) | Deep explanation of why Native Kernel exists as a separate system, what problem it studies, and what success would mean | architectural intent |
 | [`LONG_HORIZON_VISION.md`](./LONG_HORIZON_VISION.md) | Architecture Canon, contracts, profiles, and future substrates | research vision |
+| [`STORAGE_AND_EXECUTION_PROFILES.md`](./STORAGE_AND_EXECUTION_PROFILES.md) · [Русский](./STORAGE_AND_EXECUTION_PROFILES.ru.md) | PostgreSQL as the primary full contemporary profile, SQLite as an optional embedded profile, offline local-model operation, profile selection, and migration boundaries | accepted implementation-profile direction; not implemented |
 | [`CONFORMANCE_MODEL.md`](./CONFORMANCE_MODEL.md) | How an implementation can demonstrate compatibility | proposed documentation contract |
 | [`DECISION_PROCESS.md`](./DECISION_PROCESS.md) | How decisions, evidence, implementation, AI input, and operator approval remain separate | governance process |
 | [`adr/README.md`](./adr/README.md) | Architecture Decision Record index | active governance |
@@ -28,15 +29,17 @@ This directory separates project purpose, architecture, conformance, research pr
         ↓
 2. LONG_HORIZON_VISION
         ↓
-3. ARCHITECTURE.md in repository root
+3. STORAGE_AND_EXECUTION_PROFILES
         ↓
-4. CONFORMANCE_MODEL
+4. ARCHITECTURE.md in repository root
         ↓
-5. DECISION_PROCESS + ADRs
+5. CONFORMANCE_MODEL
         ↓
-6. STATUS.md and ROADMAP.md
+6. DECISION_PROCESS + ADRs
         ↓
-7. Optional experimental research notes
+7. STATUS.md and ROADMAP.md
+        ↓
+8. Optional experimental research notes
 ```
 
 ## The central distinction
