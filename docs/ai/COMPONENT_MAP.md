@@ -12,6 +12,7 @@ Use exact SHAs, statuses and evidence. Document presence is not runtime wiring.
 | `ROADMAP.md` | Stage gates and future work | Planned sequence, not implementation |
 | `AGENTS.md` | Mandatory AI/reviewer rules | Repository-wide guidance |
 | `docs/ai/*` | Current orientation, risks, logs and sync protocol | Last-verified operational context |
+| `tools/ai_context/` + `.github/workflows/ai-context.yml` | Context-pack integrity checks | Support/governance tooling, not Kernel runtime evidence |
 
 ## Architecture and intent
 
@@ -45,6 +46,30 @@ source-recovery tooling
 → does not execute Kernel runtime
 → does not reproduce the external 44-test checkpoint
 ```
+
+## AI context integrity tooling
+
+Start with:
+
+- `tools/ai_context/README.md`;
+- `tools/ai_context/validate_context.py`;
+- `tests/test_ai_context_validator.py`;
+- `.github/workflows/ai-context.yml`.
+
+The guard verifies required context files, selected repository-relative links, checkpoint syntax, commit existence, checkpoint ancestry and status-boundary markers.
+
+```text
+AI-context guard PASS
+→ repository orientation package is structurally coherent
+
+AI-context guard PASS
+≠ every statement is semantically current
+≠ Notion is synchronized
+≠ Architecture Canon is correct
+≠ Kernel runtime exists or works
+```
+
+An ancestor checkpoint is valid by design. Human or AI review still decides whether intervening material changes require a new semantic checkpoint.
 
 ## Storage and execution profiles
 
@@ -124,6 +149,7 @@ Cross-links do not authorize runtime integration, shared storage, shared Canon o
 |---|---|
 | General audit | `AGENTS` → `STATUS` → AI pack → affected documents |
 | Source candidate | Issue #1 spec → source-recovery README/tooling → provenance manifest |
+| AI-context integrity | AI-context README → validator/tests → workflow result → affected context file |
 | New profile | profile docs → conformance model → ADR → evidence plan |
 | New event or Claim semantics | Architecture → decision process → ADR → conformance fixtures |
 | Cross-project reference | ecosystem map → integration boundaries → affected project docs |
