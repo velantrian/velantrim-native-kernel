@@ -1,161 +1,136 @@
 # 📍 Native Kernel Current State Checkpoint
 
 **Verified:** 2026-08-06  
-**Last verified public `main`:** `1e721aeb5b116694a0dbb417c377aa9f92b6f8e5`  
-**Latest proposal publication:** PR #41 / RFC-0002 — clean PostgreSQL reference profile planning  
-**Repository status:** `RESEARCH / DOCUMENTED_ONLY / NOT PRODUCTION-READY`  
-**Primary historical gate:** Issue #1 / authentic source recovery
+**Last verified public `main`:** `9ccbb535e22438092393e2686eb76eb362adb29d`  
+**Active branch:** `agent/p1-semantic-core@5507901f688fffa49acc907de185acc287e27c63`  
+**Active issue:** #43 — P1 profile-independent semantic core  
+**Repository status:** `RESEARCH / P1 PARTIAL IMPLEMENTATION / NOT PRODUCTION-READY`
 
-> Re-check the actual branch, PR and final merge SHA before relying on this checkpoint.
-
-```text
-ACCEPTED CONTRACT ≠ IMPLEMENTED PROFILE
-MERGED RFC PROPOSAL ≠ OPERATOR ACCEPTANCE
-PROFILE PLAN ≠ RUNTIME GO
-PLANNED ASSERTION ≠ SUPPORTED ASSERTION
-LOCALLY_TESTED TOOLING ≠ REPOSITORY-REPRODUCED KERNEL
-C2 ≠ C3
-```
-
-## Accepted exact contracts
+> Re-check the branch head, PR and final merge SHA before relying on this checkpoint.
 
 ```text
-ADR-0011 / nk-id/1.0:       ACCEPTED / APPROVED
-ADR-0012 / nk-event/1.0:    ACCEPTED / APPROVED
-ADR-0013 / nk-deletion/1.0: ACCEPTED / APPROVED
-ADR-0014 / nk-fixtures/1.0: ACCEPTED / APPROVED
+ACCEPTED PROFILE PLAN ≠ COMPLETE PROFILE
+P1 LOCAL PASS ≠ DURABLE KERNEL
+LOGICAL REDUCER ≠ AUTHORITATIVE HISTORY
+IMPLEMENTED CODE PATH ≠ ASSERTION-LEVEL CONFORMANCE
+C1 ≠ C2 ≠ C3
 ```
 
-Acceptance publication:
+## Operator decision
+
+The operator accepted RFC-0002 and clean lineage, then separately authorized P1 only:
 
 ```text
-PR #38 merge: ff88809fe7d7c79033a150140d20618e04aa1f9d
-PR #39 merge: 350734c8ce8d8cbc742def7df9f3d5044a5953ab
-Registry:     nk-contract-registry/1.1.0
+RFC-0002:                 ACCEPTED / APPROVED
+clean lineage:            clean/postgresql-reference/0.1
+P1 semantic core:         GO
+P2–P5:                    REQUIRE SEPARATE GO
+Issue #1:                 ACTIVE / INDEPENDENT
 ```
 
-`NK-EPI-001…008` and ADR-0008 remain proposed.
+Decision evidence is recorded in Issue #40 and ADR-0015.
 
-## RFC-0002 publication
+## Active P1 implementation
+
+Package:
 
 ```text
-PR:                    #41
-Issue:                 #40
-Final PR head:         ab0e80b0833e96ef98ef4feec9e92b4153176083
-Squash merge:          1e721aeb5b116694a0dbb417c377aa9f92b6f8e5
-Changed files:         12
-Profile ID:            native-kernel/postgresql-reference
-Planning version:      nk-pg-profile/0.1-proposed
-Evidence lineage:      clean/postgresql-reference/0.1
-RFC status:            PROPOSED / DOCUMENTED_ONLY
-Operator approval:     PENDING
-Implementation:        NOT_STARTED
-Kernel runtime:        ABSENT / UNSUPPORTED
+native_kernel.semantic_core
+Python >=3.11,<3.13
+standard library only
 ```
 
-Review record:
+Implemented components:
+
+1. `canonical.py` — canonical JSON, `nkh1`, `nkc1`, `nkl1`, provisional `nkd0`/`nks0`;
+2. `models.py` — immutable semantic content, Claim identity, command and logical Event objects;
+3. `authority.py` — explicit deterministic deny-by-default authority policy;
+4. `reducer.py` — version-bound deterministic in-memory reducer;
+5. `deletion.py` — accepted deletion/restriction transition graph and Receipt limits;
+6. `receipt.py` — admission Receipt proof-boundary enforcement;
+7. `errors.py` — explicit contract, authority, sequence, version, transition and overclaim failures.
+
+## Local evidence
+
+Recorded before publication:
 
 ```text
-Branch behind base:        0
-Unresolved review threads: 0
-Submitted reviews:         0
-Actionable findings:       0
-Codex review:              unavailable due external usage limit
+20 semantic-core unit tests PASS
+4 P1-manifest guard tests PASS
+Python compileall PASS
+no PostgreSQL/SQLite/network dependency imports
 ```
 
-RFC-0002 defines a future profile boundary:
+Tests cover identity vectors, invalid canonical inputs, command determinism, explicit authority, reducer sequence/version failures, deletion fixture paths and Receipt overclaims.
+
+## Implementation limits
+
+P1 does not contain:
+
+- PostgreSQL or SQLite adapter;
+- SQL schema, driver or migration framework;
+- durable append/idempotency;
+- writer lease persistence;
+- authoritative replay or crash recovery;
+- projection storage/rebuild;
+- network API;
+- conformance adapter;
+- Titan, Mentaury or Crystal wiring.
+
+The P1 reducer processes logical in-memory Events only.
+
+## Profile and evidence manifests
 
 ```text
-semantic core
-→ authority port
-→ append service
-→ PostgreSQL authoritative-history adapter
-→ reducer/upcaster registry
-→ disposable projections
-→ Receipt/evidence emitter
-→ conformance adapter
+profile-manifest.json → historical P0 planning snapshot
+p1-manifest.json      → accepted P1 implementation/evidence state
 ```
 
-It specifies one authoritative writer, transaction/idempotency behaviour, profile-local SQL boundaries, replay/rebuild, deletion inventory, migration, fault tests and C0→C5 gates. It does not select a permanent programming language, PostgreSQL major, SQL schema, driver, migration framework or writer-lease mechanism.
+The P1 validator rejects:
 
-## Planning manifest
+- false C1/C2/C3 promotion;
+- external dependency policy;
+- historical `v0.1.2.1` lineage;
+- recovery claims;
+- removal of explicit PostgreSQL/conformance prohibitions.
 
-`profiles/postgresql-reference-v0/profile-manifest.json` maps all 72 registry assertions:
+All 72 contract assertions remain runtime `UNSUPPORTED` until a P4 conformance adapter reports every assertion exactly once.
+
+## Workflow state
+
+`.github/workflows/p1-semantic-core.yml` declares:
+
+- pull-request path trigger;
+- push-to-main path trigger;
+- manual dispatch;
+- Python 3.11 and 3.12;
+- 20 semantic tests;
+- 4 manifest tests;
+- compileall;
+- machine-readable P1 manifest evidence artifact.
+
+No exact GitHub Actions run is yet recorded for the active branch.
 
 ```text
-64 accepted-family assertions: PLANNED
-8 NK-EPI assertions:           DEFERRED_PROPOSED_FAMILY
-runtime support:               72 × UNSUPPORTED
-implementation evidence:       NONE
-historical lineage:            null
-Issue #1 relationship:         INDEPENDENT
+workflow definition: ACTIVE ON BRANCH
+local evidence:      LOCALLY_TESTED
+repository run:      NOT_RECORDED
 ```
-
-Local planning-tool evidence:
-
-```text
-Profile-manifest tests: 5 PASS
-Missing assertion:      rejected
-Duplicate assertion:    rejected
-False runtime support:  rejected
-Historical lineage:     rejected
-```
-
-This validates the manifest guard, not a Kernel implementation.
-
-## Existing conformance tooling evidence
-
-Recorded package evidence remains:
-
-- eight focused conformance-fixture tests pass locally;
-- 72 unique registry assertions;
-- identity, event, idempotency, deletion and epistemic fixture coverage;
-- Kernel runtime conformance remains `UNSUPPORTED`.
-
-## Workflow status
-
-The conformance workflow now validates accepted fixtures and the proposed profile manifest on Python 3.11/3.12 and emits two machine-readable reports.
-
-No run was created for PR #41 or merge `1e721aeb…`.
-
-```text
-workflow definition:            ACTIVE / MANUALLY DISPATCHABLE
-repository run:                 NOT RECORDED
-repository-reproduced evidence: NOT ESTABLISHED
-```
-
-This is not a PASS and not a test failure.
 
 ## Issue #1 separation
 
 ```text
-clean/postgresql-reference/0.1
+P1 clean implementation
 ≠ recovered v0.1.2.1
-≠ original 44-test evidence
-≠ declaration that historical source is globally lost
+≠ original 44 tests
+≠ closure of source-recovery gate
 ```
-
-Issue #1 remains active and independent. Runtime implementation of the clean profile requires a separate operator GO.
-
-## Runtime and ecosystem boundary
-
-No PostgreSQL adapter, reducer, projection, deletion mechanism or Kernel package exists. No Titan, Mentaury or Crystal integration is authorized.
-
-## Remaining decisions before runtime
-
-1. operator acceptance, revision or rejection of RFC-0002/profile lineage;
-2. separate runtime GO before P1;
-3. language and package layout;
-4. PostgreSQL/driver/migration version matrix;
-5. writer lease/epoch mechanism;
-6. neutral export encoding and initial reducer/projection set;
-7. minimum deletion scope;
-8. Issue #18 licensing/dependency/contribution terms;
-9. whether clean-profile runtime may begin while Issue #1 remains active.
 
 ## Next gates
 
-1. Merge the final PR #41 checkpoint and synchronize exact main to Notion.
-2. Obtain explicit operator decision on RFC-0002.
-3. Keep runtime implementation blocked until a separate GO.
-4. Execute exact repository workflow evidence when available.
+1. verify complete branch diff and exact test evidence;
+2. open/review/merge P1 PR with status boundaries intact;
+3. record exact merge SHA and any Actions evidence;
+4. synchronize Notion and Issue #43;
+5. keep P2 blocked until a separate operator GO;
+6. leave assertion-level conformance `UNSUPPORTED` until P4.
