@@ -63,6 +63,7 @@ Velantrim Native Kernel — независимый личный исследов
 | 💻 Исполняемое публичное ядро | **Пока отсутствует** |
 | 📦 Точный импорт | Отслеживается в Issue #1 |
 | 🛰️ Интеграция с Titan | Не активна |
+| ⭐ Интеграция с Mentaury | Не активна и не обязательна |
 | 💎 Интеграция с Crystal | Не активна и не обязательна |
 | 🚀 Production-ready | **Не заявляется** |
 
@@ -460,39 +461,68 @@ NOT_STARTED · PARTIAL · COMPLETE · REMOVED
 
 ## 🗺️ Экосистема Velantrim
 
+> Это **карта ролей и навигации**, а не утверждение, что репозитории являются одним runtime, одной базой данных или одним Canon.
+
 ```text
-                         🔱 VELANTRIM ECOSYSTEM
-                                   │
-             ┌─────────────────────┼─────────────────────┐
-             │                     │                     │
-             ▼                     ▼                     ▼
-    🧬 Native Kernel           🔱 Titan              💎 Crystal
-    architecture research   Exo-Cortex research   verifiable product
-             │                     │                     │
-     Claims / Events       memory / reasoning      TruthGate / TRACE
-     time / lineage        experiments / agents    governance / audit
-     abstract contracts    Offline Shadow target   independent Canon
+🌐 ЭКОСИСТЕМА VELANTRIM
+│
+├── 🧬 Native Kernel
+│   └── сохраняет и воспроизводит смысл независимо от технологии
+│
+├── ⭐ Mentaury Soul
+│   └── цифровая индивидуальность, continuity, отношения и commitments
+│
+├── 🔱 Titan
+│   └── cognition, retrieval, reasoning, инструменты, агенты и orchestration
+│
+└── 💎 Crystal
+    └── проверяемая память, evidence, provenance, доверие и аудит
 ```
 
-- **Native Kernel** — независимый long-horizon архитектурный research-проект.
-- **Titan** — более широкая исследовательская среда Exo-Cortex и будущий тестовый контур Offline Shadow.
-- **Crystal** — независимый продукт проверяемой памяти и отдельный грантовый track.
+| Проект | Зачем он существует | Роль в экосистеме |
+|---|---|---|
+| [🧬 **Native Kernel**](https://github.com/velantrian/velantrim-native-kernel) | Сохранять семантическую идентичность, историю, provenance, время, видимость конфликтов и replay-смысл при смене технологий | Substrate-neutral архитектурное исследование и система контрактов; **как сохраняется и восстанавливается смысл** |
+| [⭐ **Mentaury Soul**](https://github.com/velantrian/velantrim-mentaury-soul) | Исследовать управляемую цифровую индивидуальность с происхождением, памятью, beliefs, values, отношениями, commitments и объяснимым развитием | Identity- и continuity-направление; **кто представляет собой цифровая индивидуальность и как она сохраняет ответственность при изменениях** |
+| [🔱 **Titan**](https://github.com/velantrian/Velantrim-ExoCortex-Titan) | Предоставлять широкие cognition, retrieval, понимание документов, инструменты, агентов, адаптивные вычисления и task-aware orchestration | Исследовательская среда Exo-Cortex; **как информация находится, анализируется и используется для выполнения работы** |
+| [💎 **Crystal**](https://github.com/velantrian/velantrim-exocortex-crystal) | Создавать проверяемую память с evidence, provenance, trust, governance и audit boundaries | Независимый продуктовый track проверяемой памяти; **как доказательства и доверие проверяются и управляются** |
+
+Краткая формула для запоминания:
+
+```text
+⭐ Mentaury  → КТО: индивидуальность, continuity, beliefs, отношения
+🔱 Titan     → КАК ДУМАТЬ И РАБОТАТЬ: cognition, retrieval, инструменты, агенты
+🧬 Kernel    → КАК СОХРАНИТЬ И ВОСПРОИЗВЕСТИ: смысл, история, provenance, контракты
+💎 Crystal   → КАК ПРОВЕРИТЬ И АУДИРОВАТЬ: evidence, trust, governance, traceability
+```
+
+Роль Native Kernel фундаментальна, но **не даёт ему authority над другими проектами**:
+
+```text
+Native Kernel
+= нейтральное исследование устойчивых memory- и event-контрактов
+
+Native Kernel
+≠ универсальный источник истины Velantrim
+≠ authority над identity Mentaury
+≠ обязательный storage-layer Titan
+≠ скрытый runtime Crystal
+```
 
 Обязательные границы:
 
 ```text
-✅ Crystal работает без Native Kernel.
-✅ Titan остаётся независимым во время evaluation.
-✅ Проекции Native перестраиваемы и не являются authority.
+✅ Каждый репозиторий остаётся независимо используемым и проверяемым.
+✅ Ссылки объясняют назначение и концептуальные роли.
 ✅ Идеи переносятся только через ограниченный RFC/ADR, тесты, review и approval.
+✅ Events и replay-guarantees Kernel сами по себе не устанавливают personal identity.
 
-🚫 Нет пути Native Event Log → Crystal Canon.
-🚫 Нет live dual-write на текущем этапе.
-🚫 Нельзя утверждать, что Crystal уже работает на Native Kernel.
-🚫 Нельзя добавлять зависимость от TruthGate в controlled import.
+🚫 Объединение репозиториев не требуется.
+🚫 Общая база данных или общий Canon не подразумеваются.
+🚫 Tool output Titan не становится автоматически belief или M3-state Mentaury.
+🚫 Нельзя утверждать, что Titan, Mentaury или Crystal уже работают на Native Kernel.
 ```
 
-См. [`docs/INTEGRATION_BOUNDARIES.md`](./docs/INTEGRATION_BOUNDARIES.md).
+Полная двуязычная карта ролей находится в [`docs/VELANTRIM_ECOSYSTEM.md`](./docs/VELANTRIM_ECOSYSTEM.md), а более строгие технические границы — в [`docs/INTEGRATION_BOUNDARIES.md`](./docs/INTEGRATION_BOUNDARIES.md).
 
 ---
 
@@ -538,6 +568,7 @@ NOT_STARTED · PARTIAL · COMPLETE · REMOVED
 | ADR governance | Документирована в этой ветке |
 | Offline Shadow | Запланирован |
 | Titan integration | Не активна |
+| Mentaury integration | Не активна |
 | Crystal integration | Не активна |
 | Production readiness | **Не заявляется** |
 
@@ -563,7 +594,7 @@ NOT_STARTED · PARTIAL · COMPLETE · REMOVED
 - universal linear-time selection;
 - proven sufficient evidence selection;
 - production security, privacy или hardware portability;
-- live Titan или Crystal integration.
+- live Titan, Mentaury или Crystal integration.
 
 ---
 
@@ -633,10 +664,11 @@ Track B может описывать State Checkpoints, conflict lifecycle, fut
 | [`ARCHITECTURE.md`](./ARCHITECTURE.md) | Инварианты, семантика и portability contracts |
 | [`ROADMAP.md`](./ROADMAP.md) | Параллельные executable и long-horizon tracks |
 | [`docs/LONG_HORIZON_VISION.md`](./docs/LONG_HORIZON_VISION.md) | Архитектурное видение будущей системы |
+| [`docs/VELANTRIM_ECOSYSTEM.md`](./docs/VELANTRIM_ECOSYSTEM.md) | Двуязычная карта ролей проектов и навигация |
 | [`docs/adr/README.md`](./docs/adr/README.md) | ADR index и governance |
 | [`docs/adr/0000-template.md`](./docs/adr/0000-template.md) | Шаблон архитектурного решения |
 | [`docs/BENCHMARKS.md`](./docs/BENCHMARKS.md) | Benchmark policy |
-| [`docs/INTEGRATION_BOUNDARIES.md`](./docs/INTEGRATION_BOUNDARIES.md) | Границы Titan и Crystal |
+| [`docs/INTEGRATION_BOUNDARIES.md`](./docs/INTEGRATION_BOUNDARIES.md) | Границы Titan, Mentaury и Crystal |
 | [`prototype/README.md`](./prototype/README.md) | План controlled import |
 | [`SECURITY.md`](./SECURITY.md) | Research-stage security policy |
 | [`CONTRIBUTING.md`](./CONTRIBUTING.md) | Правила contribution и принятия решений |
@@ -667,7 +699,7 @@ production evidence
 - failure modes и rollback behaviour;
 - tests или benchmark methodology;
 - предположения implementation profile;
-- влияние на границы Titan или Crystal;
+- влияние на границы Titan, Mentaury или Crystal;
 - decision status, evidence level и implementation status.
 
 ---
