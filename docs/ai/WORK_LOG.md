@@ -5,6 +5,42 @@ Re-verify exact SHAs, PR state and current repository evidence before using an e
 
 ---
 
+## 2026-08-06 — AI context freshness guard
+
+```text
+Status:          IN REVIEW ON agent/add-ai-context-freshness-guard
+Base main:       5db894781ac34dd44c1c66b68a00f4c7fe579d32
+Initial guard:   762cacbc5a3e42d85aee472002c073cbab42d021
+Scope:           support tooling / CI / documentation governance
+Runtime:         unchanged; no Native Kernel implementation added
+Notion impact:   GITHUB_AND_NOTION → PLANNED AFTER MERGE
+```
+
+Introduces a standard-library AI-context integrity guard:
+
+- validates mandatory context/governance files;
+- checks selected repository-relative Markdown links;
+- rejects relative links that escape the repository;
+- parses the exact `Last verified public main` SHA from `CURRENT_STATE.md`;
+- proves that the checkpoint commit exists and is an ancestor of the reviewed head;
+- preserves core maturity and epistemic status markers;
+- runs read-only on Python 3.11 and 3.12 with full Git history.
+
+Local isolated validation before publication:
+
+```text
+compileall: PASS
+unittest:   6 passed
+```
+
+Covered failure cases: missing required file, broken relative link, repository-escape link, malformed checkpoint, unknown checkpoint, and a valid ancestor checkpoint.
+
+The guard narrows structural drift only. It does not prove semantic freshness of every statement, Notion synchronization, Architecture Canon correctness, Kernel runtime behavior, or source authenticity.
+
+Final PR number, GitHub Actions evidence, merge SHA and Notion synchronization remain to be recorded.
+
+---
+
 ## 2026-08-06 — AI context and documentation-continuity governance
 
 ```text
