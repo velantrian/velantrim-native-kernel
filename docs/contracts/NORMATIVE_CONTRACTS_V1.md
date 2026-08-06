@@ -1,10 +1,12 @@
 # 🧬 Identity and Canonical Encoding Contract v1
 
-- **Contract:** `nk-id/1.0-proposed`
-- **Decision:** `PROPOSED`
+- **Contract:** `nk-id/1.0`
+- **Decision:** `ACCEPTED`
+- **Operator approval:** `APPROVED`
 - **Evidence:** `LOCALLY_TESTED` for the reference canonicalizer and vectors only
 - **Runtime:** `NOT_IMPLEMENTED`
 - **Issue:** #14
+- **ADR:** ADR-0011
 
 ## Purpose
 
@@ -34,7 +36,7 @@ Reference encoding:
 json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
 ```
 
-This line is explanatory; the normative behaviour is the rules plus golden/invalid vectors.
+This line is explanatory; the normative behaviour is the rules plus golden and invalid vectors.
 
 ## Domains and identifiers
 
@@ -56,15 +58,19 @@ This line is explanatory; the normative behaviour is the rules plus golden/inval
 
 ## Proof boundary
 
-The Python canonicalizer and fixtures prove deterministic behaviour for the declared vectors. They do not prove cross-language equivalence, storage portability or historical use by `v0.1.2.1`. C3 requires two materially independent implementations.
+The Python canonicalizer and fixtures prove deterministic behaviour for the declared vectors. They do not prove cross-language equivalence, storage portability, runtime adoption or historical use by `v0.1.2.1`. C3 requires two materially independent implementations.
+
+---
 
 # 📜 Atomic Append, Ordering and Replay Contract v1
 
-- **Contract:** `nk-event/1.0-proposed`
-- **Decision:** `PROPOSED`
+- **Contract:** `nk-event/1.0`
+- **Decision:** `ACCEPTED`
+- **Operator approval:** `APPROVED`
 - **Evidence:** `LOCALLY_TESTED` fixture integrity only
 - **Runtime:** `NOT_IMPLEMENTED`
 - **Issue:** #15
+- **ADR:** ADR-0012
 
 ## Baseline writer model
 
@@ -99,13 +105,13 @@ An idempotency key is scoped to the authoritative writer and command contract ve
 
 ## Event envelope
 
-The v1 envelope binds command identity, idempotency key, stream, sequence, actor, authority, record time, event type, schema version, payload commitment and previous global hash. Current event vocabulary remains:
+The v1 envelope binds command identity, idempotency key, stream, sequence, actor, authority, record time, event type, schema version, payload commitment and previous global hash. The accepted event vocabulary remains:
 
 ```text
 ADMIT · LINK · UTILIZED · SUPERSEDED · ERASED
 ```
 
-No additional verb is accepted by this proposal.
+No additional verb is accepted by this contract.
 
 ## Atomicity and projections
 
@@ -119,13 +125,21 @@ A domain-separated SHA-256 chain detects many accidental or unsanctioned byte ch
 
 Replay starts from empty derived state, consumes events in `global_seq`, applies declared schema upcasters and reducer version, and emits an evidence record. Unsupported event or reducer versions fail explicitly.
 
+## Proof boundary
+
+The fixture reader validates commitments, ordering, idempotency scenarios and replay boundaries only. It is not a durable event store, reducer, crash-recovery mechanism or Kernel runtime.
+
+---
+
 # 🔒 Deletion, Restriction and Retention Contract v1
 
-- **Contract:** `nk-deletion/1.0-proposed`
-- **Decision:** `PROPOSED`
+- **Contract:** `nk-deletion/1.0`
+- **Decision:** `ACCEPTED`
+- **Operator approval:** `APPROVED`
 - **Evidence:** `LOCALLY_TESTED` state-machine fixtures only
 - **Runtime:** `NOT_IMPLEMENTED`
 - **Issue:** #16
+- **ADR:** ADR-0013
 
 ## Core distinction
 
@@ -167,26 +181,37 @@ Crypto-erasure requires subject- or scope-specific key separation, documented ke
 
 A deletion Receipt lists verified locations, pending/unverified locations, policy and authority, attempts, provider acknowledgements and known limits. It must not assert complete global erasure.
 
+## Proof boundary
+
+The accepted contract defines meaning, lifecycle and proof limits. It does not establish legal compliance, physical media deletion, provider behaviour, backup completion or an implemented key-management/runtime mechanism.
+
+---
+
 # 🧪 Executable Conformance Fixture Protocol v1
 
-- **Contract:** `nk-fixtures/1.0-proposed`
-- **Decision:** `PROPOSED`
+- **Contract:** `nk-fixtures/1.0`
+- **Decision:** `ACCEPTED`
+- **Operator approval:** `APPROVED`
 - **Tooling:** `IMPLEMENTED / LOCALLY_TESTED`
 - **Kernel runtime conformance:** `UNSUPPORTED`
 - **Issue:** #17
+- **ADR:** ADR-0014
 
 ## Artifact structure
 
 ```text
 contracts/
 ├── registry.json
-├── schemas/
-└── fixtures/
-    ├── manifest.json
-    ├── identity/
-    ├── events/
-    ├── deletion/
-    └── epistemic/
+├── schema-bundle.json
+├── evidence-report-v1.schema.json
+├── fixture-pack.json
+└── idempotency-scenarios.json
+
+tools/conformance/
+├── runner.py
+└── README.md
+
+tests/test_conformance_runner.py
 ```
 
 Every assertion has a stable ID and status. A fixture states family, version, expected result and equivalence class. Unsupported assertions are reported rather than skipped.
@@ -200,7 +225,12 @@ Every assertion has a stable ID and status. A fixture states family, version, ex
 
 ## Runner protocol
 
-`python tools/conformance/runner.py validate` checks registry uniqueness, identity vectors, event chain fixtures, deletion transitions and positive/negative `NK-EPI-001..008` coverage.
+```bash
+python tools/conformance/runner.py validate
+python -m unittest discover -s tests -p 'test_conformance_runner.py'
+```
+
+The built-in reader checks registry uniqueness, identity vectors, event commitments/chains, idempotency scenarios, deletion transitions and positive/negative `NK-EPI-001..008` coverage.
 
 An external adapter may be invoked through:
 
@@ -208,8 +238,18 @@ An external adapter may be invoked through:
 python tools/conformance/runner.py adapter --output report.json -- <adapter-command>
 ```
 
-The runner appends the fixture manifest path. The adapter writes one JSON evidence report to stdout. Non-zero exit, malformed JSON, missing assertion status or silent skip is failure.
+The runner appends the fixture-pack path. The adapter writes one JSON evidence report to stdout. Non-zero exit, malformed JSON, missing or duplicated assertion status, and silent skip are failures.
 
 ## Evidence boundary
 
-The built-in Python profile is a fixture-integrity reader, not a Kernel implementation. A passing report supports only the fixture protocol in its recorded environment. C2 requires committed CI evidence; C3 requires two materially independent implementation profiles.
+The built-in Python profile is a fixture-integrity reader, not a Kernel implementation. A passing report supports only the fixture protocol in its recorded environment. Repository reproduction requires an exact committed workflow result. C3 requires two materially independent implementation profiles.
+
+## Governance boundary
+
+Acceptance makes these four contracts the current normative architecture for future profiles. It does not:
+
+- implement Native Kernel runtime behaviour;
+- establish C2 or C3;
+- accept `NK-EPI` as an architecture family beyond its existing proposed status;
+- change Issue #1 or reconstruct `v0.1.2.1`;
+- authorize Titan, Mentaury or Crystal runtime integration.
