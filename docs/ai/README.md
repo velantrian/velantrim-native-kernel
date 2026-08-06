@@ -62,6 +62,30 @@ No material finding, accepted decision, blocker, exact evidence or required next
 | Durable decision | `DECISION_PROCESS.md`, ADR template, sync protocol |
 | No Notion access | `NOTION_HANDOFF.md` |
 
+## Automated integrity check
+
+The standard-library validator is documented in [`../../tools/ai_context/README.md`](../../tools/ai_context/README.md).
+
+Run it from the repository root:
+
+```bash
+python tools/ai_context/validate_context.py --repo .
+```
+
+The guard checks the mandatory context surface, selected repository-relative links, exact checkpoint syntax, commit existence, ancestry and required status-boundary markers. CI runs it with full Git history on Python 3.11 and 3.12.
+
+The guard is intentionally limited:
+
+```text
+AI-context guard PASS
+≠ semantic freshness of every statement
+≠ Notion synchronization proof
+≠ Architecture Canon validation
+≠ Native Kernel runtime evidence
+```
+
+An ancestor checkpoint is permitted because `CURRENT_STATE.md` is a last-verified checkpoint. Reviewers must still decide whether a later material change required a semantic status update.
+
 ## Update obligation
 
 A material PR must update the affected context files in the same branch:
