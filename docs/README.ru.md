@@ -13,6 +13,7 @@
 |---|---|---|
 | [`FOUNDATIONAL_INTENT.ru.md`](./FOUNDATIONAL_INTENT.ru.md) · [English](./FOUNDATIONAL_INTENT.md) | Глубокое объяснение, зачем Native Kernel существует отдельно, какую проблему исследует и что будет означать успех | архитектурный замысел |
 | [`LONG_HORIZON_VISION.md`](./LONG_HORIZON_VISION.md) | Архитектурный Canon, контракты, профили и будущие технологии | исследовательское видение |
+| [`STORAGE_AND_EXECUTION_PROFILES.ru.md`](./STORAGE_AND_EXECUTION_PROFILES.ru.md) · [English](./STORAGE_AND_EXECUTION_PROFILES.md) | PostgreSQL как основной полный современный профиль, SQLite как опциональный embedded-профиль, offline-работа локальной модели, выбор профиля и границы миграции | принятое направление профиля реализации; не реализовано |
 | [`CONFORMANCE_MODEL.md`](./CONFORMANCE_MODEL.md) | Как проверить, что конкретная реализация соответствует архитектуре | предлагаемый контракт проверки |
 | [`DECISION_PROCESS.md`](./DECISION_PROCESS.md) | Как разделять решение, доказательства, реализацию, мнение ИИ и одобрение оператора | процесс управления решениями |
 | [`adr/README.md`](./adr/README.md) | Индекс Architecture Decision Records | действующий процесс документации |
@@ -28,15 +29,17 @@
         ↓
 2. LONG_HORIZON_VISION
         ↓
-3. ARCHITECTURE.md в корне репозитория
+3. STORAGE_AND_EXECUTION_PROFILES
         ↓
-4. CONFORMANCE_MODEL
+4. ARCHITECTURE.md в корне репозитория
         ↓
-5. DECISION_PROCESS + ADR
+5. CONFORMANCE_MODEL
         ↓
-6. STATUS.md и ROADMAP.md
+6. DECISION_PROCESS + ADR
         ↓
-7. Необязательные экспериментальные research notes
+7. STATUS.md и ROADMAP.md
+        ↓
+8. Необязательные экспериментальные research notes
 ```
 
 ## Главное различие
