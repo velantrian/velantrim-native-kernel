@@ -54,9 +54,9 @@ PR #35 adds:
 - ADR-0013 — deletion, restriction and retention v1;
 - ADR-0014 — executable conformance fixture protocol v1;
 - bilingual normative contract documents;
-- machine-readable assertion registry, schema bundle and fixture pack;
+- machine-readable assertion registry, schemas and fixture corpora;
 - a Python standard-library fixture-integrity runner;
-- five focused unit tests;
+- eight focused unit tests;
 - a Python 3.11/3.12 workflow proposal.
 
 ### Exact status
@@ -65,7 +65,7 @@ PR #35 adds:
 ADR-0011…0014:               PROPOSED
 Operator approval:           PENDING
 Reference fixture tooling:   IMPLEMENTED IN PR BRANCH
-Local tests:                 5 PASS
+Local tests:                 8 PASS
 Local fixture validation:    PASS
 Kernel runtime:              NOT IMPLEMENTED
 Kernel runtime conformance:  UNSUPPORTED
@@ -78,9 +78,13 @@ Issue #1 impact:             NONE
 Local authoring validation:
 
 - 72 unique assertion IDs;
+- 72 explicit `UNSUPPORTED` assertion results from the non-runtime fixture reader;
 - two identity golden vectors matched;
 - four invalid identity vectors rejected;
 - two event-chain scenarios validated;
+- two idempotency scenarios validated;
+- direct payload-hash tampering is rejected;
+- incomplete or duplicated adapter assertion results are rejected;
 - two deletion state-machine scenarios validated;
 - positive and negative fixtures for each `NK-EPI-001…008`.
 
@@ -104,6 +108,7 @@ May claim on PR #35:
 - proposed exact contracts;
 - committed registry, schemas and fixtures;
 - fixture-integrity support tooling and focused local tests;
+- complete assertion-status reporting without silent skip;
 - explicit `UNSUPPORTED` Kernel runtime conformance;
 - Notion proposal synchronization.
 
