@@ -1,6 +1,6 @@
 # 🧪 Conformance Model
 
-> **Status:** `PROPOSED DOCUMENTATION CONTRACT / FIXTURE-INTEGRITY TOOLING IMPLEMENTED IN PROPOSAL BRANCH / NOT A CERTIFICATION PROGRAM`  
+> **Status:** `ACCEPTED ABSTRACT CONTRACT / FIXTURE-INTEGRITY TOOLING IMPLEMENTED / NOT A CERTIFICATION PROGRAM`  
 > **Purpose:** define how a present or future implementation can demonstrate that it follows Native Kernel architecture
 
 ## 1. Why conformance matters
@@ -31,9 +31,9 @@ Conformance concerns meaning and observable behaviour. Identical code, storage l
 
 Levels are assertion-scoped and do not replace decision status, implementation status, evidence level, maturity or operator approval.
 
-## 3. Contract families
+## 3. Contract families and accepted exact contracts
 
-The accepted ADR-0010 ownership map is:
+ADR-0010 accepts the family map:
 
 ```text
 NK-SEM — semantic roles
@@ -44,9 +44,18 @@ NK-CFL — conflict and explicit unknowns
 NK-EQV — conformance and semantic equivalence
 ```
 
-`NK-EPI-001…008` remains a proposed epistemic assertion family associated with ADR-0008.
+ADR-0011 through ADR-0014 accept these exact v1 contracts:
 
-Exact v1 proposals for Issues #14–#17 are maintained in:
+```text
+nk-id/1.0       — canonical semantic identity
+nk-event/1.0    — single-writer append, idempotency, order and replay boundary
+nk-deletion/1.0 — restriction, deletion, retention and erasure meaning
+nk-fixtures/1.0 — machine-readable conformance fixture/evidence protocol
+```
+
+`NK-EPI-001…008` remains a proposed epistemic assertion family associated with ADR-0008. Its fixtures remain useful review cases, but fixture presence does not accept ADR-0008.
+
+Normative sources:
 
 - [`contracts/NORMATIVE_CONTRACTS_V1.md`](./contracts/NORMATIVE_CONTRACTS_V1.md);
 - [`contracts/NORMATIVE_CONTRACTS_V1.ru.md`](./contracts/NORMATIVE_CONTRACTS_V1.ru.md);
@@ -61,7 +70,7 @@ Unsupported assertions remain visible. A profile cannot obtain a higher level by
 
 ## 5. Executable artifact status
 
-The proposal branch `agent/contracts-14-17` introduces:
+Published artifacts:
 
 ```text
 contracts/
@@ -80,17 +89,19 @@ tests/test_conformance_runner.py
 .github/workflows/conformance-fixtures.yml
 ```
 
-Current local evidence boundary:
+Current evidence boundary:
 
 ```text
-fixture-integrity tooling: IMPLEMENTED IN BRANCH
+fixture-integrity tooling: IMPLEMENTED IN MAIN
 local focused tests:       8 PASS
 assertion IDs:              72 unique
 assertion report coverage:  72 explicit statuses
 local fixture validation:  PASS
+workflow definition:       ACTIVE + MANUAL DISPATCH DECLARED
+repository execution:      NOT YET RECORDED
 Kernel runtime:            NOT IMPLEMENTED
 Kernel conformance:        UNSUPPORTED
-C2:                        NOT YET ESTABLISHED
+C2:                        NOT ESTABLISHED FOR A KERNEL PROFILE
 C3:                        NOT ESTABLISHED
 ```
 
@@ -100,11 +111,11 @@ The built-in Python reader validates fixture integrity and deterministic referen
 
 ### Identity
 
-The proposed `nk-id/1` vectors cover deterministic key ordering, NFC enforcement, rejection of floats/null, domain-separated IDs and golden/invalid cases.
+The accepted `nk-id/1.0` vectors cover deterministic key ordering, NFC enforcement, rejection of floats/null, domain-separated IDs and golden/invalid cases.
 
 ### Event, idempotency and replay boundary
 
-The proposed corpus covers:
+The accepted `nk-event/1.0` corpus covers:
 
 - contiguous single-writer global and stream ordering;
 - direct `payload_hash` verification;
@@ -118,7 +129,7 @@ These fixtures do not constitute a durable append implementation or crash-inject
 
 ### Deletion and restriction
 
-The proposed state-machine scenarios cover restriction, erase request, partial completion, retry, retention hold, crypto-erasure/physical deletion and Receipt proof limits. They do not prove provider, backup or media deletion.
+The accepted `nk-deletion/1.0` state-machine scenarios cover restriction, erase request, partial completion, retry, retention hold, crypto-erasure/physical deletion and Receipt proof limits. They do not prove provider, backup or media deletion.
 
 ### Epistemic boundaries
 
@@ -170,26 +181,21 @@ The runner rejects:
 
 Every one of the 72 registered assertions must appear exactly once as `SUPPORTED`, `UNSUPPORTED`, `PARTIAL` or `FAILED`. This prevents silent skip.
 
-A profile evidence report includes:
-
-```yaml
-report_version: nk-evidence-report/1
-profile_id: <profile>
-support_state: SUPPORTED | UNSUPPORTED | PARTIAL | FAILED
-kernel_runtime_conformance: UNSUPPORTED | C0 | C1 | C2 | C3 | C4 | C5
-evidence_level: DOCUMENTED | LOCALLY_TESTED | REPOSITORY_REPRODUCED | SHADOW_EVALUATED | OPERATIONALLY_VALIDATED
-assertion_results:
-  - assertion_id: NK-ID-001
-    status: SUPPORTED | UNSUPPORTED | PARTIAL | FAILED
-    evidence: [<references>]
-    limitations: [<limits>]
-checks: [<results>]
-limitations: [<limits>]
-```
-
 The built-in fixture reader emits all 72 assertions as `UNSUPPORTED`; its `support_state: SUPPORTED` means only that the fixture-integrity tool completed successfully.
 
-## 9. First real Kernel experiment
+## 9. Workflow entry points
+
+The accepted support workflow declares three entry paths:
+
+```text
+pull_request path match
+push to main path match
+manual workflow_dispatch
+```
+
+A workflow definition being active is not evidence that a run executed. Repository evidence requires an exact run ID, head SHA, jobs, conclusions and retained artifact or logs.
+
+## 10. First real Kernel experiment
 
 A future implementation profile should:
 
@@ -204,7 +210,7 @@ load authoritative history
 
 Minimum proof includes invalid-event handling, exact versions, conflict visibility, temporal preservation and evidence commit. Fixture validation alone cannot satisfy this experiment.
 
-## 10. Non-conformance examples
+## 11. Non-conformance examples
 
 ```text
 ❌ Projection rows are edited and treated as history.
@@ -219,8 +225,8 @@ Minimum proof includes invalid-event handling, exact versions, conflict visibili
 ❌ Operator approval is presented as empirical proof.
 ```
 
-## 11. Relationship to Issue #1
+## 12. Relationship to Issue #1
 
-Issue #1 remains blocked by authentic source recovery. The Issues #14–#17 fixture/contract track is a new, explicitly separated architecture lineage.
+Issue #1 remains blocked by authentic source recovery. The Issues #14–#17 contract/fixture lineage is accepted new architecture, not recovered historical design.
 
-A future authentic import may establish C2 only for assertions proved by its original committed runtime/tests. It does not automatically satisfy the proposed exact contracts, `NK-EPI`, C3, C4, C5 or production readiness.
+A future authentic import may establish evidence only for assertions proved by its original committed runtime/tests. It does not automatically satisfy these accepted exact contracts, `NK-EPI`, C3, C4, C5 or production readiness.
