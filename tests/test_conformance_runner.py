@@ -43,6 +43,8 @@ class FixtureRunnerTests(unittest.TestCase):
         report = json.loads(completed.stdout)
         self.assertEqual(report["support_state"], "SUPPORTED")
         self.assertEqual(report["kernel_runtime_conformance"], "UNSUPPORTED")
+        self.assertEqual(len(report["assertion_results"]), 72)
+        self.assertTrue(all(item["status"] == "UNSUPPORTED" for item in report["assertion_results"]))
 
 
 if __name__ == "__main__":
