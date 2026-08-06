@@ -2,7 +2,7 @@
 
 **Snapshot:** 2026-08-06  
 **Last verified public `main`:** `c7610bc42fbc879c24e1a3a1408ebfaae1ac7340`  
-**Active proposal:** `agent/contracts-14-17`
+**Active proposal:** Draft PR #35 / `agent/contracts-14-17`
 
 A detailed contract or passing fixture test does not close a runtime, security, privacy or portability risk.
 
@@ -18,7 +18,7 @@ Required proof: authentic archive/location, lineage, hashes, original tests and 
 
 **State:** `OPEN`
 
-The Issues #14–#17 branch adds schemas, fixtures, a reference canonicalizer, tests and CI definition. These are support/evidence tooling.
+PR #35 adds schemas, fixtures, a reference canonicalizer, tests and CI definition. These are support/evidence tooling.
 
 ```text
 fixture-integrity PASS
@@ -29,7 +29,7 @@ fixture-integrity PASS
 ≠ C2/C3 Kernel conformance
 ```
 
-Required control: every report must retain `kernel_runtime_conformance: UNSUPPORTED` until a real profile maps and implements the assertions.
+Required control: every built-in report retains `kernel_runtime_conformance: UNSUPPORTED` and one explicit `UNSUPPORTED` result for every registered assertion until a real profile maps and implements them.
 
 ## P0 — AI/documentation continuity drift
 
@@ -51,9 +51,9 @@ Kernel events, Titan output, Mentaury identity and Crystal evidence remain indep
 
 ## P1 — Foundational responsibilities collapse
 
-**State:** `NARROWED BY ADR-0010 AND THE ISSUES #14–#17 PROPOSAL`, not closed
+**State:** `NARROWED BY ADR-0010 AND PR #35`, not closed
 
-ADR-0010 accepts ownership separation. The branch adds proposed exact v1 contracts and stable machine-readable assertion IDs.
+ADR-0010 accepts ownership separation. PR #35 adds proposed exact v1 contracts and stable machine-readable assertion IDs.
 
 Residual proof:
 
@@ -67,14 +67,14 @@ Residual proof:
 
 **State:** `NARROWED BY ADR-0011 PROPOSAL`, not closed
 
-Available in the branch:
+Available in PR #35:
 
 - NFC UTF-8 compact sorted JSON subset;
 - floats and explicit null rejected;
 - domain-separated `nkh1`, `nkc1`, `nkl1` identifiers;
 - collision and migration rules;
 - two golden and four invalid vectors;
-- locally passing reference canonicalizer tests.
+- locally passing reference canonicalizer and tampering tests.
 
 Still missing: operator acceptance, a materially independent reader, migration in a real profile and C3 evidence.
 
@@ -84,7 +84,7 @@ Still missing: operator acceptance, a materially independent reader, migration i
 
 The proposal defines a single-writer baseline, durable idempotency semantics, contiguous ordering, atomic history/idempotency boundary, projection-after-commit rule, domain-separated commitments and replay/version boundaries.
 
-Still missing: durable storage implementation, crash injection, reducer/upcaster implementation, corruption recovery and production threat evidence. A hash chain is not authenticity or consensus.
+Fixture hardening now directly checks stored payload commitments and two idempotency scenarios. Still missing: durable storage implementation, crash injection, reducer/upcaster implementation, corruption recovery and production threat evidence. A hash chain is not authenticity or consensus.
 
 ## P1 — Deletion/restriction remains unimplemented
 
@@ -98,18 +98,21 @@ Still missing: legal/security review, key hierarchy implementation, provider int
 
 **State:** `NARROWED BY ADR-0014 PROPOSAL`, not closed
 
-Available in the branch:
+Available in PR #35:
 
 - 72 unique assertion IDs;
-- schema and fixture bundles;
-- identity, event, deletion and `NK-EPI` scenarios;
-- five locally passing tests;
+- schema and fixture bundles plus standalone evidence-report schema;
+- identity, event, idempotency, deletion and `NK-EPI` scenarios;
+- eight locally passing tests;
+- payload-hash tampering rejection;
+- complete adapter assertion coverage enforcement;
+- duplicate/missing assertion-result rejection;
 - standard-library validator and external adapter protocol;
 - proposed Python 3.11/3.12 workflow.
 
 Still missing:
 
-- exact CI result for the final PR head;
+- exact main-push CI evidence after workflow publication;
 - a Kernel implementation adapter;
 - expected reducer state from a real runtime;
 - two materially independent profiles before C3;
