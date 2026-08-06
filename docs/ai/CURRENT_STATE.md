@@ -1,8 +1,8 @@
 # 📍 Native Kernel Current State Checkpoint
 
 **Verified:** 2026-08-06  
-**Last verified public `main`:** `2a03c871e5f7250c917c060cc112a9ea1497e9c4`  
-**Latest governance checkpoint:** PR #28 — foundational contract skeleton accepted; merge pending  
+**Last verified public `main`:** `2d42a1517ba87b39d2395aa5c22b966328615305`  
+**Latest governance checkpoint:** PR #28 — foundational contract skeleton accepted and merged  
 **Repository status:** `RESEARCH / DOCUMENTED_ONLY / NOT PRODUCTION-READY`  
 **Primary executable gate:** Issue #1 / Stage 0.5 authentic source recovery
 
@@ -50,7 +50,8 @@ The repository contains:
 **Evidence:** `DOCUMENTED`  
 **Implementation:** `NOT_STARTED`  
 **Operator approval:** `APPROVED`  
-**Contract version:** `foundational-skeleton/1.0`
+**Contract version:** `foundational-skeleton/1.0`  
+**Merge evidence:** PR #28 → `2d42a1517ba87b39d2395aa5c22b966328615305`
 
 The accepted architecture separates:
 
@@ -107,7 +108,7 @@ Each decision retains its own evidence and implementation status. ADR-0009 and A
 | Context synchronization checkpoint | PR #25 → `5db894781ac34dd44c1c66b68a00f4c7fe579d32` | finalized current-state/work-log evidence |
 | AI context integrity guard | PR #26 → `099ae235ff935948348f2101804eb53ac9eeae1a` | support tooling, six tests, exact-head and main-push CI |
 | AI guard documentation checkpoint | PR #27 → `2a03c871e5f7250c917c060cc112a9ea1497e9c4` | current-state/risk/work-log synchronization |
-| Foundational contract skeleton | PR #28 → merge pending | accepted architecture; no runtime |
+| Foundational contract skeleton | PR #28 → `2d42a1517ba87b39d2395aa5c22b966328615305` | accepted six-family architecture; no runtime |
 
 ## AI continuity status
 
@@ -117,13 +118,15 @@ GitHub completeness rule:      DOCUMENTED AND REQUIRED
 PR documentation gate:         IMPLEMENTED
 Structural context validator:  IMPLEMENTED AND TESTED
 Selected-path CI:               ENABLED ON PR AND MAIN PUSH
-Notion acceptance record:      SYNCED FOR PR #28
+Notion final merge record:      SYNCED FOR PR #28
 Semantic auto-freshness:       NOT IMPLEMENTED
 ```
 
 The validator checks mandatory files, selected repository-relative Markdown links, repository-escape attempts, checkpoint syntax, commit existence, checkpoint ancestry and required status-boundary markers.
 
 It deliberately permits an ancestor checkpoint. It cannot decide whether every later change materially altered project meaning, and it does not prove that Notion is synchronized.
+
+No GitHub Actions or status check appeared on the final PR #28 head. The change was documentation-only; runtime tests were not applicable. This absence must not be reported as a passing check.
 
 ## Runtime and evidence boundary
 
