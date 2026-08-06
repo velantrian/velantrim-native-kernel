@@ -1,35 +1,38 @@
 # RFC-0002: PostgreSQL Reference Profile v0 Planning Contract
 
-- **RFC status:** `PROPOSED / DOCUMENTED_ONLY`
-- **Evidence level:** `DOCUMENTED`
-- **Implementation status:** `NOT_STARTED`
-- **Operator approval:** `PENDING`
+- **RFC status:** `ACCEPTED`
+- **Evidence level:** `LOCALLY_TESTED — P1 ONLY`
+- **Implementation status:** `PARTIAL — P1 SEMANTIC CORE`
+- **Operator approval:** `APPROVED`
 - **Profile ID:** `native-kernel/postgresql-reference`
-- **Planning version:** `nk-pg-profile/0.1-proposed`
+- **Planning version:** `nk-pg-profile/0.1`
+- **Current implementation version:** `0.1-p1`
 - **Evidence lineage:** `clean/postgresql-reference/0.1`
-- **Related:** Issue #40, ADR-0001, ADR-0009, ADR-0011…0014
+- **Related:** Issue #40, Issue #43, ADR-0001, ADR-0009, ADR-0011…0015
 
-## 1. Purpose
+## 1. Purpose and current decision
 
 Define the first clean Native Kernel implementation profile that can implement accepted contracts using PostgreSQL without turning PostgreSQL, Python, SQL tables, or current hardware into Architecture Canon.
+
+The operator accepted the clean lineage and authorized only P1:
 
 ```text
 accepted architecture contracts
         ↓
-clean PostgreSQL profile specification
+accepted clean profile plan
         ↓
-separate implementation PRs
+P1 profile-independent semantic core — implemented and locally tested
         ↓
-local evidence
+P2 PostgreSQL adapter — blocked by separate GO
         ↓
-repository reproduction
+P3 replay/projections/Receipts — blocked
         ↓
-future independent SQLite profile
+P4 conformance adapter/CI — blocked
         ↓
-possible C3 comparison
+P5 independent SQLite profile — blocked
 ```
 
-This RFC is a planning contract. It does not contain a Kernel runtime and does not authorize implementation until separately approved.
+Acceptance of this RFC does not authorize later phases or establish profile conformance.
 
 ## 2. Lineage boundary
 
@@ -40,21 +43,11 @@ native-kernel/postgresql-reference
 ≠ historical prototype continuation
 ```
 
-The profile begins a new clean evidence lineage. Issue #1 remains active and independent. Nothing in this RFC declares the historical source globally lost or replaces its provenance requirements.
+The profile uses a new clean evidence lineage. Issue #1 remains active and independent. Nothing in this RFC declares the historical source globally lost or replaces its provenance requirements.
 
-Every future implementation artifact must identify:
-
-- profile ID and version;
-- source commit;
-- contract registry version;
-- schema and reducer versions;
-- environment and commands;
-- evidence level;
-- unsupported assertions and known limits.
+Every implementation artifact must identify profile/version, source commit, registry version, environment, commands, evidence level, unsupported assertions and known limits.
 
 ## 3. Accepted inputs
-
-The profile must map to these accepted decisions:
 
 | Input | Required meaning |
 |---|---|
@@ -64,327 +57,234 @@ The profile must map to these accepted decisions:
 | ADR-0012 / `nk-event/1.0` | single-writer append, idempotency, order and replay boundary |
 | ADR-0013 / `nk-deletion/1.0` | deletion, restriction, retention and proof limits |
 | ADR-0014 / `nk-fixtures/1.0` | executable fixture and evidence protocol |
+| ADR-0015 | clean lineage accepted; bounded P1 implementation authorized |
 | registry `1.1.0` | stable assertion IDs and statuses |
 
-`NK-EPI-001…008` remains proposed. The profile may report these assertions as unsupported or experimental but must not silently promote ADR-0008.
+`NK-EPI-001…008` and ADR-0008 remain proposed. P1 does not implement or promote them.
 
-## 4. Non-goals
+## 4. Current reality status
 
-This RFC does not define or claim:
+```text
+RFC/profile plan:              ACCEPTED / APPROVED
+P1 semantic core:              PARTIAL / LOCALLY_TESTED
+PostgreSQL adapter:            NOT_STARTED / NOT_AUTHORIZED
+Durable authoritative history: NOT_IMPLEMENTED
+Kernel runtime conformance:    UNSUPPORTED
+C1/C2/C3:                      NOT_ESTABLISHED
+Repository Actions result:     NOT_RECORDED
+```
 
-- production readiness;
-- multi-writer consensus or distributed authority;
-- a universal SQL schema;
-- PostgreSQL-specific semantics as Canon;
-- live Titan, Mentaury, or Crystal integration;
-- legal compliance or global deletion proof;
-- C2 or C3 from documentation;
-- historical compatibility with `v0.1.2.1`;
-- a permanent programming language or PostgreSQL major version.
+P1 local evidence:
+
+```text
+20 semantic-core tests PASS
+4 P1-manifest tests PASS
+Python compileall PASS
+standard-library-only boundary verified
+```
+
+Local test success proves only the declared P1 code paths.
 
 ## 5. Profile architecture
 
 ```text
 Command API
    ↓
-Command canonicalization + validation
+Command canonicalization + validation       ← P1 partial
    ↓
-Authority port
+Authority port                              ← P1 deterministic local adapter
    ↓
-Append service
+Append service                              ← P2 absent
    ↓
-PostgreSQL authoritative-history adapter
+PostgreSQL authoritative-history adapter    ← P2 absent
    ↓
-Reducer + upcaster registry
+Reducer + upcaster registry                 ← P1 reducer core partial
    ↓
-Disposable projections
+Disposable projections                     ← P3 absent
    ↓
-Receipt/evidence emitter
+Receipt/evidence emitter                    ← P1 proof guards partial
    ↓
-Conformance adapter
+Conformance adapter                         ← P4 absent
 ```
 
-### 5.1 Semantic core
+### 5.1 Implemented P1 semantic core
 
-The semantic core owns:
+Package: `native_kernel.semantic_core`.
 
-- accepted identity algorithms;
-- command and event domain objects;
-- reducer/upcaster interfaces;
-- deletion state transitions;
-- Receipt proof boundaries;
-- profile-independent errors.
+Implemented with Python 3.11+ standard library only:
 
-It must not import PostgreSQL drivers or expose table IDs as semantic identity.
+- `nk-id/1.0` canonical JSON subset and `nkh1`/`nkc1`/`nkl1` helpers;
+- immutable semantic content, Claim identity, command and logical Event objects;
+- explicit deny-by-default authority policy;
+- deterministic version-bound in-memory reducer;
+- deletion/restriction state transitions;
+- admission and deletion Receipt overclaim rejection;
+- provisional `nkd0` command and `nks0` state digests.
 
-### 5.2 Authority port
+`nkd0` and `nks0` are clean-profile implementation details, not accepted cross-profile identity contracts.
 
-Authority decisions enter through an explicit port. Initial tests may use a deterministic local policy adapter, but storage presence, authentication success, model confidence, retrieval rank, or repeated use must not imply admission authority.
+### 5.2 Explicit P1 absence
 
-### 5.3 Storage adapter
+P1 contains no PostgreSQL or SQLite imports, SQL schema, driver, migration framework, append store, durable idempotency, writer lease persistence, projection persistence, network API or cross-project integration.
 
-The PostgreSQL adapter owns:
+The logical reducer is not an authoritative event store and does not prove durable replay.
 
-- transactions and locks;
-- authoritative event persistence;
-- idempotency records;
-- writer epoch/lease state;
-- replay reads;
-- projection offsets and rebuild metadata;
-- profile-local diagnostics.
+### 5.3 Authority boundary
 
-SQL schema, indexes, generated IDs, constraints and query plans are profile details.
+Authority enters through an explicit port. The P1 static policy is deterministic and deny-by-default. Storage presence, authentication, model confidence, retrieval rank, utility or repeated use cannot imply admission authority.
 
-### 5.4 Reducer and projections
+### 5.4 Storage adapter boundary
 
-Reducers are deterministic functions bound to explicit versions. Projections are disposable and may be destroyed and rebuilt from authoritative history.
+A future PostgreSQL adapter may own transactions, locks, authoritative Event persistence, idempotency records, writer epoch/lease state, replay reads, projection offsets and profile diagnostics.
 
-A projection failure cannot roll back, edit, or conceal an already committed authoritative Event.
+SQL schema, indexes, generated IDs, constraints and query plans remain profile details. P2 requires separate operator GO.
 
-### 5.5 Evidence emitter
+## 6. Writer and transaction model for future P2
 
-The profile emits machine-readable evidence reports compatible with `nk-evidence-report/1`. Unsupported assertions remain visible.
+Version 0 retains one authoritative writer per Kernel instance.
 
-## 6. Writer and transaction model
-
-Version 0 planning adopts one authoritative writer per Kernel instance.
-
-A future implementation must establish the writer boundary through an explicit process/instance lease or equivalent profile-local mechanism. It must not infer safe multi-writer behaviour from PostgreSQL availability alone.
-
-### Atomic command path
-
-Inside one database transaction:
+A future implementation must:
 
 1. validate writer epoch/lease;
-2. canonicalize command and calculate command digest;
-3. look up scoped idempotency key;
-4. return the original result for same key + same digest;
+2. canonicalize command and calculate digest;
+3. inspect the scoped idempotency key;
+4. return original result for same key + same digest;
 5. reject same key + different digest;
-6. allocate contiguous `global_seq` and stream sequence;
+6. allocate contiguous global and stream sequence;
 7. append the authoritative Event;
 8. persist idempotency result referencing that Event;
-9. commit;
-10. acknowledge durability only after successful commit.
+9. commit atomically;
+10. acknowledge durability only after commit.
 
-Projection work occurs after the authoritative transaction.
+Projection work occurs after the authoritative transaction. None of this durable path is implemented by P1.
 
-### Required failure behaviour
+## 7. Deterministic reducer boundary
 
-| Failure | Required outcome |
-|---|---|
-| validation or authority failure | no append |
-| duplicate same digest | original result, no second Event |
-| duplicate different digest | explicit idempotency conflict |
-| transaction rollback | no visible Event or success result |
-| projection failure after commit | Event remains authoritative; projection marked behind |
-| unsupported schema/reducer | replay stops explicitly |
-| writer-epoch mismatch | append rejected |
+P1 implements deterministic logical reduction with:
 
-## 7. Profile-local storage map
+- explicit reducer version `nk-p1-reducer/1`;
+- supported Event schema version `1`;
+- contiguous global and per-stream sequence checks;
+- accepted Event vocabulary only: `ADMIT`, `LINK`, `UTILIZED`, `SUPERSEDED`, `ERASED`;
+- sorted immutable state structures;
+- explicit failure on unsupported versions or sequence gaps.
 
-The initial implementation may use profile-local structures equivalent to:
+This gives executable reducer semantics but not durable replay, corruption detection, upcasting, crash recovery or projection rebuild evidence.
 
-| Logical structure | Role |
-|---|---|
-| profile metadata | profile ID/version, registry version and writer epoch |
-| commands/idempotency | command digest, key scope and original result |
-| authoritative events | immutable ordered Event envelopes |
-| reducer versions | declared reducer/upcaster compatibility |
-| projection offsets | disposable read-model progress |
-| deletion work | requests, attempts, locations and residual limits |
-| evidence records | replay, rebuild and migration Receipts |
+## 8. Deletion and Receipt boundary
 
-Names and columns are non-normative. Semantic identifiers must remain independent from surrogate database keys.
+P1 implements the accepted deletion/restriction transition graph and rejects forbidden transitions. It also rejects Receipts that:
 
-## 8. Capability manifest
+- claim complete global erasure;
+- mark the same location verified and pending;
+- omit proof limitations while locations remain pending;
+- claim that admission authority establishes truth.
 
-The proposed machine-readable manifest must state, for every contract family:
+P1 does not delete real bytes, backups, indexes, provider data or encryption keys.
 
-- contract version;
-- planning state;
-- intended implementation phase;
-- explicitly unsupported assertions;
-- evidence level;
-- known operational limits.
+## 9. Machine-readable manifests
 
-Planning terms such as `PLANNED` or `DEFERRED` are not conformance results. Runtime evidence reports use only the accepted evidence-report status vocabulary.
+Two distinct records are retained:
 
-## 9. Deletion and data locations
+1. `profile-manifest.json` — immutable P0 planning snapshot before operator GO;
+2. `p1-manifest.json` — accepted P1 implementation/evidence state.
 
-The planning profile must inventory at least:
+The P1 manifest records Python/stdlib scope, 20 semantic tests, compile evidence, prohibited P2 capabilities and Issue #1 independence.
 
-- authoritative Event payloads;
-- command/idempotency data;
-- projections and indexes;
-- evidence records and exports;
-- diagnostic logs and dead-letter data;
-- backups, replicas and migration artifacts.
-
-The first runtime stages may support only logical restriction and fixture-scoped deletion behaviour. Physical deletion, provider deletion, backup expiry and crypto-erasure remain unsupported until implemented and evidenced.
-
-Every Receipt must list verified, pending and unknown locations.
-
-## 10. Replay and rebuild
-
-A profile replay experiment must:
-
-1. start with an empty derived-state store;
-2. read authoritative Events in `global_seq` order;
-3. verify payload and chain commitments;
-4. apply declared upcasters and reducer version;
-5. stop on unsupported versions or corruption;
-6. emit final state digest, counts, offsets and limitations;
-7. compare against declared expected outputs;
-8. repeat after destroying projections.
-
-Fixture integrity alone does not satisfy this experiment.
-
-## 11. Migration boundary
-
-Export/import is a separate controlled operation:
+All 72 contract assertions remain reported as `UNSUPPORTED` for runtime conformance until a future P4 conformance adapter emits assertion-scoped evidence.
 
 ```text
-fence writes
-→ record source position
-→ export neutral authoritative history
-→ verify identity/order/commitments
-→ import target profile
-→ replay from empty
-→ compare declared equivalence
-→ activate or roll back
-→ emit migration Receipt
+implemented code path
+≠ assertion-level profile support claim
 ```
 
-A future SQLite profile must consume the same neutral history and contract versions. Physical SQL equality is not required; declared semantic and behavioural equivalence is.
+## 10. Test and fault matrix
 
-## 12. Test and fault matrix
-
-### P1 — Semantic core
+### P1 — implemented and locally tested
 
 - identity golden and invalid vectors;
-- command canonicalization;
+- content/Claim identity separation;
+- command canonicalization and digest determinism;
+- float/null/non-NFC rejection;
+- explicit authority allow/deny;
+- admission Receipt overclaim rejection;
 - reducer determinism;
-- unknown/unsupported version failures;
-- deletion state transitions;
-- Receipt overclaim rejection.
+- global/stream sequence failure;
+- unsupported schema/reducer failure;
+- deletion fixture paths and forbidden transitions;
+- deletion Receipt proof limits;
+- forbidden database/network imports.
 
-### P2 — PostgreSQL adapter
+### P2 — not authorized
 
-- first append;
+- first durable append;
 - same-digest retry;
-- conflicting key reuse;
+- conflicting idempotency-key reuse;
 - transaction rollback;
-- sequence contiguity;
+- sequence allocation under concurrency;
 - writer-epoch rejection;
-- concurrent attempts under the single-writer boundary;
 - projection failure after commit.
 
-### P3 — Replay and rebuild
+### P3–P5 — not authorized
 
-- replay from empty;
-- destroy/rebuild projections;
-- truncated history;
-- reordered history;
-- modified payload commitment;
-- unsupported upcaster/reducer;
-- interrupted rebuild and resume/rollback rules.
+Replay/rebuild, conformance adapter, repository reproduction and independent SQLite comparison remain future separately governed phases.
 
-### P4 — Conformance adapter
+## 11. Evidence promotion
 
-- all 72 assertion IDs reported exactly once;
-- unsupported assertions visible;
-- exact profile/environment/commit metadata;
-- machine-readable evidence artifact;
-- CI reproduction at an exact SHA.
+| Level | PostgreSQL profile gate | Current state |
+|---|---|---|
+| Planning/P0 | accepted profile plan and manifest | complete |
+| Local implementation evidence | bounded code, commands, tests and failures | P1 partial only |
+| C1 | profile-level local runtime with declared assertion evidence | not established |
+| C2 | committed profile, pinned environment, CI, artifacts and traceability | not established |
+| C3 | independent second profile preserves declared equivalence | not established |
+| C4 | approved Offline Shadow | not established |
+| C5 | bounded operational security/privacy/incident evidence | not established |
 
-### P5 — Cross-profile
+P1 is intentionally not labelled C1 because no durable profile runtime or assertion-scoped conformance adapter exists.
 
-- independently developed SQLite adapter;
-- shared neutral history;
-- declared byte/structural/semantic/behavioural comparisons;
-- no C3 until differences and limitations are reviewed.
+## 12. Security, licensing and dependencies
 
-## 13. Evidence promotion
+P1 adds no external dependencies and does not publish a package. Issue #18 remains open for publication, contribution and licensing terms.
 
-| Level | PostgreSQL profile gate |
-|---|---|
-| C0 | profile manifest and assertion mapping merged |
-| C1 | implementation runs locally with recorded commands and failures |
-| C2 | committed code, pinned environment, CI, artifacts and traceability reproduce scoped assertions |
-| C3 | independent SQLite or other profile preserves declared equivalence |
-| C4 | approved Offline Shadow workload and Receipts |
-| C5 | bounded operational security/privacy/rollback/incident evidence |
+Before P2 or operational claims, the project must decide PostgreSQL/driver versions, migration tooling, credential handling, least-privilege roles, backup/restore risks, log redaction, incident fencing and deletion/retention controls.
 
-Acceptance of this RFC would authorize planning, not automatic promotion through these levels.
-
-## 14. Packaging and environment
-
-A future implementation PR must pin or declare:
-
-- programming-language/runtime range;
-- PostgreSQL server major(s);
-- driver and migration-tool versions;
-- container or local-service startup path;
-- schema migration identifier;
-- exact test and conformance commands;
-- supported operating assumptions.
-
-No environment is chosen permanently by this RFC.
-
-## 15. Security and incident boundaries
-
-The initial profile is not production-safe by default. Before operational claims it requires:
-
-- credentials and secret handling;
-- least-privilege database roles;
-- backup/restore threat review;
-- log and diagnostic redaction;
-- corruption and partial-write response;
-- explicit disable/fence procedure;
-- migration rollback;
-- deletion and retention review;
-- incident Receipts and operator visibility.
-
-## 16. Implementation sequence
+## 13. Implementation sequence
 
 ```text
-P0 — merge profile RFC and planning manifest
-P1 — implement profile-independent semantic core
-P2 — implement PostgreSQL authoritative append/idempotency adapter
-P3 — implement reducer, projection rebuild and Receipts
-P4 — implement conformance adapter and repository CI
-P5 — implement independent SQLite profile for C3 research
+P0 — accepted RFC + planning manifest              COMPLETE
+P1 — profile-independent semantic core             PARTIAL / LOCALLY_TESTED
+P2 — PostgreSQL append/idempotency adapter          BLOCKED / SEPARATE GO
+P3 — replay, projection rebuild and Receipts        BLOCKED
+P4 — conformance adapter and repository evidence    BLOCKED
+P5 — independent SQLite profile for C3 research     BLOCKED
 ```
 
-Each stage requires a separate PR with exact status and evidence. Runtime work must not be labelled as recovered `v0.1.2.1`.
+## 14. Remaining decisions
 
-## 17. Open decisions before implementation
-
-1. programming language and package layout;
-2. PostgreSQL version matrix;
+1. P2 operator GO;
+2. PostgreSQL version, driver and migration matrix;
 3. writer lease/epoch mechanism;
 4. neutral export encoding;
-5. initial reducer/state model;
-6. first projection set;
-7. minimum deletion scope for C1/C2;
-8. dependency and repository license constraints;
-9. whether runtime implementation may begin while Issue #1 remains active.
+5. initial persistent reducer/projection design;
+6. minimum deletion scope for later evidence;
+7. Issue #18 license and contribution terms;
+8. exact repository workflow evidence.
 
-## 18. Acceptance gate
+## 15. Accepted boundaries
 
-- [ ] operator accepts profile ID, version and clean lineage;
-- [ ] profile manifest and assertion mapping are reviewed;
-- [ ] transaction/idempotency/replay boundaries are accepted;
-- [ ] test/fault matrix is accepted;
-- [ ] deletion and security non-claims are accepted;
-- [ ] Issue #1 separation is explicit;
-- [ ] runtime implementation receives a separate GO.
-
-Until then:
+- [x] operator accepts profile ID, version and clean lineage;
+- [x] profile manifest and assertion mapping reviewed;
+- [x] transaction/idempotency/replay boundaries accepted as future P2/P3 obligations;
+- [x] test/fault matrix accepted;
+- [x] deletion and security non-claims accepted;
+- [x] Issue #1 separation explicit;
+- [x] bounded P1 runtime implementation receives separate GO;
+- [ ] P2 or later runtime work receives separate GO.
 
 ```text
-RFC: PROPOSED
-Implementation: NOT_STARTED
-Evidence: DOCUMENTED
-Kernel runtime: ABSENT
+RFC: ACCEPTED
+P1 implementation: PARTIAL / LOCALLY_TESTED
+Durable Kernel profile: ABSENT
+Kernel runtime conformance: UNSUPPORTED
 ```

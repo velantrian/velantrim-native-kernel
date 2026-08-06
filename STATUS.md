@@ -1,9 +1,9 @@
 # Current Status
 
 > **Verified:** 2026-08-06  
-> **Last verified public `main`:** `1e721aeb5b116694a0dbb417c377aa9f92b6f8e5`  
-> **Repository status:** `RESEARCH / DOCUMENTED_ONLY / NOT PRODUCTION-READY`  
-> **Kernel runtime:** `NOT IMPLEMENTED`  
+> **Last verified public `main`:** `9ccbb535e22438092393e2686eb76eb362adb29d`  
+> **Active P1 branch:** `agent/p1-semantic-core@5507901f688fffa49acc907de185acc287e27c63`  
+> **Repository status:** `RESEARCH / P1 PARTIAL IMPLEMENTATION / NOT PRODUCTION-READY`  
 > **Issue #1:** `BLOCKED BY AUTHENTIC SOURCE RECOVERY`
 
 ## Project identity
@@ -17,139 +17,128 @@ Architecture Canon
 → reproducible evidence
 ```
 
-PostgreSQL, SQLite, files, graphs, vectors, LLMs, CPUs, GPUs and future substrates are research instruments. They do not define the permanent semantic architecture.
+PostgreSQL, SQLite, Python, files, graphs, vectors, LLMs, CPUs, GPUs and future substrates are research instruments. They do not define the permanent semantic architecture.
 
-## Mandatory status distinctions
+## Mandatory distinctions
 
 ```text
 accepted contract
-≠ proposed implementation profile
-≠ accepted profile plan
-≠ runtime implementation GO
-≠ tested runtime
+≠ partial semantic-core implementation
+≠ durable profile runtime
+≠ tested storage adapter
+≠ C1/C2/C3
 ≠ operational evidence
 ```
 
-Operator approval is authority over architecture or planning promotion. It is not empirical evidence.
+Operator approval authorizes a decision or phase. It is not empirical evidence.
 
-## Accepted architecture contracts
+## Accepted decisions
 
-PR #38 accepted and published:
+The repository accepts:
 
+- ADR-0010 — foundational family ownership;
 - ADR-0011 — `nk-id/1.0` canonical identity;
-- ADR-0012 — `nk-event/1.0` single-writer append/idempotency/order/replay boundary;
+- ADR-0012 — `nk-event/1.0` append/idempotency/order/replay boundary;
 - ADR-0013 — `nk-deletion/1.0` restriction/deletion/retention semantics;
-- ADR-0014 — `nk-fixtures/1.0` executable fixture/evidence protocol.
+- ADR-0014 — `nk-fixtures/1.0` executable fixture/evidence protocol;
+- RFC-0002 / ADR-0015 — clean PostgreSQL reference-profile lineage and bounded P1 semantic-core implementation.
 
 ```text
-PR #38 merge: ff88809fe7d7c79033a150140d20618e04aa1f9d
-PR #39 final checkpoint: 350734c8ce8d8cbc742def7df9f3d5044a5953ab
-Decision: ACCEPTED
-Approval: APPROVED
+Profile ID:       native-kernel/postgresql-reference
+Evidence lineage: clean/postgresql-reference/0.1
+Current phase:    P1
+Operator approval: APPROVED
 ```
 
-ADR-0010 remains the accepted family map. `NK-EPI-001…008` and ADR-0008 remain `PROPOSED`.
+`NK-EPI-001…008` and ADR-0008 remain `PROPOSED`.
 
-## Published PostgreSQL profile proposal
+## P1 implementation reality
 
-PR #41 publishes RFC-0002 as a proposal:
+The active branch introduces `native_kernel.semantic_core` using Python 3.11+ standard library only.
+
+Implemented:
+
+- deterministic canonical JSON and identity helpers;
+- immutable semantic content, Claim identity, command and logical Event objects;
+- explicit deny-by-default authority decisions;
+- deterministic version-bound in-memory reducer;
+- deletion/restriction transition semantics;
+- admission and deletion Receipt overclaim guards;
+- P1 implementation manifest and validator;
+- separate Python 3.11/3.12 workflow definition.
+
+Recorded local validation:
 
 ```text
-PR #41 merge:       1e721aeb5b116694a0dbb417c377aa9f92b6f8e5
-Profile ID:         native-kernel/postgresql-reference
-Planning version:   nk-pg-profile/0.1-proposed
-Evidence lineage:   clean/postgresql-reference/0.1
-RFC status:         PROPOSED / DOCUMENTED_ONLY
-Operator approval:  PENDING
-Implementation:     NOT_STARTED
-Runtime support:    UNSUPPORTED
+semantic-core tests: 20 PASS
+P1-manifest tests:    4 PASS
+Python compileall:    PASS
+external dependencies: NONE
 ```
 
-The plan defines one authoritative writer, transaction/idempotency outcomes, PostgreSQL as a replaceable storage adapter, replay/rebuild, deletion inventory, neutral migration boundaries, tests/faults and C0→C5 promotion gates.
+The provisional `nkd0` command digest and `nks0` state digest are profile-local implementation details, not accepted cross-profile contracts.
+
+## Explicitly absent
+
+```text
+PostgreSQL / SQLite adapter
+SQL schema, driver or migrations
+durable append and idempotency
+writer lease persistence
+projection persistence and rebuild
+network API
+profile conformance adapter
+C1 / C2 / C3
+production security/privacy/deletion guarantees
+```
+
+The P1 reducer handles logical in-memory Events. It is not an authoritative history store and does not establish durable replay.
+
+## Manifest boundary
+
+Two records are intentionally distinct:
+
+- `profile-manifest.json` — historical P0 proposal snapshot;
+- `p1-manifest.json` — current accepted P1 implementation/evidence state.
+
+All 72 registered assertions remain runtime `UNSUPPORTED` until a future P4 conformance adapter emits complete assertion-scoped evidence.
+
+## Repository CI boundary
+
+The P1 workflow definition is present on the active branch and supports PR, push-to-main and manual dispatch on Python 3.11/3.12.
+
+Until an exact GitHub Actions run exists:
+
+```text
+local P1 evidence:           LOCALLY_TESTED
+repository workflow result: NOT_RECORDED
+Kernel runtime conformance: UNSUPPORTED
+C1/C2/C3:                  NOT_ESTABLISHED
+```
+
+No missing run may be reported as PASS.
+
+## Clean-lineage and Issue #1 separation
 
 ```text
 clean/postgresql-reference/0.1
 ≠ recovered v0.1.2.1
 ≠ original 44-test evidence
-≠ declaration that historical source is globally lost
+≠ declaration that the historical source is globally lost
 ```
 
-Issue #1 remains active and independent. Runtime work requires a separate operator GO after RFC review.
+Issue #1 remains active and independent.
 
-## Machine-readable planning manifest
+## Ecosystem boundary
 
-`profiles/postgresql-reference-v0/profile-manifest.json` currently states:
+No P1 code authorizes Titan, Mentaury or Crystal runtime integration, shared storage, inherited identity, authority or conformance.
 
-```text
-72 registry assertions mapped exactly once
-64 accepted-family assertions: PLANNED
-8 NK-EPI assertions: DEFERRED_PROPOSED_FAMILY
-72 runtime-support results: UNSUPPORTED
-72 evidence states: NONE
-historical lineage: null
-```
+## Remaining gates
 
-The planning validator and five focused local tests reject missing/duplicate assertions, false runtime support, historical lineage and silent `NK-EPI` promotion.
-
-This validates the planning manifest, not a Kernel runtime.
-
-## Implemented support tooling
-
-The repository contains:
-
-- registry `nk-contract-registry/1.1.0` with 72 assertions;
-- schemas and conformance fixtures;
-- standard-library conformance runner;
-- eight focused fixture tests;
-- profile-manifest validator with five focused tests;
-- Python 3.11/3.12 workflow covering both artifact families.
-
-Recorded local tooling evidence:
-
-```text
-conformance fixture tests: 8 PASS
-profile manifest tests:     5 PASS
-Kernel runtime:             UNSUPPORTED
-```
-
-## Repository CI boundary
-
-No GitHub Actions run was created for PR #41 or merge `1e721aeb…`.
-
-```text
-local tooling evidence:       LOCALLY_TESTED
-repository workflow evidence: NOT RECORDED
-Kernel profile C1/C2:         NOT ESTABLISHED
-C3 cross-profile equivalence: NOT ESTABLISHED
-```
-
-This is neither CI PASS nor test failure.
-
-## Current public runtime boundary
-
-No runnable Native Kernel implementation, PostgreSQL adapter, reducer, replay engine, projection system or deletion mechanism exists in `main`.
-
-The repository must not claim:
-
-- public reproduction of the historical 44-test checkpoint;
-- PostgreSQL profile C1/C2/C3;
-- production event sourcing, privacy, security or erasure;
-- demonstrated portability across arbitrary current or future hardware;
-- active Titan, Mentaury or Crystal runtime integration.
-
-## Additional blockers before runtime
-
-- RFC-0002 operator acceptance is pending;
-- a separate runtime implementation GO is required;
-- language, package layout, PostgreSQL version and writer lease are undecided;
-- Issue #18 licensing/contribution terms remain unresolved;
-- exact repository workflow evidence is missing.
-
-## Immediate next gates
-
-1. Record final PR #41 publication in GitHub and Notion.
-2. Obtain an explicit operator decision on RFC-0002 and the clean profile lineage.
-3. Resolve whether P1 may begin while Issue #1 remains active.
-4. Resolve language/dependency/license/PostgreSQL-version decisions before runtime code.
-5. Require a separate runtime GO before P1.
-6. Implement and evidence each phase through separate PRs; require an independent second profile before C3.
+1. review and merge P1 with exact local and repository evidence;
+2. preserve all assertion-level runtime support as `UNSUPPORTED` until P4;
+3. settle Issue #18 publication/licensing terms;
+4. require separate operator GO before P2 PostgreSQL work;
+5. define PostgreSQL version, driver, migration and writer-lease choices before P2;
+6. require an independent second profile before C3;
+7. keep Issue #1 source recovery separately governed.

@@ -51,7 +51,7 @@ class AIContextValidatorTests(unittest.TestCase):
             "docs/ai/CURRENT_STATE.md",
             "# Current\n\n"
             f"**Last verified public `main`:** `{checkpoint}`  \n"
-            "**Repository status:** `RESEARCH / DOCUMENTED_ONLY / NOT PRODUCTION-READY`\n\n"
+            "**Repository status:** `RESEARCH / P1 PARTIAL IMPLEMENTATION / NOT PRODUCTION-READY`\n\n"
             "NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GLOBALLY_LOST\n"
             "Context checkpoint ≠ automatically current main\n",
         )
@@ -91,6 +91,18 @@ class AIContextValidatorTests(unittest.TestCase):
         self._write_current_state("f" * 40)
         findings = validator.validate(self.repo)
         self.assertTrue(any("checkpoint commit does not exist" in f.message for f in findings))
+
+    def test_old_documented_only_status_is_rejected(self) -> None:
+        self._write(
+            "docs/ai/CURRENT_STATE.md",
+            "# Current\n\n"
+            f"**Last verified public `main`:** `{self.initial_sha}`  \n"
+            "**Repository status:** `RESEARCH / DOCUMENTED_ONLY / NOT PRODUCTION-READY`\n\n"
+            "NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GLOBALLY_LOST\n"
+            "Context checkpoint ≠ automatically current main\n",
+        )
+        findings = validator.validate(self.repo)
+        self.assertTrue(any("P1 PARTIAL IMPLEMENTATION" in f.message for f in findings))
 
 
 if __name__ == "__main__":
