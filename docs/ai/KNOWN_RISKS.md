@@ -1,9 +1,10 @@
 # ⚠️ Native Kernel Known Risks and Required Proof
 
 **Snapshot:** 2026-08-06  
-**Last verified public `main`:** `3243336dc7ff7ef88583c6f2c419c375c26947cf`
+**Base public `main`:** `b0308452473f7577b738e95bbd5e0f9295f0ecce`  
+**Active acceptance branch:** `agent/accept-contracts-11-14`
 
-Passing fixture tooling, merged proposals and active workflows do not close runtime, security, privacy or portability risks.
+Accepted contracts, passing fixture tooling and active workflows do not close runtime, security, privacy or portability risks.
 
 ## P0 — Authentic source recovery remains unresolved
 
@@ -17,89 +18,111 @@ Required proof: authentic bytes, lineage, hashes, original tests and explicit Is
 
 **State:** `OPEN`
 
-PR #35 published schemas, fixtures, a reference canonicalizer, tests and a workflow definition.
+The repository contains accepted schemas/contracts, fixtures, a reference canonicalizer, tests and a workflow definition.
 
 ```text
+accepted assertion
+≠ assertion implemented by a Kernel profile
 fixture reader supported
-≠ registered assertions supported by a Kernel runtime
 ≠ durable event store
 ≠ replay/deletion implementation
 ≠ C2/C3 Kernel conformance
 ```
 
-The built-in report must retain `kernel_runtime_conformance: UNSUPPORTED` and 72 explicit `UNSUPPORTED` assertion results.
+Required control: the built-in report retains `kernel_runtime_conformance: UNSUPPORTED` and explicit `UNSUPPORTED` results for all 72 assertions.
 
-## P0 — ADR publication may be mistaken for acceptance
-
-**State:** `OPEN`
-
-ADR-0011 through ADR-0014 are present in `main` but remain `PROPOSED / OPERATOR_APPROVAL_PENDING`.
-
-Required control: only an explicit operator decision may promote each ADR or the bounded package.
-
-## P1 — GitHub Actions workflow execution not triggered
+## P0 — Accepted architecture may be mistaken for completed implementation
 
 **State:** `OPEN`
+
+ADR-0011 through ADR-0014 are `ACCEPTED / APPROVED`, while runtime remains `NOT_IMPLEMENTED`.
+
+Required control: all public surfaces preserve:
+
+```text
+Decision status
+≠ Evidence level
+≠ Implementation status
+≠ Operator approval
+```
+
+## P1 — GitHub Actions execution remains unrecorded
+
+**State:** `OPEN`, mitigation added
 
 Evidence:
 
-- workflow `Conformance fixture integrity` is active, ID `328870784`;
-- YAML and path filters are valid;
-- PR #36 intentionally changed `contracts/README.md` and merged to `main`;
-- no GitHub Actions run or GitHub Actions check suite was created for PR/merge heads;
-- Actions permission settings returned `403` to the connected integration;
-- external app suites were queued, showing the commit event existed.
+- workflow `Conformance fixture integrity` is active;
+- PR and push paths are declared;
+- integration-originated matching pushes previously produced no Actions run;
+- repository Actions settings returned `403` to the connected integration;
+- this branch adds manual `workflow_dispatch`.
 
 Current status:
 
 ```text
 workflow definition: ACTIVE
-local tests: PASS
-GitHub Actions execution: NOT_TRIGGERED / NOT_RECORDED
+manual dispatch: DECLARED AFTER MERGE
+local tests: PASS (recorded package evidence)
+repository execution: NOT YET RECORDED
 repository-reproduced evidence: NOT ESTABLISHED
 ```
 
-Required proof: a user-originated push or manual workflow dispatch, followed by exact run/job/artifact inspection. The connector cannot dispatch the workflow.
+Required proof: exact workflow run ID, head SHA, jobs, conclusions and artifact/log evidence.
 
 ## P1 — GitHub ↔ Notion drift
 
-**State:** `OPEN`, narrowed by dedicated PR #35 record
+**State:** `OPEN`, narrowed by dedicated contract record
 
-Final main SHA, merge evidence and CI-not-triggered status must remain synchronized. GitHub remains the authoritative technical/evidence package.
+Acceptance status, final PR/merge SHA, CI state and remaining runtime limits must remain synchronized. GitHub remains the authoritative technical/evidence package.
 
-## P1 — Foundational responsibility collapse
+## P1 — Canonical identity accepted but unimplemented
 
-**State:** `NARROWED BY ADR-0010 AND PR #35`, not closed
+**State:** `NARROWED BY ACCEPTED ADR-0011`, not closed
 
-The ownership map and 72-assertion registry now exist. Residual proof requires operator acceptance, real profile mappings, migration evidence and independent implementations.
+Accepted and locally exercised as fixtures:
 
-## P1 — Canonical identity contract unaccepted/unimplemented
+- NFC UTF-8 compact sorted JSON;
+- float/null rejection;
+- domain-separated IDs;
+- content/Claim/lineage/storage separation;
+- collision and migration rules;
+- golden and invalid vectors.
 
-**State:** `NARROWED BY ADR-0011`, not closed
+Missing: independent implementation, real-profile migration, repository execution and C3.
 
-Defined and locally tested: NFC UTF-8 compact sorted JSON, float/null rejection, domain-separated IDs, collision/migration rules, golden and invalid vectors.
+## P1 — Event append/replay accepted but unimplemented
 
-Missing: acceptance, independent implementation, real-profile migration and C3.
+**State:** `NARROWED BY ACCEPTED ADR-0012`, not closed
 
-## P1 — Event append/replay unimplemented
+Accepted and fixture-tested:
 
-**State:** `NARROWED BY ADR-0012`, not closed
-
-Defined/tested as fixtures: single writer, durable idempotency semantics, sequence ordering, payload/event commitments, projection-after-commit and replay version boundaries.
+- single authoritative writer;
+- durable idempotency semantics;
+- sequence ordering;
+- payload/event commitments;
+- projection-after-commit;
+- replay version boundaries.
 
 Missing: durable storage, crash injection, reducer/upcaster implementation, corruption recovery and production threat evidence. Hash chaining is not authenticity or consensus.
 
-## P1 — Deletion/restriction unimplemented
+## P1 — Deletion/restriction accepted but unimplemented
 
-**State:** `NARROWED BY ADR-0013`, not closed
+**State:** `NARROWED BY ACCEPTED ADR-0013`, not closed
 
-Defined/tested as fixtures: restriction, logical erase, physical deletion, crypto-erasure, partial retry, restore quarantine and Receipt limits.
+Accepted and fixture-tested:
 
-Missing: legal/security review, key hierarchy, providers, backups, incidents and operational validation.
+- restriction versus logical erase versus physical deletion versus crypto-erasure;
+- partial completion and retry;
+- retention hold;
+- restore quarantine;
+- Receipt proof limits.
+
+Missing: legal/security review, key hierarchy, providers, backups, incident handling and operational validation.
 
 ## P1 — Executable conformance remains support tooling
 
-**State:** `NARROWED BY ADR-0014`, not closed
+**State:** `NARROWED BY ACCEPTED ADR-0014`, not closed
 
 Available:
 
@@ -108,9 +131,17 @@ Available:
 - eight locally passing tests;
 - tampering/missing/duplicate rejection;
 - external adapter protocol;
-- active but not-yet-executed workflow.
+- PR/push/manual workflow entry points.
 
-Missing: repository workflow evidence, Kernel adapter, reducer outputs, two independent profiles, Shadow and operational evidence.
+Missing: exact repository workflow evidence, Kernel adapter, reducer outputs, two independent profiles, Shadow evidence and operational evidence.
+
+## P1 — Registry acceptance can hide proposed NK-EPI status
+
+**State:** `OPEN`
+
+Registry version `1.1.0` accepts ADR-0011–0014 assertions but retains `NK-EPI-001…008` as `PROPOSED` under ADR-0008.
+
+Required control: profiles and documentation must not treat fixture presence or overall registry publication as acceptance of ADR-0008.
 
 ## P1 — Storage neutrality unproven
 
@@ -118,11 +149,11 @@ Missing: repository workflow evidence, Kernel adapter, reducer outputs, two inde
 
 PostgreSQL/SQLite direction exists, but adapters and cross-profile replay evidence do not.
 
-## P1 — Epistemic fixtures do not accept ADR-0008
+## P1 — Cross-project authority leakage
 
-**State:** `NARROWED`, not closed
+**State:** `OPEN`
 
-Positive/negative fixtures cover `NK-EPI-001…008`; ADR-0008 remains proposed and runtime enforcement absent.
+Accepted Kernel contracts do not authorize Titan, Mentaury or Crystal integration, shared storage, shared identity or inherited authority.
 
 ## P1 — Future-substrate claims can become hype
 
