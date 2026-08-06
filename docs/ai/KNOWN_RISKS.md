@@ -1,151 +1,135 @@
 # ⚠️ Native Kernel Known Risks and Required Proof
 
 **Snapshot:** 2026-08-06  
-**Last verified public `main`:** `c7610bc42fbc879c24e1a3a1408ebfaae1ac7340`  
-**Active proposal:** Draft PR #35 / `agent/contracts-14-17`
+**Last verified public `main`:** `3243336dc7ff7ef88583c6f2c419c375c26947cf`
 
-A detailed contract or passing fixture test does not close a runtime, security, privacy or portability risk.
+Passing fixture tooling, merged proposals and active workflows do not close runtime, security, privacy or portability risks.
 
 ## P0 — Authentic source recovery remains unresolved
 
 **State:** `OPEN`
 
-The reported `v0.1.2.1` source and original 44-test suite are not present in `main`. Connected accessible-source search found no authentic candidate bytes; operator-controlled devices and archives remain outside connector evidence.
+The reported `v0.1.2.1` source and original 44-test suite are absent. Connected-source search found no authentic candidate; operator-controlled devices and archives remain outside connector evidence.
 
-Required proof: authentic archive/location, lineage, hashes, original tests and explicit operator GO.
+Required proof: authentic bytes, lineage, hashes, original tests and explicit Issue #1 operator gate.
 
-## P0 — Documentation/support tooling can be mistaken for Kernel runtime
+## P0 — Support tooling may be mistaken for Kernel runtime
 
 **State:** `OPEN`
 
-PR #35 adds schemas, fixtures, a reference canonicalizer, tests and CI definition. These are support/evidence tooling.
+PR #35 published schemas, fixtures, a reference canonicalizer, tests and a workflow definition.
 
 ```text
-fixture-integrity PASS
+fixture reader supported
+≠ registered assertions supported by a Kernel runtime
 ≠ durable event store
-≠ reducer/replay runtime
-≠ deletion implementation
-≠ storage profile
+≠ replay/deletion implementation
 ≠ C2/C3 Kernel conformance
 ```
 
-Required control: every built-in report retains `kernel_runtime_conformance: UNSUPPORTED` and one explicit `UNSUPPORTED` result for every registered assertion until a real profile maps and implements them.
+The built-in report must retain `kernel_runtime_conformance: UNSUPPORTED` and 72 explicit `UNSUPPORTED` assertion results.
 
-## P0 — AI/documentation continuity drift
+## P0 — ADR publication may be mistaken for acceptance
 
-**State:** `NARROWED`, not closed
+**State:** `OPEN`
 
-The AI context guard checks structural integrity and checkpoint ancestry. It does not prove semantic freshness, bilingual equivalence or Notion synchronization.
+ADR-0011 through ADR-0014 are present in `main` but remain `PROPOSED / OPERATOR_APPROVAL_PENDING`.
+
+Required control: only an explicit operator decision may promote each ADR or the bounded package.
+
+## P1 — GitHub Actions workflow execution not triggered
+
+**State:** `OPEN`
+
+Evidence:
+
+- workflow `Conformance fixture integrity` is active, ID `328870784`;
+- YAML and path filters are valid;
+- PR #36 intentionally changed `contracts/README.md` and merged to `main`;
+- no GitHub Actions run or GitHub Actions check suite was created for PR/merge heads;
+- Actions permission settings returned `403` to the connected integration;
+- external app suites were queued, showing the commit event existed.
+
+Current status:
+
+```text
+workflow definition: ACTIVE
+local tests: PASS
+GitHub Actions execution: NOT_TRIGGERED / NOT_RECORDED
+repository-reproduced evidence: NOT ESTABLISHED
+```
+
+Required proof: a user-originated push or manual workflow dispatch, followed by exact run/job/artifact inspection. The connector cannot dispatch the workflow.
 
 ## P1 — GitHub ↔ Notion drift
 
-**State:** `OPEN`
+**State:** `OPEN`, narrowed by dedicated PR #35 record
 
-Material architecture work requires a deep Notion record and final PR/merge SHA. GitHub remains the complete public technical/evidence package.
+Final main SHA, merge evidence and CI-not-triggered status must remain synchronized. GitHub remains the authoritative technical/evidence package.
 
-## P1 — Cross-project semantic or authority leakage
-
-**State:** `OPEN`
-
-Kernel events, Titan output, Mentaury identity and Crystal evidence remain independent authority domains. No fixture or shared identifier authorizes runtime integration.
-
-## P1 — Foundational responsibilities collapse
+## P1 — Foundational responsibility collapse
 
 **State:** `NARROWED BY ADR-0010 AND PR #35`, not closed
 
-ADR-0010 accepts ownership separation. PR #35 adds proposed exact v1 contracts and stable machine-readable assertion IDs.
+The ownership map and 72-assertion registry now exist. Residual proof requires operator acceptance, real profile mappings, migration evidence and independent implementations.
 
-Residual proof:
+## P1 — Canonical identity contract unaccepted/unimplemented
 
-- operator acceptance of ADR-0011–0014;
-- real profile mappings;
-- independently implemented readers/profiles;
-- migration evidence;
-- no silent discard of unsupported assertions.
+**State:** `NARROWED BY ADR-0011`, not closed
 
-## P1 — Canonical identity contract remains unaccepted
+Defined and locally tested: NFC UTF-8 compact sorted JSON, float/null rejection, domain-separated IDs, collision/migration rules, golden and invalid vectors.
 
-**State:** `NARROWED BY ADR-0011 PROPOSAL`, not closed
+Missing: acceptance, independent implementation, real-profile migration and C3.
 
-Available in PR #35:
+## P1 — Event append/replay unimplemented
 
-- NFC UTF-8 compact sorted JSON subset;
-- floats and explicit null rejected;
-- domain-separated `nkh1`, `nkc1`, `nkl1` identifiers;
-- collision and migration rules;
-- two golden and four invalid vectors;
-- locally passing reference canonicalizer and tampering tests.
+**State:** `NARROWED BY ADR-0012`, not closed
 
-Still missing: operator acceptance, a materially independent reader, migration in a real profile and C3 evidence.
+Defined/tested as fixtures: single writer, durable idempotency semantics, sequence ordering, payload/event commitments, projection-after-commit and replay version boundaries.
 
-## P1 — Event append/replay integrity remains unimplemented
+Missing: durable storage, crash injection, reducer/upcaster implementation, corruption recovery and production threat evidence. Hash chaining is not authenticity or consensus.
 
-**State:** `NARROWED BY ADR-0012 PROPOSAL`, not closed
+## P1 — Deletion/restriction unimplemented
 
-The proposal defines a single-writer baseline, durable idempotency semantics, contiguous ordering, atomic history/idempotency boundary, projection-after-commit rule, domain-separated commitments and replay/version boundaries.
+**State:** `NARROWED BY ADR-0013`, not closed
 
-Fixture hardening now directly checks stored payload commitments and two idempotency scenarios. Still missing: durable storage implementation, crash injection, reducer/upcaster implementation, corruption recovery and production threat evidence. A hash chain is not authenticity or consensus.
+Defined/tested as fixtures: restriction, logical erase, physical deletion, crypto-erasure, partial retry, restore quarantine and Receipt limits.
 
-## P1 — Deletion/restriction remains unimplemented
+Missing: legal/security review, key hierarchy, providers, backups, incidents and operational validation.
 
-**State:** `NARROWED BY ADR-0013 PROPOSAL`, not closed
+## P1 — Executable conformance remains support tooling
 
-The proposal distinguishes restriction, logical erase, physical deletion and crypto-erasure; defines location inventory, partial failure, retry, restore quarantine and Receipt limits.
+**State:** `NARROWED BY ADR-0014`, not closed
 
-Still missing: legal/security review, key hierarchy implementation, provider integration, backup lifecycle evidence, incident handling and operational validation.
+Available:
 
-## P1 — Executable conformance is partial support tooling
-
-**State:** `NARROWED BY ADR-0014 PROPOSAL`, not closed
-
-Available in PR #35:
-
-- 72 unique assertion IDs;
-- schema and fixture bundles plus standalone evidence-report schema;
-- identity, event, idempotency, deletion and `NK-EPI` scenarios;
+- 72 assertion IDs and complete-status enforcement;
+- identity, event, idempotency, deletion and epistemic fixtures;
 - eight locally passing tests;
-- payload-hash tampering rejection;
-- complete adapter assertion coverage enforcement;
-- duplicate/missing assertion-result rejection;
-- standard-library validator and external adapter protocol;
-- proposed Python 3.11/3.12 workflow.
+- tampering/missing/duplicate rejection;
+- external adapter protocol;
+- active but not-yet-executed workflow.
 
-Still missing:
+Missing: repository workflow evidence, Kernel adapter, reducer outputs, two independent profiles, Shadow and operational evidence.
 
-- exact main-push CI evidence after workflow publication;
-- a Kernel implementation adapter;
-- expected reducer state from a real runtime;
-- two materially independent profiles before C3;
-- Shadow or operational evidence.
-
-## P1 — Storage neutrality is unproven
+## P1 — Storage neutrality unproven
 
 **State:** `OPEN`
 
-PostgreSQL/SQLite direction exists, but no adapters or cross-profile replay evidence exist. The identity/event fixture proposal is necessary but insufficient.
+PostgreSQL/SQLite direction exists, but adapters and cross-profile replay evidence do not.
 
-## P1 — Epistemic fixture family is not accepted architecture
+## P1 — Epistemic fixtures do not accept ADR-0008
 
 **State:** `NARROWED`, not closed
 
-Positive and negative fixtures cover `NK-EPI-001…008`, but ADR-0008 remains proposed. Executable reviewability does not imply operator acceptance or runtime enforcement.
-
-## P1 — Context sufficiency remains unproven
-
-**State:** `OPEN`
-
-```text
-selected context ≠ sufficient evidence
-minimal changed answer ≠ globally minimal Grip
-stable answer ≠ correct answer
-```
+Positive/negative fixtures cover `NK-EPI-001…008`; ADR-0008 remains proposed and runtime enforcement absent.
 
 ## P1 — Future-substrate claims can become hype
 
 **State:** `OPEN`
 
-Architecture neutrality remains a target. It is not proof of portability, performance or superiority on future substrates.
+Neutrality is a versioned architecture target, not demonstrated portability, performance or superiority.
 
 ## Update rule
 
-For every risk record state, exact evidence/SHA, what remains unproven, owner and next action. Do not close a risk through wording, ADR acceptance or fixture tooling alone.
+Record state, exact evidence/SHA, remaining uncertainty, owner and next action. Never close a risk through prose, merge, operator approval alone or support-tool success.
