@@ -63,6 +63,7 @@ The project does **not** reject Python, SQLite, FTS, graphs, vector retrieval, L
 | 💻 Runnable public kernel | **Not yet present** |
 | 📦 Exact import | Tracked in Issue #1 |
 | 🛰️ Titan integration | Not active |
+| ⭐ Mentaury integration | Not active and not required |
 | 💎 Crystal integration | Not active and not required |
 | 🚀 Production readiness | **Not claimed** |
 
@@ -460,39 +461,68 @@ See [`docs/adr/README.md`](./docs/adr/README.md) and [`docs/adr/0000-template.md
 
 ## 🗺️ Velantrim ecosystem
 
+> This is a **role and navigation map**, not a claim that the repositories are one runtime, one database, or one Canon.
+
 ```text
-                         🔱 VELANTRIM ECOSYSTEM
-                                   │
-             ┌─────────────────────┼─────────────────────┐
-             │                     │                     │
-             ▼                     ▼                     ▼
-    🧬 Native Kernel           🔱 Titan              💎 Crystal
-    architecture research   Exo-Cortex research   verifiable product
-             │                     │                     │
-     Claims / Events       memory / reasoning      TruthGate / TRACE
-     time / lineage        experiments / agents    governance / audit
-     abstract contracts    Offline Shadow target   independent Canon
+🌐 VELANTRIM ECOSYSTEM
+│
+├── 🧬 Native Kernel
+│   └── preserve and replay meaning independently of technology
+│
+├── ⭐ Mentaury Soul
+│   └── digital individuality, identity continuity, relationships and commitments
+│
+├── 🔱 Titan
+│   └── cognition, retrieval, reasoning, tools, agents and orchestration
+│
+└── 💎 Crystal
+    └── verifiable memory, evidence, provenance, trust and audit boundaries
 ```
 
-- **Native Kernel** is an independent long-horizon architecture research project.
-- **Titan** is a broader Exo-Cortex research environment and future Offline Shadow testbed.
-- **Crystal** is an independent verifiable-memory product and grant-facing track.
+| Project | Why it exists | Role in the ecosystem |
+|---|---|---|
+| [🧬 **Native Kernel**](https://github.com/velantrian/velantrim-native-kernel) | To preserve semantic identity, history, provenance, time, conflict visibility and replay meaning when technologies change | Substrate-neutral architecture and contract research; **how meaning is preserved and reconstructed** |
+| [⭐ **Mentaury Soul**](https://github.com/velantrian/velantrim-mentaury-soul) | To research a governed digital individuality with origin, memory, beliefs, values, relationships, commitments and explainable development | Identity and continuity research; **who the digital individual is and how it remains accountable through change** |
+| [🔱 **Titan**](https://github.com/velantrian/Velantrim-ExoCortex-Titan) | To provide broad cognition, retrieval, document understanding, tools, agents, adaptive computation and task-aware orchestration | Exo-Cortex research environment; **how information is found, analysed and used to perform work** |
+| [💎 **Crystal**](https://github.com/velantrian/velantrim-exocortex-crystal) | To build verifiable memory with evidence, provenance, trust, governance and audit boundaries | Independent verifiable-memory product track; **how evidence and trust are inspected and governed** |
+
+A compact way to remember the distinction:
+
+```text
+⭐ Mentaury  → WHO: individuality, continuity, beliefs, relationships
+🔱 Titan     → HOW TO THINK AND WORK: cognition, retrieval, tools, agents
+🧬 Kernel    → HOW TO PRESERVE AND REPLAY: meaning, history, provenance, contracts
+💎 Crystal   → HOW TO VERIFY AND AUDIT: evidence, trust, governance, traceability
+```
+
+Native Kernel's role is foundational but **non-authoritative across project boundaries**:
+
+```text
+Native Kernel
+= neutral research into durable memory and event contracts
+
+Native Kernel
+≠ universal Velantrim source of truth
+≠ Mentaury identity authority
+≠ Titan's mandatory storage layer
+≠ Crystal's hidden runtime
+```
 
 Mandatory boundaries:
 
 ```text
-✅ Crystal works without Native Kernel.
-✅ Titan remains independent during evaluation.
-✅ Native projections are rebuildable and non-authoritative.
+✅ Every repository remains independently usable and reviewable.
+✅ Cross-links explain purpose and conceptual roles.
 ✅ Ideas may transfer only through bounded RFC/ADR, tests, review, and approval.
+✅ Kernel events and replay guarantees do not automatically establish personal identity.
 
-🚫 No Native Event Log → Crystal Canon path.
-🚫 No live dual-write at the current stage.
-🚫 No claim that Crystal already runs on Native Kernel.
-🚫 No TruthGate dependency inserted into the controlled import.
+🚫 No requirement to merge repositories.
+🚫 No shared database or shared Canon is implied.
+🚫 No Titan tool output becomes a Mentaury belief or M3 state automatically.
+🚫 No claim that Titan, Mentaury, or Crystal already runs on Native Kernel.
 ```
 
-See [`docs/INTEGRATION_BOUNDARIES.md`](./docs/INTEGRATION_BOUNDARIES.md).
+See the full bilingual role map in [`docs/VELANTRIM_ECOSYSTEM.md`](./docs/VELANTRIM_ECOSYSTEM.md) and the stricter technical boundaries in [`docs/INTEGRATION_BOUNDARIES.md`](./docs/INTEGRATION_BOUNDARIES.md).
 
 ---
 
@@ -538,6 +568,7 @@ Several language models may agree and still be wrong.
 | ADR governance | Documented in this branch |
 | Offline Shadow | Planned |
 | Titan integration | Not active |
+| Mentaury integration | Not active |
 | Crystal integration | Not active |
 | Production readiness | **Not claimed** |
 
@@ -563,7 +594,7 @@ Several language models may agree and still be wrong.
 - universal linear-time selection;
 - proven sufficient evidence selection;
 - production security, privacy, or hardware portability;
-- live Titan or Crystal integration.
+- live Titan, Mentaury, or Crystal integration.
 
 ---
 
@@ -633,10 +664,11 @@ See [`ROADMAP.md`](./ROADMAP.md).
 | [`ARCHITECTURE.md`](./ARCHITECTURE.md) | Invariants, semantics, and portability contracts |
 | [`ROADMAP.md`](./ROADMAP.md) | Parallel executable and long-horizon tracks |
 | [`docs/LONG_HORIZON_VISION.md`](./docs/LONG_HORIZON_VISION.md) | Future-facing architecture vision |
+| [`docs/VELANTRIM_ECOSYSTEM.md`](./docs/VELANTRIM_ECOSYSTEM.md) | Bilingual project-role and navigation map |
 | [`docs/adr/README.md`](./docs/adr/README.md) | ADR index and governance |
 | [`docs/adr/0000-template.md`](./docs/adr/0000-template.md) | Architecture decision template |
 | [`docs/BENCHMARKS.md`](./docs/BENCHMARKS.md) | Benchmark policy |
-| [`docs/INTEGRATION_BOUNDARIES.md`](./docs/INTEGRATION_BOUNDARIES.md) | Titan and Crystal boundaries |
+| [`docs/INTEGRATION_BOUNDARIES.md`](./docs/INTEGRATION_BOUNDARIES.md) | Titan, Mentaury, and Crystal boundaries |
 | [`prototype/README.md`](./prototype/README.md) | Controlled import plan |
 | [`SECURITY.md`](./SECURITY.md) | Research-stage security policy |
 | [`CONTRIBUTING.md`](./CONTRIBUTING.md) | Contribution and decision rules |
@@ -667,7 +699,7 @@ A proposal should identify:
 - failure modes and rollback behaviour;
 - tests or benchmark methodology;
 - implementation-profile assumptions;
-- Titan or Crystal boundary impact;
+- Titan, Mentaury, or Crystal boundary impact;
 - decision status, evidence level, and implementation status.
 
 ---
