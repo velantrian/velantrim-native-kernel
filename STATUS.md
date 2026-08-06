@@ -1,15 +1,14 @@
 # Current Status
 
 > **Verified:** 2026-08-06  
+> **Last verified public `main`:** `ff88809fe7d7c79033a150140d20618e04aa1f9d`  
 > **Repository status:** `RESEARCH / DOCUMENTED_ONLY / NOT PRODUCTION-READY`  
 > **Kernel runtime:** `NOT IMPLEMENTED`  
 > **Issue #1:** `BLOCKED BY AUTHENTIC SOURCE RECOVERY`
 
 ## Project identity
 
-Velantrim Native Kernel is an independent, personal, long-horizon architecture research project.
-
-It is architecture-first and technology-neutral:
+Velantrim Native Kernel is an independent, architecture-first, technology-neutral memory/event/replay research project.
 
 ```text
 Architecture Canon
@@ -18,7 +17,7 @@ Architecture Canon
 → reproducible evidence
 ```
 
-Current technologies are research instruments. PostgreSQL, SQLite, files, graphs, vectors, LLMs, CPUs, GPUs and future substrates do not define the permanent semantic architecture.
+PostgreSQL, SQLite, files, graphs, vectors, LLMs, CPUs, GPUs and future substrates are research instruments. They do not define the permanent semantic architecture.
 
 ## Mandatory status distinctions
 
@@ -35,15 +34,21 @@ Operator approval is authority over architecture. It is not empirical evidence.
 
 ## Accepted architecture contracts
 
-The repository accepts:
+PR #38 accepted and published:
 
-- ADR-0010 — foundational contract-family ownership;
 - ADR-0011 — `nk-id/1.0` canonical identity;
 - ADR-0012 — `nk-event/1.0` single-writer append/idempotency/order/replay boundary;
 - ADR-0013 — `nk-deletion/1.0` restriction/deletion/retention semantics;
 - ADR-0014 — `nk-fixtures/1.0` executable fixture/evidence protocol.
 
-Accepted family map:
+```text
+PR #38 head:  5b003208d93774c1a79e770e8259dda99795eab7
+Merge SHA:    ff88809fe7d7c79033a150140d20618e04aa1f9d
+Decision:     ACCEPTED
+Approval:     APPROVED
+```
+
+ADR-0010 remains the accepted family-ownership map:
 
 ```text
 NK-SEM — semantic roles
@@ -84,8 +89,6 @@ Accepted event vocabulary remains:
 ADMIT · LINK · UTILIZED · SUPERSEDED · ERASED
 ```
 
-No additional event verb is accepted by ADR-0011–0014.
-
 ### Deletion and restriction
 
 ```text
@@ -100,27 +103,20 @@ Profiles must declare data locations, authority, policy, retries, partial comple
 
 ### Conformance fixtures
 
-The accepted fixture protocol requires:
-
-- stable assertion IDs;
-- versioned schemas and fixture corpora;
-- byte/structural/semantic/behavioural equivalence classes;
-- explicit supported/unsupported/partial/failed assertion results;
-- no silent skip;
-- exact evidence reports and profile limitations.
+The accepted protocol requires stable assertion IDs, versioned schemas/fixtures, declared equivalence classes, explicit assertion results, no silent skip, and exact evidence limitations.
 
 ## Implemented support tooling
 
 The repository contains:
 
-- `contracts/registry.json` with 72 assertion IDs;
-- schema and evidence-report bundles;
+- registry `nk-contract-registry/1.1.0` with 72 assertion IDs;
+- schemas and evidence-report contract;
 - identity, event, idempotency, deletion and epistemic fixtures;
-- `tools/conformance/runner.py`;
-- eight focused unit tests;
-- a Python 3.11/3.12 workflow with PR, push and manual-dispatch entry points.
+- standard-library conformance runner;
+- eight focused tests;
+- Python 3.11/3.12 workflow with PR, push and manual `workflow_dispatch` entry points.
 
-Recorded local evidence:
+Recorded local package evidence:
 
 ```text
 8 tests PASS
@@ -134,27 +130,25 @@ Recorded local evidence:
 NK-EPI-001…008 positive + negative coverage
 ```
 
-The built-in reader reports:
+The built-in reader deliberately reports:
 
 ```text
 support_state: SUPPORTED
 kernel_runtime_conformance: UNSUPPORTED
 ```
 
-This means the fixture-integrity reader completed. It does not mean a Kernel runtime exists.
-
 ## Repository CI boundary
 
-The workflow definition is active and now declares `workflow_dispatch`. An exact repository run has not yet been recorded for this acceptance state.
-
-Therefore:
+No GitHub Actions run was created for PR #38 or merge `ff88809…`. The workflow is active and now supports manual dispatch, but the connected GitHub integration cannot dispatch it and the local environment has no authenticated `gh` executable.
 
 ```text
 local fixture evidence:         LOCALLY_TESTED
-repository workflow evidence:   NOT YET RECORDED
+repository workflow evidence:   NOT RECORDED
 Kernel profile C2:              NOT ESTABLISHED
 C3 cross-profile equivalence:   NOT ESTABLISHED
 ```
+
+This is neither CI PASS nor test failure.
 
 ## Current public runtime boundary
 
@@ -181,28 +175,12 @@ source and original suite not located in accessible sources
 
 Accessible search supports `NOT_FOUND_IN_ACCESSIBLE_SOURCES`, not `GLOBALLY_LOST`.
 
-Do not reconstruct an approximation and label it `v0.1.2.1`. Controlled import requires:
-
-1. authentic source archive or location;
-2. documented lineage;
-3. preserved read-only container and hashes;
-4. original test inventory;
-5. explicit operator GO.
-
 Issue #1 remains independent from ADR-0011–0014. The accepted exact contracts are new architecture lineage, not recovered historical design.
-
-## Other architecture tracks
-
-- ADR-0009 accepts PostgreSQL as preferred full profile and SQLite as optional embedded profile; adapters remain unimplemented.
-- Curiosity Core remains `PROPOSED / DOCUMENTED_ONLY / NOT IMPLEMENTED`.
-- Causal relations placement under ADR-0006 is accepted; causal runtime remains absent.
-- ADR-0008 world/epistemic boundaries remain proposed.
 
 ## Immediate next gates
 
-1. Merge and record the ADR-0011–0014 acceptance PR and exact SHA.
-2. Execute the conformance workflow through GitHub Actions and record run/job/artifact evidence.
-3. Define the first clean implementation profile under a new version/evidence lineage if authentic source recovery remains blocked.
-4. Implement assertion-scoped profile adapters before any C2 claim.
-5. Build two materially independent profiles before C3.
-6. Keep Issue #1 source recovery and all cross-project integrations separately governed.
+1. Execute `Conformance fixture integrity` manually in GitHub Actions and record run/job/artifact evidence.
+2. Define the first clean implementation profile under a new version/evidence lineage if authentic source recovery remains blocked.
+3. Implement assertion-scoped profile adapters before any C2 claim.
+4. Build two materially independent profiles before C3.
+5. Keep Issue #1 source recovery and all cross-project integrations separately governed.
