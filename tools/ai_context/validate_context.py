@@ -52,7 +52,7 @@ CHECKPOINT_RE = re.compile(
 MARKDOWN_LINK_RE = re.compile(r"(?<!!)\[[^\]]+\]\(([^)]+)\)")
 IGNORED_SCHEMES = {"http", "https", "mailto", "tel", "data"}
 REQUIRED_STATUS_MARKERS = (
-    "RESEARCH / DOCUMENTED_ONLY / NOT PRODUCTION-READY",
+    "RESEARCH / P1 PARTIAL IMPLEMENTATION / NOT PRODUCTION-READY",
     "NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GLOBALLY_LOST",
     "Context checkpoint ≠ automatically current main",
 )
@@ -88,34 +88,25 @@ def _normalize_link_target(source: Path, raw_target: str, repo: Path) -> Path | 
     target = raw_target.strip()
     if not target or target.startswith("#"):
         return None
-
-    # Markdown may wrap destinations in angle brackets or add an optional title.
     if target.startswith("<") and ">" in target:
         target = target[1 : target.index(">")]
     elif " \"" in target:
         target = target.split(" \"", 1)[0]
     elif " '" in target:
         target = target.split(" '", 1)[0]
-
     parsed = urlsplit(target)
     if parsed.scheme.lower() in IGNORED_SCHEMES or parsed.netloc:
         return None
-
     path_text = unquote(parsed.path)
     if not path_text:
         return None
-
-    if path_text.startswith("/"):
-        candidate = repo / path_text.lstrip("/")
-    else:
-        candidate = source.parent / path_text
+    candidate = repo / path_text.lstrip("/") if path_text.startswith("/") else source.parent / path_text
     return candidate.resolve()
 
 
 def validate_links(repo: Path) -> list[Finding]:
     findings: list[Finding] = []
     repo_resolved = repo.resolve()
-
     for rel in LINK_SCAN_PATHS:
         source = repo / rel
         if not source.is_file():
@@ -145,9 +136,7 @@ def read_checkpoint(repo: Path) -> tuple[str | None, list[Finding]]:
     findings: list[Finding] = []
     match = CHECKPOINT_RE.search(text)
     if not match:
-        findings.append(
-            Finding(rel, "missing exact 40-character 'Last verified public `main`' checkpoint")
-        )
+        findings.append(Finding(rel, "missing exact 40-character 'Last verified public `main`' checkpoint"))
         return None, findings
     for marker in REQUIRED_STATUS_MARKERS:
         if marker not in text:
@@ -161,16 +150,12 @@ def validate_checkpoint(repo: Path, checkpoint: str | None) -> list[Finding]:
     findings: list[Finding] = []
     exists = _run_git(repo, "cat-file", "-e", f"{checkpoint}^{{commit}}")
     if exists.returncode != 0:
-        findings.append(
-            Finding("docs/ai/CURRENT_STATE.md", f"checkpoint commit does not exist: {checkpoint}")
-        )
+        findings.append(Finding("docs/ai/CURRENT_STATE.md", f"checkpoint commit does not exist: {checkpoint}"))
         return findings
-
     head = _run_git(repo, "rev-parse", "HEAD")
     if head.returncode != 0:
         findings.append(Finding(".git", "cannot resolve HEAD"))
         return findings
-
     ancestor = _run_git(repo, "merge-base", "--is-ancestor", checkpoint, "HEAD")
     if ancestor.returncode != 0:
         findings.append(
@@ -196,18 +181,15 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--repo", type=Path, default=Path.cwd())
     args = parser.parse_args(argv)
     repo = args.repo.resolve()
-
     if not (repo / ".git").exists():
         print(f"ERROR: not a git repository: {repo}", file=sys.stderr)
         return 2
-
     findings = validate(repo)
     if findings:
         print("AI context validation failed:", file=sys.stderr)
         for finding in findings:
             print(f"- {finding.render()}", file=sys.stderr)
         return 1
-
     checkpoint, _ = read_checkpoint(repo)
     head = _run_git(repo, "rev-parse", "HEAD").stdout.strip()
     print(f"AI context validation passed; checkpoint={checkpoint}; head={head}")
