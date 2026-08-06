@@ -8,14 +8,18 @@ Re-verify exact SHAs, PR state and current repository evidence before using an e
 ## 2026-08-06 — AI context and documentation-continuity governance
 
 ```text
-Status:        IN PROGRESS ON agent/add-ai-context-pack
-Base main:     18ee09c870f7416932de29a2b2f5de53202fcb2e
-Scope:         documentation/governance only
-Runtime:       unchanged; no public Kernel runtime added
-Notion impact: GITHUB_AND_NOTION
+Status:          MERGED / NOTION SYNCED
+PR:              #24
+Base main:       18ee09c870f7416932de29a2b2f5de53202fcb2e
+PR head:         311577c3912dc6e0d13fda7852eb65df2dd2cfb6
+Merge SHA:       d5989742f987b610b5a81bb59a14c0a11518aeea
+Scope:           documentation/governance only
+Runtime:         unchanged; no public Kernel runtime added
+Notion impact:   GITHUB_AND_NOTION → SYNCED
+Notion record:   AI Agent Context & Documentation Continuity
 ```
 
-Introduces a Native Kernel-specific adaptation of Titan's AI context mechanism:
+Introduced a Native Kernel-specific adaptation of Titan's AI context mechanism:
 
 - root `AGENTS.md` as mandatory entry point;
 - `docs/ai/` context-pack manifest;
@@ -30,8 +34,18 @@ Introduces a Native Kernel-specific adaptation of Titan's AI context mechanism:
 
 The design deliberately improves on a discovered Titan weakness: context documents are last-verified checkpoints and must not be treated as automatically current. Every actor is required to compare recorded SHAs with the actual branch or PR.
 
-This change does not modify Architecture Canon, Issue #1, ADR decisions, implementation status or runtime claims.
-Final PR, merge SHA and Notion synchronization must be added after publication.
+Validation recorded in PR #24:
+
+- 14 intended documentation/governance files changed;
+- +1402 / −153 lines;
+- relative links and English/Russian semantic guidance reviewed;
+- no runtime tests applicable because no runtime code changed.
+
+The Native Kernel Hub canonical GitHub state and the dedicated Notion governance record were synchronized to the PR #24 merge evidence.
+
+This change did not modify Architecture Canon, Issue #1, ADR decisions, implementation status, runtime claims, or cross-project runtime wiring.
+
+Remaining limitation: the context pack is not an automatically updated state service. Future actors must still update it deliberately and verify every checkpoint against the actual SHA.
 
 ---
 
