@@ -1,8 +1,8 @@
 # ⚠️ Native Kernel Known Risks and Required Proof
 
 **Snapshot:** 2026-08-06  
-**Last verified public `main`:** `350734c8ce8d8cbc742def7df9f3d5044a5953ab`  
-**Active proposal:** Draft PR #41 / RFC-0002 / Issue #40
+**Last verified public `main`:** `1e721aeb5b116694a0dbb417c377aa9f92b6f8e5`  
+**Published proposal:** PR #41 / RFC-0002 / Issue #40
 
 Accepted contracts, passing tooling and a detailed profile plan do not close runtime, security, privacy, licensing or portability risks.
 
@@ -16,24 +16,17 @@ Required proof: authentic bytes, lineage, hashes, original tests and explicit Is
 
 ## P0 — Clean profile may be mistaken for recovered history
 
-**State:** `OPEN`, narrowed by RFC-0002 guardrails
+**State:** `OPEN`, narrowed by published RFC-0002 guardrails
 
-RFC-0002 proposes `clean/postgresql-reference/0.1` and explicitly forbids:
-
-- historical lineage claims;
-- use of the `v0.1.2.1` identity;
-- replacement of the original 44-test evidence;
-- closing Issue #1 through new implementation work.
+RFC-0002 uses `clean/postgresql-reference/0.1` and forbids historical lineage, use of the `v0.1.2.1` identity, replacement of the original 44-test evidence and closure of Issue #1 through clean implementation work.
 
 The planning validator rejects a non-null historical lineage and any permission to claim recovery.
 
-Required control: every runtime package, migration, test report and release must repeat the clean-lineage boundary.
+Required control: every future runtime package, migration, test report and release repeats the clean-lineage boundary.
 
 ## P0 — Planning manifest may be mistaken for runtime support
 
 **State:** `OPEN`, narrowed by machine-readable enforcement
-
-The proposed manifest maps all 72 assertions, but mapping means planned coverage, not implementation.
 
 ```text
 PLANNED
@@ -42,14 +35,7 @@ PLANNED
 ≠ C2
 ```
 
-All assertion rows currently state:
-
-```text
-runtime_support: UNSUPPORTED
-evidence_state: NONE
-```
-
-The validator rejects missing/duplicate assertions, false support claims, historical lineage and silent promotion of `NK-EPI`.
+All 72 assertion rows currently state `runtime_support: UNSUPPORTED` and `evidence_state: NONE`. The validator rejects missing/duplicate assertions, false support claims, historical lineage and silent `NK-EPI` promotion.
 
 ## P0 — Support tooling may be mistaken for Kernel runtime
 
@@ -64,29 +50,28 @@ fixture reader supported
 ≠ C2/C3 Kernel conformance
 ```
 
-Required control: built-in evidence reports retain `kernel_runtime_conformance: UNSUPPORTED` until a real profile demonstrates scoped behaviour.
+Required control: built-in reports retain `kernel_runtime_conformance: UNSUPPORTED` until a real profile demonstrates scoped behaviour.
 
-## P0 — Accepted architecture may be mistaken for completed implementation
+## P0 — Published RFC may be mistaken for runtime authorization
 
 **State:** `OPEN`
 
-ADR-0011 through ADR-0014 are accepted/approved, while RFC-0002 is proposed and runtime is not started.
+PR #41 merged RFC-0002 as `PROPOSED / DOCUMENTED_ONLY`. Operator approval remains pending and implementation is not started.
 
 ```text
-Decision status
-≠ RFC status
-≠ Evidence level
-≠ Implementation status
-≠ Operator approval
+merged RFC proposal
+≠ accepted profile plan
+≠ runtime GO
+≠ implementation evidence
 ```
 
 ## P1 — GitHub Actions execution remains unrecorded
 
 **State:** `OPEN`, validation surface expanded
 
-The conformance workflow now includes profile-manifest tests and reports on Python 3.11/3.12. No exact repository run is claimed before GitHub records one.
+The conformance workflow includes both fixture and profile-manifest tests/reports on Python 3.11/3.12. No run was created for PR #41 or merge `1e721aeb…`.
 
-Required proof: exact workflow run ID, head SHA, jobs, conclusions and artifacts for both conformance and profile-manifest reports.
+Required proof: exact workflow run ID, head SHA, jobs, conclusions and artifacts for both reports.
 
 ## P1 — Profile implementation language and dependency policy undecided
 
@@ -94,29 +79,23 @@ Required proof: exact workflow run ID, head SHA, jobs, conclusions and artifacts
 
 RFC-0002 deliberately does not select a permanent language, package layout, PostgreSQL driver or migration framework.
 
-Issue #18 also leaves repository publication/contribution licensing unresolved. Dependency selection, package publication and outside contributions must not begin under assumed license permissions.
+Issue #18 leaves repository publication/contribution licensing unresolved. Dependency selection, package publication and outside contributions must not begin under assumed license permissions.
 
-Required decisions before runtime:
-
-- language/runtime range;
-- dependency and package policy;
-- PostgreSQL version matrix;
-- driver/migration tooling;
-- license compatibility and contribution terms.
+Required decisions before runtime: language/runtime, dependency/package policy, PostgreSQL matrix, driver/migrations, license compatibility and contribution terms.
 
 ## P1 — Single-writer boundary may be weakened by PostgreSQL concurrency
 
 **State:** `OPEN`
 
-PostgreSQL supports concurrent transactions, but RFC-0002 requires one authoritative writer per Kernel instance. Database concurrency alone does not create a safe multi-writer protocol.
+PostgreSQL concurrency is not a multi-writer safety proof. RFC-0002 requires one authoritative writer per Kernel instance.
 
-Required proof: explicit writer lease/epoch mechanism, mismatch rejection, transaction/fault tests and incident fencing.
+Required proof: explicit writer lease/epoch, mismatch rejection, transaction/fault tests and incident fencing.
 
 ## P1 — SQL schema may become accidental Canon
 
 **State:** `OPEN`
 
-Tables, columns, constraints, surrogate keys, indexes and SQL transaction syntax are profile details. Semantic IDs and accepted contracts must survive schema or backend replacement.
+Tables, columns, surrogate keys, indexes and SQL transaction syntax remain profile details. Semantic IDs and accepted contracts must survive schema/backend replacement.
 
 Required proof: neutral export, replay, migration Receipt and future independent SQLite comparison.
 
@@ -124,45 +103,27 @@ Required proof: neutral export, replay, migration Receipt and future independent
 
 **State:** `OPEN`
 
-RFC-0002 inventories payloads, commands, projections, evidence, logs, backups, replicas and migration artifacts but implements none of the deletion mechanisms.
+RFC-0002 inventories payloads, commands, projections, evidence, logs, backups, replicas and migrations but implements none of the deletion mechanisms.
 
-Required proof: profile-specific location matrix, key hierarchy if used, retry/partial-failure tests, backup/restore evidence and security/legal review.
+Required proof: profile location matrix, key hierarchy if used, retry/partial-failure tests, backup/restore evidence and security/legal review.
 
 ## P1 — GitHub ↔ Notion drift
 
+**State:** `OPEN`, narrowed by dedicated RFC page
+
+RFC status, PR/head/merge SHA, operator decision, runtime GO and evidence must remain synchronized. GitHub remains authoritative.
+
+## P1 — Accepted contracts remain unimplemented
+
 **State:** `OPEN`
 
-RFC status, PR/head/merge SHA, operator decision, runtime GO and evidence must remain synchronized. GitHub remains authoritative for technical/evidence claims.
-
-## P1 — Canonical identity accepted but unimplemented
-
-**State:** `NARROWED BY ACCEPTED ADR-0011`, not closed
-
-Missing: independent implementation, real-profile migration, repository execution and C3.
-
-## P1 — Event append/replay accepted but unimplemented
-
-**State:** `NARROWED BY ACCEPTED ADR-0012`, not closed
-
-Missing: durable storage, crash injection, reducer/upcaster implementation, corruption recovery and production threat evidence.
-
-## P1 — Deletion/restriction accepted but unimplemented
-
-**State:** `NARROWED BY ACCEPTED ADR-0013`, not closed
-
-Missing: legal/security review, key hierarchy, providers, backups, incident handling and operational validation.
-
-## P1 — Executable conformance remains support tooling
-
-**State:** `NARROWED BY ACCEPTED ADR-0014`, not closed
-
-Missing: exact repository workflow evidence, Kernel adapter, reducer outputs, two independent profiles, Shadow evidence and operational evidence.
+ADR-0011–0014 define accepted identity, event/replay, deletion and fixture contracts. RFC-0002 maps them, but no profile implements them.
 
 ## P1 — Registry/profile plan can hide proposed NK-EPI status
 
 **State:** `OPEN`
 
-`NK-EPI-001…008` remains proposed under ADR-0008. The profile manifest correctly defers all eight assertions with no implementation phase.
+`NK-EPI-001…008` remains proposed. The profile manifest defers all eight assertions with no implementation phase.
 
 Required control: planning or fixture presence must not be described as architecture acceptance or runtime enforcement.
 
@@ -170,13 +131,13 @@ Required control: planning or fixture presence must not be described as architec
 
 **State:** `OPEN`
 
-A proposed PostgreSQL profile is not storage-neutrality evidence. C3 requires an independently developed second profile and declared equivalence.
+A PostgreSQL plan is not storage-neutrality evidence. C3 requires an independently developed second profile and declared equivalence.
 
 ## P1 — Cross-project authority leakage
 
 **State:** `OPEN`
 
-RFC-0002 does not authorize Titan, Mentaury or Crystal integration, shared storage, shared identity or inherited authority.
+RFC-0002 does not authorize Titan, Mentaury or Crystal integration, shared storage, identity or inherited authority.
 
 ## P1 — Future-substrate claims can become hype
 
