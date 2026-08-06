@@ -1,0 +1,64 @@
+{
+  "manifest_version": "nk-p1-implementation-manifest/1",
+  "profile_id": "native-kernel/postgresql-reference",
+  "profile_version": "0.1-p1",
+  "evidence_lineage": "clean/postgresql-reference/0.1",
+  "rfc": "RFC-0002",
+  "decision_record": "ADR-0015",
+  "decision_status": "ACCEPTED",
+  "operator_approval": "APPROVED",
+  "phase": "P1",
+  "implementation_status": "PARTIAL",
+  "evidence_level": "LOCALLY_TESTED",
+  "kernel_runtime_conformance": "UNSUPPORTED",
+  "language_profile": {
+    "language": "Python",
+    "runtime_range": ">=3.11,<3.13",
+    "dependencies": "STANDARD_LIBRARY_ONLY",
+    "package": "native_kernel.semantic_core",
+    "permanent_architecture_choice": false
+  },
+  "implemented_components": [
+    "canonical identity helpers",
+    "semantic content and Claim identity domain objects",
+    "canonical command object and provisional P1 digest",
+    "deny-by-default explicit authority policy",
+    "deterministic version-bound in-memory reducer",
+    "deletion and restriction transition state machine",
+    "admission and deletion Receipt overclaim guards"
+  ],
+  "local_validation": {
+    "semantic_core_tests": 20,
+    "semantic_core_result": "PASS",
+    "compileall_result": "PASS",
+    "repository_ci": "NOT_RECORDED"
+  },
+  "assertion_support_policy": {
+    "registry_version": "nk-contract-registry/1.1.0",
+    "reported_runtime_support": "UNSUPPORTED",
+    "reason": "P1 has no conformance adapter; scoped assertion evidence begins in P4."
+  },
+  "issue_1_boundary": {
+    "relationship": "INDEPENDENT",
+    "historical_lineage": null,
+    "may_claim_recovery": false,
+    "may_use_v0_1_2_1_name": false
+  },
+  "forbidden_in_p1": [
+    "PostgreSQL or SQLite adapter",
+    "SQL schema, driver or migration framework",
+    "durable append or idempotency store",
+    "writer lease persistence",
+    "projection persistence",
+    "network API",
+    "P2-P5 implementation",
+    "C1, C2 or C3 profile claim",
+    "Titan, Mentaury or Crystal runtime wiring",
+    "ADR-0008 or NK-EPI promotion"
+  ],
+  "provisional_noncanonical_identifiers": [
+    "nkd0 command digest",
+    "nks0 reducer-state digest"
+  ],
+  "next_gate": "Separate operator GO for P2 PostgreSQL authoritative append/idempotency adapter"
+}
