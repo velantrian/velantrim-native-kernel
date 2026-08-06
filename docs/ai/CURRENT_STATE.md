@@ -1,12 +1,11 @@
 # 📍 Native Kernel Current State Checkpoint
 
 **Verified:** 2026-08-06  
-**Last verified public `main`:** `9ccbb535e22438092393e2686eb76eb362adb29d`  
-**Active branch:** `agent/p1-semantic-core` — re-check exact PR head  
-**Active issue:** #43 — P1 profile-independent semantic core  
+**Last verified public `main`:** `9fd608f3f1d2915b961644015eb6b5e1a93e84d3`  
+**Latest implementation:** PR #44 — P1 profile-independent semantic core  
 **Repository status:** `RESEARCH / P1 PARTIAL IMPLEMENTATION / NOT PRODUCTION-READY`
 
-> Context checkpoint ≠ automatically current main. Re-check the branch, PR, final merge SHA and exact workflow evidence.
+> Context checkpoint ≠ automatically current main. Re-check the repository ref, exact workflow evidence and later PRs before relying on this file.
 
 Source-recovery result remains:
 
@@ -24,26 +23,35 @@ C1 ≠ C2 ≠ C3
 
 ## Operator decision
 
-The operator accepted RFC-0002 and clean lineage, then separately authorized P1 only:
-
 ```text
 RFC-0002:                 ACCEPTED / APPROVED
 clean lineage:            clean/postgresql-reference/0.1
-P1 semantic core:         GO
+P1 semantic core:         AUTHORIZED / MERGED
 P2–P5:                    REQUIRE SEPARATE GO
 Issue #1:                 ACTIVE / INDEPENDENT
 ```
 
 Decision evidence is recorded in Issue #40 and ADR-0015.
 
-## Active P1 implementation
+## Exact P1 publication
 
-Package:
+```text
+PR:             #44
+Base main:      9ccbb535e22438092393e2686eb76eb362adb29d
+Final PR head:  273d9369e624d8e4c4033dc7842ebbcc46642668
+Merge SHA:      9fd608f3f1d2915b961644015eb6b5e1a93e84d3
+Changed files:  30
+Review threads: 0 unresolved
+Submitted reviews: 0
+Codex review:   unavailable due external usage limit
+```
+
+## Merged P1 package
 
 ```text
 native_kernel.semantic_core
-Python >=3.11,<3.13
-standard library only
+Python profile: >=3.11,<3.13
+Dependencies: standard library only
 ```
 
 Implemented components:
@@ -52,66 +60,50 @@ Implemented components:
 2. `models.py` — immutable semantic content, Claim identity, command and logical Event objects;
 3. `authority.py` — explicit deterministic deny-by-default authority policy;
 4. `reducer.py` — version-bound deterministic in-memory reducer;
-5. `deletion.py` — accepted deletion/restriction transition graph and Receipt limits;
+5. `deletion.py` — deletion/restriction transition graph and Receipt limits;
 6. `receipt.py` — admission Receipt proof-boundary enforcement;
 7. `errors.py` — explicit contract, authority, sequence, version, transition and overclaim failures.
 
-## Local evidence
+Manual hardening corrected exact authority scope and rejects malformed enums, calendar timestamps, boolean sequences, authority grants, Receipt identifiers/limits and deletion evidence.
 
-Recorded before publication:
+## Evidence
+
+Exact final content was run in the available local Python 3.13.5 environment:
 
 ```text
-20 semantic-core unit tests PASS
+20 semantic-core tests PASS
 4 P1-manifest guard tests PASS
 7 AI-context validator tests PASS
 Python compileall PASS
+P1 manifest validator PASS
 no PostgreSQL/SQLite/network dependency imports
 ```
 
-Tests cover identity vectors, invalid canonical inputs, command determinism, explicit authority, reducer sequence/version failures, deletion fixture paths, Receipt overclaims and rejection of the superseded `DOCUMENTED_ONLY` context marker.
+The declared runtime range is Python 3.11/3.12. No workflow run was created for PR head `273d9369…` or merge `9fd608f3…`.
+
+```text
+local final-content evidence: LOCALLY_TESTED
+repository workflow evidence: NOT_RECORDED
+Kernel runtime conformance:   UNSUPPORTED
+C1/C2/C3:                     NOT_ESTABLISHED
+```
 
 ## Implementation limits
 
-P1 does not contain:
+P1 contains no PostgreSQL/SQLite adapter, SQL schema, driver, migration framework, durable append/idempotency, writer-lease persistence, authoritative replay, crash recovery, projection storage/rebuild, network API, conformance adapter or ecosystem wiring.
 
-- PostgreSQL or SQLite adapter;
-- SQL schema, driver or migration framework;
-- durable append/idempotency;
-- writer lease persistence;
-- authoritative replay or crash recovery;
-- projection storage/rebuild;
-- network API;
-- conformance adapter;
-- Titan, Mentaury or Crystal wiring.
+The reducer processes logical in-memory Events only.
 
-The P1 reducer processes logical in-memory Events only.
-
-## Profile and evidence manifests
+## Manifests
 
 ```text
 profile-manifest.json → historical P0 planning snapshot
 p1-manifest.json      → accepted P1 implementation/evidence state
 ```
 
-The P1 validator rejects false C1/C2/C3 promotion, external dependency policy, historical `v0.1.2.1` lineage, recovery claims and removal of explicit PostgreSQL/conformance prohibitions.
+All 72 contract assertions remain runtime `UNSUPPORTED` until a future P4 conformance adapter reports every assertion exactly once.
 
-All 72 contract assertions remain runtime `UNSUPPORTED` until a P4 conformance adapter reports every assertion exactly once.
-
-## Workflow state
-
-`.github/workflows/p1-semantic-core.yml` declares PR, push-to-main and manual entry points on Python 3.11/3.12, runs the P1 tests, compiles the package and emits a machine-readable P1 manifest artifact.
-
-`.github/workflows/ai-context.yml` validates the updated P1 maturity markers and checkpoint ancestry.
-
-No exact GitHub Actions run is yet recorded for the active branch.
-
-```text
-workflow definitions: ACTIVE ON BRANCH
-local evidence:       LOCALLY_TESTED
-repository runs:      NOT_RECORDED
-```
-
-## Issue #1 separation
+## Issue #1 and ecosystem separation
 
 ```text
 P1 clean implementation
@@ -120,11 +112,13 @@ P1 clean implementation
 ≠ closure of source-recovery gate
 ```
 
+No Titan, Mentaury or Crystal runtime integration is authorized.
+
 ## Next gates
 
-1. verify complete branch diff and exact test evidence;
-2. open/review/merge P1 PR with status boundaries intact;
-3. record exact merge SHA and any Actions evidence;
-4. synchronize Notion and Issue #43;
-5. keep P2 blocked until a separate operator GO;
-6. leave assertion-level conformance `UNSUPPORTED` until P4.
+1. finalize this post-merge checkpoint and Notion sync;
+2. close Issue #43 as completed P1 scope;
+3. keep P2 blocked until a separate operator GO;
+4. keep runtime assertions `UNSUPPORTED` until P4;
+5. obtain exact Python 3.11/3.12 repository workflow evidence when available;
+6. preserve Issue #1 and Issue #18 as independent gates.
