@@ -1,150 +1,147 @@
 # ⚠️ Native Kernel Known Risks and Required Proof
 
 **Snapshot:** 2026-08-06  
-**Last verified public `main`:** `1e721aeb5b116694a0dbb417c377aa9f92b6f8e5`  
-**Published proposal:** PR #41 / RFC-0002 / Issue #40
+**Last verified public `main`:** `9ccbb535e22438092393e2686eb76eb362adb29d`  
+**Active branch:** `agent/p1-semantic-core@5507901f688fffa49acc907de185acc287e27c63`
 
-Accepted contracts, passing tooling and a detailed profile plan do not close runtime, security, privacy, licensing or portability risks.
+P1 code reduces architecture-only risk, but it does not close storage, replay, security, privacy, licensing or portability risks.
 
 ## P0 — Authentic source recovery remains unresolved
 
 **State:** `OPEN`
 
-The reported `v0.1.2.1` source and original 44-test suite are absent. Connected-source search found no authentic candidate; operator-controlled devices and archives remain outside connector evidence.
+The reported `v0.1.2.1` source and original 44-test suite remain absent from accessible sources.
 
-Required proof: authentic bytes, lineage, hashes, original tests and explicit Issue #1 operator gate.
+Required proof: authentic bytes, lineage, hashes, original test inventory and explicit Issue #1 operator gate.
 
-## P0 — Clean profile may be mistaken for recovered history
+## P0 — Clean P1 may be mistaken for recovered history
 
-**State:** `OPEN`, narrowed by published RFC-0002 guardrails
-
-RFC-0002 uses `clean/postgresql-reference/0.1` and forbids historical lineage, use of the `v0.1.2.1` identity, replacement of the original 44-test evidence and closure of Issue #1 through clean implementation work.
-
-The planning validator rejects a non-null historical lineage and any permission to claim recovery.
-
-Required control: every future runtime package, migration, test report and release repeats the clean-lineage boundary.
-
-## P0 — Planning manifest may be mistaken for runtime support
-
-**State:** `OPEN`, narrowed by machine-readable enforcement
+**State:** `OPEN`, narrowed by ADR-0015 and manifest guards
 
 ```text
-PLANNED
-≠ SUPPORTED
-≠ LOCALLY_TESTED runtime
-≠ C2
+clean/postgresql-reference/0.1
+≠ v0.1.2.1
+≠ original 44-test evidence
 ```
 
-All 72 assertion rows currently state `runtime_support: UNSUPPORTED` and `evidence_state: NONE`. The validator rejects missing/duplicate assertions, false support claims, historical lineage and silent `NK-EPI` promotion.
+Every future package, report and release must repeat this boundary.
 
-## P0 — Support tooling may be mistaken for Kernel runtime
+## P0 — P1 semantic core may be mistaken for a complete Kernel
 
 **State:** `OPEN`
 
-```text
-accepted assertion
-≠ assertion implemented by a Kernel profile
-fixture reader supported
-≠ durable event store
-≠ replay/deletion implementation
-≠ C2/C3 Kernel conformance
-```
+P1 implements canonical identity, domain objects, authority, logical reduction, deletion transitions and Receipt guards.
 
-Required control: built-in reports retain `kernel_runtime_conformance: UNSUPPORTED` until a real profile demonstrates scoped behaviour.
+It does not implement durable history, append/idempotency, a database adapter, projection persistence, network API or profile conformance.
 
-## P0 — Published RFC may be mistaken for runtime authorization
+Required control: public surfaces use `P1 PARTIAL / SEMANTIC CORE ONLY`.
+
+## P0 — Logical reducer may be mistaken for durable replay
 
 **State:** `OPEN`
 
-PR #41 merged RFC-0002 as `PROPOSED / DOCUMENTED_ONLY`. Operator approval remains pending and implementation is not started.
+The reducer processes supplied in-memory `SemanticEvent` objects and checks version/sequence continuity. It does not verify durable commits, payload/event hash chains, crashes, truncation, forks, upcasters or persisted projection rebuild.
+
+Required proof before replay claims: P2/P3 storage and failure evidence.
+
+## P0 — Local tests may be mistaken for C1/C2
+
+**State:** `OPEN`, machine-readable guard added
 
 ```text
-merged RFC proposal
-≠ accepted profile plan
-≠ runtime GO
-≠ implementation evidence
+20 semantic tests PASS
+4 manifest tests PASS
+compileall PASS
 ```
+
+These prove only tested P1 behavior. `p1-manifest.json` keeps `kernel_runtime_conformance: UNSUPPORTED`, and the validator rejects C1 promotion.
+
+Required proof for later levels: assertion-scoped conformance adapter, exact repository CI, pinned environment and artifacts.
+
+## P0 — Provisional digests may become accidental Canon
+
+**State:** `OPEN`
+
+`nkd0` and `nks0` are P1 implementation details for command and state determinism. They are not accepted cross-profile contracts.
+
+Required control: no external profile, migration or persistent schema may depend on them without a separate contract/ADR.
 
 ## P1 — GitHub Actions execution remains unrecorded
 
-**State:** `OPEN`, validation surface expanded
+**State:** `OPEN`
 
-The conformance workflow includes both fixture and profile-manifest tests/reports on Python 3.11/3.12. No run was created for PR #41 or merge `1e721aeb…`.
+The branch declares Python 3.11/3.12 workflow checks and artifact output. No exact repository run is yet recorded.
 
-Required proof: exact workflow run ID, head SHA, jobs, conclusions and artifacts for both reports.
+Required proof: run ID, exact head SHA, jobs, conclusions, logs/artifact.
 
-## P1 — Profile implementation language and dependency policy undecided
+## P1 — Python may become accidental permanent architecture
+
+**State:** `OPEN`, narrowed
+
+P1 uses Python standard library because it is dependency-free and aligned with existing tooling. This is a reversible profile choice.
+
+Required control: semantic contracts stay independent from Python types, dataclass behavior and module layout.
+
+## P1 — Authority test adapter may be mistaken for authentication/authorization system
 
 **State:** `OPEN`
 
-RFC-0002 deliberately does not select a permanent language, package layout, PostgreSQL driver or migration framework.
+`StaticAuthorityPolicy` is deterministic and deny-by-default, but it is only a local P1 authority adapter. It has no credentials, identity provider, revocation, delegation persistence or operational audit.
 
-Issue #18 leaves repository publication/contribution licensing unresolved. Dependency selection, package publication and outside contributions must not begin under assumed license permissions.
+Required proof: separate security/authority profile and threat model.
 
-Required decisions before runtime: language/runtime, dependency/package policy, PostgreSQL matrix, driver/migrations, license compatibility and contribution terms.
-
-## P1 — Single-writer boundary may be weakened by PostgreSQL concurrency
+## P1 — Deletion state semantics may be mistaken for byte deletion
 
 **State:** `OPEN`
 
-PostgreSQL concurrency is not a multi-writer safety proof. RFC-0002 requires one authoritative writer per Kernel instance.
+P1 validates transitions and Receipt limits but deletes no primary data, backups, indexes, logs, exports or keys.
 
-Required proof: explicit writer lease/epoch, mismatch rejection, transaction/fault tests and incident fencing.
+Required proof: profile-specific data-location inventory, implementation, retry/failure evidence, backup/restore behavior and legal/security review.
+
+## P1 — Accepted contracts are only partially implemented
+
+**State:** `OPEN`
+
+P1 exercises parts of NK-ID, NK-SEM, NK-AUT, NK-EVT logical reduction and deletion semantics. It does not provide complete assertion-level support.
+
+All 72 assertions therefore remain runtime `UNSUPPORTED` until P4.
+
+## P1 — PostgreSQL work remains undecided
+
+**State:** `OPEN / BLOCKED BY SEPARATE GO`
+
+P2 requires decisions on PostgreSQL/server versions, driver, migration tool, writer lease/epoch, transaction schema, dependency policy and Issue #18 license compatibility.
 
 ## P1 — SQL schema may become accidental Canon
 
 **State:** `OPEN`
 
-Tables, columns, surrogate keys, indexes and SQL transaction syntax remain profile details. Semantic IDs and accepted contracts must survive schema/backend replacement.
+Future tables, constraints, indexes and surrogate keys must remain profile details. Semantic identity must survive storage replacement.
 
-Required proof: neutral export, replay, migration Receipt and future independent SQLite comparison.
-
-## P1 — Deletion planning is insufficient for sensitive data
+## P1 — Registry/profile work can hide proposed NK-EPI status
 
 **State:** `OPEN`
 
-RFC-0002 inventories payloads, commands, projections, evidence, logs, backups, replicas and migrations but implements none of the deletion mechanisms.
+ADR-0008 and `NK-EPI-001…008` remain proposed. P1 does not implement them.
 
-Required proof: profile location matrix, key hierarchy if used, retry/partial-failure tests, backup/restore evidence and security/legal review.
-
-## P1 — GitHub ↔ Notion drift
-
-**State:** `OPEN`, narrowed by dedicated RFC page
-
-RFC status, PR/head/merge SHA, operator decision, runtime GO and evidence must remain synchronized. GitHub remains authoritative.
-
-## P1 — Accepted contracts remain unimplemented
+## P1 — Storage neutrality remains unproven
 
 **State:** `OPEN`
 
-ADR-0011–0014 define accepted identity, event/replay, deletion and fixture contracts. RFC-0002 maps them, but no profile implements them.
-
-## P1 — Registry/profile plan can hide proposed NK-EPI status
-
-**State:** `OPEN`
-
-`NK-EPI-001…008` remains proposed. The profile manifest defers all eight assertions with no implementation phase.
-
-Required control: planning or fixture presence must not be described as architecture acceptance or runtime enforcement.
-
-## P1 — Storage neutrality unproven
-
-**State:** `OPEN`
-
-A PostgreSQL plan is not storage-neutrality evidence. C3 requires an independently developed second profile and declared equivalence.
+No storage adapter exists. C3 requires a materially independent second profile and declared equivalence.
 
 ## P1 — Cross-project authority leakage
 
 **State:** `OPEN`
 
-RFC-0002 does not authorize Titan, Mentaury or Crystal integration, shared storage, identity or inherited authority.
+P1 does not authorize Titan, Mentaury or Crystal integration, shared storage, identity or inherited conformance.
 
-## P1 — Future-substrate claims can become hype
+## P1 — License and contribution terms unresolved
 
-**State:** `OPEN`
+**State:** `OPEN`, Issue #18
 
-Neutrality remains a versioned architecture target, not demonstrated portability or superiority.
+P1 uses no external dependencies and is not packaged, but publication, reuse and contribution terms remain undecided.
 
 ## Update rule
 
-Record state, exact evidence/SHA, remaining uncertainty, owner and next action. Never close a risk through prose, merge, operator approval alone, planning coverage or support-tool success.
+Record exact state, evidence, SHA, remaining uncertainty and next action. Never close a risk through prose, operator approval, local tests, manifest coverage or code presence alone.
