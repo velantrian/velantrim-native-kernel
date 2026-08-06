@@ -12,7 +12,6 @@ Status:          DRAFT PR / ADR ACCEPTED / NOTION SYNCED / MERGE PENDING
 PR:              #28
 Base main:       2a03c871e5f7250c917c060cc112a9ea1497e9c4
 Branch:          agent/foundational-contract-skeleton
-Acceptance head: e4eabfb950259b27598239b30c8998feacbe8b1f
 Scope:           foundational architecture / abstract-contract documentation
 Runtime:         unchanged; no Native Kernel implementation added
 Decision:        ADR-0010 ACCEPTED; operator approval APPROVED
