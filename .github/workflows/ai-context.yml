@@ -43,9 +43,10 @@ jobs:
         python-version: ["3.11", "3.12"]
 
     steps:
-      - name: Check out complete history
+      - name: Check out exact commit with complete history
         uses: actions/checkout@v4
         with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 0
 
       - name: Set up Python
