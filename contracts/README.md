@@ -11,8 +11,6 @@ This directory is a machine-readable review surface for the architecture track. 
 
 The family-level `decision_status` records the status of the **family ownership boundary**, not automatic acceptance of every assertion or the named exact contract version. The authoritative status of each row is its own `status` field plus the owning ADR.
 
-Therefore:
-
 ```text
 family decision_status: ACCEPTED
 + assertion status: PROPOSED
@@ -25,7 +23,9 @@ ADR-0011 through ADR-0014 remain `PROPOSED / OPERATOR_APPROVAL_PENDING` until an
 
 - `registry.json` — stable family/assertion registry;
 - `schema-bundle.json` — neutral JSON Schema bundle for review and adapters;
-- `fixture-pack.json` — identity, event, deletion and epistemic scenarios.
+- `evidence-report-v1.schema.json` — standalone evidence-report schema;
+- `fixture-pack.json` — identity, event, deletion and epistemic scenarios;
+- `idempotency-scenarios.json` — retry, conflicting reuse and concurrent-attempt cases.
 
 ## Validation
 
@@ -34,7 +34,30 @@ python tools/conformance/runner.py validate
 python -m unittest discover -s tests -p 'test_conformance_runner.py'
 ```
 
-A passing report deliberately states `kernel_runtime_conformance: UNSUPPORTED`.
+Current local authoring result:
+
+```text
+8 unit tests PASS
+72 assertion IDs covered exactly once in the evidence report
+2 identity golden vectors matched
+4 invalid identity vectors rejected
+2 event-chain scenarios validated
+2 idempotency scenarios validated
+2 deletion scenarios validated
+NK-EPI-001…008 each have positive and negative fixtures
+```
+
+The runner directly verifies stored `payload_hash`, event-chain continuity, idempotency fixture semantics and complete adapter assertion coverage. Missing, duplicated or silently skipped assertion results are rejected.
+
+A passing built-in report deliberately states:
+
+```text
+support_state: SUPPORTED
+kernel_runtime_conformance: UNSUPPORTED
+assertion_results: 72 × UNSUPPORTED
+```
+
+The support state describes the fixture-integrity reader only. It does not claim that a Kernel runtime supports the assertions.
 
 ## Evidence boundary
 
