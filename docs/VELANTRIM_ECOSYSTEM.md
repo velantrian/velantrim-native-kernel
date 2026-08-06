@@ -122,3 +122,9 @@ research primitive
 → явное одобрение
 → отдельно версионируемая интеграция
 ```
+
+---
+
+> **Audit note (2026-08-06):** A code-level cross-repository audit of `velantrim-native-kernel` and `velantrim-mentaury-soul` confirmed the relationship is exactly as mapped above: both belong to the same Velantrim ecosystem (shared author, shared governance language, cross-referenced navigation docs), but there is **no runtime or code-level coupling** — no shared package, imports, dependency, schema, submodule or CI cross-trigger between the two repositories. Linking them further is possible only through the *safe future transfer pattern* described above (RFC/ADR, semantic-equivalence contract, deterministic tests, operator approval); nothing beyond this navigation map is implemented today.
+>
+> **Заметка аудита (2026-08-06):** Кросс-репозиторный аудит на уровне кода `velantrim-native-kernel` и `velantrim-mentaury-soul` подтвердил связь именно в том виде, как описано выше: оба проекта относятся к одной экосистеме Velantrim (общий автор, общий язык governance, взаимные ссылки в документации), но **runtime- или code-level связи не существует** — нет общего пакета, импортов, зависимостей, схем, submodule или CI cross-trigger между репозиториями. Дальнейшее связывание возможно только через описанный выше *безопасный паттерн будущего переноса* (RFC/ADR, контракт semantic equivalence, детерминированные тесты, одобрение оператора); сверх этой навигационной карты сегодня ничего не реализовано.
