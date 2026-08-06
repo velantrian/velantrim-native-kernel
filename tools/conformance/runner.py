@@ -16,6 +16,7 @@ ID_RE = re.compile(r"^[a-z0-9][a-z0-9._:/-]{0,127}$")
 ROOT = Path(__file__).resolve().parents[2]
 PACK = ROOT / "contracts" / "fixture-pack.json"
 REGISTRY = ROOT / "contracts" / "registry.json"
+IDEMPOTENCY = ROOT / "contracts" / "idempotency-scenarios.json"
 
 
 class ContractError(ValueError):
@@ -67,7 +68,8 @@ def canonical_json_bytes(value: Any) -> bytes:
 def domain_hash(domain: str, value: Any) -> str:
     if not ID_RE.fullmatch(domain):
         raise ContractError(f"invalid hash domain {domain!r}")
-    return hashlib.sha256(domain.encode("ascii") + b"\x00" + canonical_json_bytes(value)).hexdigest()
+    digest = hashlib.sha256(domain.encode("ascii") + b"\x00" + canonical_json_bytes(value)).hexdigest()
+    return digest
 
 
 def content_hash(content: dict[str, Any]) -> str:
@@ -111,23 +113,25 @@ def validate_registry(checks: list[Check]) -> None:
     seen: set[str] = set()
     for family in registry["families"]:
         for assertion in family["assertions"]:
-            assertion_id = assertion["assertion_id"]
-            if assertion_id in seen:
-                raise ContractError(f"duplicate assertion id {assertion_id}")
-            seen.add(assertion_id)
+            aid = assertion["assertion_id"]
+            if aid in seen:
+                raise ContractError(f"duplicate assertion id {aid}")
+            seen.add(aid)
     checks.append(Check("registry.unique_assertions", "PASS", f"{len(seen)} assertion IDs are unique"))
 
 
 def validate_identity(checks: list[Check]) -> None:
     golden = load_pack()["identity_golden"]
     for vector in golden["vectors"]:
-        actual = (
-            content_hash(vector["content"]),
-            claim_id(vector["claim_identity"]),
-            lineage_id(vector["lineage_seed"]),
-        )
+        actual_content = content_hash(vector["content"])
+        actual_claim = claim_id(vector["claim_identity"])
+        actual_lineage = lineage_id(vector["lineage_seed"])
         expected = vector["expected"]
-        if actual != (expected["content_hash"], expected["claim_id"], expected["lineage_id"]):
+        if (actual_content, actual_claim, actual_lineage) != (
+            expected["content_hash"],
+            expected["claim_id"],
+            expected["lineage_id"],
+        ):
             raise ContractError(f"identity vector {vector['vector_id']} mismatch")
     checks.append(Check("identity.golden", "PASS", f"{len(golden['vectors'])} golden vectors matched"))
 
@@ -145,7 +149,8 @@ def validate_identity(checks: list[Check]) -> None:
 
 def _build_event(event: dict[str, Any]) -> dict[str, Any]:
     envelope = dict(event)
-    envelope["payload_hash"] = payload_hash(envelope["payload"])
+    payload = envelope["payload"]
+    envelope["payload_hash"] = payload_hash(payload)
     without_hash = dict(envelope)
     without_hash.pop("event_hash", None)
     envelope["event_hash"] = event_hash(without_hash)
@@ -155,10 +160,11 @@ def _build_event(event: dict[str, Any]) -> dict[str, Any]:
 def validate_events(checks: list[Check]) -> None:
     corpus = load_pack()["event_scenarios"]
     for scenario in corpus["scenarios"]:
+        events = scenario["events"]
         previous = "GENESIS"
         expected_global = 1
         stream_seq: dict[str, int] = {}
-        for event in scenario["events"]:
+        for event in events:
             if event["global_seq"] != expected_global:
                 raise ContractError(f"{scenario['scenario_id']}: non-contiguous global_seq")
             expected_global += 1
@@ -170,12 +176,36 @@ def validate_events(checks: list[Check]) -> None:
             if event["prev_global_hash"] != previous:
                 raise ContractError(f"{scenario['scenario_id']}: previous hash mismatch")
             built = _build_event(event)
+            if built["payload_hash"] != event["payload_hash"]:
+                raise ContractError(f"{scenario['scenario_id']}: payload hash mismatch")
             if built["event_hash"] != event["event_hash"]:
                 raise ContractError(f"{scenario['scenario_id']}: event hash mismatch")
             previous = event["event_hash"]
         if scenario["expected_outcome"] not in {"ACCEPT", "REJECT", "RECOVER"}:
             raise ContractError(f"{scenario['scenario_id']}: unknown expected outcome")
     checks.append(Check("events.scenarios", "PASS", f"{len(corpus['scenarios'])} event scenarios validated"))
+
+
+def validate_idempotency(checks: list[Check]) -> None:
+    corpus = load_json(IDEMPOTENCY)
+    for scenario in corpus["scenarios"]:
+        if scenario["expected_event_count"] != 1:
+            raise ContractError(f"{scenario['scenario_id']}: v1 fixtures require exactly one appended event")
+        if "first_command_digest" in scenario:
+            if scenario["first_command_digest"] != scenario["retry_command_digest"]:
+                raise ContractError(f"{scenario['scenario_id']}: retry digest must match original")
+            if scenario["first_command_digest"] == scenario["conflicting_command_digest"]:
+                raise ContractError(f"{scenario['scenario_id']}: conflict digest must differ")
+            if scenario["retry_result"] != "RETURN_ORIGINAL_APPEND_RESULT":
+                raise ContractError(f"{scenario['scenario_id']}: retry result is not idempotent")
+            if scenario["conflict_result"] != "IDEMPOTENCY_CONFLICT":
+                raise ContractError(f"{scenario['scenario_id']}: conflicting reuse must be rejected")
+        else:
+            if len(set(scenario["attempt_digests"])) != 1:
+                raise ContractError(f"{scenario['scenario_id']}: concurrent retry digests differ")
+            if set(scenario["allowed_results"]) != {"APPENDED", "RETURN_ORIGINAL_APPEND_RESULT"}:
+                raise ContractError(f"{scenario['scenario_id']}: concurrent outcomes are incomplete")
+    checks.append(Check("events.idempotency", "PASS", f"{len(corpus['scenarios'])} idempotency scenarios validated"))
 
 
 def validate_deletion(checks: list[Check]) -> None:
@@ -211,27 +241,79 @@ def validate_epistemic(checks: list[Check]) -> None:
     seen: set[str] = set()
     polarities: dict[str, set[str]] = {}
     for scenario in corpus["scenarios"]:
-        assertion_id = scenario["assertion_id"]
-        seen.add(assertion_id)
-        polarities.setdefault(assertion_id, set()).add(scenario["polarity"])
+        aid = scenario["assertion_id"]
+        seen.add(aid)
+        polarities.setdefault(aid, set()).add(scenario["polarity"])
         if scenario["expected_result"] not in {"ACCEPT", "REJECT"}:
             raise ContractError(f"{scenario['scenario_id']}: invalid expected result")
     if seen != expected_ids:
         raise ContractError(f"epistemic assertion coverage mismatch: {sorted(expected_ids - seen)} missing")
-    for assertion_id in expected_ids:
-        if polarities[assertion_id] != {"positive", "negative"}:
-            raise ContractError(f"{assertion_id}: requires positive and negative fixtures")
+    for aid in expected_ids:
+        if polarities[aid] != {"positive", "negative"}:
+            raise ContractError(f"{aid}: requires positive and negative fixtures")
     checks.append(Check("epistemic.coverage", "PASS", "NK-EPI-001..008 each have positive and negative fixtures"))
 
 
+def _registry_assertion_ids() -> set[str]:
+    return {
+        assertion["assertion_id"]
+        for family in load_json(REGISTRY)["families"]
+        for assertion in family["assertions"]
+    }
+
+
+def validate_evidence_report(report: dict[str, Any]) -> None:
+    required = {
+        "report_version",
+        "profile_id",
+        "support_state",
+        "kernel_runtime_conformance",
+        "evidence_level",
+        "assertion_results",
+        "checks",
+        "limitations",
+    }
+    missing = required - set(report)
+    if missing:
+        raise ContractError(f"evidence report missing fields: {sorted(missing)}")
+    if report["report_version"] != "nk-evidence-report/1":
+        raise ContractError("unsupported evidence report version")
+    results = report["assertion_results"]
+    if not isinstance(results, list):
+        raise ContractError("assertion_results must be a list")
+    result_ids = [item.get("assertion_id") for item in results]
+    if len(result_ids) != len(set(result_ids)):
+        raise ContractError("evidence report contains duplicate assertion results")
+    expected = _registry_assertion_ids()
+    actual = set(result_ids)
+    if actual != expected:
+        raise ContractError(
+            f"assertion coverage mismatch: missing={sorted(expected - actual)} extra={sorted(actual - expected)}"
+        )
+    allowed = {"SUPPORTED", "UNSUPPORTED", "PARTIAL", "FAILED"}
+    for item in results:
+        if item.get("status") not in allowed:
+            raise ContractError(f"{item.get('assertion_id')}: invalid support status")
+
+
 def run_adapter(command: list[str], output: Path) -> None:
-    completed = subprocess.run(command + [str(PACK)], cwd=ROOT, check=False, text=True, capture_output=True)
+    completed = subprocess.run(
+        command + [str(PACK)],
+        cwd=ROOT,
+        check=False,
+        text=True,
+        capture_output=True,
+    )
     if completed.returncode != 0:
         raise SystemExit(completed.stderr or completed.stdout or f"adapter exited {completed.returncode}")
     try:
         report = json.loads(completed.stdout)
     except json.JSONDecodeError as exc:
         raise SystemExit(f"adapter did not emit JSON: {exc}") from exc
+    try:
+        validate_evidence_report(report)
+    except ContractError as exc:
+        raise SystemExit(f"adapter evidence report invalid: {exc}") from exc
     output.write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
@@ -241,6 +323,7 @@ def validate_pack(output: Path | None) -> int:
         validate_registry(checks)
         validate_identity(checks)
         validate_events(checks)
+        validate_idempotency(checks)
         validate_deletion(checks)
         validate_epistemic(checks)
     except (ContractError, KeyError, OSError, json.JSONDecodeError) as exc:
@@ -253,6 +336,14 @@ def validate_pack(output: Path | None) -> int:
         "support_state": "SUPPORTED" if passed else "FAILED",
         "kernel_runtime_conformance": "UNSUPPORTED",
         "evidence_level": "LOCALLY_TESTED",
+        "assertion_results": [
+            {
+                "assertion_id": assertion_id,
+                "status": "UNSUPPORTED",
+                "limitations": ["Fixture-integrity profile is not a Kernel runtime profile."],
+            }
+            for assertion_id in sorted(_registry_assertion_ids())
+        ],
         "checks": [asdict(check) for check in checks],
         "limitations": [
             "Validates contract fixtures and deterministic reference algorithms only.",
@@ -270,10 +361,10 @@ def validate_pack(output: Path | None) -> int:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Validate Native Kernel contract fixtures or invoke a profile adapter")
-    subparsers = parser.add_subparsers(dest="command", required=True)
-    validate = subparsers.add_parser("validate")
+    sub = parser.add_subparsers(dest="command", required=True)
+    validate = sub.add_parser("validate")
     validate.add_argument("--output", type=Path)
-    adapter = subparsers.add_parser("adapter")
+    adapter = sub.add_parser("adapter")
     adapter.add_argument("--output", type=Path, required=True)
     adapter.add_argument("adapter_command", nargs=argparse.REMAINDER)
     args = parser.parse_args()
