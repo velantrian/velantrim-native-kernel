@@ -55,6 +55,8 @@ Each mechanism requires a separate Crystal RFC, threat model, tests, security an
 
 ## Native Kernel and Mentaury Soul
 
+> See [`ADR-0010`](./adr/0010-mentaury-soul-implementations-as-external-research-input.md) for the proposed, citation-only research-input practice covering Mentaury Soul's P0-010/P0-013/P0-015.
+
 Mentaury Soul is an independent research track for digital individuality, identity continuity, relationships, commitments and governed development.
 
 Native Kernel may eventually contribute bounded substrate primitives such as append-only events, deterministic replay, lineage, redaction-aware history or auditable Receipts. Those primitives do not define personal identity by themselves.

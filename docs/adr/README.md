@@ -74,6 +74,7 @@ Approval and evidence must remain separate. A decision may be approved with only
 | [`0007`](./0007-operator-approval-is-not-evidence.md) | Operator approval is separate from empirical evidence | `ACCEPTED` | `DOCUMENTED` | Governance documentation complete | `APPROVED` |
 | [`0008`](./0008-epistemic-boundaries-are-representation-disciplines.md) | Epistemic boundaries are representation disciplines, not a fixed worldview | `PROPOSED` | `DOCUMENTED` | `NOT_STARTED` | `PENDING` |
 | [`0009`](./0009-postgresql-primary-sqlite-optional-profile.md) | PostgreSQL is the primary full profile and SQLite is optional | `ACCEPTED` | `DOCUMENTED` | `NOT_STARTED` | `APPROVED` |
+| [`0010`](./0010-mentaury-soul-implementations-as-external-research-input.md) | Mentaury Soul's implemented P0 mechanisms as external research input | `PROPOSED` | `DOCUMENTED` | `NOT_STARTED` | `NOT_REQUESTED` |
 
 ## When an ADR is required
 
