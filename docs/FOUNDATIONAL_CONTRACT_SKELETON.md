@@ -2,17 +2,17 @@
 
 **[English](./FOUNDATIONAL_CONTRACT_SKELETON.md) · [Русский](./FOUNDATIONAL_CONTRACT_SKELETON.ru.md)**
 
-- **Decision status:** `PROPOSED`
+- **Decision status:** `ACCEPTED`
 - **Evidence level:** `DOCUMENTED`
 - **Implementation status:** `NOT_STARTED`
-- **Operator approval:** `PENDING`
-- **Contract draft:** `foundational-skeleton/0.1`
+- **Operator approval:** `APPROVED`
+- **Contract version:** `foundational-skeleton/1.0`
 - **Track:** `Foundational Architecture / Abstract Contracts`
 - **Scope:** technology-, storage-, model-, runtime-, hardware-, and worldview-neutral
 - **Issue #1 impact:** `NONE`
 
 > [!IMPORTANT]
-> This document defines an architectural skeleton, not a runnable machine. Its normative words describe the proposed contract boundary only. They do not become accepted Canon, runtime behaviour, or conformance evidence until the related ADR is accepted and the declared artifacts exist.
+> This document defines an accepted architectural skeleton, not a runnable machine. Acceptance establishes the contract boundary and stable assertion namespaces. It does not establish runtime behaviour, executable conformance, technology portability, or production evidence.
 
 ## 1. Purpose
 
@@ -20,7 +20,7 @@ Native Kernel needs a precise skeleton before it needs a complete runtime.
 
 The skeleton must preserve meaning when implementations change and must prevent one overloaded object, database schema, model, event bus, or processor from silently becoming the architecture.
 
-This proposal organizes the foundation into six contract families:
+The accepted skeleton organizes the foundation into six contract families:
 
 ```text
 🧩 Semantic roles
@@ -93,7 +93,7 @@ This is a semantic envelope, not a frozen JSON schema. A profile may represent t
 
 The current architecture uses `Claim` as the durable semantic record. Without sharper role distinctions, one object can be mistaken simultaneously for content, an assertion, an observation, evidence, a hypothesis, and admitted knowledge.
 
-## 4.2 Proposed rule
+## 4.2 Contract rule
 
 `Claim` remains the durable root record unless a later ADR proves that a new root primitive is necessary. A Claim MUST preserve or translate the semantic role of the represented content.
 
@@ -110,9 +110,9 @@ Conceptual roles include:
 | **Question** | an explicit unresolved information need | false proposition |
 | **Evidence reference** | artifact or trace relevant to an evaluation | automatic proof or authority |
 
-These roles MAY be expressed through `claim_kind`, typed relations, a profile mapping, or another versioned contract. They are not a mandatory enum in this proposal.
+These roles MAY be expressed through `claim_kind`, typed relations, a profile mapping, or another versioned contract. They are not a mandatory enum in this contract.
 
-## 4.3 Proposed assertions
+## 4.3 Contract assertions
 
 | Assertion ID | Required meaning |
 |---|---|
@@ -155,7 +155,7 @@ content identity
 ≠ storage identity
 ```
 
-| Identity | Proposed responsibility |
+| Identity | Responsibility |
 |---|---|
 | **Content identity** | identifies canonical semantic content under a declared content contract |
 | **Claim identity** | identifies the durable Claim record, including the identity-bearing scope declared by the contract |
@@ -163,7 +163,7 @@ content identity
 | **Event identity** | identifies one recorded transition or append attempt/result |
 | **Storage identity** | local row, object, shard, address, or backend key; never sufficient as semantic identity |
 
-## 5.2 Proposed assertions
+## 5.2 Contract assertions
 
 | Assertion ID | Required meaning |
 |---|---|
@@ -206,7 +206,7 @@ Native Kernel MUST preserve the distinction between:
 ⚖️ admission or authority decision about the record
 ```
 
-These are semantic layers. They are not proposed additions to the accepted research event vocabulary.
+These are semantic layers. They are not additions to the accepted research event vocabulary.
 
 ## 6.2 Command-to-history boundary
 
@@ -224,7 +224,7 @@ command intent
 → Receipt
 ```
 
-## 6.3 Proposed assertions
+## 6.3 Contract assertions
 
 | Assertion ID | Required meaning |
 |---|---|
@@ -294,7 +294,7 @@ A profile MAY distinguish authority such as:
 
 These authorities MUST NOT be inherited implicitly from one another.
 
-## 7.4 Proposed assertions
+## 7.4 Contract assertions
 
 | Assertion ID | Required meaning |
 |---|---|
@@ -352,7 +352,7 @@ A future Conflict Set contract SHOULD be able to preserve:
 - resolution, deferral, reopening, and supersession history;
 - Receipts and known limits.
 
-A Conflict Set is a proposed semantic pattern, not a mandatory root entity or event vocabulary in this document.
+A Conflict Set is a semantic pattern, not a mandatory root entity or event vocabulary in this document.
 
 ## 8.3 Unknown discipline
 
@@ -366,7 +366,7 @@ unknown
 
 The correct state MAY remain unresolved when evidence is insufficient or scopes differ.
 
-## 8.4 Proposed assertions
+## 8.4 Contract assertions
 
 | Assertion ID | Required meaning |
 |---|---|
@@ -403,7 +403,7 @@ Every mature contract assertion SHOULD be traceable through a registry:
 | `evidence_record` | exact commit, command, environment, result, and limits |
 | `support_state` | supported, unsupported, partial, or failed; never silently skipped |
 
-## 9.2 Proposed assertions
+## 9.2 Contract assertions
 
 | Assertion ID | Required meaning |
 |---|---|
@@ -502,7 +502,7 @@ Source / actor / sensor / model / document
 
 # 12. Anti-Canon
 
-This proposal does not make any of the following permanent architecture:
+This contract does not make any of the following permanent architecture:
 
 - Python, Rust, SQL, PostgreSQL, SQLite, files, graphs, vectors, FTS, LLMs, CPUs, GPUs, or future substrates;
 - one class hierarchy or database schema;
@@ -525,7 +525,7 @@ This proposal does not make any of the following permanent architecture:
 | Approval vs evidence | ADR-0007 |
 | World and epistemic boundaries | ADR-0008 + `NK-EPI-001…008` |
 | Storage profiles | ADR-0009 |
-| This six-family skeleton | ADR-0010 proposal |
+| This six-family skeleton | ADR-0010 — `ACCEPTED` |
 | Canonical identity details | Issue #14 |
 | Append/replay details | Issue #15 |
 | Deletion/restriction details | Issue #16 |
@@ -535,7 +535,7 @@ Issue #1 remains unchanged. This document must not be represented as recovered `
 
 # 14. Next gates
 
-1. Review and accept, reject, or revise ADR-0010.
+1. Preserve ADR-0010 acceptance and the `foundational-skeleton/1.0` aliases in future revisions.
 2. Keep this document bilingual and semantically aligned.
 3. Define the exact identity contract and vectors under Issue #14.
 4. Define the command/event integrity contract under Issue #15.
