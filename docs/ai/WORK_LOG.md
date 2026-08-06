@@ -1,66 +1,89 @@
 # 🧾 Native Kernel AI Engineering Work Log
 
-This is a concise chronology and hand-off surface.
-Re-verify exact SHAs, PR state and current repository evidence before using an entry as present reality.
+This is a concise chronology and hand-off surface. Re-verify exact SHAs and evidence before treating an entry as present reality.
 
 ---
 
-## 2026-08-06 — Exact contracts and fixture package published
+## 2026-08-06 — Issues #14–#17 architecture/fixture track published
 
 ```text
-Status:          MERGED / ADRs PROPOSED / LOCAL VALIDATION PASS / NOTION MERGE SYNC PENDING
-PR:              #35
-Base main:       c7610bc42fbc879c24e1a3a1408ebfaae1ac7340
-Final PR head:   270596d672f740cc9123d506af3b10f50e691ad6
-Merge SHA:       0552ae284d56148972e9bcc8de5f80a7f462c0f3
+Status:          MERGED / ADRs PROPOSED / LOCAL VALIDATION PASS / NOTION FINAL SYNC PENDING
+Package PR:      #35
+Package head:    270596d672f740cc9123d506af3b10f50e691ad6
+Package merge:   0552ae284d56148972e9bcc8de5f80a7f462c0f3
+Checkpoint PR:   #36
+Checkpoint head: b116abe8bc4a9dc1848c03b6f84d2b6633584532
+Checkpoint merge:3243336dc7ff7ef88583c6f2c419c375c26947cf
 Scope:           architecture proposals + fixture-integrity support tooling
-Runtime:         unchanged; no Native Kernel implementation added
-Decisions:       ADR-0011…0014 PROPOSED; operator approval PENDING
-Notion record:   Exact Contracts & Conformance Fixtures — PR #35
+Runtime:         unchanged; no Native Kernel implementation
+Decisions:       ADR-0011…0014 PROPOSED / approval PENDING
 Issue #1 impact: NONE
 ```
 
-Published package:
+Published:
 
-- `nk-id/1.0-proposed` — canonical identity and migration/collision rules;
-- `nk-event/1.0-proposed` — single-writer append/idempotency/order/replay boundary;
-- `nk-deletion/1.0-proposed` — restriction, logical erase, physical deletion and crypto-erasure;
-- `nk-fixtures/1.0-proposed` — registry, schemas, fixtures and external adapter protocol.
+- canonical identity/collision/migration proposal;
+- single-writer idempotency/append/order/replay proposal;
+- deletion/restriction/retention/crypto-erasure proposal;
+- executable fixture protocol proposal;
+- 72-assertion registry, schemas and fixture corpora;
+- standard-library runner, external adapter validation and eight tests;
+- active Python 3.11/3.12 workflow definition.
 
-Artifacts include bilingual contracts, ADR-0011…0014, 72 assertion IDs, schema/evidence bundles, identity/event/idempotency/deletion/epistemic corpora, standard-library runner, eight tests and an active Python 3.11/3.12 workflow definition.
+### Hardening review
 
-### Review and hardening evidence
+Manual review found and corrected:
+
+1. stored `payload_hash` was not compared directly;
+2. idempotency lacked dedicated executable scenarios;
+3. adapter reports could omit registered assertions.
+
+Final local evidence:
 
 ```text
-Changed files:                 24
-Branch behind base:            0
-Unresolved review threads:     0
-Submitted reviews:             0
-Actionable comments:           0
-Codex automated review:        unavailable due usage limit
-Local tests:                   8 PASS
+Focused tests:                 8 PASS
+Assertion IDs:                 72 unique
+Assertion report coverage:     72 explicit statuses
+Identity:                      2 golden / 4 invalid
+Event chain:                   2 scenarios
+Idempotency:                   2 scenarios
+Deletion lifecycle:            2 scenarios
+Epistemic fixtures:            positive + negative for NK-EPI-001…008
 Kernel runtime conformance:    UNSUPPORTED
 ```
 
-Manual review found and fixed:
+The runner rejects payload tampering, conflicting idempotency reuse, incomplete assertion coverage, duplicate assertion results and silent skip.
 
-1. missing direct comparison of stored `payload_hash`;
-2. missing executable idempotency scenarios;
-3. missing complete assertion coverage enforcement for adapter reports.
-
-The final suite rejects payload tampering, conflicting idempotency-key reuse, missing assertions, duplicate assertion results and silent skip.
-
-### CI bootstrap
-
-The new workflow was not available in the PR base and no run appeared for the PR #35 merge SHA. This absence is not a PASS.
-
-A follow-up checkpoint branch updates `contracts/README.md`, which matches the workflow's `main` push path filter. Its merge is intended to create the first exact repository run.
+### Review/merge evidence
 
 ```text
-current fixture evidence: LOCALLY_TESTED
-repository CI evidence:   PENDING CHECKPOINT PUSH
-Kernel runtime evidence:  ABSENT / UNSUPPORTED
+PR #35 changed files:          24
+Behind base:                   0
+Unresolved review threads:     0
+Submitted reviews:             0
+Actionable comments:           0
+Codex review:                  unavailable due external usage limit
+Merge method:                  squash
 ```
+
+### GitHub Actions investigation
+
+The workflow `Conformance fixture integrity` is active as workflow ID `328870784`, with Python 3.11/3.12 jobs and matching PR/push paths.
+
+No workflow run or GitHub Actions check suite was created for the package PR, its merge, checkpoint PR or checkpoint merge. The checkpoint intentionally changed `contracts/README.md` to satisfy the main-push path filter.
+
+Repository Actions settings could not be inspected because the connected integration received `403 Resource not accessible by integration`. External application check suites appeared on the merge commit, but no GitHub Actions suite existed.
+
+Recorded status:
+
+```text
+workflow definition:            ACTIVE
+local tests:                    PASS
+repository workflow execution:  NOT_TRIGGERED / NOT_RECORDED
+repository evidence level:      NOT ESTABLISHED
+```
+
+The connector cannot dispatch a workflow. A user-originated push or manual GitHub workflow dispatch is required for exact repository CI evidence.
 
 ### Governance boundary
 
@@ -72,55 +95,37 @@ merged proposal
 ≠ C2/C3 Kernel conformance
 ```
 
-No new event verb, storage adapter, ecosystem authority or historical-source claim was introduced.
-
 Remaining gates:
 
-1. merge the checkpoint;
-2. inspect the exact main-push workflow jobs/artifacts;
-3. synchronize final main/CI evidence to Notion;
-4. obtain a separate explicit operator decision on ADR-0011…0014;
-5. keep runtime implementation and C3 as future work.
+1. operator decision on ADR-0011…0014;
+2. user-originated Actions execution;
+3. real implementation profile(s);
+4. independent cross-profile evidence before C3;
+5. independent Issue #1 authentic-source gate.
 
 ---
 
-## 2026-08-06 — Foundational contract skeleton accepted and merged
+## 2026-08-06 — Foundational contract skeleton accepted
 
-```text
-Status:          MERGED / ADR ACCEPTED / NOTION SYNCED
-PR:              #28
-PR head:         f67e2b632772cab068207177514f1f873f074e4b
-Merge SHA:       2d42a1517ba87b39d2395aa5c22b966328615305
-Decision:        ADR-0010 ACCEPTED / APPROVED
-Runtime:         unchanged
-```
-
-Accepted the six-family ownership map `NK-SEM`, `NK-ID`, `NK-EVT`, `NK-AUT`, `NK-CFL`, `NK-EQV`. No schemas, runtime behaviour, C1–C5 evidence or portability were established.
+PR #28 → `2d42a1517ba87b39d2395aa5c22b966328615305`. ADR-0010 accepted/approved the six-family ownership map while leaving runtime and conformance unimplemented.
 
 ---
 
 ## 2026-08-06 — AI context freshness guard
 
-```text
-Status:          MERGED / CI VERIFIED / NOTION SYNCED
-PR:              #26
-Merge SHA:       099ae235ff935948348f2101804eb53ac9eeae1a
-Scope:           support tooling / CI / documentation governance
-```
-
-Added mandatory-file, selected-link, checkpoint existence/ancestry and status-boundary checks on Python 3.11/3.12. Six isolated tests and exact-head/main-push runs passed. The guard does not prove semantic freshness or Notion synchronization.
+PR #26 → `099ae235ff935948348f2101804eb53ac9eeae1a`. Structural context validation passed on Python 3.11/3.12 in its recorded runs. It does not prove semantic freshness or Notion synchronization.
 
 ---
 
-## Earlier 2026-08-06 checkpoints
+## Earlier checkpoints
 
 - PR #24 → `d5989742f987b610b5a81bb59a14c0a11518aeea`: AI/documentation continuity governance.
-- PR #23 → `18ee09c870f7416932de29a2b2f5de53202fcb2e`: ecosystem role clarification.
-- PR #22 → `fa8b2d9356486d6d78074e8bd6eb3b14ebfd2249`: visual storage-profile documentation.
-- PR #21: PostgreSQL preferred full profile and SQLite optional profile; implementation remains `NOT_STARTED`.
+- PR #23 → `18ee09c870f7416932de29a2b2f5de53202fcb2e`: ecosystem roles.
+- PR #22 → `fa8b2d9356486d6d78074e8bd6eb3b14ebfd2249`: storage-profile diagrams.
+- PR #21: PostgreSQL preferred full profile / SQLite optional; implementation `NOT_STARTED`.
 
 ---
 
 ## Continuing rule
 
-Add an entry for significant work that changes project state/evidence, Canon/contracts, ADR/RFC, source recovery, profiles, integration boundaries, known risks or AI continuity. Include exact PR/SHA, scope, evidence, limitations, Notion state and next action.
+For significant work, record exact PR/SHA, scope, evidence, limitations, Notion status and next action. Never infer acceptance, runtime support or CI PASS from document presence.
