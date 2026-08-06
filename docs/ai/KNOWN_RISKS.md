@@ -1,8 +1,7 @@
 # ⚠️ Native Kernel Known Risks and Required Proof
 
 **Snapshot:** 2026-08-06  
-**Base public `main`:** `b0308452473f7577b738e95bbd5e0f9295f0ecce`  
-**Active acceptance branch:** `agent/accept-contracts-11-14`
+**Last verified public `main`:** `ff88809fe7d7c79033a150140d20618e04aa1f9d`
 
 Accepted contracts, passing fixture tooling and active workflows do not close runtime, security, privacy or portability risks.
 
@@ -17,8 +16,6 @@ Required proof: authentic bytes, lineage, hashes, original tests and explicit Is
 ## P0 — Support tooling may be mistaken for Kernel runtime
 
 **State:** `OPEN`
-
-The repository contains accepted schemas/contracts, fixtures, a reference canonicalizer, tests and a workflow definition.
 
 ```text
 accepted assertion
@@ -35,9 +32,9 @@ Required control: the built-in report retains `kernel_runtime_conformance: UNSUP
 
 **State:** `OPEN`
 
-ADR-0011 through ADR-0014 are `ACCEPTED / APPROVED`, while runtime remains `NOT_IMPLEMENTED`.
+PR #38 records ADR-0011 through ADR-0014 as `ACCEPTED / APPROVED`, while Kernel runtime remains `NOT_IMPLEMENTED`.
 
-Required control: all public surfaces preserve:
+Required control:
 
 ```text
 Decision status
@@ -48,23 +45,20 @@ Decision status
 
 ## P1 — GitHub Actions execution remains unrecorded
 
-**State:** `OPEN`, mitigation added
+**State:** `OPEN`, manual-dispatch mitigation merged
 
 Evidence:
 
 - workflow `Conformance fixture integrity` is active;
-- PR and push paths are declared;
-- integration-originated matching pushes previously produced no Actions run;
-- repository Actions settings returned `403` to the connected integration;
-- this branch adds manual `workflow_dispatch`.
-
-Current status:
+- PR, push and `workflow_dispatch` entry points are declared;
+- no Actions run was created for PR #38 or merge `ff88809…`;
+- the connected integration cannot dispatch workflows;
+- the local environment has no `gh` executable.
 
 ```text
-workflow definition: ACTIVE
-manual dispatch: DECLARED AFTER MERGE
+workflow definition: ACTIVE / MANUALLY DISPATCHABLE
 local tests: PASS (recorded package evidence)
-repository execution: NOT YET RECORDED
+repository execution: NOT RECORDED
 repository-reproduced evidence: NOT ESTABLISHED
 ```
 
@@ -72,22 +66,15 @@ Required proof: exact workflow run ID, head SHA, jobs, conclusions and artifact/
 
 ## P1 — GitHub ↔ Notion drift
 
-**State:** `OPEN`, narrowed by dedicated contract record
+**State:** `OPEN`, narrowed by PR #38 acceptance record
 
-Acceptance status, final PR/merge SHA, CI state and remaining runtime limits must remain synchronized. GitHub remains the authoritative technical/evidence package.
+Final main SHA, acceptance status, CI state and remaining runtime limits must remain synchronized. GitHub remains the authoritative technical/evidence package.
 
 ## P1 — Canonical identity accepted but unimplemented
 
 **State:** `NARROWED BY ACCEPTED ADR-0011`, not closed
 
-Accepted and locally exercised as fixtures:
-
-- NFC UTF-8 compact sorted JSON;
-- float/null rejection;
-- domain-separated IDs;
-- content/Claim/lineage/storage separation;
-- collision and migration rules;
-- golden and invalid vectors.
+Accepted and locally exercised as fixtures: NFC UTF-8 compact sorted JSON, float/null rejection, domain-separated IDs, identity-role separation, collision/migration rules and golden/invalid vectors.
 
 Missing: independent implementation, real-profile migration, repository execution and C3.
 
@@ -95,14 +82,7 @@ Missing: independent implementation, real-profile migration, repository executio
 
 **State:** `NARROWED BY ACCEPTED ADR-0012`, not closed
 
-Accepted and fixture-tested:
-
-- single authoritative writer;
-- durable idempotency semantics;
-- sequence ordering;
-- payload/event commitments;
-- projection-after-commit;
-- replay version boundaries.
+Accepted and fixture-tested: single writer, durable idempotency semantics, sequence ordering, commitments, projection-after-commit and replay version boundaries.
 
 Missing: durable storage, crash injection, reducer/upcaster implementation, corruption recovery and production threat evidence. Hash chaining is not authenticity or consensus.
 
@@ -110,13 +90,7 @@ Missing: durable storage, crash injection, reducer/upcaster implementation, corr
 
 **State:** `NARROWED BY ACCEPTED ADR-0013`, not closed
 
-Accepted and fixture-tested:
-
-- restriction versus logical erase versus physical deletion versus crypto-erasure;
-- partial completion and retry;
-- retention hold;
-- restore quarantine;
-- Receipt proof limits.
+Accepted and fixture-tested: restriction/logical erase/physical deletion/crypto-erasure distinctions, partial retry, retention hold, restore quarantine and Receipt limits.
 
 Missing: legal/security review, key hierarchy, providers, backups, incident handling and operational validation.
 
@@ -124,14 +98,7 @@ Missing: legal/security review, key hierarchy, providers, backups, incident hand
 
 **State:** `NARROWED BY ACCEPTED ADR-0014`, not closed
 
-Available:
-
-- 72 assertion IDs and complete-status enforcement;
-- identity, event, idempotency, deletion and epistemic fixtures;
-- eight locally passing tests;
-- tampering/missing/duplicate rejection;
-- external adapter protocol;
-- PR/push/manual workflow entry points.
+Available: 72 assertion IDs, complete-status enforcement, fixtures, eight locally passing tests, tampering/missing/duplicate rejection, external adapter protocol and manual workflow entry.
 
 Missing: exact repository workflow evidence, Kernel adapter, reducer outputs, two independent profiles, Shadow evidence and operational evidence.
 
@@ -139,9 +106,9 @@ Missing: exact repository workflow evidence, Kernel adapter, reducer outputs, tw
 
 **State:** `OPEN`
 
-Registry version `1.1.0` accepts ADR-0011–0014 assertions but retains `NK-EPI-001…008` as `PROPOSED` under ADR-0008.
+Registry `1.1.0` accepts ADR-0011–0014 assertions but retains `NK-EPI-001…008` as `PROPOSED` under ADR-0008.
 
-Required control: profiles and documentation must not treat fixture presence or overall registry publication as acceptance of ADR-0008.
+Required control: fixture presence or registry publication must not be represented as acceptance of ADR-0008.
 
 ## P1 — Storage neutrality unproven
 
