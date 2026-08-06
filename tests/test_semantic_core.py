@@ -45,7 +45,7 @@ def command(payload: dict[str, object] | None = None, *, authority_ref: str = "a
         authority_ref=authority_ref,
         event_type=EventType.ADMIT,
         schema_version="1",
-        payload=payload or {"claim_id": GOLDEN[0]["expected"]["claim_id"]},
+        payload=payload if payload is not None else {"claim_id": GOLDEN[0]["expected"]["claim_id"]},
     )
 
 
@@ -77,14 +77,36 @@ class CanonicalIdentityTests(unittest.TestCase):
         self.assertTrue(content.content_hash.startswith("nkh1:"))
         self.assertTrue(identity.claim_id.startswith("nkc1:"))
         self.assertNotEqual(content.content_hash.split(":", 1)[1], identity.claim_id.split(":", 1)[1])
+        with self.assertRaises(ContractViolation):
+            ClaimIdentity(
+                content_hash=content.content_hash,
+                source_ref="source:observatory-7",
+                source_record_id="obs-invalid-date",
+                asserted_at="2026-02-30T18:00:00Z",
+            )
 
     def test_scope_requires_domain(self) -> None:
-        with self.assertRaises(ContractViolation):
-            SemanticContent(
-                role=SemanticRole.PROPOSITION,
-                scope={"language": "en"},
-                fields={"proposition": "x"},
-            )
+        invalid_inputs = (
+            {
+                "role": SemanticRole.PROPOSITION,
+                "scope": {"language": "en"},
+                "fields": {"proposition": "x"},
+            },
+            {
+                "role": "proposition",
+                "scope": {"domain": "test"},
+                "fields": {"proposition": "x"},
+            },
+            {
+                "role": SemanticRole.PROPOSITION,
+                "scope": {"domain": "test"},
+                "fields": ["not", "a", "mapping"],
+            },
+        )
+        for invalid in invalid_inputs:
+            with self.subTest(invalid=invalid):
+                with self.assertRaises(ContractViolation):
+                    SemanticContent(**invalid)  # type: ignore[arg-type]
 
 
 class CommandTests(unittest.TestCase):
@@ -102,6 +124,17 @@ class CommandTests(unittest.TestCase):
             command({"value": 1.25})
         with self.assertRaises(ContractViolation):
             command({"value": None})
+        with self.assertRaises(ContractViolation):
+            Command(
+                command_id="command:bad-event-type",
+                idempotency_key="idem:bad",
+                stream_id="stream:research",
+                actor_ref="operator:test",
+                authority_ref="authority:fixture",
+                event_type="ADMIT",  # type: ignore[arg-type]
+                schema_version="1",
+                payload={},
+            )
 
 
 class AuthorityTests(unittest.TestCase):
@@ -123,6 +156,15 @@ class AuthorityTests(unittest.TestCase):
         decision = self.policy.require(command())
         self.assertTrue(decision.allowed)
         self.assertEqual(decision.policy_ref, "policy:admission-v1")
+        self.assertEqual(decision.scope, "stream:research")
+        with self.assertRaises(ContractViolation):
+            AuthorityGrant(
+                authority_ref="authority:fixture",
+                actor_ref="operator:test",
+                policy_ref="policy:empty",
+                authority_kind="operator-delegation",
+                allowed_event_types=(),
+            )
 
     def test_unknown_authority_is_denied_by_default(self) -> None:
         with self.assertRaises(AuthorityDenied):
@@ -146,6 +188,12 @@ class AuthorityTests(unittest.TestCase):
             known_limits=("authority decision is not truth evidence",),
         )
         self.assertFalse(receipt.as_contract_object()["claims_truth_established"])
+        with self.assertRaises(ContractViolation):
+            AdmissionReceipt(
+                command_id="",
+                decision=decision,
+                known_limits=("invalid identifier",),
+            )
 
 
 class ReducerTests(unittest.TestCase):
@@ -205,6 +253,8 @@ class ReducerTests(unittest.TestCase):
             )
         with self.assertRaises(UnsupportedVersion):
             reduce_events([], reducer_version="nk-p1-reducer/999")
+        with self.assertRaises(ContractViolation):
+            SemanticEvent(True, "stream:x", 1, EventType.ADMIT, "1", {"claim_id": "claim:x"})
 
 
 class DeletionTests(unittest.TestCase):
@@ -219,6 +269,8 @@ class DeletionTests(unittest.TestCase):
     def test_forbidden_transition_fails(self) -> None:
         with self.assertRaises(InvalidTransition):
             run_transitions(DeletionState.ACTIVE, [DeletionState.PHYSICALLY_ERASED])
+        with self.assertRaises(ContractViolation):
+            run_transitions("ACTIVE", [DeletionState.RESTRICTED])  # type: ignore[arg-type]
 
     def test_deletion_receipt_rejects_global_overclaim(self) -> None:
         with self.assertRaises(ReceiptOverclaim):
@@ -234,16 +286,39 @@ class DeletionTests(unittest.TestCase):
             )
 
     def test_deletion_receipt_rejects_location_overlap(self) -> None:
-        with self.assertRaises(ContractViolation):
-            DeletionReceipt(
-                request_id="request:1",
-                authority_ref="authority:privacy",
-                policy_ref="policy:erase-v1",
-                final_state=DeletionState.PARTIALLY_ERASED,
-                verified_locations=("primary",),
-                unverified_or_pending_locations=("primary",),
-                known_limits=("partial",),
-            )
+        invalid_receipts = (
+            {
+                "request_id": "request:1",
+                "authority_ref": "authority:privacy",
+                "policy_ref": "policy:erase-v1",
+                "final_state": DeletionState.PARTIALLY_ERASED,
+                "verified_locations": ("primary",),
+                "unverified_or_pending_locations": ("primary",),
+                "known_limits": ("partial",),
+            },
+            {
+                "request_id": "",
+                "authority_ref": "authority:privacy",
+                "policy_ref": "policy:erase-v1",
+                "final_state": DeletionState.RESTRICTED,
+                "verified_locations": (),
+                "unverified_or_pending_locations": (),
+                "known_limits": ("restriction is not deletion",),
+            },
+            {
+                "request_id": "request:2",
+                "authority_ref": "authority:privacy",
+                "policy_ref": "policy:erase-v1",
+                "final_state": DeletionState.PARTIALLY_ERASED,
+                "verified_locations": ("primary",),
+                "unverified_or_pending_locations": ("backup",),
+                "known_limits": (),
+            },
+        )
+        for invalid in invalid_receipts:
+            with self.subTest(invalid=invalid):
+                with self.assertRaises((ContractViolation, ReceiptOverclaim)):
+                    DeletionReceipt(**invalid)
 
 
 class StorageBoundaryTests(unittest.TestCase):
