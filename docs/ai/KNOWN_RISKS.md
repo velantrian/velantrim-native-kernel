@@ -111,7 +111,7 @@ semantic content
 = storage record
 ```
 
-ADR-0010 and the bilingual `foundational-skeleton/1.0` contract now accept six separate families:
+ADR-0010 and the bilingual `foundational-skeleton/1.0` contract accept six separate families:
 
 - `NK-SEM` — semantic roles;
 - `NK-ID` — identity and canonical encoding;
