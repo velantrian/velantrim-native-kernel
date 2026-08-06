@@ -8,15 +8,15 @@ Re-verify exact SHAs, PR state and current repository evidence before using an e
 ## 2026-08-06 — Foundational contract skeleton accepted
 
 ```text
-Status:          DRAFT PR / ADR ACCEPTED / MERGE PENDING
+Status:          DRAFT PR / ADR ACCEPTED / NOTION SYNCED / MERGE PENDING
 PR:              #28
 Base main:       2a03c871e5f7250c917c060cc112a9ea1497e9c4
 Branch:          agent/foundational-contract-skeleton
-Acceptance checkpoint: bde098800edce815649516cf4f8cb37bcb1b5f32
+Acceptance head: b7f82fa1f3dd8b9e93e6290ad80abde49b257ab1
 Scope:           foundational architecture / abstract-contract documentation
 Runtime:         unchanged; no Native Kernel implementation added
 Decision:        ADR-0010 ACCEPTED; operator approval APPROVED
-Notion impact:   GITHUB_AND_NOTION → acceptance sync required before merge
+Notion impact:   GITHUB_AND_NOTION → ACCEPTANCE SYNCED
 Notion record:   Foundational Contract Skeleton — PR #28
 ```
 
@@ -60,17 +60,20 @@ GitHub documentation added or updated:
 - ADR index;
 - AI component map and known-risk register.
 
-Notion synchronization originally added a deep child record under Core Architecture and a concise status block on the Native Kernel Hub while the decision was proposed. Both records must be promoted to `ACCEPTED / APPROVED` and later receive the final merge SHA. The Hub continues to distinguish public `main` from the PR branch until merge.
+Notion synchronization:
+
+- deep record under Core Architecture promoted to `ACCEPTED / APPROVED`;
+- Native Kernel Hub promoted from draft proposal to accepted decision with merge still pending;
+- Hub continues to distinguish public `main` from the PR branch until merge.
 
 Remaining gates:
 
-1. synchronize the acceptance state in Notion;
-2. verify final PR head, changed files, review threads and available checks;
-3. merge PR #28 and record final merge SHA;
-4. keep exact identity contract under Issue #14;
-5. keep append/idempotency/ordering/replay contract under Issue #15;
-6. keep deletion/restriction contract under Issue #16;
-7. build executable fixtures and cross-profile runner under Issue #17.
+1. verify final PR head, changed files, review threads and available checks;
+2. merge PR #28 and record final merge SHA;
+3. keep exact identity contract under Issue #14;
+4. keep append/idempotency/ordering/replay contract under Issue #15;
+5. keep deletion/restriction contract under Issue #16;
+6. build executable fixtures and cross-profile runner under Issue #17.
 
 ---
 
