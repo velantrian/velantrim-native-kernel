@@ -1,9 +1,10 @@
 # ⚠️ Native Kernel Known Risks and Required Proof
 
 **Snapshot:** 2026-08-06  
-**Last verified public `main`:** `ff88809fe7d7c79033a150140d20618e04aa1f9d`
+**Last verified public `main`:** `350734c8ce8d8cbc742def7df9f3d5044a5953ab`  
+**Active proposal:** Draft PR #41 / RFC-0002 / Issue #40
 
-Accepted contracts, passing fixture tooling and active workflows do not close runtime, security, privacy or portability risks.
+Accepted contracts, passing tooling and a detailed profile plan do not close runtime, security, privacy, licensing or portability risks.
 
 ## P0 — Authentic source recovery remains unresolved
 
@@ -12,6 +13,43 @@ Accepted contracts, passing fixture tooling and active workflows do not close ru
 The reported `v0.1.2.1` source and original 44-test suite are absent. Connected-source search found no authentic candidate; operator-controlled devices and archives remain outside connector evidence.
 
 Required proof: authentic bytes, lineage, hashes, original tests and explicit Issue #1 operator gate.
+
+## P0 — Clean profile may be mistaken for recovered history
+
+**State:** `OPEN`, narrowed by RFC-0002 guardrails
+
+RFC-0002 proposes `clean/postgresql-reference/0.1` and explicitly forbids:
+
+- historical lineage claims;
+- use of the `v0.1.2.1` identity;
+- replacement of the original 44-test evidence;
+- closing Issue #1 through new implementation work.
+
+The planning validator rejects a non-null historical lineage and any permission to claim recovery.
+
+Required control: every runtime package, migration, test report and release must repeat the clean-lineage boundary.
+
+## P0 — Planning manifest may be mistaken for runtime support
+
+**State:** `OPEN`, narrowed by machine-readable enforcement
+
+The proposed manifest maps all 72 assertions, but mapping means planned coverage, not implementation.
+
+```text
+PLANNED
+≠ SUPPORTED
+≠ LOCALLY_TESTED runtime
+≠ C2
+```
+
+All assertion rows currently state:
+
+```text
+runtime_support: UNSUPPORTED
+evidence_state: NONE
+```
+
+The validator rejects missing/duplicate assertions, false support claims, historical lineage and silent promotion of `NK-EPI`.
 
 ## P0 — Support tooling may be mistaken for Kernel runtime
 
@@ -26,18 +64,17 @@ fixture reader supported
 ≠ C2/C3 Kernel conformance
 ```
 
-Required control: the built-in report retains `kernel_runtime_conformance: UNSUPPORTED` and explicit `UNSUPPORTED` results for all 72 assertions.
+Required control: built-in evidence reports retain `kernel_runtime_conformance: UNSUPPORTED` until a real profile demonstrates scoped behaviour.
 
 ## P0 — Accepted architecture may be mistaken for completed implementation
 
 **State:** `OPEN`
 
-PR #38 records ADR-0011 through ADR-0014 as `ACCEPTED / APPROVED`, while Kernel runtime remains `NOT_IMPLEMENTED`.
-
-Required control:
+ADR-0011 through ADR-0014 are accepted/approved, while RFC-0002 is proposed and runtime is not started.
 
 ```text
 Decision status
+≠ RFC status
 ≠ Evidence level
 ≠ Implementation status
 ≠ Operator approval
@@ -45,36 +82,61 @@ Decision status
 
 ## P1 — GitHub Actions execution remains unrecorded
 
-**State:** `OPEN`, manual-dispatch mitigation merged
+**State:** `OPEN`, validation surface expanded
 
-Evidence:
+The conformance workflow now includes profile-manifest tests and reports on Python 3.11/3.12. No exact repository run is claimed before GitHub records one.
 
-- workflow `Conformance fixture integrity` is active;
-- PR, push and `workflow_dispatch` entry points are declared;
-- no Actions run was created for PR #38 or merge `ff88809…`;
-- the connected integration cannot dispatch workflows;
-- the local environment has no `gh` executable.
+Required proof: exact workflow run ID, head SHA, jobs, conclusions and artifacts for both conformance and profile-manifest reports.
 
-```text
-workflow definition: ACTIVE / MANUALLY DISPATCHABLE
-local tests: PASS (recorded package evidence)
-repository execution: NOT RECORDED
-repository-reproduced evidence: NOT ESTABLISHED
-```
+## P1 — Profile implementation language and dependency policy undecided
 
-Required proof: exact workflow run ID, head SHA, jobs, conclusions and artifact/log evidence.
+**State:** `OPEN`
+
+RFC-0002 deliberately does not select a permanent language, package layout, PostgreSQL driver or migration framework.
+
+Issue #18 also leaves repository publication/contribution licensing unresolved. Dependency selection, package publication and outside contributions must not begin under assumed license permissions.
+
+Required decisions before runtime:
+
+- language/runtime range;
+- dependency and package policy;
+- PostgreSQL version matrix;
+- driver/migration tooling;
+- license compatibility and contribution terms.
+
+## P1 — Single-writer boundary may be weakened by PostgreSQL concurrency
+
+**State:** `OPEN`
+
+PostgreSQL supports concurrent transactions, but RFC-0002 requires one authoritative writer per Kernel instance. Database concurrency alone does not create a safe multi-writer protocol.
+
+Required proof: explicit writer lease/epoch mechanism, mismatch rejection, transaction/fault tests and incident fencing.
+
+## P1 — SQL schema may become accidental Canon
+
+**State:** `OPEN`
+
+Tables, columns, constraints, surrogate keys, indexes and SQL transaction syntax are profile details. Semantic IDs and accepted contracts must survive schema or backend replacement.
+
+Required proof: neutral export, replay, migration Receipt and future independent SQLite comparison.
+
+## P1 — Deletion planning is insufficient for sensitive data
+
+**State:** `OPEN`
+
+RFC-0002 inventories payloads, commands, projections, evidence, logs, backups, replicas and migration artifacts but implements none of the deletion mechanisms.
+
+Required proof: profile-specific location matrix, key hierarchy if used, retry/partial-failure tests, backup/restore evidence and security/legal review.
 
 ## P1 — GitHub ↔ Notion drift
 
-**State:** `OPEN`, narrowed by PR #38 acceptance record
+**State:** `OPEN`
 
-Final main SHA, acceptance status, CI state and remaining runtime limits must remain synchronized. GitHub remains the authoritative technical/evidence package.
+RFC status, PR/head/merge SHA, operator decision, runtime GO and evidence must remain synchronized. GitHub remains authoritative for technical/evidence claims.
 
 ## P1 — Canonical identity accepted but unimplemented
 
 **State:** `NARROWED BY ACCEPTED ADR-0011`, not closed
-
-Accepted and locally exercised as fixtures: NFC UTF-8 compact sorted JSON, float/null rejection, domain-separated IDs, identity-role separation, collision/migration rules and golden/invalid vectors.
 
 Missing: independent implementation, real-profile migration, repository execution and C3.
 
@@ -82,15 +144,11 @@ Missing: independent implementation, real-profile migration, repository executio
 
 **State:** `NARROWED BY ACCEPTED ADR-0012`, not closed
 
-Accepted and fixture-tested: single writer, durable idempotency semantics, sequence ordering, commitments, projection-after-commit and replay version boundaries.
-
-Missing: durable storage, crash injection, reducer/upcaster implementation, corruption recovery and production threat evidence. Hash chaining is not authenticity or consensus.
+Missing: durable storage, crash injection, reducer/upcaster implementation, corruption recovery and production threat evidence.
 
 ## P1 — Deletion/restriction accepted but unimplemented
 
 **State:** `NARROWED BY ACCEPTED ADR-0013`, not closed
-
-Accepted and fixture-tested: restriction/logical erase/physical deletion/crypto-erasure distinctions, partial retry, retention hold, restore quarantine and Receipt limits.
 
 Missing: legal/security review, key hierarchy, providers, backups, incident handling and operational validation.
 
@@ -98,36 +156,34 @@ Missing: legal/security review, key hierarchy, providers, backups, incident hand
 
 **State:** `NARROWED BY ACCEPTED ADR-0014`, not closed
 
-Available: 72 assertion IDs, complete-status enforcement, fixtures, eight locally passing tests, tampering/missing/duplicate rejection, external adapter protocol and manual workflow entry.
-
 Missing: exact repository workflow evidence, Kernel adapter, reducer outputs, two independent profiles, Shadow evidence and operational evidence.
 
-## P1 — Registry acceptance can hide proposed NK-EPI status
+## P1 — Registry/profile plan can hide proposed NK-EPI status
 
 **State:** `OPEN`
 
-Registry `1.1.0` accepts ADR-0011–0014 assertions but retains `NK-EPI-001…008` as `PROPOSED` under ADR-0008.
+`NK-EPI-001…008` remains proposed under ADR-0008. The profile manifest correctly defers all eight assertions with no implementation phase.
 
-Required control: fixture presence or registry publication must not be represented as acceptance of ADR-0008.
+Required control: planning or fixture presence must not be described as architecture acceptance or runtime enforcement.
 
 ## P1 — Storage neutrality unproven
 
 **State:** `OPEN`
 
-PostgreSQL/SQLite direction exists, but adapters and cross-profile replay evidence do not.
+A proposed PostgreSQL profile is not storage-neutrality evidence. C3 requires an independently developed second profile and declared equivalence.
 
 ## P1 — Cross-project authority leakage
 
 **State:** `OPEN`
 
-Accepted Kernel contracts do not authorize Titan, Mentaury or Crystal integration, shared storage, shared identity or inherited authority.
+RFC-0002 does not authorize Titan, Mentaury or Crystal integration, shared storage, shared identity or inherited authority.
 
 ## P1 — Future-substrate claims can become hype
 
 **State:** `OPEN`
 
-Neutrality is a versioned architecture target, not demonstrated portability, performance or superiority.
+Neutrality remains a versioned architecture target, not demonstrated portability or superiority.
 
 ## Update rule
 
-Record state, exact evidence/SHA, remaining uncertainty, owner and next action. Never close a risk through prose, merge, operator approval alone or support-tool success.
+Record state, exact evidence/SHA, remaining uncertainty, owner and next action. Never close a risk through prose, merge, operator approval alone, planning coverage or support-tool success.

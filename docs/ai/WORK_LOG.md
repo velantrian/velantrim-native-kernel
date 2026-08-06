@@ -4,93 +4,111 @@ This is a concise chronology and hand-off surface. Re-verify exact SHAs and evid
 
 ---
 
-## 2026-08-06 — Exact contracts accepted and merged
+## 2026-08-06 — Clean PostgreSQL reference profile RFC proposed
 
 ```text
-Status:          MERGED / ADRs ACCEPTED / APPROVAL APPROVED / NOTION SYNC IN PROGRESS
-PR:              #38
-Base main:       b0308452473f7577b738e95bbd5e0f9295f0ecce
-Final PR head:   5b003208d93774c1a79e770e8259dda99795eab7
-Merge SHA:       ff88809fe7d7c79033a150140d20618e04aa1f9d
-Changed files:   18
-Scope:           architecture acceptance + registry/docs/workflow synchronization
-Runtime:         unchanged; no Native Kernel implementation
-Evidence:        existing fixture evidence remains LOCALLY_TESTED
-Issue #1 impact: NONE
+Status:          DRAFT PR / RFC PROPOSED / IMPLEMENTATION NOT_STARTED
+PR:              #41
+Issue:           #40
+Base main:       350734c8ce8d8cbc742def7df9f3d5044a5953ab
+Branch:          agent/postgresql-reference-profile-rfc
+Head at PR open: 0c05f38dfc4f760a05d3deb0d15a7dd281c3065f
+Profile ID:      native-kernel/postgresql-reference
+Planning:        nk-pg-profile/0.1-proposed
+Evidence line:   clean/postgresql-reference/0.1
+Operator:        PENDING
+Runtime:         ABSENT / UNSUPPORTED
+Issue #1:        ACTIVE / INDEPENDENT
+Notion impact:   GITHUB_AND_NOTION
 ```
 
-Accepted contracts:
+RFC-0002 proposes the first clean contemporary implementation profile after acceptance of ADR-0011–0014. It does not reconstruct or replace the historical `v0.1.2.1` checkpoint.
+
+Architecture plan:
 
 ```text
-ADR-0011 → nk-id/1.0
-ADR-0012 → nk-event/1.0
-ADR-0013 → nk-deletion/1.0
-ADR-0014 → nk-fixtures/1.0
+semantic core
+→ authority port
+→ append service
+→ PostgreSQL authoritative-history adapter
+→ reducer/upcaster registry
+→ disposable projections
+→ Receipt/evidence emitter
+→ conformance adapter
 ```
 
-Registry changes:
+The RFC specifies:
 
-- `nk-contract-registry/1.1.0`;
-- exact assertions governed by ADR-0011–0014 promoted to `ACCEPTED`;
-- `NK-EPI-001…008` retained as `PROPOSED`;
-- runtime status retained as `NOT_IMPLEMENTED`.
+- one authoritative writer;
+- atomic transaction/idempotency outcomes;
+- PostgreSQL schema as replaceable profile detail;
+- identity independent from surrogate database keys;
+- replay from empty and projection rebuild;
+- deletion data-location inventory and proof limits;
+- neutral export/import and migration Receipt boundary;
+- P1–P5 implementation phases;
+- test/fault matrix;
+- C0→C5 evidence gates;
+- packaging, license, security and incident open decisions.
 
-Review evidence:
+Machine-readable planning manifest:
 
 ```text
-Branch behind base:            0
-Unresolved review threads:     0
-Submitted reviews:             0
-Actionable findings:           0
-Codex review:                  unavailable due external usage limit
-Merge method:                  squash
+registry assertions:     72/72
+accepted-family planned: 64
+NK-EPI deferred:          8
+runtime support:          72 × UNSUPPORTED
+evidence state:           NONE
+historical lineage:       null
 ```
 
-Workflow change:
-
-- `workflow_dispatch` added;
-- PR/push paths expanded to exact contract, ADR and conformance surfaces;
-- Python 3.11/3.12 jobs unchanged.
-
-No Actions run was created for PR #38 or merge `ff88809…`. The connector has no dispatch action and local `gh` is unavailable.
+Planning-tool evidence:
 
 ```text
-workflow definition:            ACTIVE / MANUALLY DISPATCHABLE
-repository execution:           NOT RECORDED
-repository-reproduced evidence: NOT ESTABLISHED
+5 focused tests PASS
+missing assertion rejected
+duplicate assertion rejected
+false runtime support rejected
+historical v0.1.2.1 lineage rejected
 ```
 
-Existing local package evidence retained from PR #35:
-
-```text
-8 focused tests PASS
-72 unique assertion IDs
-72 explicit assertion statuses
-identity: 2 golden / 4 invalid
-2 event-chain scenarios
-2 idempotency scenarios
-2 deletion scenarios
-NK-EPI positive + negative coverage
-Kernel runtime conformance: UNSUPPORTED
-```
+The expanded Python 3.11/3.12 workflow validates both accepted fixture integrity and proposed profile-manifest integrity. An exact repository run is not claimed until GitHub records it.
 
 Governance boundary:
 
 ```text
-accepted contracts
-≠ implemented Kernel runtime
-≠ repository workflow PASS
-≠ C2
-≠ C3
+merged RFC proposal
+≠ accepted profile plan
+≠ runtime implementation GO
+≠ recovered source
+≠ C1/C2/C3
 ```
 
 Remaining gates:
 
-1. merge this final checkpoint and record exact main SHA;
-2. synchronize PR #38/final checkpoint evidence to Notion;
-3. manually run `Conformance fixture integrity` in GitHub;
-4. record exact run/jobs/artifacts without promoting Kernel runtime claims;
-5. specify the first clean implementation profile under a separate evidence lineage.
+1. complete GitHub↔Notion sync and final PR review;
+2. merge PR #41 as `PROPOSED`;
+3. obtain explicit operator acceptance of RFC-0002/profile lineage;
+4. obtain a separate GO before P1 runtime code;
+5. settle language/dependency/license and PostgreSQL version decisions;
+6. execute exact repository workflow evidence.
+
+---
+
+## 2026-08-06 — Exact contracts accepted and finalized
+
+PR #38 accepted ADR-0011…0014 at merge `ff88809fe7d7c79033a150140d20618e04aa1f9d`. PR #39 finalized public continuity at `350734c8ce8d8cbc742def7df9f3d5044a5953ab`.
+
+Accepted versions:
+
+```text
+nk-id/1.0
+nk-event/1.0
+nk-deletion/1.0
+nk-fixtures/1.0
+```
+
+Registry `nk-contract-registry/1.1.0` contains 72 assertion IDs. `NK-EPI-001…008` remains proposed. Kernel runtime remains not implemented and repository workflow evidence remains unrecorded.
 
 ---
 
@@ -98,7 +116,7 @@ Remaining gates:
 
 PR #35 → `0552ae284d56148972e9bcc8de5f80a7f462c0f3`; checkpoint PR #36 → `3243336dc7ff7ef88583c6f2c419c375c26947cf`; final record PR #37 → `b0308452473f7577b738e95bbd5e0f9295f0ecce`.
 
-The package published four proposed exact contracts, 72 assertion IDs, schemas, fixtures, a standard-library runner, external adapter protocol, eight tests and an active workflow definition. Manual hardening corrected payload-hash verification, executable idempotency scenarios and complete assertion-result enforcement.
+The package published exact-contract proposals, 72 assertion IDs, schemas, fixtures, a standard-library runner, adapter protocol and eight tests. Manual hardening added direct payload-hash checking, idempotency scenarios and complete assertion-result enforcement.
 
 ---
 
@@ -125,4 +143,4 @@ PR #26 → `099ae235ff935948348f2101804eb53ac9eeae1a`. Structural context valida
 
 ## Continuing rule
 
-For significant work, record exact PR/SHA, scope, evidence, limitations, Notion status and next action. Never infer runtime support or CI PASS from accepted architecture or document presence.
+For significant work, record exact PR/SHA, scope, evidence, limitations, Notion status and next action. Never infer runtime support or CI PASS from accepted architecture, planning coverage or document presence.
