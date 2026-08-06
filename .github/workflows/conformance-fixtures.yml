@@ -1,0 +1,43 @@
+name: Conformance fixture integrity
+
+on:
+  pull_request:
+    paths:
+      - 'contracts/**'
+      - 'docs/contracts/**'
+      - 'docs/adr/0011-*.md'
+      - 'docs/adr/0012-*.md'
+      - 'docs/adr/0013-*.md'
+      - 'docs/adr/0014-*.md'
+      - 'tools/conformance/**'
+      - 'tests/test_conformance_runner.py'
+      - '.github/workflows/conformance-fixtures.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'contracts/**'
+      - 'docs/contracts/**'
+      - 'tools/conformance/**'
+      - 'tests/test_conformance_runner.py'
+      - '.github/workflows/conformance-fixtures.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  fixture-integrity:
+    strategy:
+      matrix:
+        python-version: ['3.11', '3.12']
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: python -m unittest discover -s tests -p 'test_conformance_runner.py'
+      - run: python tools/conformance/runner.py validate --output conformance-evidence.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: conformance-evidence-python-${{ matrix.python-version }}
+          path: conformance-evidence.json
