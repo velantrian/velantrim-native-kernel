@@ -37,23 +37,47 @@
   },
   "conformance_state": {
     "sqlite_local_c1": "LOCALLY_TESTED",
-    "sqlite_repository_c2": "NOT_ESTABLISHED",
-    "cross_profile_c3": "NOT_ESTABLISHED",
+    "sqlite_repository_c2": "REPOSITORY_REPRODUCED",
+    "cross_profile_c3": "REPOSITORY_REPRODUCED",
     "c4": "NOT_ESTABLISHED",
     "c5": "NOT_ESTABLISHED",
     "support_state": "PARTIAL"
   },
   "repository_evidence": {
-    "status": "NOT_RECORDED",
-    "head_sha": null,
-    "workflow_run_id": null,
-    "matrix": [],
-    "artifact_count": 0,
+    "status": "PASS_PREVIOUS_HEAD",
+    "head_sha": "d43a6ed28232e9fc8b62f84d9025386fb8bce6f7",
+    "workflow_run_id": 31181341275,
+    "matrix": [
+      "Python 3.11 / PostgreSQL 16 / SQLite 3.45.1 — PASS",
+      "Python 3.11 / PostgreSQL 18 / SQLite 3.45.1 — PASS",
+      "Python 3.12 / PostgreSQL 16 / SQLite 3.45.1 — PASS",
+      "Python 3.12 / PostgreSQL 18 / SQLite 3.45.1 — PASS"
+    ],
+    "artifact_count": 4,
+    "reports_per_artifact": 3,
     "artifact_retention_days": 30,
-    "p1_regression": "NOT_RECORDED",
-    "p2_regression": "NOT_RECORDED",
-    "p3_regression": "NOT_RECORDED",
-    "p4_regression": "NOT_RECORDED"
+    "artifacts": [
+      {
+        "name": "p5-c3-evidence-py3.11-pg16",
+        "digest": "sha256:6e74f1be560afa54033beaa0c396d8395ed47d27ee89961746cda416e42cb8a5"
+      },
+      {
+        "name": "p5-c3-evidence-py3.11-pg18",
+        "digest": "sha256:dec4f52dd6f7d6b6d71251bc9f931bcfc115ba65deae5a1ed888f77ea71ca680"
+      },
+      {
+        "name": "p5-c3-evidence-py3.12-pg16",
+        "digest": "sha256:727b2a204035acb1d9fd116faecb284e8c8dda81722cb3646510cd1e779143bb"
+      },
+      {
+        "name": "p5-c3-evidence-py3.12-pg18",
+        "digest": "sha256:705182b68f5806274723c43ea0d4c3cb1f240baf623db5260f151f24bacfea29"
+      }
+    ],
+    "p1_regression": "PASS",
+    "p2_regression": "PASS",
+    "p3_regression": "PASS",
+    "p4_regression": "PASS"
   },
   "equivalence_classes": {
     "BYTE": "canonical identity vectors and exact imported Event bytes/hash chain",
@@ -116,5 +140,5 @@
     "v0.1.2.1 recovery claim",
     "ADR-0008 or NK-EPI promotion"
   ],
-  "next_gate": "Record exact repository C2 and C3 workflow/artifact evidence; C4/C5 and production remain separately gated"
+  "next_gate": "Repeat P5 C2 and C3 on one final exact documentation head; C4/C5 and production remain separately gated"
 }
