@@ -14,6 +14,8 @@ validator = importlib.util.module_from_spec(spec)
 sys.modules[spec.name] = validator
 spec.loader.exec_module(validator)
 
+P4_STATUS = "RESEARCH / P4 PARTIAL ASSERTION CONFORMANCE / NOT PRODUCTION-READY"
+
 
 class AIContextValidatorTests(unittest.TestCase):
     def setUp(self) -> None:
@@ -47,14 +49,15 @@ class AIContextValidatorTests(unittest.TestCase):
         path.write_text(content, encoding="utf-8")
 
     def _write_current_state(self, checkpoint: str, *, status: str | None = None) -> None:
-        current_status = status or "RESEARCH / P3 PARTIAL IMPLEMENTATION / NOT PRODUCTION-READY"
+        current_status = status or P4_STATUS
         self._write(
             "docs/ai/CURRENT_STATE.md",
             "# Current\n\n"
             f"**Last verified public `main`:** `{checkpoint}`  \n"
             f"**Repository status:** `{current_status}`\n\n"
             "NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GLOBALLY_LOST\n"
-            "Context checkpoint ≠ automatically current main\n",
+            "Context checkpoint ≠ automatically current main\n"
+            "P4 C2 ≠ C3\n",
         )
 
     def _write_required_files(self, checkpoint: str) -> None:
@@ -69,9 +72,11 @@ class AIContextValidatorTests(unittest.TestCase):
         self.assertEqual([], validator.validate(self.repo))
 
     def test_missing_required_file_is_reported(self) -> None:
-        (self.repo / "docs/ai/KNOWN_RISKS.md").unlink()
+        (self.repo / "docs/ai/P4_IMPLEMENTATION_RECORD.md").unlink()
         findings = validator.validate(self.repo)
-        self.assertTrue(any(f.path == "docs/ai/KNOWN_RISKS.md" for f in findings))
+        self.assertTrue(
+            any(f.path == "docs/ai/P4_IMPLEMENTATION_RECORD.md" for f in findings)
+        )
 
     def test_broken_relative_link_is_reported(self) -> None:
         self._write("AGENTS.md", "[missing](docs/ai/NOPE.md)\n")
@@ -93,16 +98,31 @@ class AIContextValidatorTests(unittest.TestCase):
         findings = validator.validate(self.repo)
         self.assertTrue(any("checkpoint commit does not exist" in f.message for f in findings))
 
-    def test_stale_p0_p1_and_p2_statuses_are_rejected(self) -> None:
+    def test_stale_pre_p4_statuses_are_rejected(self) -> None:
         for stale in (
             "RESEARCH / DOCUMENTED_ONLY / NOT PRODUCTION-READY",
             "RESEARCH / P1 PARTIAL IMPLEMENTATION / NOT PRODUCTION-READY",
             "RESEARCH / P2 PARTIAL IMPLEMENTATION / NOT PRODUCTION-READY",
+            "RESEARCH / P3 PARTIAL IMPLEMENTATION / NOT PRODUCTION-READY",
         ):
             with self.subTest(stale=stale):
                 self._write_current_state(self.initial_sha, status=stale)
                 findings = validator.validate(self.repo)
-                self.assertTrue(any("P3 PARTIAL IMPLEMENTATION" in f.message for f in findings))
+                self.assertTrue(
+                    any("P4 PARTIAL ASSERTION CONFORMANCE" in f.message for f in findings)
+                )
+
+    def test_missing_p4_c2_boundary_is_rejected(self) -> None:
+        self._write(
+            "docs/ai/CURRENT_STATE.md",
+            "# Current\n\n"
+            f"**Last verified public `main`:** `{self.initial_sha}`  \n"
+            f"**Repository status:** `{P4_STATUS}`\n\n"
+            "NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GLOBALLY_LOST\n"
+            "Context checkpoint ≠ automatically current main\n",
+        )
+        findings = validator.validate(self.repo)
+        self.assertTrue(any("P4 C2 ≠ C3" in f.message for f in findings))
 
 
 if __name__ == "__main__":

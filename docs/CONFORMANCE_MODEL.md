@@ -1,11 +1,11 @@
 # 🧪 Conformance Model
 
-> **Status:** `ACCEPTED ABSTRACT CONTRACT / FIXTURE-INTEGRITY TOOLING IMPLEMENTED / NOT A CERTIFICATION PROGRAM`  
-> **Purpose:** define how a present or future implementation can demonstrate that it follows Native Kernel architecture
+> **Status:** `ACCEPTED ABSTRACT CONTRACT / P4 ASSERTION ADAPTER IMPLEMENTED / NOT A CERTIFICATION PROGRAM`  
+> **Purpose:** define how a present or future implementation demonstrates bounded Native Kernel contract support
 
 ## 1. Why conformance matters
 
-Technology independence must be tested, not merely declared. A system is not a Native Kernel implementation because it uses the same terminology.
+Technology independence must be tested, not merely declared. A system is not a Native Kernel implementation because it uses the same terminology or database.
 
 ```text
 same architectural contract
@@ -29,9 +29,18 @@ Conformance concerns meaning and observable behaviour. Identical code, storage l
 | **C4 — Shadow evaluated** | Behaviour is compared on approved recorded workloads without authority promotion | dataset, metrics, Receipts, failures and report |
 | **C5 — Operationally validated** | A bounded deployment has security, rollback, privacy and incident evidence | explicit operational review and evidence |
 
-Levels are assertion-scoped and do not replace decision status, implementation status, evidence level, maturity or operator approval.
+Levels are **assertion-scoped**. They do not replace decision status, implementation status, evidence level, support state, maturity or operator approval.
 
-## 3. Contract families and accepted exact contracts
+A profile can therefore truthfully report:
+
+```text
+support_state: PARTIAL
+kernel_runtime_conformance: C2
+```
+
+when C2 applies only to the assertion results marked `SUPPORTED`, while other assertions remain `PARTIAL` or `UNSUPPORTED`.
+
+## 3. Contract families and exact contracts
 
 ADR-0010 accepts the family map:
 
@@ -44,189 +53,262 @@ NK-CFL — conflict and explicit unknowns
 NK-EQV — conformance and semantic equivalence
 ```
 
-ADR-0011 through ADR-0014 accept these exact v1 contracts:
+ADR-0011 through ADR-0014 accept:
 
 ```text
 nk-id/1.0       — canonical semantic identity
-nk-event/1.0    — single-writer append, idempotency, order and replay boundary
+nk-event/1.0    — append, idempotency, order and replay boundary
 nk-deletion/1.0 — restriction, deletion, retention and erasure meaning
-nk-fixtures/1.0 — machine-readable conformance fixture/evidence protocol
+nk-fixtures/1.0 — machine-readable fixture/evidence protocol
 ```
 
-`NK-EPI-001…008` remains a proposed epistemic assertion family associated with ADR-0008. Its fixtures remain useful review cases, but fixture presence does not accept ADR-0008.
+`NK-EPI-001…008` remains a proposed family associated with ADR-0008. Fixture presence and test execution do not accept that family.
 
 Normative sources:
 
-- [`contracts/NORMATIVE_CONTRACTS_V1.md`](./contracts/NORMATIVE_CONTRACTS_V1.md);
-- [`contracts/NORMATIVE_CONTRACTS_V1.ru.md`](./contracts/NORMATIVE_CONTRACTS_V1.ru.md);
+- [`docs/contracts/NORMATIVE_CONTRACTS_V1.md`](./contracts/NORMATIVE_CONTRACTS_V1.md);
+- [`docs/contracts/NORMATIVE_CONTRACTS_V1.ru.md`](./contracts/NORMATIVE_CONTRACTS_V1.ru.md);
 - ADR-0011 through ADR-0014;
 - machine-readable [`../contracts/registry.json`](../contracts/registry.json).
 
-## 4. Required semantic areas
+## 4. Assertion result states
 
-A profile must explicitly map supported and unsupported assertions for identity/lineage, authoritative history/order, deterministic reduction/versioning, disposable projections/rebuild, time, conflicts, authority/admission, retrieval/selection, Receipt boundaries, deletion/retention and epistemic discipline where claimed.
+Every registered assertion must appear exactly once in an evidence report as:
 
-Unsupported assertions remain visible. A profile cannot obtain a higher level by silently skipping them.
-
-## 5. Executable artifact status
-
-Published artifacts:
-
-```text
-contracts/
-├── README.md
-├── registry.json
-├── schema-bundle.json
-├── evidence-report-v1.schema.json
-├── fixture-pack.json
-└── idempotency-scenarios.json
-
-tools/conformance/
-├── runner.py
-└── README.md
-
-tests/test_conformance_runner.py
-.github/workflows/conformance-fixtures.yml
-```
-
-Current evidence boundary:
-
-```text
-fixture-integrity tooling: IMPLEMENTED IN MAIN
-local focused tests:       8 PASS
-assertion IDs:              72 unique
-assertion report coverage:  72 explicit statuses
-local fixture validation:  PASS
-workflow definition:       ACTIVE + MANUAL DISPATCH DECLARED
-repository execution:      NOT YET RECORDED
-Kernel runtime:            NOT IMPLEMENTED
-Kernel conformance:        UNSUPPORTED
-C2:                        NOT ESTABLISHED FOR A KERNEL PROFILE
-C3:                        NOT ESTABLISHED
-```
-
-The built-in Python reader validates fixture integrity and deterministic reference algorithms. It does not store Kernel history, execute a reducer, rebuild a real projection or perform deletion.
-
-## 6. Fixture families
-
-### Identity
-
-The accepted `nk-id/1.0` vectors cover deterministic key ordering, NFC enforcement, rejection of floats/null, domain-separated IDs and golden/invalid cases.
-
-### Event, idempotency and replay boundary
-
-The accepted `nk-event/1.0` corpus covers:
-
-- contiguous single-writer global and stream ordering;
-- direct `payload_hash` verification;
-- event commitment and previous-hash continuity;
-- retry with the same digest returning the original result;
-- same idempotency key with a different digest producing `IDEMPOTENCY_CONFLICT`;
-- concurrent same-digest attempts producing one append;
-- projection failure after committed history.
-
-These fixtures do not constitute a durable append implementation or crash-injection evidence.
-
-### Deletion and restriction
-
-The accepted `nk-deletion/1.0` state-machine scenarios cover restriction, erase request, partial completion, retry, retention hold, crypto-erasure/physical deletion and Receipt proof limits. They do not prove provider, backup or media deletion.
-
-### Epistemic boundaries
-
-Positive and negative fixtures exist for each proposed assertion:
-
-| Assertion | Required discipline |
+| State | Meaning |
 |---|---|
-| `NK-EPI-001` | representation is not silently equated with represented reality |
-| `NK-EPI-002` | observation is not silently equated with complete explanation |
-| `NK-EPI-003` | transformation or assembly is not proof of origin |
-| `NK-EPI-004` | unknown is not silently encoded as false |
-| `NK-EPI-005` | missing provenance remains explicit |
-| `NK-EPI-006` | current profile limits are not universalized into impossibility |
-| `NK-EPI-007` | worldview-sensitive Claims retain domain and scope |
-| `NK-EPI-008` | model/retrieval/utility/proposal output is not silently admitted as knowledge |
+| `SUPPORTED` | the declared bounded behavior was directly reproduced |
+| `PARTIAL` | meaningful behavior was reproduced, but an explicit gap remains |
+| `UNSUPPORTED` | sufficient executable support is absent or the assertion is not accepted |
+| `FAILED` | a required declared check was executed and failed |
 
-Fixture presence does not accept ADR-0008 or prove runtime enforcement.
+Unsupported assertions remain visible. A profile cannot obtain a higher level by omitting them.
 
-## 7. Equivalence classes
+`FAILED` must not be silently converted to `UNSUPPORTED`. Adapter failure aborts report generation when a required check fails.
 
-| Class | Required comparison |
-|---|---|
-| **Byte** | identical canonical bytes or identifiers under one declared contract/version |
-| **Structural** | equivalent required fields, entities and relations with allowed non-semantic differences |
-| **Semantic** | preserved identity, lineage, time, scope, authority, conflict and unknown meaning |
-| **Behavioural** | equivalent accepted/rejected commands and observable outcomes in a bounded workload |
+## 5. Evidence report protocol
 
-Every claim must list allowed and forbidden differences. “Equivalent” without a definition is non-conforming language.
+The report protocol is `nk-evidence-report/1`.
 
-## 8. External adapter protocol
+A report must contain:
 
-The support runner may invoke an external profile adapter:
+- profile ID;
+- support state;
+- assertion-scoped conformance level;
+- evidence level;
+- all 72 assertion results;
+- executed checks;
+- report-wide limitations.
+
+Every `SUPPORTED` or `PARTIAL` result must:
+
+1. reference at least one check ID;
+2. reference only checks present in the same report;
+3. reference only checks that passed;
+4. contain explicit limitations.
+
+Every result, including `UNSUPPORTED`, must contain a reason or limitation.
+
+## 6. External adapter protocol
+
+The support runner invokes an external profile adapter:
 
 ```bash
-python tools/conformance/runner.py adapter --output report.json -- <adapter-command>
+python tools/conformance/runner.py adapter \
+  --output report.json \
+  -- <adapter-command>
 ```
 
-The fixture-pack path is appended to the command. The adapter must emit one JSON report conforming to `evidence-report-v1.schema.json`.
+The fixture-pack path is appended to the command. The adapter must emit one JSON report.
 
 The runner rejects:
 
 - non-zero process exit;
 - malformed JSON;
-- missing required report fields;
+- missing required fields;
 - duplicate assertion results;
 - missing registered assertions;
-- unknown extra assertion IDs;
-- invalid support statuses.
+- unknown extra IDs;
+- invalid result statuses.
 
-Every one of the 72 registered assertions must appear exactly once as `SUPPORTED`, `UNSUPPORTED`, `PARTIAL` or `FAILED`. This prevents silent skip.
+The P4 strict validator additionally rejects:
 
-The built-in fixture reader emits all 72 assertions as `UNSUPPORTED`; its `support_state: SUPPORTED` means only that the fixture-integrity tool completed successfully.
+- wrong profile/support state;
+- wrong support counts;
+- unknown or failed referenced checks;
+- `SUPPORTED`/`PARTIAL` without evidence;
+- missing limitations;
+- proposed `NK-EPI` promotion;
+- C2 with local placeholder metadata;
+- missing truth/C3/deletion boundaries.
 
-## 9. Workflow entry points
+## 7. Current PostgreSQL P4 adapter
 
-The accepted support workflow declares three entry paths:
-
-```text
-pull_request path match
-push to main path match
-manual workflow_dispatch
-```
-
-A workflow definition being active is not evidence that a run executed. Repository evidence requires an exact run ID, head SHA, jobs, conclusions and retained artifact or logs.
-
-## 10. First real Kernel experiment
-
-A future implementation profile should:
+Profile:
 
 ```text
-load authoritative history
-→ derive state
-→ destroy all disposable projections
-→ rebuild from empty projections
-→ compare declared equivalence
-→ emit reconstruction Receipt
+native-kernel/postgresql-reference@0.4-p4
 ```
 
-Minimum proof includes invalid-event handling, exact versions, conflict visibility, temporal preservation and evidence commit. Fixture validation alone cannot satisfy this experiment.
+Current guarded result map:
 
-## 11. Non-conformance examples
+```text
+SUPPORTED:   41
+PARTIAL:     13
+UNSUPPORTED: 18
+FAILED:       0
+TOTAL:       72
+```
+
+The 18 unsupported results include all eight proposed `NK-EPI` assertions and accepted gaps such as independent profile translation, identity aliasing, cross-project authority, restore enforcement and most dedicated conflict behavior.
+
+### 7.1 Profile-neutral checks
+
+- registry version, assertion coverage and decision statuses;
+- accepted identity golden vectors;
+- invalid canonical identity inputs;
+- semantic roles, explicit scope and source-bound Claim identity;
+- explicit deny-by-default authority;
+- Admission and Deletion Receipt overclaim rejection;
+- deterministic reduction;
+- explicit sequence/schema failures;
+- semantic deletion/restriction transitions.
+
+### 7.2 PostgreSQL checks
+
+- migration idempotency;
+- writer lease/epoch fencing;
+- append, same-digest retry and idempotency conflict;
+- rollback-safe contiguous sequence allocation;
+- persisted replay equal to direct reduction;
+- bounded Replay Receipt;
+- projection load/destroy/rebuild;
+- monotonic projection generation;
+- stale-head rejection;
+- stored canonical corruption detection.
+
+### 7.3 Evidence checks
+
+- exact profile/commit/run/Python/PostgreSQL metadata;
+- complete assertion-to-check traceability.
+
+## 8. Current P4 repository evidence
+
+Initial successful C2 head:
+
+```text
+93710131fffdea7d9a586cc05e7f258c07fae707
+```
+
+```text
+P4 run 31175767586 — PASS
+Python 3.11 / PostgreSQL 16 — PASS
+Python 3.11 / PostgreSQL 18 — PASS
+Python 3.12 / PostgreSQL 16 — PASS
+Python 3.12 / PostgreSQL 18 — PASS
+P1/P2/P3 regressions — PASS
+4 JSON artifacts retained for 30 days
+```
+
+Each artifact is bound to the run/head and contains one strict report.
+
+The first P4 run `31175593261` failed at standalone adapter import after all unit/manifest/C1 integration checks passed. That failure remains useful negative evidence. The CLI path was fixed; report requirements were not weakened.
+
+A later documentation head must repeat affected checks before merge. Earlier evidence remains valid only for its named SHA/run.
+
+## 9. Meaning of P4 C2
+
+```text
+C2 applies to 41 SUPPORTED assertion results
+PARTIAL assertions remain partial
+UNSUPPORTED assertions remain unsupported
+support_state remains PARTIAL
+```
+
+P4 C2 does not establish:
+
+- support for all 72 assertions;
+- storage neutrality;
+- C3 cross-profile equivalence;
+- accepted `NK-EPI`;
+- truth or external authenticity;
+- physical deletion;
+- C4/C5;
+- production readiness.
+
+## 10. Fixture families
+
+### Identity
+
+`nk-id/1.0` vectors cover deterministic key ordering, NFC enforcement, rejection of floats/null, domain-separated IDs and golden/invalid cases.
+
+### Event, idempotency and replay
+
+`nk-event/1.0` covers contiguous ordering, payload/Event commitments, previous-hash continuity, idempotency retry/conflict and projection-failure boundaries.
+
+P4 adds execution against a real PostgreSQL service, but does not cover every crash, fork, threat model or provider behavior.
+
+### Deletion and restriction
+
+`nk-deletion/1.0` covers semantic state transitions and Receipt proof limits. It does not prove provider, backup, media or key deletion.
+
+### Epistemic boundaries
+
+Fixtures exist for `NK-EPI-001…008`, but P4 retains all eight as `UNSUPPORTED` because the family remains proposed.
+
+## 11. Equivalence classes
+
+| Class | Required comparison |
+|---|---|
+| **Byte** | identical canonical bytes or identifiers under one declared contract/version |
+| **Structural** | equivalent required fields/entities/relations with allowed non-semantic differences |
+| **Semantic** | preserved identity, lineage, time, scope, authority, conflict and unknown meaning |
+| **Behavioural** | equivalent accepted/rejected commands and observable outcomes in a bounded workload |
+
+Every C3 claim must list allowed and forbidden differences. “Equivalent” without a definition is non-conforming language.
+
+## 12. Why the matrix is not C3
+
+Python 3.11/3.12 and PostgreSQL 16/18 exercise environment compatibility for one profile.
+
+```text
+4 matrix jobs
+≠ 4 independent implementations
+≠ profile diversity
+≠ C3
+```
+
+P5 requires a materially independent SQLite profile and explicit comparison evidence.
+
+## 13. Artifact boundary
+
+Artifacts improve reproducibility but have finite retention. An artifact digest without retained bytes is not sufficient reproduction evidence.
+
+Long-term release/evidence retention remains blocked by publication and licensing decisions, including Issue #18.
+
+## 14. Non-conformance examples
 
 ```text
 ❌ Projection rows are edited and treated as history.
 ❌ Backend row IDs silently define semantic identity.
-❌ An LLM or retrieval result becomes admitted knowledge without authority.
+❌ Retrieval output becomes admitted knowledge without authority.
 ❌ Newest timestamp silently resolves semantic conflict.
-❌ A hash chain is described as complete authenticity or consensus.
-❌ Tombstone/ERASED is described as physical or global deletion.
-❌ Unsupported assertions are omitted from the report.
-❌ Local fixture tests are presented as C2 or C3 Kernel evidence.
-❌ A replacement suite is presented as recovered v0.1.2.1 evidence.
+❌ A hash chain is described as authenticity or consensus.
+❌ ERASED is described as physical/global deletion.
+❌ Unsupported assertions are omitted.
+❌ A top-level C2 label is described as support for all 72.
+❌ One PostgreSQL profile is described as C3.
+❌ Proposed NK-EPI fixtures are described as accepted semantics.
+❌ A replacement suite is described as recovered v0.1.2.1 evidence.
 ❌ Operator approval is presented as empirical proof.
 ```
 
-## 12. Relationship to Issue #1
+## 15. Relationship to Issue #1
 
-Issue #1 remains blocked by authentic source recovery. The Issues #14–#17 contract/fixture lineage is accepted new architecture, not recovered historical design.
+P1–P4 are accepted clean architecture/implementation lineage, not recovered historical design.
 
-A future authentic import may establish evidence only for assertions proved by its original committed runtime/tests. It does not automatically satisfy these accepted exact contracts, `NK-EPI`, C3, C4, C5 or production readiness.
+A future authentic import establishes evidence only for behavior proved by its original bytes/runtime/tests. It does not automatically satisfy current exact contracts, P4 mappings, `NK-EPI`, C3, C4, C5 or production readiness.
+
+## 16. Next gate
+
+P5 and C3 require a separate operator GO, a materially independent implementation profile, declared equivalence classes, comparison commands, negative cases and retained evidence.

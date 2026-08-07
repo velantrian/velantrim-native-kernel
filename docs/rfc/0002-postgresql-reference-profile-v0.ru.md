@@ -1,14 +1,14 @@
 # RFC-0002: Планирующий и implementation-контракт PostgreSQL Reference Profile v0
 
 - **RFC status:** `ACCEPTED`
-- **Evidence level:** `REPOSITORY_REPRODUCED — P3 INTEGRATION`
-- **Implementation status:** `PARTIAL — P1 + P2 + BOUNDED P3`
+- **Evidence level:** `REPOSITORY_REPRODUCED — P4 ASSERTION-SCOPED C2 ON PREVIOUS HEAD`
+- **Implementation status:** `PARTIAL — P1 + P2 + P3 + P4`
 - **Operator approval:** `APPROVED`
 - **Profile ID:** `native-kernel/postgresql-reference`
 - **Planning version:** `nk-pg-profile/0.1`
-- **Текущая implementation version:** `0.3-p3`
+- **Текущая implementation version:** `0.4-p4`
 - **Evidence lineage:** `clean/postgresql-reference/0.1`
-- **Связано:** Issues #40, #43, #46, #49; PRs #47, #50; ADR-0001, ADR-0009, ADR-0011…0017
+- **Связано:** Issues #40, #43, #46, #49, #55; PRs #47, #50, #56; ADR-0001, ADR-0009, ADR-0011…0018
 
 ## 1. Назначение и текущее решение
 
@@ -17,18 +17,18 @@
 ```text
 принятые архитектурные контракты
         ↓
-P1 profile-independent semantic core — merged и tested
+P1 profile-independent semantic core — merged
         ↓
-P2 PostgreSQL append/idempotency — repository-integration-tested
+P2 PostgreSQL append/idempotency — merged
         ↓
-P3 replay/projection rebuild/Receipts — repository-integration-tested
+P3 replay/projection rebuild/Receipts — merged
         ↓
-P4 assertion-scoped conformance adapter — blocked до separate GO
+P4 assertion-scoped conformance — разрешён и реализован в PR #56
         ↓
-P5 independent SQLite profile — blocked до separate GO
+P5 independent SQLite profile — заблокирован до отдельного GO
 ```
 
-P3 не разрешает P4/P5 и не устанавливает C1/C2/C3.
+P4 не разрешает P5 и не устанавливает C3.
 
 ## 2. Граница lineage
 
@@ -39,50 +39,50 @@ native-kernel/postgresql-reference
 ≠ продолжение исторического prototype
 ```
 
-Issue #1 остаётся активным и независимым. RFC не объявляет исторический source глобально потерянным и не заменяет требования provenance.
+Issue #1 остаётся активным и независимым. Этот RFC не объявляет исторический source глобально потерянным и не заменяет требования provenance.
 
-## 3. Принятые входные решения
+## 3. Принятые входы
 
-| Решение | Обязательный смысл |
+| Вход | Обязательный смысл |
 |---|---|
 | ADR-0001 | Canon отделён от implementation profiles |
 | ADR-0009 | PostgreSQL — preferred full profile; SQLite остаётся optional |
-| ADR-0011 / `nk-id/1.0` | canonical identity, collision и migration rules |
-| ADR-0012 / `nk-event/1.0` | single-writer append, idempotency, ordering и replay boundary |
-| ADR-0013 / `nk-deletion/1.0` | deletion/restriction/retention и proof limits |
-| ADR-0014 / `nk-fixtures/1.0` | executable fixtures и evidence protocol |
+| ADR-0011 / `nk-id/1.0` | canonical identity и migration/collision rules |
+| ADR-0012 / `nk-event/1.0` | single-writer append, idempotency, order и replay boundary |
+| ADR-0013 / `nk-deletion/1.0` | deletion, restriction, retention и proof limits |
+| ADR-0014 / `nk-fixtures/1.0` | executable fixture и evidence protocol |
 | ADR-0015 | clean lineage принят; P1 разрешён |
-| ADR-0016 | bounded P2 append/idempotency разрешён |
-| ADR-0017 | bounded P3 replay/projection/Receipt разрешён |
-| registry `1.1.0` | stable assertion IDs и statuses |
+| ADR-0016 | bounded P2 append/idempotency profile разрешён |
+| ADR-0017 | bounded P3 replay/projection/Receipt profile разрешён |
+| ADR-0018 | P4 assertion-scoped conformance разрешён |
+| registry `1.1.0` | стабильные 72 assertion IDs и decision statuses |
 
-`NK-EPI-001…008` и ADR-0008 остаются proposed. P3 их не реализует и не повышает статус.
+`NK-EPI-001…008` и ADR-0008 остаются proposed. P4 выдаёт для них `UNSUPPORTED`, но не принимает и не повышает их статус.
 
-## 4. Текущее реальное состояние
+## 4. Текущая реальность
 
 ```text
 P1 semantic core:              PARTIAL / REPOSITORY-TESTED
 P2 PostgreSQL append profile:  PARTIAL / REPOSITORY-INTEGRATION-TESTED
 P3 replay/projection profile:  PARTIAL / REPOSITORY-INTEGRATION-TESTED
-Physical deletion:             NOT_IMPLEMENTED
-P4 conformance adapter:        NOT_AUTHORIZED / NOT_IMPLEMENTED
+P4 conformance adapter:        PARTIAL / C2 REPOSITORY-REPRODUCED
+support_state:                 PARTIAL
 P5 independent SQLite:         NOT_AUTHORIZED / NOT_IMPLEMENTED
-Kernel runtime conformance:    UNSUPPORTED
-C1/C2/C3:                      NOT_ESTABLISHED
+C3/C4/C5:                      NOT_ESTABLISHED
+Physical deletion:             NOT_IMPLEMENTED
 ```
 
-Начальное executable-head evidence P3:
+Карта поддержки P4:
 
 ```text
-head 0f8fd4ffe5d5fb0d4bc01f3e441a053f691dbba3
-P3 run 31171581859 — PASS
-P2 regression run 31171581795 — PASS
-P1 run 31171581787 — PASS
-fixture run 31171581791 — PASS
-PostgreSQL 16/18 × Python 3.11/3.12 — PASS
+SUPPORTED:   41
+PARTIAL:     13
+UNSUPPORTED: 18
+FAILED:       0
+TOTAL:       72
 ```
 
-Final PR head должен повторить затронутые checks после documentation/evidence изменений.
+Top-level C2 относится только к 41 assertion result со статусом `SUPPORTED` в exact report.
 
 ## 5. Архитектура профиля
 
@@ -95,27 +95,27 @@ Explicit UpcasterRegistry                   ← P3
 Persisted replay from empty                 ← P3
 Disposable semantic-state projection        ← P3
 Replay/Projection Rebuild Receipts           ← P3
-Assertion-scoped conformance adapter         ← P4 отсутствует
+Assertion-scoped conformance adapter         ← P4
 Independent second profile                   ← P5 отсутствует
 ```
 
 ### 5.1 P1 semantic core
 
-Package: `native_kernel.semantic_core`.
+Пакет: `native_kernel.semantic_core`.
 
 - canonical JSON и identity helpers;
 - immutable semantic objects;
 - explicit authority boundary;
 - deterministic reducer;
 - deletion/restriction transitions и Receipt overclaim guards;
-- standard-library deterministic upcaster registry;
+- deterministic upcaster registry;
 - canonical semantic-state decoder.
 
-`nkd0` и `nks0` остаются clean-profile details до отдельного повышения статуса.
+`nkd0` и `nks0` остаются деталями clean profile, пока не приняты отдельно.
 
 ### 5.2 P2 authoritative append
 
-Package: `native_kernel.postgresql_profile`.
+Пакет: `native_kernel.postgresql_profile`.
 
 - lazy Psycopg boundary;
 - numbered SQL migrations и checksum ledger;
@@ -124,191 +124,190 @@ Package: `native_kernel.postgresql_profile`.
 - atomic Event + idempotency transaction;
 - rollback-safe global и stream counters;
 - canonical payload/envelope bytes;
-- `nkp1` и `nke1` commitments;
+- commitments `nkp1` и `nke1`;
 - stored-event consistency validation.
 
-### 5.3 P3 persisted replay
+### 5.3 P3 persisted replay и projections
 
 Для одного выбранного Kernel instance P3:
 
-1. открывает repeatable-read read-only snapshot;
-2. фиксирует `last_global_seq` и `last_event_hash`;
-3. требует совпадения Event count/max sequence с instance head;
-4. читает каждый Event от sequence `1` через P2 commitment checks;
-5. требует единую `prev_global_hash` chain от `GENESIS`;
-6. проводит Event через explicit deterministic upcaster path;
-7. выполняет reduction from empty заявленным P1 reducer;
-8. требует совпадения final replay hash с captured head;
-9. создаёт bounded state digest и Replay Receipt.
+1. открывает repeatable-read snapshot;
+2. фиксирует authoritative head;
+3. проверяет Event count, sequence и canonical commitments;
+4. проверяет одну global hash chain от `GENESIS`;
+5. проводит schema versions через explicit upcaster path;
+6. выполняет P1 reduction from empty;
+7. формирует bounded Replay Receipt;
+8. сравнивает captured head под lock перед публикацией projection;
+9. атомарно commits rebuild Receipt и disposable projection.
 
-Missing, duplicate, cyclic, invalid или non-progressing upcaster paths завершаются explicit failure.
+Удаление projection не удаляет Events или committed Receipt history и не сбрасывает generation lineage.
 
-### 5.4 Disposable projection rebuild
+### 5.4 Граница P3 Receipts
 
-`semantic-state` projection — заменяемая read model, а не authoritative history.
+Replay и Projection Rebuild Receipts могут доказывать только заявленную операцию, selected instance, Event range/head, reducer/schema versions, state digest, projection identity/generation и proof limitations.
 
-```text
-verified replay snapshot
-→ lock Kernel instance row
-→ compare current sequence/hash head
-→ reject stale snapshot при history advance
-→ allocate monotonic generation из committed rebuild Receipts
-→ insert Receipt
-→ upsert projection
-→ atomic commit
-```
+Они не доказывают truth, external authenticity, complete Event Integrity, physical deletion, C-levels или production guarantees.
 
-Удаление projection удаляет только disposable row. Оно не удаляет authoritative Events или Receipt history и не сбрасывает generation lineage.
+### 5.5 P4 assertion-scoped adapter
 
-### 5.5 Граница operational Receipt
-
-P3 сохраняет canonical Receipts для `REPLAY` и `PROJECTION_REBUILD`.
-
-Они могут подтверждать только:
-
-- выбранный instance и наблюдаемый Event range;
-- наблюдаемый final Event hash;
-- reducer и target schema version;
-- resulting state digest;
-- projection name/generation;
-- declared proof limitations.
-
-Они не могут заявлять:
-
-- truth записанных Claims;
-- external authenticity, signatures или notarization;
-- отсутствие любого privileged rewrite до snapshot;
-- complete Event Integrity при любом threat model;
-- physical deletion bytes/backups/exports/logs/keys;
-- C1/C2/C3 или production durability/security/privacy/compliance.
-
-## 6. Writer и transaction model
-
-P2 append сохраняет одного authoritative writer owner/epoch lease на instance. P3 не меняет append и не вводит multi-writer consensus.
-
-Replay читает stable snapshot. Receipt/projection publication выполняется отдельной write transaction с locked instance-head comparison, чтобы stale state не публиковался как current.
-
-## 7. Граница determinism и integrity
-
-P3 проверяет:
-
-- contiguous selected-instance global sequence;
-- per-stream sequence через reducer;
-- canonical stored payload/envelope bytes;
-- `nkp1` payload и `nke1` Event commitments;
-- contiguous global hash chain;
-- explicit schema path;
-- reducer version и canonical state digest;
-- projection/Receipt canonical bytes при load.
-
-Это integrity signals, а не external authentication или защита от любого privileged rewrite.
-
-## 8. Граница deletion
-
-P1 моделирует semantic deletion/restriction state. P2/P3 сохраняют Events, projections и Receipts. Они не удаляют primary bytes, backups, indexes, provider data, logs, exports или encryption keys.
-
-Physical/cryptographic deletion требует отдельного решения и operational design.
-
-## 9. Machine-readable manifests
-
-Сохраняются отдельные phase records:
-
-1. `profile-manifest.json` — P0 planning snapshot;
-2. `p1-manifest.json` — P1 boundary;
-3. `p2-manifest.json` — P2 append evidence;
-4. `p3-manifest.json` — P3 replay/projection/Receipt evidence.
-
-P3 manifest:
+P4 использует `nk-evidence-report/1` и выдаёт все 72 registry IDs ровно по одному разу.
 
 ```text
-implementation: PARTIAL
-evidence: REPOSITORY_REPRODUCED_P3_INTEGRATION
-runtime conformance: UNSUPPORTED
-C1/C2/C3: NOT_ESTABLISHED
+registry + fixture pack
+→ semantic checks
+→ PostgreSQL checks
+→ assertion result map
+→ evidence references + limitations
+→ strict report validation
+→ repository artifact
 ```
 
-Все 72 assertions остаются runtime `UNSUPPORTED` до P4 complete assertion-scoped report.
+Каждый результат имеет один статус:
 
-## 10. Test и fault matrix
+- `SUPPORTED` — bounded assertion behavior прямо воспроизведён;
+- `PARTIAL` — значимая часть воспроизведена, но остаётся явный gap;
+- `UNSUPPORTED` — достаточной исполняемой поддержки нет или assertion proposed;
+- `FAILED` — обязательный заявленный check выполнен и упал.
 
-### P3 semantic tests
+Assertion нельзя скрыть или повысить через prose.
 
-- identity/multi-step upcasting;
-- missing/duplicate/cyclic/invalid path rejection;
-- canonical state round-trip;
-- canonical bounded Receipt;
-- Receipt overclaim и operation-shape rejection.
+## 6. Исполняемые checks P4
 
-### P3 PostgreSQL integration tests
+Profile-neutral checks:
 
-- persisted replay равен direct P1 reduction;
-- Replay Receipt persistence/reload;
-- projection rebuild determinism;
-- destroy/rebuild с monotonic generation;
-- injected precommit failure сохраняет previous projection;
-- history advancement отклоняет stale publication;
-- stored Event canonical corruption detection;
-- projection corruption detection;
-- Receipt corruption detection;
-- explicit upcaster path requirement;
-- P2 regression suite.
+- registry version/coverage/decision status;
+- identity golden vectors и invalid canonical inputs;
+- semantic roles, explicit scope и source-bound Claim identity;
+- explicit deny-by-default authority;
+- Admission/Deletion Receipt proof limits;
+- deterministic reduction и explicit sequence/schema failures;
+- semantic deletion/restriction transitions.
 
-## 11. Evidence promotion
+PostgreSQL checks:
 
-| Level | Gate | Текущее состояние |
-|---|---|---|
-| P0 planning | accepted plan/manifests | complete |
-| P1 semantics | bounded deterministic core | repository tested |
-| P2 append | declared DB matrix | repository reproduced |
-| P3 replay/projection | declared DB matrix и fault scenarios | repository reproduced |
-| C1 | complete declared assertion evidence | not established |
-| C2 | pinned reproducibility/artifacts/traceability | not established |
-| C3 | materially independent second profile | not established |
-| C4/C5 | Shadow/operational evidence | not established |
+- migration idempotency;
+- writer lease/epoch fencing;
+- append, retry и conflicting idempotency reuse;
+- rollback-safe contiguous ordering;
+- persisted replay равен direct reduction;
+- projection destroy/rebuild и monotonic generation;
+- stale-head rejection;
+- stored canonical corruption detection.
 
-P3 integration не называется C1/C2, потому что P4 assertion-scoped evidence отсутствует.
+Эти checks не создают отсутствующие conflict, restore, deletion-worker, cross-project или cross-profile механизмы.
 
-## 12. Security, licensing и dependencies
+## 7. Граница C1, C2 и C3
 
-Psycopg остаётся lazy profile dependency и не vendored. Issue #18 остаётся открытым.
+Conformance остаётся assertion-scoped.
 
-Operational claims требуют credential/role design, backup/restore evidence, provider behavior, performance limits, incident fencing, log redaction и deletion/retention controls.
-
-## 13. Implementation sequence
+- C1: локально выполненные commands/failures с записанным evidence;
+- C2: exact repository reproduction с committed implementation, environment, CI traceability и retained artifacts;
+- C3: materially independent profile плюс declared equivalence и comparison evidence.
 
 ```text
-P0 — accepted RFC + planning manifest              COMPLETE
-P1 — semantic core                                 MERGED / REPOSITORY-TESTED
-P2 — PostgreSQL append/idempotency                  PARTIAL / INTEGRATION-TESTED
-P3 — persisted replay/projection/Receipts           PARTIAL / INTEGRATION-TESTED
-P4 — assertion-scoped conformance adapter           BLOCKED / SEPARATE GO
-P5 — independent SQLite profile                     BLOCKED / SEPARATE GO
+support_state: PARTIAL
+kernel_runtime_conformance: C2
 ```
 
-## 14. Оставшиеся решения
-
-1. separate P4 operator GO;
-2. complete assertion-to-runtime evidence mapping;
-3. neutral export/migration encoding;
-4. physical/cryptographic deletion design;
-5. Issue #18 license/contribution terms;
-6. performance и operational fault evidence;
-7. independent P5 profile до C3.
-
-## 15. Принятые границы
-
-- [x] clean profile и lineage приняты;
-- [x] P1 отдельно разрешён и tested;
-- [x] P2 отдельно разрешён и repository-integration-tested;
-- [x] P3 отдельно разрешён и repository-integration-tested;
-- [x] Receipt non-claims и stale-head guard сохранены;
-- [x] Issue #1 separation explicit;
-- [ ] P4/P5 получают separate GO.
+Такая комбинация корректна: C2 относится только к `SUPPORTED` assertion results. `PARTIAL` и `UNSUPPORTED` остаются вне supported set.
 
 ```text
-RFC: ACCEPTED
-P1/P2/P3 implementation: PARTIAL
-P3 integration: REPOSITORY_REPRODUCED
-Complete assertion conformance: ABSENT
-C1/C2/C3: NOT ESTABLISHED
+C2 в четырёх Python/PostgreSQL combinations
+≠ четыре независимых профиля
+≠ C3
 ```
+
+## 8. Первоначальное P4 evidence
+
+Evidence head:
+
+```text
+93710131fffdea7d9a586cc05e7f258c07fae707
+```
+
+```text
+P4 run 31175767586 — PASS
+Python 3.11 / PostgreSQL 16 — PASS
+Python 3.11 / PostgreSQL 18 — PASS
+Python 3.12 / PostgreSQL 16 — PASS
+Python 3.12 / PostgreSQL 18 — PASS
+P1/P2/P3 regressions — PASS
+4 retained JSON evidence artifacts
+```
+
+Первый failure run `31175593261` сохранён как negative evidence. Полный C1 report прошёл, но standalone adapter не добавил repository root в `sys.path`. CLI bootstrap исправлен без ослабления checks или validation.
+
+Exact artifact digests записаны в `docs/ai/P4_IMPLEMENTATION_RECORD.md`.
+
+## 9. Правила evidence report
+
+Valid P4 report обязан:
+
+1. использовать `nk-evidence-report/1`;
+2. называть `native-kernel/postgresql-reference`;
+3. сохранять `support_state: PARTIAL`;
+4. выдавать все 72 assertion IDs ровно один раз;
+5. совпадать с guarded support counts;
+6. требовать evidence для каждого supported/partial result;
+7. ссылаться только на passed checks в том же report;
+8. включать limitations для каждого result;
+9. сохранять все proposed `NK-EPI` как unsupported;
+10. явно указывать, что C2 не является C3, truth, authenticity, deletion или production proof.
+
+Repository C2 дополнительно требует non-local commit/run/environment metadata и retained artifacts.
+
+## 10. Технологическая нейтральность
+
+PostgreSQL, Psycopg, Python, JSONB, SQL tables, row locks и GitHub Actions — технологии профиля.
+
+Семантическими/контрактными остаются:
+
+- stable Claim identity roles;
+- distinction authority и admission;
+- Event meaning и order obligations;
+- deterministic reduction;
+- deletion/restriction proof limits;
+- Receipt/report boundaries;
+- assertion support states и equivalence classes.
+
+P4 C2 не превращает технологии профиля в Canon.
+
+## 11. Явные non-goals
+
+- нет P5 SQLite implementation;
+- нет C3 cross-profile equivalence;
+- нет physical или cryptographic deletion execution;
+- нет truth, signature, notarization или external-authenticity certification;
+- нет C4/C5 или production claim;
+- нет network API;
+- нет Titan, Mentaury или Crystal runtime wiring;
+- нет `v0.1.2.1` recovery claim;
+- нет ADR-0008 или `NK-EPI` promotion;
+- нет package publication decision по Issue #18.
+
+## 12. Оставшиеся gaps
+
+- complete conflict representation/resolution;
+- identity migration/alias adjudication;
+- restore-before-visibility enforcement;
+- durable deletion execution по locations/backups/keys;
+- cross-project authority adapter;
+- independent second profile;
+- scale, failover, backup/restore и managed-provider evidence;
+- long-term artifact retention.
+
+## 13. Lifecycle фаз
+
+```text
+P0 — RFC и planning manifest                       COMPLETE
+P1 — profile-independent semantic core              MERGED
+P2 — PostgreSQL append/idempotency                   MERGED
+P3 — replay/projection rebuild/Receipts              MERGED
+P4 — assertion-scoped conformance                    ACTIVE / PARTIAL / C2 EVIDENCE
+P5 — independent SQLite profile / C3 research        BLOCKED / SEPARATE GO
+```
+
+## 14. Следующий gate
+
+P5 требует отдельного явного operator GO. Любое заявление C3 должно назвать materially independent implementation, declared equivalence classes, allowed differences, exact comparison commands и retained evidence.

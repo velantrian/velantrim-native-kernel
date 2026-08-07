@@ -24,6 +24,7 @@ REQUIRED_PATHS = (
     "docs/ai/COMPONENT_MAP.md",
     "docs/ai/KNOWN_RISKS.md",
     "docs/ai/WORK_LOG.md",
+    "docs/ai/P4_IMPLEMENTATION_RECORD.md",
     "docs/ai/AUDIT_PLAYBOOK.md",
     "docs/ai/DOCUMENTATION_SYNC_PROTOCOL.md",
     "docs/ai/NOTION_HANDOFF.md",
@@ -41,6 +42,7 @@ LINK_SCAN_PATHS = (
     "docs/ai/COMPONENT_MAP.md",
     "docs/ai/KNOWN_RISKS.md",
     "docs/ai/WORK_LOG.md",
+    "docs/ai/P4_IMPLEMENTATION_RECORD.md",
     "docs/ai/AUDIT_PLAYBOOK.md",
     "docs/ai/DOCUMENTATION_SYNC_PROTOCOL.md",
     "docs/ai/NOTION_HANDOFF.md",
@@ -52,9 +54,10 @@ CHECKPOINT_RE = re.compile(
 MARKDOWN_LINK_RE = re.compile(r"(?<!!)\[[^\]]+\]\(([^)]+)\)")
 IGNORED_SCHEMES = {"http", "https", "mailto", "tel", "data"}
 REQUIRED_STATUS_MARKERS = (
-    "RESEARCH / P3 PARTIAL IMPLEMENTATION / NOT PRODUCTION-READY",
+    "RESEARCH / P4 PARTIAL ASSERTION CONFORMANCE / NOT PRODUCTION-READY",
     "NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GLOBALLY_LOST",
     "Context checkpoint ≠ automatically current main",
+    "P4 C2 ≠ C3",
 )
 
 
