@@ -1,0 +1,66 @@
+{
+  "authority_boundary": {
+    "authoritative_writes": "FORBIDDEN",
+    "authority_promotion": "FORBIDDEN",
+    "mode": "SHADOW_ONLY",
+    "promotion_decision": "NOT_AUTHORIZED",
+    "side_effects": "FORBIDDEN"
+  },
+  "c4_assertion_coverage": {
+    "failed": 0,
+    "inherited_partial": 10,
+    "inherited_unsupported": 17,
+    "proposed_nk_epi_unsupported": 8,
+    "shadow_evaluated_supported": 45,
+    "total": 72
+  },
+  "dataset": {
+    "approval_state": "APPROVED",
+    "case_count": 15,
+    "id": "native-kernel/c4-offline-shadow-v1",
+    "path": "contracts/shadow-workload-v1.json",
+    "sha256": "15fb81d8858dcc4e349ffe87c257b25450db026473614582faa7817f90249da3"
+  },
+  "dataset_protocol": "nk-shadow-workload/1",
+  "decision_record": "ADR-0020",
+  "decision_status": "ACCEPTED",
+  "evidence_boundaries": [
+    "C4 is limited to the 45 assertions already supported at C3.",
+    "The 10 PARTIAL and 17 UNSUPPORTED assertions are not promoted.",
+    "Offline shadow evaluation is not live production shadowing.",
+    "No authority promotion, automatic action, C5, production, truth, physical deletion or operational equivalence claim."
+  ],
+  "implementation_status": "PARTIAL",
+  "issue_18_boundary": {
+    "new_external_runtime_dependency": false,
+    "package_published": false,
+    "relationship": "INDEPENDENT"
+  },
+  "issue_1_boundary": {
+    "historical_lineage": null,
+    "may_claim_recovery": false,
+    "relationship": "INDEPENDENT"
+  },
+  "manifest_version": "nk-c4-shadow-manifest/1",
+  "next_gate": "Repeat C4 on an exact final documentation head; C5, live shadowing, production and ecosystem wiring remain separately gated",
+  "operator_approval": "APPROVED",
+  "phase": "C4",
+  "prerequisite": {
+    "failed": 0,
+    "level": "C3",
+    "partial": 10,
+    "supported": 45,
+    "unsupported": 17
+  },
+  "repository_evidence": {
+    "artifact_count": 0,
+    "artifact_retention_days": 30,
+    "head_sha": null,
+    "matrix": [],
+    "reports_per_artifact": 4,
+    "status": "PRE_CI",
+    "workflow_run_id": null
+  },
+  "shadow_receipt_protocol": "nk-shadow-receipt/1",
+  "shadow_report_protocol": "nk-shadow-report/1"
+}
