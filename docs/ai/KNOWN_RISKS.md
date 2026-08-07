@@ -1,8 +1,8 @@
 # ⚠️ Native Kernel Known Risks and Required Proof
 
 **Snapshot:** 2026-08-07  
-**Last verified public `main`:** `4e6be77196c633c25dd3896660335c1448b2baf5`  
-**Active implementation:** Issue #49 / PR #50 / P3 replay, projection rebuild and bounded Receipts
+**Last verified public `main`:** `4af642930e18752f8f8b0bce75df355f76100d6f`  
+**Latest implementation:** PR #50 / P3 replay, projection rebuild and bounded Receipts — merged
 
 P3 repository integration narrows the persisted-replay and projection gap. It does not close physical deletion, external authenticity, complete Event Integrity, operational fault, security, privacy, licensing, portability or conformance risks.
 
@@ -63,16 +63,16 @@ Required control: never summarize a P3 Receipt as truth certification, complete 
 
 **State:** `OPEN`, machine-readable guard retained
 
-Initial executable-head evidence:
+Final PR evidence:
 
 ```text
-head 0f8fd4ffe5d5fb0d4bc01f3e441a053f691dbba3
-run 31171581859 — PASS
+head 7e615bc633cbf966211d3b2815f51b8ff9eb9716
+P3 run 31173133661 — PASS
 Python 3.11 / PostgreSQL 16 — PASS
 Python 3.11 / PostgreSQL 18 — PASS
 Python 3.12 / PostgreSQL 16 — PASS
 Python 3.12 / PostgreSQL 18 — PASS
-P2 regression — PASS
+P2 regression run 31173133709 — PASS
 ```
 
 This establishes the bounded P3 scenarios in the declared matrix. It does not establish complete assertion-scoped profile support, release artifacts, independent-profile equivalence or operational guarantees.
@@ -114,9 +114,9 @@ It is not multi-writer consensus, cross-database atomicity, cross-region leaders
 
 ## P1 — Exact final-head workflow drift
 
-**State:** `OPEN UNTIL PR #50 MERGE GATE`
+**State:** `NARROWED / PR #50 GATE COMPLETE`
 
-Initial P3 evidence is valid for `0f8fd4ff…`. Documentation, manifest and governance changes require P3 and AI-context validation on one final exact PR head before merge.
+PR #50 final head `7e615bc6…` passed P3, P2, P1, fixture and AI-context workflows before squash merge `4af64293…`. No push-to-main run was recorded. Any future implementation change requires new exact-head evidence; this checkpoint does not carry PR #50 evidence forward to later code automatically.
 
 ## P1 — Python may become accidental permanent architecture
 
