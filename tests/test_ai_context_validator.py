@@ -14,7 +14,7 @@ validator = importlib.util.module_from_spec(spec)
 sys.modules[spec.name] = validator
 spec.loader.exec_module(validator)
 
-P5_STATUS = "RESEARCH / P5 PARTIAL CROSS-PROFILE CONFORMANCE / NOT PRODUCTION-READY"
+C4_STATUS = "RESEARCH / C4 PARTIAL OFFLINE SHADOW EVALUATION / NOT PRODUCTION-READY"
 
 
 class AIContextValidatorTests(unittest.TestCase):
@@ -49,7 +49,7 @@ class AIContextValidatorTests(unittest.TestCase):
         path.write_text(content, encoding="utf-8")
 
     def _write_current_state(self, checkpoint: str, *, status: str | None = None) -> None:
-        current_status = status or P5_STATUS
+        current_status = status or C4_STATUS
         self._write(
             "docs/ai/CURRENT_STATE.md",
             "# Current\n\n"
@@ -57,9 +57,11 @@ class AIContextValidatorTests(unittest.TestCase):
             f"**Repository status:** `{current_status}`\n\n"
             "NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GLOBALLY_LOST\n"
             "Context checkpoint ≠ automatically current main\n"
-            "C2 ≠ C3\n"
-            "C3 SUPPORTED ASSERTIONS ≠ SUPPORT FOR ALL 72\n"
-            "C3 SEMANTIC EQUIVALENCE ≠ OPERATIONAL EQUIVALENCE\n",
+            "C2 ≠ C3 ≠ C4\n"
+            "C4 OFFLINE SHADOW ≠ LIVE SHADOWING\n"
+            "C4 SHADOW OBSERVATION ≠ AUTHORITY PROMOTION\n"
+            "C4 SUPPORTED ASSERTIONS ≠ SUPPORT FOR ALL 72\n"
+            "ASSERTION EVIDENCE ≠ TRUTH / AUTHENTICITY / PHYSICAL ERASURE\n",
         )
 
     def _write_required_files(self, checkpoint: str) -> None:
@@ -74,10 +76,10 @@ class AIContextValidatorTests(unittest.TestCase):
         self.assertEqual([], validator.validate(self.repo))
 
     def test_missing_required_file_is_reported(self) -> None:
-        (self.repo / "docs/ai/P5_IMPLEMENTATION_RECORD.md").unlink()
+        (self.repo / "docs/ai/C4_IMPLEMENTATION_RECORD.md").unlink()
         findings = validator.validate(self.repo)
         self.assertTrue(
-            any(f.path == "docs/ai/P5_IMPLEMENTATION_RECORD.md" for f in findings)
+            any(f.path == "docs/ai/C4_IMPLEMENTATION_RECORD.md" for f in findings)
         )
 
     def test_broken_relative_link_is_reported(self) -> None:
@@ -100,35 +102,56 @@ class AIContextValidatorTests(unittest.TestCase):
         findings = validator.validate(self.repo)
         self.assertTrue(any("checkpoint commit does not exist" in f.message for f in findings))
 
-    def test_stale_pre_p5_statuses_are_rejected(self) -> None:
+    def test_stale_pre_c4_statuses_are_rejected(self) -> None:
         for stale in (
             "RESEARCH / DOCUMENTED_ONLY / NOT PRODUCTION-READY",
             "RESEARCH / P1 PARTIAL IMPLEMENTATION / NOT PRODUCTION-READY",
             "RESEARCH / P2 PARTIAL IMPLEMENTATION / NOT PRODUCTION-READY",
             "RESEARCH / P3 PARTIAL IMPLEMENTATION / NOT PRODUCTION-READY",
             "RESEARCH / P4 PARTIAL ASSERTION CONFORMANCE / NOT PRODUCTION-READY",
+            "RESEARCH / P5 PARTIAL CROSS-PROFILE CONFORMANCE / NOT PRODUCTION-READY",
         ):
             with self.subTest(stale=stale):
                 self._write_current_state(self.initial_sha, status=stale)
                 findings = validator.validate(self.repo)
                 self.assertTrue(
-                    any("P5 PARTIAL CROSS-PROFILE CONFORMANCE" in f.message for f in findings)
+                    any("C4 PARTIAL OFFLINE SHADOW EVALUATION" in f.message for f in findings)
                 )
 
-    def test_missing_c3_operational_boundary_is_rejected(self) -> None:
+    def test_missing_live_shadow_boundary_is_rejected(self) -> None:
         self._write(
             "docs/ai/CURRENT_STATE.md",
             "# Current\n\n"
             f"**Last verified public `main`:** `{self.initial_sha}`  \n"
-            f"**Repository status:** `{P5_STATUS}`\n\n"
+            f"**Repository status:** `{C4_STATUS}`\n\n"
             "NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GLOBALLY_LOST\n"
             "Context checkpoint ≠ automatically current main\n"
-            "C2 ≠ C3\n"
-            "C3 SUPPORTED ASSERTIONS ≠ SUPPORT FOR ALL 72\n",
+            "C2 ≠ C3 ≠ C4\n"
+            "C4 SHADOW OBSERVATION ≠ AUTHORITY PROMOTION\n"
+            "C4 SUPPORTED ASSERTIONS ≠ SUPPORT FOR ALL 72\n"
+            "ASSERTION EVIDENCE ≠ TRUTH / AUTHENTICITY / PHYSICAL ERASURE\n",
         )
         findings = validator.validate(self.repo)
         self.assertTrue(
-            any("C3 SEMANTIC EQUIVALENCE ≠ OPERATIONAL EQUIVALENCE" in f.message for f in findings)
+            any("C4 OFFLINE SHADOW ≠ LIVE SHADOWING" in f.message for f in findings)
+        )
+
+    def test_missing_authority_boundary_is_rejected(self) -> None:
+        self._write(
+            "docs/ai/CURRENT_STATE.md",
+            "# Current\n\n"
+            f"**Last verified public `main`:** `{self.initial_sha}`  \n"
+            f"**Repository status:** `{C4_STATUS}`\n\n"
+            "NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GLOBALLY_LOST\n"
+            "Context checkpoint ≠ automatically current main\n"
+            "C2 ≠ C3 ≠ C4\n"
+            "C4 OFFLINE SHADOW ≠ LIVE SHADOWING\n"
+            "C4 SUPPORTED ASSERTIONS ≠ SUPPORT FOR ALL 72\n"
+            "ASSERTION EVIDENCE ≠ TRUTH / AUTHENTICITY / PHYSICAL ERASURE\n",
+        )
+        findings = validator.validate(self.repo)
+        self.assertTrue(
+            any("C4 SHADOW OBSERVATION ≠ AUTHORITY PROMOTION" in f.message for f in findings)
         )
 
 

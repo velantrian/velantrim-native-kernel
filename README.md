@@ -2,28 +2,28 @@
 
 # 🧬 Velantrim Native Kernel
 
-### Technology-neutral contracts and replaceable profiles for verifiable memory
+### Technology-neutral contracts, replaceable profiles and bounded evidence for verifiable memory
 
 **[English](./README.md) · [Русский](./README.ru.md)**
 
-![Status](https://img.shields.io/badge/status-P5%20PARTIAL-6f42c1)
-![Evidence](https://img.shields.io/badge/evidence-C3%20ASSERTION--SCOPED-blue)
+![Status](https://img.shields.io/badge/status-C4%20PARTIAL-6f42c1)
+![Evidence](https://img.shields.io/badge/evidence-OFFLINE%20SHADOW-blue)
 ![Profiles](https://img.shields.io/badge/profiles-PostgreSQL%20%2B%20SQLite-orange)
 ![Production](https://img.shields.io/badge/production-NOT%20READY-red)
 
-**Claims · Events · Provenance · Time · Deterministic replay · Cross-profile evidence**
+**Claims · Events · Provenance · Time · Deterministic replay · Cross-profile evidence · Offline shadow evaluation**
 
 > **Preserve meaning when technologies change. Verify before promotion.**
 
 </div>
 
 > [!IMPORTANT]
-> **Current branch state:** `RESEARCH / P5 PARTIAL CROSS-PROFILE CONFORMANCE / NOT PRODUCTION-READY`.  
-> PostgreSQL and an independent stdlib-`sqlite3` profile now have repository C2 evidence. Their declared cross-profile comparison reports **45 `SUPPORTED`, 10 `PARTIAL`, 17 `UNSUPPORTED`, 0 `FAILED`**. C3 applies only to those 45 supported results; it is not complete support or operational equivalence.
+> **Current branch state:** `RESEARCH / C4 PARTIAL OFFLINE SHADOW EVALUATION / NOT PRODUCTION-READY`.  
+> PostgreSQL and an independent stdlib-`sqlite3` profile have assertion-scoped repository evidence. C4 adds an authority-free evaluator over one explicitly approved immutable recorded workload. It does not add live shadowing, candidate promotion, production authority or C5.
 
 ## ⚡ In 30 seconds
 
-Velantrim Native Kernel is an independent, long-horizon architecture and implementation research project.
+Velantrim Native Kernel is an independent long-horizon architecture and implementation research project.
 
 It studies how semantic memory, recorded change and evidence can preserve meaning when databases, languages, models, processors and future computational substrates change.
 
@@ -36,15 +36,17 @@ It studies how semantic memory, recorded change and evidence can preserve meanin
         ↓
 🧪 Assertion-scoped reproducible evidence
         ↓
-⚖️ Explicit cross-profile equivalence
+⚖️ Cross-profile equivalence
+        ↓
+🪞 Authority-free offline shadow evaluation
 ```
 
 Modern technologies are laboratory instruments, not permanent definitions:
 
 ```text
-PostgreSQL · SQLite · Python · files · graph · vector · LLM · CPU/GPU
-                         ≠
-                 Architecture Canon
+PostgreSQL · SQLite · Python · JSON · files · graph · vector · LLM · CPU/GPU
+                               ≠
+                       Architecture Canon
 ```
 
 ## 📊 Exact current status
@@ -57,23 +59,27 @@ PostgreSQL · SQLite · Python · files · graph · vector · LLM · CPU/GPU
 | P2 PostgreSQL append/idempotency | **Partial; repository-integration-tested** |
 | P3 persisted replay/projections/Receipts | **Partial; repository-integration-tested** |
 | P4 PostgreSQL assertion adapter | **Partial; C2 repository-reproduced** |
-| P5 independent SQLite profile | **Partial; C2 repository-reproduced on evidence head** |
-| PostgreSQL/SQLite C3 | **Partial; repository-reproduced on evidence head** |
-| Single-profile map | **41 supported / 13 partial / 18 unsupported / 0 failed** |
-| Cross-profile C3 map | **45 supported / 10 partial / 17 unsupported / 0 failed** |
-| Physical/cryptographic deletion | **Not implemented** |
+| P5 independent SQLite profile | **Partial; C2 repository-reproduced** |
+| PostgreSQL↔SQLite C3 | **Partial; repository-reproduced** |
+| C4 offline shadow evaluator | **Partial; repository-reproduced on approved recorded dataset** |
+| Single-profile C2 map | **41 supported / 13 partial / 18 unsupported / 0 failed** |
+| Cross-profile C3 and C4 scope | **45 supported / 10 partial / 17 unsupported / 0 failed** |
+| Live shadowing / candidate promotion | **Not implemented / not authorized** |
+| Physical or cryptographic deletion | **Not implemented** |
 | Complete conflict subsystem | **Not implemented** |
-| C4/C5 / production readiness | **Not established / not claimed** |
+| C5 / production readiness | **Not authorized / not established** |
 | Historical `v0.1.2.1` source | **Not found in accessible sources; Issue #1 open** |
 | Titan/Mentaury/Crystal integration | **Not active** |
 
 ```text
-C3 for 45 SUPPORTED assertions
-≠ all 72 assertions supported
-≠ PostgreSQL and SQLite operational equivalence
-≠ truth or authenticity
-≠ physical deletion
-≠ production readiness
+C4 for one approved 15-case recorded dataset and 45 SUPPORTED assertions
+≠ live production shadowing
+≠ authority promotion
+≠ support for all 72 assertions
+≠ exhaustive equivalence
+≠ operational equivalence
+≠ truth, authenticity or physical deletion
+≠ C5 or production readiness
 ```
 
 ## 🧩 Implementation route
@@ -90,6 +96,8 @@ P4  complete PostgreSQL 72-ID report / C2
 P5  independent SQLite profile / complete SQLite report
  ↓
 C3  PostgreSQL ↔ SQLite equivalence comparison
+ ↓
+C4  approved offline recorded workload / shadow reports / Shadow Receipts
 ```
 
 ## 🐘 PostgreSQL reference profile
@@ -119,13 +127,13 @@ stdlib sqlite3
 → replay / projections / Receipts
 ```
 
-The SQLite profile uses its own migrations, schema, transactions, append, replay, projection and Receipt implementation. It does **not** call the PostgreSQL adapters.
+The SQLite profile owns its migrations, schema, transactions, append, replay, projection and Receipt implementation. It does **not** call PostgreSQL adapters.
 
 It also supports exact authoritative-history import: PostgreSQL Event bytes and hash commitments are inserted into SQLite and reverified before replay.
 
-## ⚖️ P5 cross-profile C3
+## ⚖️ P5 cross-profile C3 prerequisite
 
-The comparison uses four declared equivalence classes:
+Four declared equivalence classes are compared:
 
 | Class | Compared meaning |
 |---|---|
@@ -134,23 +142,9 @@ The comparison uses four declared equivalence classes:
 | `SEMANTIC` | reducer state, projection state and Receipt proof fields |
 | `BEHAVIOURAL` | accepted/rejected commands, idempotency, fencing and order |
 
-Allowed differences include:
+Allowed differences include SQL dialect, table layout, server topology, lock mechanisms, independently generated Event IDs/timestamps and operational capabilities.
 
-- SQL dialect and table/index layout;
-- server topology versus a single local file;
-- PostgreSQL row locks versus SQLite `BEGIN IMMEDIATE`;
-- independently generated Event IDs/timestamps;
-- IAM, networking, replication, failover, concurrency and administration.
-
-Forbidden differences include:
-
-- canonical identity and Command digest;
-- payload meaning and declared ordering;
-- hash-chain validity;
-- reducer/projection canonical state;
-- idempotency, stale-writer and corruption outcomes;
-- bounded Receipt proof fields;
-- bytes/hashes in exact authoritative-history import.
+Forbidden differences include canonical identity, payload meaning, declared ordering, hash-chain validity, reducer/projection state, failure outcomes, Receipt proof fields and exact imported bytes/hashes.
 
 Cross-profile evidence promotes exactly:
 
@@ -163,14 +157,62 @@ NK-EQV-003
 
 All `NK-EPI-001…008` remain `UNSUPPORTED / PROPOSED`.
 
-## ✅ Initial P5 repository evidence
+## 🪞 C4 offline shadow evaluation
+
+Package: [`native_kernel.shadow_evaluation`](./native_kernel/shadow_evaluation/README.md)
+
+Protocols:
 
 ```text
-Evidence head: d43a6ed28232e9fc8b62f84d9025386fb8bce6f7
-P5/C3 run:    31181341275 — PASS
-P4 run:       31181341370 — PASS
-P1 run:       31181341405 — PASS
-Fixtures:     31181340889 — PASS
+nk-shadow-workload/1
+nk-shadow-report/1
+nk-shadow-receipt/1
+```
+
+Approved dataset:
+
+```text
+dataset_id:      native-kernel/c4-offline-shadow-v1
+sha256:          15fb81d8858dcc4e349ffe87c257b25450db026473614582faa7817f90249da3
+cases:           15
+assertion scope: 45 / 45 C3-supported assertions
+approval:        ADR-0020 / Issue #61 / OFFLINE_RECORDED_WORKLOAD_ONLY
+```
+
+Evaluation flow:
+
+```text
+approved immutable dataset bytes
++ exact C3 prerequisite report
+→ validate dataset/protocol/digest
+→ enforce SHADOW_ONLY authority boundary
+→ compare declared reference/candidate observations
+→ separate allowed operational differences
+→ compute semantic/critical divergence metrics
+→ emit one bounded Shadow Receipt per case
+→ emit complete 72-ID C4 report
+```
+
+Mandatory authority boundary:
+
+```text
+authority promotion:   FORBIDDEN
+authoritative writes:  FORBIDDEN
+side effects:           FORBIDDEN
+promotion decision:    NOT_AUTHORIZED
+```
+
+A Shadow Receipt proves only that one recorded case was compared under the recorded dataset digest, fields and limits. It does not approve a candidate or authorize an action.
+
+## ✅ First repository C4 evidence
+
+```text
+Evidence head: 97abce685a68e24aec9afab451c009df5783b96b
+C4 run:       31187532364 — PASS
+P5/C3 run:    31187532391 — PASS
+P4 run:       31187532618 — PASS
+P1 run:       31187532346 — PASS
+Fixtures:     31187532580 — PASS
 ```
 
 Matrix:
@@ -182,17 +224,31 @@ Python 3.12 / PostgreSQL 16 / SQLite 3.45.1 — PASS
 Python 3.12 / PostgreSQL 18 / SQLite 3.45.1 — PASS
 ```
 
-Each environment retains one artifact containing:
+Each retained artifact contains:
 
 ```text
 postgresql-p4-report.json
 sqlite-p5-report.json
 c3-equivalence-report.json
+c4-shadow-report.json
 ```
 
-One archive was downloaded and inspected independently. It contained all three reports, exact SHA/run/version metadata, all 72 results and eight passed cross-profile checks.
+One archive was downloaded and inspected independently:
 
-Exact digests and defect history are recorded in [`docs/ai/P5_IMPLEMENTATION_RECORD.md`](./docs/ai/P5_IMPLEMENTATION_RECORD.md).
+```text
+15 / 15 cases matched
+15 Shadow Receipts
+45 / 45 C3-supported assertions covered
+0 semantic divergences
+0 critical divergences
+0 missing Receipts
+30 declared allowed operational differences
+72 assertion results
+status: PASS
+support_state: PARTIAL
+```
+
+Exact artifact digests, defect history and proof limits are recorded in [`docs/ai/C4_IMPLEMENTATION_RECORD.md`](./docs/ai/C4_IMPLEMENTATION_RECORD.md).
 
 ## 🧬 Canon shape
 
@@ -206,6 +262,8 @@ Exact digests and defect history are recorded in [`docs/ai/P5_IMPLEMENTATION_REC
 🗂️ Rebuildable projections
    ↓
 🧾 Bounded Receipts and evidence reports
+   ↓
+🪞 Non-authoritative shadow observation
 ```
 
 | Component | Meaning |
@@ -217,10 +275,14 @@ Exact digests and defect history are recorded in [`docs/ai/P5_IMPLEMENTATION_REC
 | **Receipt** | Evidence for one declared operation with explicit limits |
 | **Evidence report** | Assertion-by-assertion profile support and traceability |
 | **Equivalence report** | Assertion-by-assertion comparison across declared profiles |
+| **Shadow report** | Comparison of approved recorded observations without authority |
+| **Shadow Receipt** | Bounded proof that one declared case was observed and compared |
 
 ## 🚫 Explicitly absent
 
 ```text
+live production traffic capture or replay
+authority promotion / candidate approval / automatic action
 exhaustive equivalence proof
 PostgreSQL/SQLite operational equivalence
 complete conflict subsystem
@@ -229,18 +291,20 @@ restore-before-visibility enforcement
 cross-project authority adapter
 truth/signature/notarization certification
 network API
-C4/C5
-production security/privacy/backup/HA/compliance guarantees
+C5 security/privacy/incident evidence
+production security/backup/HA/compliance guarantees
 ```
 
 ## 🧭 Read next
 
 - [`STATUS.md`](./STATUS.md)
-- [`ADR-0019`](./docs/adr/0019-authorize-p5-sqlite-and-c3-equivalence.md)
-- [`P5 implementation record`](./docs/ai/P5_IMPLEMENTATION_RECORD.md)
+- [`ADR-0020`](./docs/adr/0020-authorize-c4-offline-shadow-evaluation.md)
+- [`C4 implementation record`](./docs/ai/C4_IMPLEMENTATION_RECORD.md)
+- [`C4 implementation details`](./docs/implementation/c4-offline-shadow-evaluation.md)
+- [`C4 manifest`](./profiles/shadow-evaluation-v0/c4-manifest.json)
+- [`Approved shadow workload`](./contracts/shadow-workload-v1.json)
 - [`Conformance model`](./docs/CONFORMANCE_MODEL.md)
-- [`Storage and execution profiles`](./docs/STORAGE_AND_EXECUTION_PROFILES.md)
-- [`P5 manifest`](./profiles/sqlite-embedded-v0/p5-manifest.json)
+- [`P5 implementation record`](./docs/ai/P5_IMPLEMENTATION_RECORD.md)
 
 ## ⚖️ Evidence and truth boundary
 
@@ -250,7 +314,8 @@ integrity commitment ≠ signature
 operator approval ≠ empirical evidence
 retrieval relevance ≠ truth
 C2 reproduction ≠ C3 comparison
-C3 comparison ≠ operational equivalence
+C3 comparison ≠ C4 offline observation
+C4 observation ≠ authority promotion
 Receipt/report ≠ unlimited proof
 ```
 
@@ -260,11 +325,13 @@ Native Kernel does not automatically become the memory runtime or authority of o
 
 - **Titan** owns cognition, retrieval, tools and orchestration;
 - **Mentaury Soul** owns digital individuality and continuity;
-- **Crystal** owns verifiable-memory, evidence and grant-facing product boundaries;
-- **Native Kernel** owns neutral semantic memory/Event/evidence contracts and bounded profiles.
+- **Crystal** owns verifiable-memory, evidence and product boundaries;
+- **Native Kernel** owns neutral semantic memory/Event/evidence contracts and bounded profiles/evidence protocols.
 
 Integration requires separate contracts, authority and evidence.
 
 ## 🧭 Next gate
 
-The current task is to finish documentation synchronization, repeat P5/C3 on one final exact PR head, inspect the final artifacts and merge PR #59. Any C4, C5, production, deletion-execution or ecosystem-integration work requires a separate explicit authorization.
+The current publication gate is to repeat C4 and all prerequisite checks on one exact final PR #62 head, inspect final artifacts, review and merge, then reproduce evidence on `main` and synchronize Notion.
+
+C5, live shadowing, production, deletion execution and ecosystem integration require separate explicit authorization.

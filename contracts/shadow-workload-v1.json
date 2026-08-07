@@ -1,0 +1,902 @@
+{
+  "approval": {
+    "decision_record": "ADR-0020",
+    "issue": 61,
+    "operator_go_date": "2026-08-07",
+    "scope": "OFFLINE_RECORDED_WORKLOAD_ONLY",
+    "state": "APPROVED"
+  },
+  "authority_policy": {
+    "authoritative_writes": "FORBIDDEN",
+    "authority_promotion": "FORBIDDEN",
+    "mode": "SHADOW_ONLY",
+    "promotion_decision": "NOT_AUTHORIZED",
+    "side_effects": "FORBIDDEN"
+  },
+  "candidate_profile": "native-kernel/sqlite-embedded@0.5-p5",
+  "cases": [
+    {
+      "allowed_difference_fields": [
+        "latency_ms",
+        "storage_profile"
+      ],
+      "assertion_ids": [
+        "NK-ID-001",
+        "NK-ID-002",
+        "NK-ID-003",
+        "NK-ID-004",
+        "NK-ID-005",
+        "NK-ID-008",
+        "NK-ID-009",
+        "NK-ID-010",
+        "NK-ID-011",
+        "NK-ID-012"
+      ],
+      "candidate_observation": {
+        "integrity": {
+          "canonical": true,
+          "digest_bound": true
+        },
+        "latency_ms": 1.322,
+        "outcome": "ACCEPTED",
+        "proof_boundary": {
+          "authority_promoted": false,
+          "side_effects_executed": false
+        },
+        "semantic": {
+          "canonical_encoding": "nk-id/1.0",
+          "identity_digest": "sha256:identity-golden",
+          "source_bound": true
+        },
+        "storage_profile": "sqlite-embedded"
+      },
+      "case_id": "C4-001-identity-canonicalization",
+      "category": "identity-canonicalization",
+      "comparison_fields": [
+        "outcome",
+        "semantic",
+        "integrity",
+        "proof_boundary"
+      ],
+      "critical": true,
+      "equivalence_class": "BYTE",
+      "reference_observation": {
+        "integrity": {
+          "canonical": true,
+          "digest_bound": true
+        },
+        "latency_ms": 1.17,
+        "outcome": "ACCEPTED",
+        "proof_boundary": {
+          "authority_promoted": false,
+          "side_effects_executed": false
+        },
+        "semantic": {
+          "canonical_encoding": "nk-id/1.0",
+          "identity_digest": "sha256:identity-golden",
+          "source_bound": true
+        },
+        "storage_profile": "postgresql-reference"
+      }
+    },
+    {
+      "allowed_difference_fields": [
+        "latency_ms",
+        "storage_profile"
+      ],
+      "assertion_ids": [
+        "NK-AUT-001",
+        "NK-AUT-002",
+        "NK-AUT-003",
+        "NK-AUT-005"
+      ],
+      "candidate_observation": {
+        "integrity": {
+          "canonical": true,
+          "digest_bound": true
+        },
+        "latency_ms": 1.621,
+        "outcome": "REJECTED",
+        "proof_boundary": {
+          "authority_promoted": false,
+          "side_effects_executed": false
+        },
+        "semantic": {
+          "default_policy": "DENY",
+          "error_code": "AUTHORITY_DENIED",
+          "grant_present": false
+        },
+        "storage_profile": "sqlite-embedded"
+      },
+      "case_id": "C4-002-authority-deny-default",
+      "category": "authority-deny-default",
+      "comparison_fields": [
+        "outcome",
+        "semantic",
+        "integrity",
+        "proof_boundary"
+      ],
+      "critical": true,
+      "equivalence_class": "BEHAVIOURAL",
+      "reference_observation": {
+        "integrity": {
+          "canonical": true,
+          "digest_bound": true
+        },
+        "latency_ms": 1.34,
+        "outcome": "REJECTED",
+        "proof_boundary": {
+          "authority_promoted": false,
+          "side_effects_executed": false
+        },
+        "semantic": {
+          "default_policy": "DENY",
+          "error_code": "AUTHORITY_DENIED",
+          "grant_present": false
+        },
+        "storage_profile": "postgresql-reference"
+      }
+    },
+    {
+      "allowed_difference_fields": [
+        "latency_ms",
+        "storage_profile"
+      ],
+      "assertion_ids": [
+        "NK-AUT-007",
+        "NK-AUT-008",
+        "NK-AUT-009",
+        "NK-AUT-012"
+      ],
+      "candidate_observation": {
+        "integrity": {
+          "canonical": true,
+          "digest_bound": true
+        },
+        "latency_ms": 1.948,
+        "outcome": "REJECTED",
+        "proof_boundary": {
+          "authority_promoted": false,
+          "side_effects_executed": false
+        },
+        "semantic": {
+          "current_epoch": 2,
+          "epoch": 1,
+          "error_code": "STALE_WRITER_EPOCH",
+          "owner": "shadow-owner-b"
+        },
+        "storage_profile": "sqlite-embedded"
+      },
+      "case_id": "C4-003-writer-fencing",
+      "category": "writer-fencing",
+      "comparison_fields": [
+        "outcome",
+        "semantic",
+        "integrity",
+        "proof_boundary"
+      ],
+      "critical": true,
+      "equivalence_class": "BEHAVIOURAL",
+      "reference_observation": {
+        "integrity": {
+          "canonical": true,
+          "digest_bound": true
+        },
+        "latency_ms": 1.51,
+        "outcome": "REJECTED",
+        "proof_boundary": {
+          "authority_promoted": false,
+          "side_effects_executed": false
+        },
+        "semantic": {
+          "current_epoch": 2,
+          "epoch": 1,
+          "error_code": "STALE_WRITER_EPOCH",
+          "owner": "shadow-owner-b"
+        },
+        "storage_profile": "postgresql-reference"
+      }
+    },
+    {
+      "allowed_difference_fields": [
+        "latency_ms",
+        "storage_profile"
+      ],
+      "assertion_ids": [
+        "NK-EVT-003",
+        "NK-EVT-004",
+        "NK-EVT-006",
+        "NK-EVT-007"
+      ],
+      "candidate_observation": {
+        "integrity": {
+          "canonical": true,
+          "digest_bound": true
+        },
+        "latency_ms": 1.764,
+        "outcome": "ACCEPTED",
+        "proof_boundary": {
+          "authority_promoted": false,
+          "side_effects_executed": false
+        },
+        "semantic": {
+          "event_count": 1,
+          "first_result": "APPENDED",
+          "global_sequence": 1,
+          "retry_result": "RETURN_ORIGINAL_APPEND_RESULT"
+        },
+        "storage_profile": "sqlite-embedded"
+      },
+      "case_id": "C4-004-idempotent-append",
+      "category": "idempotent-append",
+      "comparison_fields": [
+        "outcome",
+        "semantic",
+        "integrity",
+        "proof_boundary"
+      ],
+      "critical": true,
+      "equivalence_class": "BEHAVIOURAL",
+      "reference_observation": {
+        "integrity": {
+          "canonical": true,
+          "digest_bound": true
+        },
+        "latency_ms": 1.68,
+        "outcome": "ACCEPTED",
+        "proof_boundary": {
+          "authority_promoted": false,
+          "side_effects_executed": false
+        },
+        "semantic": {
+          "event_count": 1,
+          "first_result": "APPENDED",
+          "global_sequence": 1,
+          "retry_result": "RETURN_ORIGINAL_APPEND_RESULT"
+        },
+        "storage_profile": "postgresql-reference"
+      }
+    },
+    {
+      "allowed_difference_fields": [
+        "latency_ms",
+        "storage_profile"
+      ],
+      "assertion_ids": [
+        "NK-EVT-008",
+        "NK-EVT-011",
+        "NK-EVT-012"
+      ],
+      "candidate_observation": {
+        "integrity": {
+          "canonical": true,
+          "digest_bound": true
+        },
+        "latency_ms": 2.091,
+        "outcome": "ACCEPTED",
+        "proof_boundary": {
+          "authority_promoted": false,
+          "side_effects_executed": false
+        },
+        "semantic": {
+          "failed_attempt_committed": false,
+          "next_global_sequence": 1,
+          "stream_sequence": 1
+        },
+        "storage_profile": "sqlite-embedded"
+      },
+      "case_id": "C4-005-rollback-safe-ordering",
+      "category": "rollback-safe-ordering",
+      "comparison_fields": [
+        "outcome",
+        "semantic",
+        "integrity",
+        "proof_boundary"
+      ],
+      "critical": true,
+      "equivalence_class": "BEHAVIOURAL",
+      "reference_observation": {
+        "integrity": {
+          "canonical": true,
+          "digest_bound": true
+        },
+        "latency_ms": 1.85,
+        "outcome": "ACCEPTED",
+        "proof_boundary": {
+          "authority_promoted": false,
+          "side_effects_executed": false
+        },
+        "semantic": {
+          "failed_attempt_committed": false,
+          "next_global_sequence": 1,
+          "stream_sequence": 1
+        },
+        "storage_profile": "postgresql-reference"
+      }
+    },
+    {
+      "allowed_difference_fields": [
+        "latency_ms",
+        "storage_profile"
+      ],
+      "assertion_ids": [
+        "NK-EVT-013",
+        "NK-EVT-014"
+      ],
+      "candidate_observation": {
+        "integrity": {
+          "canonical": true,
+          "digest_bound": true
+        },
+        "latency_ms": 2.444,
+        "outcome": "ACCEPTED",
+        "proof_boundary": {
+          "authority_promoted": false,
+          "side_effects_executed": false
+        },
+        "semantic": {
+          "chain_length": 2,
+          "event_hash_valid": true,
+          "payload_hash_valid": true,
+          "previous_hash": "GENESIS"
+        },
+        "storage_profile": "sqlite-embedded"
+      },
+      "case_id": "C4-006-event-integrity",
+      "category": "event-integrity",
+      "comparison_fields": [
+        "outcome",
+        "semantic",
+        "integrity",
+        "proof_boundary"
+      ],
+      "critical": true,
+      "equivalence_class": "BYTE",
+      "reference_observation": {
+        "integrity": {
+          "canonical": true,
+          "digest_bound": true
+        },
+        "latency_ms": 2.02,
+        "outcome": "ACCEPTED",
+        "proof_boundary": {
+          "authority_promoted": false,
+          "side_effects_executed": false
+        },
+        "semantic": {
+          "chain_length": 2,
+          "event_hash_valid": true,
+          "payload_hash_valid": true,
+          "previous_hash": "GENESIS"
+        },
+        "storage_profile": "postgresql-reference"
+      }
+    },
+    {
+      "allowed_difference_fields": [
+        "latency_ms",
+        "storage_profile"
+      ],
+      "assertion_ids": [
+        "NK-SEM-001",
+        "NK-SEM-003",
+        "NK-SEM-004"
+      ],
+      "candidate_observation": {
+        "integrity": {
+          "canonical": true,
+          "digest_bound": true
+        },
+        "latency_ms": 2.825,
+        "outcome": "ACCEPTED",
+        "proof_boundary": {
+          "authority_promoted": false,
+          "side_effects_executed": false
+        },
+        "semantic": {
+          "direct_state_digest": "sha256:state-a",
+          "reducer_version": "claims/1",
+          "replay_state_digest": "sha256:state-a"
+        },
+        "storage_profile": "sqlite-embedded"
+      },
+      "case_id": "C4-007-replay-determinism",
+      "category": "replay-determinism",
+      "comparison_fields": [
+        "outcome",
+        "semantic",
+        "integrity",
+        "proof_boundary"
+      ],
+      "critical": true,
+      "equivalence_class": "SEMANTIC",
+      "reference_observation": {
+        "integrity": {
+          "canonical": true,
+          "digest_bound": true
+        },
+        "latency_ms": 2.19,
+        "outcome": "ACCEPTED",
+        "proof_boundary": {
+          "authority_promoted": false,
+          "side_effects_executed": false
+        },
+        "semantic": {
+          "direct_state_digest": "sha256:state-a",
+          "reducer_version": "claims/1",
+          "replay_state_digest": "sha256:state-a"
+        },
+        "storage_profile": "postgresql-reference"
+      }
+    },
+    {
+      "allowed_difference_fields": [
+        "latency_ms",
+        "storage_profile"
+      ],
+      "assertion_ids": [
+        "NK-SEM-005",
+        "NK-SEM-006",
+        "NK-SEM-007"
+      ],
+      "candidate_observation": {
+        "integrity": {
+          "canonical": true,
+          "digest_bound": true
+        },
+        "latency_ms": 2.478,
+        "outcome": "ACCEPTED",
+        "proof_boundary": {
+          "authority_promoted": false,
+          "side_effects_executed": false
+        },
+        "semantic": {
+          "generation": 2,
+          "history_head": 3,
+          "projection_digest": "sha256:projection-a",
+          "stale_head_rejected": true
+        },
+        "storage_profile": "sqlite-embedded"
+      },
+      "case_id": "C4-008-projection-rebuild",
+      "category": "projection-rebuild",
+      "comparison_fields": [
+        "outcome",
+        "semantic",
+        "integrity",
+        "proof_boundary"
+      ],
+      "critical": true,
+      "equivalence_class": "SEMANTIC",
+      "reference_observation": {
+        "integrity": {
+          "canonical": true,
+          "digest_bound": true
+        },
+        "latency_ms": 2.36,
+        "outcome": "ACCEPTED",
+        "proof_boundary": {
+          "authority_promoted": false,
+          "side_effects_executed": false
+        },
+        "semantic": {
+          "generation": 2,
+          "history_head": 3,
+          "projection_digest": "sha256:projection-a",
+          "stale_head_rejected": true
+        },
+        "storage_profile": "postgresql-reference"
+      }
+    },
+    {
+      "allowed_difference_fields": [
+        "latency_ms",
+        "storage_profile"
+      ],
+      "assertion_ids": [
+        "NK-SEM-008",
+        "NK-CFL-006"
+      ],
+      "candidate_observation": {
+        "integrity": {
+          "canonical": true,
+          "digest_bound": true
+        },
+        "latency_ms": 2.859,
+        "outcome": "ACCEPTED",
+        "proof_boundary": {
+          "authority_promoted": false,
+          "side_effects_executed": false
+        },
+        "semantic": {
+          "claim_identity": "claim:source-a:subject-a:predicate-a",
+          "conflict_explicit": true,
+          "unknown_preserved": true
+        },
+        "storage_profile": "sqlite-embedded"
+      },
+      "case_id": "C4-009-source-bound-conflict",
+      "category": "source-bound-conflict",
+      "comparison_fields": [
+        "outcome",
+        "semantic",
+        "integrity",
+        "proof_boundary"
+      ],
+      "critical": true,
+      "equivalence_class": "SEMANTIC",
+      "reference_observation": {
+        "integrity": {
+          "canonical": true,
+          "digest_bound": true
+        },
+        "latency_ms": 2.53,
+        "outcome": "ACCEPTED",
+        "proof_boundary": {
+          "authority_promoted": false,
+          "side_effects_executed": false
+        },
+        "semantic": {
+          "claim_identity": "claim:source-a:subject-a:predicate-a",
+          "conflict_explicit": true,
+          "unknown_preserved": true
+        },
+        "storage_profile": "postgresql-reference"
+      }
+    },
+    {
+      "allowed_difference_fields": [
+        "latency_ms",
+        "storage_profile"
+      ],
+      "assertion_ids": [
+        "NK-EQV-001",
+        "NK-EQV-002",
+        "NK-EQV-003"
+      ],
+      "candidate_observation": {
+        "integrity": {
+          "canonical": true,
+          "digest_bound": true
+        },
+        "latency_ms": 3.267,
+        "outcome": "ACCEPTED",
+        "proof_boundary": {
+          "authority_promoted": false,
+          "side_effects_executed": false
+        },
+        "semantic": {
+          "assertion_count": 72,
+          "partial_count": 10,
+          "supported_count": 45,
+          "unsupported_count": 17
+        },
+        "storage_profile": "sqlite-embedded"
+      },
+      "case_id": "C4-010-conformance-shape",
+      "category": "conformance-shape",
+      "comparison_fields": [
+        "outcome",
+        "semantic",
+        "integrity",
+        "proof_boundary"
+      ],
+      "critical": true,
+      "equivalence_class": "STRUCTURAL",
+      "reference_observation": {
+        "integrity": {
+          "canonical": true,
+          "digest_bound": true
+        },
+        "latency_ms": 2.7,
+        "outcome": "ACCEPTED",
+        "proof_boundary": {
+          "authority_promoted": false,
+          "side_effects_executed": false
+        },
+        "semantic": {
+          "assertion_count": 72,
+          "partial_count": 10,
+          "supported_count": 45,
+          "unsupported_count": 17
+        },
+        "storage_profile": "postgresql-reference"
+      }
+    },
+    {
+      "allowed_difference_fields": [
+        "latency_ms",
+        "storage_profile"
+      ],
+      "assertion_ids": [
+        "NK-EQV-004",
+        "NK-EQV-005"
+      ],
+      "candidate_observation": {
+        "integrity": {
+          "canonical": true,
+          "digest_bound": true
+        },
+        "latency_ms": 3.702,
+        "outcome": "REJECTED",
+        "proof_boundary": {
+          "authority_promoted": false,
+          "side_effects_executed": false
+        },
+        "semantic": {
+          "corruption": "REJECTED",
+          "idempotency_conflict": "REJECTED",
+          "stale_head": "REJECTED"
+        },
+        "storage_profile": "sqlite-embedded"
+      },
+      "case_id": "C4-011-failure-semantics",
+      "category": "failure-semantics",
+      "comparison_fields": [
+        "outcome",
+        "semantic",
+        "integrity",
+        "proof_boundary"
+      ],
+      "critical": true,
+      "equivalence_class": "BEHAVIOURAL",
+      "reference_observation": {
+        "integrity": {
+          "canonical": true,
+          "digest_bound": true
+        },
+        "latency_ms": 2.87,
+        "outcome": "REJECTED",
+        "proof_boundary": {
+          "authority_promoted": false,
+          "side_effects_executed": false
+        },
+        "semantic": {
+          "corruption": "REJECTED",
+          "idempotency_conflict": "REJECTED",
+          "stale_head": "REJECTED"
+        },
+        "storage_profile": "postgresql-reference"
+      }
+    },
+    {
+      "allowed_difference_fields": [
+        "latency_ms",
+        "storage_profile"
+      ],
+      "assertion_ids": [
+        "NK-EQV-006",
+        "NK-EQV-007"
+      ],
+      "candidate_observation": {
+        "integrity": {
+          "canonical": true,
+          "digest_bound": true
+        },
+        "latency_ms": 3.192,
+        "outcome": "ACCEPTED",
+        "proof_boundary": {
+          "authority_promoted": false,
+          "side_effects_executed": false
+        },
+        "semantic": {
+          "projection_digest": "sha256:projection-a",
+          "receipt_digest": "sha256:receipt-a",
+          "reducer_digest": "sha256:state-a"
+        },
+        "storage_profile": "sqlite-embedded"
+      },
+      "case_id": "C4-012-state-equivalence",
+      "category": "state-equivalence",
+      "comparison_fields": [
+        "outcome",
+        "semantic",
+        "integrity",
+        "proof_boundary"
+      ],
+      "critical": true,
+      "equivalence_class": "SEMANTIC",
+      "reference_observation": {
+        "integrity": {
+          "canonical": true,
+          "digest_bound": true
+        },
+        "latency_ms": 3.04,
+        "outcome": "ACCEPTED",
+        "proof_boundary": {
+          "authority_promoted": false,
+          "side_effects_executed": false
+        },
+        "semantic": {
+          "projection_digest": "sha256:projection-a",
+          "receipt_digest": "sha256:receipt-a",
+          "reducer_digest": "sha256:state-a"
+        },
+        "storage_profile": "postgresql-reference"
+      }
+    },
+    {
+      "allowed_difference_fields": [
+        "latency_ms",
+        "storage_profile"
+      ],
+      "assertion_ids": [
+        "NK-EQV-008"
+      ],
+      "candidate_observation": {
+        "integrity": {
+          "canonical": true,
+          "digest_bound": true
+        },
+        "latency_ms": 3.627,
+        "outcome": "ACCEPTED",
+        "proof_boundary": {
+          "authority_promoted": false,
+          "side_effects_executed": false
+        },
+        "semantic": {
+          "proves_execution": true,
+          "proves_external_authenticity": false,
+          "proves_physical_deletion": false,
+          "proves_truth": false
+        },
+        "storage_profile": "sqlite-embedded"
+      },
+      "case_id": "C4-013-receipt-proof-boundary",
+      "category": "receipt-proof-boundary",
+      "comparison_fields": [
+        "outcome",
+        "semantic",
+        "integrity",
+        "proof_boundary"
+      ],
+      "critical": true,
+      "equivalence_class": "STRUCTURAL",
+      "reference_observation": {
+        "integrity": {
+          "canonical": true,
+          "digest_bound": true
+        },
+        "latency_ms": 3.21,
+        "outcome": "ACCEPTED",
+        "proof_boundary": {
+          "authority_promoted": false,
+          "side_effects_executed": false
+        },
+        "semantic": {
+          "proves_execution": true,
+          "proves_external_authenticity": false,
+          "proves_physical_deletion": false,
+          "proves_truth": false
+        },
+        "storage_profile": "postgresql-reference"
+      }
+    },
+    {
+      "allowed_difference_fields": [
+        "latency_ms",
+        "storage_profile"
+      ],
+      "assertion_ids": [
+        "NK-EQV-009"
+      ],
+      "candidate_observation": {
+        "integrity": {
+          "canonical": true,
+          "digest_bound": true
+        },
+        "latency_ms": 4.09,
+        "outcome": "ACCEPTED",
+        "proof_boundary": {
+          "authority_promoted": false,
+          "side_effects_executed": false
+        },
+        "semantic": {
+          "chain_digest": "sha256:chain-a",
+          "event_bytes_digest": "sha256:event-bytes-a",
+          "event_count": 3
+        },
+        "storage_profile": "sqlite-embedded"
+      },
+      "case_id": "C4-014-exact-history-import",
+      "category": "exact-history-import",
+      "comparison_fields": [
+        "outcome",
+        "semantic",
+        "integrity",
+        "proof_boundary"
+      ],
+      "critical": true,
+      "equivalence_class": "BYTE",
+      "reference_observation": {
+        "integrity": {
+          "canonical": true,
+          "digest_bound": true
+        },
+        "latency_ms": 3.38,
+        "outcome": "ACCEPTED",
+        "proof_boundary": {
+          "authority_promoted": false,
+          "side_effects_executed": false
+        },
+        "semantic": {
+          "chain_digest": "sha256:chain-a",
+          "event_bytes_digest": "sha256:event-bytes-a",
+          "event_count": 3
+        },
+        "storage_profile": "postgresql-reference"
+      }
+    },
+    {
+      "allowed_difference_fields": [
+        "latency_ms",
+        "storage_profile"
+      ],
+      "assertion_ids": [
+        "NK-EQV-010"
+      ],
+      "candidate_observation": {
+        "integrity": {
+          "canonical": true,
+          "digest_bound": true
+        },
+        "latency_ms": 4.579,
+        "outcome": "ACCEPTED",
+        "proof_boundary": {
+          "authority_promoted": false,
+          "side_effects_executed": false
+        },
+        "semantic": {
+          "all_assertions_visible": true,
+          "checks_traceable": true,
+          "limitations_present": true
+        },
+        "storage_profile": "sqlite-embedded"
+      },
+      "case_id": "C4-015-report-traceability",
+      "category": "report-traceability",
+      "comparison_fields": [
+        "outcome",
+        "semantic",
+        "integrity",
+        "proof_boundary"
+      ],
+      "critical": true,
+      "equivalence_class": "STRUCTURAL",
+      "reference_observation": {
+        "integrity": {
+          "canonical": true,
+          "digest_bound": true
+        },
+        "latency_ms": 3.55,
+        "outcome": "ACCEPTED",
+        "proof_boundary": {
+          "authority_promoted": false,
+          "side_effects_executed": false
+        },
+        "semantic": {
+          "all_assertions_visible": true,
+          "checks_traceable": true,
+          "limitations_present": true
+        },
+        "storage_profile": "postgresql-reference"
+      }
+    }
+  ],
+  "dataset_id": "native-kernel/c4-offline-shadow-v1",
+  "dataset_version": "nk-shadow-workload/1",
+  "limitations": [
+    "Recorded observations are approved synthetic repository workloads, not captured production traffic.",
+    "C4 does not authorize authority promotion, automatic actions, live traffic shadowing or C5.",
+    "Operational latency and storage topology differences are informative only within declared thresholds."
+  ],
+  "prerequisite_conformance": "C3",
+  "reference_profile": "native-kernel/postgresql-reference@0.4-p4",
+  "thresholds": {
+    "c3_supported_coverage_min": 1.0,
+    "critical_divergences_max": 0,
+    "latency_ratio_max": 2.0,
+    "missing_receipts_max": 0,
+    "semantic_divergence_rate_max": 0.0
+  }
+}

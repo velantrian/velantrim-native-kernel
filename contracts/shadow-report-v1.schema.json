@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://velantrim.org/contracts/nk-shadow-report/1",
+  "title": "Native Kernel Offline Shadow Report v1",
+  "type": "object",
+  "required": [
+    "report_version",
+    "receipt_version",
+    "evaluation_id",
+    "dataset",
+    "prerequisite",
+    "kernel_runtime_conformance",
+    "support_state",
+    "shadow_mode",
+    "authority_policy",
+    "promotion_decision",
+    "metrics",
+    "gates",
+    "case_results",
+    "receipts",
+    "assertion_results",
+    "status",
+    "limitations"
+  ],
+  "properties": {
+    "report_version": {"const": "nk-shadow-report/1"},
+    "receipt_version": {"const": "nk-shadow-receipt/1"},
+    "kernel_runtime_conformance": {"enum": ["C4", "C4_FAILED"]},
+    "support_state": {"const": "PARTIAL"},
+    "shadow_mode": {"const": "OFFLINE_RECORDED_WORKLOAD"},
+    "promotion_decision": {"const": "NOT_AUTHORIZED"},
+    "status": {"enum": ["PASS", "FAIL"]},
+    "case_results": {"type": "array", "minItems": 1},
+    "receipts": {"type": "array", "minItems": 1},
+    "assertion_results": {"type": "array", "minItems": 72, "maxItems": 72},
+    "limitations": {"type": "array", "minItems": 4}
+  },
+  "additionalProperties": true
+}
