@@ -1,0 +1,86 @@
+name: Apply C5 evidence state reconciliation
+
+on:
+  push:
+    branches:
+      - agent/c5-evidence-state-reconciliation
+    paths:
+      - ".github/workflows/apply-c5-evidence-state-reconciliation.yml"
+
+permissions:
+  actions: read
+  contents: write
+
+jobs:
+  apply:
+    name: Apply validated reconciliation package
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+
+    steps:
+      - name: Check out exact branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+
+      - name: Verify and apply text package
+        run: |
+          set -euo pipefail
+          base64 --decode .github/state-reconciliation-patch.tar.gz.b64 > /tmp/state-reconciliation-patch.tar.gz
+          echo "acb9cf7bb270a1029dbb5a912cf3fb0c8eb2f6bf3cae12b6b0bed16a1f207912  /tmp/state-reconciliation-patch.tar.gz" | sha256sum --check -
+          if tar -tzf /tmp/state-reconciliation-patch.tar.gz | grep -E '(^/|(^|/)\.\.(/|$))'; then
+            echo "unsafe path in reconciliation package" >&2
+            exit 1
+          fi
+          tar -xzf /tmp/state-reconciliation-patch.tar.gz -C .
+
+      - name: Download and verify exact C5 artifact bytes
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          while IFS='|' read -r artifact_id expected_sha path; do
+            mkdir -p "$(dirname "$path")"
+            gh api "repos/${GITHUB_REPOSITORY}/actions/artifacts/${artifact_id}/zip" > "$path"
+            actual_sha="$(sha256sum "$path" | awk '{print $1}')"
+            test "$actual_sha" = "$expected_sha" || {
+              echo "digest mismatch for artifact $artifact_id: $actual_sha != $expected_sha" >&2
+              exit 1
+            }
+          done <<'ARTIFACTS'
+          9004293780|25e019cf8428d4697bf3f1f777a3fa8ff0f5e2aac6053e006e2549ecff55f0c0|evidence/c5/2026-08-07/original/implementation-main-296981ae/c5-operational-evidence-py3.11-pg16.zip
+          9004296817|e7a717ff3e7671c82a4544d68d9d16303fccf1fe52fb713d9ad9b286e4e570dd|evidence/c5/2026-08-07/original/implementation-main-296981ae/c5-operational-evidence-py3.11-pg18.zip
+          9004294906|006c56d8cbe8e75b18a28695ca82228b9c55b5d3eab5b31079c1dcfb5b46c331|evidence/c5/2026-08-07/original/implementation-main-296981ae/c5-operational-evidence-py3.12-pg16.zip
+          9004296620|029d2df8d1b32631d6b8a5939b661df0e1a1d2272218766e8371b8c84adb0d82|evidence/c5/2026-08-07/original/implementation-main-296981ae/c5-operational-evidence-py3.12-pg18.zip
+          9004547540|7a17248c3cbd612df93b85956299160a99c5e4ca4b97d27da492958731a6b8a5|evidence/c5/2026-08-07/original/final-main-3d569122/c5-operational-evidence-py3.11-pg16.zip
+          9004544361|b285a118c562f58df0bbe1411f1ef3cec9c9767c68f8ce3b9cee2054b4bc407a|evidence/c5/2026-08-07/original/final-main-3d569122/c5-operational-evidence-py3.11-pg18.zip
+          9004552822|714e18a6b0974ebbfc708b6ae4de129ca1d4c8666337ac3a53e99e10d86f2e92|evidence/c5/2026-08-07/original/final-main-3d569122/c5-operational-evidence-py3.12-pg16.zip
+          9004549886|4a68f36a17e958c1def3923d3181ebcd974e8a3adba94fb4892ec02505720f4c|evidence/c5/2026-08-07/original/final-main-3d569122/c5-operational-evidence-py3.12-pg18.zip
+          ARTIFACTS
+
+      - name: Run fail-closed validation
+        run: |
+          set -euo pipefail
+          python -m compileall -q tools/ai_context tools/evidence tools/profiles tests
+          python tools/evidence/verify_bundle.py evidence/c5/2026-08-07/manifest.json
+          python tools/ai_context/validate_project_state.py --repo .
+          python tools/profiles/validate_c5_manifest.py
+          python -m unittest discover -s tests -p 'test_evidence_bundle.py' -v
+          python -m unittest discover -s tests -p 'test_project_state.py' -v
+          python -m unittest discover -s tests -p 'test_c5_manifest.py' -v
+          python -m unittest discover -s tests -p 'test_ai_context_validator.py' -v
+          python tools/ai_context/validate_context.py --repo .
+
+      - name: Commit final repository state
+        run: |
+          set -euo pipefail
+          rm -f .github/state-reconciliation-patch.tar.gz.b64
+          rm -f .github/workflows/apply-c5-evidence-state-reconciliation.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --check
+          git commit -m "docs(evidence): preserve C5 bytes and reconcile project state"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
