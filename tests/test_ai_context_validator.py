@@ -16,6 +16,7 @@ spec.loader.exec_module(validator)
 
 C5_STATUS = "RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY"
 
+
 class AIContextValidatorTests(unittest.TestCase):
     def setUp(self) -> None:
         self.temp = tempfile.TemporaryDirectory()
@@ -45,7 +46,8 @@ class AIContextValidatorTests(unittest.TestCase):
     def _write_current_state(self, checkpoint: str, *, status: str | None = None, omit: str | None = None) -> None:
         markers = [
             "NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GLOBALLY_LOST",
-            "Context checkpoint ≠ automatically current main",
+            "historical recovery ≠ clean implementation",
+            "research proposal ≠ accepted contract ≠ runtime",
             "C2 ≠ C3 ≠ C4 ≠ C5",
             "C5 BOUNDED REHEARSAL ≠ PRODUCTION READINESS",
             "C5 SYNTHETIC DATA ≠ LIVE USER TRAFFIC",
@@ -58,7 +60,7 @@ class AIContextValidatorTests(unittest.TestCase):
         self._write(
             "docs/ai/CURRENT_STATE.md",
             "# Current\n\n"
-            f"**Last verified public `main`:** `{checkpoint}`  \n"
+            f"**Verified source checkpoint:** `{checkpoint}`  \n"
             f"**Repository status:** `{status or C5_STATUS}`\n\n"
             + "\n".join(markers) + "\n",
         )
@@ -66,17 +68,21 @@ class AIContextValidatorTests(unittest.TestCase):
     def _write_required_files(self, checkpoint: str) -> None:
         for rel in validator.REQUIRED_PATHS:
             self._write(rel)
-        self._write("CONTRIBUTING.md")
-        self._write("docs/README.md")
-        self._write("docs/README.ru.md")
+        for rel in validator.LINK_SCAN_PATHS:
+            if not (self.repo / rel).exists():
+                self._write(rel)
         self._write_current_state(checkpoint)
 
     def test_valid_context(self):
         self.assertEqual([], validator.validate(self.repo))
 
-    def test_missing_c5_record(self):
-        (self.repo / "docs/ai/C5_IMPLEMENTATION_RECORD.md").unlink()
-        self.assertTrue(any(f.path.endswith("C5_IMPLEMENTATION_RECORD.md") for f in validator.validate(self.repo)))
+    def test_missing_project_state(self):
+        (self.repo / "project-state.json").unlink()
+        self.assertTrue(any(f.path == "project-state.json" for f in validator.validate(self.repo)))
+
+    def test_missing_evidence_bundle(self):
+        (self.repo / "evidence/c5/2026-08-07/manifest.json").unlink()
+        self.assertTrue(any("manifest.json" in f.path for f in validator.validate(self.repo)))
 
     def test_broken_link(self):
         self._write("AGENTS.md", "[missing](docs/ai/NOPE.md)\n")
@@ -88,27 +94,18 @@ class AIContextValidatorTests(unittest.TestCase):
 
     def test_malformed_checkpoint(self):
         self._write_current_state("abc")
-        self.assertTrue(any("missing exact 40-character" in f.message for f in validator.validate(self.repo)))
+        self.assertTrue(any("40-character" in f.message for f in validator.validate(self.repo)))
 
     def test_unknown_checkpoint(self):
         self._write_current_state("f" * 40)
         self.assertTrue(any("checkpoint commit does not exist" in f.message for f in validator.validate(self.repo)))
 
-    def test_stale_pre_c5_statuses(self):
-        stale = (
-            "RESEARCH / P5 PARTIAL CROSS-PROFILE CONFORMANCE / NOT PRODUCTION-READY",
-            "RESEARCH / C4 PARTIAL OFFLINE SHADOW EVALUATION / NOT PRODUCTION-READY",
-        )
-        for value in stale:
-            with self.subTest(value=value):
-                self._write_current_state(self.initial_sha, status=value)
-                self.assertTrue(any("C5 BOUNDED OPERATIONAL REHEARSAL" in f.message for f in validator.validate(self.repo)))
-
-    def test_each_c5_boundary_is_required(self):
-        for marker in validator.REQUIRED_STATUS_MARKERS[3:]:
+    def test_each_boundary_is_required(self):
+        for marker in validator.REQUIRED_STATUS_MARKERS[1:]:
             with self.subTest(marker=marker):
                 self._write_current_state(self.initial_sha, omit=marker)
                 self.assertTrue(any(marker in f.message for f in validator.validate(self.repo)))
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -1,10 +1,10 @@
 # ⚠️ Native Kernel Known Risks and Required Proof
 
-**Snapshot:** 2026-08-07  
-**Last verified public `main`:** `d1dd4986a8496cd9ca3e353d33ca422038c65d40`  
-**Latest candidate:** C5 bounded synthetic operational rehearsal / PR #65
+**Snapshot:** 2026-08-07
+**Verified source checkpoint:** `3d56912260ea41b5b501b65477bff1642dfc2d58`
+**Repository status:** `RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY`
 
-C5 closes none of the production, live-data, compliance, physical-deletion, provider-IAM, multi-region, source-recovery or ecosystem-authority risks.
+C5 closes none of the production, live-data, compliance, physical-deletion, provider-IAM, multi-region, historical-recovery or ecosystem-authority risks.
 
 ## P0 — Bounded rehearsal may be mistaken for production readiness
 
@@ -23,35 +23,12 @@ ephemeral CI + synthetic data + 18 scenarios
 kernel_runtime_conformance: C4
 operational_validation: C5_BOUNDED_REHEARSAL
 assertion map: 45 / 10 / 17 / 0
+NK-EPI: 0 / 8 SUPPORTED
 ```
 
-**State:** `OPEN`, machine-guarded. Operational evidence does not turn partial or unsupported semantic assertions into supported ones.
+Operational evidence does not turn partial or unsupported assertions into supported ones.
 
-## P0 — Synthetic privacy checks may be mistaken for privacy compliance
-
-Two canaries were redacted and absent from inspected artifacts. This does not prove handling of real personal data, data subject rights, jurisdictional compliance, retention, breach response, or provider logs.
-
-## P0 — Application-level logical export may be mistaken for disaster recovery
-
-The backup contains exact synthetic Event bytes for one instance and supports quarantined import/replay. It is not a physical PostgreSQL backup, WAL restore, managed-provider snapshot, point-in-time recovery, cross-region restore, or restore-under-load proof.
-
-## P0 — Application fencing may be mistaken for cloud IAM/security certification
-
-Authority denial and stale-writer fencing passed. Cloud IAM, secret rotation, network policy, tenant isolation, host hardening, supply-chain security, vulnerability response and penetration testing remain unproven.
-
-## P0 — Incident script may be mistaken for operational incident readiness
-
-The timeline records `DETECTED → CONTAINED → EVIDENCE_CAPTURED → RECOVERY_VALIDATED`. It does not prove human on-call response, escalation, communications, forensics, legal obligations, or recovery under a real outage.
-
-## P0 — Physical deletion remains absent
-
-No physical or cryptographic deletion is executed across databases, backups, logs, artifacts, providers or keys. All Receipts explicitly deny this proof.
-
-## P0 — Operational equivalence remains absent
-
-PostgreSQL and SQLite pass the same bounded scenarios, but concurrency, durability, replication, failover, administration, filesystem and managed-provider behaviour remain different.
-
-## P0 — Source recovery remains unresolved
+## P0 — Historical and clean lineages may be collapsed
 
 ```text
 clean P1–P5 + C4 + C5
@@ -59,28 +36,56 @@ clean P1–P5 + C4 + C5
 ≠ original 44-test evidence
 ```
 
-Issue #1 remains independent. `NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GLOBALLY_LOST`.
+Issue #1 remains open and independent. `NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GLOBALLY_LOST`.
+
+## P0 — Research may be mistaken for authorization
+
+`docs/research/POST_C5_RESEARCH_BACKLOG.md` contains proposed work only. NK-EPI, admission, signed Receipts, erasure changes, cross-language profiles and ecosystem adapters require separate decisions and evidence.
+
+## P0 — Synthetic privacy checks may be mistaken for privacy compliance
+
+Canaries were absent from inspected artifacts. This does not prove real personal-data handling, data-subject rights, retention, breach response, provider logs or jurisdictional compliance.
+
+## P0 — Logical export may be mistaken for disaster recovery
+
+The backup preserves exact synthetic Event bytes for one instance and supports quarantined import/replay. It is not physical PostgreSQL backup, WAL restore, provider snapshot, point-in-time recovery, cross-region restore or restore-under-load proof.
+
+## P0 — Physical deletion remains absent
+
+No physical or cryptographic deletion is executed across databases, backups, logs, artifacts, providers or keys. All C5 Receipts deny this proof.
+
+## P0 — Operational equivalence remains absent
+
+PostgreSQL and SQLite pass the same bounded scenarios, but concurrency, durability, replication, failover, administration, filesystem and managed-provider behavior remain different.
+
+## P1 — Durable evidence is repository-resident but not independent custody
+
+Eight exact ZIPs are preserved and verified under `evidence/c5/2026-08-07/`. This closes the immediate Actions-retention loss, but does not provide:
+
+- independent third-party custody;
+- signed timestamping;
+- append-only external archive;
+- reviewer quorum;
+- disaster recovery for the Git repository itself.
 
 ## P1 — Threshold representativeness
 
-The current p95 limit is 5000 ms and workload is 24 Events per profile. Passing this bounded threshold is not a capacity, scale, SLO or cost claim.
-
-## P1 — Artifact retention
-
-First C5 artifacts expire 2026-09-06. Digests without retained bytes are not independent reproduction evidence.
-
-## P1 — Plan governance
-
-The plan is repository-local and approved by ADR-0021. There is no signed plan registry, independent reviewer quorum, revocation system or external audit.
+The current p95 limit is 5000 ms and workload is 24 Events per profile. Passing it is not a capacity, scale, SLO or cost claim.
 
 ## P1 — Environment scope
 
-Current evidence is Ubuntu 24.04, Python 3.11/3.12, PostgreSQL 16/18 and runner SQLite 3.45.1. Other OS, architecture, provider, filesystem and runtime combinations are untested.
+Current C5 evidence is Ubuntu 24.04, Python 3.11/3.12, PostgreSQL 16/18 and runner SQLite 3.45.1. Other OS, architecture, provider, filesystem and runtime combinations are untested.
 
-## P1 — Final-head evidence drift
+SQLite 3.45.1 is an evidence-bound environment, not a recommended future minimum. Version hardening requires a separate exact evidence cycle.
 
-First complete evidence passed on `260922de…`. Documentation and manifest commits changed the branch. Final-head C5 evidence must be repeated before merge, and main-bound evidence must be repeated after merge.
+## P1 — Machine-readable state can drift
+
+`project-state.json` reduces ambiguity but is still a snapshot. Live issue state, default branch and HEAD can change. Validators therefore preserve verification method, observed time and ancestor-check semantics rather than claiming self-updating truth.
+
+## P1 — Plan governance
+
+The C5 plan is repository-local and approved by ADR-0021. There is no signed registry, independent reviewer quorum, revocation system or external audit.
 
 ## Update rule
 
-Always record exact plan ID/digest, scenario inventory, thresholds, SHA, run, artifact bytes, limitations and next gate. Never convert one bounded PASS into production, compliance, live-data, physical-deletion or ecosystem-authority claims.
+Always record exact plan identity, SHA, run, artifact bytes, limitations, verification method and next gate. Never convert one bounded PASS, retained archive or research note into production, truth, compliance, deletion or ecosystem-authority claims.

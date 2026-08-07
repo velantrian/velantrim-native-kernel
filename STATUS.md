@@ -1,11 +1,29 @@
 # Current Status
 
-> **Verified:** 2026-08-07  
-> **Last verified public `main`:** `296981ae84ad5bdab5dabbec9b7b9ebb43af63d7`  
-> **Implementation publication:** Issue #64 / PR #65 merged / ADR-0021  
+> **Verified source checkpoint:** `3d56912260ea41b5b501b65477bff1642dfc2d58`
+> **C5 implementation evidence checkpoint:** `296981ae84ad5bdab5dabbec9b7b9ebb43af63d7`
+> **Implementation publication:** Issue #64 `CLOSED / COMPLETED`, PR #65 merged, ADR-0021 accepted
 > **Repository status:** `RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY`
 
-## Current phase
+The checkpoint above is the verified repository state this document describes. A descendant documentation commit does not invalidate the evidence lineage and must not be confused with the artifact-producing SHA.
+
+## Three independent tracks
+
+| Track | Scope | Status |
+|---|---|---|
+| `H` — Historical Recovery | authentic `v0.1.2.1` and original 44-test suite | `BLOCKED / ACTIVE EVIDENCE-RECOVERY` |
+| `C` — Clean Implementation | independently versioned P1–P5, C4 and C5 | `ACTIVE / PARTIAL` |
+| `R` — Long-Horizon Research | proposed future contracts, profiles and experiments | `PROPOSED / BOUNDED` |
+
+```text
+NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GLOBALLY_LOST
+historical recovery ≠ clean implementation
+research proposal ≠ accepted contract ≠ runtime
+```
+
+Track H does not block Track C. Track R does not gain runtime or Canon status through documentation.
+
+## Clean implementation phase
 
 ```text
 P1: MERGED / REPOSITORY-TESTED
@@ -20,14 +38,6 @@ Production: NOT AUTHORIZED / NOT ESTABLISHED
 
 C5 is a bounded operational evidence layer. It is not a new storage profile, production deployment, public service, compliance certification or ecosystem authority.
 
-## Publication lineage
-
-```text
-C5 base main:      d1dd4986a8496cd9ca3e353d33ca422038c65d40
-PR #65 final head: 1c4dcc4b9d9b86d5737388ce1469a0bc2420f0e6
-PR #65 merge/main: 296981ae84ad5bdab5dabbec9b7b9ebb43af63d7
-```
-
 ## Semantic and operational levels
 
 ```text
@@ -41,9 +51,10 @@ Single-profile C2: 41 SUPPORTED / 13 PARTIAL / 18 UNSUPPORTED / 0 FAILED
 Cross-profile C3:  45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED / 0 FAILED
 Offline C4 scope:  45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED / 0 FAILED
 C5 assertion map:  45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED / 0 FAILED
+NK-EPI-001…008:     0 SUPPORTED /  0 PARTIAL /  8 UNSUPPORTED / 0 FAILED
 ```
 
-C5 does not promote semantic assertions. All `NK-EPI-001…008` remain `UNSUPPORTED / PROPOSED`.
+C5 does not promote semantic assertions. `NK-EPI-004 — unknown ≠ false` is a research candidate, not current runtime support.
 
 ## Operational plan
 
@@ -56,6 +67,65 @@ deployment:    CI_EPHEMERAL_SYNTHETIC
 ```
 
 Categories: `SECURITY · PRIVACY · RECOVERY · ROLLBACK · INCIDENT · RELIABILITY · RESILIENCE`.
+
+## Exact C5 evidence lineage
+
+### Implementation-main checkpoint
+
+```text
+Head:       296981ae84ad5bdab5dabbec9b7b9ebb43af63d7
+C5 run:     31204861404 — PASS
+C4:         31204861534 — PASS
+P5/C3:      31204861602 — PASS
+P4:         31204861564 — PASS
+AI context: 31204861416 — PASS
+```
+
+### Final documentation-main checkpoint
+
+```text
+Head:       3d56912260ea41b5b501b65477bff1642dfc2d58
+C5 run:     31205512911 — PASS
+C4:         31205512919 — PASS
+P5/C3:      31205512874 — PASS
+P4:         31205512957 — PASS
+AI context: 31205512966 — PASS
+```
+
+C5 matrix at both checkpoints:
+
+```text
+Python 3.11 / PostgreSQL 16 / SQLite 3.45.1 — PASS
+Python 3.11 / PostgreSQL 18 / SQLite 3.45.1 — PASS
+Python 3.12 / PostgreSQL 16 / SQLite 3.45.1 — PASS
+Python 3.12 / PostgreSQL 18 / SQLite 3.45.1 — PASS
+```
+
+Every job passed C5 guards, exact P4/P5/C3/C4 prerequisites, all 18 scenarios, P1–C4 regressions, compileall and six-report artifact upload.
+
+## Durable evidence capture
+
+The exact eight ZIP archives from both C5 checkpoints are repository-resident:
+
+```text
+evidence/c5/2026-08-07/manifest.json
+```
+
+The bundle records:
+
+- two checkpoint SHAs and workflow runs;
+- eight original GitHub Actions ZIPs;
+- GitHub and locally recomputed archive SHA-256 values;
+- exact six-file inventories and file-level hashes;
+- environment and bounded result metadata.
+
+Verification:
+
+```bash
+python tools/evidence/verify_bundle.py evidence/c5/2026-08-07/manifest.json
+```
+
+The original GitHub Actions copies expire on 2026-09-06. The repository-resident bytes no longer depend on that retention window.
 
 ## Mandatory deployment boundary
 
@@ -71,83 +141,33 @@ physical_deletion_claimed: false
 compliance_certification_claimed: false
 ```
 
-## Exact final-PR-head evidence
-
-```text
-Final head:  1c4dcc4b9d9b86d5737388ce1469a0bc2420f0e6
-C5:         31204406663 — PASS
-C4:         31204406695 — PASS
-P5/C3:      31204406946 — PASS
-P4:         31204406606 — PASS
-P1:         31204407186 — PASS
-Fixtures:   31204409411 — PASS
-AI context: 31204409408 — PASS
-```
-
-## Exact implementation-main evidence
-
-```text
-Main:       296981ae84ad5bdab5dabbec9b7b9ebb43af63d7
-C5:         31204861404 — PASS
-C4:         31204861534 — PASS
-P5/C3:      31204861602 — PASS
-P4:         31204861564 — PASS
-AI context: 31204861416 — PASS
-```
-
-C5 matrix:
-
-```text
-Python 3.11 / PostgreSQL 16 / SQLite 3.45.1 — PASS
-Python 3.11 / PostgreSQL 18 / SQLite 3.45.1 — PASS
-Python 3.12 / PostgreSQL 16 / SQLite 3.45.1 — PASS
-Python 3.12 / PostgreSQL 18 / SQLite 3.45.1 — PASS
-```
-
-Every job passed C5 guards, exact P4/P5/C3/C4 prerequisites, all 18 scenarios, P1–C4 regressions, compileall and six-report artifact upload.
-
-## Main-bound artifacts
-
-```text
-py3.11/pg16 sha256:25e019cf8428d4697bf3f1f777a3fa8ff0f5e2aac6053e006e2549ecff55f0c0
-py3.11/pg18 sha256:e7a717ff3e7671c82a4544d68d9d16303fccf1fe52fb713d9ad9b286e4e570dd
-py3.12/pg16 sha256:006c56d8cbe8e75b18a28695ca82228b9c55b5d3eab5b31079c1dcfb5b46c331
-py3.12/pg18 sha256:029d2df8d1b32631d6b8a5939b661df0e1a1d2272218766e8371b8c84adb0d82
-```
-
-Artifacts are retained until 2026-09-06. Each contains P4, P5, C3, C4, C5 and logical-backup reports.
-
-## Inspected main-bound result
-
-```text
-18 / 18 scenarios PASS
-18 operational Receipts
-0 privacy canary leaks
-0 recovery failures
-0 uncontained incidents
-p95 append latency: 11.055 ms
-total rehearsal duration: 960.806 ms
-assertion map: 45 / 10 / 17 / 0
-```
-
-The logical backup contained four exact synthetic PostgreSQL Events, a validated digest and successful quarantined SQLite exact-history import. Both privacy canaries were absent from report and backup bytes. All Receipts denied live data, authority promotion, external side effects, production approval, physical deletion proof and compliance certification.
-
 ## Explicit non-claims
 
 ```text
 C5 bounded rehearsal PASS
 ≠ production readiness
-≠ live user traffic validation
+≠ live-user-traffic validation
 ≠ cloud IAM or multi-region HA proof
 ≠ exhaustive disaster recovery
 ≠ physical PostgreSQL backup
 ≠ physical or cryptographic deletion
 ≠ compliance certification
 ≠ operational equivalence
+≠ truth or external authenticity
 ≠ authority promotion
 ≠ ecosystem wiring
+≠ NK-EPI advancement
 ```
+
+## Machine-readable state
+
+`project-state.json` is the authoritative machine-readable project snapshot for repository state and evidence boundaries. It does not claim truth about the external world and does not replace exact code, tests, artifacts or GitHub live state.
 
 ## Next gate
 
-Merge this documentation-only checkpoint, reproduce its bounded C5/AI evidence on the resulting `main`, synchronize Notion and close Issue #64. Any production, live-traffic, cloud deployment, physical deletion or ecosystem-authority work requires separate explicit operator approval.
+1. complete GitHub↔Notion reconciliation for this checkpoint;
+2. keep post-C5 proposals in `docs/research/POST_C5_RESEARCH_BACKLOG.md`;
+3. scope a separate decision and implementation cycle for the first executable NK-EPI vertical slice;
+4. continue operational hardening without promoting maturity through operations alone.
+
+Any production, live-traffic, physical-deletion, NK-EPI promotion or ecosystem-authority work requires separate explicit operator approval and evidence.

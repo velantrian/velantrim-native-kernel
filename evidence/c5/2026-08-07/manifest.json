@@ -1,0 +1,583 @@
+{
+  "protocol": "nk-evidence-bundle/1",
+  "bundle_id": "native-kernel/c5/2026-08-07",
+  "captured_at": "2026-08-07T21:46:57Z",
+  "repository": "velantrian/velantrim-native-kernel",
+  "plan": {
+    "id": "native-kernel/c5-bounded-rehearsal-v1",
+    "protocol": "nk-operational-plan/1",
+    "sha256": "4ed680ff4e83ac9d1aca6c1ab8a435ecb19af4a5badf1be8202bc842f964b098",
+    "scenario_count": 18
+  },
+  "checkpoints": [
+    {
+      "role": "implementation_main",
+      "head_sha": "296981ae84ad5bdab5dabbec9b7b9ebb43af63d7",
+      "workflow_run_id": 31204861404,
+      "artifacts": [
+        {
+          "artifact_id": 9004293780,
+          "name": "c5-operational-evidence-py3.11-pg16",
+          "path": "evidence/c5/2026-08-07/original/implementation-main-296981ae/c5-operational-evidence-py3.11-pg16.zip",
+          "size_bytes": 24584,
+          "sha256": "25e019cf8428d4697bf3f1f777a3fa8ff0f5e2aac6053e006e2549ecff55f0c0",
+          "github_digest": "sha256:25e019cf8428d4697bf3f1f777a3fa8ff0f5e2aac6053e006e2549ecff55f0c0",
+          "original_expires_at": "2026-09-06T18:00:01Z",
+          "environment": {
+            "commit": "296981ae84ad5bdab5dabbec9b7b9ebb43af63d7",
+            "evidence_level": "REPOSITORY_REPRODUCED_OPERATIONAL_REHEARSAL",
+            "postgresql_version": "16",
+            "python_version": "3.11",
+            "run_id": "31204861404",
+            "runner_os": "ubuntu-24.04",
+            "sqlite_version": "3.45.1"
+          },
+          "metrics": {
+            "assertion_counts": {
+              "FAILED": 0,
+              "PARTIAL": 10,
+              "SUPPORTED": 45,
+              "UNSUPPORTED": 17
+            },
+            "canary_leaks": 0,
+            "failed_scenarios": 0,
+            "incident_uncontained": 0,
+            "p95_append_ms": 11.055,
+            "passed_scenarios": 18,
+            "receipt_count": 18,
+            "recovery_failures": 0,
+            "scenario_count": 18,
+            "total_duration_ms": 960.806
+          },
+          "files": [
+            {
+              "path": "c3-equivalence-report.json",
+              "size_bytes": 29939,
+              "sha256": "695c948f74f3f1cda072728a6d23710d037abadf9c5be8a0790ba7921b6bda86"
+            },
+            {
+              "path": "c4-shadow-report.json",
+              "size_bytes": 54571,
+              "sha256": "bca1c5cf38d0ae1c7e762dd5918b0d2cf620671f975842e8d27b7b3fddf3185e"
+            },
+            {
+              "path": "c5-operational-report.json",
+              "size_bytes": 49671,
+              "sha256": "eedccca4275b9e8e5e1ef182814d0f0c654da448bbc988f1fc41e838f395b142"
+            },
+            {
+              "path": "c5-quarantine-backup.json",
+              "size_bytes": 5495,
+              "sha256": "269e04a2ef1051dc5ac3119244dc38d17a95a7ae21cc57c11ac88c4af54f38e8"
+            },
+            {
+              "path": "postgresql-p4-report.json",
+              "size_bytes": 22312,
+              "sha256": "4718f23bb28b3804e312816bac45557edd142865d588fed2ce0718008129ec63"
+            },
+            {
+              "path": "sqlite-p5-report.json",
+              "size_bytes": 22201,
+              "sha256": "cba67790ff9a49002aa38a8a85c7d0cdee7df57c8ce2f0a3f8e865e8bbfbdf00"
+            }
+          ]
+        },
+        {
+          "artifact_id": 9004296817,
+          "name": "c5-operational-evidence-py3.11-pg18",
+          "path": "evidence/c5/2026-08-07/original/implementation-main-296981ae/c5-operational-evidence-py3.11-pg18.zip",
+          "size_bytes": 24597,
+          "sha256": "e7a717ff3e7671c82a4544d68d9d16303fccf1fe52fb713d9ad9b286e4e570dd",
+          "github_digest": "sha256:e7a717ff3e7671c82a4544d68d9d16303fccf1fe52fb713d9ad9b286e4e570dd",
+          "original_expires_at": "2026-09-06T18:00:01Z",
+          "environment": {
+            "commit": "296981ae84ad5bdab5dabbec9b7b9ebb43af63d7",
+            "evidence_level": "REPOSITORY_REPRODUCED_OPERATIONAL_REHEARSAL",
+            "postgresql_version": "18",
+            "python_version": "3.11",
+            "run_id": "31204861404",
+            "runner_os": "ubuntu-24.04",
+            "sqlite_version": "3.45.1"
+          },
+          "metrics": {
+            "assertion_counts": {
+              "FAILED": 0,
+              "PARTIAL": 10,
+              "SUPPORTED": 45,
+              "UNSUPPORTED": 17
+            },
+            "canary_leaks": 0,
+            "failed_scenarios": 0,
+            "incident_uncontained": 0,
+            "p95_append_ms": 13.222,
+            "passed_scenarios": 18,
+            "receipt_count": 18,
+            "recovery_failures": 0,
+            "scenario_count": 18,
+            "total_duration_ms": 1104.745
+          },
+          "files": [
+            {
+              "path": "c3-equivalence-report.json",
+              "size_bytes": 29939,
+              "sha256": "8f3258c61cc291865289bff898b729c309326f6ed648b172ff6e9cb3fbd268af"
+            },
+            {
+              "path": "c4-shadow-report.json",
+              "size_bytes": 54571,
+              "sha256": "eff282ffcdc3c09daa5538d08fd45f4c042137547d9c3b7df8b11a25a2a8db7d"
+            },
+            {
+              "path": "c5-operational-report.json",
+              "size_bytes": 49677,
+              "sha256": "269ac1db88b0ac3a796f1dd8415cc6252226c99c885a0d04537f1c0dc9c55821"
+            },
+            {
+              "path": "c5-quarantine-backup.json",
+              "size_bytes": 5495,
+              "sha256": "7d13abb320af219c8abf3d85ecd49001c42029b419372767888987f098852f17"
+            },
+            {
+              "path": "postgresql-p4-report.json",
+              "size_bytes": 22312,
+              "sha256": "3dc5df0bd7c0e5209fc8be29e33992e55dab13179b80be8fd50d88cd3dcf3edb"
+            },
+            {
+              "path": "sqlite-p5-report.json",
+              "size_bytes": 22201,
+              "sha256": "cba67790ff9a49002aa38a8a85c7d0cdee7df57c8ce2f0a3f8e865e8bbfbdf00"
+            }
+          ]
+        },
+        {
+          "artifact_id": 9004294906,
+          "name": "c5-operational-evidence-py3.12-pg16",
+          "path": "evidence/c5/2026-08-07/original/implementation-main-296981ae/c5-operational-evidence-py3.12-pg16.zip",
+          "size_bytes": 24595,
+          "sha256": "006c56d8cbe8e75b18a28695ca82228b9c55b5d3eab5b31079c1dcfb5b46c331",
+          "github_digest": "sha256:006c56d8cbe8e75b18a28695ca82228b9c55b5d3eab5b31079c1dcfb5b46c331",
+          "original_expires_at": "2026-09-06T18:00:01Z",
+          "environment": {
+            "commit": "296981ae84ad5bdab5dabbec9b7b9ebb43af63d7",
+            "evidence_level": "REPOSITORY_REPRODUCED_OPERATIONAL_REHEARSAL",
+            "postgresql_version": "16",
+            "python_version": "3.12",
+            "run_id": "31204861404",
+            "runner_os": "ubuntu-24.04",
+            "sqlite_version": "3.45.1"
+          },
+          "metrics": {
+            "assertion_counts": {
+              "FAILED": 0,
+              "PARTIAL": 10,
+              "SUPPORTED": 45,
+              "UNSUPPORTED": 17
+            },
+            "canary_leaks": 0,
+            "failed_scenarios": 0,
+            "incident_uncontained": 0,
+            "p95_append_ms": 13.823,
+            "passed_scenarios": 18,
+            "receipt_count": 18,
+            "recovery_failures": 0,
+            "scenario_count": 18,
+            "total_duration_ms": 990.938
+          },
+          "files": [
+            {
+              "path": "c3-equivalence-report.json",
+              "size_bytes": 29939,
+              "sha256": "03fdeedfea8d87a8882dc1eadfcd8e20699d103ffefc3fcc3c6a094828ffa64b"
+            },
+            {
+              "path": "c4-shadow-report.json",
+              "size_bytes": 54571,
+              "sha256": "79aec5706e4bda0c4089d4007eb03b629254751aa85cc87f590066c6a7ac26d3"
+            },
+            {
+              "path": "c5-operational-report.json",
+              "size_bytes": 49676,
+              "sha256": "ac95a2afa206b0dd1bdc2bf1e50730170f519191d6c56298821d59c1649869a7"
+            },
+            {
+              "path": "c5-quarantine-backup.json",
+              "size_bytes": 5495,
+              "sha256": "7dd6462164c8c10dcd7153f975bdb188020cb16476484bcd6e2a2d82cb842b10"
+            },
+            {
+              "path": "postgresql-p4-report.json",
+              "size_bytes": 22312,
+              "sha256": "2f76a5d9ac82c23a1a8e01541d2873feed3e45a2d7b55780e7bf8a811ec154fe"
+            },
+            {
+              "path": "sqlite-p5-report.json",
+              "size_bytes": 22201,
+              "sha256": "f913121de1c7062eae5cd511c89b3adff0a9b0a0c86bd5a8fb2de12a1ab42690"
+            }
+          ]
+        },
+        {
+          "artifact_id": 9004296620,
+          "name": "c5-operational-evidence-py3.12-pg18",
+          "path": "evidence/c5/2026-08-07/original/implementation-main-296981ae/c5-operational-evidence-py3.12-pg18.zip",
+          "size_bytes": 24584,
+          "sha256": "029d2df8d1b32631d6b8a5939b661df0e1a1d2272218766e8371b8c84adb0d82",
+          "github_digest": "sha256:029d2df8d1b32631d6b8a5939b661df0e1a1d2272218766e8371b8c84adb0d82",
+          "original_expires_at": "2026-09-06T18:00:01Z",
+          "environment": {
+            "commit": "296981ae84ad5bdab5dabbec9b7b9ebb43af63d7",
+            "evidence_level": "REPOSITORY_REPRODUCED_OPERATIONAL_REHEARSAL",
+            "postgresql_version": "18",
+            "python_version": "3.12",
+            "run_id": "31204861404",
+            "runner_os": "ubuntu-24.04",
+            "sqlite_version": "3.45.1"
+          },
+          "metrics": {
+            "assertion_counts": {
+              "FAILED": 0,
+              "PARTIAL": 10,
+              "SUPPORTED": 45,
+              "UNSUPPORTED": 17
+            },
+            "canary_leaks": 0,
+            "failed_scenarios": 0,
+            "incident_uncontained": 0,
+            "p95_append_ms": 12.675,
+            "passed_scenarios": 18,
+            "receipt_count": 18,
+            "recovery_failures": 0,
+            "scenario_count": 18,
+            "total_duration_ms": 1037.387
+          },
+          "files": [
+            {
+              "path": "c3-equivalence-report.json",
+              "size_bytes": 29939,
+              "sha256": "94ca936686a5c2cc808fbe9f4ceefcd305cc369c2a0f1485fb3f78c2745c23d2"
+            },
+            {
+              "path": "c4-shadow-report.json",
+              "size_bytes": 54571,
+              "sha256": "f2b4aeafc205bfa48dbc5b92fc6cefc5833a5a78575e7477609470b0d71d303d"
+            },
+            {
+              "path": "c5-operational-report.json",
+              "size_bytes": 49679,
+              "sha256": "ed94d6de2159d0a853690ffa1dc0f0512386ecfbb579d927608fe886b99ccb5b"
+            },
+            {
+              "path": "c5-quarantine-backup.json",
+              "size_bytes": 5495,
+              "sha256": "90765bb55a951343da083551fa61d3d2be3cb5916f24cbdc971078cb4045746e"
+            },
+            {
+              "path": "postgresql-p4-report.json",
+              "size_bytes": 22312,
+              "sha256": "d69d62cd1576a45f03b62ed964b0d935b8e7f45055ad3ca06947e7298e71e1a2"
+            },
+            {
+              "path": "sqlite-p5-report.json",
+              "size_bytes": 22201,
+              "sha256": "f913121de1c7062eae5cd511c89b3adff0a9b0a0c86bd5a8fb2de12a1ab42690"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "role": "final_documentation_main",
+      "head_sha": "3d56912260ea41b5b501b65477bff1642dfc2d58",
+      "workflow_run_id": 31205512911,
+      "artifacts": [
+        {
+          "artifact_id": 9004547540,
+          "name": "c5-operational-evidence-py3.11-pg16",
+          "path": "evidence/c5/2026-08-07/original/final-main-3d569122/c5-operational-evidence-py3.11-pg16.zip",
+          "size_bytes": 24593,
+          "sha256": "7a17248c3cbd612df93b85956299160a99c5e4ca4b97d27da492958731a6b8a5",
+          "github_digest": "sha256:7a17248c3cbd612df93b85956299160a99c5e4ca4b97d27da492958731a6b8a5",
+          "original_expires_at": "2026-09-06T18:08:24Z",
+          "environment": {
+            "commit": "3d56912260ea41b5b501b65477bff1642dfc2d58",
+            "evidence_level": "REPOSITORY_REPRODUCED_OPERATIONAL_REHEARSAL",
+            "postgresql_version": "16",
+            "python_version": "3.11",
+            "run_id": "31205512911",
+            "runner_os": "ubuntu-24.04",
+            "sqlite_version": "3.45.1"
+          },
+          "metrics": {
+            "assertion_counts": {
+              "FAILED": 0,
+              "PARTIAL": 10,
+              "SUPPORTED": 45,
+              "UNSUPPORTED": 17
+            },
+            "canary_leaks": 0,
+            "failed_scenarios": 0,
+            "incident_uncontained": 0,
+            "p95_append_ms": 12.132,
+            "passed_scenarios": 18,
+            "receipt_count": 18,
+            "recovery_failures": 0,
+            "scenario_count": 18,
+            "total_duration_ms": 958.191
+          },
+          "files": [
+            {
+              "path": "c3-equivalence-report.json",
+              "size_bytes": 29939,
+              "sha256": "6604f2f7006f8984c591f25fa1c24d788622a5d622c6e546dc5c4a722e123806"
+            },
+            {
+              "path": "c4-shadow-report.json",
+              "size_bytes": 54571,
+              "sha256": "c3eff51873f0be809b9f2e1716106f0991c63b6846816ec59c6f028e4bf13352"
+            },
+            {
+              "path": "c5-operational-report.json",
+              "size_bytes": 49676,
+              "sha256": "3f8a551395aa324e2fe6db75b6f5fdb3ce1667d7aa1bca67686ec6a284bb7836"
+            },
+            {
+              "path": "c5-quarantine-backup.json",
+              "size_bytes": 5495,
+              "sha256": "ff844daf8f9f18597a3752441e3fe00cf7ac96d4e1882a0b316e31f5b3d95bc9"
+            },
+            {
+              "path": "postgresql-p4-report.json",
+              "size_bytes": 22312,
+              "sha256": "8b0a8875164d7fa7bb372c9d6ac21be674cce2b705fcb8c235e42985b9b2249c"
+            },
+            {
+              "path": "sqlite-p5-report.json",
+              "size_bytes": 22201,
+              "sha256": "a0e601c68070da36009fc66051d513ac603d8f90c453b56d1a3b181e6542da2c"
+            }
+          ]
+        },
+        {
+          "artifact_id": 9004544361,
+          "name": "c5-operational-evidence-py3.11-pg18",
+          "path": "evidence/c5/2026-08-07/original/final-main-3d569122/c5-operational-evidence-py3.11-pg18.zip",
+          "size_bytes": 24573,
+          "sha256": "b285a118c562f58df0bbe1411f1ef3cec9c9767c68f8ce3b9cee2054b4bc407a",
+          "github_digest": "sha256:b285a118c562f58df0bbe1411f1ef3cec9c9767c68f8ce3b9cee2054b4bc407a",
+          "original_expires_at": "2026-09-06T18:08:24Z",
+          "environment": {
+            "commit": "3d56912260ea41b5b501b65477bff1642dfc2d58",
+            "evidence_level": "REPOSITORY_REPRODUCED_OPERATIONAL_REHEARSAL",
+            "postgresql_version": "18",
+            "python_version": "3.11",
+            "run_id": "31205512911",
+            "runner_os": "ubuntu-24.04",
+            "sqlite_version": "3.45.1"
+          },
+          "metrics": {
+            "assertion_counts": {
+              "FAILED": 0,
+              "PARTIAL": 10,
+              "SUPPORTED": 45,
+              "UNSUPPORTED": 17
+            },
+            "canary_leaks": 0,
+            "failed_scenarios": 0,
+            "incident_uncontained": 0,
+            "p95_append_ms": 11.939,
+            "passed_scenarios": 18,
+            "receipt_count": 18,
+            "recovery_failures": 0,
+            "scenario_count": 18,
+            "total_duration_ms": 1014.151
+          },
+          "files": [
+            {
+              "path": "c3-equivalence-report.json",
+              "size_bytes": 29939,
+              "sha256": "64d8b450879e8671af1e540d8dc409ed0ef73a54f329d9cc7e41a2732fd617e5"
+            },
+            {
+              "path": "c4-shadow-report.json",
+              "size_bytes": 54571,
+              "sha256": "06e559a834f880c7d59e45da2f2599aea697d1ed011cf687f6cd31c4db2a16d4"
+            },
+            {
+              "path": "c5-operational-report.json",
+              "size_bytes": 49674,
+              "sha256": "c1ae8689616418b3f7782d3f87cb697c0c5339479310ad47cbafccc4dc4a7226"
+            },
+            {
+              "path": "c5-quarantine-backup.json",
+              "size_bytes": 5495,
+              "sha256": "8b0f16997c322fb6463fb0338718e7530bdf57b681eee9118948a701090dc031"
+            },
+            {
+              "path": "postgresql-p4-report.json",
+              "size_bytes": 22312,
+              "sha256": "32c7e2c72700b87d06494c7c2af03ab3397e36af956bad387190f19db27dfb4e"
+            },
+            {
+              "path": "sqlite-p5-report.json",
+              "size_bytes": 22201,
+              "sha256": "a0e601c68070da36009fc66051d513ac603d8f90c453b56d1a3b181e6542da2c"
+            }
+          ]
+        },
+        {
+          "artifact_id": 9004552822,
+          "name": "c5-operational-evidence-py3.12-pg16",
+          "path": "evidence/c5/2026-08-07/original/final-main-3d569122/c5-operational-evidence-py3.12-pg16.zip",
+          "size_bytes": 24612,
+          "sha256": "714e18a6b0974ebbfc708b6ae4de129ca1d4c8666337ac3a53e99e10d86f2e92",
+          "github_digest": "sha256:714e18a6b0974ebbfc708b6ae4de129ca1d4c8666337ac3a53e99e10d86f2e92",
+          "original_expires_at": "2026-09-06T18:08:24Z",
+          "environment": {
+            "commit": "3d56912260ea41b5b501b65477bff1642dfc2d58",
+            "evidence_level": "REPOSITORY_REPRODUCED_OPERATIONAL_REHEARSAL",
+            "postgresql_version": "16",
+            "python_version": "3.12",
+            "run_id": "31205512911",
+            "runner_os": "ubuntu-24.04",
+            "sqlite_version": "3.45.1"
+          },
+          "metrics": {
+            "assertion_counts": {
+              "FAILED": 0,
+              "PARTIAL": 10,
+              "SUPPORTED": 45,
+              "UNSUPPORTED": 17
+            },
+            "canary_leaks": 0,
+            "failed_scenarios": 0,
+            "incident_uncontained": 0,
+            "p95_append_ms": 49.871,
+            "passed_scenarios": 18,
+            "receipt_count": 18,
+            "recovery_failures": 0,
+            "scenario_count": 18,
+            "total_duration_ms": 2251.799
+          },
+          "files": [
+            {
+              "path": "c3-equivalence-report.json",
+              "size_bytes": 29939,
+              "sha256": "5c7dbbafa19ad46f9de354c8185c78b1d7e75d9d28b9ebb3710422bd6935ef45"
+            },
+            {
+              "path": "c4-shadow-report.json",
+              "size_bytes": 54571,
+              "sha256": "89a0dc52823d4f40f5ed757be8e273b9bc6f9142f665fc2f5dc737e23d374127"
+            },
+            {
+              "path": "c5-operational-report.json",
+              "size_bytes": 49682,
+              "sha256": "7be3939a63474b71aa804d0a51c3ae38b43e316662189e89b2c0181052e09b28"
+            },
+            {
+              "path": "c5-quarantine-backup.json",
+              "size_bytes": 5495,
+              "sha256": "f92892569f0fd6e8086feefa46675658bdcf906a8ff73bdadd1e24c74228b4f6"
+            },
+            {
+              "path": "postgresql-p4-report.json",
+              "size_bytes": 22312,
+              "sha256": "5d87d204ff8eae0029d2cbe3d946616246f138c7a7bec6d9d93912ea1560aa20"
+            },
+            {
+              "path": "sqlite-p5-report.json",
+              "size_bytes": 22201,
+              "sha256": "86eb6abdc284be99ff9652494f977434d9d3f4a99c8df6b87e0ce8f2e8258064"
+            }
+          ]
+        },
+        {
+          "artifact_id": 9004549886,
+          "name": "c5-operational-evidence-py3.12-pg18",
+          "path": "evidence/c5/2026-08-07/original/final-main-3d569122/c5-operational-evidence-py3.12-pg18.zip",
+          "size_bytes": 24604,
+          "sha256": "4a68f36a17e958c1def3923d3181ebcd974e8a3adba94fb4892ec02505720f4c",
+          "github_digest": "sha256:4a68f36a17e958c1def3923d3181ebcd974e8a3adba94fb4892ec02505720f4c",
+          "original_expires_at": "2026-09-06T18:08:24Z",
+          "environment": {
+            "commit": "3d56912260ea41b5b501b65477bff1642dfc2d58",
+            "evidence_level": "REPOSITORY_REPRODUCED_OPERATIONAL_REHEARSAL",
+            "postgresql_version": "18",
+            "python_version": "3.12",
+            "run_id": "31205512911",
+            "runner_os": "ubuntu-24.04",
+            "sqlite_version": "3.45.1"
+          },
+          "metrics": {
+            "assertion_counts": {
+              "FAILED": 0,
+              "PARTIAL": 10,
+              "SUPPORTED": 45,
+              "UNSUPPORTED": 17
+            },
+            "canary_leaks": 0,
+            "failed_scenarios": 0,
+            "incident_uncontained": 0,
+            "p95_append_ms": 9.544,
+            "passed_scenarios": 18,
+            "receipt_count": 18,
+            "recovery_failures": 0,
+            "scenario_count": 18,
+            "total_duration_ms": 966.736
+          },
+          "files": [
+            {
+              "path": "c3-equivalence-report.json",
+              "size_bytes": 29939,
+              "sha256": "66f9d2968691e45d143ab9ebcc61411f381b1cac27a9a2ccc5b4ac5d882e6993"
+            },
+            {
+              "path": "c4-shadow-report.json",
+              "size_bytes": 54571,
+              "sha256": "1dffbe881361d9760d21cd7af4e3ed6b72a20d295145ca4b562518ff4c3b2617"
+            },
+            {
+              "path": "c5-operational-report.json",
+              "size_bytes": 49671,
+              "sha256": "13d95f15b1442fe02340ee20dade330f25e7540593d9f824e5b51ad00cecbeed"
+            },
+            {
+              "path": "c5-quarantine-backup.json",
+              "size_bytes": 5495,
+              "sha256": "4ca9f150ae2cde7a6c7f164b6739ddcf88878359b61609a0bb555b66779a487b"
+            },
+            {
+              "path": "postgresql-p4-report.json",
+              "size_bytes": 22312,
+              "sha256": "ea4089df2a1744553fed6de80fb0ab50cfe2e5ed9bd9634fa460f57a340b783f"
+            },
+            {
+              "path": "sqlite-p5-report.json",
+              "size_bytes": 22201,
+              "sha256": "86eb6abdc284be99ff9652494f977434d9d3f4a99c8df6b87e0ce8f2e8258064"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "assertion_map": {
+    "supported": 45,
+    "partial": 10,
+    "unsupported": 17,
+    "failed": 0
+  },
+  "nk_epi": {
+    "supported": 0,
+    "partial": 0,
+    "unsupported": 8,
+    "failed": 0,
+    "status": "PROPOSED"
+  },
+  "boundaries": [
+    "Exact retained ZIP bytes are historical execution evidence, not production authorization.",
+    "A matching digest proves byte identity only, not truth, authenticity, compliance or physical erasure.",
+    "C5 operational evidence does not promote semantic assertions or NK-EPI.",
+    "Synthetic ephemeral CI is not live traffic, cloud IAM, multi-region HA or production readiness."
+  ]
+}
