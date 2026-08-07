@@ -17,7 +17,8 @@
     "C5 is a bounded synthetic ephemeral operational rehearsal.",
     "The inherited assertion map remains 45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED / 0 FAILED.",
     "No production readiness, live user traffic, cloud IAM, multi-region HA, compliance or physical deletion claim.",
-    "No authority promotion, automatic action or ecosystem wiring."
+    "No authority promotion, automatic action or ecosystem wiring.",
+    "Repository-resident ZIP retention preserves exact bytes without expanding the producing runs' proof boundary."
   ],
   "implementation_status": "PARTIAL",
   "issue_18_boundary": {
@@ -32,7 +33,7 @@
   },
   "kernel_runtime_conformance": "C4",
   "manifest_version": "nk-c5-operational-manifest/1",
-  "next_gate": "Repeat C5 on the exact final documentation head; production, live traffic, cloud IAM, physical deletion and ecosystem authority remain separately gated",
+  "next_gate": "Reconcile project state and Notion, then authorize any epistemic or production work separately",
   "operational_validation": "C5_BOUNDED_REHEARSAL",
   "operator_approval": "APPROVED",
   "phase": "C5",
@@ -55,32 +56,40 @@
     "artifact_retention_days": 30,
     "artifacts": [
       {
-        "digest": "sha256:4fd218d6a3d6869cd7e5ede6269a4ee02b6c74bc4d4bb6b8a979d6f69932373e",
+        "digest": "sha256:7a17248c3cbd612df93b85956299160a99c5e4ca4b97d27da492958731a6b8a5",
         "name": "c5-operational-evidence-py3.11-pg16"
       },
       {
-        "digest": "sha256:5e94f927ae5353eb356f012f1a3e667fb5e78407ceb357b908af98b784bdecb9",
+        "digest": "sha256:b285a118c562f58df0bbe1411f1ef3cec9c9767c68f8ce3b9cee2054b4bc407a",
         "name": "c5-operational-evidence-py3.11-pg18"
       },
       {
-        "digest": "sha256:b74611b99ad2e1c07862466278d03c8c60d91469eb8f5e922f1fd1565b3048a4",
+        "digest": "sha256:714e18a6b0974ebbfc708b6ae4de129ca1d4c8666337ac3a53e99e10d86f2e92",
         "name": "c5-operational-evidence-py3.12-pg16"
       },
       {
-        "digest": "sha256:ef28de467b35d934ed56c751cd648d7d879b16f69d8ad7709ae504bb29d3a8c6",
+        "digest": "sha256:4a68f36a17e958c1def3923d3181ebcd974e8a3adba94fb4892ec02505720f4c",
         "name": "c5-operational-evidence-py3.12-pg18"
       }
     ],
-    "head_sha": "260922de9f2a62b28697db3237b5ebfc7558edec",
+    "head_sha": "3d56912260ea41b5b501b65477bff1642dfc2d58",
     "matrix": [
-      "Python 3.11 / PostgreSQL 16 / SQLite 3.45.1 — PASS",
-      "Python 3.11 / PostgreSQL 18 / SQLite 3.45.1 — PASS",
-      "Python 3.12 / PostgreSQL 16 / SQLite 3.45.1 — PASS",
-      "Python 3.12 / PostgreSQL 18 / SQLite 3.45.1 — PASS"
+      "Python 3.11 / PostgreSQL 16 / SQLite 3.45.1 \u2014 PASS",
+      "Python 3.11 / PostgreSQL 18 / SQLite 3.45.1 \u2014 PASS",
+      "Python 3.12 / PostgreSQL 16 / SQLite 3.45.1 \u2014 PASS",
+      "Python 3.12 / PostgreSQL 18 / SQLite 3.45.1 \u2014 PASS"
     ],
     "reports_per_artifact": 6,
     "status": "PASS",
-    "workflow_run_id": "31202900408"
+    "workflow_run_id": "31205512911"
+  },
+  "durable_evidence": {
+    "protocol": "nk-evidence-bundle/1",
+    "path": "evidence/c5/2026-08-07/manifest.json",
+    "status": "CAPTURED_REPOSITORY_RESIDENT",
+    "checkpoint_count": 2,
+    "artifact_count": 8,
+    "original_archives_preserved": true
   },
   "scenario_categories": [
     "SECURITY",

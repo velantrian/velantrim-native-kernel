@@ -29,15 +29,28 @@ SQLite C2:     41 / 13 / 18 / 0
 C3:            45 / 10 / 17 / 0
 C4:            45 / 10 / 17 / 0
 C5 inherited:  45 / 10 / 17 / 0
+NK-EPI:         0 /  0 /  8 / 0
+```
+
+## Evidence dimensions
+
+```text
+decision status
+≠ contract status
+≠ implementation status
+≠ conformance evidence
+≠ operational evidence
+≠ production authorization
 ```
 
 ## C5 requirements
 
 C5 requires:
+
 - exact immutable operational plan;
 - synthetic ephemeral deployment boundary;
 - exact C4 prerequisite;
-- security/privacy/recovery/rollback/incident/reliability/resilience scenarios;
+- named security/privacy/recovery/rollback/incident/reliability/resilience scenarios;
 - one bounded operational Receipt per scenario;
 - strict thresholds and fail-closed status;
 - exact environment/run/artifact traceability;
@@ -51,34 +64,39 @@ sha256 4ed680ff4e83ac9d1aca6c1ab8a435ecb19af4a5badf1be8202bc842f964b098
 18 scenarios
 ```
 
-## C5 report protocols
+## Durable evidence
+
+The exact ZIP bytes for two accepted C5 checkpoints are preserved under:
 
 ```text
-nk-operational-plan/1
-nk-operational-report/1
-nk-operational-receipt/1
-nk-operational-backup/1
+evidence/c5/2026-08-07/manifest.json
 ```
 
-## Current evidence
+Retention proves only preservation of the producing runs' bytes and declared bounded results. It does not expand the proof boundary.
+
+## NK-EPI boundary
+
+`NK-EPI-001…008` remain `PROPOSED / UNSUPPORTED`. Fixture descriptions are not runtime conformance.
+
+The first research candidate is:
 
 ```text
-head 260922de9f2a62b28697db3237b5ebfc7558edec
-run 31202900408 PASS
-4 environments
-18/18 scenarios
-18 Receipts
-0 canary/recovery/incident failures
+NK-EPI-004
+unknown or unanswered is not silently treated as false
 ```
+
+Promotion requires a separate decision, normative contract, positive/negative/invalid fixtures, implementation, profile execution, replay/projection checks, Receipt validation and exact evidence.
 
 ## Non-conformance examples
 
 ```text
 ❌ Describing synthetic CI as live production.
 ❌ Describing C5 as support for all 72 assertions.
-❌ Describing application-level Event export as physical DR.
+❌ Describing retained ZIPs as independent production proof.
+❌ Describing application Event export as physical DR.
 ❌ Describing authority fencing as cloud IAM certification.
 ❌ Describing canary redaction as privacy compliance.
 ❌ Describing bounded load as a scale/SLO guarantee.
 ❌ Describing Receipts as truth, deletion or safety certificates.
+❌ Describing a research proposal as supported runtime behavior.
 ```

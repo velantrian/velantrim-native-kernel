@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/velantrian/velantrim-native-kernel/contracts/evidence-bundle-v1.schema.json",
+  "title": "Native Kernel Evidence Bundle v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol",
+    "bundle_id",
+    "captured_at",
+    "repository",
+    "plan",
+    "checkpoints",
+    "assertion_map",
+    "nk_epi",
+    "boundaries"
+  ],
+  "properties": {
+    "protocol": {
+      "const": "nk-evidence-bundle/1"
+    },
+    "bundle_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "captured_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "repository": {
+      "const": "velantrian/velantrim-native-kernel"
+    },
+    "plan": {
+      "type": "object",
+      "required": [
+        "id",
+        "protocol",
+        "sha256",
+        "scenario_count"
+      ]
+    },
+    "checkpoints": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "assertion_map": {
+      "type": "object",
+      "required": [
+        "supported",
+        "partial",
+        "unsupported",
+        "failed"
+      ]
+    },
+    "nk_epi": {
+      "type": "object",
+      "required": [
+        "supported",
+        "partial",
+        "unsupported",
+        "failed"
+      ]
+    },
+    "boundaries": {
+      "type": "array",
+      "minItems": 4,
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

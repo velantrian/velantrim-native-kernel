@@ -1,0 +1,120 @@
+{
+  "protocol": "nk-project-state/1",
+  "snapshot_id": "native-kernel/state/2026-08-07-post-c5",
+  "observed_at": "2026-08-07T21:46:57Z",
+  "repository": {
+    "full_name": "velantrian/velantrim-native-kernel",
+    "visibility": "PUBLIC",
+    "default_branch": "main",
+    "observed_main_sha": "3d56912260ea41b5b501b65477bff1642dfc2d58",
+    "implementation_evidence_sha": "296981ae84ad5bdab5dabbec9b7b9ebb43af63d7",
+    "checkpoint_semantics": "The observed SHA is a verified ancestor checkpoint, not a self-referential claim that this file is the current HEAD."
+  },
+  "status": {
+    "repository_status": "RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY",
+    "support_state": "PARTIAL",
+    "kernel_runtime_conformance": "C4",
+    "operational_validation": "C5_BOUNDED_REHEARSAL",
+    "production_authorized": false
+  },
+  "tracks": {
+    "historical_recovery": {
+      "id": "H",
+      "status": "BLOCKED / ACTIVE EVIDENCE-RECOVERY",
+      "subject": "v0.1.2.1 and original 44-test suite",
+      "evidence_state": "NOT_FOUND_IN_ACCESSIBLE_SOURCES",
+      "blocks_clean_implementation": false,
+      "may_claim_globally_lost": false,
+      "issue": 1
+    },
+    "clean_implementation": {
+      "id": "C",
+      "status": "ACTIVE / PARTIAL",
+      "lineage": "clean/postgresql-reference/0.1",
+      "phases": {
+        "P1": "MERGED / REPOSITORY-TESTED",
+        "P2": "MERGED / REPOSITORY-INTEGRATION-TESTED",
+        "P3": "MERGED / REPOSITORY-INTEGRATION-TESTED",
+        "P4": "MERGED / PARTIAL / POSTGRESQL C2",
+        "P5": "MERGED / PARTIAL / SQLITE C2 + CROSS-PROFILE C3",
+        "C4": "MERGED / PARTIAL / OFFLINE SHADOW EVIDENCE",
+        "C5": "MERGED / PARTIAL / BOUNDED SYNTHETIC OPERATIONAL REHEARSAL"
+      }
+    },
+    "long_horizon_research": {
+      "id": "R",
+      "status": "PROPOSED / BOUNDED / NO AUTOMATIC PROMOTION",
+      "runtime_authorized": false,
+      "canonical_promotion_requires": [
+        "explicit contract",
+        "reproducible implementation and tests",
+        "failure cases",
+        "separate decision record",
+        "operator approval"
+      ]
+    }
+  },
+  "assertion_map": {
+    "supported": 45,
+    "partial": 10,
+    "unsupported": 17,
+    "failed": 0,
+    "total": 72
+  },
+  "nk_epi": {
+    "contract_version": "nk-epi/0.1-proposed",
+    "decision_status": "PROPOSED",
+    "supported": 0,
+    "partial": 0,
+    "unsupported": 8,
+    "failed": 0,
+    "next_candidate": "NK-EPI-004",
+    "next_candidate_semantics": "unknown or unanswered is not silently treated as false",
+    "promotion_authorized": false
+  },
+  "issues": {
+    "1": {
+      "state": "OPEN",
+      "meaning": "Historical source recovery remains independent from the clean implementation.",
+      "verification": {
+        "status": "VERIFIED",
+        "method": "GITHUB_API",
+        "observed_at": "2026-08-07T21:06:45Z",
+        "source": "issue/1"
+      }
+    },
+    "64": {
+      "state": "CLOSED",
+      "state_reason": "COMPLETED",
+      "meaning": "C5 bounded operational rehearsal implementation issue is complete.",
+      "verification": {
+        "status": "VERIFIED",
+        "method": "GITHUB_API",
+        "observed_at": "2026-08-07T21:28:07Z",
+        "source": "issue/64"
+      }
+    }
+  },
+  "evidence": {
+    "c5_bundle": {
+      "protocol": "nk-evidence-bundle/1",
+      "path": "evidence/c5/2026-08-07/manifest.json",
+      "status": "CAPTURED_REPOSITORY_RESIDENT",
+      "checkpoint_count": 2,
+      "artifact_count": 8,
+      "original_archives_preserved": true,
+      "source_retention_expiry": "2026-09-06"
+    }
+  },
+  "notion": {
+    "synchronization_required": true,
+    "status": "PLANNED_IN_SAME_WORK_CYCLE",
+    "authority_boundary": "Notion carries rationale and history; GitHub remains sufficient for technical state and evidence."
+  },
+  "non_claims": [
+    "C5 bounded rehearsal is not production readiness.",
+    "Operational validation does not promote NK-EPI assertions.",
+    "Clean implementation is not recovered v0.1.2.1.",
+    "Repository-resident artifacts do not prove live-data safety, compliance, physical deletion, operational equivalence or ecosystem authority."
+  ]
+}

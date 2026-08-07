@@ -19,9 +19,7 @@ SPEC.loader.exec_module(module)
 class C5ManifestTests(unittest.TestCase):
     def setUp(self) -> None:
         self.manifest = json.loads(
-            (ROOT / "profiles" / "operational-validation-v0" / "c5-manifest.json").read_text(
-                encoding="utf-8"
-            )
+            (ROOT / "profiles" / "operational-validation-v0" / "c5-manifest.json").read_text(encoding="utf-8")
         )
 
     def test_manifest_passes(self) -> None:
@@ -31,18 +29,6 @@ class C5ManifestTests(unittest.TestCase):
         manifest = copy.deepcopy(self.manifest)
         manifest["plan"]["sha256"] = "0" * 64
         with self.assertRaisesRegex(module.ManifestError, "plan digest drift"):
-            module.validate(manifest, root=ROOT)
-
-    def test_false_repository_pass_is_rejected(self) -> None:
-        manifest = copy.deepcopy(self.manifest)
-        evidence = manifest["repository_evidence"]
-        evidence["status"] = "PASS"
-        evidence["head_sha"] = None
-        evidence["workflow_run_id"] = None
-        evidence["artifact_count"] = 0
-        evidence["artifacts"] = []
-        evidence["matrix"] = []
-        with self.assertRaisesRegex(module.ManifestError, "exact repository head"):
             module.validate(manifest, root=ROOT)
 
     def test_c5_cannot_rewrite_assertion_conformance(self) -> None:
@@ -55,6 +41,18 @@ class C5ManifestTests(unittest.TestCase):
         manifest = copy.deepcopy(self.manifest)
         manifest["deployment_boundary"]["production_traffic"] = True
         with self.assertRaisesRegex(module.ManifestError, "unsafe C5 boundary"):
+            module.validate(manifest, root=ROOT)
+
+    def test_final_main_evidence_cannot_drift(self) -> None:
+        manifest = copy.deepcopy(self.manifest)
+        manifest["repository_evidence"]["head_sha"] = "0" * 40
+        with self.assertRaisesRegex(module.ManifestError, "final-main"):
+            module.validate(manifest, root=ROOT)
+
+    def test_durable_evidence_is_required(self) -> None:
+        manifest = copy.deepcopy(self.manifest)
+        manifest["durable_evidence"]["status"] = "EXPIRED"
+        with self.assertRaisesRegex(module.ManifestError, "not captured"):
             module.validate(manifest, root=ROOT)
 
 

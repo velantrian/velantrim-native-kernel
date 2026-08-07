@@ -13,8 +13,13 @@ from urllib.parse import unquote, urlsplit
 REQUIRED_PATHS = (
     "AGENTS.md",
     "STATUS.md",
+    "project-state.json",
     ".github/copilot-instructions.md",
     ".github/pull_request_template.md",
+    "contracts/project-state-v1.schema.json",
+    "contracts/evidence-bundle-v1.schema.json",
+    "evidence/c5/README.md",
+    "evidence/c5/2026-08-07/manifest.json",
     "docs/ai/README.md",
     "docs/ai/CURRENT_STATE.md",
     "docs/ai/COMPONENT_MAP.md",
@@ -27,26 +32,30 @@ REQUIRED_PATHS = (
     "docs/ai/AUDIT_PLAYBOOK.md",
     "docs/ai/DOCUMENTATION_SYNC_PROTOCOL.md",
     "docs/ai/NOTION_HANDOFF.md",
+    "docs/research/POST_C5_RESEARCH_BACKLOG.md",
 )
 
 LINK_SCAN_PATHS = (
-    "AGENTS.md", "CONTRIBUTING.md", ".github/copilot-instructions.md",
-    ".github/pull_request_template.md", "docs/README.md", "docs/README.ru.md",
-    "docs/ai/README.md", "docs/ai/CURRENT_STATE.md", "docs/ai/COMPONENT_MAP.md",
+    "README.md", "README.ru.md", "AGENTS.md", "CONTRIBUTING.md",
+    ".github/copilot-instructions.md", ".github/pull_request_template.md",
+    "docs/README.md", "docs/README.ru.md", "docs/ai/README.md",
+    "docs/ai/CURRENT_STATE.md", "docs/ai/COMPONENT_MAP.md",
     "docs/ai/KNOWN_RISKS.md", "docs/ai/WORK_LOG.md",
     "docs/ai/P4_IMPLEMENTATION_RECORD.md", "docs/ai/P5_IMPLEMENTATION_RECORD.md",
     "docs/ai/C4_IMPLEMENTATION_RECORD.md", "docs/ai/C5_IMPLEMENTATION_RECORD.md",
     "docs/ai/AUDIT_PLAYBOOK.md", "docs/ai/DOCUMENTATION_SYNC_PROTOCOL.md",
-    "docs/ai/NOTION_HANDOFF.md",
+    "docs/ai/NOTION_HANDOFF.md", "docs/adr/README.md",
+    "evidence/c5/README.md", "docs/research/POST_C5_RESEARCH_BACKLOG.md",
 )
 
-CHECKPOINT_RE = re.compile(r"\*\*Last verified public `main`:\*\*\s*`([0-9a-f]{40})`")
+CHECKPOINT_RE = re.compile(r"\*\*Verified source checkpoint:\*\*\s*`([0-9a-f]{40})`")
 MARKDOWN_LINK_RE = re.compile(r"(?<!\!)\[[^\]]+\]\(([^)]+)\)")
 IGNORED_SCHEMES = {"http", "https", "mailto", "tel", "data"}
 REQUIRED_STATUS_MARKERS = (
     "RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY",
     "NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GLOBALLY_LOST",
-    "Context checkpoint ≠ automatically current main",
+    "historical recovery ≠ clean implementation",
+    "research proposal ≠ accepted contract ≠ runtime",
     "C2 ≠ C3 ≠ C4 ≠ C5",
     "C5 BOUNDED REHEARSAL ≠ PRODUCTION READINESS",
     "C5 SYNTHETIC DATA ≠ LIVE USER TRAFFIC",
@@ -55,18 +64,23 @@ REQUIRED_STATUS_MARKERS = (
     "ASSERTION EVIDENCE ≠ TRUTH / AUTHENTICITY / PHYSICAL ERASURE",
 )
 
+
 @dataclass(frozen=True)
 class Finding:
     path: str
     message: str
+
     def render(self) -> str:
         return f"{self.path}: {self.message}"
+
 
 def _run_git(repo: Path, *args: str) -> subprocess.CompletedProcess[str]:
     return subprocess.run(["git", "-C", str(repo), *args], check=False, capture_output=True, text=True)
 
+
 def validate_required_paths(repo: Path) -> list[Finding]:
     return [Finding(rel, "required AI-context file is missing") for rel in REQUIRED_PATHS if not (repo / rel).is_file()]
+
 
 def _normalize_link_target(source: Path, raw_target: str, repo: Path) -> Path | None:
     target = raw_target.strip()
@@ -85,6 +99,7 @@ def _normalize_link_target(source: Path, raw_target: str, repo: Path) -> Path | 
     if not path_text:
         return None
     return (repo / path_text.lstrip("/") if path_text.startswith("/") else source.parent / path_text).resolve()
+
 
 def validate_links(repo: Path) -> list[Finding]:
     findings: list[Finding] = []
@@ -107,6 +122,7 @@ def validate_links(repo: Path) -> list[Finding]:
                 findings.append(Finding(rel, f"broken relative link: {raw}"))
     return findings
 
+
 def read_checkpoint(repo: Path) -> tuple[str | None, list[Finding]]:
     rel = "docs/ai/CURRENT_STATE.md"
     path = repo / rel
@@ -116,15 +132,16 @@ def read_checkpoint(repo: Path) -> tuple[str | None, list[Finding]]:
     findings: list[Finding] = []
     match = CHECKPOINT_RE.search(text)
     if not match:
-        findings.append(Finding(rel, "missing exact 40-character 'Last verified public `main`' checkpoint"))
+        findings.append(Finding(rel, "missing exact 40-character verified source checkpoint"))
         return None, findings
     for marker in REQUIRED_STATUS_MARKERS:
         if marker not in text:
             findings.append(Finding(rel, f"required status marker is missing: {marker}"))
     return match.group(1), findings
 
+
 def validate_checkpoint(repo: Path, checkpoint: str | None) -> list[Finding]:
-    if checkpoint is None:
+    if checkpoint is None or not (repo / ".git").exists():
         return []
     if _run_git(repo, "cat-file", "-e", f"{checkpoint}^{{commit}}").returncode != 0:
         return [Finding("docs/ai/CURRENT_STATE.md", f"checkpoint commit does not exist: {checkpoint}")]
@@ -135,6 +152,7 @@ def validate_checkpoint(repo: Path, checkpoint: str | None) -> list[Finding]:
         return [Finding("docs/ai/CURRENT_STATE.md", f"checkpoint {checkpoint} is not an ancestor of HEAD {head.stdout.strip()}")]
     return []
 
+
 def validate(repo: Path) -> list[Finding]:
     findings = validate_required_paths(repo)
     findings.extend(validate_links(repo))
@@ -142,6 +160,7 @@ def validate(repo: Path) -> list[Finding]:
     findings.extend(more)
     findings.extend(validate_checkpoint(repo, checkpoint))
     return findings
+
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
@@ -161,6 +180,7 @@ def main(argv: list[str] | None = None) -> int:
     head = _run_git(repo, "rev-parse", "HEAD").stdout.strip()
     print(f"AI context validation passed; checkpoint={checkpoint}; head={head}")
     return 0
+
 
 if __name__ == "__main__":
     raise SystemExit(main())
