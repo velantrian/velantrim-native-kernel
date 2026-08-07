@@ -1,10 +1,8 @@
 # ⚠️ Native Kernel Known Risks and Required Proof
 
-**Snapshot:** 2026-08-06  
-**Last verified public `main`:** `9fd608f3f1d2915b961644015eb6b5e1a93e84d3`  
-**Latest implementation:** PR #44 / P1 semantic core
-
-P1 code reduces architecture-only risk, but it does not close storage, replay, security, privacy, licensing or portability risks.
+**Snapshot:** 2026-08-07  
+**Last verified public `main`:** `bb94835ad612f45e2629655bc9add872d8981357`  
+**Active work:** Issue #46 / P2 PostgreSQL append profile
 
 ## P0 — Authentic source recovery remains unresolved
 
@@ -12,134 +10,127 @@ P1 code reduces architecture-only risk, but it does not close storage, replay, s
 
 The reported `v0.1.2.1` source and original 44-test suite remain absent from accessible sources.
 
-Required proof: authentic bytes, lineage, hashes, original test inventory and explicit Issue #1 operator gate.
-
-## P0 — Clean P1 may be mistaken for recovered history
-
-**State:** `OPEN`, narrowed by ADR-0015 and manifest guards
-
 ```text
 clean/postgresql-reference/0.1
-≠ v0.1.2.1
+≠ recovered v0.1.2.1
 ≠ original 44-test evidence
 ```
 
-Every future package, report and release must preserve this boundary.
-
-## P0 — P1 semantic core may be mistaken for a complete Kernel
+## P0 — P2 may be mistaken for a complete Kernel
 
 **State:** `OPEN`
 
-P1 implements canonical identity, domain objects, authority, logical reduction, deletion transitions and Receipt guards.
+P2 adds a bounded append/idempotency profile. It does not add replay/upcasters, projections, operational Receipts, deletion execution, API, conformance or ecosystem wiring.
 
-It does not implement durable history, append/idempotency, a database adapter, projection persistence, network API or profile conformance.
+Required control: public status remains `P2 PARTIAL / NOT PRODUCTION-READY`.
 
-Required control: public surfaces use `P1 PARTIAL / SEMANTIC CORE ONLY`.
-
-## P0 — Logical reducer may be mistaken for durable replay
+## P0 — Unit tests may be mistaken for PostgreSQL integration
 
 **State:** `OPEN`
-
-The reducer processes supplied in-memory `SemanticEvent` objects and checks version/sequence continuity. It does not verify durable commits, event chains, crashes, truncation, forks, upcasters or persisted projection rebuild.
-
-Required proof before replay claims: separate P2/P3 storage and failure evidence.
-
-## P0 — Local tests may be mistaken for C1/C2
-
-**State:** `OPEN`, machine-readable guard retained
-
-Final P1 content passed 31 focused tests and compile/manifest validation in local Python 3.13.5. The declared profile range is Python 3.11/3.12, and no exact repository workflow run was created.
 
 ```text
-local final-content evidence: LOCALLY_TESTED
-repository Python 3.11/3.12: NOT_RECORDED
-kernel_runtime_conformance:  UNSUPPORTED
+9 P2 unit tests PASS
+5 P2 manifest tests PASS
+5 PostgreSQL tests DECLARED / NOT RUN NO DSN
+repository run NOT_RECORDED
 ```
 
-Required proof for later levels: exact declared-range CI, pinned environment, artifacts and an assertion-scoped conformance adapter.
+Required proof: exact PostgreSQL 16/18 × Python 3.11/3.12 jobs, logs and conclusions.
 
-## P0 — Provisional digests may become accidental Canon
-
-**State:** `OPEN`
-
-`nkd0` and `nks0` are P1 implementation details. They are not accepted cross-profile contracts.
-
-Required control: no external profile, migration or persistent schema may depend on them without a separate contract/ADR.
-
-## P1 — GitHub Actions execution remains unrecorded
+## P0 — Durable append may be mistaken for replay conformance
 
 **State:** `OPEN`
 
-Workflow definitions exist for P1 and AI-context validation, but PR head `273d9369…` and merge `9fd608f3…` have no recorded run.
+The adapter appends and retrieves original idempotent results. It does not execute reducer/upcaster replay, rebuild projections, detect every privileged rewrite or prove recovery after real process/host failures.
 
-Required proof: exact run ID, head SHA, Python 3.11/3.12 jobs, conclusions, logs and artifacts.
+Required proof: separately authorized P3 fault/replay work.
 
-## P1 — Python may become accidental permanent architecture
-
-**State:** `OPEN`, narrowed
-
-P1 uses Python standard library as a reversible profile choice. Semantic contracts must remain independent from Python dataclasses, types and module layout.
-
-## P1 — Authority adapter may be mistaken for an operational security system
+## P0 — Single-writer lease may be mistaken for consensus
 
 **State:** `OPEN`
 
-`StaticAuthorityPolicy` is deterministic and deny-by-default, but has no credentials, identity provider, revocation, persisted delegation or operational audit.
+Owner/epoch/expiry fencing serializes this PostgreSQL profile. It is not multi-writer consensus, cross-region leadership or Byzantine protection.
 
-Required proof: separate authority/security profile and threat model.
+Required control: keep multi-writer out of `nk-event/1.0` claims.
 
-## P1 — Deletion state semantics may be mistaken for byte deletion
-
-**State:** `OPEN`
-
-P1 validates transitions and Receipt limits but deletes no primary data, backups, indexes, logs, exports or keys.
-
-Required proof: profile-specific data-location implementation, retries/failures, backup/restore evidence and security/legal review.
-
-## P1 — Accepted contracts are only partially implemented
+## P0 — Hash chain may be mistaken for authentication
 
 **State:** `OPEN`
 
-P1 exercises selected NK-ID, NK-SEM, NK-AUT, NK-EVT and deletion code paths. It does not provide complete assertion-level support.
+`nkp1`/`nke1` detect tested inconsistencies but are not signatures, external notarization or defense against every privileged database rewrite.
 
-All 72 assertions remain runtime `UNSUPPORTED` until P4.
+Required proof for authenticity: separately designed key/signature or external evidence system.
 
-## P1 — PostgreSQL work remains blocked
+## P1 — Migration drift and operational migration safety
 
-**State:** `OPEN / REQUIRES SEPARATE GO`
+**State:** `OPEN`, partially controlled
 
-P2 requires explicit decisions on PostgreSQL versions, driver, migration tool, writer lease/epoch, transaction schema, dependency policy and Issue #18 license compatibility.
+Numbered SQL checksums and an advisory transaction lock detect modified applied migrations and serialize migration execution. Restore, downgrade, partial operational rollout and long-lock behavior remain untested.
 
-## P1 — SQL schema may become accidental Canon
-
-**State:** `OPEN`
-
-Future tables, constraints, indexes and surrogate keys must remain profile details. Semantic identity must survive storage replacement.
-
-## P1 — NK-EPI status may be hidden by implementation progress
+## P1 — Writer lease clock/availability assumptions
 
 **State:** `OPEN`
 
-ADR-0008 and `NK-EPI-001…008` remain proposed. P1 does not implement or accept them.
+Lease expiry uses PostgreSQL transaction time. Long transactions, connection loss, database failover and operational clock behavior require integration/fault evidence.
 
-## P1 — Storage neutrality remains unproven
+## P1 — Rollback-safe counters serialize writes
+
+**State:** `ACCEPTED TRADE-OFF / UNBENCHMARKED`
+
+Instance-row locking provides contiguous global ordering but serializes authoritative appends per instance. Throughput and contention are unknown.
+
+Required proof: performance and failure tests before operational claims.
+
+## P1 — Psycopg/PostgreSQL may become accidental Canon
+
+**State:** `OPEN`, controlled by profile separation
+
+Python, Psycopg, SQL schema, indexes and locks are replaceable implementation details. Cross-profile neutrality remains unproven until P5/C3 evidence.
+
+## P1 — P1 dependency boundary may regress
+
+**State:** `OPEN`, guarded
+
+Psycopg must remain lazy and P2-only. `native_kernel.semantic_core` stays standard-library-only.
+
+## P1 — Stored JSONB may diverge from canonical bytes
+
+**State:** `OPEN`, checked on idempotent load
+
+P2 stores JSONB for profile queries and canonical bytes for commitments. Original-result loading validates payload/envelope bytes and hashes, but full history scans are future work.
+
+## P1 — Integration workflow may not execute
 
 **State:** `OPEN`
 
-No storage adapter exists. C3 requires a materially independent second profile and declared equivalence.
+The workflow definition is not evidence. Connector-created commits have previously produced no run.
+
+Required proof: exact run IDs and matrix jobs; no missing run may be described as PASS.
+
+## P1 — Deletion semantics still delete no bytes
+
+**State:** `OPEN`
+
+P2 adds no deletion execution. Backups, exports, indexes, keys and provider acknowledgements remain outside evidence.
+
+## P1 — Assertion-level conformance remains absent
+
+**State:** `OPEN`
+
+All 72 assertion results remain runtime `UNSUPPORTED` until a P4 adapter emits complete assertion-scoped evidence.
+
+## P1 — License/publication terms unresolved
+
+**State:** `OPEN`, Issue #18
+
+Psycopg is declared for CI/profile integration but not vendored or packaged. Repository publication/contribution decisions remain separate.
 
 ## P1 — Cross-project authority leakage
 
 **State:** `OPEN`
 
-P1 does not authorize Titan, Mentaury or Crystal integration, shared storage, identity or inherited conformance.
-
-## P1 — License and contribution terms unresolved
-
-**State:** `OPEN`, Issue #18
-
-P1 uses no external dependencies and is not packaged, but publication, reuse and contribution terms remain undecided.
+P2 does not authorize Titan, Mentaury or Crystal integration, shared storage, identity or inherited conformance.
 
 ## Update rule
 
-Record exact state, evidence, SHA, remaining uncertainty and next action. Never close a risk through prose, approval, local tests, manifest coverage or code presence alone.
+Never close a risk through prose, operator approval, local unit tests, code presence or a workflow definition alone. Record exact environment, SHA, result, limitations and remaining proof.
