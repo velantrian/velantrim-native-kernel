@@ -1,14 +1,23 @@
-"""Bounded PostgreSQL append, replay, projection and Receipt profile.
+"""Bounded PostgreSQL append, replay, projection, Receipt and P4 evidence profile.
 
 PostgreSQL and Psycopg are replaceable profile technologies, not Architecture
 Canon. Importing this package does not import Psycopg; a driver is required only
-when a real connection is requested.
+when a real connection is requested. P4 conformance remains assertion-scoped
+and does not imply complete profile support or C3.
 """
 from .adapter import (
     EVIDENCE_LINEAGE,
     PROFILE_ID,
     PostgreSQLAppendStore,
     connection_factory_from_dsn,
+)
+from .conformance import (
+    PROFILE_VERSION,
+    ConformanceCheck,
+    ConformanceExecutionError,
+    build_report,
+    render_report,
+    report_from_environment,
 )
 from .errors import (
     DriverUnavailable,
@@ -43,6 +52,8 @@ from .replay_models import (
 __all__ = [
     "AppendResult",
     "AppendStatus",
+    "ConformanceCheck",
+    "ConformanceExecutionError",
     "DEFAULT_LIMITS",
     "DEFAULT_PROJECTION",
     "DriverUnavailable",
@@ -54,6 +65,7 @@ __all__ = [
     "OperationType",
     "OperationalReceipt",
     "PROFILE_ID",
+    "PROFILE_VERSION",
     "PostgreSQLAppendStore",
     "PostgreSQLProfileError",
     "PostgreSQLReplayProjector",
@@ -74,9 +86,12 @@ __all__ = [
     "WriterToken",
     "apply_migrations",
     "build_event_envelope",
+    "build_report",
     "canonical_recorded_at",
     "connection_factory_from_dsn",
     "discover_migrations",
     "event_hash",
     "payload_hash",
+    "render_report",
+    "report_from_environment",
 ]
