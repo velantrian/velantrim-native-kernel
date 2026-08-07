@@ -14,11 +14,12 @@ It is a map, not a substitute for checking the exact repository state.
 3. [`../../AGENTS.md`](../../AGENTS.md) — mandatory repository rules.
 4. [`DOCUMENTATION_SYNC_PROTOCOL.md`](DOCUMENTATION_SYNC_PROTOCOL.md) — GitHub ↔ Notion synchronization contract.
 5. [`CURRENT_STATE.md`](CURRENT_STATE.md) — last verified checkpoint and active gates.
-6. [`COMPONENT_MAP.md`](COMPONENT_MAP.md) — document, contract, authority and evidence map.
-7. [`KNOWN_RISKS.md`](KNOWN_RISKS.md) — unresolved engineering, epistemic and governance risks.
-8. [`AUDIT_PLAYBOOK.md`](AUDIT_PLAYBOOK.md) — context-efficient audit method.
-9. [`WORK_LOG.md`](WORK_LOG.md) — significant work, decisions and hand-offs.
-10. [`NOTION_HANDOFF.md`](NOTION_HANDOFF.md) — synchronization queue when Notion is unavailable.
+6. [`P3_IMPLEMENTATION_RECORD.md`](P3_IMPLEMENTATION_RECORD.md) — exact P3 replay/projection/Receipt scope, evidence and non-claims.
+7. [`COMPONENT_MAP.md`](COMPONENT_MAP.md) — document, contract, authority and evidence map.
+8. [`KNOWN_RISKS.md`](KNOWN_RISKS.md) — unresolved engineering, epistemic and governance risks.
+9. [`AUDIT_PLAYBOOK.md`](AUDIT_PLAYBOOK.md) — context-efficient audit method.
+10. [`WORK_LOG.md`](WORK_LOG.md) — significant work, decisions and hand-offs.
+11. [`NOTION_HANDOFF.md`](NOTION_HANDOFF.md) — synchronization queue when Notion is unavailable.
 
 Then open only the source-recovery tooling, ADRs, RFCs, contracts, issues, PRs and workflows relevant to the task.
 
@@ -52,6 +53,7 @@ No material finding, accepted decision, blocker, exact evidence or required next
 | Task | Read next |
 |---|---|
 | Repository maturity or implementation claim | `STATUS.md` + `CURRENT_STATE.md` |
+| P3 replay/projection/Receipt audit | `P3_IMPLEMENTATION_RECORD.md` → Issue #49 → ADR-0017 → source/tests/manifest → exact workflow run |
 | Architecture or invariant | `ARCHITECTURE.md`, `FOUNDATIONAL_INTENT`, relevant ADR |
 | Source recovery / Issue #1 | `ISSUE_1_IMPORT_SPEC`, `docs/source-recovery/`, `prototype/README.md` |
 | Storage or compute profile | `STORAGE_AND_EXECUTION_PROFILES*`, ADR-0009 |
@@ -91,6 +93,7 @@ An ancestor checkpoint is permitted because `CURRENT_STATE.md` is a last-verifie
 A material PR must update the affected context files in the same branch:
 
 - `CURRENT_STATE.md` for verified state changes;
+- `P3_IMPLEMENTATION_RECORD.md` for P3 exact evidence/non-claims;
 - `KNOWN_RISKS.md` for changed risk;
 - `COMPONENT_MAP.md` for new ownership or first-read paths;
 - `WORK_LOG.md` for significant work;
