@@ -52,7 +52,7 @@ CHECKPOINT_RE = re.compile(
 MARKDOWN_LINK_RE = re.compile(r"(?<!!)\[[^\]]+\]\(([^)]+)\)")
 IGNORED_SCHEMES = {"http", "https", "mailto", "tel", "data"}
 REQUIRED_STATUS_MARKERS = (
-    "RESEARCH / P1 PARTIAL IMPLEMENTATION / NOT PRODUCTION-READY",
+    "RESEARCH / P2 PARTIAL IMPLEMENTATION / NOT PRODUCTION-READY",
     "NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GLOBALLY_LOST",
     "Context checkpoint ≠ automatically current main",
 )

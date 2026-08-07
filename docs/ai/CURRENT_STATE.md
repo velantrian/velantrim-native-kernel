@@ -1,124 +1,95 @@
 # 📍 Native Kernel Current State Checkpoint
 
-**Verified:** 2026-08-06  
-**Last verified public `main`:** `9fd608f3f1d2915b961644015eb6b5e1a93e84d3`  
-**Latest implementation:** PR #44 — P1 profile-independent semantic core  
-**Repository status:** `RESEARCH / P1 PARTIAL IMPLEMENTATION / NOT PRODUCTION-READY`
+**Verified:** 2026-08-07  
+**Last verified public `main`:** `bb94835ad612f45e2629655bc9add872d8981357`  
+**Active branch / PR:** `agent/p2-postgresql-append` / #47  
+**Active issue:** #46  
+**Repository status:** `RESEARCH / P2 PARTIAL IMPLEMENTATION / NOT PRODUCTION-READY`
 
-> Context checkpoint ≠ automatically current main. Re-check the repository ref, exact workflow evidence and later PRs before relying on this file.
-
-Source-recovery result remains:
+> Context checkpoint ≠ automatically current main. Verify exact final PR head, review state and merge SHA.
 
 ```text
 NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GLOBALLY_LOST
-```
-
-```text
-ACCEPTED PROFILE PLAN ≠ COMPLETE PROFILE
-P1 LOCAL PASS ≠ DURABLE KERNEL
-LOGICAL REDUCER ≠ AUTHORITATIVE HISTORY
-IMPLEMENTED CODE PATH ≠ ASSERTION-LEVEL CONFORMANCE
+P2 INTEGRATION PASS ≠ REPLAY/PROJECTION RUNTIME
+IMPLEMENTED PROFILE ≠ ASSERTION-LEVEL CONFORMANCE
 C1 ≠ C2 ≠ C3
 ```
 
-## Operator decision
+## Operator gate
 
 ```text
-RFC-0002:                 ACCEPTED / APPROVED
-clean lineage:            clean/postgresql-reference/0.1
-P1 semantic core:         AUTHORIZED / MERGED
-P2–P5:                    REQUIRE SEPARATE GO
-Issue #1:                 ACTIVE / INDEPENDENT
+RFC-0002:              ACCEPTED / APPROVED
+P1 semantic core:      MERGED
+P2 PostgreSQL adapter: AUTHORIZED / REPOSITORY-TESTED
+P3–P5:                 REQUIRE SEPARATE GO
+Issue #1 / #18:        ACTIVE / INDEPENDENT
 ```
 
-Decision evidence is recorded in Issue #40 and ADR-0015.
+Decision evidence: Issue #46 and ADR-0016.
 
-## Exact P1 publication
+## P2 implementation
 
 ```text
-PR:             #44
-Base main:      9ccbb535e22438092393e2686eb76eb362adb29d
-Final PR head:  273d9369e624d8e4c4033dc7842ebbcc46642668
-Merge SHA:      9fd608f3f1d2915b961644015eb6b5e1a93e84d3
-Changed files:  30
-Review threads: 0 unresolved
-Submitted reviews: 0
-Codex review:   unavailable due external usage limit
+native_kernel.postgresql_profile
+PostgreSQL 16–18
+Psycopg >=3.3,<3.4
+Python >=3.11,<3.13
 ```
 
-## Merged P1 package
+Components:
+
+1. lazy driver boundary;
+2. checksum-locked migrations;
+3. Kernel instance and rollback-safe history head;
+4. writer owner/epoch/expiry fence;
+5. atomic Event/idempotency transaction;
+6. scoped idempotency `(instance, command contract, key)`;
+7. rollback-safe global/stream counters;
+8. canonical payload/envelope storage and `nkp1`/`nke1` commitments;
+9. corruption checks for idempotent original-result reads;
+10. P2 manifest/validator and declared repository matrix.
+
+## Repository evidence
+
+Evidence head: `e80492bcacde2ff2be3a2ee03aa5aa53a714d288`.
 
 ```text
-native_kernel.semantic_core
-Python profile: >=3.11,<3.13
-Dependencies: standard library only
+P2 run 31151297646 — PASS
+3.11 / PG16 — PASS
+3.11 / PG18 — PASS
+3.12 / PG16 — PASS
+3.12 / PG18 — PASS
+AI context run 31151298002 — PASS
+P1 semantic core run 31151297696 — PASS
+Fixture integrity run 31151298177 — PASS
 ```
 
-Implemented components:
-
-1. `canonical.py` — canonical JSON, `nkh1`, `nkc1`, `nkl1`, provisional `nkd0`/`nks0`;
-2. `models.py` — immutable semantic content, Claim identity, command and logical Event objects;
-3. `authority.py` — explicit deterministic deny-by-default authority policy;
-4. `reducer.py` — version-bound deterministic in-memory reducer;
-5. `deletion.py` — deletion/restriction transition graph and Receipt limits;
-6. `receipt.py` — admission Receipt proof-boundary enforcement;
-7. `errors.py` — explicit contract, authority, sequence, version, transition and overclaim failures.
-
-Manual hardening corrected exact authority scope and rejects malformed enums, calendar timestamps, boolean sequences, authority grants, Receipt identifiers/limits and deletion evidence.
-
-## Evidence
-
-Exact final content was run in the available local Python 3.13.5 environment:
+Each P2 job passed 9 unit tests, 5 PostgreSQL integration tests, 5 manifest tests, validator and compileall.
 
 ```text
-20 semantic-core tests PASS
-4 P1-manifest guard tests PASS
-7 AI-context validator tests PASS
-Python compileall PASS
-P1 manifest validator PASS
-no PostgreSQL/SQLite/network dependency imports
+P2 PostgreSQL integration: REPOSITORY_REPRODUCED
+Kernel runtime conformance: UNSUPPORTED
+C1/C2/C3:                  NOT_ESTABLISHED
 ```
 
-The declared runtime range is Python 3.11/3.12. No workflow run was created for PR head `273d9369…` or merge `9fd608f3…`.
+## Documentation-depth review
 
-```text
-local final-content evidence: LOCALLY_TESTED
-repository workflow evidence: NOT_RECORDED
-Kernel runtime conformance:   UNSUPPORTED
-C1/C2/C3:                     NOT_ESTABLISHED
-```
+The original README, RFC, ADR status guide, component map, risk history and work-log chronology were preserved. P2 was added as a new layer rather than replacing accumulated architecture/governance context.
 
-## Implementation limits
+## Final-head validation rule
 
-P1 contains no PostgreSQL/SQLite adapter, SQL schema, driver, migration framework, durable append/idempotency, writer-lease persistence, authoritative replay, crash recovery, projection storage/rebuild, network API, conformance adapter or ecosystem wiring.
+The final evidence commit changes this checkpoint and `p2-manifest.json` together. P2 and AI-context workflows must both pass on that same exact PR head before merge. A successful earlier run remains evidence for its own SHA but is not silently treated as the final-head result.
 
-The reducer processes logical in-memory Events only.
+## Boundaries
 
-## Manifests
+P2 does not provide projections/rebuild, replay/upcasters, operational Receipts, deletion execution, network API, P4 conformance, P5 SQLite, production guarantees or ecosystem wiring.
 
-```text
-profile-manifest.json → historical P0 planning snapshot
-p1-manifest.json      → accepted P1 implementation/evidence state
-```
-
-All 72 contract assertions remain runtime `UNSUPPORTED` until a future P4 conformance adapter reports every assertion exactly once.
-
-## Issue #1 and ecosystem separation
-
-```text
-P1 clean implementation
-≠ recovered v0.1.2.1
-≠ original 44 tests
-≠ closure of source-recovery gate
-```
-
-No Titan, Mentaury or Crystal runtime integration is authorized.
+`profile-manifest.json`, `p1-manifest.json` and `p2-manifest.json` are distinct phase records. All 72 assertion statuses remain `UNSUPPORTED` until P4.
 
 ## Next gates
 
-1. finalize this post-merge checkpoint and Notion sync;
-2. close Issue #43 as completed P1 scope;
-3. keep P2 blocked until a separate operator GO;
-4. keep runtime assertions `UNSUPPORTED` until P4;
-5. obtain exact Python 3.11/3.12 repository workflow evidence when available;
-6. preserve Issue #1 and Issue #18 as independent gates.
+1. run P2 and AI-context workflows on the same final PR head;
+2. inspect full diff and review threads;
+3. merge only with no P3/P4/P5 or ecosystem drift;
+4. record exact merge and post-merge workflow evidence;
+5. keep P3 blocked pending separate GO.

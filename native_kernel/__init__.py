@@ -1,7 +1,8 @@
 """Velantrim Native Kernel clean implementation lineage.
 
-Only the bounded P1 semantic core is implemented. Storage adapters, durable
-history, projection persistence and profile conformance remain outside scope.
+P1 semantic-core code and a bounded P2 PostgreSQL append/idempotency profile
+exist. Replay/projection runtime, conformance and production claims remain out
+of scope.
 """
 
-__version__ = "0.1.0-p1"
+__version__ = "0.2.0-p2"

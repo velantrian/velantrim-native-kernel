@@ -46,12 +46,13 @@ class AIContextValidatorTests(unittest.TestCase):
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(content, encoding="utf-8")
 
-    def _write_current_state(self, checkpoint: str) -> None:
+    def _write_current_state(self, checkpoint: str, *, status: str | None = None) -> None:
+        current_status = status or "RESEARCH / P2 PARTIAL IMPLEMENTATION / NOT PRODUCTION-READY"
         self._write(
             "docs/ai/CURRENT_STATE.md",
             "# Current\n\n"
             f"**Last verified public `main`:** `{checkpoint}`  \n"
-            "**Repository status:** `RESEARCH / P1 PARTIAL IMPLEMENTATION / NOT PRODUCTION-READY`\n\n"
+            f"**Repository status:** `{current_status}`\n\n"
             "NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GLOBALLY_LOST\n"
             "Context checkpoint ≠ automatically current main\n",
         )
@@ -92,17 +93,15 @@ class AIContextValidatorTests(unittest.TestCase):
         findings = validator.validate(self.repo)
         self.assertTrue(any("checkpoint commit does not exist" in f.message for f in findings))
 
-    def test_old_documented_only_status_is_rejected(self) -> None:
-        self._write(
-            "docs/ai/CURRENT_STATE.md",
-            "# Current\n\n"
-            f"**Last verified public `main`:** `{self.initial_sha}`  \n"
-            "**Repository status:** `RESEARCH / DOCUMENTED_ONLY / NOT PRODUCTION-READY`\n\n"
-            "NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GLOBALLY_LOST\n"
-            "Context checkpoint ≠ automatically current main\n",
-        )
-        findings = validator.validate(self.repo)
-        self.assertTrue(any("P1 PARTIAL IMPLEMENTATION" in f.message for f in findings))
+    def test_stale_p0_and_p1_statuses_are_rejected(self) -> None:
+        for stale in (
+            "RESEARCH / DOCUMENTED_ONLY / NOT PRODUCTION-READY",
+            "RESEARCH / P1 PARTIAL IMPLEMENTATION / NOT PRODUCTION-READY",
+        ):
+            with self.subTest(stale=stale):
+                self._write_current_state(self.initial_sha, status=stale)
+                findings = validator.validate(self.repo)
+                self.assertTrue(any("P2 PARTIAL IMPLEMENTATION" in f.message for f in findings))
 
 
 if __name__ == "__main__":

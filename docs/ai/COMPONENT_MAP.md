@@ -6,18 +6,21 @@ Use exact SHAs, statuses and evidence. Code presence is not complete profile con
 
 | Surface | Role | Authority / caution |
 |---|---|---|
-| `README.md` / `README.ru.md` | Public overview and maturity | Must state `P1 PARTIAL`, not full Kernel |
+| `README.md` / `README.ru.md` | Public overview and maturity | Must state `P2 PARTIAL`, not full Kernel |
 | `STATUS.md` | Authoritative current implementation/evidence boundary | Verify exact branch/main SHA |
 | `ARCHITECTURE.md` | Canon shape and invariants | Architecture, not runtime proof |
 | `docs/contracts/NORMATIVE_CONTRACTS_V1*` | Accepted identity/event/deletion/fixture contracts | Full profile support not established |
-| `contracts/*.json` | Registry, schemas and fixtures | Machine-readable contract surface |
-| `docs/rfc/0002-*` | Accepted clean PostgreSQL profile plan | Only P1 authorized |
-| `docs/adr/0015-*` | Operator decision accepting lineage and P1 | Approval, not C1/C2 evidence |
-| `profiles/postgresql-reference-v0/profile-manifest.json` | Historical P0 proposal snapshot | Intentionally remains proposed/pending |
-| `profiles/postgresql-reference-v0/p1-manifest.json` | Current P1 implementation/evidence record | Runtime conformance remains `UNSUPPORTED` |
-| `native_kernel/semantic_core/` | Bounded P1 implementation | No durable storage or profile adapter |
-| `tools/profiles/validate_p1_manifest.py` | P1 anti-overclaim guard | Rejects C1/recovery/dependency drift |
-| `.github/workflows/p1-semantic-core.yml` | P1 repository check definition | Declared workflow is not an executed result |
+| `contracts/*.json` | Registry, schemas and fixtures | 72 assertion IDs; P4 absent |
+| `docs/rfc/0002-*` | Accepted clean PostgreSQL profile | P2 integration repository-reproduced |
+| `docs/adr/0015-*` | Clean lineage and P1 authorization | Approval, not conformance |
+| `docs/adr/0016-*` | P2 profile/transaction decision | Bounded P2 evidence only |
+| `profiles/postgresql-reference-v0/profile-manifest.json` | Historical P0 proposal snapshot | Intentionally historical |
+| `profiles/postgresql-reference-v0/p1-manifest.json` | P1 implementation/evidence record | Runtime conformance `UNSUPPORTED` |
+| `profiles/postgresql-reference-v0/p2-manifest.json` | P2 integration evidence record | P3/P4/C1 absent |
+| `native_kernel/semantic_core/` | Bounded P1 implementation | No durable profile by itself |
+| `native_kernel/postgresql_profile/` | Bounded P2 PostgreSQL implementation | No replay/projections/conformance |
+| `tools/profiles/validate_p2_manifest.py` | P2 anti-overclaim guard | Rejects false promotion |
+| `.github/workflows/p2-postgresql.yml` | PostgreSQL/Python matrix | Only exact runs are evidence |
 | `docs/ai/*` | Current state, risks, routes and work log | Orientation plus exact evidence references |
 
 ## Architecture-to-runtime route
@@ -31,13 +34,15 @@ RFC-0002 + ADR-0015
         ↓
 P1 profile-independent semantic core
         ↓
-separate P2 operator GO
+ADR-0016 + Issue #46
         ↓
-future PostgreSQL durable adapter
+P2 PostgreSQL append/idempotency profile
         ↓
-P3 replay/projections/Receipts
+separate P3 operator GO
         ↓
-P4 conformance adapter and exact evidence
+future replay/projections/operational Receipts
+        ↓
+P4 conformance adapter and exact assertion evidence
         ↓
 independent second profile before C3
 ```
@@ -77,6 +82,46 @@ native_kernel.semantic_core
     └── explicit contract/authority/version/sequence failures
 ```
 
+## P2 component ownership
+
+```text
+native_kernel.postgresql_profile
+│
+├── adapter.py
+│   ├── instance registration
+│   ├── writer owner/epoch/expiry fencing
+│   ├── atomic append + idempotency
+│   ├── rollback-safe global/stream ordering
+│   └── stored-event consistency checks
+│
+├── hashing.py
+│   ├── canonical Event envelope
+│   ├── nkp1 payload commitment
+│   └── nke1 global hash chain
+│
+├── migrations.py
+│   ├── numbered SQL discovery
+│   ├── SHA-256 ledger
+│   └── advisory-lock serialization
+│
+├── models.py
+│   ├── WriterToken
+│   ├── StoredEvent
+│   └── AppendResult
+│
+├── errors.py
+│   └── explicit lease/idempotency/migration/corruption failures
+│
+└── sql/0001_p2_authoritative_history.sql
+    ├── kernel_instances
+    ├── writer_leases
+    ├── stream_counters
+    ├── events
+    └── idempotency_records
+```
+
+SQL tables and indexes are profile details, not Canon.
+
 ## Stable contract families
 
 ```text
@@ -89,7 +134,7 @@ NK-EQV — conformance and semantic equivalence
 NK-EPI — proposed epistemic fixture family
 ```
 
-P1 implements selected code paths across accepted families but does not claim complete support for any family through the evidence-report protocol.
+P1/P2 implement selected code paths across accepted families but do not claim complete assertion-level support through the evidence-report protocol.
 
 ## P1 evidence route
 
@@ -102,25 +147,42 @@ Read in order:
 5. source modules;
 6. `tests/test_semantic_core.py`;
 7. `p1-manifest.json`;
-8. P1 manifest validator/tests;
-9. P1 workflow and exact run evidence.
+8. P1 validator/tests;
+9. exact P1 workflow evidence.
 
-Recorded local evidence:
+## P2 evidence route
+
+Read in order:
+
+1. Issue #46;
+2. ADR-0016;
+3. RFC-0002;
+4. `native_kernel/postgresql_profile/README.md`;
+5. SQL migration and source modules;
+6. unit/integration tests;
+7. `p2-manifest.json` and validator;
+8. `.github/workflows/p2-postgresql.yml`;
+9. exact run/jobs/logs for the PR head.
+
+Recorded repository evidence:
 
 ```text
-20 semantic-core tests PASS
-4 P1-manifest tests PASS
-compileall PASS
+P2 run 31151297646 — PASS
+Python 3.11 / PostgreSQL 16 — PASS
+Python 3.11 / PostgreSQL 18 — PASS
+Python 3.12 / PostgreSQL 16 — PASS
+Python 3.12 / PostgreSQL 18 — PASS
+AI context run 31151298002 — PASS
 ```
 
 Required interpretation:
 
 ```text
-local P1 PASS
-≠ durable history
-≠ PostgreSQL adapter
+P2 integration PASS
+≠ replay/projection runtime
 ≠ assertion-level conformance
 ≠ C1/C2/C3
+≠ production guarantee
 ```
 
 ## Source recovery route
@@ -128,7 +190,7 @@ local P1 PASS
 Start with `STATUS.md`, Issue #1, import specs, `docs/source-recovery/`, `tools/source_recovery/` and its isolated workflow.
 
 ```text
-P1 clean implementation
+clean P1/P2 implementation
 ≠ controlled v0.1.2.1 import
 ≠ recovered original tests
 ```
@@ -137,11 +199,18 @@ P1 clean implementation
 
 For fixture integrity use ADR-0014, registry/schema/fixture packs, `tools/conformance/runner.py` and `tests/test_conformance_runner.py`.
 
-For future profile conformance, P4 must emit all 72 assertion results exactly once. Until then, runtime support remains `UNSUPPORTED`.
+P4 must emit all 72 assertion results exactly once. Until then runtime support remains `UNSUPPORTED`.
 
 ## Storage route
 
-ADR-0009 accepts PostgreSQL as preferred full profile direction and SQLite as optional. No storage adapter currently exists. P2 requires separate operator GO.
+ADR-0009 accepts PostgreSQL as preferred full profile and SQLite as optional. P2 now implements the bounded PostgreSQL append/idempotency route.
+
+```text
+PostgreSQL profile owns persistence mechanics
+≠ PostgreSQL defines semantic architecture
+```
+
+Replay reads, upcasters, projections and operational Receipts remain P3.
 
 ## World and epistemic boundary
 
@@ -152,9 +221,10 @@ representation ≠ represented reality
 observation ≠ explanation
 unknown ≠ false
 retrieval/model output ≠ admitted knowledge
+storage presence ≠ truth or authority
 ```
 
-ADR-0008 and `NK-EPI-001…008` remain proposed and are not implemented by P1.
+ADR-0008 and `NK-EPI-001…008` remain proposed and are not implemented by P2.
 
 ## Ecosystem boundary
 
@@ -163,7 +233,7 @@ ADR-0008 and `NK-EPI-001…008` remain proposed and are not implemented by P1.
 - Mentaury Soul — digital individuality and continuity;
 - Crystal — verifiable memory, evidence and audit.
 
-No P1 component authorizes shared runtime, storage, identity or authority.
+No P1/P2 component authorizes shared runtime, storage, identity or authority.
 
 ## Decision ownership
 
@@ -179,11 +249,14 @@ No P1 component authorizes shared runtime, storage, identity or authority.
 | Task | Minimum route |
 |---|---|
 | P1 audit | Issue #43 → ADR-0015 → source → tests → manifest → workflow |
+| P2 audit | Issue #46 → ADR-0016 → SQL/source → unit/integration tests → manifest → exact matrix run |
 | Identity | ADR-0011 → canonical.py → identity fixtures/tests |
-| Authority | NK-AUT contracts → authority.py → Receipt tests |
+| Authority | NK-AUT contracts → authority.py → adapter authority call → Receipt tests |
+| Append/idempotency | ADR-0012 → adapter.py → SQL → integration tests |
+| Writer fencing | ADR-0016 → writer lease schema → adapter → lease tests |
 | Reducer | ADR-0012 → reducer.py → sequence/version tests |
 | Deletion | ADR-0013 → deletion.py → fixture/Receipt tests |
-| Future PostgreSQL P2 | accepted RFC + new operator GO + separate issue/PR |
+| Future P3 | separate operator GO + new issue/PR |
 | Conformance | ADR-0014 → registry/runner → future P4 adapter |
 | Source candidate | Issue #1 import spec and provenance tooling |
 | Cross-project work | ecosystem/integration boundaries plus target-project governance |

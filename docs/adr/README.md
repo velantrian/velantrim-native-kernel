@@ -67,22 +67,24 @@ Decision status
 | [`0009`](./0009-postgresql-primary-sqlite-optional-profile.md) | PostgreSQL is the primary full profile and SQLite is optional | `ACCEPTED` | `DOCUMENTED` | profile direction only | `APPROVED` |
 | [`0010`](./0010-foundational-contract-families.md) | Foundational contracts are separated by semantic role | `ACCEPTED` | `DOCUMENTED` | `NOT_STARTED` | `APPROVED` |
 | [`0011`](./0011-canonical-identity-contract-v1.md) | Canonical identity contract v1 | `ACCEPTED` | reference vectors `LOCALLY_TESTED` | P1 identity path `PARTIAL`; full profile absent | `APPROVED` |
-| [`0012`](./0012-single-writer-append-and-replay-contract-v1.md) | Single-writer append and replay contract v1 | `ACCEPTED` | fixtures `LOCALLY_TESTED` | logical reducer `PARTIAL`; durable append absent | `APPROVED` |
+| [`0012`](./0012-single-writer-append-and-replay-contract-v1.md) | Single-writer append and replay contract v1 | `ACCEPTED` | P2 append integration `REPOSITORY_REPRODUCED` | durable append/idempotency `PARTIAL`; replay absent | `APPROVED` |
 | [`0013`](./0013-deletion-restriction-retention-contract-v1.md) | Deletion, restriction and retention contract v1 | `ACCEPTED` | fixtures + P1 transitions `LOCALLY_TESTED` | state semantics `PARTIAL`; operational deletion absent | `APPROVED` |
 | [`0014`](./0014-executable-conformance-fixture-protocol-v1.md) | Executable conformance fixture protocol v1 | `ACCEPTED` | tooling `LOCALLY_TESTED` | fixture tooling `PARTIAL`; runtime adapter absent | `APPROVED` |
-| [`0015`](./0015-accept-clean-profile-and-authorize-p1-semantic-core.md) | Accept clean profile lineage and authorize bounded P1 semantic core | `ACCEPTED` | `LOCALLY_TESTED` | `PARTIAL — P1 ONLY` | `APPROVED` |
+| [`0015`](./0015-accept-clean-profile-and-authorize-p1-semantic-core.md) | Accept clean profile lineage and authorize bounded P1 semantic core | `ACCEPTED` | `LOCALLY_TESTED` | `PARTIAL — P1` | `APPROVED` |
+| [`0016`](./0016-authorize-p2-postgresql-append-profile.md) | Authorize P2 PostgreSQL authoritative append profile | `ACCEPTED` | `REPOSITORY_REPRODUCED — P2 INTEGRATION` | `PARTIAL — P2`; P3 absent | `APPROVED` |
 
-## ADR-0015 boundary
+## Current boundary
 
 ```text
-accepted clean profile + P1 code
-≠ PostgreSQL adapter
-≠ durable event history
+accepted clean profile + P1/P2 code
+≠ complete Kernel runtime
+≠ replay/projection runtime
+≠ assertion-level conformance
 ≠ C1/C2/C3
 ≠ recovered v0.1.2.1
 ```
 
-P2–P5 require separate operator decisions.
+P3–P5 require separate operator decisions.
 
 ## When an ADR is required
 
