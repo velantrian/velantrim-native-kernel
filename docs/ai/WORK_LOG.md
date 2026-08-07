@@ -1,133 +1,105 @@
 # 🧾 Native Kernel AI Engineering Work Log
 
-This is a concise chronology and hand-off surface. Re-verify exact SHAs and evidence before treating an entry as present reality.
+Re-verify exact SHAs and workflow evidence before treating an entry as current reality.
 
 ---
 
-## 2026-08-06 — P1 profile-independent semantic core merged
+## 2026-08-07 — P2 PostgreSQL append/idempotency authorized and implemented on branch
 
 ```text
-Status:          MERGED / P1 PARTIAL / LOCALLY_TESTED
-Issue:           #43
-PR:              #44
-Base main:       9ccbb535e22438092393e2686eb76eb362adb29d
-Final PR head:   273d9369e624d8e4c4033dc7842ebbcc46642668
-Merge SHA:       9fd608f3f1d2915b961644015eb6b5e1a93e84d3
-Changed files:   30
-Profile ID:      native-kernel/postgresql-reference
+Status:          ACTIVE BRANCH / P2 PARTIAL / UNIT-TESTED
+Issue:           #46
+Base main:       bb94835ad612f45e2629655bc9add872d8981357
+Branch:          agent/p2-postgresql-append
+Profile:         native-kernel/postgresql-reference@0.2-p2
 Evidence line:   clean/postgresql-reference/0.1
-RFC-0002:        ACCEPTED / APPROVED
-ADR:             ADR-0015
-P1:              MERGED
-P2–P5:           NOT AUTHORIZED
-Issue #1:        ACTIVE / INDEPENDENT
+ADR:             ADR-0016
+P2:              AUTHORIZED
+P3–P5:           NOT AUTHORIZED
 Notion impact:   GITHUB_AND_NOTION
 ```
 
-Technology choice:
+Technology decision:
 
 ```text
-Python profile: >=3.11,<3.13
-standard library only
-package: native_kernel.semantic_core
+PostgreSQL 16–18
+CI matrix 16/18 × Python 3.11/3.12
+psycopg >=3.3,<3.4
+numbered SQL + SHA-256 migration ledger
+one DB-backed writer owner/epoch lease per instance
+rollback-safe row-locked counters
 ```
-
-This is a reversible implementation-profile choice, not Architecture Canon.
 
 Implemented:
 
-- canonical `nk-id/1.0` JSON/identity helpers;
-- immutable semantic content, Claim identity, command and logical Event models;
-- explicit deny-by-default local authority policy;
-- deterministic version-bound in-memory reducer;
-- deletion/restriction transition graph;
-- admission/deletion Receipt overclaim rejection;
-- explicit contract/authority/version/sequence/transition failures;
-- historical P0 and current P1 manifests kept separate;
-- P1 manifest validator and negative tests;
-- Python 3.11/3.12 workflow definition;
-- bilingual RFC, ADR, README and AI-continuity updates.
+- lazy driver boundary preserving P1 standard-library imports;
+- profile schema for instances, leases, stream counters, Events and idempotency;
+- advisory-lock-serialized migration bootstrap and checksum drift detection;
+- monotonic instance writer epoch and stale/expired token failures;
+- atomic Event/idempotency transaction;
+- same-digest retry returning the original Event;
+- conflicting key reuse failure;
+- rollback-safe global and stream ordering;
+- canonical payload/envelope bytes and `nkp1`/`nke1` commitments;
+- stored Event consistency checks;
+- unit, manifest and PostgreSQL integration suites;
+- P2 manifest/validator and repository workflow definition;
+- bilingual RFC, README and AI continuity updates.
 
-Manual review hardening corrected:
-
-1. duplicated authority scope `stream:stream:*`;
-2. late enum/type failures;
-3. calendar-invalid UTC timestamps;
-4. boolean values accepted as integer sequences;
-5. malformed authority grants and Receipt identifiers/limits;
-6. malformed deletion-state/location evidence.
-
-Exact final-content local evidence:
+Local evidence before publication:
 
 ```text
-20 semantic-core tests PASS
-4 P1-manifest tests PASS
-7 AI-context validator tests PASS
-Python compileall PASS
-P1 manifest validator PASS
-local interpreter Python 3.13.5
-external dependencies NONE
+9 P2 unit tests PASS
+5 P2 manifest tests PASS
+P2 manifest validator PASS
+compileall PASS
+5 PostgreSQL integration tests SKIPPED — no local PostgreSQL/DSN
+local Python 3.13.5
+repository CI NOT_RECORDED
 ```
 
-Repository evidence:
+Evidence boundary:
 
 ```text
-PR #44 unresolved review threads: 0
-submitted reviews:               0
-Codex review:                    unavailable due usage limit
-PR-head workflow runs:           0 / NOT_RECORDED
-merge workflow runs:             0 / NOT_RECORDED
-```
-
-The declared profile range is Python 3.11/3.12. The local Python 3.13 result is an extra compatibility check and does not establish declared-range repository evidence.
-
-```text
-P1 local PASS
-≠ PostgreSQL adapter
-≠ durable append/idempotency
-≠ authoritative replay
-≠ assertion-level conformance
+P2 unit PASS
+≠ PostgreSQL integration PASS
+≠ replay/projection runtime
+≠ conformance
 ≠ C1/C2/C3
 ```
 
-All 72 registry assertions remain runtime `UNSUPPORTED` until P4.
+All 72 assertion results remain `UNSUPPORTED` until P4.
 
-Next gates:
+Next actions:
 
-1. merge the post-P1 continuity checkpoint;
-2. synchronize final SHA to Notion and close Issue #43;
-3. keep P2 blocked until a separate operator GO;
-4. obtain exact Python 3.11/3.12 workflow evidence when available;
-5. preserve Issue #1 and Issue #18 as independent gates.
-
----
-
-## 2026-08-06 — Clean PostgreSQL reference profile RFC published
-
-PR #41 published RFC-0002 at `1e721aeb5b116694a0dbb417c377aa9f92b6f8e5`; PR #42 finalized continuity at `9ccbb535e22438092393e2686eb76eb362adb29d`.
-
-The plan introduced `native-kernel/postgresql-reference`, clean lineage `clean/postgresql-reference/0.1`, a 72-assertion planning manifest, validator and phased P0–P5 roadmap.
+1. verify exact branch content and changed-file scope;
+2. open PR and inspect PostgreSQL matrix runs;
+3. fix exact-head failures without expanding into P3;
+4. merge only with status limits intact;
+5. synchronize final PR/merge/run evidence to Notion and Issue #46.
 
 ---
 
-## 2026-08-06 — Exact contracts accepted and finalized
+## 2026-08-06 — P1 semantic core merged
 
-PR #38 accepted ADR-0011…0014 at `ff88809fe7d7c79033a150140d20618e04aa1f9d`; PR #39 finalized continuity at `350734c8ce8d8cbc742def7df9f3d5044a5953ab`.
+PR #44 final head `273d9369e624d8e4c4033dc7842ebbcc46642668`; merge `9fd608f3f1d2915b961644015eb6b5e1a93e84d3`; checkpoint PR #45 `bb94835ad612f45e2629655bc9add872d8981357`.
 
----
-
-## 2026-08-06 — Contract fixture package published
-
-PR #35 → `0552ae284d56148972e9bcc8de5f80a7f462c0f3`; PR #36 → `3243336dc7ff7ef88583c6f2c419c375c26947cf`; PR #37 → `b0308452473f7577b738e95bbd5e0f9295f0ecce`.
+P1 added profile-independent identity, semantic objects, authority, reducer, deletion semantics and Receipt limits. Exact final content passed 31 focused local tests, while repository workflow evidence remained unrecorded.
 
 ---
 
-## 2026-08-06 — Foundational contract skeleton accepted
+## 2026-08-06 — Clean PostgreSQL profile plan accepted
 
-PR #28 → `2d42a1517ba87b39d2395aa5c22b966328615305`.
+RFC-0002 PR #41 → `1e721aeb5b116694a0dbb417c377aa9f92b6f8e5`; planning checkpoint → `9ccbb535e22438092393e2686eb76eb362adb29d`.
+
+---
+
+## 2026-08-06 — Exact contracts and fixture package
+
+ADR-0011…0014 accepted through PR #38. Fixture package PRs #35–#37 published 72 assertion IDs, schemas, fixtures and reference integrity tooling.
 
 ---
 
 ## Continuing rule
 
-Record exact PR/SHA, scope, evidence, limitations, Notion state and next action. Never infer durable runtime, CI PASS or conformance from accepted architecture, local tests or code presence alone.
+Record exact PR/SHA, environment, evidence, limitations, Notion state and next action. Never infer production readiness, PostgreSQL integration, replay or conformance from code presence, unit tests or workflow definitions alone.
