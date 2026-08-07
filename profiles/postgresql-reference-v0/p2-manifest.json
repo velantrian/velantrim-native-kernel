@@ -1,0 +1,84 @@
+{
+  "manifest_version": "nk-p2-implementation-manifest/1",
+  "profile_id": "native-kernel/postgresql-reference",
+  "profile_version": "0.2-p2",
+  "evidence_lineage": "clean/postgresql-reference/0.1",
+  "rfc": "RFC-0002",
+  "decision_record": "ADR-0016",
+  "decision_status": "ACCEPTED",
+  "operator_approval": "APPROVED",
+  "phase": "P2",
+  "implementation_status": "PARTIAL",
+  "evidence_level": "LOCALLY_TESTED_UNIT_ONLY",
+  "kernel_runtime_conformance": "UNSUPPORTED",
+  "c1": "NOT_ESTABLISHED",
+  "c2": "NOT_ESTABLISHED",
+  "c3": "NOT_ESTABLISHED",
+  "language_profile": {
+    "language": "Python",
+    "runtime_range": ">=3.11,<3.13",
+    "p1_dependency_policy": "STANDARD_LIBRARY_ONLY",
+    "p2_driver": "psycopg>=3.3,<3.4",
+    "package": "native_kernel.postgresql_profile",
+    "permanent_architecture_choice": false
+  },
+  "postgresql_profile": {
+    "supported_major_versions": [16, 17, 18],
+    "ci_service_versions": [16, 18],
+    "migration_strategy": "NUMBERED_PLAIN_SQL_WITH_SHA256_LEDGER",
+    "authoritative_writer_model": "ONE_OWNER_EPOCH_LEASE_PER_INSTANCE",
+    "transaction_strategy": "ROW_LOCKS_AND_ROLLBACK_SAFE_TABLE_COUNTERS",
+    "idempotency_scope": ["instance_id", "command_contract", "idempotency_key"]
+  },
+  "implemented_components": [
+    "lazy Psycopg connection boundary",
+    "numbered SQL migration and checksum ledger",
+    "Kernel instance registration",
+    "writer lease acquisition renewal release and epoch fencing",
+    "atomic Event append plus idempotency record",
+    "same-digest retry returns original Event",
+    "conflicting idempotency key rejection",
+    "rollback-safe global and stream sequence allocation",
+    "nkp1 payload commitment and nke1 global hash chain",
+    "stored canonical payload and Event envelope bytes"
+  ],
+  "local_validation": {
+    "unit_tests": 9,
+    "unit_result": "PASS",
+    "manifest_tests": 5,
+    "manifest_result": "PASS",
+    "integration_tests_declared": 5,
+    "integration_result": "NOT_RUN_NO_POSTGRESQL",
+    "compileall_result": "PASS",
+    "repository_ci": "NOT_RECORDED"
+  },
+  "assertion_support_policy": {
+    "registry_version": "nk-contract-registry/1.1.0",
+    "reported_runtime_support": "UNSUPPORTED",
+    "reason": "P2 has no P4 conformance adapter or complete assertion-scoped report."
+  },
+  "issue_1_boundary": {
+    "relationship": "INDEPENDENT",
+    "historical_lineage": null,
+    "may_claim_recovery": false,
+    "may_use_v0_1_2_1_name": false
+  },
+  "issue_18_boundary": {
+    "relationship": "INDEPENDENT",
+    "package_published": false,
+    "external_code_vendored": false
+  },
+  "forbidden_in_p2": [
+    "projection persistence or rebuild",
+    "authoritative replay or upcaster execution claim",
+    "physical or cryptographic deletion execution",
+    "network API",
+    "P3-P5 implementation",
+    "assertion-level conformance promotion",
+    "C1, C2 or C3 profile claim",
+    "Titan, Mentaury or Crystal runtime wiring",
+    "ADR-0008 or NK-EPI promotion",
+    "production durability security privacy backup or HA guarantee"
+  ],
+  "next_gate": "Separate operator GO for P3 replay, projection rebuild and bounded Receipt evidence"
+}
