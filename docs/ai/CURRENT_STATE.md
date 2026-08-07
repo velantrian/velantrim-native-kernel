@@ -72,6 +72,10 @@ Kernel runtime conformance: UNSUPPORTED
 C1/C2/C3:                  NOT_ESTABLISHED
 ```
 
+## Documentation-depth review
+
+The original README, RFC, ADR status guide, component map, risk history and work-log chronology were preserved. P2 was added as a new layer rather than replacing accumulated architecture/governance context.
+
 ## Final-head validation rule
 
 The final evidence commit changes this checkpoint and `p2-manifest.json` together. P2 and AI-context workflows must both pass on that same exact PR head before merge. A successful earlier run remains evidence for its own SHA but is not silently treated as the final-head result.
