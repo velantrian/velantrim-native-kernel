@@ -1,11 +1,12 @@
 # 📍 Native Kernel Current State Checkpoint
 
 **Verified:** 2026-08-07  
-**Last verified public `main`:** `4e6be77196c633c25dd3896660335c1448b2baf5`  
-**Active branch / PR / issue:** `agent/p3-replay-projections` / #50 / #49  
+**Last verified public `main`:** `4af642930e18752f8f8b0bce75df355f76100d6f`  
+**P3 merge:** PR #50 / `4af642930e18752f8f8b0bce75df355f76100d6f`  
+**Checkpoint branch:** `agent/p3-post-merge-checkpoint`  
 **Repository status:** `RESEARCH / P3 PARTIAL IMPLEMENTATION / NOT PRODUCTION-READY`
 
-> Context checkpoint ≠ automatically current main. Re-check the branch ref, final PR head, workflows, review state and merge SHA.
+> Context checkpoint ≠ automatically current main. Re-check exact refs and workflow evidence after later changes.
 
 ```text
 NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GLOBALLY_LOST
@@ -21,12 +22,12 @@ C1 ≠ C2 ≠ C3
 RFC-0002:              ACCEPTED / APPROVED
 P1 semantic core:      MERGED / REPOSITORY-TESTED
 P2 PostgreSQL adapter: MERGED / REPOSITORY-INTEGRATION-TESTED
-P3 replay/projections: AUTHORIZED / PR #50 / REPOSITORY-INTEGRATION-TESTED
+P3 replay/projections: MERGED / REPOSITORY-INTEGRATION-TESTED
 P4–P5:                 REQUIRE SEPARATE GO
 Issue #1 / #18:        ACTIVE / INDEPENDENT
 ```
 
-Decision evidence: Issue #49 and ADR-0017.
+Decision and implementation evidence: Issue #49, ADR-0017 and PR #50.
 
 ## P3 implementation route
 
@@ -40,6 +41,7 @@ PostgreSQL authoritative history
 → locked current-head comparison
 → disposable projection rebuild
 → Projection Rebuild Receipt
+→ linked Receipt consistency verification
 ```
 
 Key properties:
@@ -53,26 +55,28 @@ Key properties:
 7. Receipt and projection commit together;
 8. injected precommit failure preserves the previous projection;
 9. destroying a projection does not reset committed generation lineage;
-10. Receipt overclaims are forbidden in Python models and SQL constraints.
+10. projection load verifies its linked rebuild Receipt;
+11. Receipt overclaims are forbidden in Python models and SQL constraints.
 
-## Initial repository evidence
+## Final repository evidence
 
-Executable head: `0f8fd4ffe5d5fb0d4bc01f3e441a053f691dbba3`.
+Final PR head: `7e615bc633cbf966211d3b2815f51b8ff9eb9716`.
 
 ```text
-P3 run 31171581859 — PASS
+P3 run 31173133661 — PASS
 3.11 / PG16 — PASS
 3.11 / PG18 — PASS
 3.12 / PG16 — PASS
 3.12 / PG18 — PASS
-P2 regression run 31171581795 — PASS
-P1 semantic core run 31171581787 — PASS
-Fixture integrity run 31171581791 — PASS
+P2 regression run 31173133709 — PASS
+P1 semantic core run 31173133657 — PASS
+Fixture integrity run 31173133713 — PASS
+AI context run 31173133635 — PASS
 ```
 
-Each P3 job passed 5 semantic tests, 5 manifest tests, 7 PostgreSQL integration scenarios, P2 regression tests and compileall.
+Each P3 job passed 5 semantic tests, 5 manifest/anti-overclaim tests, 8 PostgreSQL integration scenarios, P2 regression tests and compileall.
 
-A final affected-head run remains required after documentation and manifest evidence changes.
+The squash merge is `4af642930e18752f8f8b0bce75df355f76100d6f`. No push-to-main workflow run was recorded for that SHA; this remains `NOT_RECORDED`, not PASS.
 
 ## Evidence boundary
 
@@ -88,9 +92,8 @@ All 72 assertion statuses remain `UNSUPPORTED` until P4.
 
 ## Next gates
 
-1. finish bilingual RFC/README and AI continuity synchronization;
-2. run P3 and AI-context checks on one final exact PR head;
-3. inspect full diff, comments and review threads;
-4. squash-merge only with P4/P5 and ecosystem scope absent;
-5. record final main/merge/run evidence in GitHub and Notion;
-6. close Issue #49 and keep P4 blocked pending separate GO.
+1. validate and merge the post-merge continuity checkpoint;
+2. synchronize exact main/checkpoint evidence to Notion;
+3. close Issue #49 for the completed bounded P3 scope;
+4. require a new operator decision before P4;
+5. preserve Issue #1 source recovery and Issue #18 licensing as independent work.

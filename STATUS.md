@@ -1,8 +1,9 @@
 # Current Status
 
 > **Verified:** 2026-08-07  
-> **Last verified public `main`:** `4e6be77196c633c25dd3896660335c1448b2baf5`  
-> **Active branch / PR / issue:** `agent/p3-replay-projections` / #50 / #49  
+> **Last verified public `main`:** `4af642930e18752f8f8b0bce75df355f76100d6f`  
+> **P3 merge:** PR #50 / `4af642930e18752f8f8b0bce75df355f76100d6f`  
+> **Checkpoint branch:** `agent/p3-post-merge-checkpoint`  
 > **Repository status:** `RESEARCH / P3 PARTIAL IMPLEMENTATION / NOT PRODUCTION-READY`
 
 ## Current profile
@@ -13,7 +14,7 @@ Profile version:  0.3-p3
 Evidence lineage: clean/postgresql-reference/0.1
 P1:               MERGED / REPOSITORY-TESTED
 P2:               MERGED / REPOSITORY-INTEGRATION-TESTED
-P3:               AUTHORIZED / REPOSITORY-INTEGRATION-TESTED / PR OPEN
+P3:               MERGED / REPOSITORY-INTEGRATION-TESTED
 P4–P5:            NOT AUTHORIZED
 ```
 
@@ -32,6 +33,7 @@ authoritative PostgreSQL Events
 → locked authoritative-head comparison
 → disposable projection rebuild
 → bounded persisted Projection Rebuild Receipt
+→ projection-to-Receipt consistency verification
 ```
 
 Implemented:
@@ -47,18 +49,20 @@ Implemented:
 - stale-head rejection before projection publication;
 - transactional rollback for Receipt/projection publication faults;
 - canonical `REPLAY` and `PROJECTION_REBUILD` Receipts;
+- projection rows verified against their linked rebuild Receipt;
 - Receipt non-claims for truth, external authenticity, complete integrity, physical erasure and C-levels.
 
 ## Repository evidence
 
-Initial executable PR head:
+Final PR head:
 
 ```text
-Head:          0f8fd4ffe5d5fb0d4bc01f3e441a053f691dbba3
-P3 run:        31171581859 — PASS
-P2 regression: 31171581795 — PASS
-P1 core:       31171581787 — PASS
-Fixtures:      31171581791 — PASS
+Head:          7e615bc633cbf966211d3b2815f51b8ff9eb9716
+P3 run:        31173133661 — PASS
+P2 regression: 31173133709 — PASS
+P1 core:       31173133657 — PASS
+Fixtures:      31173133713 — PASS
+AI context:    31173133635 — PASS
 ```
 
 P3 matrix:
@@ -70,9 +74,9 @@ Python 3.12 / PostgreSQL 16 — PASS
 Python 3.12 / PostgreSQL 18 — PASS
 ```
 
-Every P3 matrix job passed 5 semantic tests, 5 manifest tests, 7 PostgreSQL integration scenarios, P2 regression tests and compileall.
+Every P3 matrix job passed 5 semantic tests, 5 manifest/anti-overclaim tests, 8 PostgreSQL integration scenarios, P2 regression tests and compileall.
 
-The final PR head must repeat affected workflows after documentation/evidence updates. The initial PASS remains evidence only for its exact SHA.
+No push-to-main workflow run was recorded for merge `4af64293…`; this is `NOT_RECORDED`, not PASS.
 
 ## Evidence boundary
 
@@ -110,8 +114,8 @@ Issue #1 remains active and independent. `NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GL
 
 ## Next gates
 
-1. complete exact final-head P3, P2, P1, fixture and AI-context checks;
-2. inspect PR #50 full diff, comments and review threads;
-3. merge only with P4/P5, physical deletion and ecosystem scope absent;
-4. synchronize final PR/merge/run evidence to GitHub and Notion;
-5. require separate operator GO before P4.
+1. merge the post-merge continuity checkpoint after AI-context validation;
+2. synchronize final merge/checkpoint evidence to Notion;
+3. close Issue #49 as completed for the bounded P3 scope;
+4. require separate operator GO before P4;
+5. preserve Issues #1 and #18 as independent gates.
