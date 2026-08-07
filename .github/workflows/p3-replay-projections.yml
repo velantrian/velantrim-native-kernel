@@ -63,7 +63,7 @@ jobs:
           python -m unittest discover -s tests -p 'test_p3_manifest.py' -v
           python tools/profiles/validate_p3_manifest.py
       - name: P3 PostgreSQL integration tests
-        run: python -m unittest discover -s tests -p 'test_p3_postgresql_integration.py' -v
+        run: python -m unittest discover -s tests -p 'test_p3_*integration.py' -v
       - name: P2 regression tests
         run: |
           python -m unittest discover -s tests -p 'test_postgresql_profile_unit.py' -v
