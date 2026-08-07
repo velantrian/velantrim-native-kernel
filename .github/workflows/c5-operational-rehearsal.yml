@@ -74,6 +74,7 @@ jobs:
           --health-timeout 5s
           --health-retries 12
     env:
+      PYTHONPATH: .
       NK_TEST_POSTGRES_DSN: postgresql://postgres:postgres@127.0.0.1:5432/native_kernel_test
       NK_TEST_SQLITE_PATH: artifacts/c5-operational.db
       NK_CONFORMANCE_LEVEL: C5_REHEARSAL
