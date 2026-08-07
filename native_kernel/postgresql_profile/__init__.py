@@ -30,7 +30,7 @@ from .hashing import build_event_envelope, canonical_recorded_at, event_hash, pa
 from .migrations import Migration, apply_migrations, discover_migrations
 from .models import AppendResult, AppendStatus, StoredEvent, WriterToken
 from .receipt_store import DEFAULT_LIMITS
-from .replay import DEFAULT_PROJECTION
+from .replay import DEFAULT_PROJECTION, PostgreSQLReplayProjector
 from .replay_models import (
     OperationType,
     OperationalReceipt,
@@ -39,7 +39,6 @@ from .replay_models import (
     ReplaySnapshot,
     StoredProjection,
 )
-from .verified_replay import PostgreSQLReplayProjector
 
 __all__ = [
     "AppendResult",
