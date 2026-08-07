@@ -49,11 +49,11 @@ authoritative PostgreSQL Events
 - SQL migration `0002_p3_replay_projection_receipts.sql`;
 - P3 manifest/validator and PostgreSQL matrix workflow.
 
-There is no `verified_replay.py` module. Receipt-link verification is part of `replay.py` and is covered by both the main P3 integration suite and a separate focused regression file.
+There is no `verified_replay.py` module. Receipt-link verification is part of `replay.py` and is covered by the canonical P3 PostgreSQL integration suite.
 
-## Pre-final repository evidence
+## Repository evidence
 
-Hardening/evidence head:
+Runtime/evidence head:
 
 ```text
 d484d7e2ee7f3502ddd8eedc339ba1feac546397
@@ -82,19 +82,19 @@ Every P3 matrix job passed:
 
 - 5 semantic/upcaster/Receipt tests;
 - 5 P3 manifest and anti-overclaim tests;
-- 9 PostgreSQL integration tests across two files, including two independent valid-but-mismatched projection Receipt linkage checks;
+- 8 PostgreSQL integration tests, including valid-but-mismatched projection Receipt linkage rejection;
 - 9 P2 unit tests;
 - 5 P2 PostgreSQL integration tests;
 - Python compileall.
 
-The PR final manifest head must repeat affected checks before merge. Evidence applies only to the exact SHA/run named above.
+Later documentation-only heads must repeat affected governance checks before merge. Runtime evidence applies only to the exact SHA/run named above.
 
 ## Defects found and corrected during review
 
 1. AI-context regression tests still expected the P2 maturity marker after the validator moved to P3.
 2. A projection row verified its own canonical state but did not prove that its referenced Receipt described the same projection rebuild.
 3. The manifest validator treated only literal `PASS` as repository evidence, allowing an unrecognized PASS-like status to avoid the integration-evidence invariant.
-4. A stale test expected different linkage-error wording even though the correct `ProjectionCorrupt` failure occurred; the stable message now includes `linked rebuild Receipt`.
+4. A stale duplicate test expected different linkage-error wording even though the correct `ProjectionCorrupt` failure occurred; the duplicate was removed and the stable diagnostic includes `linked rebuild Receipt`.
 5. A duplicate tracker Issue #51 was created while resuming context; it was closed as a duplicate of canonical Issue #49.
 6. An early documentation record referenced a nonexistent `verified_replay.py`; the ownership map now points to `replay.py`.
 
