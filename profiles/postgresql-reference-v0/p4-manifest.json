@@ -20,27 +20,29 @@
     "proposed_nk_epi_unsupported": 8
   },
   "conformance_state": {
-    "local_c1": "NOT_RECORDED",
-    "repository_c2": "NOT_ESTABLISHED",
+    "local_c1": "LOCALLY_TESTED",
+    "repository_c2": "REPOSITORY_REPRODUCED",
     "c3": "NOT_ESTABLISHED",
     "c4": "NOT_ESTABLISHED",
     "c5": "NOT_ESTABLISHED",
     "support_state": "PARTIAL"
   },
   "repository_evidence": {
-    "status": "NOT_RECORDED",
-    "head_sha": null,
-    "workflow_run_id": null,
+    "status": "PASS_PREVIOUS_HEAD",
+    "head_sha": "93710131fffdea7d9a586cc05e7f258c07fae707",
+    "workflow_run_id": 31175767586,
     "matrix": [
-      "python-3.11/postgresql-16:NOT_RUN",
-      "python-3.11/postgresql-18:NOT_RUN",
-      "python-3.12/postgresql-16:NOT_RUN",
-      "python-3.12/postgresql-18:NOT_RUN"
+      "python-3.11/postgresql-16:PASS",
+      "python-3.11/postgresql-18:PASS",
+      "python-3.12/postgresql-16:PASS",
+      "python-3.12/postgresql-18:PASS"
     ],
-    "artifacts": "NOT_RECORDED",
-    "p1_regression": "NOT_RUN",
-    "p2_regression": "NOT_RUN",
-    "p3_regression": "NOT_RUN"
+    "artifacts": "RETAINED_PER_MATRIX_JOB",
+    "artifact_count": 4,
+    "artifact_retention_days": 30,
+    "p1_regression": "PASS",
+    "p2_regression": "PASS",
+    "p3_regression": "PASS"
   },
   "implemented_components": [
     "PostgreSQL profile evidence adapter",
@@ -82,5 +84,5 @@
     "v0.1.2.1 recovery claim",
     "ADR-0008 or NK-EPI promotion"
   ],
-  "next_gate": "Repository C2 reproduction on exact P4 PR head; separate operator GO remains required for P5 and C3"
+  "next_gate": "Repeat P4 and governance checks on one final exact PR head; separate operator GO remains required for P5 and C3"
 }
