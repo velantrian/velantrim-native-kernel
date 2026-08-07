@@ -33,7 +33,23 @@ class P4ManifestTests(unittest.TestCase):
 
     def test_false_repository_c2_is_rejected(self) -> None:
         changed = copy.deepcopy(self.data)
-        changed["conformance_state"]["repository_c2"] = "REPOSITORY_REPRODUCED"
+        changed["repository_evidence"].update(
+            {
+                "status": "NOT_RECORDED",
+                "head_sha": None,
+                "workflow_run_id": None,
+                "matrix": [
+                    "python-3.11/postgresql-16:NOT_RUN",
+                    "python-3.11/postgresql-18:NOT_RUN",
+                    "python-3.12/postgresql-16:NOT_RUN",
+                    "python-3.12/postgresql-18:NOT_RUN",
+                ],
+                "artifacts": "NOT_RECORDED",
+                "p1_regression": "NOT_RUN",
+                "p2_regression": "NOT_RUN",
+                "p3_regression": "NOT_RUN",
+            }
+        )
         with self.assertRaisesRegex(
             validate_p4_manifest.ManifestError,
             "without repository evidence",
