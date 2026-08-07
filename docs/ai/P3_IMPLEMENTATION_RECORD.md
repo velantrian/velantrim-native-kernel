@@ -2,8 +2,9 @@
 
 **Recorded:** 2026-08-07  
 **Base public `main`:** `4e6be77196c633c25dd3896660335c1448b2baf5`  
+**Final public merge:** `4af642930e18752f8f8b0bce75df355f76100d6f`  
 **Canonical issue:** #49  
-**Pull request:** #50  
+**Pull request:** #50 — merged  
 **Evidence lineage:** `clean/postgresql-reference/0.1`  
 **Profile:** `native-kernel/postgresql-reference@0.3-p3`
 
@@ -13,7 +14,7 @@
 ADR-0017:                  ACCEPTED / APPROVED
 P1 semantic core:          MERGED
 P2 PostgreSQL append:      MERGED / REPOSITORY-INTEGRATION-TESTED
-P3 replay/projections:     PARTIAL / REPOSITORY-INTEGRATION-TESTED
+P3 replay/projections:     MERGED / REPOSITORY-INTEGRATION-TESTED / PARTIAL PROFILE
 P4–P5:                     NOT AUTHORIZED
 Kernel conformance:        UNSUPPORTED
 C1/C2/C3:                  NOT ESTABLISHED
@@ -51,22 +52,22 @@ authoritative PostgreSQL Events
 
 There is no `verified_replay.py` module. Receipt-link verification is part of `replay.py` and is covered by the canonical P3 PostgreSQL integration suite.
 
-## Repository evidence
+## Final repository evidence
 
-Runtime/evidence head:
+Final PR head:
 
 ```text
-d484d7e2ee7f3502ddd8eedc339ba1feac546397
+7e615bc633cbf966211d3b2815f51b8ff9eb9716
 ```
 
 Workflow results:
 
 ```text
-P3 replay/projection run 31172865993 — PASS
-P2 regression run         31172865498 — PASS
-P1 semantic core run      31172866264 — PASS
-Fixture integrity run     31172865742 — PASS
-AI context run            31172865571 — PASS
+P3 replay/projection run 31173133661 — PASS
+P2 regression run         31173133709 — PASS
+P1 semantic core run      31173133657 — PASS
+Fixture integrity run     31173133713 — PASS
+AI context run            31173133635 — PASS
 ```
 
 P3 matrix:
@@ -87,7 +88,13 @@ Every P3 matrix job passed:
 - 5 P2 PostgreSQL integration tests;
 - Python compileall.
 
-Later documentation-only heads must repeat affected governance checks before merge. Runtime evidence applies only to the exact SHA/run named above.
+Squash merge:
+
+```text
+4af642930e18752f8f8b0bce75df355f76100d6f
+```
+
+No push-to-main workflow run was recorded for the merge SHA; this is `NOT_RECORDED`, not PASS. Runtime evidence applies to the exact final PR head and runs above.
 
 ## Defects found and corrected during review
 
@@ -97,6 +104,7 @@ Later documentation-only heads must repeat affected governance checks before mer
 4. A stale duplicate test expected different linkage-error wording even though the correct `ProjectionCorrupt` failure occurred; the duplicate was removed and the stable diagnostic includes `linked rebuild Receipt`.
 5. A duplicate tracker Issue #51 was created while resuming context; it was closed as a duplicate of canonical Issue #49.
 6. An early documentation record referenced a nonexistent `verified_replay.py`; the ownership map now points to `replay.py`.
+7. Manifest and documentation inventory were aligned to the final deduplicated 8-scenario integration suite.
 
 ## Receipt evidence boundary
 
