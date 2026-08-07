@@ -598,6 +598,7 @@ def build_comparison_report(
 
     return {
         "report_version": REPORT_VERSION,
+        "profile_id": "native-kernel/equivalence/postgresql-sqlite",
         "comparison_id": "postgresql-reference__sqlite-embedded",
         "left_profile": {
             "profile_id": POSTGRESQL_PROFILE_ID,
