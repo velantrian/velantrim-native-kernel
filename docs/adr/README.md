@@ -28,18 +28,17 @@ Decision status
 | [`0009`](./0009-postgresql-primary-sqlite-optional-profile.md) | PostgreSQL primary, SQLite optional | `ACCEPTED` | `DOCUMENTED` | profile direction | `APPROVED` |
 | [`0010`](./0010-foundational-contract-families.md) | Foundational contracts separated by semantic role | `ACCEPTED` | `DOCUMENTED` | `NOT_STARTED` | `APPROVED` |
 | [`0011`](./0011-canonical-identity-contract-v1.md) | Canonical identity contract v1 | `ACCEPTED` | vectors `LOCALLY_TESTED` | P1 path `PARTIAL` | `APPROVED` |
-| [`0012`](./0012-single-writer-append-and-replay-contract-v1.md) | Single-writer append and replay contract v1 | `ACCEPTED` | fixtures `LOCALLY_TESTED` | P2 append path `PARTIAL`; replay absent | `APPROVED` |
+| [`0012`](./0012-single-writer-append-and-replay-contract-v1.md) | Single-writer append and replay contract v1 | `ACCEPTED` | P2 append integration `REPOSITORY_REPRODUCED` | append/idempotency `PARTIAL`; replay absent | `APPROVED` |
 | [`0013`](./0013-deletion-restriction-retention-contract-v1.md) | Deletion, restriction and retention contract v1 | `ACCEPTED` | fixtures/P1 transitions `LOCALLY_TESTED` | operational deletion absent | `APPROVED` |
 | [`0014`](./0014-executable-conformance-fixture-protocol-v1.md) | Executable conformance fixture protocol v1 | `ACCEPTED` | tooling `LOCALLY_TESTED` | runtime adapter absent | `APPROVED` |
 | [`0015`](./0015-accept-clean-profile-and-authorize-p1-semantic-core.md) | Accept clean lineage and authorize P1 | `ACCEPTED` | `LOCALLY_TESTED` | `PARTIAL — P1` | `APPROVED` |
-| [`0016`](./0016-authorize-p2-postgresql-append-profile.md) | Authorize P2 PostgreSQL authoritative append profile | `ACCEPTED` | `LOCALLY_TESTED_UNIT_ONLY` | `PARTIAL — P2`; integration unproven | `APPROVED` |
+| [`0016`](./0016-authorize-p2-postgresql-append-profile.md) | Authorize P2 PostgreSQL authoritative append profile | `ACCEPTED` | `REPOSITORY_REPRODUCED — P2 INTEGRATION` | `PARTIAL — P2`; P3 absent | `APPROVED` |
 
 ## Current decision boundary
 
 ```text
 accepted clean profile + P1/P2 code
 ≠ complete Kernel
-≠ PostgreSQL integration evidence when tests are skipped
 ≠ replay/projection runtime
 ≠ assertion-level conformance
 ≠ C1/C2/C3
