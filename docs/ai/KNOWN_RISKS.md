@@ -1,8 +1,8 @@
 # ⚠️ Native Kernel Known Risks and Required Proof
 
 **Snapshot:** 2026-08-07  
-**Last verified public `main`:** `b10be105743355a04e58611639a9d28faf7ea514`  
-**Latest implementation candidate:** C4 authority-free offline shadow evaluation / PR #62
+**Last verified public `main`:** `07bf1cc955307783f8eaa3becbaa924087b8b325`  
+**Latest merged phase:** C4 authority-free offline shadow evaluation / PR #62
 
 C4 adds bounded repository evidence for an approved immutable recorded workload. It does not close source recovery, live-traffic, deletion, authenticity, conflict, restore, operational, security, licensing, exhaustive-equivalence or production risks.
 
@@ -17,7 +17,7 @@ approved synthetic recorded dataset
 
 **State:** `OPEN / PRIMARY C4 COMMUNICATION RISK`.
 
-Required future evidence would need a separately authorized privacy-safe capture/replay design, data governance, redaction, retention, incident controls and explicit authority isolation. That work is not authorized by C4.
+Future live evidence would require separately authorized privacy-safe capture/replay, governance, redaction, retention, incident controls and explicit authority isolation.
 
 ## P0 — Shadow observation may be mistaken for authority promotion
 
@@ -36,31 +36,23 @@ The evaluator must never become a command path, mutate authoritative history, ap
 
 **State:** `OPEN`.
 
-The approved dataset covers all 45 C3-supported assertion IDs, but it contains only 15 recorded cases. Coverage by assertion ID does not enumerate every Event sequence, failure interleaving, timing distribution, platform, PostgreSQL configuration, SQLite pragma, fault model or adversarial input.
+The dataset covers all 45 C3-supported assertion IDs but only 15 recorded cases. It does not enumerate every Event sequence, failure interleaving, timing distribution, platform, configuration, fault model or adversarial input.
 
-Required future evidence: generated histories, state-machine/property testing, mutation testing, broader fault injection and independent review.
+Future evidence would require generated histories, state-machine/property testing, mutation testing, broader fault injection and independent review.
 
 ## P0 — Synthetic observations can encode the expected answer
 
 **State:** `OPEN / DESIGN LIMIT`.
 
-Reference and candidate observations are recorded in the same approved dataset. Dataset review, exact digest binding and fail-closed evaluation prevent unnoticed drift, but they do not prove that the observations were produced independently or represent real operating conditions.
+Reference and candidate observations are recorded in the same approved dataset. Exact digest binding prevents unnoticed drift but does not prove independent generation or real operating conditions.
 
-Required future evidence: independently generated observation bundles, provenance for their capture, blinded comparison and reviewer separation.
-
-## P0 — Threshold policy may hide meaningful degradation
-
-**State:** `OPEN`.
-
-Semantic divergence and critical divergence thresholds are zero. Latency differences are informational under the current dataset. A future threshold change could accidentally normalize important failure, safety or quality differences.
-
-Any threshold change requires a new approved dataset/version, ADR, manifest digest and repository evidence. Do not edit thresholds in place.
-
-## P0 — Allowed operational differences may hide a forbidden semantic difference
+## P0 — Threshold or normalization drift
 
 **State:** `OPEN`, machine-guarded but not eliminated.
 
-Current allowed differences are limited to declared fields such as storage profile and latency. Normalization must never remove canonical identity, payload, order, reducer/projection state, failure outcome, integrity commitment or Receipt proof differences.
+Semantic/critical thresholds are zero. A future threshold or allowed-difference change could hide meaningful degradation. Any material change requires a new dataset version, digest, ADR/manifest update and evidence cycle.
+
+Normalization must never remove canonical identity, payload, order, reducer/projection state, failure outcome, integrity commitment or Receipt proof differences.
 
 ## P0 — C4 may be mistaken for support for all 72 assertions
 
@@ -79,7 +71,7 @@ All `NK-EPI-001…008` remain `UNSUPPORTED / PROPOSED`.
 
 **State:** `OPEN`.
 
-`nk-shadow-report/1` and `nk-shadow-receipt/1` prove only that declared recorded observations were compared under the recorded dataset digest and authority boundary. They do not prove truth, source authenticity, production safety, physical deletion or external correctness.
+`nk-shadow-report/1` and `nk-shadow-receipt/1` prove only that declared observations were compared under the recorded dataset digest and authority boundary. They do not prove truth, authenticity, production safety, physical deletion or external correctness.
 
 ## P0 — Authentic source recovery remains unresolved
 
@@ -91,15 +83,15 @@ clean/postgresql-reference/0.1
 ≠ original 44-test evidence
 ```
 
-**State:** `OPEN`; Issue #1 remains independent.
+**State:** `OPEN`; Issue #1 remains independent. `NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GLOBALLY_LOST`.
 
 ## P0 — C3/C4 may be mistaken for operational equivalence
 
 **State:** `OPEN`.
 
-Selected byte, structural, semantic and behavioural outcomes match in repository evidence. Concurrency, IAM, networking, replication, failover, administration, backup/restore, scale, managed-provider behaviour and filesystem durability are not equivalent.
+Selected byte, structural, semantic and behavioural outcomes match. Concurrency, IAM, networking, replication, failover, administration, backup/restore, scale, managed-provider behaviour and filesystem durability are not equivalent.
 
-## P0 — C4 assertion mapping drift
+## P0 — Assertion/dataset/evidence drift
 
 **State:** `OPEN`, machine-guarded by:
 
@@ -110,14 +102,10 @@ Selected byte, structural, semantic and behavioural outcomes match in repository
 - one Receipt per case;
 - `NK-EPI` non-promotion;
 - zero semantic/critical divergence thresholds;
-- repository SHA/run/environment requirements;
+- exact repository SHA/run/environment;
 - required limitations and authority boundary.
 
-## P0 — Environment metadata can be spoofed outside CI
-
-**State:** `OPEN / ACCEPTED LIMIT`.
-
-A JSON file alone is insufficient C4 evidence. Exact visible run, head, artifact digest and retained bytes are required.
+A JSON file alone is insufficient evidence; externally visible run, head, artifact digest and retained bytes are required.
 
 ## P0 — Physical deletion remains absent
 
@@ -129,7 +117,7 @@ Neither profile nor C4 deletes across primary data, backups, logs, exports, prov
 
 **State:** `OPEN / MOSTLY UNSUPPORTED`.
 
-Candidate conflicts, mismatch dimensions, detection/resolution separation, resolution history and full cross-profile conflict preservation remain absent.
+Candidate conflicts, mismatch dimensions, detection/resolution separation, resolution history and complete cross-profile conflict preservation remain absent.
 
 ## P0 — Restore visibility enforcement is absent
 
@@ -153,55 +141,37 @@ Each C4 artifact contains PostgreSQL P4, SQLite P5, C3 equivalence and C4 shadow
 
 **State:** `OPEN`.
 
-Approval currently relies on ADR-0020, Issue #61 and committed bytes. There is no separate signed dataset registry, reviewer quorum, revocation list or long-term immutable archive.
+Approval relies on ADR-0020, Issue #61 and committed bytes. There is no separate signed dataset registry, reviewer quorum, revocation list or long-term immutable archive.
 
-## P1 — Receipt volume and retention are unbounded for future datasets
-
-**State:** `OPEN`.
-
-The current dataset produces 15 Receipts. A larger offline corpus needs bounded storage, indexing, deduplication, retention and review policy without turning Receipts into authoritative state.
-
-## P1 — SQLite operational assumptions
+## P1 — Future Receipt volume and retention
 
 **State:** `OPEN`.
 
-Network filesystems, multi-host writers, abrupt power loss, filesystem corruption, platform-specific locking and long contention remain unproven.
+The current dataset produces 15 Receipts. A larger corpus needs bounded storage, indexing, deduplication, retention and review without turning Receipts into authoritative state.
 
-## P1 — PostgreSQL operational faults remain under-tested
-
-**State:** `OPEN`.
-
-Failover, process death at every statement boundary, partitions, replica lag, managed-provider semantics, backup/restore and concurrency limits remain unproven.
-
-## P1 — Replay cost and snapshot pressure
-
-**State:** `OPEN / UNBENCHMARKED`.
-
-Both profiles replay from sequence 1; no trusted incremental checkpoint strategy exists.
-
-## P1 — Upcaster provenance
+## P1 — Profile operational assumptions
 
 **State:** `OPEN`.
 
-Current C3/C4 evidence does not establish semantic correctness of every future transform.
+SQLite network filesystems, multi-host writers, abrupt power loss and platform locking remain unproven. PostgreSQL failover, process death at every statement boundary, partitions, replica lag, managed-provider semantics, backup/restore and concurrency limits remain unproven.
 
-## P1 — Profile and evaluator technologies may become accidental Canon
+## P1 — Replay cost and upcaster provenance
+
+**State:** `OPEN`.
+
+Both profiles replay from sequence 1; no trusted incremental checkpoint strategy exists. C3/C4 does not establish semantic correctness of every future upcaster.
+
+## P1 — Accidental Canon
 
 **State:** `OPEN`, controlled by documentation.
 
-PostgreSQL, SQLite, Python, Psycopg, files, pragmas, locks, CI runners, current JSON protocols and the current evaluator implementation remain replaceable.
+PostgreSQL, SQLite, Python, Psycopg, files, pragmas, locks, CI runners, JSON protocols and the evaluator remain replaceable technologies.
 
-## P1 — Commitments may be mistaken for authentication
-
-**State:** `OPEN`.
-
-`nkp1`, `nke1`, `nks0`, `nkr0`, dataset SHA-256 and comparison digests are commitments, not signatures, notarization or Byzantine protection.
-
-## P1 — Fencing may be mistaken for consensus/security
+## P1 — Commitments may be mistaken for authentication or consensus
 
 **State:** `OPEN`.
 
-Current authority/fencing is not IAM, delegated authority audit, multi-region consensus or Byzantine consensus.
+`nkp1`, `nke1`, `nks0`, `nkr0`, dataset SHA-256 and comparison digests are commitments, not signatures, notarization or Byzantine protection. Current fencing is not IAM, delegated authority audit, multi-region consensus or Byzantine consensus.
 
 ## P1 — License and publication terms unresolved
 
@@ -209,11 +179,11 @@ Current authority/fencing is not IAM, delegated authority audit, multi-region co
 
 C4 adds no external runtime dependency and publishes no package, but publication, reuse, contribution and long-term evidence terms remain undecided.
 
-## P1 — Final-head evidence drift
+## P1 — Exact-SHA publication continuity
 
-**State:** `OPEN FOR PR #62 / CONTINUING CONTROL`.
+**State:** `IMPLEMENTATION PR DRIFT CLOSED / CONTINUING CONTROL`.
 
-First C4 repository evidence passed on `97abce68…`, but later manifest and documentation commits changed the branch. The final PR head must repeat C4, P5/C3, P4, P1, fixtures and AI-context before review and merge. A later main checkpoint must not reuse PR-head evidence as main-bound evidence.
+PR #62 final-head evidence passed on `b7786c08…`; implementation-main evidence independently passed on `07bf1cc9…`. The documentation checkpoint must now reproduce its own C4/AI gates. Its later merge SHA must not be described as already covered by implementation-main evidence.
 
 ## Update rule
 
