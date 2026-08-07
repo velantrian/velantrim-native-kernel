@@ -1,18 +1,17 @@
 # 📍 Native Kernel Current State Checkpoint
 
 **Verified:** 2026-08-07  
-**Last verified public `main`:** `4af642930e18752f8f8b0bce75df355f76100d6f`  
-**P3 merge:** PR #50 / `4af642930e18752f8f8b0bce75df355f76100d6f`  
-**Checkpoint branch:** `agent/p3-post-merge-checkpoint`  
-**Repository status:** `RESEARCH / P3 PARTIAL IMPLEMENTATION / NOT PRODUCTION-READY`
+**Last verified public `main`:** `4f8cb0a8b7d9ca678a8578cf005b118fd6dff150`  
+**Active branch / PR / issue:** `agent/p4-conformance-adapter` / #56 / #55  
+**Repository status:** `RESEARCH / P4 PARTIAL ASSERTION CONFORMANCE / NOT PRODUCTION-READY`
 
-> Context checkpoint ≠ automatically current main. Re-check exact refs and workflow evidence after later changes.
+> Context checkpoint ≠ automatically current main. Re-check the branch ref, final PR head, workflows, artifact state, reviews and merge SHA.
 
 ```text
 NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GLOBALLY_LOST
-P3 INTEGRATION PASS ≠ COMPLETE KERNEL
-P3 RECEIPT ≠ TRUTH / AUTHENTICITY / PHYSICAL ERASURE
-IMPLEMENTED PROFILE ≠ ASSERTION-LEVEL CONFORMANCE
+P4 C2 ≠ C3
+C2 SUPPORTED ASSERTIONS ≠ SUPPORT FOR ALL 72
+ASSERTION EVIDENCE ≠ TRUTH / AUTHENTICITY / PHYSICAL ERASURE
 C1 ≠ C2 ≠ C3
 ```
 
@@ -23,77 +22,94 @@ RFC-0002:              ACCEPTED / APPROVED
 P1 semantic core:      MERGED / REPOSITORY-TESTED
 P2 PostgreSQL adapter: MERGED / REPOSITORY-INTEGRATION-TESTED
 P3 replay/projections: MERGED / REPOSITORY-INTEGRATION-TESTED
-P4–P5:                 REQUIRE SEPARATE GO
+P4 conformance:        AUTHORIZED / PARTIAL / C2 PREVIOUS-HEAD EVIDENCE
+P5 / C3:               REQUIRE SEPARATE GO
 Issue #1 / #18:        ACTIVE / INDEPENDENT
 ```
 
-Decision and implementation evidence: Issue #49, ADR-0017 and PR #50.
+Decision and implementation records: Issue #55, ADR-0018, PR #56 and `P4_IMPLEMENTATION_RECORD.md`.
 
-## P3 implementation route
-
-```text
-PostgreSQL authoritative history
-→ repeatable-read snapshot
-→ stored canonical/Event-chain verification
-→ explicit UpcasterRegistry
-→ P1 reducer from empty state
-→ Replay Receipt
-→ locked current-head comparison
-→ disposable projection rebuild
-→ Projection Rebuild Receipt
-→ linked Receipt consistency verification
-```
-
-Key properties:
-
-1. selected-instance Event count/max global sequence must equal the instance head;
-2. every Event is loaded through P2 commitment verification;
-3. `prev_global_hash` must form one chain from `GENESIS`;
-4. reducer global/per-stream sequence rules remain active;
-5. unknown schema versions require an explicit deterministic upcaster path;
-6. projection publication fails if history advanced after replay;
-7. Receipt and projection commit together;
-8. injected precommit failure preserves the previous projection;
-9. destroying a projection does not reset committed generation lineage;
-10. projection load verifies its linked rebuild Receipt;
-11. Receipt overclaims are forbidden in Python models and SQL constraints.
-
-## Final repository evidence
-
-Final PR head: `7e615bc633cbf966211d3b2815f51b8ff9eb9716`.
+## P4 route
 
 ```text
-P3 run 31173133661 — PASS
-3.11 / PG16 — PASS
-3.11 / PG18 — PASS
-3.12 / PG16 — PASS
-3.12 / PG18 — PASS
-P2 regression run 31173133709 — PASS
-P1 semantic core run 31173133657 — PASS
-Fixture integrity run 31173133713 — PASS
-AI context run 31173133635 — PASS
+contract registry 1.1.0
+→ P1 semantic/identity/authority checks
+→ P2 PostgreSQL append/fencing checks
+→ P3 replay/projection/Receipt checks
+→ 72 explicit assertion results
+→ passed-check traceability + limitations
+→ strict report validation
+→ per-matrix JSON evidence artifacts
 ```
 
-Each P3 job passed 5 semantic tests, 5 manifest/anti-overclaim tests, 8 PostgreSQL integration scenarios, P2 regression tests and compileall.
-
-The squash merge is `4af642930e18752f8f8b0bce75df355f76100d6f`. No push-to-main workflow run was recorded for that SHA; this remains `NOT_RECORDED`, not PASS.
-
-## Evidence boundary
+## Assertion map
 
 ```text
-P3 replay/projection integration: REPOSITORY_REPRODUCED
-Kernel runtime conformance:       UNSUPPORTED
-C1/C2/C3:                         NOT_ESTABLISHED
+SUPPORTED:   41
+PARTIAL:     13
+UNSUPPORTED: 18
+FAILED:       0
+TOTAL:       72
 ```
 
-P3 does not implement physical/cryptographic deletion, network API, P4 assertion-scoped conformance, P5 SQLite, production guarantees or ecosystem wiring.
+All `NK-EPI-001…008` results remain `UNSUPPORTED` because their registry decision remains `PROPOSED`.
 
-All 72 assertion statuses remain `UNSUPPORTED` until P4.
+## Initial exact C2 evidence
 
-## Next gates
+Executable/evidence head:
 
-1. validate and merge the post-merge continuity checkpoint;
-2. synchronize exact main/checkpoint evidence to Notion;
-3. close Issue #49 for the completed bounded P3 scope;
-4. require a new operator decision before P4;
-5. preserve Issue #1 source recovery and Issue #18 licensing as independent work.
+```text
+93710131fffdea7d9a586cc05e7f258c07fae707
+```
+
+```text
+P4 run 31175767586 — PASS
+Python 3.11 / PostgreSQL 16 — PASS
+Python 3.11 / PostgreSQL 18 — PASS
+Python 3.12 / PostgreSQL 16 — PASS
+Python 3.12 / PostgreSQL 18 — PASS
+P1 run 31175767587 — PASS
+P2 run 31175767636 — PASS
+P3 run 31175768175 — PASS
+Fixture run 31175767614 — PASS
+Artifacts: 4 retained JSON reports
+```
+
+Each matrix job generated and strictly validated a C2 report, then passed P1–P3 regressions and compileall.
+
+The first P4 workflow run `31175593261` failed only because the standalone adapter did not bootstrap repository root. Full C1 integration passed in that run. The CLI path was corrected without weakening checks, statuses or validation.
+
+## Evidence meaning
+
+```text
+support_state: PARTIAL
+C2:            REPOSITORY_REPRODUCED for 41 SUPPORTED assertions
+C3:            NOT_ESTABLISHED
+C4/C5:         NOT_ESTABLISHED
+```
+
+C2 does not apply to the 13 `PARTIAL` or 18 `UNSUPPORTED` results. One PostgreSQL profile cannot establish cross-profile equivalence.
+
+## Explicitly absent
+
+- P5 independent SQLite profile;
+- C3 cross-profile equivalence;
+- complete conflict subsystem;
+- physical/cryptographic deletion execution;
+- restore-before-visibility enforcement;
+- cross-project authority adapter;
+- network API;
+- truth/signature/notarization certification;
+- C4/C5 or production guarantees;
+- Titan, Mentaury or Crystal runtime wiring;
+- historical `v0.1.2.1` recovery.
+
+## Current finalization gates
+
+1. complete GitHub and Notion documentation synchronization;
+2. repeat P4, P1, P2, P3, fixture and AI-context checks on one final exact PR head;
+3. verify four final-head artifacts;
+4. inspect full diff, comments, reviews and unresolved threads;
+5. merge only with P5/C3/deletion/production/ecosystem scope absent;
+6. close Issue #55 after final publication evidence;
+7. require separate operator GO before P5/C3.
