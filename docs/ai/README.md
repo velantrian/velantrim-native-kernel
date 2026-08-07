@@ -13,32 +13,33 @@ It preserves continuity without requiring full-repository scanning or private ch
 3. [`../../AGENTS.md`](../../AGENTS.md) — mandatory repository rules.
 4. [`DOCUMENTATION_SYNC_PROTOCOL.md`](DOCUMENTATION_SYNC_PROTOCOL.md) — GitHub ↔ Notion definition of done.
 5. [`CURRENT_STATE.md`](CURRENT_STATE.md) — last verified checkpoint and active gates.
-6. [`P4_IMPLEMENTATION_RECORD.md`](P4_IMPLEMENTATION_RECORD.md) — assertion map, checks, C2 evidence, artifacts and limitations.
-7. [`P3_IMPLEMENTATION_RECORD.md`](P3_IMPLEMENTATION_RECORD.md) — replay/projection/Receipt foundation.
-8. [`COMPONENT_MAP.md`](COMPONENT_MAP.md) — contract, ownership and evidence routes.
-9. [`KNOWN_RISKS.md`](KNOWN_RISKS.md) — unresolved risks and required proof.
-10. [`AUDIT_PLAYBOOK.md`](AUDIT_PLAYBOOK.md) — context-efficient audit method.
-11. [`WORK_LOG.md`](WORK_LOG.md) — engineering chronology and hand-off.
-12. [`NOTION_HANDOFF.md`](NOTION_HANDOFF.md) — queue when Notion is unavailable.
+6. [`P5_IMPLEMENTATION_RECORD.md`](P5_IMPLEMENTATION_RECORD.md) — SQLite profile, C3 checks, reports, runs, artifacts and limitations.
+7. [`P4_IMPLEMENTATION_RECORD.md`](P4_IMPLEMENTATION_RECORD.md) — PostgreSQL assertion-scoped C2 foundation.
+8. [`P3_IMPLEMENTATION_RECORD.md`](P3_IMPLEMENTATION_RECORD.md) — replay/projection/Receipt foundation.
+9. [`COMPONENT_MAP.md`](COMPONENT_MAP.md) — contract, ownership and evidence routes.
+10. [`KNOWN_RISKS.md`](KNOWN_RISKS.md) — unresolved risks and required proof.
+11. [`AUDIT_PLAYBOOK.md`](AUDIT_PLAYBOOK.md) — context-efficient audit method.
+12. [`WORK_LOG.md`](WORK_LOG.md) — engineering chronology and hand-off.
+13. [`NOTION_HANDOFF.md`](NOTION_HANDOFF.md) — queue when Notion is unavailable.
 
 Then inspect only the source, tests, contracts, manifests, ADRs, RFCs, workflows, PRs and issues relevant to the task.
 
 ## Current evidence boundary
 
 ```text
-Repository status: RESEARCH / P4 PARTIAL ASSERTION CONFORMANCE / NOT PRODUCTION-READY
-P4 map:           41 SUPPORTED / 13 PARTIAL / 18 UNSUPPORTED / 0 FAILED
-support_state:    PARTIAL
-C2:               assertion-scoped for SUPPORTED results
-C3:               NOT_ESTABLISHED
-P5:               NOT_AUTHORIZED
+Repository status: RESEARCH / P5 PARTIAL CROSS-PROFILE CONFORMANCE / NOT PRODUCTION-READY
+SQLite C2 map:     41 SUPPORTED / 13 PARTIAL / 18 UNSUPPORTED / 0 FAILED
+C3 map:            45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED / 0 FAILED
+support_state:     PARTIAL
+C4/C5:             NOT_ESTABLISHED / NOT_AUTHORIZED
 ```
 
 ```text
-P4 C2 ≠ all 72 supported
-P4 C2 ≠ C3
-P4 C2 ≠ truth/authenticity
-P4 C2 ≠ physical deletion
+C2 ≠ C3
+C3 SUPPORTED ASSERTIONS ≠ SUPPORT FOR ALL 72
+C3 SEMANTIC EQUIVALENCE ≠ OPERATIONAL EQUIVALENCE
+C3 ≠ truth/authenticity
+C3 ≠ physical deletion
 ```
 
 ## Source-of-truth order
@@ -60,7 +61,8 @@ GitHub must remain sufficient without Notion to:
 - establish current reality at an exact SHA;
 - distinguish proposed, accepted, implemented and evidenced behavior;
 - locate Canon, contracts, profiles and Anti-Canon boundaries;
-- trace an assertion result to checks and artifacts;
+- trace a C2/C3 assertion result to checks and artifacts;
+- identify allowed/forbidden cross-profile differences;
 - identify open risks and next gates;
 - continue work safely.
 
@@ -71,13 +73,13 @@ No material decision, finding, blocker, evidence or next action may exist only i
 | Task | Read next |
 |---|---|
 | Repository maturity | `STATUS.md` + `CURRENT_STATE.md` |
-| P4 conformance claim | `P4_IMPLEMENTATION_RECORD.md` → Issue #55 → ADR-0018 → adapter/map → exact artifact |
-| P3 replay/projection | `P3_IMPLEMENTATION_RECORD.md` → Issue #49 → ADR-0017 → source/tests |
-| Assertion support | assertion ID → P4 report result → check IDs → exact run/artifact |
+| P5/C3 claim | `P5_IMPLEMENTATION_RECORD.md` → Issue #58 → ADR-0019 → comparator → exact artifacts |
+| SQLite profile | `native_kernel/sqlite_profile/README.md` → adapter/replay/conformance/tests |
+| P4 C2 claim | `P4_IMPLEMENTATION_RECORD.md` → Issue #55 → ADR-0018 → PostgreSQL report |
+| Assertion support | assertion ID → SQLite/C3 report result → check IDs → exact artifact |
 | Architecture/invariant | `ARCHITECTURE.md`, foundational intent, relevant ADR |
 | Source recovery | Issue #1 import spec + `docs/source-recovery/` |
-| Storage profile | storage/execution profiles + ADR-0009 |
-| P5/C3 | conformance model + separate operator GO + independent profile evidence |
+| Storage profile | storage/execution profiles + ADR-0009/0019 |
 | Ecosystem boundary | ecosystem and integration-boundary documents |
 | General audit | `AUDIT_PLAYBOOK.md` + affected route |
 | Durable decision | decision process + ADR template + sync protocol |
@@ -92,11 +94,11 @@ python tools/ai_context/validate_context.py --repo .
 
 The guard checks:
 
-- required context files, including the P4 record;
+- required context files, including P4 and P5 records;
 - selected relative links;
 - exact checkpoint syntax/existence/ancestry;
-- P4 maturity marker;
-- `P4 C2 ≠ C3` boundary.
+- P5 maturity marker;
+- C2/C3 and semantic/operational-equivalence boundaries.
 
 ```text
 AI-context PASS
@@ -110,7 +112,8 @@ AI-context PASS
 A material PR must update relevant files in the same branch:
 
 - `CURRENT_STATE.md`;
-- `P4_IMPLEMENTATION_RECORD.md` for P4 scope/evidence changes;
+- `P5_IMPLEMENTATION_RECORD.md` for P5/C3 scope or evidence changes;
+- `P4_IMPLEMENTATION_RECORD.md` when PostgreSQL P4 evidence changes;
 - `KNOWN_RISKS.md`;
 - `COMPONENT_MAP.md`;
 - `WORK_LOG.md`;
