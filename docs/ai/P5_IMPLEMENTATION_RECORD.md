@@ -1,10 +1,9 @@
 # 🧩 P5 SQLite & Cross-Profile C3 Implementation Record
 
 **Recorded:** 2026-08-07  
-**Base public `main`:** `1dc493e9d23b99ee4bbf6015348599cd56f6cb56`  
-**Canonical issue:** #58  
-**Pull request:** #59  
-**Decision:** ADR-0019 `ACCEPTED / APPROVED`
+**Implementation base:** `1dc493e9d23b99ee4bbf6015348599cd56f6cb56`  
+**Verified implementation main:** `a8bb0ae232b977856730a1a4f21f977c1f69ca0a`  
+**Issue / PR / ADR:** #58 / #59 / ADR-0019 `ACCEPTED / APPROVED`
 
 ## Profiles and lineages
 
@@ -16,14 +15,14 @@ SQLite:     native-kernel/sqlite-embedded@0.5-p5
 Lineage:    clean/sqlite-embedded/0.1
 ```
 
-SQLite is a materially different embedded profile implemented with Python standard-library `sqlite3`. It does not call PostgreSQL append, replay, projection or Receipt adapters.
+SQLite is materially independent and uses Python standard-library `sqlite3`; it does not call PostgreSQL append, replay, projection or Receipt adapters.
 
-## Maturity
+## Final maturity
 
 ```text
 P1–P4:                 MERGED / REPOSITORY-REPRODUCED
-P5 SQLite profile:     PARTIAL / C2 REPOSITORY-REPRODUCED ON PREVIOUS HEAD
-Cross-profile C3:      PARTIAL / REPOSITORY-REPRODUCED ON PREVIOUS HEAD
+P5 SQLite profile:     MERGED / PARTIAL / C2 REPOSITORY-REPRODUCED
+Cross-profile C3:      MERGED / PARTIAL / REPOSITORY-REPRODUCED
 support_state:         PARTIAL
 C4/C5:                 NOT ESTABLISHED / NOT AUTHORIZED
 Production readiness: NOT CLAIMED
@@ -31,117 +30,77 @@ Production readiness: NOT CLAIMED
 
 ## Result maps
 
-SQLite profile report:
-
 ```text
-SUPPORTED:   41
-PARTIAL:     13
-UNSUPPORTED: 18
-FAILED:       0
-TOTAL:       72
+SQLite C2: 41 SUPPORTED / 13 PARTIAL / 18 UNSUPPORTED / 0 FAILED
+C3:        45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED / 0 FAILED
 ```
 
-PostgreSQL↔SQLite comparison:
-
-```text
-SUPPORTED:   45
-PARTIAL:     10
-UNSUPPORTED: 17
-FAILED:       0
-TOTAL:       72
-```
-
-Cross-profile evidence promotes exactly four assertion results relative to the single-profile C2 map:
-
-- `NK-SEM-008`;
-- `NK-ID-008`;
-- `NK-EQV-002`;
-- `NK-EQV-003`.
-
-All `NK-EPI-001…008` remain `UNSUPPORTED / PROPOSED`.
+C3 promotes exactly `NK-SEM-008`, `NK-ID-008`, `NK-EQV-002` and `NK-EQV-003`. All `NK-EPI-001…008` remain `UNSUPPORTED / PROPOSED`.
 
 ## Independent SQLite route
 
 ```text
 stdlib sqlite3
-→ numbered migration ledger + digest drift guard
+→ migration ledger + digest drift guard
 → Kernel-instance registration
 → BEGIN IMMEDIATE single-writer transaction
 → owner / epoch / expiry fence
-→ scoped durable idempotency
-→ rollback-safe sequence allocation
-→ canonical Event commitments and hash chain
-→ persisted replay
-→ disposable projection rebuild
+→ durable idempotency + rollback-safe sequence allocation
+→ canonical Event commitments + hash chain
+→ persisted replay + disposable projections
 → bounded operational Receipts
+→ exact PostgreSQL authoritative-history import
 ```
 
-Implemented checks cover:
-
-- migration idempotency;
-- stale writer and lease expiry rejection;
-- append/retry/idempotency conflict;
-- rollback without sequence gaps;
-- global and per-stream ordering;
-- replay and projection equivalence;
-- stale-head rejection;
-- stored canonical corruption detection;
-- exact authoritative-history import.
-
-## Equivalence route
+## Cross-profile route
 
 ```text
 same registry + fixture pack
 → independent PostgreSQL workload
 → independent SQLite workload
 → normalized append/Event outcomes
-→ replay and projection comparison
-→ Receipt proof-boundary comparison
+→ replay/projection/Receipt comparison
 → exact PostgreSQL Event import into SQLite
-→ assertion-to-cross-profile-check mapping
+→ BYTE / STRUCTURAL / SEMANTIC / BEHAVIOURAL checks
 → nk-equivalence-report/1
 ```
 
-### Equivalence classes
+Allowed differences include SQL/layout, server versus file topology, row locks versus `BEGIN IMMEDIATE`, independently generated Event IDs/timestamps and operational IAM/network/failover/concurrency capabilities.
 
-| Class | Evidence |
-|---|---|
-| `BYTE` | identity golden vectors and exact imported Event bytes/hash chain |
-| `STRUCTURAL` | complete 72-ID report shape and declared fields |
-| `SEMANTIC` | reducer/projection canonical state and Receipt proof fields |
-| `BEHAVIOURAL` | accepted/rejected commands, idempotency, fencing and ordering |
+Forbidden differences include canonical identity, Command digest, payload/order semantics, hash-chain validity, reducer/projection canonical state, rejection outcomes, Receipt proof fields and exact imported Event bytes/hashes.
 
-## Allowed differences
-
-- PostgreSQL SQL versus SQLite SQL;
-- server/database topology versus a local file;
-- row locks versus `BEGIN IMMEDIATE`;
-- independently generated Event IDs and timestamps;
-- IAM, networking, replication, failover, concurrency and administration;
-- non-semantic storage metadata and query plans.
-
-## Forbidden differences
-
-- canonical identity vectors;
-- Command digest and payload meaning;
-- declared sequence/order semantics;
-- hash-chain validity;
-- reducer/projection state digest and canonical bytes;
-- idempotency, stale-writer and corruption rejection results;
-- Receipt proof-boundary booleans;
-- bytes/hash commitments during exact authoritative-history import.
-
-## Initial repository evidence
+## PR-head evidence
 
 ```text
-Evidence head: d43a6ed28232e9fc8b62f84d9025386fb8bce6f7
-P5/C3 run:    31181341275 — PASS
-P4 run:       31181341370 — PASS
-P1 run:       31181341405 — PASS
-Fixtures:     31181340889 — PASS
+Final head: 6483c9a229aea7d49929745b7652e67f1c39949c
+P5/C3:      31182711376 — PASS
+P4:         31182710450 — PASS
+P1:         31182711652 — PASS
+Fixtures:   31182710461 — PASS
+AI context: 31182710710 — PASS
 ```
 
-Matrix:
+Final-head artifacts:
+
+| Environment | Digest |
+|---|---|
+| Python 3.11 / PostgreSQL 16 | `sha256:ca1c1266b7b0d9307978bd1a4beadf95139a55c1b8facca4ab641c1d7d502c9c` |
+| Python 3.11 / PostgreSQL 18 | `sha256:1ffcd7248ba74ffdcdd15dbfb9c86289c9f0357fd151e0d74187b30f740ace8a` |
+| Python 3.12 / PostgreSQL 16 | `sha256:33b022cc9dda1a03e44bce0ca6e0e7622bcddb898764ddb11d010b348b6ea441` |
+| Python 3.12 / PostgreSQL 18 | `sha256:d10647dec21c84edd1e4fc94425c048aa63d6c77b8f4952337dc5096a624ccde` |
+
+## Implementation merge and main evidence
+
+```text
+PR #59 merge/main: a8bb0ae232b977856730a1a4f21f977c1f69ca0a
+P5/C3 main run:    31183074126 — PASS
+P4 main run:       31183074048 — PASS
+P1 main run:       31183073948 — PASS
+Fixtures:          31183073969 — PASS
+AI context:        31183073997 — PASS
+```
+
+Main matrix:
 
 ```text
 Python 3.11 / PostgreSQL 16 / SQLite 3.45.1 — PASS
@@ -149,20 +108,6 @@ Python 3.11 / PostgreSQL 18 / SQLite 3.45.1 — PASS
 Python 3.12 / PostgreSQL 16 / SQLite 3.45.1 — PASS
 Python 3.12 / PostgreSQL 18 / SQLite 3.45.1 — PASS
 ```
-
-Each P5 matrix job passed:
-
-- 2 SQLite runtime unit tests;
-- 1 full SQLite profile report integration test;
-- 5 SQLite report anti-overclaim tests;
-- 5 P5 manifest anti-overclaim tests;
-- 1 full PostgreSQL↔SQLite C3 integration test;
-- exact PostgreSQL P4, SQLite P5 and C3 report generation/validation;
-- P1–P4 regressions;
-- compileall;
-- artifact upload.
-
-## Artifacts
 
 Each artifact contains:
 
@@ -172,22 +117,23 @@ sqlite-p5-report.json
 c3-equivalence-report.json
 ```
 
-| Environment | Artifact digest |
+Main-bound artifact digests:
+
+| Environment | Digest |
 |---|---|
-| Python 3.11 / PostgreSQL 16 | `sha256:6e74f1be560afa54033beaa0c396d8395ed47d27ee89961746cda416e42cb8a5` |
-| Python 3.11 / PostgreSQL 18 | `sha256:dec4f52dd6f7d6b6d71251bc9f931bcfc115ba65deae5a1ed888f77ea71ca680` |
-| Python 3.12 / PostgreSQL 16 | `sha256:727b2a204035acb1d9fd116faecb284e8c8dda81722cb3646510cd1e779143bb` |
-| Python 3.12 / PostgreSQL 18 | `sha256:705182b68f5806274723c43ea0d4c3cb1f240baf623db5260f151f24bacfea29` |
+| Python 3.11 / PostgreSQL 16 | `sha256:ca509f6fe9c1bb56c904399e7e6b60e2c743682aa8af21b006b1d1d5bcb6ea4c` |
+| Python 3.11 / PostgreSQL 18 | `sha256:728bcb72a414b3c342e4ed03309593db5c0322e145a7dfc4c5d1834650fa422c` |
+| Python 3.12 / PostgreSQL 16 | `sha256:a0c99b14a27f241dba7b6f37e45e80c592d25e0fae42934fab654a6430fc2d35` |
+| Python 3.12 / PostgreSQL 18 | `sha256:2264682a85720db3c0512fa75466016466b54abb1e0a99274b9f2f99dc2274fb` |
 
-Artifacts are retained for 30 days.
-
-One archive was independently inspected after download. It contained all three reports; the C3 report was bound to the exact head/run/environment, emitted 72 results with `45/10/17/0`, and all eight cross-profile checks were `PASS`.
+Artifacts expire on 2026-09-06. A main-bound archive was downloaded and inspected; it contained all three reports. The C3 report named exact main/run/Python/PostgreSQL/SQLite metadata, contained 72 assertion results with `45/10/17/0`, and all eight comparison checks were `PASS`.
 
 ## Negative evidence and fixes
 
-1. Initial P5 test run failed because three tests referenced a non-existent `contracts/fixtures/fixture-pack.json`; all were corrected to the canonical committed `contracts/fixture-pack.json`.
-2. Generic `nk-evidence-report/1` runner rejected the separate `nk-equivalence-report/1` protocol. The workflow was corrected to generate C3 directly through the comparator and validate it with the dedicated equivalence validator. The protocol distinction was preserved rather than weakened.
-3. Bot-generated commits produced GitHub `action_required` instead of nested CI. A connector-authored commit triggered the actual matrix; this was not treated as test evidence.
+1. Three tests initially referenced a non-existent nested fixture path; corrected to committed `contracts/fixture-pack.json`.
+2. The generic single-profile runner rejected `nk-equivalence-report/1`; C3 now uses the dedicated comparator and equivalence validator without weakening either protocol.
+3. Bot-authored commits produced `action_required` nested workflows; those statuses were never counted as evidence.
+4. Temporary bootstrap archives and workflows were removed before review.
 
 ## Exact boundary
 
@@ -205,20 +151,13 @@ C3 for 45 SUPPORTED assertions
 ## Remaining risks
 
 - comparison scenarios are bounded, not exhaustive;
-- SQLite and PostgreSQL failure behavior outside declared scenarios may diverge;
 - concurrency, failover, backup/restore and managed-provider behavior are not equivalent;
 - complete conflict representation/resolution remains absent;
 - physical deletion and restore-before-visibility remain absent;
 - artifacts expire;
-- future contract/profile changes can invalidate C3 and require new evidence;
+- future contract/profile changes require renewed C3 evidence;
 - Issue #18 publication/licensing remains unresolved.
 
-## Finalization gate
+## Publication completion
 
-1. synchronize public and AI documentation;
-2. run P5/C3, P4, P1, fixtures and AI-context on one final exact PR head;
-3. verify four final-head artifacts and inspect one archive;
-4. inspect PR diff, comments, reviews and unresolved threads;
-5. merge only with C4/C5/production/deletion/ecosystem scope absent;
-6. publish a post-merge continuity checkpoint and synchronize Notion;
-7. require a new explicit GO for any later phase or operational claim.
+The implementation and main-push evidence are complete. Remaining work in this cycle is the docs-only checkpoint, Notion synchronization and Issue #58 closure. Later phases require a new explicit operator GO.
