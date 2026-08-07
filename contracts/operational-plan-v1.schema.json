@@ -1,0 +1,72 @@
+{
+  "$id": "https://velantrim.example/contracts/operational-plan-v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "approval": {
+      "required": [
+        "state",
+        "decision_record",
+        "issue",
+        "scope"
+      ],
+      "type": "object"
+    },
+    "deployment_boundary": {
+      "type": "object"
+    },
+    "limitations": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "plan_id": {
+      "const": "native-kernel/c5-bounded-rehearsal-v1"
+    },
+    "prerequisite": {
+      "type": "object"
+    },
+    "privacy": {
+      "type": "object"
+    },
+    "protocol": {
+      "const": "nk-operational-plan/1"
+    },
+    "scenarios": {
+      "items": {
+        "required": [
+          "id",
+          "category",
+          "profile",
+          "required"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
+    },
+    "thresholds": {
+      "type": "object"
+    },
+    "version": {
+      "const": "1"
+    }
+  },
+  "required": [
+    "protocol",
+    "plan_id",
+    "version",
+    "approval",
+    "deployment_boundary",
+    "prerequisite",
+    "thresholds",
+    "privacy",
+    "scenarios",
+    "limitations"
+  ],
+  "title": "Native Kernel C5 bounded operational rehearsal plan",
+  "type": "object"
+}

@@ -1,0 +1,94 @@
+{
+  "$id": "https://velantrim.example/contracts/operational-report-v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "assertion_results": {
+      "maxItems": 72,
+      "minItems": 72,
+      "type": "array"
+    },
+    "deployment_boundary": {
+      "type": "object"
+    },
+    "environment": {
+      "type": "object"
+    },
+    "kernel_runtime_conformance": {
+      "const": "C4"
+    },
+    "limitations": {
+      "items": {
+        "minLength": 1,
+        "type": "string"
+      },
+      "minItems": 5,
+      "type": "array"
+    },
+    "metrics": {
+      "type": "object"
+    },
+    "operational_validation": {
+      "const": "C5_BOUNDED_REHEARSAL"
+    },
+    "plan": {
+      "required": [
+        "id",
+        "protocol",
+        "sha256"
+      ],
+      "type": "object"
+    },
+    "prerequisite": {
+      "required": [
+        "report_version",
+        "sha256",
+        "status",
+        "support_state"
+      ],
+      "type": "object"
+    },
+    "protocol": {
+      "const": "nk-operational-report/1"
+    },
+    "receipts": {
+      "minItems": 1,
+      "type": "array"
+    },
+    "scenario_results": {
+      "minItems": 1,
+      "type": "array"
+    },
+    "status": {
+      "enum": [
+        "PASS",
+        "FAIL"
+      ]
+    },
+    "support_state": {
+      "const": "PARTIAL"
+    },
+    "thresholds": {
+      "type": "object"
+    }
+  },
+  "required": [
+    "protocol",
+    "status",
+    "operational_validation",
+    "kernel_runtime_conformance",
+    "support_state",
+    "plan",
+    "prerequisite",
+    "deployment_boundary",
+    "thresholds",
+    "environment",
+    "metrics",
+    "scenario_results",
+    "receipts",
+    "assertion_results",
+    "limitations"
+  ],
+  "title": "Native Kernel C5 bounded operational rehearsal report",
+  "type": "object"
+}
