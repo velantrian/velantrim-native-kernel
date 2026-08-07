@@ -37,6 +37,7 @@ jobs:
             exit 1
           fi
           tar -xzf /tmp/state-reconciliation-patch.tar.gz -C .
+          git checkout -- .github/workflows/ai-context.yml
 
       - name: Download and verify exact C5 artifact bytes
         env:
@@ -91,7 +92,6 @@ jobs:
           set -euo pipefail
           rm -f .github/state-reconciliation-patch.tar.gz.b64
           rm -rf .github/state-reconciliation-patch
-          rm -f .github/workflows/apply-c5-evidence-state-reconciliation.yml
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
