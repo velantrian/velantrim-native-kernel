@@ -1,11 +1,11 @@
 # 📍 Native Kernel Current State Checkpoint
 
 **Verified:** 2026-08-07  
-**Last verified public `main`:** `b10be105743355a04e58611639a9d28faf7ea514`  
-**Active issue / PR / ADR:** #61 / #62 / ADR-0020  
+**Last verified public `main`:** `07bf1cc955307783f8eaa3becbaa924087b8b325`  
+**Active issue / PR / ADR:** #61 / #62 merged / ADR-0020  
 **Repository status:** `RESEARCH / C4 PARTIAL OFFLINE SHADOW EVALUATION / NOT PRODUCTION-READY`
 
-> Context checkpoint ≠ automatically current main. Re-check the actual branch ref, exact workflows, artifact contents and later checkpoint merge.
+> Context checkpoint ≠ automatically current main. Re-check the actual branch ref, exact workflows, artifact contents and the later checkpoint merge.
 
 ```text
 NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GLOBALLY_LOST
@@ -25,9 +25,17 @@ P2 PostgreSQL adapter: MERGED / REPOSITORY-INTEGRATION-TESTED
 P3 replay/projections: MERGED / REPOSITORY-INTEGRATION-TESTED
 P4 conformance:        MERGED / PARTIAL / POSTGRESQL C2
 P5 SQLite/C3:          MERGED / PARTIAL / REPOSITORY-REPRODUCED
-C4 offline shadow:     PR #62 OPEN / PARTIAL / REPOSITORY-REPRODUCED ON PREVIOUS HEAD
+C4 offline shadow:     MERGED / PARTIAL / REPOSITORY-REPRODUCED
 C5/production:         NOT AUTHORIZED / NOT ESTABLISHED
 Issue #1 / #18:        ACTIVE / INDEPENDENT
+```
+
+## Publication lineage
+
+```text
+Base main:       b10be105743355a04e58611639a9d28faf7ea514
+PR #62 head:     b7786c088ef2cfd203c02625a5e0c40129cbf148
+PR #62 merge:    07bf1cc955307783f8eaa3becbaa924087b8b325
 ```
 
 ## Profiles, protocols and result map
@@ -36,9 +44,7 @@ Issue #1 / #18:        ACTIVE / INDEPENDENT
 PostgreSQL  native-kernel/postgresql-reference@0.4-p4
 SQLite      native-kernel/sqlite-embedded@0.5-p5
 C4 dataset  native-kernel/c4-offline-shadow-v1
-```
 
-```text
 Dataset protocol: nk-shadow-workload/1
 Report protocol:  nk-shadow-report/1
 Receipt protocol: nk-shadow-receipt/1
@@ -77,15 +83,16 @@ approval:       ADR-0020 / Issue #61 / OFFLINE_RECORDED_WORKLOAD_ONLY
 
 The dataset is synthetic repository evidence, not captured production traffic.
 
-## First repository evidence
+## Exact implementation-main evidence
 
 ```text
-Evidence head: 97abce685a68e24aec9afab451c009df5783b96b
-C4 run:       31187532364 — PASS
-P5/C3 run:    31187532391 — PASS
-P4 run:       31187532618 — PASS
-P1 run:       31187532346 — PASS
-Fixture run:  31187532580 — PASS
+Main:          07bf1cc955307783f8eaa3becbaa924087b8b325
+C4 run:        31189474449 — PASS
+P5/C3 run:     31189474409 — PASS
+P4 run:        31189474739 — PASS
+P1 run:        31189474300 — PASS
+Fixture run:   31189474351 — PASS
+AI context:    31189474423 — PASS
 ```
 
 Matrix:
@@ -97,7 +104,16 @@ Python 3.12 / PostgreSQL 16 / SQLite 3.45.1 — PASS
 Python 3.12 / PostgreSQL 18 / SQLite 3.45.1 — PASS
 ```
 
-Each artifact contains PostgreSQL P4, SQLite P5, C3 equivalence and C4 shadow reports. One artifact was downloaded and inspected.
+Each artifact contains PostgreSQL P4, SQLite P5, C3 equivalence and C4 shadow reports.
+
+```text
+py3.11/pg16 sha256:3e58a0ea73445d99a94c1e6b7c637640b9852e20b0a71a47f243a14e49995e44
+py3.11/pg18 sha256:14cd00c605d247873ff4ae58b3e8d884b6a3e986f13c1f47e0665eee5e33cb9e
+py3.12/pg16 sha256:08e1ecccc2679a7ce7bc8fadf43a9586794696b08f8f549f9350d8c658cc160f
+py3.12/pg18 sha256:4f890220eb7b1aed36aab74e4aedf4b6e6a4bd71dcc81534a6fe546ae9c75fd6
+```
+
+One main-bound artifact was downloaded and inspected:
 
 ```text
 15 / 15 cases matched
@@ -110,28 +126,21 @@ Each artifact contains PostgreSQL P4, SQLite P5, C3 equivalence and C4 shadow re
 72 assertion results
 ```
 
-Artifact digests:
-
-```text
-py3.11/pg16 sha256:59cf39e6cbd3e8c95157676cc3fd838687d5911676b227681efd6c83a7f36e90
-py3.11/pg18 sha256:9d4f828095285e479e1a95b87523fbaa800068f82a75cbbefb5f2d736e952032
-py3.12/pg16 sha256:f85e29688a0176c168067fb8ed6f889550342c6faffcb4dc7d391715ea5364d4
-py3.12/pg18 sha256:6892bc2ab7232c96124d4d207aacf06385f8b2ff6a3ea91097d1db6c2e834328
-```
+The inspected Receipt recorded no authority promotion, authoritative write or side effect.
 
 Artifacts are retained until 2026-09-06.
 
 ## Evidence meaning
 
 ```text
-PostgreSQL C2:   REPOSITORY_REPRODUCED for 41 SUPPORTED assertions
-SQLite C2:       REPOSITORY_REPRODUCED for 41 SUPPORTED assertions
-Cross-profile C3:REPOSITORY_REPRODUCED for 45 SUPPORTED assertions
-Offline C4:      REPOSITORY_REPRODUCED for the approved 15-case dataset and 45-assertion scope
-C5:              NOT_ESTABLISHED
+PostgreSQL C2:    REPOSITORY_REPRODUCED for 41 SUPPORTED assertions
+SQLite C2:        REPOSITORY_REPRODUCED for 41 SUPPORTED assertions
+Cross-profile C3: REPOSITORY_REPRODUCED for 45 SUPPORTED assertions
+Offline C4:       REPOSITORY_REPRODUCED for the approved 15-case dataset and 45-assertion scope
+C5:               NOT_ESTABLISHED
 ```
 
-A passing C4 report means the declared observations matched inside this exact dataset and threshold policy. It is not an exhaustive or operational proof.
+A passing C4 report means the declared observations matched inside this exact dataset and threshold policy. It is not an exhaustive, live or operational proof.
 
 ## Explicitly absent
 
@@ -152,4 +161,4 @@ A passing C4 report means the declared observations matched inside this exact da
 
 ## Next action
 
-Finish exact final-head C4 matrix, public documentation validation and PR #62 review. After merge, record main-bound evidence and a docs-only publication checkpoint. C5 or any live/production/integration work requires a new explicit operator GO.
+Merge the documentation-only C4 checkpoint, reproduce bounded evidence on the resulting `main`, synchronize Notion and close Issue #61. C5 or any live/production/integration work requires a new explicit operator GO.
