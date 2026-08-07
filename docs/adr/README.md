@@ -2,9 +2,9 @@
 
 [← Project README](../../README.md) · [Русский README](../../README.ru.md) · [Decision process](../DECISION_PROCESS.md) · [Research RFCs](../rfc/README.md)
 
-Architecture Decision Records preserve why a durable architectural or implementation-profile boundary exists. They do not turn acceptance into empirical proof.
+ADRs preserve why durable architectural or profile boundaries exist. Acceptance is not empirical proof.
 
-## Four independent dimensions
+## Independent dimensions
 
 ```text
 Decision status
@@ -13,100 +13,59 @@ Decision status
 ≠ Operator approval
 ```
 
-### Decision status
-
-| Status | Meaning |
-|---|---|
-| `PROPOSED` | Under consideration |
-| `ACCEPTED` | Explicitly accepted decision |
-| `REJECTED` | Deliberately not adopted |
-| `DEPRECATED` | Present but no longer preferred |
-| `SUPERSEDED` | Replaced by another decision |
-
-### Evidence level
-
-| Level | Meaning |
-|---|---|
-| `DOCUMENTED` | Reasoning exists; no runtime proof implied |
-| `EXTERNALLY_OBSERVED` | Identifiable evidence exists outside the repository |
-| `LOCALLY_TESTED` | Tested in a recorded local environment |
-| `REPOSITORY_REPRODUCED` | Reproduced from committed code and repository commands |
-| `SHADOW_EVALUATED` | Evaluated in a bounded Shadow experiment |
-| `OPERATIONALLY_VALIDATED` | Bounded operational security/privacy/rollback evidence exists |
-
-### Implementation status
-
-| Status | Meaning |
-|---|---|
-| `NOT_STARTED` | No implementation claim |
-| `PARTIAL` | Some mechanism exists; full contract/profile remains incomplete |
-| `COMPLETE` | Declared acceptance criteria are implemented |
-| `REMOVED` | Former implementation is absent; history remains |
-
-### Operator approval
-
-| Status | Meaning |
-|---|---|
-| `NOT_REQUESTED` | No decision requested |
-| `PENDING` | Awaiting operator decision |
-| `APPROVED` | Authorized operator accepted the decision/promotion |
-| `WITHDRAWN` | Approval withdrawn or superseded |
-
 ## Index
 
 | ADR | Title | Decision | Evidence | Implementation | Approval |
 |---|---|---|---|---|---|
-| [`0001`](./0001-architecture-canon-vs-implementation-profiles.md) | Architecture Canon is separate from Implementation Profiles | `ACCEPTED` | `DOCUMENTED` | documentation complete; portability unproven | `APPROVED` |
-| [`0002`](./0002-state-checkpoints-are-disposable.md) | State Checkpoints are disposable replay accelerators | `PROPOSED` | `DOCUMENTED` | concept reflected by P3 disposable projections; ADR itself not promoted | `NOT_REQUESTED` |
-| [`0003`](./0003-semantic-conflicts-require-explicit-resolution.md) | Semantic conflicts require explicit resolution | `PROPOSED` | `DOCUMENTED` | `NOT_STARTED` | `NOT_REQUESTED` |
-| [`0004`](./0004-rebuild-from-authoritative-history.md) | Rebuild from authoritative history is the first conformance experiment | `PROPOSED` | P3 rebuild mechanism `REPOSITORY_REPRODUCED`; ADR/conformance promotion not implied | bounded profile mechanism `PARTIAL`; P4 absent | `NOT_REQUESTED` |
-| [`0005`](./0005-curiosity-core-is-optional-and-non-authoritative.md) | Curiosity Core is optional and non-authoritative | `PROPOSED` | `DOCUMENTED` | `NOT_STARTED` | `NOT_REQUESTED` |
-| [`0006`](./0006-causal-links-are-relations.md) | Causal links are relations, not knowledge types | `ACCEPTED` | `DOCUMENTED` | `NOT_STARTED` | `APPROVED` |
-| [`0007`](./0007-operator-approval-is-not-evidence.md) | Operator approval is separate from empirical evidence | `ACCEPTED` | `DOCUMENTED` | governance documentation complete | `APPROVED` |
-| [`0008`](./0008-epistemic-boundaries-are-representation-disciplines.md) | Epistemic boundaries are representation disciplines | `PROPOSED` | `DOCUMENTED` | `NOT_STARTED` | `PENDING` |
-| [`0009`](./0009-postgresql-primary-sqlite-optional-profile.md) | PostgreSQL is the primary full profile and SQLite is optional | `ACCEPTED` | `DOCUMENTED` | PostgreSQL P1–P3 profile `PARTIAL`; portability unproven | `APPROVED` |
-| [`0010`](./0010-foundational-contract-families.md) | Foundational contracts are separated by semantic role | `ACCEPTED` | `DOCUMENTED` | `PARTIAL` profile paths | `APPROVED` |
-| [`0011`](./0011-canonical-identity-contract-v1.md) | Canonical identity contract v1 | `ACCEPTED` | reference vectors `LOCALLY_TESTED` | P1 identity path `PARTIAL`; full profile absent | `APPROVED` |
-| [`0012`](./0012-single-writer-append-and-replay-contract-v1.md) | Single-writer append and replay contract v1 | `ACCEPTED` | P2/P3 integration `REPOSITORY_REPRODUCED` | append/replay paths `PARTIAL`; complete assertion report absent | `APPROVED` |
-| [`0013`](./0013-deletion-restriction-retention-contract-v1.md) | Deletion, restriction and retention contract v1 | `ACCEPTED` | fixtures + P1 transitions `LOCALLY_TESTED` | state semantics `PARTIAL`; operational deletion absent | `APPROVED` |
-| [`0014`](./0014-executable-conformance-fixture-protocol-v1.md) | Executable conformance fixture protocol v1 | `ACCEPTED` | tooling `LOCALLY_TESTED` | fixture tooling `PARTIAL`; P4 adapter absent | `APPROVED` |
-| [`0015`](./0015-accept-clean-profile-and-authorize-p1-semantic-core.md) | Accept clean profile lineage and authorize bounded P1 semantic core | `ACCEPTED` | `LOCALLY_TESTED` | `PARTIAL — P1` | `APPROVED` |
-| [`0016`](./0016-authorize-p2-postgresql-append-profile.md) | Authorize P2 PostgreSQL authoritative append profile | `ACCEPTED` | `REPOSITORY_REPRODUCED — P2 INTEGRATION` | `PARTIAL — P2` | `APPROVED` |
-| [`0017`](./0017-authorize-p3-replay-projection-receipts.md) | Authorize bounded P3 replay, projection rebuild and operational Receipts | `ACCEPTED` | initial matrix `REPOSITORY_REPRODUCED — P3 INTEGRATION` | `PARTIAL — P3`; P4/P5 absent | `APPROVED` |
+| [`0001`](./0001-architecture-canon-vs-implementation-profiles.md) | Canon vs Implementation Profiles | `ACCEPTED` | `DOCUMENTED` | documentation complete; portability unproven | `APPROVED` |
+| [`0002`](./0002-state-checkpoints-are-disposable.md) | State checkpoints are disposable | `PROPOSED` | P3 mechanism reproduced; ADR not promoted | concept reflected in P3 | `NOT_REQUESTED` |
+| [`0003`](./0003-semantic-conflicts-require-explicit-resolution.md) | Semantic conflicts require explicit resolution | `PROPOSED` | `DOCUMENTED` | mostly unsupported in P4 | `NOT_REQUESTED` |
+| [`0004`](./0004-rebuild-from-authoritative-history.md) | Rebuild is the first conformance experiment | `PROPOSED` | P3/P4 mechanisms reproduced; ADR not promoted | bounded mechanism exists | `NOT_REQUESTED` |
+| [`0005`](./0005-curiosity-core-is-optional-and-non-authoritative.md) | Curiosity Core is optional | `PROPOSED` | `DOCUMENTED` | `NOT_STARTED` | `NOT_REQUESTED` |
+| [`0006`](./0006-causal-links-are-relations.md) | Causal links are relations | `ACCEPTED` | `DOCUMENTED` | selected semantic relation path exists | `APPROVED` |
+| [`0007`](./0007-operator-approval-is-not-evidence.md) | Operator approval is not evidence | `ACCEPTED` | `DOCUMENTED` | governance implemented | `APPROVED` |
+| [`0008`](./0008-epistemic-boundaries-are-representation-disciplines.md) | Epistemic boundaries are representation disciplines | `PROPOSED` | fixtures exist; P4 reports unsupported | `NOT_STARTED` | `PENDING` |
+| [`0009`](./0009-postgresql-primary-sqlite-optional-profile.md) | PostgreSQL primary; SQLite optional | `ACCEPTED` | PostgreSQL P1–P4 evidence | PostgreSQL profile partial; portability unproven | `APPROVED` |
+| [`0010`](./0010-foundational-contract-families.md) | Foundational contract families | `ACCEPTED` | P4 assertion map | profile support remains partial | `APPROVED` |
+| [`0011`](./0011-canonical-identity-contract-v1.md) | Canonical identity contract v1 | `ACCEPTED` | P4 identity checks C2 on evidence head | selected identity assertions supported/partial | `APPROVED` |
+| [`0012`](./0012-single-writer-append-and-replay-contract-v1.md) | Append and replay contract v1 | `ACCEPTED` | P2/P3/P4 repository evidence | bounded append/replay paths partial | `APPROVED` |
+| [`0013`](./0013-deletion-restriction-retention-contract-v1.md) | Deletion/restriction/retention v1 | `ACCEPTED` | semantic fixtures/checks | physical execution absent | `APPROVED` |
+| [`0014`](./0014-executable-conformance-fixture-protocol-v1.md) | Executable fixture/evidence protocol v1 | `ACCEPTED` | P4 adapter/report/artifacts | implemented for PostgreSQL profile | `APPROVED` |
+| [`0015`](./0015-accept-clean-profile-and-authorize-p1-semantic-core.md) | Accept clean lineage and authorize P1 | `ACCEPTED` | P1 and later regressions | `PARTIAL — P1` | `APPROVED` |
+| [`0016`](./0016-authorize-p2-postgresql-append-profile.md) | Authorize P2 PostgreSQL append | `ACCEPTED` | `REPOSITORY_REPRODUCED` | `PARTIAL — P2` | `APPROVED` |
+| [`0017`](./0017-authorize-p3-replay-projection-receipts.md) | Authorize P3 replay/projections/Receipts | `ACCEPTED` | `REPOSITORY_REPRODUCED` | `PARTIAL — P3` | `APPROVED` |
+| [`0018`](./0018-authorize-p4-assertion-scoped-conformance.md) | Authorize P4 assertion-scoped conformance | `ACCEPTED` | C2 on exact evidence head with 4 artifacts | `PARTIAL — P4`; 41/13/18 result map | `APPROVED` |
 
 ## Current boundary
 
 ```text
-accepted clean profile + P1/P2/P3 code
-≠ complete Kernel runtime
-≠ physical deletion
-≠ assertion-level conformance
-≠ C1/C2/C3
-≠ recovered v0.1.2.1
+P1–P4 clean implementation
+support_state: PARTIAL
+41 SUPPORTED / 13 PARTIAL / 18 UNSUPPORTED
+P4 C2 applies only to SUPPORTED results
+P4 C2 ≠ C3
+P5 ≠ authorized
 ```
 
-P4–P5 require separate operator decisions. P3 implementation does not automatically promote still-proposed ADR-0002, ADR-0004, ADR-0008 or NK-EPI.
-
-## When an ADR is required
-
-Create or update an ADR when a change affects Canon, cross-technology contracts, identity, event/replay semantics, authority, conflict, deletion, integration boundaries, portability, a major implementation-profile commitment, promotion authority or a previously accepted decision.
-
-Routine refactors, formatting and narrow tests usually do not need a new ADR when they preserve accepted meaning.
+P4 does not automatically promote ADR-0002, ADR-0003, ADR-0004, ADR-0008 or `NK-EPI`.
 
 ## Operational rules
 
 1. Multi-model agreement is input, not approval.
 2. Proposed decisions must not be summarized as implemented behavior.
 3. `ACCEPTED` does not mean complete runtime.
-4. Evidence must link to commands, tests, reports, PRs, commits or Shadow artifacts.
+4. Evidence must link to exact checks, commands, reports, PRs, commits, runs or artifacts.
 5. Approval and evidence remain separate.
 6. Reproducible evidence does not silently promote proposals.
 7. Historical reasoning remains after supersession.
-8. Issue #1 controlled import remains separate from clean implementation work.
+8. Issue #1 recovery remains separate from clean implementation.
 9. Translation must preserve decision/evidence/implementation/approval meaning.
-10. Comments should explain why a boundary exists.
-11. A P3 operational Receipt is bounded evidence, not truth, authenticity, complete Event Integrity or physical erasure proof.
+10. A Receipt/report is bounded evidence, not truth, authenticity or physical-erasure proof.
+11. A top-level C2 label must be accompanied by assertion support counts and `support_state`.
+12. C3 requires a materially independent second profile and comparison evidence.
 
-## Naming and template
+## When an ADR is required
 
-Use the next available four-digit number and never reuse one. Start new records from [`0000-template.md`](./0000-template.md).
+Create or update an ADR for changes to Canon, cross-technology contracts, identity, event/replay semantics, authority, conflict, deletion, evidence/conformance, integration boundaries, portability, major profile commitments or promotion authority.
+
+Use the next available four-digit number and never reuse one. Start from [`0000-template.md`](./0000-template.md).
