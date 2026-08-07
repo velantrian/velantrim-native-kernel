@@ -2,15 +2,14 @@
 
 **Date:** 2026-08-07  
 **Issue / PR / ADR:** #61 / #62 / ADR-0020  
-**Base public main:** `b10be105743355a04e58611639a9d28faf7ea514`  
-**Status:** `C4 PARTIAL / OFFLINE RECORDED-WORKLOAD SHADOW / NOT PRODUCTION-READY`
+**Base main:** `b10be105743355a04e58611639a9d28faf7ea514`  
+**Implementation merge/main:** `07bf1cc955307783f8eaa3becbaa924087b8b325`  
+**Status:** `MERGED / C4 PARTIAL / OFFLINE RECORDED-WORKLOAD SHADOW / NOT PRODUCTION-READY`
 
-## Authorization
-
-The operator authorized C4 only as an offline, authority-free evaluation over an explicitly approved recorded workload.
+## Authorization and boundary
 
 ```text
-C4: AUTHORIZED
+C4: AUTHORIZED / MERGED
 mode: OFFLINE_RECORDED_WORKLOAD_ONLY
 authority promotion: FORBIDDEN
 authoritative writes: FORBIDDEN
@@ -18,22 +17,7 @@ side effects: FORBIDDEN
 C5 / production / ecosystem wiring: NOT AUTHORIZED
 ```
 
-## Scope
-
-C4 adds:
-
-- immutable approved workload bytes with exact SHA-256 binding;
-- `nk-shadow-workload/1` dataset protocol;
-- `nk-shadow-report/1` evaluation report;
-- `nk-shadow-receipt/1` per-case bounded evidence;
-- an authority-free evaluator;
-- semantic, behavioural, integrity and proof-boundary comparison;
-- explicit allowed operational differences;
-- fail-closed divergence and threshold handling;
-- complete 72-ID output with C4 limited to 45 C3-supported assertions;
-- repository CI and retained four-report artifacts.
-
-C4 does not add a third storage profile, a command path or a deployment runtime.
+C4 adds an evidence layer, not a third storage profile, command path or deployment runtime.
 
 ## Dataset
 
@@ -86,34 +70,50 @@ C3-supported coverage min:     1.0
 latency ratio max:              2.0 (informational operational field)
 ```
 
-Threshold changes require a new dataset/version and evidence cycle; they must not silently rewrite the approved dataset.
+Threshold changes require a new dataset/version and evidence cycle.
 
 ## Shadow Receipt proof boundary
 
-Each `nk-shadow-receipt/1` records:
-
-- case ID;
-- dataset digest;
-- comparison digest;
-- matched/divergence result;
-- assertion scope;
-- `OBSERVE_ONLY` decision;
-- no authority promotion;
-- no authoritative write;
-- no side effects;
-- explicit non-proofs for truth, authenticity, deletion and production safety.
+Each `nk-shadow-receipt/1` records the case ID, dataset/comparison digests, assertion scope, matched/divergence result, `OBSERVE_ONLY` decision, no authority promotion, no authoritative write, no side effects and explicit non-proofs for truth, authenticity, deletion and production safety.
 
 A Receipt proves only that the declared recorded case was compared by this evaluator.
 
-## First repository evidence
+## Publication lineage
 
 ```text
-Evidence head: 97abce685a68e24aec9afab451c009df5783b96b
-C4 run:       31187532364 — PASS
-P5/C3 run:    31187532391 — PASS
-P4 run:       31187532618 — PASS
-P1 run:       31187532346 — PASS
-Fixtures:     31187532580 — PASS
+PR #62 final head: b7786c088ef2cfd203c02625a5e0c40129cbf148
+PR #62 merge/main: 07bf1cc955307783f8eaa3becbaa924087b8b325
+```
+
+## Exact final-PR-head evidence
+
+```text
+C4 run:        31189149796 — PASS
+P5/C3 run:     31189149627 — PASS
+P4 run:        31189149839 — PASS
+P1 run:        31189149436 — PASS
+Fixtures:      31189149449 — PASS
+AI context:    31189149274 — PASS
+```
+
+Final-head artifact digests:
+
+```text
+py3.11/pg16 sha256:04fe9a56055a06f3814d8bf3ac30e40ee65af51bb79f0a4609d042871b34a6a8
+py3.11/pg18 sha256:c78bc9486600e77054396d01b2bc8b6a076c3d8df153d5a40596b5332cc10da2
+py3.12/pg16 sha256:9f04bbed641e9c3f68db3cc88260ec0a476cd7644279f5b89037a8929b606528
+py3.12/pg18 sha256:43fd58e2d966c1e77ab8cbf12a55b44fb4b9a95f25d682d73a7023255a8e2a5b
+```
+
+## Exact implementation-main evidence
+
+```text
+C4 run:        31189474449 — PASS
+P5/C3 run:     31189474409 — PASS
+P4 run:        31189474739 — PASS
+P1 run:        31189474300 — PASS
+Fixtures:      31189474351 — PASS
+AI context:    31189474423 — PASS
 ```
 
 Matrix:
@@ -125,16 +125,16 @@ Python 3.12 / PostgreSQL 16 / SQLite 3.45.1 — PASS
 Python 3.12 / PostgreSQL 18 / SQLite 3.45.1 — PASS
 ```
 
-Artifact digests:
+Main-bound artifact digests:
 
 ```text
-py3.11/pg16 sha256:59cf39e6cbd3e8c95157676cc3fd838687d5911676b227681efd6c83a7f36e90
-py3.11/pg18 sha256:9d4f828095285e479e1a95b87523fbaa800068f82a75cbbefb5f2d736e952032
-py3.12/pg16 sha256:f85e29688a0176c168067fb8ed6f889550342c6faffcb4dc7d391715ea5364d4
-py3.12/pg18 sha256:6892bc2ab7232c96124d4d207aacf06385f8b2ff6a3ea91097d1db6c2e834328
+py3.11/pg16 sha256:3e58a0ea73445d99a94c1e6b7c637640b9852e20b0a71a47f243a14e49995e44
+py3.11/pg18 sha256:14cd00c605d247873ff4ae58b3e8d884b6a3e986f13c1f47e0665eee5e33cb9e
+py3.12/pg16 sha256:08e1ecccc2679a7ce7bc8fadf43a9586794696b08f8f549f9350d8c658cc160f
+py3.12/pg18 sha256:4f890220eb7b1aed36aab74e4aedf4b6e6a4bd71dcc81534a6fe546ae9c75fd6
 ```
 
-One archive was downloaded and inspected. It contained P4, P5, C3 and C4 reports. The C4 result was:
+Each artifact contains P4, P5, C3 and C4 reports. A main-bound archive was downloaded and inspected:
 
 ```text
 15 / 15 matched cases
@@ -148,12 +148,17 @@ One archive was downloaded and inspected. It contained P4, P5, C3 and C4 reports
 status PASS / support_state PARTIAL
 ```
 
+Its first Receipt explicitly recorded `authority_promoted: false`, `authoritative_write_performed: false` and `side_effects_executed: false`.
+
+Artifacts are retained until 2026-09-06.
+
 ## Defect evidence
 
 1. A one-file base64 bootstrap payload was truncated. The failing run was not used as evidence.
-2. The payload was replaced by six individually hashed parts plus a final archive checksum; bootstrap run `31187117717` passed.
+2. Delivery was replaced by six individually hashed parts plus a final archive checksum; bootstrap run `31187117717` passed.
 3. The first genuine matrix exposed an environment-isolation defect in a test. The test was corrected without weakening evaluator or validator requirements.
-4. Temporary bootstrap files and workflow were removed before the executable PR head.
+4. Temporary bootstrap files and workflow were removed before review.
+5. A stale root package marker still claimed P3 and was corrected to `0.6.0-c4`.
 
 ## Non-claims
 
@@ -173,13 +178,4 @@ C4 PASS
 
 ## Remaining publication gate
 
-- repeat C4 and prerequisite workflows on the exact final documentation head;
-- validate AI context and public links;
-- inspect a final-head four-report artifact;
-- review and merge PR #62;
-- reproduce evidence on `main`;
-- publish a docs-only checkpoint;
-- synchronize Notion;
-- close Issue #61.
-
-C5, live shadowing, production and ecosystem integration remain separately gated.
+Merge the documentation-only checkpoint, repeat bounded evidence on the resulting `main`, synchronize Notion and close Issue #61. C5, live shadowing, production and ecosystem integration remain separately gated.
