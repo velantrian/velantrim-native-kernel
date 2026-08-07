@@ -35,7 +35,13 @@ class C5ManifestTests(unittest.TestCase):
 
     def test_false_repository_pass_is_rejected(self) -> None:
         manifest = copy.deepcopy(self.manifest)
-        manifest["repository_evidence"]["status"] = "PASS"
+        evidence = manifest["repository_evidence"]
+        evidence["status"] = "PASS"
+        evidence["head_sha"] = None
+        evidence["workflow_run_id"] = None
+        evidence["artifact_count"] = 0
+        evidence["artifacts"] = []
+        evidence["matrix"] = []
         with self.assertRaisesRegex(module.ManifestError, "exact repository head"):
             module.validate(manifest, root=ROOT)
 
