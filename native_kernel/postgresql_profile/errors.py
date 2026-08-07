@@ -35,3 +35,23 @@ class IdempotencyConflict(PostgreSQLProfileError):
 
 class StoredEventCorrupt(PostgreSQLProfileError):
     """Stored event bytes do not match their declared commitments."""
+
+
+class ReplayIntegrityError(PostgreSQLProfileError):
+    """Persisted history cannot be replayed under the declared P3 checks."""
+
+
+class HistoryAdvanced(PostgreSQLProfileError):
+    """Authoritative history changed after replay and before publication."""
+
+
+class ProjectionNotFound(PostgreSQLProfileError):
+    """The requested disposable projection does not exist."""
+
+
+class ProjectionCorrupt(PostgreSQLProfileError):
+    """Stored projection bytes or digest are inconsistent."""
+
+
+class ReceiptCorrupt(PostgreSQLProfileError):
+    """Stored operational Receipt bytes or commitments are inconsistent."""
