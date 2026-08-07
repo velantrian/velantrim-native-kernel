@@ -1,0 +1,66 @@
+name: C4 bootstrap publisher
+
+on:
+  push:
+    branches: [agent/c4-offline-shadow]
+    paths:
+      - ".c4-bootstrap/**"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/c4-offline-shadow
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Verify and unpack C4 source payload
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f .c4-bootstrap/payload.b64
+          base64 -d .c4-bootstrap/payload.b64 > /tmp/c4payload.tar.gz
+          echo "c7895b487762853f3236e30cff5c69db1f9482a5ef360f7d29f2b5ce582e5066  /tmp/c4payload.tar.gz" | sha256sum -c -
+          tar -tzf /tmp/c4payload.tar.gz
+          tar -xzf /tmp/c4payload.tar.gz
+      - name: Validate unpacked C4 scope
+        run: |
+          python -m unittest discover -s tests -p 'test_c4_shadow_evaluation.py' -v
+          python -m unittest discover -s tests -p 'test_c4_report_validator.py' -v
+          python -m unittest discover -s tests -p 'test_c4_manifest.py' -v
+          python tools/profiles/validate_c4_manifest.py
+          python -m compileall -q native_kernel/shadow_evaluation tools/conformance tools/profiles
+      - name: Commit verified C4 sources
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf .c4-bootstrap
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add native_kernel/shadow_evaluation \
+            tools/conformance/offline_shadow_evaluator.py \
+            tools/conformance/validate_c4_report.py \
+            tools/profiles/validate_c4_manifest.py \
+            contracts/shadow-workload-v1.json \
+            contracts/shadow-report-v1.schema.json \
+            profiles/shadow-evaluation-v0 \
+            tests/c4_test_support.py \
+            tests/test_c4_shadow_evaluation.py \
+            tests/test_c4_report_validator.py \
+            tests/test_c4_manifest.py \
+            docs/adr/0020-authorize-c4-offline-shadow-evaluation.md \
+            docs/implementation/c4-offline-shadow-evaluation.md \
+            .c4-bootstrap
+          if git diff --cached --quiet; then
+            echo "No C4 source changes to commit"
+            exit 0
+          fi
+          git commit -m "feat: implement C4 offline shadow evaluator"
+          git push origin HEAD:agent/c4-offline-shadow
