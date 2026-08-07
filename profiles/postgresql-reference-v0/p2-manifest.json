@@ -88,5 +88,6 @@
     "ADR-0008 or NK-EPI promotion",
     "production durability security privacy backup or HA guarantee"
   ],
+  "final_validation_policy": "P2_AND_AI_CONTEXT_MUST_PASS_ON_SAME_FINAL_PR_HEAD",
   "next_gate": "Separate operator GO for P3 replay, projection rebuild and bounded Receipt evidence"
 }

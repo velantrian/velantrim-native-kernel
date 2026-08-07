@@ -72,6 +72,10 @@ Kernel runtime conformance: UNSUPPORTED
 C1/C2/C3:                  NOT_ESTABLISHED
 ```
 
+## Final-head validation rule
+
+The final evidence commit changes this checkpoint and `p2-manifest.json` together. P2 and AI-context workflows must both pass on that same exact PR head before merge. A successful earlier run remains evidence for its own SHA but is not silently treated as the final-head result.
+
 ## Boundaries
 
 P2 does not provide projections/rebuild, replay/upcasters, operational Receipts, deletion execution, network API, P4 conformance, P5 SQLite, production guarantees or ecosystem wiring.
@@ -80,7 +84,7 @@ P2 does not provide projections/rebuild, replay/upcasters, operational Receipts,
 
 ## Next gates
 
-1. run all checks on the final documentation/evidence head;
+1. run P2 and AI-context workflows on the same final PR head;
 2. inspect full diff and review threads;
 3. merge only with no P3/P4/P5 or ecosystem drift;
 4. record exact merge and post-merge workflow evidence;
