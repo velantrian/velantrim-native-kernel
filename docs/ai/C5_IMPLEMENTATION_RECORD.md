@@ -3,7 +3,8 @@
 **Date:** 2026-08-07  
 **Issue / PR / ADR:** #64 / #65 / ADR-0021  
 **Base main:** `d1dd4986a8496cd9ca3e353d33ca422038c65d40`  
-**State:** `C5 PARTIAL / BOUNDED SYNTHETIC OPERATIONAL REHEARSAL / NOT PRODUCTION-READY`
+**Implementation merge/main:** `296981ae84ad5bdab5dabbec9b7b9ebb43af63d7`  
+**State:** `MERGED / C5 PARTIAL / BOUNDED SYNTHETIC OPERATIONAL REHEARSAL / NOT PRODUCTION-READY`
 
 ## Authorized boundary
 
@@ -22,9 +23,9 @@ NO COMPLIANCE CERTIFICATION
 ## Plan and protocols
 
 ```text
-plan_id:  native-kernel/c5-bounded-rehearsal-v1
-sha256:   4ed680ff4e83ac9d1aca6c1ab8a435ecb19af4a5badf1be8202bc842f964b098
-scenarios:18
+plan_id:   native-kernel/c5-bounded-rehearsal-v1
+sha256:    4ed680ff4e83ac9d1aca6c1ab8a435ecb19af4a5badf1be8202bc842f964b098
+scenarios: 18
 ```
 
 ```text
@@ -58,41 +59,47 @@ support_state:              PARTIAL
 assertions:                 45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED / 0 FAILED
 ```
 
-## Source delivery evidence
-
-The source payload was verified by six part digests and a final archive digest:
+## Publication lineage
 
 ```text
-bootstrap run: 31202306008 — PASS
-archive sha256:76730d288440ebf4c25d5fc35a2e1e4e2e414d6ad5e65999a4060d400735a0dc
+PR #65 final head: 1c4dcc4b9d9b86d5737388ce1469a0bc2420f0e6
+PR #65 merge/main: 296981ae84ad5bdab5dabbec9b7b9ebb43af63d7
 ```
 
-The first source publisher validation passed but its publication step attempted to modify workflow files with `GITHUB_TOKEN`; that publication was rejected and not counted as source evidence. The publisher was separated from workflow creation/cleanup, then completed successfully. Temporary source transport files were removed before the PR.
-
-## First genuine matrix defect
-
-The first genuine matrix failed before scenario execution because direct CLI execution could not import the repository package. `PYTHONPATH=.` was added to the workflow without changing scenarios, thresholds or proof boundaries.
-
-## First complete repository evidence
+## Source and documentation delivery evidence
 
 ```text
-Head:    260922de9f2a62b28697db3237b5ebfc7558edec
-Run:     31202900408 — PASS
-Matrix:  Python 3.11/3.12 × PostgreSQL 16/18 × SQLite 3.45.1
+source bootstrap run: 31202306008 — PASS
+source archive sha256:76730d288440ebf4c25d5fc35a2e1e4e2e414d6ad5e65999a4060d400735a0dc
+docs archive sha256:  056eb51ae1a825c462b691919e9878742d3eb6c4c637c8244afca3030f981d59
+docs publication run: 31204169007 — PASS
 ```
 
-Every job created six retained reports and passed P1–C4 regressions.
+Rejected transport/publication attempts were not counted as implementation evidence. The first genuine matrix exposed only a CLI import-path defect; `PYTHONPATH=.` fixed the environment without changing scenarios, thresholds or proof boundaries. Temporary source/docs transport files and workflows were removed before review.
 
-Artifact digests:
+## Exact final-PR-head evidence
 
 ```text
-py3.11/pg16 sha256:4fd218d6a3d6869cd7e5ede6269a4ee02b6c74bc4d4bb6b8a979d6f69932373e
-py3.11/pg18 sha256:5e94f927ae5353eb356f012f1a3e667fb5e78407ceb357b908af98b784bdecb9
-py3.12/pg16 sha256:b74611b99ad2e1c07862466278d03c8c60d91469eb8f5e922f1fd1565b3048a4
-py3.12/pg18 sha256:ef28de467b35d934ed56c751cd648d7d879b16f69d8ad7709ae504bb29d3a8c6
+Head:       1c4dcc4b9d9b86d5737388ce1469a0bc2420f0e6
+C5:        31204406663 — PASS
+C4:        31204406695 — PASS
+P5/C3:     31204406946 — PASS
+P4:        31204406606 — PASS
+P1:        31204407186 — PASS
+Fixtures:  31204409411 — PASS
+AI context:31204409408 — PASS
 ```
 
-Inspected `py3.11/pg16` result:
+Final-head artifact digests:
+
+```text
+py3.11/pg16 sha256:13926afbd797cc8462b264bea948347f6ba739cc88177ee83610782fe4b32e5b
+py3.11/pg18 sha256:06e9bd2ca78f584065cd5bea3d77dfea96c5bb4564e92a5b1d2c1b21de58a0f5
+py3.12/pg16 sha256:60c53b2cc5c01576e601f8a644416c1fb68c2ed0e66cb6113487ea6b2de33ce4
+py3.12/pg18 sha256:ea05544497fbf04750993c66710b4dd3860ca3cbac8556793bfb72680495412b
+```
+
+Inspected final-head result:
 
 ```text
 18/18 scenarios PASS
@@ -100,8 +107,40 @@ Inspected `py3.11/pg16` result:
 0 privacy canary leaks
 0 recovery failures
 0 uncontained incidents
-p95 append latency 11.484 ms
-total duration 975.163 ms
+p95 append latency 12.421 ms
+total duration 1011.689 ms
+```
+
+## Exact implementation-main evidence
+
+```text
+Main:       296981ae84ad5bdab5dabbec9b7b9ebb43af63d7
+C5:        31204861404 — PASS
+C4:        31204861534 — PASS
+P5/C3:     31204861602 — PASS
+P4:        31204861564 — PASS
+AI context:31204861416 — PASS
+```
+
+Main-bound artifact digests:
+
+```text
+py3.11/pg16 sha256:25e019cf8428d4697bf3f1f777a3fa8ff0f5e2aac6053e006e2549ecff55f0c0
+py3.11/pg18 sha256:e7a717ff3e7671c82a4544d68d9d16303fccf1fe52fb713d9ad9b286e4e570dd
+py3.12/pg16 sha256:006c56d8cbe8e75b18a28695ca82228b9c55b5d3eab5b31079c1dcfb5b46c331
+py3.12/pg18 sha256:029d2df8d1b32631d6b8a5939b661df0e1a1d2272218766e8371b8c84adb0d82
+```
+
+Inspected main-bound result:
+
+```text
+18/18 scenarios PASS
+18 operational Receipts
+0 privacy canary leaks
+0 recovery failures
+0 uncontained incidents
+p95 append latency 11.055 ms
+total duration 960.806 ms
 ```
 
 Logical backup:
@@ -114,22 +153,7 @@ quarantined exact-history import: PASS
 canary tokens in report/backup: 0
 ```
 
-## Documentation publication evidence
-
-The C5 continuity archive contained 14 public/AI/governance files:
-
-```text
-archive sha256:056eb51ae1a825c462b691919e9878742d3eb6c4c637c8244afca3030f981d59
-base64 bytes: 17196
-```
-
-Publication history:
-
-1. Run `31203785312` failed before extraction because one character was missing from `part-00`; no documentation was published.
-2. The exact byte was restored. Run `31204012871` verified all five part digests and the final archive SHA, then exposed a stale negative manifest test that still assumed `PRE_CI`.
-3. The negative test was updated to erase exact SHA/run/matrix/artifact fields from a `PASS` manifest and continued to require fail-closed rejection.
-4. Run `31204169007` passed archive verification, eight AI-context tests, the repository AI-context guard, all C5 unit/report/manifest tests, the manifest validator and compileall, then published the documentation commit.
-5. Temporary documentation transport files and workflow were removed atomically before the final PR head.
+All Receipts used `REHEARSAL_OBSERVATION_ONLY` and explicitly denied authority promotion, external side effects, live user data, production approval, physical deletion proof and compliance certification.
 
 ## Non-claims
 
@@ -147,4 +171,4 @@ bounded C5 rehearsal
 
 ## Remaining publication gate
 
-Repeat C5 and all prerequisite workflows on the exact final PR head, inspect a final six-report artifact, review and merge PR #65, reproduce on `main`, publish a docs checkpoint and synchronize Notion.
+Merge the documentation-only checkpoint, repeat bounded C5/AI evidence on the resulting `main`, synchronize Notion and close Issue #64.
