@@ -1,8 +1,8 @@
 # Current Status
 
 > **Verified:** 2026-08-07  
-> **Last verified public `main`:** `4f8cb0a8b7d9ca678a8578cf005b118fd6dff150`  
-> **Active implementation:** Issue #55 / PR #56 / `agent/p4-conformance-adapter`  
+> **Last verified public `main`:** `db6d65f69f7fc0c42861e5ab45869ec9c2f3d8ad`  
+> **P4 implementation:** PR #56 / merge `db6d65f69f7fc0c42861e5ab45869ec9c2f3d8ad`  
 > **Repository status:** `RESEARCH / P4 PARTIAL ASSERTION CONFORMANCE / NOT PRODUCTION-READY`
 
 ## Current profile
@@ -14,28 +14,13 @@ Evidence lineage: clean/postgresql-reference/0.1
 P1:               MERGED / REPOSITORY-TESTED
 P2:               MERGED / REPOSITORY-INTEGRATION-TESTED
 P3:               MERGED / REPOSITORY-INTEGRATION-TESTED
-P4:               PARTIAL / C2 REPOSITORY-REPRODUCED ON PREVIOUS PR HEAD
+P4:               MERGED / PARTIAL / C2 REPOSITORY-REPRODUCED
 P5:               NOT AUTHORIZED
 ```
 
-PostgreSQL, Psycopg, Python modules, SQL tables, locks and current processors remain replaceable Implementation Profile technologies, not Architecture Canon.
+PostgreSQL, Psycopg, Python, SQL layouts, locks and current processors remain replaceable profile technologies, not Architecture Canon.
 
-## P4 assertion-scoped conformance
-
-P4 adds an executable profile adapter for `nk-evidence-report/1`:
-
-```text
-72 registered assertion IDs
-→ P1 semantic checks
-→ P2 append/fencing checks
-→ P3 replay/projection/Receipt checks
-→ one explicit result per assertion
-→ evidence/check references + limitations
-→ strict independent validation
-→ retained repository artifacts
-```
-
-Current conservative support map:
+## Assertion-scoped result map
 
 ```text
 SUPPORTED:   41
@@ -43,100 +28,79 @@ PARTIAL:     13
 UNSUPPORTED: 18
 FAILED:       0
 TOTAL:       72
+support_state: PARTIAL
 ```
 
-All `NK-EPI-001…008` results remain `UNSUPPORTED`; ADR-0008 and the epistemic family remain `PROPOSED`.
-
-## C1/C2 meaning
-
-Conformance levels remain assertion-scoped.
+C2 applies only to the 41 `SUPPORTED` results. All `NK-EPI-001…008` remain `UNSUPPORTED` and `PROPOSED`.
 
 ```text
-C1 / C2 applies only to results marked SUPPORTED
-PARTIAL remains PARTIAL
-UNSUPPORTED remains UNSUPPORTED
-support_state remains PARTIAL
+P4 C2 ≠ support for all 72
+P4 C2 ≠ C3
+P4 C2 ≠ truth/authenticity
+P4 C2 ≠ physical deletion
+P4 C2 ≠ production readiness
 ```
 
-A top-level P4 `C2 / REPOSITORY_REPRODUCED` report means that the repository reproduced the 41 supported assertion results with exact code, environment, CI traceability and artifacts. It does not mean all 72 assertions are supported.
+## Final PR-head evidence
 
 ```text
-P4 C2
-≠ complete profile support
-≠ C3 cross-profile equivalence
-≠ accepted NK-EPI
-≠ truth/authenticity certification
-≠ physical deletion
-≠ production readiness
+PR #56 final head: 0e7adf71475d37d5c096718762cbc08086c5e465
+P4 run:            31177071487 — PASS
+P3 run:            31177072239 — PASS
+P2 run:            31177071499 — PASS
+P1 run:            31177071518 — PASS
+Fixture run:       31177071508 — PASS
+AI-context run:    31177071481 — PASS
+Artifacts:         4 retained JSON reports
 ```
 
-## Initial P4 repository evidence
-
-Exact executable/evidence head:
+## Exact main-push evidence
 
 ```text
-93710131fffdea7d9a586cc05e7f258c07fae707
+main:          db6d65f69f7fc0c42861e5ab45869ec9c2f3d8ad
+P4 push run:   31177335611 — PASS
+P3 push run:   31177335146 — PASS
+P2 push run:   31177335749 — PASS
+P1 push run:   31177335898 — PASS
+Fixture run:   31177335864 — PASS
+AI-context:    31177335964 — PASS
 ```
 
-Workflow evidence:
+P4 push matrix passed Python 3.11/3.12 × PostgreSQL 16/18 and retained four `main`-bound JSON artifacts for 30 days.
+
+Main-bound artifact digests:
 
 ```text
-P4 run:      31175767586 — PASS
-P1 run:      31175767587 — PASS
-P2 run:      31175767636 — PASS
-P3 run:      31175768175 — PASS
-Fixtures:    31175767614 — PASS
+py3.11/pg16 sha256:aad734cc2c1e5e76f8949c07d8a757a4b952788e35ba572148867bf0c221ea6c
+py3.11/pg18 sha256:4057790b9abba3f7375b0ed6a56bc9dad58db47f093db66b4007c96322b458fd
+py3.12/pg16 sha256:6021a26ff70734f5caa208a04bb50d6b7faf1ab91942d6378f4e0ca5b590dc65
+py3.12/pg18 sha256:0661e2640f5d80898a4ba6e041f889d69179d07ad8ba8eab69d0e19caae166ae
 ```
 
-P4 matrix:
+## Implemented route
 
 ```text
-Python 3.11 / PostgreSQL 16 — PASS
-Python 3.11 / PostgreSQL 18 — PASS
-Python 3.12 / PostgreSQL 16 — PASS
-Python 3.12 / PostgreSQL 18 — PASS
+P1 semantic identity / authority / reducer
+→ P2 PostgreSQL append / idempotency / writer fencing
+→ P3 verified replay / projections / bounded Receipts
+→ P4 complete 72-ID evidence adapter / strict report validator
 ```
 
-Every P4 matrix job passed:
-
-- 5 assertion-mapping and traceability tests;
-- 5 P4 manifest/anti-overclaim tests;
-- one full PostgreSQL C1 report integration test;
-- C2 report generation and strict validation;
-- P1, P2 and P3 regressions;
-- compileall;
-- JSON artifact upload.
-
-Four evidence artifacts are retained for 30 days and are bound to run `31175767586` and head `93710131…`.
-
-The current documentation head is later than the executable evidence head. A final exact-head P4 and governance run remains required before merge.
-
-## Implemented P1–P4 route
-
-```text
-semantic identity and authority                    ← P1
-PostgreSQL append/idempotency/writer fencing       ← P2
-persisted replay and disposable projections        ← P3
-bounded operational Receipts                       ← P3
-72-assertion evidence adapter and report validator ← P4
-```
-
-P4 does not add new authoritative storage semantics. It evaluates and reports existing bounded behavior against the accepted registry.
+P4 evaluates and reports bounded behavior. It does not fill unsupported subsystems through documentation.
 
 ## Explicitly absent
 
 - P5 independent SQLite profile;
 - C3 cross-profile equivalence;
-- dedicated conflict representation/resolution subsystem;
+- complete conflict representation/resolution;
 - physical or cryptographic deletion execution;
-- provider/backup/export/log/key erasure evidence;
-- restore-before-visibility deletion enforcement;
+- restore-before-visibility enforcement;
 - cross-project authority adapter;
+- truth/signature/notarization certification;
 - network API;
-- C4 shadow evaluation;
-- C5 operational security/privacy/incident evidence;
-- production credentials, HA, backup, restore or compliance guarantees;
+- C4/C5 and production guarantees;
 - Titan, Mentaury or Crystal runtime wiring;
+- historical `v0.1.2.1` recovery;
 - package publication decision under Issue #18.
 
 ## Issue #1 boundary
@@ -149,11 +113,6 @@ clean/postgresql-reference/0.1
 
 Issue #1 remains active and independent. `NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GLOBALLY_LOST`.
 
-## Current gates
+## Next gate
 
-1. finish GitHub and Notion P4 documentation synchronization;
-2. run P4, P1, P2, P3, fixture and AI-context checks on one final exact PR head;
-3. inspect PR #56 diff, comments, reviews and unresolved threads;
-4. merge only with P5/C3/deletion/production/ecosystem scope absent;
-5. record final PR head, merge SHA, runs and artifact state;
-6. require separate operator GO before P5 or any C3 claim.
+P5 and any C3 claim require a new explicit operator GO, a materially independent SQLite profile and retained equivalence-comparison evidence.

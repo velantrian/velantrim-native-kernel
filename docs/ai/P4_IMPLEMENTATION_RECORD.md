@@ -1,26 +1,26 @@
 # 🧪 P4 Assertion-Scoped Conformance Implementation Record
 
 **Recorded:** 2026-08-07  
-**Base public `main`:** `4f8cb0a8b7d9ca678a8578cf005b118fd6dff150`  
-**Canonical issue:** #55  
-**Pull request:** #56  
+**Base before P4:** `4f8cb0a8b7d9ca678a8578cf005b118fd6dff150`  
+**Implementation PR:** #56  
+**Implementation merge:** `db6d65f69f7fc0c42861e5ab45869ec9c2f3d8ad`  
 **Evidence lineage:** `clean/postgresql-reference/0.1`  
 **Profile:** `native-kernel/postgresql-reference@0.4-p4`  
 **Decision:** ADR-0018 `ACCEPTED / APPROVED`
 
-## Maturity
+## Final maturity
 
 ```text
 P1 semantic core:          MERGED / REPOSITORY-TESTED
 P2 PostgreSQL append:      MERGED / REPOSITORY-INTEGRATION-TESTED
 P3 replay/projections:     MERGED / REPOSITORY-INTEGRATION-TESTED
-P4 conformance adapter:    PARTIAL / C2 REPOSITORY-REPRODUCED ON PREVIOUS HEAD
+P4 conformance adapter:    MERGED / PARTIAL / C2 REPOSITORY-REPRODUCED
 P5 / C3:                   NOT AUTHORIZED / NOT ESTABLISHED
-support_state:              PARTIAL
+support_state:             PARTIAL
 C4/C5:                     NOT ESTABLISHED
 ```
 
-P4 does not claim that every registered assertion is supported. It establishes an executable, complete and traceable report for all 72 IDs.
+P4 establishes a complete and traceable report for all 72 IDs. It does not claim that all assertions are supported.
 
 ## Assertion result map
 
@@ -32,96 +32,118 @@ FAILED:       0
 TOTAL:       72
 ```
 
-The top-level `C2` label applies only to assertion results marked `SUPPORTED` in the exact report. `PARTIAL` and `UNSUPPORTED` remain outside the supported conformance set.
-
-All `NK-EPI-001…008` results remain `UNSUPPORTED` because the registry decision status remains `PROPOSED`.
+C2 applies only to `SUPPORTED`. All `NK-EPI-001…008` remain `UNSUPPORTED` because their registry decision remains `PROPOSED`.
 
 ## Executable route
 
 ```text
-contracts/registry.json + fixture-pack.json
-→ semantic and identity checks
-→ authority and Receipt checks
-→ reducer and deletion-semantic checks
-→ real PostgreSQL migration/fencing/append checks
-→ real replay/projection/stale-head/corruption checks
-→ 72 assertion results
-→ assertion-to-check traceability validation
+registry + fixture pack
+→ semantic/identity/authority/Receipt/reducer/deletion checks
+→ PostgreSQL migration/fencing/append/replay/projection checks
+→ one result for every assertion
+→ passed-check traceability + limitations
 → nk-evidence-report/1
-→ independent runner validation
-→ retained per-matrix JSON artifact
+→ strict independent validation
+→ per-matrix JSON artifact
 ```
 
-## P4 checks
+## Check inventory
 
-Semantic/profile-neutral checks:
-
-- `p4.registry.contracts`;
-- `p4.identity.golden`;
-- `p4.identity.invalid`;
-- `p4.semantic.roles`;
-- `p4.authority.policy`;
-- `p4.receipts.boundaries`;
-- `p4.reducer.determinism`;
-- `p4.reducer.failures`;
-- `p4.deletion.semantic`.
-
-PostgreSQL profile checks:
-
-- `p4.postgresql.migrations`;
-- `p4.postgresql.writer-fencing`;
-- `p4.postgresql.append-idempotency`;
-- `p4.postgresql.rollback-ordering`;
-- `p4.postgresql.replay-projection`;
-- `p4.postgresql.stale-head`;
-- `p4.postgresql.corruption`.
-
-Evidence checks:
-
-- `p4.environment.metadata`;
-- `p4.report.traceability`.
-
-Every `SUPPORTED` and `PARTIAL` result names one or more passed checks and explicit limitations. Missing, duplicate, unknown, untraceable or failed evidence is rejected.
-
-## Initial repository C2 evidence
-
-Executable head:
+Profile-neutral:
 
 ```text
-93710131fffdea7d9a586cc05e7f258c07fae707
+p4.registry.contracts
+p4.identity.golden
+p4.identity.invalid
+p4.semantic.roles
+p4.authority.policy
+p4.receipts.boundaries
+p4.reducer.determinism
+p4.reducer.failures
+p4.deletion.semantic
 ```
 
-Workflow run:
+PostgreSQL:
 
 ```text
-P4 assertion conformance 31175767586 — PASS
-Python 3.11 / PostgreSQL 16 — PASS
-Python 3.11 / PostgreSQL 18 — PASS
-Python 3.12 / PostgreSQL 16 — PASS
-Python 3.12 / PostgreSQL 18 — PASS
+p4.postgresql.migrations
+p4.postgresql.writer-fencing
+p4.postgresql.append-idempotency
+p4.postgresql.rollback-ordering
+p4.postgresql.replay-projection
+p4.postgresql.stale-head
+p4.postgresql.corruption
 ```
 
-Each matrix job passed:
+Evidence:
 
-- 5 P4 assertion-mapping/traceability tests;
-- 5 P4 manifest/anti-overclaim tests;
-- 1 full PostgreSQL C1 report integration test;
-- generation and strict validation of a C2 report;
-- P1 semantic and manifest regressions;
-- P2 unit, PostgreSQL and manifest regressions;
-- P3 semantic, PostgreSQL and manifest regressions;
-- compileall.
+```text
+p4.environment.metadata
+p4.report.traceability
+```
 
-Four artifacts were retained for 30 days:
+Every supported/partial result names passed checks and limitations. Missing, duplicate, unknown, untraceable or failed evidence is rejected.
 
-| Artifact | Digest |
+## Final PR-head evidence
+
+```text
+head 0e7adf71475d37d5c096718762cbc08086c5e465
+P4 run 31177071487 — PASS
+P3 run 31177072239 — PASS
+P2 run 31177071499 — PASS
+P1 run 31177071518 — PASS
+Fixture run 31177071508 — PASS
+AI-context run 31177071481 — PASS
+```
+
+Four final-head artifacts:
+
+| Environment | Digest |
 |---|---|
-| `p4-evidence-py3.11-pg16` | `sha256:63e609a009b0fa05ddd31c0d659fe6d03a0afce1006bbe7d6216059f3affbad3` |
-| `p4-evidence-py3.11-pg18` | `sha256:6f5f2a4202e73d909e015a193be7a3990ab92208e40ef5cd320048c00cfe0707` |
-| `p4-evidence-py3.12-pg16` | `sha256:60cba98b4b27932d348c43110ee820ef9f73eac84f5a7abfdf3c004aec8639d8` |
-| `p4-evidence-py3.12-pg18` | `sha256:ead4ad348acbc0e3c2c08923e5fdd6fbe825927f32936bb6f2351f61e184f65f` |
+| Python 3.11 / PostgreSQL 16 | `sha256:7817ed79023d5654b6045c45f8c63adf591e6f9668830e542fbbae4f32551bac` |
+| Python 3.11 / PostgreSQL 18 | `sha256:6cb23c44c4b0917288e1faaf1b494b9aafcfe3d1967d45e2e62905ee6f309d60` |
+| Python 3.12 / PostgreSQL 16 | `sha256:e11b482ea58db5bd57561231305936ab528e31a02a1187c4c3a6cf3ce3de9017` |
+| Python 3.12 / PostgreSQL 18 | `sha256:11359b684421dbdfc3e1cee3f572c457375fd82bf72427655e17d95184ca971d` |
 
-The initial failure run `31175593261` is retained as negative evidence: all P4 C1 checks passed, but the standalone adapter could not import the repository package. The CLI bootstrap was corrected without lowering runtime or report requirements.
+One final-head artifact was opened and verified to contain:
+
+```text
+report_version: nk-evidence-report/1
+profile_id: native-kernel/postgresql-reference
+support_state: PARTIAL
+kernel_runtime_conformance: C2
+assertion_results: 72
+checks: 18 / all PASS
+41 SUPPORTED / 13 PARTIAL / 18 UNSUPPORTED / 0 FAILED
+NK-EPI-001…008: UNSUPPORTED
+```
+
+## Exact main-push evidence
+
+```text
+main db6d65f69f7fc0c42861e5ab45869ec9c2f3d8ad
+P4 push run 31177335611 — PASS
+P3 push run 31177335146 — PASS
+P2 push run 31177335749 — PASS
+P1 push run 31177335898 — PASS
+Fixture push run 31177335864 — PASS
+AI-context push run 31177335964 — PASS
+```
+
+Main-bound artifacts:
+
+| Environment | Digest |
+|---|---|
+| Python 3.11 / PostgreSQL 16 | `sha256:aad734cc2c1e5e76f8949c07d8a757a4b952788e35ba572148867bf0c221ea6c` |
+| Python 3.11 / PostgreSQL 18 | `sha256:4057790b9abba3f7375b0ed6a56bc9dad58db47f093db66b4007c96322b458fd` |
+| Python 3.12 / PostgreSQL 16 | `sha256:6021a26ff70734f5caa208a04bb50d6b7faf1ab91942d6378f4e0ca5b590dc65` |
+| Python 3.12 / PostgreSQL 18 | `sha256:0661e2640f5d80898a4ba6e041f889d69179d07ad8ba8eab69d0e19caae166ae` |
+
+Artifacts expire on 2026-09-06 unless retained elsewhere.
+
+## Defect evidence
+
+Initial P4 run `31175593261` failed after all unit/manifest/full C1 checks passed because standalone CLI execution lacked repository-root import bootstrap. The bootstrap was fixed without weakening checks, statuses, support counts or validation.
 
 ## Evidence boundary
 
@@ -138,21 +160,16 @@ P4 C2 for 41 SUPPORTED assertions
 
 ## Remaining risks
 
-- static assertion mapping can drift from implementation if guards are bypassed;
-- top-level C2 can be misread as complete profile support despite `support_state: PARTIAL`;
+- assertion mapping can drift if guards/review are bypassed;
+- top-level C2 can be misread as complete support;
 - one PostgreSQL profile cannot prove storage neutrality;
 - conflict modeling remains mostly unsupported;
 - deletion execution, restore visibility and cross-project authority remain absent;
-- C2 metadata is credible only when tied to an actual repository run/artifact;
+- environment metadata is credible only with external run/artifact traceability;
 - artifact retention is finite;
 - performance, failover, backup/restore and managed-provider behavior remain untested;
 - Issue #18 licensing/publication terms remain unresolved.
 
-## Finalization gate
+## Next gate
 
-1. update public and AI documentation to P4 reality;
-2. repeat P4/P1/P2/P3/fixture/AI checks on one exact final PR head;
-3. inspect full diff, comments and review threads;
-4. merge only with P5/C3/deletion/production scope absent;
-5. synchronize final PR/merge/run evidence to Notion;
-6. require separate operator GO before P5/C3.
+P5/C3 requires a new explicit operator GO, a materially independent SQLite profile, declared equivalence classes and retained comparison evidence.
