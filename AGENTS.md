@@ -74,15 +74,16 @@ Decision status
 
 ## 5. Issue #1 and source-recovery boundary
 
-The repository is currently `RESEARCH / DOCUMENTED_ONLY / NOT PRODUCTION-READY`.
-No runnable Native Kernel implementation or original 44-test suite is present in `main`.
+The repository is currently `RESEARCH / P2 PARTIAL IMPLEMENTATION / NOT PRODUCTION-READY`.
+A clean P1 semantic core and bounded P2 PostgreSQL append/idempotency profile exist. This is not the recovered historical `v0.1.2.1`, not the original 44-test suite, not a complete Kernel, and not C1/C2/C3 evidence.
 
 - Do not reconstruct an approximation and label it `v0.1.2.1`.
 - Do not replace the original suite with newly written tests and call it recovered evidence.
 - Do not treat source-recovery tooling as Kernel runtime.
 - `NOT_FOUND_IN_ACCESSIBLE_SOURCES` is not `GLOBALLY_LOST`.
 - Controlled import must remain separate from architecture redesign.
-- A clean reimplementation requires a new version and evidence lineage after an explicit operator decision.
+- Clean implementation lineage is `clean/postgresql-reference/0.1`.
+- P2 code or unit tests do not prove PostgreSQL integration, replay, conformance or production readiness.
 
 ## 6. Cross-project boundaries
 
@@ -98,12 +99,14 @@ No runnable Native Kernel implementation or original 44-test suite is present in
 Run the narrowest relevant checks first.
 
 For source-recovery tooling, use the commands declared in `docs/source-recovery/README.md` and the retained source-recovery workflow.
-For documentation changes, verify links, status labels, bilingual parity where applicable, ADR references and exact SHAs.
-For future runtime changes, define focused tests and repository gates before claiming implementation evidence.
+For P1 use the semantic-core tests and P1 manifest guard.
+For P2 run unit/manifest checks first, then the PostgreSQL integration suite with an explicit DSN and inspect exact PostgreSQL/Python matrix evidence.
+For documentation changes, verify links, status labels, bilingual parity, ADR references and exact SHAs.
 
 Do not claim:
 
 - Kernel CI when only utility CI ran;
+- PostgreSQL integration when integration tests were skipped or no run exists;
 - public reproduction of the 44-test checkpoint;
 - portability without cross-profile conformance evidence;
 - production safety, privacy, security, replay or migration guarantees without committed proof.
