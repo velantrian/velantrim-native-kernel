@@ -16,21 +16,20 @@ P2 PostgreSQL transaction
 ## Profile choices
 
 - PostgreSQL compatibility: `16–18`;
-- CI matrix: PostgreSQL `16` and `18`;
-- Python: `>=3.11,<3.13`;
+- repository matrix: PostgreSQL `16` and `18` × Python `3.11` and `3.12`;
 - driver: `psycopg>=3.3,<3.4`;
-- migrations: numbered plain SQL with SHA-256 checksum ledger;
-- one authoritative DB-backed writer lease per Kernel instance.
+- migrations: numbered SQL with SHA-256 ledger;
+- one DB-backed writer lease per Kernel instance.
 
 These are replaceable profile choices, not Architecture Canon.
 
-## Install for profile/integration work
+## Install
 
 ```bash
 python -m pip install -r profiles/postgresql-reference-v0/requirements-p2-ci.txt
 ```
 
-Importing `native_kernel.semantic_core` or this package does not import Psycopg. The driver is loaded only when a DSN-backed connection is requested.
+Importing P1 or P2 does not import Psycopg. The driver is loaded only for a DSN-backed connection.
 
 ## Minimal usage
 
@@ -48,25 +47,39 @@ result = store.append(command, token)
 
 ## Idempotency
 
-The key scope is:
+Scope:
 
 ```text
 (instance_id, command_contract, idempotency_key)
 ```
 
 - first command → `APPENDED`;
-- same key + same command digest → `RETURN_ORIGINAL_APPEND_RESULT`;
+- same key + same digest → `RETURN_ORIGINAL_APPEND_RESULT`;
 - same key + different digest → `IDEMPOTENCY_CONFLICT`.
 
-The event and idempotency record commit atomically.
+The Event and idempotency record commit atomically.
 
 ## Writer fencing
 
-`kernel_instances.writer_epoch` is monotonic. A lease token must match the current owner and epoch and must not be expired. Releasing or replacing a lease makes old tokens stale.
+`kernel_instances.writer_epoch` is monotonic. A token must match current owner/epoch and remain unexpired. Release/replacement makes older tokens unusable.
 
 ## Migrations
 
-Migration filenames use `NNNN_name.sql`. Each exact file checksum is recorded in `native_kernel.schema_migrations`. Modified bytes under an applied version fail as migration drift. An advisory transaction lock serializes bootstrap and ledger changes.
+Files use `NNNN_name.sql`. Exact checksums are recorded in `native_kernel.schema_migrations`; applied-version drift fails. An advisory transaction lock serializes bootstrap and ledger changes.
+
+## Repository evidence
+
+PR #47 head `e80492bcacde2ff2be3a2ee03aa5aa53a714d288`:
+
+```text
+P2 run 31151297646 — PASS
+Python 3.11 / PostgreSQL 16 — PASS
+Python 3.11 / PostgreSQL 18 — PASS
+Python 3.12 / PostgreSQL 16 — PASS
+Python 3.12 / PostgreSQL 18 — PASS
+```
+
+Every matrix job passed unit tests, manifest guards, five PostgreSQL integration scenarios and compileall.
 
 ## Validation
 
@@ -74,7 +87,6 @@ Migration filenames use `NNNN_name.sql`. Each exact file checksum is recorded in
 python -m unittest discover -s tests -p 'test_postgresql_profile_unit.py' -v
 python -m unittest discover -s tests -p 'test_p2_manifest.py' -v
 python tools/profiles/validate_p2_manifest.py
-python -m compileall -q native_kernel tools tests
 
 NK_TEST_POSTGRES_DSN='postgresql://...' \
   python -m unittest discover -s tests -p 'test_postgresql_profile_integration.py' -v
@@ -82,6 +94,6 @@ NK_TEST_POSTGRES_DSN='postgresql://...' \
 
 ## Explicit limits
 
-P2 does not implement projection persistence/rebuild, replay/upcasters, deletion-byte execution, network API, conformance adapter, C1/C2/C3, production HA/backup/credentials/compliance guarantees, or ecosystem integration.
+P2 does not implement projection persistence/rebuild, replay/upcasters, deletion-byte execution, network API, conformance adapter, C1/C2/C3, production HA/backup/credentials/compliance guarantees or ecosystem integration.
 
 All 72 assertion-level runtime results remain `UNSUPPORTED` until P4.
