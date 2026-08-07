@@ -20,6 +20,10 @@ jobs:
           fetch-depth: 0
       - name: Verify and unpack bounded P5 source
         run: |
+          if [ ! -f tools/bootstrap/p5-source.part00 ]; then
+            echo "P5 source parts already consumed; nothing to publish."
+            exit 0
+          fi
           cat \
             tools/bootstrap/p5-source.part00 \
             tools/bootstrap/p5-source.part01 \
@@ -28,11 +32,20 @@ jobs:
             | base64 -d > /tmp/p5-source.tar.gz
           echo "44225e1ccd99ed33fd62302421142ba61cefb83215f2a3f3832ea6d772ebce80  /tmp/p5-source.tar.gz" | sha256sum -c -
           tar -xzf /tmp/p5-source.tar.gz -C .
-          rm -f tools/bootstrap/p5-source.part* .github/workflows/p5-bootstrap.yml
+          rm -f tools/bootstrap/p5-source.part*
+          rm -f .github/workflows/p5-sqlite-c3.yml
       - name: Commit generated P5 source
         run: |
+          if [ ! -d native_kernel/sqlite_profile ]; then
+            echo "No generated source to commit."
+            exit 0
+          fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
+          if git diff --cached --quiet; then
+            echo "No source changes to commit."
+            exit 0
+          fi
           git commit -m "feat: add P5 SQLite and C3 executable slice"
           git push origin HEAD:agent/p5-sqlite-c3
