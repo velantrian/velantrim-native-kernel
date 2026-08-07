@@ -1,0 +1,166 @@
+{
+  "approval": {
+    "decision_record": "ADR-0021",
+    "issue": 64,
+    "scope": "CONTROLLED_EPHEMERAL_SYNTHETIC_ONLY",
+    "state": "APPROVED"
+  },
+  "deployment_boundary": {
+    "authoritative_external_side_effects": false,
+    "authority_promotion": false,
+    "compliance_certification_claimed": false,
+    "deployment_class": "CI_EPHEMERAL_SYNTHETIC",
+    "ecosystem_wiring": false,
+    "live_user_data": false,
+    "network_api_exposed": false,
+    "physical_deletion_claimed": false,
+    "production_traffic": false,
+    "synthetic_data_only": true
+  },
+  "limitations": [
+    "The rehearsal uses synthetic data in ephemeral GitHub Actions runners.",
+    "Application-level authority and fencing checks are not cloud IAM or network security validation.",
+    "Quarantine restore is bounded application-level recovery, not managed-provider disaster recovery.",
+    "No live user traffic, production deployment, multi-region failover, physical deletion or compliance certification is established.",
+    "C5 rehearsal does not promote assertion support beyond the inherited 45/10/17 C4 map."
+  ],
+  "plan_id": "native-kernel/c5-bounded-rehearsal-v1",
+  "prerequisite": {
+    "partial_assertions": 10,
+    "protocol": "nk-shadow-report/1",
+    "status": "PASS",
+    "support_state": "PARTIAL",
+    "supported_assertions": 45,
+    "unsupported_assertions": 17
+  },
+  "privacy": {
+    "artifact_policy": "CANARIES_MUST_NOT_APPEAR",
+    "canary_tokens": [
+      "C5-PII-CANARY-ALPHA",
+      "C5-SECRET-CANARY-BETA"
+    ],
+    "redaction_marker": "[REDACTED]"
+  },
+  "protocol": "nk-operational-plan/1",
+  "scenarios": [
+    {
+      "category": "SECURITY",
+      "id": "security.authority-denial.postgresql",
+      "profile": "POSTGRESQL",
+      "required": true
+    },
+    {
+      "category": "SECURITY",
+      "id": "security.authority-denial.sqlite",
+      "profile": "SQLITE",
+      "required": true
+    },
+    {
+      "category": "SECURITY",
+      "id": "security.stale-writer.postgresql",
+      "profile": "POSTGRESQL",
+      "required": true
+    },
+    {
+      "category": "SECURITY",
+      "id": "security.stale-writer.sqlite",
+      "profile": "SQLITE",
+      "required": true
+    },
+    {
+      "category": "RELIABILITY",
+      "id": "reliability.idempotent-retry.postgresql",
+      "profile": "POSTGRESQL",
+      "required": true
+    },
+    {
+      "category": "RELIABILITY",
+      "id": "reliability.idempotent-retry.sqlite",
+      "profile": "SQLITE",
+      "required": true
+    },
+    {
+      "category": "ROLLBACK",
+      "id": "rollback.atomic-fault.postgresql",
+      "profile": "POSTGRESQL",
+      "required": true
+    },
+    {
+      "category": "ROLLBACK",
+      "id": "rollback.atomic-fault.sqlite",
+      "profile": "SQLITE",
+      "required": true
+    },
+    {
+      "category": "RECOVERY",
+      "id": "recovery.replay-projection.postgresql",
+      "profile": "POSTGRESQL",
+      "required": true
+    },
+    {
+      "category": "RECOVERY",
+      "id": "recovery.replay-projection.sqlite",
+      "profile": "SQLITE",
+      "required": true
+    },
+    {
+      "category": "RECOVERY",
+      "id": "recovery.quarantine-import",
+      "profile": "CROSS_PROFILE",
+      "required": true
+    },
+    {
+      "category": "INCIDENT",
+      "id": "incident.corruption-detected.postgresql",
+      "profile": "POSTGRESQL",
+      "required": true
+    },
+    {
+      "category": "INCIDENT",
+      "id": "incident.corruption-detected.sqlite",
+      "profile": "SQLITE",
+      "required": true
+    },
+    {
+      "category": "INCIDENT",
+      "id": "incident.timeline-contained",
+      "profile": "SHARED",
+      "required": true
+    },
+    {
+      "category": "PRIVACY",
+      "id": "privacy.synthetic-only",
+      "profile": "SHARED",
+      "required": true
+    },
+    {
+      "category": "PRIVACY",
+      "id": "privacy.canary-redaction",
+      "profile": "SHARED",
+      "required": true
+    },
+    {
+      "category": "RESILIENCE",
+      "id": "resilience.bounded-load.postgresql",
+      "profile": "POSTGRESQL",
+      "required": true
+    },
+    {
+      "category": "RESILIENCE",
+      "id": "resilience.bounded-load.sqlite",
+      "profile": "SQLITE",
+      "required": true
+    }
+  ],
+  "thresholds": {
+    "canary_leaks_max": 0,
+    "events_per_profile_max": 64,
+    "failed_scenarios_max": 0,
+    "incident_uncontained_max": 0,
+    "p95_append_ms_max": 5000.0,
+    "recovery_failures_max": 0,
+    "required_scenarios": 18,
+    "total_rehearsal_seconds_max": 240.0
+  },
+  "version": "1"
+}

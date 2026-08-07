@@ -1,0 +1,71 @@
+{
+  "decision_record": "ADR-0021",
+  "decision_status": "ACCEPTED",
+  "deployment_boundary": {
+    "authoritative_external_side_effects": false,
+    "authority_promotion": false,
+    "compliance_certification_claimed": false,
+    "deployment_class": "CI_EPHEMERAL_SYNTHETIC",
+    "ecosystem_wiring": false,
+    "live_user_data": false,
+    "network_api_exposed": false,
+    "physical_deletion_claimed": false,
+    "production_traffic": false,
+    "synthetic_data_only": true
+  },
+  "evidence_boundaries": [
+    "C5 is a bounded synthetic ephemeral operational rehearsal.",
+    "The inherited assertion map remains 45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED / 0 FAILED.",
+    "No production readiness, live user traffic, cloud IAM, multi-region HA, compliance or physical deletion claim.",
+    "No authority promotion, automatic action or ecosystem wiring."
+  ],
+  "implementation_status": "PARTIAL",
+  "issue_18_boundary": {
+    "new_external_runtime_dependency": false,
+    "package_published": false,
+    "relationship": "INDEPENDENT"
+  },
+  "issue_1_boundary": {
+    "historical_lineage": null,
+    "may_claim_recovery": false,
+    "relationship": "INDEPENDENT"
+  },
+  "kernel_runtime_conformance": "C4",
+  "manifest_version": "nk-c5-operational-manifest/1",
+  "next_gate": "Repository C5 rehearsal matrix, artifact inspection, review, merge and main-bound reproduction",
+  "operational_validation": "C5_BOUNDED_REHEARSAL",
+  "operator_approval": "APPROVED",
+  "phase": "C5",
+  "plan": {
+    "id": "native-kernel/c5-bounded-rehearsal-v1",
+    "path": "contracts/operational-plan-v1.json",
+    "protocol": "nk-operational-plan/1",
+    "scenario_count": 18,
+    "sha256": "4ed680ff4e83ac9d1aca6c1ab8a435ecb19af4a5badf1be8202bc842f964b098"
+  },
+  "prerequisite": {
+    "failed": 0,
+    "level": "C4",
+    "partial": 10,
+    "supported": 45,
+    "unsupported": 17
+  },
+  "repository_evidence": {
+    "artifact_count": 0,
+    "artifacts": [],
+    "head_sha": null,
+    "matrix": [],
+    "status": "PRE_CI",
+    "workflow_run_id": null
+  },
+  "scenario_categories": [
+    "SECURITY",
+    "PRIVACY",
+    "RECOVERY",
+    "ROLLBACK",
+    "INCIDENT",
+    "RELIABILITY",
+    "RESILIENCE"
+  ],
+  "support_state": "PARTIAL"
+}
