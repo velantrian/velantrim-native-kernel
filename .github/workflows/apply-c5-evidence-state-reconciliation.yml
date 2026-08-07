@@ -62,6 +62,17 @@ jobs:
           9004549886|4a68f36a17e958c1def3923d3181ebcd974e8a3adba94fb4892ec02505720f4c|evidence/c5/2026-08-07/original/final-main-3d569122/c5-operational-evidence-py3.12-pg18.zip
           ARTIFACTS
 
+      - name: Normalize touched Markdown whitespace
+        run: |
+          set -euo pipefail
+          sed -i 's/[[:blank:]]\+$//' \
+            STATUS.md \
+            docs/ai/C5_IMPLEMENTATION_RECORD.md \
+            docs/ai/CURRENT_STATE.md \
+            docs/ai/KNOWN_RISKS.md \
+            docs/research/POST_C5_RESEARCH_BACKLOG.md \
+            evidence/c5/README.md
+
       - name: Run fail-closed validation
         run: |
           set -euo pipefail
