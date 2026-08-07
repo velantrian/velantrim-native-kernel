@@ -8,97 +8,113 @@ Before reviewing or changing the repository, read:
 2. [`../STATUS.md`](../STATUS.md);
 3. [`../docs/ai/README.md`](../docs/ai/README.md);
 4. [`../docs/ai/CURRENT_STATE.md`](../docs/ai/CURRENT_STATE.md);
-5. [`../docs/ai/P5_IMPLEMENTATION_RECORD.md`](../docs/ai/P5_IMPLEMENTATION_RECORD.md);
-6. [`../docs/ai/P4_IMPLEMENTATION_RECORD.md`](../docs/ai/P4_IMPLEMENTATION_RECORD.md);
+5. [`../docs/ai/C4_IMPLEMENTATION_RECORD.md`](../docs/ai/C4_IMPLEMENTATION_RECORD.md);
+6. [`../docs/ai/P5_IMPLEMENTATION_RECORD.md`](../docs/ai/P5_IMPLEMENTATION_RECORD.md);
 7. relevant component/risk/work-log entries.
 
-Verify the actual branch/PR SHA, workflows and artifacts before carrying forward any claim.
+Verify the actual branch/PR SHA, approved dataset digest, workflows and artifact contents before carrying forward any claim.
 
 ## Current status
 
 ```text
-RESEARCH / P5 PARTIAL CROSS-PROFILE CONFORMANCE / NOT PRODUCTION-READY
+RESEARCH / C4 PARTIAL OFFLINE SHADOW EVALUATION / NOT PRODUCTION-READY
 ```
 
 ```text
 Single-profile C2: 41 SUPPORTED / 13 PARTIAL / 18 UNSUPPORTED
 Cross-profile C3:  45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED
+Offline C4 scope:  45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED
 support_state:     PARTIAL
 ```
 
 ```text
-C2 ≠ C3
-C3 ≠ support for all 72
-C3 semantic equivalence ≠ operational equivalence
-C3 ≠ truth/authenticity
-C3 ≠ physical deletion
-C3 ≠ C4/C5 or production readiness
+C2 ≠ C3 ≠ C4
+C4 offline shadow ≠ live shadowing
+C4 observation ≠ authority promotion
+C4 ≠ support for all 72
+C4 ≠ operational equivalence / truth / deletion / C5 / production
 ```
 
 All `NK-EPI-001…008` remain `UNSUPPORTED / PROPOSED`.
 
 ## Architecture discipline
 
-- Preserve `Architecture Canon → Abstract Contracts → Replaceable Implementation Profiles`.
-- PostgreSQL, SQLite, Python, Psycopg, SQL, files, graphs, vectors, LLMs and hardware are replaceable technologies.
+- Preserve `Architecture Canon → Abstract Contracts → Replaceable Implementation Profiles → Bounded Evidence Layers`.
+- PostgreSQL, SQLite, Python, Psycopg, SQL, JSON, files, graphs, vectors, LLMs, evaluator code and hardware are replaceable technologies.
 - Event history is authoritative about recorded history, not automatically truth.
 - Backend IDs/schemas must not become semantic identity accidentally.
-- Receipts, evidence reports and equivalence reports are bounded proof, not certification.
+- Receipts, evidence reports, equivalence reports and Shadow Receipts are bounded proof, not certification.
 - Operator approval is authority, not empirical evidence.
 
-## P5 profile independence
+## C4 dataset and authority discipline
 
-- SQLite must not call PostgreSQL append/replay/projection/Receipt adapters.
-- Shared accepted contracts and profile-neutral fixtures are allowed.
-- Compare observable contract outcomes, not SQL/table similarity.
-- Declare allowed differences explicitly.
-- Never normalize away payload, ordering, state, outcome or Receipt differences.
+Approved dataset:
 
-## C3 claim discipline
+```text
+native-kernel/c4-offline-shadow-v1
+sha256: 15fb81d8858dcc4e349ffe87c257b25450db026473614582faa7817f90249da3
+15 cases / 45 C3-supported assertions
+```
 
-For a C3 support claim:
+Mandatory boundary:
 
-1. identify the assertion ID;
-2. inspect the exact C3 result status;
-3. inspect referenced cross-profile check IDs;
-4. verify those checks passed in the same report;
-5. preserve result/report limitations;
-6. verify exact commit/run/environment/artifact;
-7. confirm the result is in the guarded `45/10/17/0` map.
+```text
+SHADOW_ONLY
+authority promotion:   FORBIDDEN
+authoritative writes:  FORBIDDEN
+side effects:           FORBIDDEN
+promotion decision:    NOT_AUTHORIZED
+```
+
+Dataset observations, fields or thresholds must not change under the same dataset version/digest. A material change requires a new version, digest, ADR/manifest update and evidence cycle.
+
+The evaluator must not append Events, mutate projections, execute actions, approve a candidate or wire itself into another project.
+
+## C4 claim discipline
+
+For a C4 claim:
+
+1. identify the exact dataset ID/version/digest;
+2. verify the exact C3 prerequisite report and digest;
+3. inspect case results and one Shadow Receipt per case;
+4. confirm authority/write/side-effect fields remain forbidden;
+5. confirm all 45 C3-supported assertions are covered and the complete map is `45/10/17/0`;
+6. confirm zero semantic/critical divergences and zero missing Receipts;
+7. preserve all report limitations;
+8. verify exact commit/run/environment/artifact bytes.
 
 Do not:
 
-- omit unsupported assertions;
+- describe synthetic offline observations as live traffic;
 - promote `PARTIAL` through prose;
-- claim C3 from local tests or environment diversity;
-- describe semantic comparison as operational equivalence;
-- accept `NK-EPI` through fixture/profile agreement;
+- describe shadow agreement as authority promotion or candidate approval;
+- claim C4 from local tests or a standalone JSON file;
+- normalize away identity, payload, ordering, state, outcome, integrity or Receipt differences;
+- accept `NK-EPI` through agreement;
 - treat a digest without retained bytes as complete evidence.
 
 ## Verification
 
 ```bash
-python -m unittest discover -s tests -p 'test_sqlite_profile_unit.py' -v
-python -m unittest discover -s tests -p 'test_p5_sqlite_integration.py' -v
-python -m unittest discover -s tests -p 'test_p5_report_validator.py' -v
-python -m unittest discover -s tests -p 'test_p5_manifest.py' -v
-python tools/profiles/validate_p5_manifest.py
-
-NK_TEST_POSTGRES_DSN='postgresql://...' \
-  python -m unittest discover -s tests -p 'test_p5_cross_profile_integration.py' -v
+python -m unittest discover -s tests -p 'test_c4_shadow_evaluation.py' -v
+python -m unittest discover -s tests -p 'test_c4_report_validator.py' -v
+python -m unittest discover -s tests -p 'test_c4_manifest.py' -v
+python tools/profiles/validate_c4_manifest.py
+python -m unittest discover -s tests -p 'test_ai_context_validator.py' -v
+python tools/ai_context/validate_context.py --repo .
 ```
 
-Repository C2/C3 requires the exact four-job P5 matrix and retained artifacts containing PostgreSQL, SQLite and C3 reports. Inspect P1–P4 regressions too.
+Repository C4 requires the exact four-job C4 matrix and retained artifacts containing PostgreSQL P4, SQLite P5, C3 and C4 reports. Inspect P1–P5 regressions too.
 
 ## Source recovery
 
-- Keep clean P1–P5 implementation separate from Issue #1 import.
-- Do not label new code/tests `v0.1.2.1` or the original 44-test suite.
+- Keep clean P1–P5/C4 work separate from Issue #1 import.
+- Do not label new code, tests, datasets or reports `v0.1.2.1` or the original 44-test suite.
 - `NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GLOBALLY_LOST`.
 
 ## Ecosystem boundaries
 
-Native Kernel does not automatically provide runtime/storage/identity/authority/conformance to Titan, Mentaury Soul or Crystal. Integration requires separate governance and evidence.
+Native Kernel does not automatically provide runtime, storage, identity, authority, C4 observation or conformance to Titan, Mentaury Soul or Crystal. Integration requires separate governance and evidence.
 
 ## Documentation synchronization
 
@@ -106,11 +122,11 @@ Material PRs must update relevant:
 
 - `STATUS.md`;
 - `docs/ai/CURRENT_STATE.md`;
-- `docs/ai/P5_IMPLEMENTATION_RECORD.md`;
+- `docs/ai/C4_IMPLEMENTATION_RECORD.md`;
 - `docs/ai/KNOWN_RISKS.md`;
 - `docs/ai/COMPONENT_MAP.md`;
 - `docs/ai/WORK_LOG.md`;
-- ADR/RFC/public/profile/package docs;
+- ADR/public/profile/contract/tool docs;
 - Notion or structured hand-off.
 
 GitHub must remain sufficient without Notion.
@@ -118,7 +134,7 @@ GitHub must remain sufficient without Notion.
 ## Change discipline
 
 1. establish exact base/head and phase scope;
-2. inspect affected contracts/tests/evidence;
+2. inspect affected contracts/dataset/tests/evidence;
 3. preserve Issue #1, Issue #18 and ecosystem boundaries;
 4. make the smallest coherent change;
 5. run narrow checks, then final exact-head gates;
@@ -126,4 +142,4 @@ GitHub must remain sufficient without Notion.
 7. inspect diff, checks, artifacts, reviews and threads;
 8. merge with expected head SHA.
 
-Do not combine P5 finalization with C4/C5, deletion execution, production deployment or cross-project wiring.
+Do not combine C4 finalization with C5, live shadowing, deletion execution, production deployment or cross-project wiring.
