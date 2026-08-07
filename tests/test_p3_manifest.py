@@ -33,7 +33,7 @@ class P3ManifestTests(unittest.TestCase):
 
     def test_false_repository_pass_is_rejected(self) -> None:
         changed = copy.deepcopy(DATA)
-        changed["local_validation"]["repository_ci"] = "PASS"
+        changed["local_validation"]["integration_result"] = "NOT_RUN_NO_POSTGRESQL"
         with self.assertRaises(validator.ManifestError):
             validator.validate(changed)
 
