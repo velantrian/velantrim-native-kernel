@@ -23,23 +23,16 @@ Version:          0.2-p2
 
 ### P1 — независимое semantic core
 
-`native_kernel.semantic_core` реализует:
+`native_kernel.semantic_core` реализует canonical identity, immutable semantic objects, explicit authority, deterministic logical reduction, deletion/restriction semantics и bounded Receipts.
 
-- canonical JSON и идентичности `nkh1` / `nkc1` / `nkl1`;
-- immutable semantic objects и Commands;
-- explicit deny-by-default authority;
-- детерминированный логический reducer;
-- состояния restriction/deletion;
-- ограниченные admission/deletion Receipts.
+### P2 — PostgreSQL authoritative append/idempotency
 
-### P2 — PostgreSQL append/idempotency profile
-
-`native_kernel.postgresql_profile` добавляет ограниченный storage profile:
+`native_kernel.postgresql_profile` реализует:
 
 ```text
-явное полномочие
+explicit authority
 → DB-backed writer owner/epoch fence
-→ durable scoped idempotency
+→ scoped durable idempotency
 → rollback-safe global/stream counters
 → atomic Event + idempotency commit
 → canonical payload/envelope bytes
@@ -56,24 +49,32 @@ Version:          0.2-p2
 
 Это детали профиля, а не Architecture Canon.
 
-## Граница доказательств
+## Repository evidence
 
-Локально зафиксировано:
+PR #47 head `e80492bcacde2ff2be3a2ee03aa5aa53a714d288`:
 
 ```text
-9 P2 unit tests PASS
-5 P2 manifest tests PASS
-manifest validator PASS
-compileall PASS
-5 PostgreSQL integration tests DECLARED / NOT RUN — нет локального PostgreSQL DSN
-repository workflow result NOT_RECORDED
+P2 workflow run 31151297646 — PASS
+Python 3.11 / PostgreSQL 16 — PASS
+Python 3.11 / PostgreSQL 18 — PASS
+Python 3.12 / PostgreSQL 16 — PASS
+Python 3.12 / PostgreSQL 18 — PASS
+AI context integrity run 31151298002 — PASS
+P1 semantic core — PASS
+Conformance fixture integrity — PASS
 ```
 
-Следовательно:
+Каждый P2 matrix job прошёл:
+
+- 9 P2 unit tests;
+- 5 PostgreSQL integration tests;
+- 5 P2 manifest tests;
+- manifest validator и compileall.
+
+Следовательно, bounded P2 PostgreSQL behavior воспроизведён в declared repository matrix.
 
 ```text
-P2-код существует
-≠ PostgreSQL integration доказана
+P2 PostgreSQL integration PASS
 ≠ replay/projection runtime
 ≠ assertion-level conformance
 ≠ C1/C2/C3
@@ -83,8 +84,6 @@ P2-код существует
 Все 72 registry assertions остаются runtime `UNSUPPORTED` до P4.
 
 ## Контракты
-
-Приняты:
 
 - `nk-id/1.0` — canonical identity;
 - `nk-event/1.0` — single-writer append, idempotency, ordering и replay boundary;
@@ -107,11 +106,7 @@ python -m unittest discover -s tests -p 'test_semantic_core.py' -v
 python -m unittest discover -s tests -p 'test_postgresql_profile_unit.py' -v
 python -m unittest discover -s tests -p 'test_p2_manifest.py' -v
 python tools/profiles/validate_p2_manifest.py
-```
 
-PostgreSQL integration:
-
-```bash
 python -m pip install -r profiles/postgresql-reference-v0/requirements-p2-ci.txt
 NK_TEST_POSTGRES_DSN='postgresql://...' \
   python -m unittest discover -s tests -p 'test_postgresql_profile_integration.py' -v
