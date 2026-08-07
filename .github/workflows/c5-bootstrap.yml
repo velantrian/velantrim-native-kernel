@@ -1,0 +1,60 @@
+name: C5 bootstrap publisher
+
+on:
+  push:
+    branches: [agent/c5-operational-rehearsal]
+    paths:
+      - ".c5-bootstrap/**"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/c5-operational-rehearsal
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Verify and unpack C5 source payload
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "3cc12fb7b94fc9c544a1eb89ffd7fbdf9ab892b64438901335a8cc48965f1385  .c5-bootstrap/part-00" | sha256sum -c -
+          echo "9d511d3d5f7073f7d93030f2af4138eaea00ab65ebda7b574aa86380ae5ee92a  .c5-bootstrap/part-01" | sha256sum -c -
+          echo "6a9e6dfaae123ecd62388eca01e78d0a116c0643c2e2fc58410d0bb0643bdfc0  .c5-bootstrap/part-02" | sha256sum -c -
+          echo "81385aaf850ae23b72bbb84f7f38e859118c2d091b7c3ada9c4d3d5163d1e3e7  .c5-bootstrap/part-03" | sha256sum -c -
+          echo "c7dab98ff8e3dacbd31da0f72f66e40bf12128760396d8b6ce64e162ed4f095a  .c5-bootstrap/part-04" | sha256sum -c -
+          echo "2d3979fba32879d2d99ab363d85fa7c40371b3f4f1e8353e887ce849958850e6  .c5-bootstrap/part-05" | sha256sum -c -
+          cat .c5-bootstrap/part-* > /tmp/c5payload.b64
+          test "$(wc -c < /tmp/c5payload.b64)" = "29796"
+          base64 -d /tmp/c5payload.b64 > /tmp/c5payload.tar.gz
+          echo "76730d288440ebf4c25d5fc35a2e1e4e2e414d6ad5e65999a4060d400735a0dc  /tmp/c5payload.tar.gz" | sha256sum -c -
+          tar -tzf /tmp/c5payload.tar.gz
+          tar -xzf /tmp/c5payload.tar.gz
+      - name: Validate unpacked C5 scope
+        run: |
+          python -m unittest discover -s tests -p 'test_c5_operational_validation.py' -v
+          python -m unittest discover -s tests -p 'test_c5_report_validator.py' -v
+          python -m unittest discover -s tests -p 'test_c5_manifest.py' -v
+          python tools/profiles/validate_c5_manifest.py
+          python -m compileall -q native_kernel/operational_validation tools/operations tools/profiles
+      - name: Commit verified C5 sources
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf .c5-bootstrap .github/workflows/c5-bootstrap.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No C5 source changes to commit"
+            exit 0
+          fi
+          git commit -m "feat: implement C5 bounded operational rehearsal"
+          git push origin HEAD:agent/c5-operational-rehearsal
