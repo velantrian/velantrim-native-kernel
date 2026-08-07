@@ -58,16 +58,20 @@ support_state:              PARTIAL
 assertions:                 45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED / 0 FAILED
 ```
 
-## Delivery evidence
+## Source delivery evidence
 
-The first source payload was verified by six part digests and final archive digest:
+The source payload was verified by six part digests and a final archive digest:
 
 ```text
 bootstrap run: 31202306008 — PASS
 archive sha256:76730d288440ebf4c25d5fc35a2e1e4e2e414d6ad5e65999a4060d400735a0dc
 ```
 
-The first genuine matrix failed before scenario execution because direct CLI execution could not import the repository package. `PYTHONPATH=.` was added to the workflow without changing scenarios or proof boundaries.
+The first source publisher validation passed but its publication step attempted to modify workflow files with `GITHUB_TOKEN`; that publication was rejected and not counted as source evidence. The publisher was separated from workflow creation/cleanup, then completed successfully. Temporary source transport files were removed before the PR.
+
+## First genuine matrix defect
+
+The first genuine matrix failed before scenario execution because direct CLI execution could not import the repository package. `PYTHONPATH=.` was added to the workflow without changing scenarios, thresholds or proof boundaries.
 
 ## First complete repository evidence
 
@@ -110,6 +114,23 @@ quarantined exact-history import: PASS
 canary tokens in report/backup: 0
 ```
 
+## Documentation publication evidence
+
+The C5 continuity archive contained 14 public/AI/governance files:
+
+```text
+archive sha256:056eb51ae1a825c462b691919e9878742d3eb6c4c637c8244afca3030f981d59
+base64 bytes: 17196
+```
+
+Publication history:
+
+1. Run `31203785312` failed before extraction because one character was missing from `part-00`; no documentation was published.
+2. The exact byte was restored. Run `31204012871` verified all five part digests and the final archive SHA, then exposed a stale negative manifest test that still assumed `PRE_CI`.
+3. The negative test was updated to erase exact SHA/run/matrix/artifact fields from a `PASS` manifest and continued to require fail-closed rejection.
+4. Run `31204169007` passed archive verification, eight AI-context tests, the repository AI-context guard, all C5 unit/report/manifest tests, the manifest validator and compileall, then published the documentation commit.
+5. Temporary documentation transport files and workflow were removed atomically before the final PR head.
+
 ## Non-claims
 
 ```text
@@ -126,4 +147,4 @@ bounded C5 rehearsal
 
 ## Remaining publication gate
 
-Update public/AI documentation, repeat C5 and prerequisite workflows on the exact final PR head, inspect a final artifact, review and merge PR #65, reproduce on `main`, publish a docs checkpoint and synchronize Notion.
+Repeat C5 and all prerequisite workflows on the exact final PR head, inspect a final six-report artifact, review and merge PR #65, reproduce on `main`, publish a docs checkpoint and synchronize Notion.
