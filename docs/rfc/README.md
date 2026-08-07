@@ -2,9 +2,7 @@
 
 [← Project README](../../README.md) · [Русский README](../../README.ru.md) · [ADR index](../adr/README.md)
 
-Research RFCs describe bounded future mechanisms, contracts, implementation-profile plans and evaluation stages.
-
-An RFC status remains separate from implementation and evidence:
+Research RFCs describe bounded mechanisms, contracts, implementation-profile plans and evaluation stages.
 
 ```text
 RFC acceptance
@@ -18,41 +16,53 @@ RFC acceptance
 | RFC | Title | Decision / evidence | Implementation |
 |---|---|---|---|
 | [`0001`](./0001-curiosity-core-architecture.md) · [Русский](./0001-curiosity-core-architecture.ru.md) | Curiosity Core Architecture | `PROPOSED / DOCUMENTED_ONLY` | `NOT_STARTED` |
-| [`0002`](./0002-postgresql-reference-profile-v0.md) · [Русский](./0002-postgresql-reference-profile-v0.ru.md) | PostgreSQL Reference Profile v0 Planning Contract | `ACCEPTED / APPROVED / P1 LOCALLY_TESTED` | `PARTIAL — P1 SEMANTIC CORE` |
+| [`0002`](./0002-postgresql-reference-profile-v0.md) · [Русский](./0002-postgresql-reference-profile-v0.ru.md) | Clean PostgreSQL/SQLite profile lifecycle | `ACCEPTED / APPROVED / C2+C3 PREVIOUS-HEAD EVIDENCE` | `PARTIAL — P1…P5` |
 
 ## RFC-0002 current boundary
 
-RFC-0002 accepts the clean profile lineage `clean/postgresql-reference/0.1` and authorizes only P1.
+```text
+P0 planning:                       COMPLETE
+P1 semantic core:                 MERGED / REPOSITORY-TESTED
+P2 PostgreSQL append/idempotency: MERGED / REPOSITORY-INTEGRATION-TESTED
+P3 replay/projections/Receipts:   MERGED / REPOSITORY-INTEGRATION-TESTED
+P4 PostgreSQL C2:                 MERGED / PARTIAL
+P5 SQLite C2 + cross-profile C3:  IMPLEMENTED / PARTIAL / PREVIOUS-HEAD EVIDENCE
+C4/C5/production:                 NOT_AUTHORIZED / NOT_ESTABLISHED
+```
+
+Result maps:
 
 ```text
-P0 profile planning:                       COMPLETE
-P1 profile-independent semantic core:      PARTIAL / LOCALLY_TESTED
-P2 PostgreSQL append/idempotency adapter:   NOT_AUTHORIZED
-P3–P5:                                      NOT_AUTHORIZED
-Kernel runtime conformance:                 UNSUPPORTED
+Single-profile C2: 41 SUPPORTED / 13 PARTIAL / 18 UNSUPPORTED
+Cross-profile C3:  45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED
+support_state:     PARTIAL
 ```
 
 Read together:
 
-- [`../adr/0015-accept-clean-profile-and-authorize-p1-semantic-core.md`](../adr/0015-accept-clean-profile-and-authorize-p1-semantic-core.md);
-- historical P0 planning manifest: [`../../profiles/postgresql-reference-v0/profile-manifest.json`](../../profiles/postgresql-reference-v0/profile-manifest.json);
-- current P1 implementation manifest: [`../../profiles/postgresql-reference-v0/p1-manifest.json`](../../profiles/postgresql-reference-v0/p1-manifest.json);
-- semantic-core boundary: [`../../native_kernel/semantic_core/README.md`](../../native_kernel/semantic_core/README.md).
+- [`../adr/0019-authorize-p5-sqlite-and-c3-equivalence.md`](../adr/0019-authorize-p5-sqlite-and-c3-equivalence.md);
+- [`../ai/P5_IMPLEMENTATION_RECORD.md`](../ai/P5_IMPLEMENTATION_RECORD.md);
+- [`../../profiles/sqlite-embedded-v0/p5-manifest.json`](../../profiles/sqlite-embedded-v0/p5-manifest.json);
+- [`../../native_kernel/sqlite_profile/README.md`](../../native_kernel/sqlite_profile/README.md);
+- [`../CONFORMANCE_MODEL.md`](../CONFORMANCE_MODEL.md).
 
 ```text
-clean P1 implementation
+clean P1–P5 implementation
 ≠ recovered v0.1.2.1
-≠ PostgreSQL adapter
-≠ C1/C2/C3
+≠ support for all 72
+≠ operational equivalence
+≠ C4/C5 or production readiness
 ```
 
 ## Rules
 
-1. An RFC may propose or govern mechanisms, policies, profiles or evaluation stages without making implementation complete.
+1. An RFC can govern mechanisms/profiles without making implementation complete.
 2. Architecture-changing proposals require a linked ADR.
-3. Every implementation phase requires a separately scoped PR, tests, failure cases and status update.
-4. Issue #1 controlled import must not absorb clean-profile redesign.
+3. Every implementation phase requires a scoped PR, tests, failures, evidence and status update.
+4. Issue #1 controlled import must remain separate from clean-profile implementation.
 5. Titan, Mentaury and Crystal integrations require their own bounded review.
 6. Multi-model agreement is design input, not acceptance evidence.
-7. Planning coverage and code presence must not be converted into assertion-level conformance without an evidence adapter.
-8. Later RFC-0002 phases require separate operator GO.
+7. Code presence and planning coverage are not assertion-level conformance.
+8. C2/C3 require exact report/check/run/artifact traceability.
+9. C3 semantic equivalence must not be described as operational equivalence.
+10. C4/C5/production/deletion/integration require separate explicit operator GO.
