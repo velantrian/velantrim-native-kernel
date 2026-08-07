@@ -48,10 +48,23 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          rm -rf .c5-bootstrap .github/workflows/c5-bootstrap.yml
+          rm -f .github/workflows/c5-operational-rehearsal.yml
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A
+          git add \
+            native_kernel/operational_validation \
+            tools/operations \
+            tools/profiles/validate_c5_manifest.py \
+            contracts/operational-plan-v1.json \
+            contracts/operational-plan-v1.schema.json \
+            contracts/operational-report-v1.schema.json \
+            profiles/operational-validation-v0 \
+            tests/test_c5_manifest.py \
+            tests/test_c5_operational_validation.py \
+            tests/test_c5_report_validator.py \
+            docs/adr/0021-authorize-c5-bounded-operational-rehearsal.md \
+            docs/implementation/c5-bounded-operational-rehearsal.md \
+            docs/ai/C5_IMPLEMENTATION_RECORD.md
           if git diff --cached --quiet; then
             echo "No C5 source changes to commit"
             exit 0
