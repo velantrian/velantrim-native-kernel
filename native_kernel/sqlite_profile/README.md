@@ -45,6 +45,8 @@ C3 compares declared equivalence classes:
 - semantic equivalence for reducer/projection state and Receipt boundaries;
 - behavioural equivalence for accepted/rejected commands and ordering.
 
+The bounded comparison map is `45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED / 0 FAILED`; repository C3 is not established until the exact matrix and retained comparison artifacts pass.
+
 Allowed differences include SQL dialect, table/index layout, server versus file topology, independent Event IDs/timestamps during separate append, and operational concurrency/IAM/network capabilities.
 
-C3 does not establish production readiness, truth, external authenticity, physical deletion, C4/C5, or operational equivalence with PostgreSQL.
+C3 does not establish support for all 72 assertions, production readiness, truth, external authenticity, physical deletion, C4/C5, or operational equivalence with PostgreSQL.
