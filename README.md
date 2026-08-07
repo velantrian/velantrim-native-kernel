@@ -6,26 +6,26 @@
 
 **[English](./README.md) · [Русский](./README.ru.md)**
 
-![Status](https://img.shields.io/badge/status-P4%20PARTIAL-6f42c1)
-![Evidence](https://img.shields.io/badge/evidence-C2%20ASSERTION--SCOPED-blue)
-![Profile](https://img.shields.io/badge/profile-PostgreSQL-orange)
+![Status](https://img.shields.io/badge/status-P5%20PARTIAL-6f42c1)
+![Evidence](https://img.shields.io/badge/evidence-C3%20ASSERTION--SCOPED-blue)
+![Profiles](https://img.shields.io/badge/profiles-PostgreSQL%20%2B%20SQLite-orange)
 ![Production](https://img.shields.io/badge/production-NOT%20READY-red)
 
-**Claims · Events · Provenance · Time · Conflict visibility · Deterministic reduction · Auditable evidence**
+**Claims · Events · Provenance · Time · Deterministic replay · Cross-profile evidence**
 
 > **Preserve meaning when technologies change. Verify before promotion.**
 
 </div>
 
 > [!IMPORTANT]
-> **Current branch state:** `RESEARCH / P4 PARTIAL ASSERTION CONFORMANCE / NOT PRODUCTION-READY`.  
-> P1–P3 implement a bounded semantic and PostgreSQL profile. P4 now emits a complete 72-assertion report: **41 `SUPPORTED`, 13 `PARTIAL`, 18 `UNSUPPORTED`, 0 `FAILED`**. Repository C2 evidence exists for the 41 supported results only. P5/C3, physical deletion, truth/authenticity certification and production guarantees remain absent.
+> **Current branch state:** `RESEARCH / P5 PARTIAL CROSS-PROFILE CONFORMANCE / NOT PRODUCTION-READY`.  
+> PostgreSQL and an independent stdlib-`sqlite3` profile now have repository C2 evidence. Their declared cross-profile comparison reports **45 `SUPPORTED`, 10 `PARTIAL`, 17 `UNSUPPORTED`, 0 `FAILED`**. C3 applies only to those 45 supported results; it is not complete support or operational equivalence.
 
 ## ⚡ In 30 seconds
 
 Velantrim Native Kernel is an independent, long-horizon architecture and implementation research project.
 
-It studies how memory, recorded change and evidence can preserve meaning when databases, languages, models, processors and future computational substrates change.
+It studies how semantic memory, recorded change and evidence can preserve meaning when databases, languages, models, processors and future computational substrates change.
 
 ```text
 🏛️ Architecture Canon
@@ -35,6 +35,8 @@ It studies how memory, recorded change and evidence can preserve meaning when da
 🔌 Replaceable implementation profiles
         ↓
 🧪 Assertion-scoped reproducible evidence
+        ↓
+⚖️ Explicit cross-profile equivalence
 ```
 
 Modern technologies are laboratory instruments, not permanent definitions:
@@ -51,170 +53,146 @@ PostgreSQL · SQLite · Python · files · graph · vector · LLM · CPU/GPU
 |---|---|
 | Architecture and invariants | **Documented** |
 | Exact identity/event/deletion/fixture contracts | **Accepted** — ADR-0011…0014 |
-| Clean PostgreSQL profile | **Accepted** — RFC-0002 / ADR-0015 |
 | P1 semantic core | **Partial implementation; repository-tested** |
-| P2 PostgreSQL append/idempotency | **Partial implementation; repository-integration-tested** |
-| P3 persisted replay/projections/Receipts | **Partial implementation; repository-integration-tested** |
-| P4 assertion-scoped adapter | **Partial implementation; C2 repository-reproduced on evidence head** |
-| P4 support map | **41 supported / 13 partial / 18 unsupported / 0 failed** |
-| P5 independent SQLite profile | **Not implemented / not authorized** |
-| C3 cross-profile equivalence | **Not established** |
-| Physical/cryptographic deletion execution | **Not implemented** |
-| Historical `v0.1.2.1` source and original 44 tests | **Not found in accessible sources; Issue #1 open** |
-| Titan, Mentaury or Crystal runtime integration | **Not active** |
-| Production readiness | **Not claimed** |
+| P2 PostgreSQL append/idempotency | **Partial; repository-integration-tested** |
+| P3 persisted replay/projections/Receipts | **Partial; repository-integration-tested** |
+| P4 PostgreSQL assertion adapter | **Partial; C2 repository-reproduced** |
+| P5 independent SQLite profile | **Partial; C2 repository-reproduced on evidence head** |
+| PostgreSQL/SQLite C3 | **Partial; repository-reproduced on evidence head** |
+| Single-profile map | **41 supported / 13 partial / 18 unsupported / 0 failed** |
+| Cross-profile C3 map | **45 supported / 10 partial / 17 unsupported / 0 failed** |
+| Physical/cryptographic deletion | **Not implemented** |
+| Complete conflict subsystem | **Not implemented** |
+| C4/C5 / production readiness | **Not established / not claimed** |
+| Historical `v0.1.2.1` source | **Not found in accessible sources; Issue #1 open** |
+| Titan/Mentaury/Crystal integration | **Not active** |
 
 ```text
-P4 C2 for 41 SUPPORTED assertions
+C3 for 45 SUPPORTED assertions
 ≠ all 72 assertions supported
-≠ C3
-≠ storage neutrality
+≠ PostgreSQL and SQLite operational equivalence
 ≠ truth or authenticity
 ≠ physical deletion
 ≠ production readiness
 ```
 
-## 🧩 P1 — semantic core
+## 🧩 Implementation route
 
-Package: [`native_kernel.semantic_core`](./native_kernel/semantic_core/README.md)
+```text
+P1  canonical identity / semantic objects / authority / reducer
+ ↓
+P2  PostgreSQL append / idempotency / writer fencing
+ ↓
+P3  persisted replay / projection rebuild / bounded Receipts
+ ↓
+P4  complete PostgreSQL 72-ID report / C2
+ ↓
+P5  independent SQLite profile / complete SQLite report
+ ↓
+C3  PostgreSQL ↔ SQLite equivalence comparison
+```
 
-- canonical JSON subset and `nkh1` / `nkc1` / `nkl1` identifiers;
-- immutable semantic content, Claim identity, Command and logical Event objects;
-- explicit deny-by-default authority;
-- deterministic version-bound reduction;
-- deletion/restriction transition semantics;
-- admission/deletion Receipt overclaim guards;
-- deterministic upcaster registry and canonical state decoder;
-- standard-library-only semantic layer.
-
-## 🐘 P2 — authoritative PostgreSQL append
+## 🐘 PostgreSQL reference profile
 
 Package: [`native_kernel.postgresql_profile`](./native_kernel/postgresql_profile/README.md)
 
-```text
-explicit authority
-→ writer owner/epoch fence
-→ scoped durable idempotency
-→ rollback-safe sequence allocation
-→ atomic Event + idempotency commit
-→ canonical payload/envelope commitments
-```
-
-Profile technologies:
-
 - PostgreSQL `16–18`;
 - Psycopg `>=3.3,<3.4`;
-- Python `>=3.11,<3.13`;
-- numbered SQL migrations with a SHA-256 ledger;
-- one writer lease per Kernel instance.
+- checksum-locked migrations;
+- owner/epoch/expiry writer fencing;
+- durable idempotency and rollback-safe ordering;
+- canonical Event commitments and hash chain;
+- replay, disposable projections and bounded Receipts;
+- complete assertion-scoped P4 report.
 
-These are replaceable profile choices, not Canon.
+## 🗃️ SQLite embedded profile
 
-## 🔁 P3 — replay, projections and operational Receipts
-
-```text
-authoritative PostgreSQL Events
-→ repeatable-read verified snapshot
-→ explicit schema upcasting
-→ P1 reduction from empty state
-→ bounded Replay Receipt
-→ locked head comparison
-→ disposable projection rebuild
-→ bounded Projection Rebuild Receipt
-```
-
-P3 provides:
-
-- full selected-instance replay from sequence `1`;
-- canonical Event and global hash-chain checks;
-- explicit failures for unsupported schema paths;
-- deterministic projection destroy/rebuild;
-- monotonic committed generation;
-- stale-head rejection;
-- atomic Receipt + projection publication;
-- projection-to-Receipt consistency verification;
-- explicit non-claims for truth, external authenticity, complete integrity and physical erasure.
-
-## 🧪 P4 — assertion-scoped conformance
-
-P4 connects executable behavior to all 72 registry IDs:
+Package: [`native_kernel.sqlite_profile`](./native_kernel/sqlite_profile/README.md)
 
 ```text
-registry + fixtures
-→ semantic checks
-→ PostgreSQL checks
-→ one result for every assertion
-→ passed check IDs + limitations
-→ strict independent validation
-→ JSON evidence artifact
+stdlib sqlite3
+→ WAL + foreign keys + synchronous FULL
+→ BEGIN IMMEDIATE single-writer transaction
+→ owner / epoch / expiry fence
+→ append / retry / rollback-safe ordering
+→ Event hash chain
+→ replay / projections / Receipts
 ```
 
-Current result map:
+The SQLite profile uses its own migrations, schema, transactions, append, replay, projection and Receipt implementation. It does **not** call the PostgreSQL adapters.
+
+It also supports exact authoritative-history import: PostgreSQL Event bytes and hash commitments are inserted into SQLite and reverified before replay.
+
+## ⚖️ P5 cross-profile C3
+
+The comparison uses four declared equivalence classes:
+
+| Class | Compared meaning |
+|---|---|
+| `BYTE` | canonical identity vectors and exact imported Event bytes/hash chain |
+| `STRUCTURAL` | complete report shape and declared fields |
+| `SEMANTIC` | reducer state, projection state and Receipt proof fields |
+| `BEHAVIOURAL` | accepted/rejected commands, idempotency, fencing and order |
+
+Allowed differences include:
+
+- SQL dialect and table/index layout;
+- server topology versus a single local file;
+- PostgreSQL row locks versus SQLite `BEGIN IMMEDIATE`;
+- independently generated Event IDs/timestamps;
+- IAM, networking, replication, failover, concurrency and administration.
+
+Forbidden differences include:
+
+- canonical identity and Command digest;
+- payload meaning and declared ordering;
+- hash-chain validity;
+- reducer/projection canonical state;
+- idempotency, stale-writer and corruption outcomes;
+- bounded Receipt proof fields;
+- bytes/hashes in exact authoritative-history import.
+
+Cross-profile evidence promotes exactly:
 
 ```text
-SUPPORTED:   41
-PARTIAL:     13
-UNSUPPORTED: 18
-FAILED:       0
+NK-SEM-008
+NK-ID-008
+NK-EQV-002
+NK-EQV-003
 ```
 
-Every `SUPPORTED` or `PARTIAL` result references one or more passed checks and states limitations. Missing, duplicate, unknown or untraceable results fail validation.
+All `NK-EPI-001…008` remain `UNSUPPORTED / PROPOSED`.
 
-All `NK-EPI-001…008` assertions remain `UNSUPPORTED` because their registry decision remains `PROPOSED`.
-
-### C1 / C2 boundary
-
-- `C1 / LOCALLY_TESTED` — commands and failures were exercised locally;
-- `C2 / REPOSITORY_REPRODUCED` — the exact implementation/environment was reproduced in repository CI with artifacts;
-- `C3` — requires a materially independent second profile and comparison evidence.
-
-The report remains:
+## ✅ Initial P5 repository evidence
 
 ```text
-support_state: PARTIAL
-kernel_runtime_conformance: C2
+Evidence head: d43a6ed28232e9fc8b62f84d9025386fb8bce6f7
+P5/C3 run:    31181341275 — PASS
+P4 run:       31181341370 — PASS
+P1 run:       31181341405 — PASS
+Fixtures:     31181340889 — PASS
 ```
 
-This means C2 for the **41 supported results**, not full support for the profile.
-
-## ✅ Initial P4 repository evidence
-
-Evidence head:
+Matrix:
 
 ```text
-93710131fffdea7d9a586cc05e7f258c07fae707
+Python 3.11 / PostgreSQL 16 / SQLite 3.45.1 — PASS
+Python 3.11 / PostgreSQL 18 / SQLite 3.45.1 — PASS
+Python 3.12 / PostgreSQL 16 / SQLite 3.45.1 — PASS
+Python 3.12 / PostgreSQL 18 / SQLite 3.45.1 — PASS
 ```
 
-Workflow:
+Each environment retains one artifact containing:
 
 ```text
-P4 run 31175767586 — PASS
-Python 3.11 / PostgreSQL 16 — PASS
-Python 3.11 / PostgreSQL 18 — PASS
-Python 3.12 / PostgreSQL 16 — PASS
-Python 3.12 / PostgreSQL 18 — PASS
-P1/P2/P3 regressions — PASS
-4 JSON evidence artifacts — retained
+postgresql-p4-report.json
+sqlite-p5-report.json
+c3-equivalence-report.json
 ```
 
-Each P4 matrix job generated and validated a C2 report, ran the P1–P3 regression suites, compiled the implementation and uploaded a profile-specific artifact.
+One archive was downloaded and inspected independently. It contained all three reports, exact SHA/run/version metadata, all 72 results and eight passed cross-profile checks.
 
-Exact artifact digests and limitations are recorded in [`docs/ai/P4_IMPLEMENTATION_RECORD.md`](./docs/ai/P4_IMPLEMENTATION_RECORD.md).
-
-## 🚫 Explicitly absent
-
-```text
-P5 independent SQLite profile
-C3 cross-profile equivalence
-complete conflict subsystem
-physical/cryptographic deletion execution
-restore-before-visibility enforcement
-cross-project authority adapter
-truth/signature/notarization certification
-network API
-C4/C5
-production security/privacy/backup/HA/compliance guarantees
-```
+Exact digests and defect history are recorded in [`docs/ai/P5_IMPLEMENTATION_RECORD.md`](./docs/ai/P5_IMPLEMENTATION_RECORD.md).
 
 ## 🧬 Canon shape
 
@@ -237,39 +215,32 @@ production security/privacy/backup/HA/compliance guarantees
 | **Reducer** | Deterministically derives state from declared history/version |
 | **Projection** | Disposable read model derived from authoritative Events |
 | **Receipt** | Evidence for one declared operation with explicit limits |
-| **Evidence report** | Assertion-by-assertion support state and check traceability |
+| **Evidence report** | Assertion-by-assertion profile support and traceability |
+| **Equivalence report** | Assertion-by-assertion comparison across declared profiles |
 
-Accepted Event vocabulary remains deliberately small:
-
-```text
-ADMIT · LINK · UTILIZED · SUPERSEDED · ERASED
-```
-
-## 🐘 Clean profile lineage
+## 🚫 Explicitly absent
 
 ```text
-Profile ID:       native-kernel/postgresql-reference
-Profile version:  0.4-p4
-Evidence lineage: clean/postgresql-reference/0.1
+exhaustive equivalence proof
+PostgreSQL/SQLite operational equivalence
+complete conflict subsystem
+physical/cryptographic deletion execution
+restore-before-visibility enforcement
+cross-project authority adapter
+truth/signature/notarization certification
+network API
+C4/C5
+production security/privacy/backup/HA/compliance guarantees
 ```
 
-```text
-P0 — RFC and planning manifest                     COMPLETE
-P1 — semantic core                                MERGED
-P2 — PostgreSQL append/idempotency                 MERGED
-P3 — replay/projections/Receipts                   MERGED
-P4 — assertion-scoped conformance                  ACTIVE / PARTIAL / C2 EVIDENCE
-P5 — independent SQLite profile / C3 research      BLOCKED / SEPARATE GO
-```
-
-Read:
+## 🧭 Read next
 
 - [`STATUS.md`](./STATUS.md)
-- [`RFC-0002`](./docs/rfc/0002-postgresql-reference-profile-v0.md)
-- [`ADR-0018`](./docs/adr/0018-authorize-p4-assertion-scoped-conformance.md)
-- [`P4 implementation record`](./docs/ai/P4_IMPLEMENTATION_RECORD.md)
+- [`ADR-0019`](./docs/adr/0019-authorize-p5-sqlite-and-c3-equivalence.md)
+- [`P5 implementation record`](./docs/ai/P5_IMPLEMENTATION_RECORD.md)
 - [`Conformance model`](./docs/CONFORMANCE_MODEL.md)
-- [`Profile manifests`](./profiles/postgresql-reference-v0/)
+- [`Storage and execution profiles`](./docs/STORAGE_AND_EXECUTION_PROFILES.md)
+- [`P5 manifest`](./profiles/sqlite-embedded-v0/p5-manifest.json)
 
 ## ⚖️ Evidence and truth boundary
 
@@ -278,7 +249,8 @@ recorded history ≠ reality itself
 integrity commitment ≠ signature
 operator approval ≠ empirical evidence
 retrieval relevance ≠ truth
-C2 reproduction ≠ C3 equivalence
+C2 reproduction ≠ C3 comparison
+C3 comparison ≠ operational equivalence
 Receipt/report ≠ unlimited proof
 ```
 
@@ -289,10 +261,10 @@ Native Kernel does not automatically become the memory runtime or authority of o
 - **Titan** owns cognition, retrieval, tools and orchestration;
 - **Mentaury Soul** owns digital individuality and continuity;
 - **Crystal** owns verifiable-memory, evidence and grant-facing product boundaries;
-- **Native Kernel** owns neutral semantic memory/Event/evidence contracts and bounded implementation profiles.
+- **Native Kernel** owns neutral semantic memory/Event/evidence contracts and bounded profiles.
 
 Integration requires separate contracts, authority and evidence.
 
 ## 🧭 Next gate
 
-P5 and any C3 claim require a new explicit operator GO, a materially independent SQLite profile and declared semantic-equivalence comparison. P4 does not authorize that work.
+The current task is to finish documentation synchronization, repeat P5/C3 on one final exact PR head, inspect the final artifacts and merge PR #59. Any C4, C5, production, deletion-execution or ecosystem-integration work requires a separate explicit authorization.
