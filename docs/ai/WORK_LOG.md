@@ -4,16 +4,17 @@ This is a concise chronology and hand-off surface. Re-verify exact SHAs, runs an
 
 ---
 
-## 2026-08-07 — C4 offline shadow evaluation implemented; PR #62 open
+## 2026-08-07 — C4 offline shadow implementation merged; main evidence reproduced
 
 ```text
-Status:            PR OPEN / C4 PARTIAL / OFFLINE RECORDED-WORKLOAD SHADOW
+Status:            MERGED / C4 PARTIAL / OFFLINE RECORDED-WORKLOAD SHADOW
 Issue / PR:        #61 / #62
 Base main:         b10be105743355a04e58611639a9d28faf7ea514
-First evidence:    97abce685a68e24aec9afab451c009df5783b96b
+Final PR head:     b7786c088ef2cfd203c02625a5e0c40129cbf148
+Merge/main:        07bf1cc955307783f8eaa3becbaa924087b8b325
 ADR:               ADR-0020
 C5 / production:   NOT AUTHORIZED / NOT ESTABLISHED
-Notion impact:     GITHUB_AND_NOTION AFTER MERGE
+Notion impact:     GITHUB_AND_NOTION AFTER CHECKPOINT MERGE
 ```
 
 Authorized boundary:
@@ -40,7 +41,8 @@ Implemented:
 - complete 72-ID report with C4 limited to 45 C3-supported assertions;
 - strict validators and anti-overclaim tests;
 - 4× C4 matrix producing P4, P5, C3 and C4 reports;
-- P1–P5 regressions in every C4 job.
+- P1–P5 regressions in every C4 job;
+- C4-aware public, AI continuity, governance, contract, profile and tooling documentation.
 
 Approved dataset:
 
@@ -51,37 +53,38 @@ cases:           15
 assertion scope: 45 / 45 C3-supported assertions
 ```
 
-### Bootstrap evidence
+### Delivery and defect evidence
 
-The first single-file connector payload was truncated and failed with `base64: invalid input`; no source evidence was claimed from that run.
+The first monolithic connector payload was truncated and failed with `base64: invalid input`; no source evidence was claimed from that run.
 
-The payload was replaced by six individually hashed parts plus a final archive digest. Bootstrap run `31187117717` passed:
+The payload was replaced by six individually hashed parts plus final archive digest `c7895b487762853f3236e30cff5c69db1f9482a5ef360f7d29f2b5ce582e5066`. Bootstrap run `31187117717` passed all hashes, 19 C4 tests, manifest validation, compileall and source publication. Temporary bootstrap files/workflow were removed before review.
 
-- six part digests;
-- final archive SHA-256 `c7895b487762853f3236e30cff5c69db1f9482a5ef360f7d29f2b5ce582e5066`;
-- archive listing/extraction;
-- 19 C4 tests;
-- manifest validation;
-- compileall;
-- source publication.
+The first genuine matrix run `31187288110` exposed a test that inherited CI evidence environment variables. The test was isolated without weakening evaluator or validator requirements.
 
-Temporary bootstrap files and workflow were removed before the executable PR head.
+A stale root package marker still claimed P3 and was corrected to `0.6.0-c4`.
 
-### First genuine matrix defect
-
-Run `31187288110` failed in all four environments before prerequisite report generation. The test `test_repository_metadata_is_required_when_requested` inherited repository evidence environment variables from CI and incorrectly expected a local report.
-
-The test was isolated from ambient environment state. Evaluator and validator requirements were not weakened.
-
-### First complete repository evidence
+### Exact final-head evidence
 
 ```text
-Evidence head: 97abce685a68e24aec9afab451c009df5783b96b
-C4 run:       31187532364 — PASS
-P5/C3 run:    31187532391 — PASS
-P4 run:       31187532618 — PASS
-P1 run:       31187532346 — PASS
-Fixtures:     31187532580 — PASS
+Final head:    b7786c088ef2cfd203c02625a5e0c40129cbf148
+C4 run:        31189149796 — PASS
+P5/C3 run:     31189149627 — PASS
+P4 run:        31189149839 — PASS
+P1 run:        31189149436 — PASS
+Fixtures:      31189149449 — PASS
+AI context:    31189149274 — PASS
+```
+
+### Exact implementation-main evidence
+
+```text
+Main:          07bf1cc955307783f8eaa3becbaa924087b8b325
+C4 run:        31189474449 — PASS
+P5/C3 run:     31189474409 — PASS
+P4 run:        31189474739 — PASS
+P1 run:        31189474300 — PASS
+Fixtures:      31189474351 — PASS
+AI context:    31189474423 — PASS
 ```
 
 Matrix:
@@ -93,25 +96,16 @@ Python 3.12 / PostgreSQL 16 / SQLite 3.45.1 — PASS
 Python 3.12 / PostgreSQL 18 / SQLite 3.45.1 — PASS
 ```
 
-Each artifact contains:
+Main-bound artifact digests:
 
 ```text
-postgresql-p4-report.json
-sqlite-p5-report.json
-c3-equivalence-report.json
-c4-shadow-report.json
+py3.11/pg16 sha256:3e58a0ea73445d99a94c1e6b7c637640b9852e20b0a71a47f243a14e49995e44
+py3.11/pg18 sha256:14cd00c605d247873ff4ae58b3e8d884b6a3e986f13c1f47e0665eee5e33cb9e
+py3.12/pg16 sha256:08e1ecccc2679a7ce7bc8fadf43a9586794696b08f8f549f9350d8c658cc160f
+py3.12/pg18 sha256:4f890220eb7b1aed36aab74e4aedf4b6e6a4bd71dcc81534a6fe546ae9c75fd6
 ```
 
-Artifact digests:
-
-```text
-py3.11/pg16 sha256:59cf39e6cbd3e8c95157676cc3fd838687d5911676b227681efd6c83a7f36e90
-py3.11/pg18 sha256:9d4f828095285e479e1a95b87523fbaa800068f82a75cbbefb5f2d736e952032
-py3.12/pg16 sha256:f85e29688a0176c168067fb8ed6f889550342c6faffcb4dc7d391715ea5364d4
-py3.12/pg18 sha256:6892bc2ab7232c96124d4d207aacf06385f8b2ff6a3ea91097d1db6c2e834328
-```
-
-One artifact was downloaded and inspected:
+One main-bound artifact was downloaded and inspected:
 
 ```text
 15 / 15 cases matched
@@ -126,6 +120,8 @@ status: PASS
 support_state: PARTIAL
 ```
 
+Its inspected Receipt recorded no authority promotion, authoritative write or side effect.
+
 ```text
 C4 PASS for one approved recorded dataset
 ≠ live production shadowing
@@ -137,22 +133,17 @@ C4 PASS for one approved recorded dataset
 ≠ production readiness
 ```
 
-Remaining work: public/AI documentation guard, exact final-head evidence, review, merge, main-bound checkpoint, Notion synchronization and Issue #61 closure.
+Remaining publication work: merge the docs-only checkpoint, reproduce checkpoint/main evidence, synchronize Notion and close Issue #61.
 
 ---
 
 ## 2026-08-07 — P5 SQLite and assertion-scoped C3 merged
 
 ```text
-Status:          MERGED / P5 PARTIAL / SQLITE C2 + CROSS-PROFILE C3
 Issue / PR:      #58 / #59
-Base main:       1dc493e9d23b99ee4bbf6015348599cd56f6cb56
 Final PR head:   6483c9a229aea7d49929745b7652e67f1c39949c
 Merge:           a8bb0ae232b977856730a1a4f21f977c1f69ca0a
 Checkpoint main: b10be105743355a04e58611639a9d28faf7ea514
-PostgreSQL:      native-kernel/postgresql-reference@0.4-p4
-SQLite:          native-kernel/sqlite-embedded@0.5-p5
-ADR:             ADR-0019
 ```
 
 ```text
@@ -161,60 +152,17 @@ Cross-profile C3:  45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED / 0 FAILED
 support_state:     PARTIAL
 ```
 
-Implemented a materially independent stdlib SQLite profile, complete profile reports and a separate `nk-equivalence-report/1` comparator. Cross-profile evidence promoted only `NK-SEM-008`, `NK-ID-008`, `NK-EQV-002` and `NK-EQV-003`. All `NK-EPI-001…008` remained proposed and unsupported.
-
-### Final publication evidence
-
-```text
-PR-head P5/C3: 31182711376 — PASS
-Main P5/C3:    31183074126 — PASS
-Checkpoint:    b10be105743355a04e58611639a9d28faf7ea514
-```
-
-A final-head archive and a main-bound archive were each inspected. Both contained PostgreSQL P4, SQLite P5 and C3 reports with all 72 assertions, map `45/10/17/0` and eight passed comparison checks.
+Implemented a materially independent stdlib SQLite profile, complete profile reports and a separate `nk-equivalence-report/1` comparator. All `NK-EPI-001…008` remained proposed and unsupported.
 
 ---
 
-## 2026-08-07 — P4 assertion-scoped conformance merged
+## Earlier implementation phases
 
 ```text
-Issue / PR:    #55 / #56
-Final PR head: 0e7adf71475d37d5c096718762cbc08086c5e465
-Merge:         db6d65f69f7fc0c42861e5ab45869ec9c2f3d8ad
-Checkpoint:    1dc493e9d23b99ee4bbf6015348599cd56f6cb56
-ADR:           ADR-0018
-```
-
-PostgreSQL P4 added complete 72-ID evidence reporting with `41/13/18/0` and assertion-scoped C2.
-
----
-
-## 2026-08-07 — P3 replay/projections/Receipts merged
-
-```text
-Issue / PR: #49 / #50
-Merge:      4af642930e18752f8f8b0bce75df355f76100d6f
-ADR:        ADR-0017
-```
-
----
-
-## 2026-08-07 — P2 PostgreSQL append/idempotency merged
-
-```text
-Issue / PR: #46 / #47
-Merge:      113452a365890bf6c143d76657b810be59530ed4
-ADR:        ADR-0016
-```
-
----
-
-## 2026-08-06 — P1 semantic core merged
-
-```text
-Issue / PR: #43 / #44
-Merge:      9fd608f3f1d2915b961644015eb6b5e1a93e84d3
-ADR:        ADR-0015
+P4 / PR #56 / merge db6d65f69f7fc0c42861e5ab45869ec9c2f3d8ad / ADR-0018
+P3 / PR #50 / merge 4af642930e18752f8f8b0bce75df355f76100d6f / ADR-0017
+P2 / PR #47 / merge 113452a365890bf6c143d76657b810be59530ed4 / ADR-0016
+P1 / PR #44 / merge 9fd608f3f1d2915b961644015eb6b5e1a93e84d3 / ADR-0015
 ```
 
 ---
