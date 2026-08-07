@@ -1,12 +1,11 @@
 # 📍 Native Kernel Current State Checkpoint
 
 **Verified:** 2026-08-07  
-**Last verified public `main`:** `bb94835ad612f45e2629655bc9add872d8981357`  
-**Active branch / PR:** `agent/p2-postgresql-append` / #47  
-**Active issue:** #46  
+**Last verified public `main`:** `113452a365890bf6c143d76657b810be59530ed4`  
+**Latest implementation:** PR #47 — P2 PostgreSQL authoritative append/idempotency  
 **Repository status:** `RESEARCH / P2 PARTIAL IMPLEMENTATION / NOT PRODUCTION-READY`
 
-> Context checkpoint ≠ automatically current main. Verify exact final PR head, review state and merge SHA.
+> Context checkpoint ≠ automatically current main. Re-check repository ref, exact workflow evidence and later PRs.
 
 ```text
 NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GLOBALLY_LOST
@@ -20,14 +19,42 @@ C1 ≠ C2 ≠ C3
 ```text
 RFC-0002:              ACCEPTED / APPROVED
 P1 semantic core:      MERGED
-P2 PostgreSQL adapter: AUTHORIZED / REPOSITORY-TESTED
+P2 PostgreSQL adapter: AUTHORIZED / MERGED / REPOSITORY-TESTED
 P3–P5:                 REQUIRE SEPARATE GO
 Issue #1 / #18:        ACTIVE / INDEPENDENT
 ```
 
-Decision evidence: Issue #46 and ADR-0016.
+## Exact P2 publication
 
-## P2 implementation
+```text
+PR:             #47
+Base main:      bb94835ad612f45e2629655bc9add872d8981357
+Final PR head:  36ddb1d0342914f0c06fe7f31171bac06565ee72
+Merge SHA:      113452a365890bf6c143d76657b810be59530ed4
+Changed files:  31
+Review threads: 0 unresolved
+Reviews:        0
+Codex review:   unavailable due external usage limit
+```
+
+## Repository evidence
+
+```text
+P2 run 31152380799 — PASS
+3.11 / PG16 — PASS
+3.11 / PG18 — PASS
+3.12 / PG16 — PASS
+3.12 / PG18 — PASS
+AI context run 31152380802 — PASS
+P1 semantic core run 31152380832 — PASS
+Fixture integrity run 31152380800 — PASS
+```
+
+Every P2 matrix job passed 9 unit tests, 5 PostgreSQL integration tests, 5 manifest tests, validator and compileall.
+
+No push-to-main workflow run was created for merge `113452a3…`; this remains `NOT_RECORDED` and does not negate the exact final-head PR evidence.
+
+## Merged P2 package
 
 ```text
 native_kernel.postgresql_profile
@@ -36,7 +63,7 @@ Psycopg >=3.3,<3.4
 Python >=3.11,<3.13
 ```
 
-Components:
+Implemented components:
 
 1. lazy driver boundary;
 2. checksum-locked migrations;
@@ -46,25 +73,9 @@ Components:
 6. scoped idempotency `(instance, command contract, key)`;
 7. rollback-safe global/stream counters;
 8. canonical payload/envelope storage and `nkp1`/`nke1` commitments;
-9. corruption checks for idempotent original-result reads;
-10. P2 manifest/validator and declared repository matrix.
+9. corruption checks for original-result reads.
 
-## Repository evidence
-
-Evidence head: `e80492bcacde2ff2be3a2ee03aa5aa53a714d288`.
-
-```text
-P2 run 31151297646 — PASS
-3.11 / PG16 — PASS
-3.11 / PG18 — PASS
-3.12 / PG16 — PASS
-3.12 / PG18 — PASS
-AI context run 31151298002 — PASS
-P1 semantic core run 31151297696 — PASS
-Fixture integrity run 31151298177 — PASS
-```
-
-Each P2 job passed 9 unit tests, 5 PostgreSQL integration tests, 5 manifest tests, validator and compileall.
+## Evidence boundary
 
 ```text
 P2 PostgreSQL integration: REPOSITORY_REPRODUCED
@@ -72,24 +83,14 @@ Kernel runtime conformance: UNSUPPORTED
 C1/C2/C3:                  NOT_ESTABLISHED
 ```
 
-## Documentation-depth review
-
-The original README, RFC, ADR status guide, component map, risk history and work-log chronology were preserved. P2 was added as a new layer rather than replacing accumulated architecture/governance context.
-
-## Final-head validation rule
-
-The final evidence commit changes this checkpoint and `p2-manifest.json` together. P2 and AI-context workflows must both pass on that same exact PR head before merge. A successful earlier run remains evidence for its own SHA but is not silently treated as the final-head result.
-
-## Boundaries
-
 P2 does not provide projections/rebuild, replay/upcasters, operational Receipts, deletion execution, network API, P4 conformance, P5 SQLite, production guarantees or ecosystem wiring.
 
-`profile-manifest.json`, `p1-manifest.json` and `p2-manifest.json` are distinct phase records. All 72 assertion statuses remain `UNSUPPORTED` until P4.
+All 72 assertion statuses remain `UNSUPPORTED` until P4.
 
 ## Next gates
 
-1. run P2 and AI-context workflows on the same final PR head;
-2. inspect full diff and review threads;
-3. merge only with no P3/P4/P5 or ecosystem drift;
-4. record exact merge and post-merge workflow evidence;
-5. keep P3 blocked pending separate GO.
+1. merge the post-P2 checkpoint;
+2. synchronize final GitHub evidence to Notion;
+3. close Issue #46 as completed P2 scope;
+4. keep P3 blocked pending separate GO;
+5. preserve Issue #1 and Issue #18 independently.

@@ -4,18 +4,20 @@ This is a concise chronology and hand-off surface. Re-verify exact SHAs and evid
 
 ---
 
-## 2026-08-07 — P2 PostgreSQL append/idempotency implemented and repository-tested
+## 2026-08-07 — P2 PostgreSQL append/idempotency merged
 
 ```text
-Status:          PR OPEN / P2 PARTIAL / REPOSITORY-INTEGRATION-TESTED
+Status:          MERGED / P2 PARTIAL / REPOSITORY-INTEGRATION-TESTED
 Issue:           #46
 PR:              #47
 Base main:       bb94835ad612f45e2629655bc9add872d8981357
-Evidence head:   e80492bcacde2ff2be3a2ee03aa5aa53a714d288
+Final PR head:   36ddb1d0342914f0c06fe7f31171bac06565ee72
+Merge SHA:       113452a365890bf6c143d76657b810be59530ed4
+Changed files:   31
 Profile:         native-kernel/postgresql-reference@0.2-p2
 Evidence line:   clean/postgresql-reference/0.1
 ADR:             ADR-0016
-P2:              AUTHORIZED
+P2:              MERGED
 P3–P5:           NOT AUTHORIZED
 Notion impact:   GITHUB_AND_NOTION
 ```
@@ -43,26 +45,41 @@ Implemented:
 - rollback-safe global/stream counters;
 - canonical payload/envelope bytes and `nkp1`/`nke1` commitments;
 - stored-event consistency checks;
-- P2 manifest/validator and repository workflow.
+- P2 manifest/validator and repository workflow;
+- bilingual RFC, ADR, README and AI-continuity synchronization.
 
-Repository evidence:
+Final-head repository evidence:
 
 ```text
-P2 run 31151297646 — PASS
+P2 run 31152380799 — PASS
 Python 3.11 / PostgreSQL 16 — PASS
 Python 3.11 / PostgreSQL 18 — PASS
 Python 3.12 / PostgreSQL 16 — PASS
 Python 3.12 / PostgreSQL 18 — PASS
-AI context run 31151298002 — PASS
-P1 semantic core run 31151297696 — PASS
-Fixture integrity run 31151298177 — PASS
+AI context run 31152380802 — PASS
+P1 semantic core run 31152380832 — PASS
+Fixture integrity run 31152380800 — PASS
 ```
 
 Each P2 matrix job passed 9 unit tests, 5 PostgreSQL integration tests, 5 manifest tests, validator and compileall.
 
-The first PR head exposed a stale P1 marker in the AI-context validator. The validator and regression test were updated; the next evidence head passed AI-context on Python 3.11/3.12.
+Review evidence:
 
-Manual documentation review also found over-compression of the README, RFC and component map. Their original architecture/navigation depth was restored, then P2 was added as a new layer rather than replacing historical context.
+```text
+unresolved review threads: 0
+submitted reviews:          0
+Codex review:               unavailable due usage limit
+merge method:               squash with expected head
+```
+
+Two quality defects were found and corrected before merge:
+
+1. the AI-context validator still required the old P1 maturity marker;
+2. an anti-overclaim test became stale after the manifest legitimately moved to repository PASS.
+
+A documentation-depth review also restored the accumulated README, RFC, ADR guide, component map, risk history and work-log chronology before adding P2 as a new layer.
+
+No push-to-main workflow run was recorded for merge `113452a3…`; this is recorded as `NOT_RECORDED`, not PASS.
 
 ```text
 P2 PostgreSQL integration PASS
@@ -75,13 +92,12 @@ P2 PostgreSQL integration PASS
 
 All 72 assertion statuses remain `UNSUPPORTED` until P4.
 
-Remaining work in this cycle:
+Next gates:
 
-1. pass P2 and AI-context checks on one final PR head;
-2. inspect full diff, comments and review threads;
-3. merge only with P3/P4/P5 scope absent;
-4. record final merge/main SHA in GitHub and Notion;
-5. close Issue #46 and keep P3 blocked.
+1. merge the post-P2 continuity checkpoint;
+2. synchronize final main SHA to Notion and close Issue #46;
+3. keep P3 blocked pending separate operator GO;
+4. preserve Issue #1 and Issue #18 independently.
 
 ---
 
