@@ -1,0 +1,141 @@
+name: C4 offline shadow evaluation
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/c4-offline-shadow.yml"
+      - "contracts/**"
+      - "native_kernel/**"
+      - "profiles/shadow-evaluation-v0/**"
+      - "profiles/sqlite-embedded-v0/**"
+      - "profiles/postgresql-reference-v0/**"
+      - "tests/test_c4_*.py"
+      - "tests/c4_test_support.py"
+      - "tests/test_p5_*.py"
+      - "tools/conformance/**"
+      - "tools/profiles/validate_c4_manifest.py"
+      - "docs/**"
+      - "README.md"
+      - "README.ru.md"
+      - "STATUS.md"
+      - "AGENTS.md"
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/c4-offline-shadow.yml"
+      - "contracts/**"
+      - "native_kernel/**"
+      - "profiles/shadow-evaluation-v0/**"
+      - "profiles/sqlite-embedded-v0/**"
+      - "profiles/postgresql-reference-v0/**"
+      - "tests/test_c4_*.py"
+      - "tests/c4_test_support.py"
+      - "tests/test_p5_*.py"
+      - "tools/conformance/**"
+      - "tools/profiles/validate_c4_manifest.py"
+      - "docs/**"
+      - "README.md"
+      - "README.ru.md"
+      - "STATUS.md"
+      - "AGENTS.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  c4-shadow:
+    name: c4-shadow (py${{ matrix.python }}, pg${{ matrix.postgresql }})
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.11", "3.12"]
+        postgresql: ["16", "18"]
+    services:
+      postgres:
+        image: postgres:${{ matrix.postgresql }}
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: native_kernel_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d native_kernel_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 12
+    env:
+      NK_TEST_POSTGRES_DSN: postgresql://postgres:postgres@127.0.0.1:5432/native_kernel_test
+      NK_TEST_SQLITE_PATH: artifacts/c4-shadow.db
+      NK_CONFORMANCE_LEVEL: C4
+      NK_EVIDENCE_LEVEL: REPOSITORY_REPRODUCED_OFFLINE_SHADOW
+      NK_EVIDENCE_COMMIT: ${{ github.event.pull_request.head.sha || github.sha }}
+      NK_EVIDENCE_RUN_ID: ${{ github.run_id }}
+      NK_PYTHON_VERSION: ${{ matrix.python }}
+      NK_POSTGRESQL_VERSION: ${{ matrix.postgresql }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install PostgreSQL integration driver
+        run: python -m pip install --upgrade pip -r profiles/postgresql-reference-v0/requirements-p2-ci.txt
+      - name: Record SQLite version
+        run: echo "NK_SQLITE_VERSION=$(python -c 'import sqlite3; print(sqlite3.sqlite_version)')" >> "$GITHUB_ENV"
+      - name: C4 unit, validator and manifest guards
+        run: |
+          python -m unittest discover -s tests -p 'test_c4_shadow_evaluation.py' -v
+          python -m unittest discover -s tests -p 'test_c4_report_validator.py' -v
+          python -m unittest discover -s tests -p 'test_c4_manifest.py' -v
+          python tools/profiles/validate_c4_manifest.py
+      - name: Generate exact P4, P5 and C3 prerequisite reports
+        run: |
+          mkdir -p artifacts
+          rm -f "$NK_TEST_SQLITE_PATH" artifacts/p5-c3-behaviour.db artifacts/p5-c3-import.db
+          NK_CONFORMANCE_LEVEL=C2 NK_EVIDENCE_LEVEL=REPOSITORY_REPRODUCED \
+            python tools/conformance/runner.py adapter \
+            --output artifacts/postgresql-p4-report.json \
+            -- python tools/conformance/postgresql_profile_adapter.py
+          rm -f "$NK_TEST_SQLITE_PATH"
+          NK_CONFORMANCE_LEVEL=C2 NK_EVIDENCE_LEVEL=REPOSITORY_REPRODUCED \
+            python tools/conformance/runner.py adapter \
+            --output artifacts/sqlite-p5-report.json \
+            -- python tools/conformance/sqlite_profile_adapter.py
+          python tools/conformance/validate_p5_report.py sqlite artifacts/sqlite-p5-report.json --require-repository
+          rm -f "$NK_TEST_SQLITE_PATH" artifacts/p5-c3-behaviour.db artifacts/p5-c3-import.db
+          NK_CONFORMANCE_LEVEL=C3 NK_EVIDENCE_LEVEL=REPOSITORY_REPRODUCED \
+            python tools/conformance/cross_profile_comparator.py contracts/fixture-pack.json \
+            > artifacts/c3-equivalence-report.json
+          python tools/conformance/validate_p5_report.py c3 artifacts/c3-equivalence-report.json --require-repository
+      - name: Evaluate approved offline shadow workload
+        run: |
+          python tools/conformance/offline_shadow_evaluator.py \
+            contracts/shadow-workload-v1.json \
+            artifacts/c3-equivalence-report.json \
+            > artifacts/c4-shadow-report.json
+          python tools/conformance/validate_c4_report.py \
+            artifacts/c4-shadow-report.json --require-repository
+      - name: P1-P5 regressions
+        run: |
+          python -m unittest discover -s tests -p 'test_semantic_core.py' -v
+          python -m unittest discover -s tests -p 'test_postgresql_profile_unit.py' -v
+          python -m unittest discover -s tests -p 'test_p3_semantic.py' -v
+          python -m unittest discover -s tests -p 'test_p4_conformance_unit.py' -v
+          python -m unittest discover -s tests -p 'test_p5_cross_profile_integration.py' -v
+          python -m unittest discover -s tests -p 'test_p5_report_validator.py' -v
+          python tools/profiles/validate_p5_manifest.py
+      - name: Compile implementation and tooling
+        run: python -m compileall -q native_kernel tools/conformance tools/profiles
+      - name: Upload C4 evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: c4-shadow-evidence-py${{ matrix.python }}-pg${{ matrix.postgresql }}
+          path: |
+            artifacts/postgresql-p4-report.json
+            artifacts/sqlite-p5-report.json
+            artifacts/c3-equivalence-report.json
+            artifacts/c4-shadow-report.json
+          if-no-files-found: error
+          retention-days: 30
