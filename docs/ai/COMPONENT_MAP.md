@@ -6,21 +6,23 @@ Use exact SHAs, statuses and evidence. Code presence is not complete profile con
 
 | Surface | Role | Authority / caution |
 |---|---|---|
-| `README.md` / `README.ru.md` | Public overview and maturity | Must state `P2 PARTIAL`, not full Kernel |
+| `README.md` / `README.ru.md` | Public overview and maturity | Must state `P3 PARTIAL`, not full Kernel |
 | `STATUS.md` | Authoritative current implementation/evidence boundary | Verify exact branch/main SHA |
 | `ARCHITECTURE.md` | Canon shape and invariants | Architecture, not runtime proof |
 | `docs/contracts/NORMATIVE_CONTRACTS_V1*` | Accepted identity/event/deletion/fixture contracts | Full profile support not established |
 | `contracts/*.json` | Registry, schemas and fixtures | 72 assertion IDs; P4 absent |
-| `docs/rfc/0002-*` | Accepted clean PostgreSQL profile | P2 integration repository-reproduced |
+| `docs/rfc/0002-*` | Accepted clean PostgreSQL profile | P1–P3 implementation contract |
 | `docs/adr/0015-*` | Clean lineage and P1 authorization | Approval, not conformance |
-| `docs/adr/0016-*` | P2 profile/transaction decision | Bounded P2 evidence only |
+| `docs/adr/0016-*` | P2 append/idempotency decision | Bounded P2 evidence only |
+| `docs/adr/0017-*` | P3 replay/projection/Receipt decision | Bounded P3 evidence only |
 | `profiles/postgresql-reference-v0/profile-manifest.json` | Historical P0 proposal snapshot | Intentionally historical |
 | `profiles/postgresql-reference-v0/p1-manifest.json` | P1 implementation/evidence record | Runtime conformance `UNSUPPORTED` |
-| `profiles/postgresql-reference-v0/p2-manifest.json` | P2 integration evidence record | P3/P4/C1 absent |
-| `native_kernel/semantic_core/` | Bounded P1 implementation | No durable profile by itself |
-| `native_kernel/postgresql_profile/` | Bounded P2 PostgreSQL implementation | No replay/projections/conformance |
-| `tools/profiles/validate_p2_manifest.py` | P2 anti-overclaim guard | Rejects false promotion |
-| `.github/workflows/p2-postgresql.yml` | PostgreSQL/Python matrix | Only exact runs are evidence |
+| `profiles/postgresql-reference-v0/p2-manifest.json` | P2 append integration record | P3/P4/C-levels not inferred |
+| `profiles/postgresql-reference-v0/p3-manifest.json` | P3 replay/projection/Receipt record | P4/P5/C-levels not inferred |
+| `native_kernel/semantic_core/` | P1 semantics + P3 standard-library helpers | No durable profile by itself |
+| `native_kernel/postgresql_profile/` | Bounded P2/P3 PostgreSQL profile | No physical deletion/conformance/production claim |
+| `tools/profiles/validate_p3_manifest.py` | P3 anti-overclaim guard | Rejects false promotion and missing Receipt limits |
+| `.github/workflows/p3-replay-projections.yml` | P3 PostgreSQL/Python matrix + P2 regression | Only exact runs are evidence |
 | `docs/ai/*` | Current state, risks, routes and work log | Orientation plus exact evidence references |
 
 ## Architecture-to-runtime route
@@ -36,18 +38,20 @@ P1 profile-independent semantic core
         ↓
 ADR-0016 + Issue #46
         ↓
-P2 PostgreSQL append/idempotency profile
+P2 PostgreSQL append/idempotency
         ↓
-separate P3 operator GO
+ADR-0017 + Issue #49
         ↓
-future replay/projections/operational Receipts
+P3 persisted replay + disposable projections + bounded Receipts
         ↓
-P4 conformance adapter and exact assertion evidence
+separate P4 operator GO
         ↓
-independent second profile before C3
+assertion-scoped conformance adapter
+        ↓
+separate P5 operator GO and independent second profile before C3
 ```
 
-## P1 component ownership
+## P1/P3 semantic-helper ownership
 
 ```text
 native_kernel.semantic_core
@@ -71,18 +75,24 @@ native_kernel.semantic_core
 │   ├── global/stream sequence checks
 │   └── immutable sorted SemanticState
 │
-├── deletion.py
-│   ├── accepted transition graph
-│   └── DeletionReceipt proof limits
+├── state_codec.py
+│   └── canonical SemanticState reconstruction and form check
 │
-├── receipt.py
-│   └── AdmissionReceipt proof limits
+├── upcasting.py
+│   ├── explicit one-successor UpcastStep registry
+│   ├── missing/duplicate/cycle rejection
+│   └── deterministic target-schema routing
+│
+├── deletion.py / receipt.py
+│   └── semantic transitions and bounded P1 Receipts
 │
 └── errors.py
     └── explicit contract/authority/version/sequence failures
 ```
 
-## P2 component ownership
+The upcaster registry and state codec are standard-library helpers. Their Python structure is not Architecture Canon.
+
+## P2 authoritative append ownership
 
 ```text
 native_kernel.postgresql_profile
@@ -109,18 +119,50 @@ native_kernel.postgresql_profile
 │   ├── StoredEvent
 │   └── AppendResult
 │
-├── errors.py
-│   └── explicit lease/idempotency/migration/corruption failures
-│
 └── sql/0001_p2_authoritative_history.sql
-    ├── kernel_instances
-    ├── writer_leases
-    ├── stream_counters
-    ├── events
+    ├── kernel_instances / writer_leases
+    ├── stream_counters / events
     └── idempotency_records
 ```
 
-SQL tables and indexes are profile details, not Canon.
+## P3 replay/projection ownership
+
+```text
+native_kernel.postgresql_profile
+│
+├── history.py
+│   ├── repeatable-read read-only snapshot
+│   ├── instance-head/Event-count consistency
+│   ├── P2 stored-event verification
+│   ├── GENESIS → nke1 chain verification
+│   ├── UpcasterRegistry routing
+│   └── P1 reduction from empty
+│
+├── replay.py
+│   ├── PostgreSQLReplayProjector
+│   ├── Replay Receipt publication
+│   ├── projection read/destroy/rebuild
+│   ├── locked head comparison
+│   └── atomic Receipt + projection publication
+│
+├── replay_models.py
+│   ├── ReplaySnapshot
+│   ├── OperationalReceipt
+│   ├── StoredProjection
+│   └── Replay/ProjectionRebuild results
+│
+├── receipt_store.py
+│   ├── mandatory proof limitations
+│   ├── canonical Receipt bytes
+│   ├── provisional nkr0 profile commitment
+│   └── Receipt reload/corruption checks
+│
+└── sql/0002_p3_replay_projection_receipts.sql
+    ├── operation_receipts
+    └── projections
+```
+
+SQL tables, indexes, generation allocation and locking are PostgreSQL profile details, not Canon.
 
 ## Stable contract families
 
@@ -134,52 +176,42 @@ NK-EQV — conformance and semantic equivalence
 NK-EPI — proposed epistemic fixture family
 ```
 
-P1/P2 implement selected code paths across accepted families but do not claim complete assertion-level support through the evidence-report protocol.
+P1–P3 implement selected paths across accepted families but do not claim complete assertion-level support through the evidence-report protocol.
 
-## P1 evidence route
-
-Read in order:
-
-1. Issue #43;
-2. ADR-0015;
-3. RFC-0002;
-4. `native_kernel/semantic_core/README.md`;
-5. source modules;
-6. `tests/test_semantic_core.py`;
-7. `p1-manifest.json`;
-8. P1 validator/tests;
-9. exact P1 workflow evidence.
-
-## P2 evidence route
+## P3 evidence route
 
 Read in order:
 
-1. Issue #46;
-2. ADR-0016;
+1. Issue #49;
+2. ADR-0017;
 3. RFC-0002;
 4. `native_kernel/postgresql_profile/README.md`;
-5. SQL migration and source modules;
-6. unit/integration tests;
-7. `p2-manifest.json` and validator;
-8. `.github/workflows/p2-postgresql.yml`;
-9. exact run/jobs/logs for the PR head.
+5. `upcasting.py`, `state_codec.py`, `history.py`, `replay.py`, `receipt_store.py`, `replay_models.py`;
+6. migration `0002_p3_replay_projection_receipts.sql`;
+7. `tests/test_p3_semantic.py`;
+8. `tests/test_p3_postgresql_integration.py`;
+9. `p3-manifest.json`, validator and tests;
+10. `.github/workflows/p3-replay-projections.yml`;
+11. exact run/jobs/logs for the final PR head.
 
-Recorded repository evidence:
+Initial executable-head evidence:
 
 ```text
-P2 run 31151297646 — PASS
-Python 3.11 / PostgreSQL 16 — PASS
-Python 3.11 / PostgreSQL 18 — PASS
-Python 3.12 / PostgreSQL 16 — PASS
-Python 3.12 / PostgreSQL 18 — PASS
-AI context run 31151298002 — PASS
+head 0f8fd4ffe5d5fb0d4bc01f3e441a053f691dbba3
+P3 run 31171581859 — PASS
+PostgreSQL 16/18 × Python 3.11/3.12 — PASS
+P2 regression run 31171581795 — PASS
+P1 run 31171581787 — PASS
+fixture run 31171581791 — PASS
 ```
 
 Required interpretation:
 
 ```text
-P2 integration PASS
-≠ replay/projection runtime
+P3 integration PASS
+≠ complete Kernel runtime
+≠ truth or external authenticity
+≠ physical deletion
 ≠ assertion-level conformance
 ≠ C1/C2/C3
 ≠ production guarantee
@@ -190,7 +222,7 @@ P2 integration PASS
 Start with `STATUS.md`, Issue #1, import specs, `docs/source-recovery/`, `tools/source_recovery/` and its isolated workflow.
 
 ```text
-clean P1/P2 implementation
+clean P1/P2/P3 implementation
 ≠ controlled v0.1.2.1 import
 ≠ recovered original tests
 ```
@@ -201,16 +233,15 @@ For fixture integrity use ADR-0014, registry/schema/fixture packs, `tools/confor
 
 P4 must emit all 72 assertion results exactly once. Until then runtime support remains `UNSUPPORTED`.
 
-## Storage route
-
-ADR-0009 accepts PostgreSQL as preferred full profile and SQLite as optional. P2 now implements the bounded PostgreSQL append/idempotency route.
+## Storage, replay and Receipt route
 
 ```text
-PostgreSQL profile owns persistence mechanics
-≠ PostgreSQL defines semantic architecture
+P2 events = authoritative recorded history for this profile
+P3 projection = disposable read model
+P3 Receipt = bounded evidence about one declared operation
 ```
 
-Replay reads, upcasters, projections and operational Receipts remain P3.
+Neither PostgreSQL persistence nor a Receipt establishes truth. P3 checks do not constitute signatures, complete Event Integrity or physical erasure evidence.
 
 ## World and epistemic boundary
 
@@ -222,18 +253,19 @@ observation ≠ explanation
 unknown ≠ false
 retrieval/model output ≠ admitted knowledge
 storage presence ≠ truth or authority
+Receipt evidence ≠ unlimited proof
 ```
 
-ADR-0008 and `NK-EPI-001…008` remain proposed and are not implemented by P2.
+ADR-0008 and `NK-EPI-001…008` remain proposed and are not promoted by P3.
 
 ## Ecosystem boundary
 
-- Native Kernel — semantic memory/event/replay contracts and bounded profiles;
+- Native Kernel — semantic memory/Event/replay/evidence contracts and bounded profiles;
 - Titan — cognition, retrieval, tools and orchestration;
 - Mentaury Soul — digital individuality and continuity;
 - Crystal — verifiable memory, evidence and audit.
 
-No P1/P2 component authorizes shared runtime, storage, identity or authority.
+No P1/P2/P3 component authorizes shared runtime, storage, identity or authority.
 
 ## Decision ownership
 
@@ -249,14 +281,15 @@ No P1/P2 component authorizes shared runtime, storage, identity or authority.
 | Task | Minimum route |
 |---|---|
 | P1 audit | Issue #43 → ADR-0015 → source → tests → manifest → workflow |
-| P2 audit | Issue #46 → ADR-0016 → SQL/source → unit/integration tests → manifest → exact matrix run |
+| P2 audit | Issue #46 → ADR-0016 → SQL/source → tests → manifest → exact matrix |
+| P3 audit | Issue #49 → ADR-0017 → replay source/migration → tests → manifest → exact matrix |
 | Identity | ADR-0011 → canonical.py → identity fixtures/tests |
-| Authority | NK-AUT contracts → authority.py → adapter authority call → Receipt tests |
-| Append/idempotency | ADR-0012 → adapter.py → SQL → integration tests |
-| Writer fencing | ADR-0016 → writer lease schema → adapter → lease tests |
-| Reducer | ADR-0012 → reducer.py → sequence/version tests |
-| Deletion | ADR-0013 → deletion.py → fixture/Receipt tests |
-| Future P3 | separate operator GO + new issue/PR |
-| Conformance | ADR-0014 → registry/runner → future P4 adapter |
+| Authority | NK-AUT contracts → authority.py → append authority call → Receipt tests |
+| Append/idempotency | ADR-0012 → adapter.py → SQL 0001 → P2 integration tests |
+| Replay/upcasting | ADR-0012/0017 → history.py/upcasting.py → P3 tests |
+| Projection rebuild | ADR-0017 → replay.py → SQL 0002 → stale/fault tests |
+| Operational Receipt | ADR-0017 → replay_models.py/receipt_store.py → corruption/overclaim tests |
+| Deletion | ADR-0013 → deletion.py → fixture/Receipt tests; physical execution absent |
+| P4 conformance | separate GO → ADR-0014 → registry/runner → future adapter |
 | Source candidate | Issue #1 import spec and provenance tooling |
 | Cross-project work | ecosystem/integration boundaries plus target-project governance |
