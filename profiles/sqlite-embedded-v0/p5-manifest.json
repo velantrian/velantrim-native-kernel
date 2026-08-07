@@ -1,0 +1,120 @@
+{
+  "manifest_version": "nk-p5-implementation-manifest/1",
+  "profile_id": "native-kernel/sqlite-embedded",
+  "profile_version": "0.5-p5",
+  "evidence_lineage": "clean/sqlite-embedded/0.1",
+  "comparison_profile_id": "native-kernel/postgresql-reference",
+  "comparison_profile_version": "0.4-p4",
+  "decision_record": "ADR-0019",
+  "decision_status": "ACCEPTED",
+  "operator_approval": "APPROVED",
+  "phase": "P5",
+  "implementation_status": "PARTIAL",
+  "evidence_report_protocol": "nk-evidence-report/1",
+  "equivalence_report_protocol": "nk-equivalence-report/1",
+  "contract_registry": "nk-contract-registry/1.1.0",
+  "sqlite_assertion_coverage": {
+    "total": 72,
+    "supported": 41,
+    "partial": 13,
+    "unsupported": 18,
+    "failed": 0,
+    "proposed_nk_epi_unsupported": 8
+  },
+  "c3_assertion_coverage": {
+    "total": 72,
+    "supported": 45,
+    "partial": 10,
+    "unsupported": 17,
+    "failed": 0,
+    "promoted_by_cross_profile_evidence": [
+      "NK-SEM-008",
+      "NK-ID-008",
+      "NK-EQV-002",
+      "NK-EQV-003"
+    ],
+    "proposed_nk_epi_unsupported": 8
+  },
+  "conformance_state": {
+    "sqlite_local_c1": "LOCALLY_TESTED",
+    "sqlite_repository_c2": "NOT_ESTABLISHED",
+    "cross_profile_c3": "NOT_ESTABLISHED",
+    "c4": "NOT_ESTABLISHED",
+    "c5": "NOT_ESTABLISHED",
+    "support_state": "PARTIAL"
+  },
+  "repository_evidence": {
+    "status": "NOT_RECORDED",
+    "head_sha": null,
+    "workflow_run_id": null,
+    "matrix": [],
+    "artifact_count": 0,
+    "artifact_retention_days": 30,
+    "p1_regression": "NOT_RECORDED",
+    "p2_regression": "NOT_RECORDED",
+    "p3_regression": "NOT_RECORDED",
+    "p4_regression": "NOT_RECORDED"
+  },
+  "equivalence_classes": {
+    "BYTE": "canonical identity vectors and exact imported Event bytes/hash chain",
+    "STRUCTURAL": "complete report/assertion shape and declared contract fields",
+    "SEMANTIC": "reduced state, projection state and Receipt proof boundaries",
+    "BEHAVIOURAL": "accepted/rejected commands, ordering and bounded outcomes"
+  },
+  "allowed_differences": [
+    "SQL dialect and schema/index layout",
+    "PostgreSQL server topology versus SQLite single-file embedding",
+    "PostgreSQL row locks versus SQLite BEGIN IMMEDIATE serialization",
+    "profile-local Event IDs and recorded-at timestamps for independently appended workloads",
+    "operational concurrency, IAM, network, failover and administration capabilities"
+  ],
+  "forbidden_differences": [
+    "canonical semantic identity vectors",
+    "command digest, idempotency outcomes and contiguous sequence semantics",
+    "normalized Event type, payload and order for the same workload",
+    "reducer state canonical bytes and digest",
+    "projection state and bounded Receipt proof fields",
+    "accepted/rejected command outcomes in declared comparison scenarios",
+    "exact imported authoritative Event bytes and hash-chain commitments"
+  ],
+  "implemented_components": [
+    "independent stdlib sqlite3 append and writer-fencing profile",
+    "SQLite replay, projection and bounded Receipt persistence",
+    "SQLite 72-assertion evidence adapter",
+    "PostgreSQL-to-SQLite exact history import",
+    "cross-profile equivalence comparator",
+    "strict SQLite and C3 report validation"
+  ],
+  "evidence_boundaries": [
+    "C3 applies only to assertion results marked SUPPORTED in the exact comparison report",
+    "PARTIAL and UNSUPPORTED assertions remain outside the supported C3 set",
+    "C3 semantic equivalence is not PostgreSQL and SQLite operational equivalence",
+    "no truth or external authenticity certification",
+    "no physical or cryptographic deletion evidence",
+    "no C4 C5 production security privacy compliance claim"
+  ],
+  "issue_1_boundary": {
+    "relationship": "INDEPENDENT",
+    "historical_lineage": null,
+    "may_claim_recovery": false,
+    "may_use_v0_1_2_1_name": false
+  },
+  "issue_18_boundary": {
+    "relationship": "INDEPENDENT",
+    "package_published": false,
+    "new_external_runtime_dependency": false
+  },
+  "forbidden_in_p5": [
+    "support claim for all 72 assertions",
+    "PostgreSQL and SQLite operational equivalence claim",
+    "physical or cryptographic deletion execution",
+    "truth or external authenticity certification",
+    "C4 or C5 claim",
+    "production durability security privacy backup HA or compliance guarantee",
+    "network API",
+    "Titan Mentaury or Crystal runtime wiring",
+    "v0.1.2.1 recovery claim",
+    "ADR-0008 or NK-EPI promotion"
+  ],
+  "next_gate": "Record exact repository C2 and C3 workflow/artifact evidence; C4/C5 and production remain separately gated"
+}
