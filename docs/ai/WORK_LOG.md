@@ -121,9 +121,71 @@ Issue #1:        ACTIVE / INDEPENDENT
 Notion impact:   GITHUB_AND_NOTION
 ```
 
-P1 introduced the standard-library semantic core: canonical identity, immutable domain objects, explicit authority, deterministic logical reduction, deletion/restriction semantics and Receipt overclaim guards.
+Technology choice:
 
-Exact final-content local evidence was 20 semantic tests, 4 manifest tests, 7 AI-context tests, compileall and manifest validation PASS. Repository workflow evidence was not recorded at that checkpoint.
+```text
+Python profile: >=3.11,<3.13
+standard library only
+package: native_kernel.semantic_core
+```
+
+This is a reversible implementation-profile choice, not Architecture Canon.
+
+Implemented:
+
+- canonical `nk-id/1.0` JSON/identity helpers;
+- immutable semantic content, Claim identity, command and logical Event models;
+- explicit deny-by-default local authority policy;
+- deterministic version-bound in-memory reducer;
+- deletion/restriction transition graph;
+- admission/deletion Receipt overclaim rejection;
+- explicit contract/authority/version/sequence/transition failures;
+- historical P0 and current P1 manifests kept separate;
+- P1 manifest validator and negative tests;
+- Python 3.11/3.12 workflow definition;
+- bilingual RFC, ADR, README and AI-continuity updates.
+
+Manual review hardening corrected:
+
+1. duplicated authority scope `stream:stream:*`;
+2. late enum/type failures;
+3. calendar-invalid UTC timestamps;
+4. boolean values accepted as integer sequences;
+5. malformed authority grants and Receipt identifiers/limits;
+6. malformed deletion-state/location evidence.
+
+Exact final-content local evidence:
+
+```text
+20 semantic-core tests PASS
+4 P1-manifest tests PASS
+7 AI-context validator tests PASS
+Python compileall PASS
+P1 manifest validator PASS
+local interpreter Python 3.13.5
+external dependencies NONE
+```
+
+Repository evidence at that checkpoint:
+
+```text
+PR #44 unresolved review threads: 0
+submitted reviews:               0
+Codex review:                    unavailable due usage limit
+PR-head workflow runs:           0 / NOT_RECORDED
+merge workflow runs:             0 / NOT_RECORDED
+```
+
+The declared profile range was Python 3.11/3.12. The local Python 3.13 result was an extra compatibility check, not declared-range repository evidence.
+
+```text
+P1 local PASS
+≠ PostgreSQL adapter
+≠ durable append/idempotency
+≠ authoritative replay
+≠ assertion-level conformance
+≠ C1/C2/C3
+```
 
 ---
 
