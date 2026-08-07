@@ -1,8 +1,8 @@
 # ⚠️ Native Kernel Known Risks and Required Proof
 
 **Snapshot:** 2026-08-07  
-**Last verified public `main`:** `bb94835ad612f45e2629655bc9add872d8981357`  
-**Active implementation:** Issue #46 / PR #47 / P2 PostgreSQL append profile
+**Last verified public `main`:** `113452a365890bf6c143d76657b810be59530ed4`  
+**Latest implementation:** PR #47 / P2 PostgreSQL append profile
 
 P2 repository integration narrows the storage-implementation gap. It does not close replay, projection, operational fault, security, privacy, licensing, portability or conformance risks.
 
@@ -23,8 +23,6 @@ clean/postgresql-reference/0.1
 ≠ v0.1.2.1
 ≠ original 44-test evidence
 ```
-
-Every future package, report and release must preserve this boundary.
 
 ## P0 — P2 profile may be mistaken for a complete Kernel
 
@@ -48,17 +46,18 @@ Required proof: separately authorized P3.
 
 **State:** `OPEN`, machine-readable guard retained
 
-PR #47 evidence run:
+Final PR-head evidence:
 
 ```text
-run 31151297646 — PASS
+head 36ddb1d0342914f0c06fe7f31171bac06565ee72
+run 31152380799 — PASS
 Python 3.11 / PostgreSQL 16 — PASS
 Python 3.11 / PostgreSQL 18 — PASS
 Python 3.12 / PostgreSQL 16 — PASS
 Python 3.12 / PostgreSQL 18 — PASS
 ```
 
-This establishes the bounded P2 scenarios in the declared matrix. It does not establish complete assertion-scoped profile support, artifacts/traceability for every contract or independent-profile equivalence.
+This establishes bounded P2 scenarios in the declared matrix. It does not establish complete assertion-scoped profile support or independent-profile equivalence.
 
 ```text
 kernel_runtime_conformance: UNSUPPORTED
@@ -69,17 +68,13 @@ C1/C2/C3: NOT_ESTABLISHED
 
 **State:** `OPEN`
 
-`nkd0` and `nks0` remain P1 implementation details. `nkp1` and `nke1` implement accepted fixture algorithms but the PostgreSQL envelope/table layout remains profile-specific.
-
-Required control: no unrelated profile/migration may depend on implementation-only layouts without explicit contract review.
+`nkd0` and `nks0` remain P1 implementation details. `nkp1` and `nke1` implement accepted fixture algorithms, while the PostgreSQL envelope/table layout remains profile-specific.
 
 ## P0 — Hash chain may be mistaken for authentication
 
 **State:** `OPEN`
 
 `nkp1`/`nke1` detect tested inconsistencies but are not signatures, external notarization or defense against every privileged rewrite.
-
-Required proof for authenticity: separate key/signature or external-evidence design.
 
 ## P0 — Single-writer lease may be mistaken for consensus
 
@@ -89,9 +84,9 @@ Owner/epoch/expiry fencing serializes one PostgreSQL profile. It is not multi-wr
 
 ## P1 — Exact final-head workflow drift
 
-**State:** `OPEN UNTIL MERGE GATE`
+**State:** `CLOSED FOR PR #47 / REOPENS ON NEW CODE OR MANIFEST CHANGES`
 
-Evidence is valid for its exact SHA. Later documentation/manifest changes require same-head affected checks before merge.
+P2, AI-context, P1 and fixture workflows all passed on final PR head `36ddb1d0…`. No push-to-main workflow run was recorded for merge `113452a3…`; merge evidence therefore relies on the exact validated PR head plus GitHub’s squash merge result.
 
 ## P1 — Python may become accidental permanent architecture
 
@@ -110,8 +105,6 @@ Psycopg, SQL schema, indexes and locks are profile technologies. Cross-profile n
 **State:** `OPEN`
 
 P2 calls explicit authority before append, but the local authority adapter has no credentials, identity provider, revocation, persisted delegation or operational audit.
-
-Required proof: separate authority/security profile and threat model.
 
 ## P1 — Writer lease behavior under operational faults
 
@@ -142,8 +135,6 @@ Idempotent reads verify canonical payload/envelope bytes and hashes. Whole-histo
 **State:** `OPEN`
 
 P1 validates transitions and Receipt limits; P2 stores Events. Neither deletes primary data, backups, indexes, logs, exports or keys.
-
-Required proof: profile-specific location inventory, retries/failures, backup/restore behavior and security/legal review.
 
 ## P1 — Accepted contracts remain only partially implemented
 
