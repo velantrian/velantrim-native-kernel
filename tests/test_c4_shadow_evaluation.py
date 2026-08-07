@@ -64,12 +64,24 @@ class C4ShadowEvaluationTests(unittest.TestCase):
             evaluate(dataset, self.c3)
 
     def test_repository_metadata_is_required_when_requested(self) -> None:
-        report = evaluate(self.dataset, self.c3)
-        with self.assertRaisesRegex(ShadowEvaluationError, "wrong evidence level"):
-            validate_report(report, require_repository=True)
         old = dict(os.environ)
         try:
+            for name in (
+                "NK_EVIDENCE_LEVEL",
+                "NK_EVIDENCE_COMMIT",
+                "NK_EVIDENCE_RUN_ID",
+                "NK_PYTHON_VERSION",
+                "NK_POSTGRESQL_VERSION",
+                "NK_SQLITE_VERSION",
+            ):
+                os.environ.pop(name, None)
+
+            report = evaluate(self.dataset, self.c3)
+            with self.assertRaisesRegex(ShadowEvaluationError, "wrong evidence level"):
+                validate_report(report, require_repository=True)
+
             os.environ.update({
+                "NK_EVIDENCE_LEVEL": "REPOSITORY_REPRODUCED_OFFLINE_SHADOW",
                 "NK_EVIDENCE_COMMIT": "a" * 40,
                 "NK_EVIDENCE_RUN_ID": "12345",
                 "NK_PYTHON_VERSION": "3.11",
@@ -79,7 +91,8 @@ class C4ShadowEvaluationTests(unittest.TestCase):
             report = evaluate(self.dataset, self.c3)
             validate_report(report, require_repository=True)
         finally:
-            os.environ.clear(); os.environ.update(old)
+            os.environ.clear()
+            os.environ.update(old)
 
     def test_report_from_files_binds_exact_dataset_bytes(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
