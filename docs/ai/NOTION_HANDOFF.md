@@ -14,24 +14,25 @@ This file preserves public transfer context when direct Notion synchronization i
 
 ## Current item — 2026-08-07 C5 evidence and project-state reconciliation
 
-- **Status:** `SYNCED / PRE-MERGE`
+- **Status:** `SYNCED / MERGED`
 - **Documentation impact:** `GITHUB_AND_NOTION`
-- **Verified base checkpoint:** `3d56912260ea41b5b501b65477bff1642dfc2d58`
-- **PR:** `#67`
-- **Exact synchronized PR head:** `fe00cb6193c02c5fe9f60d90afbb3f7a7619a888`
+- **Verified publication checkpoint:** `ee4e29624c8022842f5a1c6cd93ae63c65a099c2`
+- **PR:** `#67 / SQUASH-MERGED`
+- **Final PR head:** `72531a69f13f1d441b49ebff7a49dc4bac911a43`
+- **Merge SHA:** `ee4e29624c8022842f5a1c6cd93ae63c65a099c2`
 - **Issue #64:** `CLOSED / COMPLETED`
 - **GitHub changes:** durable C5 ZIP archive, `nk-project-state/1`, H/C/R tracks, research backlog
 - **Required boundary:** exact evidence and current status; research remains proposed; no production or NK-EPI promotion
 
 ### Synchronization result
 
-Notion was updated in the same work cycle on 2026-08-07:
+Notion was synchronized in the same work cycle and finalized after merge:
 
-- `🗺Velantrim-Native-Kernel📚` — current reconciliation block, exact evidence boundary and corrected Issue #64 status;
+- `🗺Velantrim-Native-Kernel📚` — merged reconciliation checkpoint, exact evidence boundary and corrected Issue #64 status;
 - `🏛️ Core Architecture & Invariants` — current H/C/R boundary and historical-runtime disclaimers;
 - `🗺️ Roadmap, Acceptance Gates & Decision Ledger` — current three-track override; earlier Stage A/B material retained as historical recovery planning;
-- `🤖 AI Agent Context & Documentation Continuity` — current PR head, green checks, machine-readable state and durable evidence route;
-- `🛡️ C5 Bounded Operational Rehearsal — ADR-0021 / PR #65` — exact-byte preservation record for both C5 checkpoints.
+- `🤖 AI Agent Context & Documentation Continuity` — final merge SHA, machine-readable state and durable evidence route;
+- `🛡️ C5 Bounded Operational Rehearsal — ADR-0021 / PR #65` — exact-byte preservation record for both C5 checkpoints and final PR #67 publication.
 
 The synchronized Notion blocks explicitly preserve these non-claims:
 
@@ -44,4 +45,4 @@ C5 evidence preservation
 ≠ historical v0.1.2.1 recovery
 ```
 
-After PR #67 is merged, Notion must receive the final merge SHA in the pre-merge blocks. Until then, GitHub PR #67 and its exact head remain authoritative for this reconciliation work.
+GitHub `main` at the verified publication checkpoint remains the authority for implementation state and evidence. Notion carries rationale, navigation and historical context.
