@@ -1,0 +1,169 @@
+name: C5 bounded operational rehearsal
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/c5-operational-rehearsal.yml"
+      - "contracts/**"
+      - "native_kernel/**"
+      - "profiles/operational-validation-v0/**"
+      - "profiles/shadow-evaluation-v0/**"
+      - "profiles/sqlite-embedded-v0/**"
+      - "profiles/postgresql-reference-v0/**"
+      - "tests/test_c5_*.py"
+      - "tests/test_c4_*.py"
+      - "tests/c4_test_support.py"
+      - "tools/operations/**"
+      - "tools/conformance/**"
+      - "tools/profiles/validate_c5_manifest.py"
+      - "tools/profiles/validate_c4_manifest.py"
+      - "docs/**"
+      - "README.md"
+      - "README.ru.md"
+      - "STATUS.md"
+      - "AGENTS.md"
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/c5-operational-rehearsal.yml"
+      - "contracts/**"
+      - "native_kernel/**"
+      - "profiles/operational-validation-v0/**"
+      - "profiles/shadow-evaluation-v0/**"
+      - "profiles/sqlite-embedded-v0/**"
+      - "profiles/postgresql-reference-v0/**"
+      - "tests/test_c5_*.py"
+      - "tests/test_c4_*.py"
+      - "tests/c4_test_support.py"
+      - "tools/operations/**"
+      - "tools/conformance/**"
+      - "tools/profiles/validate_c5_manifest.py"
+      - "tools/profiles/validate_c4_manifest.py"
+      - "docs/**"
+      - "README.md"
+      - "README.ru.md"
+      - "STATUS.md"
+      - "AGENTS.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  c5-operational:
+    name: c5-operational (py${{ matrix.python }}, pg${{ matrix.postgresql }})
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.11", "3.12"]
+        postgresql: ["16", "18"]
+    services:
+      postgres:
+        image: postgres:${{ matrix.postgresql }}
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: native_kernel_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d native_kernel_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 12
+    env:
+      NK_TEST_POSTGRES_DSN: postgresql://postgres:postgres@127.0.0.1:5432/native_kernel_test
+      NK_TEST_SQLITE_PATH: artifacts/c5-operational.db
+      NK_CONFORMANCE_LEVEL: C5_REHEARSAL
+      NK_EVIDENCE_LEVEL: REPOSITORY_REPRODUCED_OPERATIONAL_REHEARSAL
+      NK_EVIDENCE_COMMIT: ${{ github.event.pull_request.head.sha || github.sha }}
+      NK_EVIDENCE_RUN_ID: ${{ github.run_id }}
+      NK_PYTHON_VERSION: ${{ matrix.python }}
+      NK_POSTGRESQL_VERSION: ${{ matrix.postgresql }}
+      NK_RUNNER_OS: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install PostgreSQL integration driver
+        run: python -m pip install --upgrade pip -r profiles/postgresql-reference-v0/requirements-p2-ci.txt
+      - name: Record SQLite version
+        run: echo "NK_SQLITE_VERSION=$(python -c 'import sqlite3; print(sqlite3.sqlite_version)')" >> "$GITHUB_ENV"
+      - name: C5 unit, validator and manifest guards
+        run: |
+          python -m unittest discover -s tests -p 'test_c5_operational_validation.py' -v
+          python -m unittest discover -s tests -p 'test_c5_report_validator.py' -v
+          python -m unittest discover -s tests -p 'test_c5_manifest.py' -v
+          python tools/profiles/validate_c5_manifest.py
+      - name: Generate exact P4, P5, C3 and C4 prerequisites
+        run: |
+          mkdir -p artifacts
+          rm -f "$NK_TEST_SQLITE_PATH" artifacts/p5-c3-behaviour.db artifacts/p5-c3-import.db
+          NK_CONFORMANCE_LEVEL=C2 NK_EVIDENCE_LEVEL=REPOSITORY_REPRODUCED \
+            python tools/conformance/runner.py adapter \
+            --output artifacts/postgresql-p4-report.json \
+            -- python tools/conformance/postgresql_profile_adapter.py
+          rm -f "$NK_TEST_SQLITE_PATH"
+          NK_CONFORMANCE_LEVEL=C2 NK_EVIDENCE_LEVEL=REPOSITORY_REPRODUCED \
+            python tools/conformance/runner.py adapter \
+            --output artifacts/sqlite-p5-report.json \
+            -- python tools/conformance/sqlite_profile_adapter.py
+          python tools/conformance/validate_p5_report.py \
+            sqlite artifacts/sqlite-p5-report.json --require-repository
+          rm -f "$NK_TEST_SQLITE_PATH" artifacts/p5-c3-behaviour.db artifacts/p5-c3-import.db
+          NK_CONFORMANCE_LEVEL=C3 NK_EVIDENCE_LEVEL=REPOSITORY_REPRODUCED \
+            python tools/conformance/cross_profile_comparator.py contracts/fixture-pack.json \
+            > artifacts/c3-equivalence-report.json
+          python tools/conformance/validate_p5_report.py \
+            c3 artifacts/c3-equivalence-report.json --require-repository
+          python tools/conformance/offline_shadow_evaluator.py \
+            contracts/shadow-workload-v1.json \
+            artifacts/c3-equivalence-report.json \
+            > artifacts/c4-shadow-report.json
+          python tools/conformance/validate_c4_report.py \
+            artifacts/c4-shadow-report.json --require-repository
+      - name: Execute bounded C5 operational rehearsal
+        run: |
+          rm -f artifacts/c5-operational*.db artifacts/c5-operational*.db-wal artifacts/c5-operational*.db-shm
+          python tools/operations/c5_rehearsal.py \
+            contracts/operational-plan-v1.json \
+            artifacts/c4-shadow-report.json \
+            --output artifacts/c5-operational-report.json \
+            --backup-output artifacts/c5-quarantine-backup.json \
+            --dsn "$NK_TEST_POSTGRES_DSN" \
+            --sqlite-path "$NK_TEST_SQLITE_PATH"
+          python tools/operations/validate_c5_report.py \
+            artifacts/c5-operational-report.json \
+            --plan contracts/operational-plan-v1.json \
+            --c4-report artifacts/c4-shadow-report.json \
+            --backup artifacts/c5-quarantine-backup.json \
+            --require-repository
+      - name: P1-C4 regressions
+        run: |
+          python -m unittest discover -s tests -p 'test_semantic_core.py' -v
+          python -m unittest discover -s tests -p 'test_postgresql_profile_unit.py' -v
+          python -m unittest discover -s tests -p 'test_p3_semantic.py' -v
+          python -m unittest discover -s tests -p 'test_p4_conformance_unit.py' -v
+          python -m unittest discover -s tests -p 'test_p5_cross_profile_integration.py' -v
+          python -m unittest discover -s tests -p 'test_c4_shadow_evaluation.py' -v
+          python -m unittest discover -s tests -p 'test_c4_report_validator.py' -v
+          python tools/profiles/validate_p5_manifest.py
+          python tools/profiles/validate_c4_manifest.py
+      - name: Compile implementation and tooling
+        run: python -m compileall -q native_kernel tools/conformance tools/operations tools/profiles
+      - name: Upload C5 evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: c5-operational-evidence-py${{ matrix.python }}-pg${{ matrix.postgresql }}
+          path: |
+            artifacts/postgresql-p4-report.json
+            artifacts/sqlite-p5-report.json
+            artifacts/c3-equivalence-report.json
+            artifacts/c4-shadow-report.json
+            artifacts/c5-operational-report.json
+            artifacts/c5-quarantine-backup.json
+          if-no-files-found: error
+          retention-days: 30
