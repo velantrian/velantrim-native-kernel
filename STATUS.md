@@ -1,71 +1,94 @@
 # Current Status
 
 > **Verified:** 2026-08-07  
-> **Last verified public `main`:** `4af642930e18752f8f8b0bce75df355f76100d6f`  
-> **P3 merge:** PR #50 / `4af642930e18752f8f8b0bce75df355f76100d6f`  
-> **Checkpoint branch:** `agent/p3-post-merge-checkpoint`  
-> **Repository status:** `RESEARCH / P3 PARTIAL IMPLEMENTATION / NOT PRODUCTION-READY`
+> **Last verified public `main`:** `4f8cb0a8b7d9ca678a8578cf005b118fd6dff150`  
+> **Active implementation:** Issue #55 / PR #56 / `agent/p4-conformance-adapter`  
+> **Repository status:** `RESEARCH / P4 PARTIAL ASSERTION CONFORMANCE / NOT PRODUCTION-READY`
 
 ## Current profile
 
 ```text
 Profile ID:       native-kernel/postgresql-reference
-Profile version:  0.3-p3
+Profile version:  0.4-p4
 Evidence lineage: clean/postgresql-reference/0.1
 P1:               MERGED / REPOSITORY-TESTED
 P2:               MERGED / REPOSITORY-INTEGRATION-TESTED
 P3:               MERGED / REPOSITORY-INTEGRATION-TESTED
-P4–P5:            NOT AUTHORIZED
+P4:               PARTIAL / C2 REPOSITORY-REPRODUCED ON PREVIOUS PR HEAD
+P5:               NOT AUTHORIZED
 ```
 
-PostgreSQL, Psycopg, Python modules, SQL tables and locks remain replaceable Implementation Profile technologies, not Architecture Canon.
+PostgreSQL, Psycopg, Python modules, SQL tables, locks and current processors remain replaceable Implementation Profile technologies, not Architecture Canon.
 
-## P3 implementation
+## P4 assertion-scoped conformance
+
+P4 adds an executable profile adapter for `nk-evidence-report/1`:
 
 ```text
-authoritative PostgreSQL Events
-→ repeatable-read snapshot
-→ canonical payload/envelope verification
-→ Event count, sequence and global hash-chain verification
-→ explicit deterministic upcaster registry
-→ P1 reducer from empty state
-→ bounded persisted Replay Receipt
-→ locked authoritative-head comparison
-→ disposable projection rebuild
-→ bounded persisted Projection Rebuild Receipt
-→ projection-to-Receipt consistency verification
+72 registered assertion IDs
+→ P1 semantic checks
+→ P2 append/fencing checks
+→ P3 replay/projection/Receipt checks
+→ one explicit result per assertion
+→ evidence/check references + limitations
+→ strict independent validation
+→ retained repository artifacts
 ```
 
-Implemented:
-
-- explicit identity and multi-step upcaster routing;
-- failure on missing, duplicate, cyclic or invalid upcaster paths;
-- canonical semantic-state decoding;
-- full selected-instance replay from global sequence `1`;
-- P2 stored-event commitment verification during replay;
-- reducer global/per-stream sequence verification;
-- disposable projection persistence, read, destroy and rebuild;
-- monotonic generation through committed rebuild Receipts;
-- stale-head rejection before projection publication;
-- transactional rollback for Receipt/projection publication faults;
-- canonical `REPLAY` and `PROJECTION_REBUILD` Receipts;
-- projection rows verified against their linked rebuild Receipt;
-- Receipt non-claims for truth, external authenticity, complete integrity, physical erasure and C-levels.
-
-## Repository evidence
-
-Final PR head:
+Current conservative support map:
 
 ```text
-Head:          7e615bc633cbf966211d3b2815f51b8ff9eb9716
-P3 run:        31173133661 — PASS
-P2 regression: 31173133709 — PASS
-P1 core:       31173133657 — PASS
-Fixtures:      31173133713 — PASS
-AI context:    31173133635 — PASS
+SUPPORTED:   41
+PARTIAL:     13
+UNSUPPORTED: 18
+FAILED:       0
+TOTAL:       72
 ```
 
-P3 matrix:
+All `NK-EPI-001…008` results remain `UNSUPPORTED`; ADR-0008 and the epistemic family remain `PROPOSED`.
+
+## C1/C2 meaning
+
+Conformance levels remain assertion-scoped.
+
+```text
+C1 / C2 applies only to results marked SUPPORTED
+PARTIAL remains PARTIAL
+UNSUPPORTED remains UNSUPPORTED
+support_state remains PARTIAL
+```
+
+A top-level P4 `C2 / REPOSITORY_REPRODUCED` report means that the repository reproduced the 41 supported assertion results with exact code, environment, CI traceability and artifacts. It does not mean all 72 assertions are supported.
+
+```text
+P4 C2
+≠ complete profile support
+≠ C3 cross-profile equivalence
+≠ accepted NK-EPI
+≠ truth/authenticity certification
+≠ physical deletion
+≠ production readiness
+```
+
+## Initial P4 repository evidence
+
+Exact executable/evidence head:
+
+```text
+93710131fffdea7d9a586cc05e7f258c07fae707
+```
+
+Workflow evidence:
+
+```text
+P4 run:      31175767586 — PASS
+P1 run:      31175767587 — PASS
+P2 run:      31175767636 — PASS
+P3 run:      31175768175 — PASS
+Fixtures:    31175767614 — PASS
+```
+
+P4 matrix:
 
 ```text
 Python 3.11 / PostgreSQL 16 — PASS
@@ -74,33 +97,47 @@ Python 3.12 / PostgreSQL 16 — PASS
 Python 3.12 / PostgreSQL 18 — PASS
 ```
 
-Every P3 matrix job passed 5 semantic tests, 5 manifest/anti-overclaim tests, 8 PostgreSQL integration scenarios, P2 regression tests and compileall.
+Every P4 matrix job passed:
 
-No push-to-main workflow run was recorded for merge `4af64293…`; this is `NOT_RECORDED`, not PASS.
+- 5 assertion-mapping and traceability tests;
+- 5 P4 manifest/anti-overclaim tests;
+- one full PostgreSQL C1 report integration test;
+- C2 report generation and strict validation;
+- P1, P2 and P3 regressions;
+- compileall;
+- JSON artifact upload.
 
-## Evidence boundary
+Four evidence artifacts are retained for 30 days and are bound to run `31175767586` and head `93710131…`.
+
+The current documentation head is later than the executable evidence head. A final exact-head P4 and governance run remains required before merge.
+
+## Implemented P1–P4 route
 
 ```text
-P3 replay/projection integration: REPOSITORY_REPRODUCED
-Kernel runtime conformance:       UNSUPPORTED
-C1/C2/C3:                         NOT_ESTABLISHED
+semantic identity and authority                    ← P1
+PostgreSQL append/idempotency/writer fencing       ← P2
+persisted replay and disposable projections        ← P3
+bounded operational Receipts                       ← P3
+72-assertion evidence adapter and report validator ← P4
 ```
 
-P3 Receipts prove only their declared selected-instance snapshot/rebuild operation and checks. They do not establish truth, external authenticity, complete Event Integrity, physical deletion, production durability, security, privacy or compliance.
+P4 does not add new authoritative storage semantics. It evaluates and reports existing bounded behavior against the accepted registry.
 
 ## Explicitly absent
 
+- P5 independent SQLite profile;
+- C3 cross-profile equivalence;
+- dedicated conflict representation/resolution subsystem;
 - physical or cryptographic deletion execution;
 - provider/backup/export/log/key erasure evidence;
+- restore-before-visibility deletion enforcement;
+- cross-project authority adapter;
 - network API;
-- P4 complete assertion-scoped conformance adapter;
-- P5 independent SQLite profile;
-- C1/C2/C3;
-- package publication decision under Issue #18;
+- C4 shadow evaluation;
+- C5 operational security/privacy/incident evidence;
+- production credentials, HA, backup, restore or compliance guarantees;
 - Titan, Mentaury or Crystal runtime wiring;
-- production credentials, HA, backup, restore or compliance guarantees.
-
-All 72 registry assertions remain runtime `UNSUPPORTED` until P4.
+- package publication decision under Issue #18.
 
 ## Issue #1 boundary
 
@@ -112,10 +149,11 @@ clean/postgresql-reference/0.1
 
 Issue #1 remains active and independent. `NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GLOBALLY_LOST`.
 
-## Next gates
+## Current gates
 
-1. merge the post-merge continuity checkpoint after AI-context validation;
-2. synchronize final merge/checkpoint evidence to Notion;
-3. close Issue #49 as completed for the bounded P3 scope;
-4. require separate operator GO before P4;
-5. preserve Issues #1 and #18 as independent gates.
+1. finish GitHub and Notion P4 documentation synchronization;
+2. run P4, P1, P2, P3, fixture and AI-context checks on one final exact PR head;
+3. inspect PR #56 diff, comments, reviews and unresolved threads;
+4. merge only with P5/C3/deletion/production/ecosystem scope absent;
+5. record final PR head, merge SHA, runs and artifact state;
+6. require separate operator GO before P5 or any C3 claim.
