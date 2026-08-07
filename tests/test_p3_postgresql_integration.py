@@ -180,6 +180,22 @@ class P3PostgreSQLIntegrationTests(unittest.TestCase):
         with self.assertRaises(ProjectionCorrupt):
             self.projector.load_projection(other)
 
+    def test_projection_linked_receipt_mismatch_is_detected(self) -> None:
+        self.append(make_command("idem:p3:projection-receipt"))
+        self.projector.rebuild_projection(self.instance)
+        replay_receipt = self.projector.replay(self.instance).receipt
+        import psycopg
+
+        with psycopg.connect(DSN) as connection:
+            with connection.transaction(), connection.cursor() as cursor:
+                cursor.execute(
+                    "UPDATE native_kernel.projections SET receipt_id = %s "
+                    "WHERE instance_id = %s AND projection_name = %s",
+                    (replay_receipt.receipt_id, self.instance, "semantic-state"),
+                )
+        with self.assertRaises(ProjectionCorrupt):
+            self.projector.load_projection(self.instance)
+
     def test_receipt_corruption_is_detected(self) -> None:
         self.append(make_command("idem:p3:receipt"))
         result = self.projector.replay(self.instance)
