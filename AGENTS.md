@@ -1,159 +1,189 @@
 # 🤖 Velantrim Native Kernel repository guidance
 
-This file is the mandatory entry point for AI coding agents, auditors, reviewers, and automated contributors.
-It applies to the whole repository unless a more local `AGENTS.md` explicitly narrows the rules.
+This file is the mandatory entry point for AI coding agents, auditors, reviewers and automated contributors.
 
-## 1. Read before auditing or changing anything
+## 1. Required reading order
 
-Read in this order:
-
-1. [`README.md`](README.md) — public purpose, maturity and ecosystem role.
-2. [`STATUS.md`](STATUS.md) — authoritative implementation and evidence boundary.
-3. [`docs/ai/README.md`](docs/ai/README.md) — AI context-pack manifest.
-4. [`docs/ai/DOCUMENTATION_SYNC_PROTOCOL.md`](docs/ai/DOCUMENTATION_SYNC_PROTOCOL.md) — GitHub and Notion definition of done.
-5. [`docs/ai/CURRENT_STATE.md`](docs/ai/CURRENT_STATE.md) — last verified repository checkpoint and current gates.
+1. [`README.md`](README.md) — public purpose and maturity.
+2. [`STATUS.md`](STATUS.md) — authoritative implementation/evidence boundary.
+3. [`docs/ai/README.md`](docs/ai/README.md) — context-pack map.
+4. [`docs/ai/DOCUMENTATION_SYNC_PROTOCOL.md`](docs/ai/DOCUMENTATION_SYNC_PROTOCOL.md).
+5. [`docs/ai/CURRENT_STATE.md`](docs/ai/CURRENT_STATE.md).
 6. Relevant section of [`docs/ai/COMPONENT_MAP.md`](docs/ai/COMPONENT_MAP.md).
 7. Relevant entries in [`docs/ai/KNOWN_RISKS.md`](docs/ai/KNOWN_RISKS.md).
-8. Recent relevant entries in [`docs/ai/WORK_LOG.md`](docs/ai/WORK_LOG.md).
-9. [`docs/ai/AUDIT_PLAYBOOK.md`](docs/ai/AUDIT_PLAYBOOK.md) for audit work.
-10. [`docs/ai/NOTION_HANDOFF.md`](docs/ai/NOTION_HANDOFF.md) when required Notion synchronization cannot be completed directly.
+8. Recent entries in [`docs/ai/WORK_LOG.md`](docs/ai/WORK_LOG.md).
+9. [`docs/ai/P4_IMPLEMENTATION_RECORD.md`](docs/ai/P4_IMPLEMENTATION_RECORD.md) for conformance work.
+10. [`docs/ai/AUDIT_PLAYBOOK.md`](docs/ai/AUDIT_PLAYBOOK.md) for audits.
 
-Then inspect only the affected source-recovery tools, tests, contracts, ADRs, RFCs, PRs, issues and workflows.
-Do not load every historical document by default.
-
-> Documentation is an orientation map, not self-proving evidence. Verify material claims at the exact commit or PR head under review.
+Then inspect only affected contracts, source, tests, manifests, workflows, RFCs, ADRs, PRs and issues. Documentation is orientation, not self-proving evidence.
 
 ## 2. Source-of-truth order
 
-When sources disagree, use this order:
-
-1. executable repository code and committed tests at the exact SHA;
-2. current CI results and workflow definitions for that exact SHA;
-3. [`STATUS.md`](STATUS.md) and accepted current-state records;
+1. executable code and committed tests at the exact SHA;
+2. exact-SHA CI jobs, logs and artifacts;
+3. `STATUS.md` and current-state records;
 4. accepted ADRs and normative contracts;
-5. current roadmap, RFCs and research documents with their explicit status labels;
-6. PR descriptions, work-log entries and issues;
-7. historical audits, chats, journals and external reports.
+5. current RFCs and research documents with explicit statuses;
+6. PRs, issues and work logs;
+7. historical chats, audits and external reports.
 
-Never treat an open PR, a detailed research note, an AI consensus, or a Notion plan as behavior already present in `main`.
+Never treat an open PR, Notion page, approval or detailed design as behavior already present in `main`.
 
-## 3. Required status language
+## 3. Required status distinctions
 
-Distinguish these claims:
+Distinguish:
 
-- **documented** — a specification or explanation exists;
-- **proposed** — a design exists but is not accepted;
-- **accepted** — the operator approved a decision; implementation may still be absent;
-- **implemented** — code exists in the declared scope;
-- **tested** — committed tests exist and their result is known;
-- **wired** — a real runtime caller exists;
-- **enabled** — configuration activates it;
-- **observed** — a running system produced operational evidence.
+- documented;
+- proposed;
+- accepted;
+- implemented;
+- tested;
+- wired;
+- enabled;
+- observed.
 
-Do not replace these with an unqualified statement that a feature “works”.
-
-Preserve the independent governance dimensions:
+Preserve:
 
 ```text
 Decision status
-≠ Evidence level
 ≠ Implementation status
+≠ Evidence level
 ≠ Operator approval
 ```
 
-## 4. Native Kernel architecture discipline
+## 4. Architecture discipline
 
 - Preserve `Architecture Canon → Abstract Contracts → Replaceable Implementation Profiles`.
-- Treat event history as authoritative about recorded history, not automatically as truth.
-- Keep Claim identity, provenance, temporal meaning, conflict visibility, reduction and Receipt semantics independent from one database, model, runtime or processor.
-- PostgreSQL and SQLite are implementation profiles, not Canon.
-- LLMs, embeddings, graph databases, FTS, CPUs, GPUs and future substrates are replaceable instruments.
+- PostgreSQL, SQLite, Python, Psycopg, SQL layouts, LLMs, embeddings, graphs, CPUs/GPUs and future substrates are replaceable instruments, not Canon.
+- Event history is authoritative about recorded history, not automatically truth.
 - Relevance, recency, utility, repetition, write order and model confidence do not independently establish truth.
-- A Receipt proves only what its declared contract and evidence support.
+- A Receipt or evidence report proves only its declared operation, checks and limitations.
 - Operator approval is authority, not empirical evidence.
 
-## 5. Issue #1 and source-recovery boundary
+## 5. Current P4 boundary
 
-The repository is currently `RESEARCH / P3 PARTIAL IMPLEMENTATION / NOT PRODUCTION-READY`.
-A clean P1 semantic core, bounded P2 PostgreSQL append/idempotency profile and bounded P3 persisted replay/projection/Receipt profile exist. This is not the recovered historical `v0.1.2.1`, not the original 44-test suite, not a complete Kernel, and not C1/C2/C3 evidence.
+Current branch maturity:
 
-- Do not reconstruct an approximation and label it `v0.1.2.1`.
-- Do not replace the original suite with newly written tests and call it recovered evidence.
-- Do not treat source-recovery tooling as Kernel runtime.
-- `NOT_FOUND_IN_ACCESSIBLE_SOURCES` is not `GLOBALLY_LOST`.
-- Controlled import must remain separate from architecture redesign.
-- Clean implementation lineage is `clean/postgresql-reference/0.1`.
-- P3 integration does not establish physical deletion, P4 assertion conformance, P5 portability, C1/C2/C3 or production readiness.
+```text
+RESEARCH / P4 PARTIAL ASSERTION CONFORMANCE / NOT PRODUCTION-READY
+```
 
-## 6. Cross-project boundaries
+Clean lineage:
 
-- Native Kernel is not the universal truth authority of Velantrim.
-- Mentaury Soul owns digital-individuality, identity-continuity, relationship and commitment semantics in its own project.
-- Titan owns its cognition, retrieval, tool and orchestration architecture in its own project.
-- Crystal owns its verifiable-memory, evidence, trust and grant-facing product boundaries in its own project.
-- Cross-links explain roles; they do not imply one runtime, one database or one Canon.
-- No cross-project capability, consent, identity, credential, event authority or implementation status is inherited implicitly.
+```text
+clean/postgresql-reference/0.1
+```
 
-## 7. Verification
+Current assertion map:
 
-Run the narrowest relevant checks first.
+```text
+SUPPORTED:   41
+PARTIAL:     13
+UNSUPPORTED: 18
+FAILED:       0
+TOTAL:       72
+```
 
-For source-recovery tooling, use the commands declared in `docs/source-recovery/README.md` and the retained source-recovery workflow.
-For P1 use the semantic-core tests and P1 manifest guard.
-For P2 run unit/manifest checks first, then the PostgreSQL append integration suite with an explicit DSN.
-For P3 run semantic/manifest checks, then the PostgreSQL replay/projection integration suite and P2 regression tests. Inspect exact PostgreSQL/Python matrix evidence.
-For documentation changes, verify links, status labels, bilingual parity, ADR references and exact SHAs.
+Repository C2 applies only to the 41 `SUPPORTED` results in the exact evidence report.
+
+```text
+P4 C2 ≠ support for all 72
+P4 C2 ≠ C3
+P4 C2 ≠ truth/authenticity
+P4 C2 ≠ physical deletion
+P4 C2 ≠ production readiness
+```
+
+All `NK-EPI-001…008` remain `UNSUPPORTED` because their registry decision is `PROPOSED`.
+
+P5/SQLite/C3 requires a separate explicit operator GO.
+
+## 6. Issue #1 boundary
+
+The clean P1–P4 implementation is not recovered historical `v0.1.2.1` and not the original 44-test suite.
+
+- Do not reconstruct an approximation and label it recovered history.
+- Do not call newly written tests the original suite.
+- `NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GLOBALLY_LOST`.
+- Issue #1 source recovery remains independent.
+- Issue #18 licensing/publication remains independent.
+
+## 7. Cross-project boundaries
+
+- Native Kernel owns neutral semantic memory/Event/evidence contracts and bounded profiles.
+- Titan owns cognition, retrieval, tools and orchestration.
+- Mentaury Soul owns digital individuality and continuity.
+- Crystal owns verifiable-memory, evidence and product boundaries.
+
+No identity, authority, credential, runtime, storage or conformance status is inherited automatically across projects.
+
+## 8. Verification routes
+
+Use the narrowest relevant checks first.
+
+### P1
+
+```bash
+python -m unittest discover -s tests -p 'test_semantic_core.py' -v
+python -m unittest discover -s tests -p 'test_p1_manifest.py' -v
+python tools/profiles/validate_p1_manifest.py
+```
+
+### P2
+
+Run unit/manifest checks, then PostgreSQL integration with an explicit DSN.
+
+### P3
+
+Run semantic/manifest checks, PostgreSQL replay/projection integration and P2 regressions.
+
+### P4
+
+```bash
+python -m unittest discover -s tests -p 'test_p4_conformance_unit.py' -v
+python -m unittest discover -s tests -p 'test_p4_manifest.py' -v
+python tools/profiles/validate_p4_manifest.py
+
+NK_TEST_POSTGRES_DSN='postgresql://...' \
+  python -m unittest discover -s tests -p 'test_p4_postgresql_integration.py' -v
+```
+
+For C2, inspect the exact P4 workflow run, all four matrix jobs, generated JSON reports and artifact metadata. A JSON file with self-declared CI metadata is not sufficient evidence by itself.
 
 Do not claim:
 
 - Kernel CI when only utility CI ran;
-- PostgreSQL integration when integration tests were skipped or no run exists;
-- replay/projection integrity beyond the selected snapshot and declared checks;
-- truth, external authenticity or physical erasure from a P3 Receipt;
-- public reproduction of the 44-test checkpoint;
-- portability without cross-profile conformance evidence;
-- production safety, privacy, security, deletion, replay or migration guarantees without committed proof.
+- integration when tests were skipped;
+- C2 without exact repository run/artifact traceability;
+- C3 from Python/PostgreSQL version diversity;
+- truth, authenticity or physical erasure from hashes, Receipts or reports;
+- production safety/privacy/security without operational proof.
 
-## 8. Documentation and Notion synchronization obligation
+## 9. Documentation and Notion synchronization
 
-Any PR that materially changes architecture, contracts, implementation status, evidence, project direction, cross-project boundaries, a known risk, source-recovery status or an accepted decision must update the relevant public GitHub documentation:
+Material changes to architecture, implementation, evidence, risks, contracts or phase gates must update relevant GitHub documentation:
 
-- `docs/ai/CURRENT_STATE.md` for verified status changes;
-- `docs/ai/KNOWN_RISKS.md` for opened, narrowed or closed risks;
-- `docs/ai/COMPONENT_MAP.md` for ownership or first-read path changes;
-- `docs/ai/WORK_LOG.md` for significant work and hand-off;
-- an ADR/RFC for durable architectural decisions;
-- affected `STATUS.md`, `ROADMAP.md`, security, conformance, profile, integration or user-facing documents.
+- `STATUS.md`;
+- `docs/ai/CURRENT_STATE.md`;
+- `docs/ai/KNOWN_RISKS.md`;
+- `docs/ai/COMPONENT_MAP.md`;
+- `docs/ai/WORK_LOG.md`;
+- relevant ADR/RFC/profile/package documents.
 
-Every PR must follow [`docs/ai/DOCUMENTATION_SYNC_PROTOCOL.md`](docs/ai/DOCUMENTATION_SYNC_PROTOCOL.md) and classify its impact as `NONE`, `GITHUB_ONLY`, or `GITHUB_AND_NOTION`.
+Classify documentation impact as `NONE`, `GITHUB_ONLY` or `GITHUB_AND_NOTION`.
 
-### GitHub completeness invariant
+GitHub must contain enough technical and evidence context to continue work without Notion. When Notion is available, synchronize motivation, decision, exact reality, evidence, limitations, PR and final merge SHA in the same cycle.
 
-GitHub must contain enough public technical, evidence and audit context for an AI or human reviewer to understand, verify and continue the work without Notion access.
-Implemented behavior, material findings, known risks, exact evidence, architectural decisions, blockers and next actions must never exist only in Notion or only in a chat.
+## 10. Change discipline
 
-### When Notion is available
+1. establish exact base/head and phase scope;
+2. identify whether a claim concerns `main`, an open PR or future work;
+3. inspect affected contracts/tests/downstream documents;
+4. make the smallest coherent change;
+5. validate it;
+6. update GitHub and Notion records;
+7. open or update a PR with exact evidence and limitations;
+8. inspect final diff, checks, artifacts, reviews and unresolved threads;
+9. merge only with expected head SHA.
 
-For `GITHUB_AND_NOTION`, update the corresponding Notion record in the same work cycle.
-Record motivation, intended function, decision, alternatives, exact reality status, evidence, limitations, PR and final merge SHA.
-
-### When Notion is unavailable
-
-Complete the GitHub record and add a structured item to [`docs/ai/NOTION_HANDOFF.md`](docs/ai/NOTION_HANDOFF.md).
-Never claim that Notion was updated when it was not.
-
-## 9. Change discipline
-
-Before writing:
-
-1. establish exact base/head SHA and task scope;
-2. identify whether the claim concerns `main`, an open PR, an external checkpoint, a proposed document or a future runtime;
-3. inspect affected contracts, ADRs, tests and downstream documentation;
-4. choose the lowest-risk owning document or component;
-5. preserve Issue #1 and cross-project boundaries;
-6. make the smallest coherent change;
-7. validate it;
-8. update GitHub documentation and Notion, or create a structured hand-off;
-9. open a PR with exact evidence and remaining limitations.
-
-Do not silently combine unrelated cleanup, source recovery, architecture redesign, runtime implementation, profile activation or cross-project integration.
+Do not combine P4 finalization with P5, deletion execution, production deployment, source recovery or ecosystem wiring.
