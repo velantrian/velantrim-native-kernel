@@ -1,90 +1,120 @@
 # 📍 Native Kernel Current State Checkpoint
 
 **Verified:** 2026-08-07  
-**Last verified public `main`:** `db6d65f69f7fc0c42861e5ab45869ec9c2f3d8ad`  
-**P4 implementation:** Issue #55 / merged PR #56  
-**Repository status:** `RESEARCH / P4 PARTIAL ASSERTION CONFORMANCE / NOT PRODUCTION-READY`
+**Last verified public `main`:** `1dc493e9d23b99ee4bbf6015348599cd56f6cb56`  
+**Active branch / PR / issue:** `agent/p5-sqlite-c3` / #59 / #58  
+**Repository status:** `RESEARCH / P5 PARTIAL CROSS-PROFILE CONFORMANCE / NOT PRODUCTION-READY`
 
-> Context checkpoint ≠ automatically current main. Re-check the actual branch, workflows and artifacts before carrying this checkpoint forward.
+> Context checkpoint ≠ automatically current main. Re-check the branch ref, workflows, artifact state, reviews and merge SHA.
 
 ```text
 NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GLOBALLY_LOST
-P4 C2 ≠ C3
-C2 SUPPORTED ASSERTIONS ≠ SUPPORT FOR ALL 72
+C2 ≠ C3
+C3 SUPPORTED ASSERTIONS ≠ SUPPORT FOR ALL 72
+C3 SEMANTIC EQUIVALENCE ≠ OPERATIONAL EQUIVALENCE
 ASSERTION EVIDENCE ≠ TRUTH / AUTHENTICITY / PHYSICAL ERASURE
-C1 ≠ C2 ≠ C3
 ```
 
-## Current gate state
+## Operator gate
 
 ```text
 RFC-0002:              ACCEPTED / APPROVED
 P1 semantic core:      MERGED / REPOSITORY-TESTED
 P2 PostgreSQL adapter: MERGED / REPOSITORY-INTEGRATION-TESTED
 P3 replay/projections: MERGED / REPOSITORY-INTEGRATION-TESTED
-P4 conformance:        MERGED / PARTIAL / C2 REPOSITORY-REPRODUCED
-P5 / C3:               REQUIRE SEPARATE GO
+P4 conformance:        MERGED / PARTIAL / POSTGRESQL C2
+P5 SQLite/C3:          AUTHORIZED / IMPLEMENTED / PREVIOUS-HEAD EVIDENCE
+C4/C5/production:      NOT AUTHORIZED / NOT ESTABLISHED
 Issue #1 / #18:        ACTIVE / INDEPENDENT
 ```
 
-## P4 result map
+Decision and implementation records: Issue #58, ADR-0019, PR #59 and `P5_IMPLEMENTATION_RECORD.md`.
+
+## Profile map
 
 ```text
-SUPPORTED:   41
-PARTIAL:     13
-UNSUPPORTED: 18
-FAILED:       0
-TOTAL:       72
+PostgreSQL reference  native-kernel/postgresql-reference@0.4-p4
+SQLite embedded      native-kernel/sqlite-embedded@0.5-p5
+```
+
+The SQLite profile is independent: it uses stdlib `sqlite3`, its own migrations, tables, transactions, append/replay/projection/Receipt code and exact-history import path.
+
+## Result maps
+
+PostgreSQL/SQLite single-profile C2:
+
+```text
+41 SUPPORTED / 13 PARTIAL / 18 UNSUPPORTED / 0 FAILED
+```
+
+Cross-profile C3:
+
+```text
+45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED / 0 FAILED
 support_state: PARTIAL
 ```
 
-All `NK-EPI-001…008` remain `UNSUPPORTED` because their registry decision remains `PROPOSED`.
-
-## Final PR and main evidence
+Cross-profile evidence promotes only:
 
 ```text
-PR #56 final head: 0e7adf71475d37d5c096718762cbc08086c5e465
-PR #56 merge/main: db6d65f69f7fc0c42861e5ab45869ec9c2f3d8ad
+NK-SEM-008
+NK-ID-008
+NK-EQV-002
+NK-EQV-003
 ```
 
-Final PR-head workflows:
+All `NK-EPI-001…008` remain `UNSUPPORTED / PROPOSED`.
+
+## C3 comparison route
 
 ```text
-P4 31177071487 — PASS
-P3 31177072239 — PASS
-P2 31177071499 — PASS
-P1 31177071518 — PASS
-Fixtures 31177071508 — PASS
-AI context 31177071481 — PASS
+same accepted contracts
+→ independent PostgreSQL execution
+→ independent SQLite execution
+→ normalized Event/outcome comparison
+→ reducer/projection/Receipt comparison
+→ exact PostgreSQL Event import into SQLite
+→ BYTE / STRUCTURAL / SEMANTIC / BEHAVIOURAL checks
+→ 72 assertion results
+→ nk-equivalence-report/1
 ```
 
-Exact main-push workflows:
+## Initial exact evidence
 
 ```text
-P4 31177335611 — PASS
-P3 31177335146 — PASS
-P2 31177335749 — PASS
-P1 31177335898 — PASS
-Fixtures 31177335864 — PASS
-AI context 31177335964 — PASS
+Evidence head: d43a6ed28232e9fc8b62f84d9025386fb8bce6f7
+P5/C3 run:    31181341275 — PASS
+P4 run:       31181341370 — PASS
+P1 run:       31181341405 — PASS
+Fixtures:     31181340889 — PASS
+Artifacts:    4 archives × 3 JSON reports
 ```
 
-P4 passed Python 3.11/3.12 × PostgreSQL 16/18. Four main-bound JSON evidence artifacts are retained for 30 days.
+Matrix:
+
+```text
+Python 3.11 / PostgreSQL 16 / SQLite 3.45.1 — PASS
+Python 3.11 / PostgreSQL 18 / SQLite 3.45.1 — PASS
+Python 3.12 / PostgreSQL 16 / SQLite 3.45.1 — PASS
+Python 3.12 / PostgreSQL 18 / SQLite 3.45.1 — PASS
+```
+
+One artifact was downloaded and inspected. It contained all three expected reports; C3 was bound to the exact SHA/run/environment, covered all 72 IDs with `45/10/17/0`, and all eight comparison checks were `PASS`.
 
 ## Evidence meaning
 
 ```text
-C2:    REPOSITORY_REPRODUCED for 41 SUPPORTED assertions
-C3:    NOT_ESTABLISHED
-C4/C5: NOT_ESTABLISHED
+SQLite C2:       REPOSITORY_REPRODUCED for 41 SUPPORTED assertions
+Cross-profile C3: REPOSITORY_REPRODUCED for 45 SUPPORTED assertions
+C4/C5:           NOT_ESTABLISHED
 ```
 
-C2 does not apply to the 13 `PARTIAL` or 18 `UNSUPPORTED` results. One PostgreSQL profile cannot establish cross-profile equivalence.
+C3 does not apply to the 10 `PARTIAL` or 17 `UNSUPPORTED` comparison results.
 
 ## Explicitly absent
 
-- P5 independent SQLite profile;
-- C3 cross-profile equivalence;
+- exhaustive equivalence proof;
+- operational equivalence between PostgreSQL and SQLite;
 - complete conflict subsystem;
 - physical/cryptographic deletion execution;
 - restore-before-visibility enforcement;
@@ -95,6 +125,12 @@ C2 does not apply to the 13 `PARTIAL` or 18 `UNSUPPORTED` results. One PostgreSQ
 - Titan, Mentaury or Crystal runtime wiring;
 - historical `v0.1.2.1` recovery.
 
-## Next gate
+## Current finalization gates
 
-P5/C3 remains blocked until a new explicit operator GO authorizes a materially independent SQLite profile and retained equivalence-comparison evidence.
+1. complete GitHub and Notion P5 documentation synchronization;
+2. repeat P5/C3, P4, P1, fixture and AI-context checks on one final exact PR head;
+3. verify four final-head artifacts and inspect one archive;
+4. inspect full diff, comments, reviews and unresolved threads;
+5. merge only with C4/C5/deletion/production/ecosystem scope absent;
+6. publish post-merge continuity evidence and close Issue #58;
+7. require separate operator GO before any later phase or operational claim.

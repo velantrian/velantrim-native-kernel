@@ -1,32 +1,32 @@
 # 🗺️ Native Kernel Document, Contract and Authority Map
 
-Use exact SHAs, statuses and evidence. A C2 report with `support_state: PARTIAL` is not complete profile conformance.
+Use exact SHAs, statuses and evidence. A C3 report with `support_state: PARTIAL` is not complete conformance or operational equivalence.
 
 ## Primary orientation surfaces
 
 | Surface | Role | Authority / caution |
 |---|---|---|
-| `README.md` / `README.ru.md` | Public purpose and maturity | Must state P4 partial assertion conformance |
+| `README.md` / `README.ru.md` | Public purpose and maturity | Must state P5 partial C3 counts and non-claims |
 | `STATUS.md` | Authoritative current implementation/evidence boundary | Verify exact branch/main SHA |
 | `ARCHITECTURE.md` | Canon shape and invariants | Architecture, not runtime proof |
-| `docs/contracts/NORMATIVE_CONTRACTS_V1*` | Accepted identity/event/deletion/fixture contracts | Registry support remains assertion-scoped |
 | `contracts/registry.json` | Stable 72 assertion IDs and decision statuses | `NK-EPI` remains proposed |
-| `contracts/evidence-report-v1.schema.json` | Evidence report protocol | Schema validity alone is not runtime evidence |
-| `docs/rfc/0002-*` | Accepted clean PostgreSQL profile | P1–P4 implementation contract |
-| `docs/adr/0015-*` | Clean lineage and P1 authorization | Approval, not conformance |
-| `docs/adr/0016-*` | P2 append/idempotency decision | Bounded P2 evidence only |
-| `docs/adr/0017-*` | P3 replay/projection/Receipt decision | Bounded P3 evidence only |
-| `docs/adr/0018-*` | P4 assertion-scoped conformance decision | C2 applies only to supported assertions |
-| `profiles/postgresql-reference-v0/p4-manifest.json` | P4 support/evidence summary | 41 supported, 13 partial, 18 unsupported |
-| `docs/ai/P4_IMPLEMENTATION_RECORD.md` | Exact P4 implementation, runs, artifacts and limitations | Re-verify final PR head |
-| `native_kernel/semantic_core/` | P1 semantics + P3 helpers | Standard-library profile code, not Canon |
-| `native_kernel/postgresql_profile/` | P2/P3 runtime + P4 adapter | One PostgreSQL profile, not C3 |
-| `tools/conformance/runner.py` | External adapter protocol and base report validation | Fixture/runtime boundary |
-| `tools/conformance/postgresql_profile_adapter.py` | P4 adapter CLI | Emits report, no hidden skip |
-| `tools/conformance/validate_p4_report.py` | Strict P4 traceability and anti-overclaim guard | Requires exact 72-result map |
-| `tools/profiles/validate_p4_manifest.py` | P4 manifest guard | Rejects false C2/C3/P5/recovery promotion |
-| `.github/workflows/p4-conformance.yml` | 4× C2 matrix + artifacts + regressions | Only exact completed runs are evidence |
-| `docs/ai/*` | Current state, risks, routes and work log | Orientation plus evidence references |
+| `contracts/evidence-report-v1.schema.json` | Single-profile evidence protocol | Schema validity alone is not runtime evidence |
+| `docs/rfc/0002-*` | Accepted clean PostgreSQL profile lifecycle | P1–P5 implementation contract |
+| `docs/adr/0018-*` | P4 assertion-scoped C2 decision | C2 applies only to supported results |
+| `docs/adr/0019-*` | P5 SQLite/C3 decision | C3 is partial and non-operational |
+| `profiles/postgresql-reference-v0/p4-manifest.json` | PostgreSQL C2 summary | 41/13/18 |
+| `profiles/sqlite-embedded-v0/p5-manifest.json` | SQLite C2 and cross-profile C3 summary | SQLite 41/13/18; C3 45/10/17 |
+| `docs/ai/P4_IMPLEMENTATION_RECORD.md` | Exact P4 evidence | Historical prerequisite |
+| `docs/ai/P5_IMPLEMENTATION_RECORD.md` | Exact P5/C3 runs, artifacts and limits | Re-verify final PR head |
+| `native_kernel/semantic_core/` | Profile-neutral semantics | Standard-library implementation, not Canon |
+| `native_kernel/postgresql_profile/` | PostgreSQL append/replay/projection/P4 | Server profile |
+| `native_kernel/sqlite_profile/` | Independent SQLite append/replay/projection/P5 | Embedded profile |
+| `tools/conformance/postgresql_profile_adapter.py` | PostgreSQL P4 report CLI | `nk-evidence-report/1` |
+| `tools/conformance/sqlite_profile_adapter.py` | SQLite P5 report CLI | `nk-evidence-report/1` |
+| `tools/conformance/cross_profile_comparator.py` | PostgreSQL↔SQLite comparator | `nk-equivalence-report/1` |
+| `tools/conformance/validate_p5_report.py` | Strict SQLite/C3 anti-overclaim guard | Requires exact maps and evidence |
+| `tools/profiles/validate_p5_manifest.py` | P5 manifest guard | Rejects false C3/C4/C5/recovery |
+| `.github/workflows/p5-sqlite-c3.yml` | 4× C2/C3 matrix, reports and regressions | Only completed exact runs are evidence |
 
 ## Architecture-to-evidence route
 
@@ -35,100 +35,109 @@ Architecture Canon
         ↓
 accepted exact contracts + registry 1.1.0
         ↓
-RFC-0002 / clean PostgreSQL profile
-        ↓
 P1 semantic core
         ↓
-P2 authoritative append/idempotency
+P2 PostgreSQL append/idempotency
         ↓
-P3 persisted replay/projections/Receipts
+P3 replay/projections/Receipts
         ↓
-P4 assertion-scoped evidence adapter
+P4 PostgreSQL assertion report / C2
         ↓
-41 SUPPORTED / 13 PARTIAL / 18 UNSUPPORTED
+P5 independent SQLite profile
         ↓
-separate P5 operator GO + independent profile before C3
+PostgreSQL ↔ SQLite comparison
+        ↓
+45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED / C3 PARTIAL
 ```
 
-## Semantic-core ownership
-
-```text
-native_kernel.semantic_core
-│
-├── canonical.py
-│   ├── canonical JSON subset
-│   ├── nkh1 / nkc1 / nkl1
-│   └── provisional nkd0 / nks0
-├── models.py
-│   ├── SemanticContent / SemanticRole
-│   ├── ClaimIdentity / LineageSeed
-│   ├── Command
-│   └── SemanticEvent
-├── authority.py
-│   └── explicit deny-by-default local policy
-├── reducer.py
-│   └── version-bound deterministic reduction
-├── state_codec.py
-│   └── canonical SemanticState reconstruction
-├── upcasting.py
-│   └── explicit deterministic schema paths
-├── deletion.py / receipt.py
-│   └── semantic transitions and bounded Receipts
-└── errors.py
-    └── explicit contract/authority/version/sequence failures
-```
-
-## PostgreSQL P2/P3 ownership
+## PostgreSQL ownership
 
 ```text
 native_kernel.postgresql_profile
-│
-├── adapter.py
-│   ├── instance registration
-│   ├── writer owner/epoch/expiry fencing
-│   ├── atomic append + idempotency
-│   └── rollback-safe global/stream ordering
-├── hashing.py
-│   ├── nkp1 payload commitment
-│   └── nke1 Event/hash-chain commitment
-├── migrations.py + sql/0001_*.sql
-│   └── checksum-locked authoritative-history schema
-├── history.py
-│   └── verified repeatable-read replay snapshot
-├── replay.py
-│   ├── Replay Receipt
-│   ├── projection read/destroy/rebuild
-│   ├── stale-head guard
-│   └── projection-to-Receipt consistency
-├── receipt_store.py / replay_models.py
-│   └── canonical bounded operational evidence
-└── sql/0002_*.sql
-    └── disposable projections and operational Receipts
+├── adapter.py        append / idempotency / writer fencing
+├── history.py        verified authoritative snapshot
+├── replay.py         replay / projection rebuild / Receipts
+├── hashing.py        payload and Event commitments
+├── migrations.py    checksum-locked migrations
+└── conformance.py   72-ID PostgreSQL report
 ```
 
-## P4 ownership
+## SQLite ownership
 
 ```text
-native_kernel.postgresql_profile.conformance
-│
-├── semantic check execution
-├── PostgreSQL check execution
-├── assertion support map
-├── check/result traceability
-├── C1/C2 metadata boundary
-└── nk-evidence-report/1 rendering
-
-external validation
-│
-├── tools/conformance/runner.py
-├── tools/conformance/validate_p4_report.py
-├── tests/test_p4_conformance_unit.py
-├── tests/test_p4_postgresql_integration.py
-├── tests/test_p4_manifest.py
-└── .github/workflows/p4-conformance.yml
+native_kernel.sqlite_profile
+├── adapter.py        independent sqlite3 append / fencing
+├── hashing.py        SQLite Event commitments
+├── replay.py         replay / projection rebuild / Receipts
+├── conformance.py    complete SQLite 72-ID report
+├── equivalence.py    cross-profile workload and C3 map
+├── models.py         SQLite profile domain records
+└── errors.py         explicit profile failures
 ```
 
-P4 evaluates existing bounded behavior. It does not add new authoritative storage semantics or fill unsupported subsystems through documentation.
+The SQLite implementation does not call PostgreSQL append, replay, projection or Receipt adapters.
+
+## C3 ownership
+
+```text
+same fixture pack
+├── PostgreSQL execution
+├── SQLite execution
+├── normalized behavioural comparison
+├── reducer/projection/Receipt comparison
+├── exact PostgreSQL Event import into SQLite
+└── BYTE / STRUCTURAL / SEMANTIC / BEHAVIOURAL checks
+        ↓
+nk-equivalence-report/1
+        ↓
+45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED
+```
+
+Promoted by cross-profile evidence:
+
+```text
+NK-SEM-008
+NK-ID-008
+NK-EQV-002
+NK-EQV-003
+```
+
+All `NK-EPI-001…008` remain `UNSUPPORTED / PROPOSED`.
+
+## P5 evidence route
+
+Read in order:
+
+1. Issue #58;
+2. ADR-0019;
+3. `P5_IMPLEMENTATION_RECORD.md`;
+4. SQLite adapter/replay/conformance source;
+5. cross-profile comparator;
+6. strict report and manifest validators;
+7. P5 tests and workflow;
+8. exact run/jobs/artifacts for the PR head.
+
+Initial evidence:
+
+```text
+head d43a6ed28232e9fc8b62f84d9025386fb8bce6f7
+P5/C3 run 31181341275 — PASS
+Python 3.11/3.12 × PostgreSQL 16/18 × SQLite 3.45.1 — PASS
+4 artifacts × 3 JSON reports
+P1–P4 regressions — PASS
+```
+
+Required interpretation:
+
+```text
+C3 for 45 SUPPORTED assertions
+≠ all assertions supported
+≠ operational equivalence
+≠ accepted NK-EPI
+≠ truth/authenticity
+≠ physical deletion
+≠ production guarantee
+```
 
 ## Assertion families
 
@@ -142,77 +151,15 @@ NK-EQV — conformance and semantic equivalence
 NK-EPI — proposed epistemic family
 ```
 
-Current profile summary:
+## Source-recovery boundary
 
 ```text
-SUPPORTED:   41
-PARTIAL:     13
-UNSUPPORTED: 18
-FAILED:       0
-```
-
-The 18 unsupported results include all eight proposed `NK-EPI` assertions and accepted gaps such as P5 translation, conflict representation, restore enforcement and cross-project authority.
-
-## P4 evidence route
-
-Read in order:
-
-1. Issue #55;
-2. ADR-0018;
-3. RFC-0002;
-4. `P4_IMPLEMENTATION_RECORD.md`;
-5. `conformance.py`;
-6. adapter CLI and strict validator;
-7. P4 tests and manifest guard;
-8. P4 workflow;
-9. exact run/jobs/artifacts for the PR head.
-
-Initial C2 evidence:
-
-```text
-head 93710131fffdea7d9a586cc05e7f258c07fae707
-P4 run 31175767586 — PASS
-PostgreSQL 16/18 × Python 3.11/3.12 — PASS
-4 JSON evidence artifacts retained
-P1/P2/P3 regressions — PASS
-```
-
-Required interpretation:
-
-```text
-P4 C2 for SUPPORTED assertions
-≠ all assertions supported
-≠ C3
-≠ accepted NK-EPI
-≠ truth/authenticity
-≠ physical deletion
-≠ production guarantee
-```
-
-## Source-recovery route
-
-Start with `STATUS.md`, Issue #1, import specs, `docs/source-recovery/`, `tools/source_recovery/` and its isolated workflow.
-
-```text
-clean P1–P4 implementation
+clean P1–P5 implementation
 ≠ controlled v0.1.2.1 import
 ≠ recovered original tests
 ```
 
-## World and epistemic boundary
-
-Preserve:
-
-```text
-representation ≠ represented reality
-observation ≠ explanation
-unknown ≠ false
-retrieval/model output ≠ admitted knowledge
-storage presence ≠ truth or authority
-C2 report ≠ unlimited proof
-```
-
-ADR-0008 and `NK-EPI-001…008` remain proposed and are not promoted by P4.
+Issue #1 remains independent.
 
 ## Ecosystem boundary
 
@@ -221,30 +168,27 @@ ADR-0008 and `NK-EPI-001…008` remain proposed and are not promoted by P4.
 - Mentaury Soul — digital individuality and continuity;
 - Crystal — verifiable memory, evidence and audit.
 
-No P1–P4 component authorizes shared runtime, storage, identity or authority.
+No P1–P5 component authorizes shared runtime, storage, identity or authority.
 
 ## Decision ownership
 
 - architecture/contract acceptance — operator through ADR process;
 - phase authorization — separate explicit operator GO;
-- assertion support — exact P4 report at a named SHA/run;
+- C2 support — exact single-profile report at a named SHA/run;
+- C3 support — exact cross-profile report and comparison artifacts;
 - source authenticity — Issue #1 provenance gate;
-- C3 — materially independent second profile plus comparison evidence;
 - Notion — rationale/history, never overriding GitHub behavior/evidence.
 
 ## Task routes
 
 | Task | Minimum route |
 |---|---|
-| P1 audit | Issue #43 → ADR-0015 → source → tests → manifest |
-| P2 audit | Issue #46 → ADR-0016 → SQL/source → tests → matrix |
-| P3 audit | Issue #49 → ADR-0017 → replay source → tests → matrix |
-| P4 audit | Issue #55 → ADR-0018 → adapter/map → report validator → artifacts |
-| Identity | ADR-0011 → canonical.py → identity fixtures/tests → P4 results |
-| Authority | NK-AUT → authority.py → append port → Receipt tests → P4 results |
-| Replay | ADR-0012/0017 → history.py/replay.py → P3/P4 checks |
-| Conformance claim | assertion ID → P4 result → check IDs → exact artifact |
+| P4 audit | Issue #55 → ADR-0018 → PostgreSQL report → artifacts |
+| P5/C3 audit | Issue #58 → ADR-0019 → SQLite source → comparator → reports/artifacts |
+| Identity | ADR-0011 → canonical vectors → C2/C3 results |
+| Authority | NK-AUT → profile adapters → Receipt tests → exact report |
+| Replay | ADR-0012/0017 → both replay implementations → comparison checks |
+| Conformance claim | assertion ID → profile/C3 result → check IDs → exact artifact |
 | Deletion | ADR-0013 → semantic transitions/Receipts; physical execution absent |
-| P5/C3 | separate GO → independent profile → equivalence comparison |
-| Source candidate | Issue #1 import spec and provenance tooling |
+| Source candidate | Issue #1 provenance/import tooling |
 | Cross-project work | ecosystem boundaries plus target-project governance |

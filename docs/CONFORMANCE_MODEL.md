@@ -1,117 +1,103 @@
 # 🧪 Conformance Model
 
-> **Status:** `ACCEPTED ABSTRACT CONTRACT / P4 ASSERTION ADAPTER IMPLEMENTED / NOT A CERTIFICATION PROGRAM`  
-> **Purpose:** define how a present or future implementation demonstrates bounded Native Kernel contract support
+> **Status:** `ACCEPTED ABSTRACT CONTRACT / P5 C3 IMPLEMENTED PARTIALLY / NOT A CERTIFICATION PROGRAM`  
+> **Purpose:** define how present or future profiles demonstrate bounded Native Kernel contract support and cross-profile equivalence
 
 ## 1. Why conformance matters
 
-Technology independence must be tested, not merely declared. A system is not a Native Kernel implementation because it uses the same terminology or database.
+Technology independence must be tested, not merely declared.
 
 ```text
-same architectural contract
+same accepted contracts
         ↓
-implementation profile A
-implementation profile B
+materially different profile A
+materially different profile B
         ↓
-comparable declared semantic behaviour
+declared comparable behaviour
+        ↓
+assertion-scoped evidence
 ```
 
-Conformance concerns meaning and observable behaviour. Identical code, storage layout or bytes are required only when a specific assertion declares byte equality.
+Conformance concerns meaning and observable behaviour. Identical code or storage layout is not required. Identical bytes are required only where an assertion or equivalence class declares byte equality.
 
 ## 2. Conformance levels
 
 | Level | Meaning | Required evidence |
 |---|---|---|
-| **C0 — Described** | A profile maps itself to a contract | architecture mapping only |
-| **C1 — Locally exercised** | Behaviour runs in a recorded local environment | commands, local tests and failure cases |
-| **C2 — Repository reproduced** | A third party can reproduce the assertion from the repository | committed implementation, tests, environment, CI and traceability |
-| **C3 — Cross-profile equivalent** | Two materially different profiles preserve a declared equivalence | shared fixtures, profile mappings and comparison evidence |
-| **C4 — Shadow evaluated** | Behaviour is compared on approved recorded workloads without authority promotion | dataset, metrics, Receipts, failures and report |
-| **C5 — Operationally validated** | A bounded deployment has security, rollback, privacy and incident evidence | explicit operational review and evidence |
+| **C0 — Described** | A profile maps itself to a contract | architecture mapping |
+| **C1 — Locally exercised** | Behaviour runs in a recorded local environment | commands, tests and failures |
+| **C2 — Repository reproduced** | A third party can reproduce one profile’s supported assertion | committed code, CI, environment, traceability and artifact |
+| **C3 — Cross-profile equivalent** | Two materially different profiles preserve a declared equivalence | shared fixtures, independent implementations and comparison artifact |
+| **C4 — Shadow evaluated** | Approved recorded workloads are compared without authority promotion | dataset, metrics, failures and Receipts |
+| **C5 — Operationally validated** | A bounded deployment has security/privacy/rollback/incident evidence | explicit operational review |
 
-Levels are **assertion-scoped**. They do not replace decision status, implementation status, evidence level, support state, maturity or operator approval.
-
-A profile can therefore truthfully report:
+Levels are assertion-scoped and independent from decision status, implementation status, evidence level, support state and operator approval.
 
 ```text
 support_state: PARTIAL
-kernel_runtime_conformance: C2
+kernel_runtime_conformance: C3
 ```
 
-when C2 applies only to the assertion results marked `SUPPORTED`, while other assertions remain `PARTIAL` or `UNSUPPORTED`.
+is valid when C3 applies only to results marked `SUPPORTED` and other results remain `PARTIAL` or `UNSUPPORTED`.
 
-## 3. Contract families and exact contracts
-
-ADR-0010 accepts the family map:
+## 3. Contract families
 
 ```text
 NK-SEM — semantic roles
 NK-ID  — identity and canonical encoding
-NK-EVT — event, observation and recorded change
+NK-EVT — Event, time, order and replay
 NK-AUT — authority and admission
 NK-CFL — conflict and explicit unknowns
 NK-EQV — conformance and semantic equivalence
+NK-EPI — proposed epistemic family
 ```
 
-ADR-0011 through ADR-0014 accept:
+Accepted exact protocols:
 
 ```text
-nk-id/1.0       — canonical semantic identity
-nk-event/1.0    — append, idempotency, order and replay boundary
-nk-deletion/1.0 — restriction, deletion, retention and erasure meaning
-nk-fixtures/1.0 — machine-readable fixture/evidence protocol
+nk-id/1.0
+nk-event/1.0
+nk-deletion/1.0
+nk-fixtures/1.0
+nk-evidence-report/1
 ```
 
-`NK-EPI-001…008` remains a proposed family associated with ADR-0008. Fixture presence and test execution do not accept that family.
+P5 adds the implementation-profile comparison protocol:
 
-Normative sources:
+```text
+nk-equivalence-report/1
+```
 
-- [`docs/contracts/NORMATIVE_CONTRACTS_V1.md`](./contracts/NORMATIVE_CONTRACTS_V1.md);
-- [`docs/contracts/NORMATIVE_CONTRACTS_V1.ru.md`](./contracts/NORMATIVE_CONTRACTS_V1.ru.md);
-- ADR-0011 through ADR-0014;
-- machine-readable [`../contracts/registry.json`](../contracts/registry.json).
+`NK-EPI-001…008` remains proposed. Fixture execution and profile agreement do not accept it.
 
 ## 4. Assertion result states
 
-Every registered assertion must appear exactly once in an evidence report as:
+Every registered assertion appears exactly once as:
 
 | State | Meaning |
 |---|---|
-| `SUPPORTED` | the declared bounded behavior was directly reproduced |
-| `PARTIAL` | meaningful behavior was reproduced, but an explicit gap remains |
-| `UNSUPPORTED` | sufficient executable support is absent or the assertion is not accepted |
-| `FAILED` | a required declared check was executed and failed |
+| `SUPPORTED` | declared bounded behaviour was directly reproduced |
+| `PARTIAL` | meaningful behaviour was reproduced but an explicit gap remains |
+| `UNSUPPORTED` | sufficient support is absent or the assertion is not accepted |
+| `FAILED` | a required declared check executed and failed |
 
-Unsupported assertions remain visible. A profile cannot obtain a higher level by omitting them.
+Unsupported assertions remain visible. `FAILED` cannot be silently converted to `UNSUPPORTED`.
 
-`FAILED` must not be silently converted to `UNSUPPORTED`. Adapter failure aborts report generation when a required check fails.
+## 5. Single-profile evidence protocol
 
-## 5. Evidence report protocol
-
-The report protocol is `nk-evidence-report/1`.
-
-A report must contain:
+`nk-evidence-report/1` contains:
 
 - profile ID;
 - support state;
-- assertion-scoped conformance level;
+- assertion-scoped level;
 - evidence level;
-- all 72 assertion results;
+- all 72 results;
 - executed checks;
 - report-wide limitations.
 
-Every `SUPPORTED` or `PARTIAL` result must:
+Every `SUPPORTED` or `PARTIAL` result references passed checks in the same report and states limitations.
 
-1. reference at least one check ID;
-2. reference only checks present in the same report;
-3. reference only checks that passed;
-4. contain explicit limitations.
-
-Every result, including `UNSUPPORTED`, must contain a reason or limitation.
-
-## 6. External adapter protocol
-
-The support runner invokes an external profile adapter:
+The generic runner invokes an adapter:
 
 ```bash
 python tools/conformance/runner.py adapter \
@@ -119,38 +105,64 @@ python tools/conformance/runner.py adapter \
   -- <adapter-command>
 ```
 
-The fixture-pack path is appended to the command. The adapter must emit one JSON report.
+It rejects malformed JSON, missing/duplicate/unknown assertion IDs and invalid statuses. Profile-specific validators additionally guard exact maps, traceability, proposed-family non-promotion and repository metadata.
 
-The runner rejects:
+## 6. Cross-profile equivalence protocol
 
-- non-zero process exit;
-- malformed JSON;
-- missing required fields;
-- duplicate assertion results;
-- missing registered assertions;
-- unknown extra IDs;
-- invalid result statuses.
+`nk-equivalence-report/1` is generated by the dedicated comparator rather than the single-profile evidence runner:
 
-The P4 strict validator additionally rejects:
+```bash
+python tools/conformance/cross_profile_comparator.py \
+  contracts/fixture-pack.json \
+  > c3-equivalence-report.json
 
-- wrong profile/support state;
-- wrong support counts;
-- unknown or failed referenced checks;
-- `SUPPORTED`/`PARTIAL` without evidence;
+python tools/conformance/validate_p5_report.py c3 \
+  c3-equivalence-report.json --require-repository
+```
+
+The comparison report contains:
+
+- comparison/profile IDs;
+- exact commit/run/Python/PostgreSQL/SQLite environment;
+- declared equivalence classes;
+- allowed and forbidden differences;
+- passed cross-profile checks;
+- all 72 assertion results;
+- support counts and limitations.
+
+The strict validator rejects:
+
+- wrong protocol/profile/support state;
+- missing, duplicate or unknown IDs;
+- wrong `45/10/17/0` map;
+- supported/partial results without passed comparison evidence;
+- unknown/failed referenced checks;
 - missing limitations;
-- proposed `NK-EPI` promotion;
-- C2 with local placeholder metadata;
-- missing truth/C3/deletion boundaries.
+- `NK-EPI` promotion;
+- false C3 with local/placeholder metadata;
+- missing operational-equivalence, truth, deletion or production boundaries.
 
-## 7. Current PostgreSQL P4 adapter
+## 7. Current profiles
 
-Profile:
+### PostgreSQL reference
 
 ```text
 native-kernel/postgresql-reference@0.4-p4
+clean/postgresql-reference/0.1
 ```
 
-Current guarded result map:
+### SQLite embedded
+
+```text
+native-kernel/sqlite-embedded@0.5-p5
+clean/sqlite-embedded/0.1
+```
+
+SQLite is materially independent. It uses standard-library `sqlite3`, its own schema/migrations, `BEGIN IMMEDIATE`, its own append/replay/projection/Receipt code and exact-history import. It does not call the PostgreSQL adapters.
+
+## 8. Single-profile C2 map
+
+Both PostgreSQL and SQLite currently report:
 
 ```text
 SUPPORTED:   41
@@ -160,155 +172,163 @@ FAILED:       0
 TOTAL:       72
 ```
 
-The 18 unsupported results include all eight proposed `NK-EPI` assertions and accepted gaps such as independent profile translation, identity aliasing, cross-project authority, restore enforcement and most dedicated conflict behavior.
+This map covers profile behaviour before cross-profile promotions.
 
-### 7.1 Profile-neutral checks
+## 9. Current C3 map
 
-- registry version, assertion coverage and decision statuses;
-- accepted identity golden vectors;
-- invalid canonical identity inputs;
-- semantic roles, explicit scope and source-bound Claim identity;
-- explicit deny-by-default authority;
-- Admission and Deletion Receipt overclaim rejection;
-- deterministic reduction;
-- explicit sequence/schema failures;
-- semantic deletion/restriction transitions.
-
-### 7.2 PostgreSQL checks
-
-- migration idempotency;
-- writer lease/epoch fencing;
-- append, same-digest retry and idempotency conflict;
-- rollback-safe contiguous sequence allocation;
-- persisted replay equal to direct reduction;
-- bounded Replay Receipt;
-- projection load/destroy/rebuild;
-- monotonic projection generation;
-- stale-head rejection;
-- stored canonical corruption detection.
-
-### 7.3 Evidence checks
-
-- exact profile/commit/run/Python/PostgreSQL metadata;
-- complete assertion-to-check traceability.
-
-## 8. Current P4 repository evidence
-
-Initial successful C2 head:
+PostgreSQL↔SQLite comparison reports:
 
 ```text
-93710131fffdea7d9a586cc05e7f258c07fae707
+SUPPORTED:   45
+PARTIAL:     10
+UNSUPPORTED: 17
+FAILED:       0
+TOTAL:       72
+support_state: PARTIAL
 ```
+
+Promoted by cross-profile evidence:
 
 ```text
-P4 run 31175767586 — PASS
-Python 3.11 / PostgreSQL 16 — PASS
-Python 3.11 / PostgreSQL 18 — PASS
-Python 3.12 / PostgreSQL 16 — PASS
-Python 3.12 / PostgreSQL 18 — PASS
-P1/P2/P3 regressions — PASS
-4 JSON artifacts retained for 30 days
+NK-SEM-008
+NK-ID-008
+NK-EQV-002
+NK-EQV-003
 ```
 
-Each artifact is bound to the run/head and contains one strict report.
+All eight proposed `NK-EPI` assertions remain unsupported.
 
-The first P4 run `31175593261` failed at standalone adapter import after all unit/manifest/C1 integration checks passed. That failure remains useful negative evidence. The CLI path was fixed; report requirements were not weakened.
-
-A later documentation head must repeat affected checks before merge. Earlier evidence remains valid only for its named SHA/run.
-
-## 9. Meaning of P4 C2
-
-```text
-C2 applies to 41 SUPPORTED assertion results
-PARTIAL assertions remain partial
-UNSUPPORTED assertions remain unsupported
-support_state remains PARTIAL
-```
-
-P4 C2 does not establish:
-
-- support for all 72 assertions;
-- storage neutrality;
-- C3 cross-profile equivalence;
-- accepted `NK-EPI`;
-- truth or external authenticity;
-- physical deletion;
-- C4/C5;
-- production readiness.
-
-## 10. Fixture families
-
-### Identity
-
-`nk-id/1.0` vectors cover deterministic key ordering, NFC enforcement, rejection of floats/null, domain-separated IDs and golden/invalid cases.
-
-### Event, idempotency and replay
-
-`nk-event/1.0` covers contiguous ordering, payload/Event commitments, previous-hash continuity, idempotency retry/conflict and projection-failure boundaries.
-
-P4 adds execution against a real PostgreSQL service, but does not cover every crash, fork, threat model or provider behavior.
-
-### Deletion and restriction
-
-`nk-deletion/1.0` covers semantic state transitions and Receipt proof limits. It does not prove provider, backup, media or key deletion.
-
-### Epistemic boundaries
-
-Fixtures exist for `NK-EPI-001…008`, but P4 retains all eight as `UNSUPPORTED` because the family remains proposed.
-
-## 11. Equivalence classes
+## 10. Equivalence classes
 
 | Class | Required comparison |
 |---|---|
-| **Byte** | identical canonical bytes or identifiers under one declared contract/version |
-| **Structural** | equivalent required fields/entities/relations with allowed non-semantic differences |
-| **Semantic** | preserved identity, lineage, time, scope, authority, conflict and unknown meaning |
-| **Behavioural** | equivalent accepted/rejected commands and observable outcomes in a bounded workload |
+| **BYTE** | identical canonical identity vectors and exact imported Event bytes/hash chain |
+| **STRUCTURAL** | equivalent required report/contract fields and relations |
+| **SEMANTIC** | preserved reducer state, projection state and Receipt proof boundaries |
+| **BEHAVIOURAL** | equivalent accepted/rejected commands, idempotency, fencing and order |
 
-Every C3 claim must list allowed and forbidden differences. “Equivalent” without a definition is non-conforming language.
+Every C3 claim must state allowed and forbidden differences.
 
-## 12. Why the matrix is not C3
+### Allowed differences
 
-Python 3.11/3.12 and PostgreSQL 16/18 exercise environment compatibility for one profile.
+- SQL dialect and schema/index layout;
+- server topology versus a single local file;
+- PostgreSQL row locks versus SQLite `BEGIN IMMEDIATE`;
+- independently generated Event IDs and timestamps;
+- IAM, networking, replication, failover, concurrency and administration;
+- non-semantic metadata and query plans.
+
+### Forbidden differences
+
+- canonical identity and Command digest;
+- payload meaning and declared order;
+- hash-chain validity;
+- reducer/projection canonical state;
+- idempotency, stale-writer and corruption outcomes;
+- Receipt proof booleans and limitations;
+- exact bytes/hash commitments during authoritative-history import.
+
+## 11. Current P5 checks
+
+SQLite/profile checks:
+
+- migration idempotency and digest drift;
+- Kernel-instance registration;
+- writer owner/epoch/expiry fencing;
+- append/retry/conflict and rollback-safe order;
+- hash-chain verification;
+- replay equal to direct reduction;
+- projection rebuild and monotonic generation;
+- stale-head and stored-corruption rejection;
+- bounded Receipts.
+
+Cross-profile checks:
+
+- identity golden-vector byte equality;
+- complete registry/report structural coverage;
+- normalized append/Event outcomes;
+- reducer state equality;
+- projection state equality;
+- Receipt proof-boundary equality;
+- rejection-semantics equality;
+- exact PostgreSQL Event import and byte/hash preservation in SQLite.
+
+## 12. Initial P5 repository evidence
 
 ```text
-4 matrix jobs
-≠ 4 independent implementations
-≠ profile diversity
-≠ C3
+Evidence head: d43a6ed28232e9fc8b62f84d9025386fb8bce6f7
+P5/C3 run:    31181341275 — PASS
+P4 run:       31181341370 — PASS
+P1 run:       31181341405 — PASS
+Fixtures:     31181340889 — PASS
 ```
 
-P5 requires a materially independent SQLite profile and explicit comparison evidence.
+```text
+Python 3.11 / PostgreSQL 16 / SQLite 3.45.1 — PASS
+Python 3.11 / PostgreSQL 18 / SQLite 3.45.1 — PASS
+Python 3.12 / PostgreSQL 16 / SQLite 3.45.1 — PASS
+Python 3.12 / PostgreSQL 18 / SQLite 3.45.1 — PASS
+```
 
-## 13. Artifact boundary
-
-Artifacts improve reproducibility but have finite retention. An artifact digest without retained bytes is not sufficient reproduction evidence.
-
-Long-term release/evidence retention remains blocked by publication and licensing decisions, including Issue #18.
-
-## 14. Non-conformance examples
+Each of four artifacts contains:
 
 ```text
-❌ Projection rows are edited and treated as history.
-❌ Backend row IDs silently define semantic identity.
-❌ Retrieval output becomes admitted knowledge without authority.
-❌ Newest timestamp silently resolves semantic conflict.
+postgresql-p4-report.json
+sqlite-p5-report.json
+c3-equivalence-report.json
+```
+
+One archive was downloaded and inspected. The C3 report was bound to the exact head/run/environment, covered all 72 IDs with `45/10/17/0`, and all eight comparison checks passed.
+
+## 13. Meaning of current C3
+
+```text
+C3 applies to 45 SUPPORTED results
+PARTIAL remains PARTIAL
+UNSUPPORTED remains UNSUPPORTED
+support_state remains PARTIAL
+```
+
+Current C3 does not establish:
+
+- support for all 72 assertions;
+- exhaustive equivalence;
+- PostgreSQL/SQLite operational equivalence;
+- accepted `NK-EPI`;
+- truth or external authenticity;
+- physical deletion;
+- complete conflict handling;
+- C4/C5;
+- production readiness.
+
+## 14. Artifact boundary
+
+Artifacts have finite retention. A digest without retained bytes is not sufficient reproduction evidence. Future contract/profile changes require new reports and comparison artifacts.
+
+Long-term evidence retention remains affected by Issue #18/publication decisions.
+
+## 15. Non-conformance examples
+
+```text
+❌ Unsupported assertions are omitted.
+❌ A top-level C2/C3 label is described as support for all 72.
+❌ Environment matrix jobs are described as independent profiles.
+❌ C3 semantic equivalence is described as operational equivalence.
+❌ Event IDs/timestamps are normalized without an explicit allowed-difference rule.
+❌ Payload/order/state/Receipt differences are hidden by normalization.
 ❌ A hash chain is described as authenticity or consensus.
 ❌ ERASED is described as physical/global deletion.
-❌ Unsupported assertions are omitted.
-❌ A top-level C2 label is described as support for all 72.
-❌ One PostgreSQL profile is described as C3.
 ❌ Proposed NK-EPI fixtures are described as accepted semantics.
-❌ A replacement suite is described as recovered v0.1.2.1 evidence.
+❌ Clean P1–P5 code is described as recovered v0.1.2.1 evidence.
 ❌ Operator approval is presented as empirical proof.
 ```
 
-## 15. Relationship to Issue #1
+## 16. Issue #1 boundary
 
-P1–P4 are accepted clean architecture/implementation lineage, not recovered historical design.
+P1–P5 are accepted clean architecture/implementation lineages, not recovered historical design.
 
-A future authentic import establishes evidence only for behavior proved by its original bytes/runtime/tests. It does not automatically satisfy current exact contracts, P4 mappings, `NK-EPI`, C3, C4, C5 or production readiness.
+A future authentic import proves only behaviour reproduced from its original bytes/runtime/tests. It does not automatically satisfy current contracts, C2/C3 mappings, `NK-EPI`, C4/C5 or production readiness.
 
-## 16. Next gate
+## 17. Next gate
 
-P5 and C3 require a separate operator GO, a materially independent implementation profile, declared equivalence classes, comparison commands, negative cases and retained evidence.
+Finish final-head P5/C3 evidence and publication. Any C4, C5, production, deletion-execution or ecosystem-integration claim requires a separate explicit operator decision and evidence plan.

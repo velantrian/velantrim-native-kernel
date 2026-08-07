@@ -8,113 +8,97 @@ Before reviewing or changing the repository, read:
 2. [`../STATUS.md`](../STATUS.md);
 3. [`../docs/ai/README.md`](../docs/ai/README.md);
 4. [`../docs/ai/CURRENT_STATE.md`](../docs/ai/CURRENT_STATE.md);
-5. [`../docs/ai/P4_IMPLEMENTATION_RECORD.md`](../docs/ai/P4_IMPLEMENTATION_RECORD.md);
-6. relevant component/risk/work-log entries.
+5. [`../docs/ai/P5_IMPLEMENTATION_RECORD.md`](../docs/ai/P5_IMPLEMENTATION_RECORD.md);
+6. [`../docs/ai/P4_IMPLEMENTATION_RECORD.md`](../docs/ai/P4_IMPLEMENTATION_RECORD.md);
+7. relevant component/risk/work-log entries.
 
 Verify the actual branch/PR SHA, workflows and artifacts before carrying forward any claim.
 
 ## Current status
 
 ```text
-RESEARCH / P4 PARTIAL ASSERTION CONFORMANCE / NOT PRODUCTION-READY
+RESEARCH / P5 PARTIAL CROSS-PROFILE CONFORMANCE / NOT PRODUCTION-READY
 ```
-
-Current guarded P4 map:
 
 ```text
-SUPPORTED:   41
-PARTIAL:     13
-UNSUPPORTED: 18
-FAILED:       0
-support_state: PARTIAL
+Single-profile C2: 41 SUPPORTED / 13 PARTIAL / 18 UNSUPPORTED
+Cross-profile C3:  45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED
+support_state:     PARTIAL
 ```
-
-Repository C2 applies only to `SUPPORTED` results.
 
 ```text
-P4 C2 ≠ all 72 supported
-P4 C2 ≠ C3
-P4 C2 ≠ truth/authenticity
-P4 C2 ≠ physical deletion
-P4 C2 ≠ production readiness
+C2 ≠ C3
+C3 ≠ support for all 72
+C3 semantic equivalence ≠ operational equivalence
+C3 ≠ truth/authenticity
+C3 ≠ physical deletion
+C3 ≠ C4/C5 or production readiness
 ```
 
-P5/SQLite/C3 requires a separate operator GO. All `NK-EPI-001…008` remain `UNSUPPORTED` and `PROPOSED`.
+All `NK-EPI-001…008` remain `UNSUPPORTED / PROPOSED`.
 
 ## Architecture discipline
 
 - Preserve `Architecture Canon → Abstract Contracts → Replaceable Implementation Profiles`.
-- PostgreSQL, SQLite, Python, Psycopg, SQL, graphs, vectors, LLMs and hardware are replaceable profile technologies.
+- PostgreSQL, SQLite, Python, Psycopg, SQL, files, graphs, vectors, LLMs and hardware are replaceable technologies.
 - Event history is authoritative about recorded history, not automatically truth.
-- Backend IDs, schemas, embeddings, graph nodes or processor assumptions must not become semantic identity by accident.
-- Relevance, utility, frequency, freshness and write order do not independently establish truth.
-- Receipts and evidence reports are bounded proof, not certification.
+- Backend IDs/schemas must not become semantic identity accidentally.
+- Receipts, evidence reports and equivalence reports are bounded proof, not certification.
 - Operator approval is authority, not empirical evidence.
 
-## Source recovery
+## P5 profile independence
 
-- Keep clean implementation separate from Issue #1 controlled import.
-- Do not label reconstructed/new code `v0.1.2.1`.
-- Do not call new tests the original 44-test suite.
-- `NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GLOBALLY_LOST`.
-- Clean lineage is `clean/postgresql-reference/0.1`.
+- SQLite must not call PostgreSQL append/replay/projection/Receipt adapters.
+- Shared accepted contracts and profile-neutral fixtures are allowed.
+- Compare observable contract outcomes, not SQL/table similarity.
+- Declare allowed differences explicitly.
+- Never normalize away payload, ordering, state, outcome or Receipt differences.
 
-## P4 conformance discipline
+## C3 claim discipline
 
-For a support claim:
+For a C3 support claim:
 
 1. identify the assertion ID;
-2. inspect the exact P4 result status;
-3. inspect referenced check IDs;
+2. inspect the exact C3 result status;
+3. inspect referenced cross-profile check IDs;
 4. verify those checks passed in the same report;
-5. preserve stated limitations;
-6. verify exact commit/run/artifact for C2.
+5. preserve result/report limitations;
+6. verify exact commit/run/environment/artifact;
+7. confirm the result is in the guarded `45/10/17/0` map.
 
 Do not:
 
 - omit unsupported assertions;
-- promote `PARTIAL` to `SUPPORTED` through prose;
-- turn a failed required check into unsupported;
-- claim C2 from a locally generated JSON report alone;
-- infer C3 from Python/PostgreSQL matrix diversity;
-- accept `NK-EPI` through fixture execution.
+- promote `PARTIAL` through prose;
+- claim C3 from local tests or environment diversity;
+- describe semantic comparison as operational equivalence;
+- accept `NK-EPI` through fixture/profile agreement;
+- treat a digest without retained bytes as complete evidence.
 
 ## Verification
 
-P4 local checks:
-
 ```bash
-python -m unittest discover -s tests -p 'test_p4_conformance_unit.py' -v
-python -m unittest discover -s tests -p 'test_p4_manifest.py' -v
-python tools/profiles/validate_p4_manifest.py
+python -m unittest discover -s tests -p 'test_sqlite_profile_unit.py' -v
+python -m unittest discover -s tests -p 'test_p5_sqlite_integration.py' -v
+python -m unittest discover -s tests -p 'test_p5_report_validator.py' -v
+python -m unittest discover -s tests -p 'test_p5_manifest.py' -v
+python tools/profiles/validate_p5_manifest.py
 
 NK_TEST_POSTGRES_DSN='postgresql://...' \
-  python -m unittest discover -s tests -p 'test_p4_postgresql_integration.py' -v
+  python -m unittest discover -s tests -p 'test_p5_cross_profile_integration.py' -v
 ```
 
-C2 requires exact repository matrix jobs and retained JSON artifacts. Also inspect P1/P2/P3 regressions.
+Repository C2/C3 requires the exact four-job P5 matrix and retained artifacts containing PostgreSQL, SQLite and C3 reports. Inspect P1–P4 regressions too.
+
+## Source recovery
+
+- Keep clean P1–P5 implementation separate from Issue #1 import.
+- Do not label new code/tests `v0.1.2.1` or the original 44-test suite.
+- `NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GLOBALLY_LOST`.
 
 ## Ecosystem boundaries
 
-- Native Kernel owns neutral semantic memory/Event/evidence contracts and bounded profiles.
-- Titan owns cognition/retrieval/tools/orchestration.
-- Mentaury Soul owns digital individuality and continuity.
-- Crystal owns verifiable-memory/evidence/product boundaries.
-
-No runtime, storage, identity, authority or conformance status is inherited automatically.
-
-## Governance vocabulary
-
-Keep separate:
-
-```text
-Decision status
-≠ Evidence level
-≠ Implementation status
-≠ Operator approval
-```
-
-An accepted ADR does not mean complete implementation. A completed workflow does not establish claims beyond its exact checks.
+Native Kernel does not automatically provide runtime/storage/identity/authority/conformance to Titan, Mentaury Soul or Crystal. Integration requires separate governance and evidence.
 
 ## Documentation synchronization
 
@@ -122,7 +106,7 @@ Material PRs must update relevant:
 
 - `STATUS.md`;
 - `docs/ai/CURRENT_STATE.md`;
-- `docs/ai/P4_IMPLEMENTATION_RECORD.md`;
+- `docs/ai/P5_IMPLEMENTATION_RECORD.md`;
 - `docs/ai/KNOWN_RISKS.md`;
 - `docs/ai/COMPONENT_MAP.md`;
 - `docs/ai/WORK_LOG.md`;
@@ -142,4 +126,4 @@ GitHub must remain sufficient without Notion.
 7. inspect diff, checks, artifacts, reviews and threads;
 8. merge with expected head SHA.
 
-Do not combine P4 finalization with P5, deletion execution, production deployment or cross-project wiring.
+Do not combine P5 finalization with C4/C5, deletion execution, production deployment or cross-project wiring.

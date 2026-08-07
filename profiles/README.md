@@ -9,91 +9,112 @@ profile manifest
 ≠ conformance evidence by itself
 ```
 
-## Current profile
+## Current profiles
 
-| Profile | Decision | Implementation | Evidence | Conformance |
+| Profile | Decision | Implementation | Evidence | Assertion map |
 |---|---|---|---|---|
-| `native-kernel/postgresql-reference@0.4-p4` | `ACCEPTED / APPROVED` | `PARTIAL — P1 + P2 + P3 + P4` | `REPOSITORY_REPRODUCED — ASSERTION-SCOPED C2` | `41 SUPPORTED / 13 PARTIAL / 18 UNSUPPORTED` |
+| `native-kernel/postgresql-reference@0.4-p4` | `ACCEPTED / APPROVED` | `PARTIAL — P1–P4` | `C2 REPOSITORY_REPRODUCED` | `41 / 13 / 18 / 0` |
+| `native-kernel/sqlite-embedded@0.5-p5` | `ACCEPTED / APPROVED` | `PARTIAL — P5` | `C2 REPOSITORY_REPRODUCED ON EVIDENCE HEAD` | `41 / 13 / 18 / 0` |
+| PostgreSQL↔SQLite comparison | ADR-0019 | `PARTIAL — C3` | `REPOSITORY_REPRODUCED ON EVIDENCE HEAD` | `45 / 10 / 17 / 0` |
 
-Evidence lineage: `clean/postgresql-reference/0.1`. It remains independent from Issue #1 and must never be represented as recovered `v0.1.2.1`.
+Lineages:
+
+```text
+clean/postgresql-reference/0.1
+clean/sqlite-embedded/0.1
+```
+
+Both remain independent from Issue #1 and must never be represented as recovered `v0.1.2.1`.
 
 ## Manifest roles
 
-- [`postgresql-reference-v0/profile-manifest.json`](./postgresql-reference-v0/profile-manifest.json) — historical P0 proposal snapshot;
-- [`postgresql-reference-v0/p1-manifest.json`](./postgresql-reference-v0/p1-manifest.json) — P1 semantic-core record;
-- [`postgresql-reference-v0/p2-manifest.json`](./postgresql-reference-v0/p2-manifest.json) — P2 append/idempotency evidence record;
-- [`postgresql-reference-v0/p3-manifest.json`](./postgresql-reference-v0/p3-manifest.json) — P3 replay/projection/Receipt evidence record;
-- [`postgresql-reference-v0/p4-manifest.json`](./postgresql-reference-v0/p4-manifest.json) — current assertion support/C2 evidence record.
+PostgreSQL:
 
-## P4 evidence
+- [`postgresql-reference-v0/profile-manifest.json`](./postgresql-reference-v0/profile-manifest.json) — P0 proposal snapshot;
+- [`postgresql-reference-v0/p1-manifest.json`](./postgresql-reference-v0/p1-manifest.json) — P1 semantic core;
+- [`postgresql-reference-v0/p2-manifest.json`](./postgresql-reference-v0/p2-manifest.json) — P2 append/idempotency;
+- [`postgresql-reference-v0/p3-manifest.json`](./postgresql-reference-v0/p3-manifest.json) — P3 replay/projection/Receipts;
+- [`postgresql-reference-v0/p4-manifest.json`](./postgresql-reference-v0/p4-manifest.json) — PostgreSQL C2 assertion map.
 
-Initial exact evidence:
+SQLite/C3:
+
+- [`sqlite-embedded-v0/p5-manifest.json`](./sqlite-embedded-v0/p5-manifest.json) — SQLite C2, C3 comparison map, equivalence classes, artifacts and boundaries.
+
+## Initial P5/C3 evidence
 
 ```text
-head:                       93710131fffdea7d9a586cc05e7f258c07fae707
-repository run:             31175767586 PASS
-3.11 / PostgreSQL 16:       PASS
-3.11 / PostgreSQL 18:       PASS
-3.12 / PostgreSQL 16:       PASS
-3.12 / PostgreSQL 18:       PASS
-P1/P2/P3 regressions:       PASS
-artifacts:                  4 RETAINED PER MATRIX JOB
+head:                       d43a6ed28232e9fc8b62f84d9025386fb8bce6f7
+repository run:             31181341275 PASS
+Python 3.11 / PG16 / SQLite 3.45.1: PASS
+Python 3.11 / PG18 / SQLite 3.45.1: PASS
+Python 3.12 / PG16 / SQLite 3.45.1: PASS
+Python 3.12 / PG18 / SQLite 3.45.1: PASS
+P1–P4 regressions:          PASS
+artifacts:                  4 archives × 3 JSON reports
 support_state:              PARTIAL
-C2 supported assertions:   41
-C3:                         NOT_ESTABLISHED
+SQLite C2 supported:        41
+Cross-profile C3 supported: 45
+```
+
+Each artifact contains:
+
+```text
+postgresql-p4-report.json
+sqlite-p5-report.json
+c3-equivalence-report.json
 ```
 
 Validators:
 
-- [`../tools/profiles/validate_p4_manifest.py`](../tools/profiles/validate_p4_manifest.py);
+- [`../tools/profiles/validate_p5_manifest.py`](../tools/profiles/validate_p5_manifest.py);
+- [`../tools/conformance/validate_p5_report.py`](../tools/conformance/validate_p5_report.py);
 - [`../tools/conformance/validate_p4_report.py`](../tools/conformance/validate_p4_report.py).
 
 ## Package ownership
 
-[`../native_kernel/postgresql_profile/`](../native_kernel/postgresql_profile/) owns replaceable PostgreSQL details:
+[`../native_kernel/postgresql_profile/`](../native_kernel/postgresql_profile/) owns PostgreSQL-specific append, replay, projection, Receipt and P4 report behaviour.
 
-- migration checksum ledger;
-- instance/history head and writer epoch fencing;
-- atomic Event/idempotency persistence;
-- rollback-safe ordering;
-- canonical payload/envelope commitments;
-- verified persisted replay;
-- disposable projection rebuild;
-- bounded operational Receipts;
-- assertion-scoped P4 check execution and report generation.
+[`../native_kernel/sqlite_profile/`](../native_kernel/sqlite_profile/) independently owns:
 
-It does not own physical deletion, network API, P5 portability, C3 or production guarantees.
+- stdlib `sqlite3` migrations and schema;
+- `BEGIN IMMEDIATE` single-writer transactions;
+- owner/epoch/expiry fencing;
+- append/idempotency/order/hash-chain behaviour;
+- replay, projections and bounded Receipts;
+- exact PostgreSQL-history import;
+- SQLite C2 report and C3 comparison.
+
+Shared accepted contracts/fixtures do not make the implementations identical.
 
 ## Phase boundary
 
 ```text
 P0: COMPLETE
-P1: MERGED / REPOSITORY-TESTED
-P2: MERGED / REPOSITORY-INTEGRATION-TESTED
-P3: MERGED / REPOSITORY-INTEGRATION-TESTED
-P4: ACTIVE / PARTIAL / C2 PREVIOUS-HEAD EVIDENCE
-P5 SQLite comparison: NOT AUTHORIZED
-C3: NOT ESTABLISHED
+P1: MERGED
+P2: MERGED
+P3: MERGED
+P4: MERGED / PARTIAL / C2
+P5: IMPLEMENTED / PARTIAL / C2+C3 PREVIOUS-HEAD EVIDENCE
+C4/C5: NOT AUTHORIZED / NOT ESTABLISHED
+Production: NOT CLAIMED
 ```
 
 ## Assertion boundary
 
 ```text
-SUPPORTED:   41
-PARTIAL:     13
-UNSUPPORTED: 18
-FAILED:       0
+SQLite C2: 41 SUPPORTED / 13 PARTIAL / 18 UNSUPPORTED
+C3:        45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED
 ```
 
-C2 applies only to `SUPPORTED`. All eight proposed `NK-EPI` assertions remain `UNSUPPORTED`.
+C2/C3 apply only to `SUPPORTED`. All eight proposed `NK-EPI` assertions remain `UNSUPPORTED`.
 
 ## Read next
 
 - [`../STATUS.md`](../STATUS.md)
-- [`../docs/rfc/0002-postgresql-reference-profile-v0.md`](../docs/rfc/0002-postgresql-reference-profile-v0.md)
-- [`../docs/adr/0018-authorize-p4-assertion-scoped-conformance.md`](../docs/adr/0018-authorize-p4-assertion-scoped-conformance.md)
-- [`../docs/ai/P4_IMPLEMENTATION_RECORD.md`](../docs/ai/P4_IMPLEMENTATION_RECORD.md)
-- [Issue #55](https://github.com/velantrian/velantrim-native-kernel/issues/55)
-- [PR #56](https://github.com/velantrian/velantrim-native-kernel/pull/56)
+- [`../docs/adr/0019-authorize-p5-sqlite-and-c3-equivalence.md`](../docs/adr/0019-authorize-p5-sqlite-and-c3-equivalence.md)
+- [`../docs/ai/P5_IMPLEMENTATION_RECORD.md`](../docs/ai/P5_IMPLEMENTATION_RECORD.md)
+- [`../docs/CONFORMANCE_MODEL.md`](../docs/CONFORMANCE_MODEL.md)
+- [Issue #58](https://github.com/velantrian/velantrim-native-kernel/issues/58)
+- [PR #59](https://github.com/velantrian/velantrim-native-kernel/pull/59)
 
-No manifest may infer C3, truth, external authenticity, physical erasure, production readiness, storage neutrality or historical recovery from P4 C2 evidence.
+No manifest may infer full support, operational equivalence, truth, external authenticity, physical erasure, C4/C5, production readiness or historical recovery from P5 C3 evidence.

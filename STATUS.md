@@ -1,26 +1,34 @@
 # Current Status
 
 > **Verified:** 2026-08-07  
-> **Last verified public `main`:** `db6d65f69f7fc0c42861e5ab45869ec9c2f3d8ad`  
-> **P4 implementation:** PR #56 / merge `db6d65f69f7fc0c42861e5ab45869ec9c2f3d8ad`  
-> **Repository status:** `RESEARCH / P4 PARTIAL ASSERTION CONFORMANCE / NOT PRODUCTION-READY`
+> **Last verified public `main`:** `1dc493e9d23b99ee4bbf6015348599cd56f6cb56`  
+> **Active implementation:** Issue #58 / PR #59 / `agent/p5-sqlite-c3`  
+> **Repository status:** `RESEARCH / P5 PARTIAL CROSS-PROFILE CONFORMANCE / NOT PRODUCTION-READY`
 
-## Current profile
+## Current profiles
 
 ```text
-Profile ID:       native-kernel/postgresql-reference
-Profile version:  0.4-p4
-Evidence lineage: clean/postgresql-reference/0.1
-P1:               MERGED / REPOSITORY-TESTED
-P2:               MERGED / REPOSITORY-INTEGRATION-TESTED
-P3:               MERGED / REPOSITORY-INTEGRATION-TESTED
-P4:               MERGED / PARTIAL / C2 REPOSITORY-REPRODUCED
-P5:               NOT AUTHORIZED
+PostgreSQL profile: native-kernel/postgresql-reference@0.4-p4
+Lineage:           clean/postgresql-reference/0.1
+
+SQLite profile:    native-kernel/sqlite-embedded@0.5-p5
+Lineage:           clean/sqlite-embedded/0.1
 ```
 
-PostgreSQL, Psycopg, Python, SQL layouts, locks and current processors remain replaceable profile technologies, not Architecture Canon.
+```text
+P1: MERGED / REPOSITORY-TESTED
+P2: MERGED / REPOSITORY-INTEGRATION-TESTED
+P3: MERGED / REPOSITORY-INTEGRATION-TESTED
+P4: MERGED / PARTIAL / POSTGRESQL C2 REPOSITORY-REPRODUCED
+P5: IMPLEMENTED / PARTIAL / SQLITE C2 + CROSS-PROFILE C3 PREVIOUS-HEAD EVIDENCE
+C4/C5: NOT AUTHORIZED / NOT ESTABLISHED
+```
 
-## Assertion-scoped result map
+PostgreSQL, SQLite, Psycopg, Python, SQL layouts, files and lock primitives remain replaceable Implementation Profile technologies, not Architecture Canon.
+
+## Assertion-scoped result maps
+
+Single-profile PostgreSQL and SQLite C2 reports:
 
 ```text
 SUPPORTED:   41
@@ -28,77 +36,108 @@ PARTIAL:     13
 UNSUPPORTED: 18
 FAILED:       0
 TOTAL:       72
+```
+
+PostgreSQL↔SQLite C3 comparison:
+
+```text
+SUPPORTED:   45
+PARTIAL:     10
+UNSUPPORTED: 17
+FAILED:       0
+TOTAL:       72
 support_state: PARTIAL
 ```
 
-C2 applies only to the 41 `SUPPORTED` results. All `NK-EPI-001…008` remain `UNSUPPORTED` and `PROPOSED`.
+C3 promotes exactly `NK-SEM-008`, `NK-ID-008`, `NK-EQV-002` and `NK-EQV-003` through passed cross-profile evidence. All `NK-EPI-001…008` remain `UNSUPPORTED / PROPOSED`.
 
 ```text
-P4 C2 ≠ support for all 72
-P4 C2 ≠ C3
-P4 C2 ≠ truth/authenticity
-P4 C2 ≠ physical deletion
-P4 C2 ≠ production readiness
+C3 for 45 SUPPORTED assertions
+≠ support for all 72
+≠ PostgreSQL/SQLite operational equivalence
+≠ truth/authenticity
+≠ physical deletion
+≠ production readiness
 ```
 
-## Final PR-head evidence
+## P5 architecture route
 
 ```text
-PR #56 final head: 0e7adf71475d37d5c096718762cbc08086c5e465
-P4 run:            31177071487 — PASS
-P3 run:            31177072239 — PASS
-P2 run:            31177071499 — PASS
-P1 run:            31177071518 — PASS
-Fixture run:       31177071508 — PASS
-AI-context run:    31177071481 — PASS
-Artifacts:         4 retained JSON reports
+accepted contracts + fixture pack
+        ↓
+PostgreSQL reference profile ───────────┐
+                                       ├─→ declared equivalence checks
+independent stdlib SQLite profile ──────┘
+        ↓
+BYTE / STRUCTURAL / SEMANTIC / BEHAVIOURAL
+        ↓
+72 explicit assertion results
+        ↓
+nk-equivalence-report/1 + retained artifacts
 ```
 
-## Exact main-push evidence
+SQLite independently implements:
+
+- migrations and instance registration;
+- `BEGIN IMMEDIATE` single-writer serialization;
+- owner/epoch/expiry fencing;
+- durable idempotency and rollback-safe ordering;
+- canonical Event commitments and hash-chain checks;
+- replay, projection rebuild and bounded Receipts;
+- stale-head and corruption rejection;
+- exact PostgreSQL authoritative-history import.
+
+## Initial P5 repository evidence
 
 ```text
-main:          db6d65f69f7fc0c42861e5ab45869ec9c2f3d8ad
-P4 push run:   31177335611 — PASS
-P3 push run:   31177335146 — PASS
-P2 push run:   31177335749 — PASS
-P1 push run:   31177335898 — PASS
-Fixture run:   31177335864 — PASS
-AI-context:    31177335964 — PASS
+Evidence head: d43a6ed28232e9fc8b62f84d9025386fb8bce6f7
+P5/C3 run:    31181341275 — PASS
+P4 run:       31181341370 — PASS
+P1 run:       31181341405 — PASS
+Fixtures:     31181340889 — PASS
 ```
 
-P4 push matrix passed Python 3.11/3.12 × PostgreSQL 16/18 and retained four `main`-bound JSON artifacts for 30 days.
-
-Main-bound artifact digests:
+Matrix:
 
 ```text
-py3.11/pg16 sha256:aad734cc2c1e5e76f8949c07d8a757a4b952788e35ba572148867bf0c221ea6c
-py3.11/pg18 sha256:4057790b9abba3f7375b0ed6a56bc9dad58db47f093db66b4007c96322b458fd
-py3.12/pg16 sha256:6021a26ff70734f5caa208a04bb50d6b7faf1ab91942d6378f4e0ca5b590dc65
-py3.12/pg18 sha256:0661e2640f5d80898a4ba6e041f889d69179d07ad8ba8eab69d0e19caae166ae
+Python 3.11 / PostgreSQL 16 / SQLite 3.45.1 — PASS
+Python 3.11 / PostgreSQL 18 / SQLite 3.45.1 — PASS
+Python 3.12 / PostgreSQL 16 / SQLite 3.45.1 — PASS
+Python 3.12 / PostgreSQL 18 / SQLite 3.45.1 — PASS
 ```
 
-## Implemented route
+Four artifacts are retained for 30 days. Each contains:
 
 ```text
-P1 semantic identity / authority / reducer
-→ P2 PostgreSQL append / idempotency / writer fencing
-→ P3 verified replay / projections / bounded Receipts
-→ P4 complete 72-ID evidence adapter / strict report validator
+postgresql-p4-report.json
+sqlite-p5-report.json
+c3-equivalence-report.json
 ```
 
-P4 evaluates and reports bounded behavior. It does not fill unsupported subsystems through documentation.
+Artifact digests:
+
+```text
+py3.11/pg16 sha256:6e74f1be560afa54033beaa0c396d8395ed47d27ee89961746cda416e42cb8a5
+py3.11/pg18 sha256:dec4f52dd6f7d6b6d71251bc9f931bcfc115ba65deae5a1ed888f77ea71ca680
+py3.12/pg16 sha256:727b2a204035acb1d9fd116faecb284e8c8dda81722cb3646510cd1e779143bb
+py3.12/pg18 sha256:705182b68f5806274723c43ea0d4c3cb1f240baf623db5260f151f24bacfea29
+```
+
+This is `PASS_PREVIOUS_HEAD`, not final-head evidence. Documentation/governance commits must repeat the matrix before merge.
 
 ## Explicitly absent
 
-- P5 independent SQLite profile;
-- C3 cross-profile equivalence;
+- exhaustive cross-profile state-space proof;
+- PostgreSQL/SQLite operational equivalence;
 - complete conflict representation/resolution;
 - physical or cryptographic deletion execution;
 - restore-before-visibility enforcement;
 - cross-project authority adapter;
 - truth/signature/notarization certification;
 - network API;
-- C4/C5 and production guarantees;
+- C4 shadow evaluation;
+- C5 operational security/privacy/incident evidence;
+- production security, HA, backup, restore or compliance guarantees;
 - Titan, Mentaury or Crystal runtime wiring;
 - historical `v0.1.2.1` recovery;
 - package publication decision under Issue #18.
@@ -106,7 +145,7 @@ P4 evaluates and reports bounded behavior. It does not fill unsupported subsyste
 ## Issue #1 boundary
 
 ```text
-clean/postgresql-reference/0.1
+clean/postgresql-reference/0.1 + clean/sqlite-embedded/0.1
 ≠ recovered v0.1.2.1
 ≠ original 44-test evidence
 ```
@@ -115,4 +154,9 @@ Issue #1 remains active and independent. `NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GL
 
 ## Next gate
 
-P5 and any C3 claim require a new explicit operator GO, a materially independent SQLite profile and retained equivalence-comparison evidence.
+1. finish GitHub and Notion P5 documentation synchronization;
+2. repeat P5/C3, P4, P1, fixture and AI-context checks on one final exact PR head;
+3. verify four final-head artifacts and inspect one archive;
+4. review and merge PR #59 only with all non-goals preserved;
+5. publish post-merge continuity evidence;
+6. require a new explicit GO before C4, C5, production, deletion execution or ecosystem integration.
