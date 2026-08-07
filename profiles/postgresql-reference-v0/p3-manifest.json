@@ -9,7 +9,7 @@
   "operator_approval": "APPROVED",
   "phase": "P3",
   "implementation_status": "PARTIAL",
-  "evidence_level": "LOCALLY_TESTED_UNIT_ONLY",
+  "evidence_level": "REPOSITORY_REPRODUCED_P3_INTEGRATION",
   "kernel_runtime_conformance": "UNSUPPORTED",
   "c1": "NOT_ESTABLISHED",
   "c2": "NOT_ESTABLISHED",
@@ -56,9 +56,18 @@
     "manifest_tests": 5,
     "manifest_result": "PASS",
     "integration_tests_declared": 7,
-    "integration_result": "NOT_RUN_NO_POSTGRESQL",
+    "integration_result": "PASS_REPOSITORY_CI",
     "compileall_result": "PASS",
-    "repository_ci": "NOT_RECORDED"
+    "repository_ci": "PASS",
+    "evidence_run_id": 31171581859,
+    "evidence_run_head": "0f8fd4ffe5d5fb0d4bc01f3e441a053f691dbba3",
+    "matrix": [
+      "python-3.11/postgresql-16:PASS",
+      "python-3.11/postgresql-18:PASS",
+      "python-3.12/postgresql-16:PASS",
+      "python-3.12/postgresql-18:PASS"
+    ],
+    "p2_regression": "PASS"
   },
   "assertion_support_policy": {
     "registry_version": "nk-contract-registry/1.1.0",
