@@ -47,7 +47,7 @@ class AIContextValidatorTests(unittest.TestCase):
         path.write_text(content, encoding="utf-8")
 
     def _write_current_state(self, checkpoint: str, *, status: str | None = None) -> None:
-        current_status = status or "RESEARCH / P2 PARTIAL IMPLEMENTATION / NOT PRODUCTION-READY"
+        current_status = status or "RESEARCH / P3 PARTIAL IMPLEMENTATION / NOT PRODUCTION-READY"
         self._write(
             "docs/ai/CURRENT_STATE.md",
             "# Current\n\n"
@@ -93,15 +93,16 @@ class AIContextValidatorTests(unittest.TestCase):
         findings = validator.validate(self.repo)
         self.assertTrue(any("checkpoint commit does not exist" in f.message for f in findings))
 
-    def test_stale_p0_and_p1_statuses_are_rejected(self) -> None:
+    def test_stale_p0_p1_and_p2_statuses_are_rejected(self) -> None:
         for stale in (
             "RESEARCH / DOCUMENTED_ONLY / NOT PRODUCTION-READY",
             "RESEARCH / P1 PARTIAL IMPLEMENTATION / NOT PRODUCTION-READY",
+            "RESEARCH / P2 PARTIAL IMPLEMENTATION / NOT PRODUCTION-READY",
         ):
             with self.subTest(stale=stale):
                 self._write_current_state(self.initial_sha, status=stale)
                 findings = validator.validate(self.repo)
-                self.assertTrue(any("P2 PARTIAL IMPLEMENTATION" in f.message for f in findings))
+                self.assertTrue(any("P3 PARTIAL IMPLEMENTATION" in f.message for f in findings))
 
 
 if __name__ == "__main__":
