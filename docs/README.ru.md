@@ -2,145 +2,119 @@
 
 **[English](./README.md) · [Русский](./README.ru.md)**
 
-Эта папка разделяет назначение проекта, архитектуру, проверку соответствия, исследовательские предложения, интеграционные границы, принятые решения и записи непрерывности для ИИ и людей.
+Эта папка разделяет назначение, архитектуру, контракты, profiles, evidence, research, интеграционные границы и continuity records.
 
 > [!IMPORTANT]
-> Всегда смотрите на статус документа. Описанное или принятое архитектурное решение ещё не означает, что соответствующий механизм реализован в коде.
+> Текущая зрелость: `RESEARCH / P4 PARTIAL ASSERTION CONFORMANCE / NOT PRODUCTION-READY`. Acceptance, implementation и evidence остаются разными состояниями.
 
 ## С чего начинать
 
-| Документ | Для чего он нужен | Статус |
+| Документ | Назначение | Текущая граница |
 |---|---|---|
-| [`../AGENTS.md`](../AGENTS.md) | Обязательные правила первого чтения для ИИ, аудиторов и ревьюеров | действующее руководство репозитория |
-| [`ai/README.md`](./ai/README.md) | AI context pack: текущее состояние, карта документов, риски, метод аудита, журнал и протокол GitHub↔Notion | действующий слой непрерывности |
-| [`FOUNDATIONAL_INTENT.ru.md`](./FOUNDATIONAL_INTENT.ru.md) · [English](./FOUNDATIONAL_INTENT.md) | Глубокое объяснение, зачем Native Kernel существует отдельно, какую проблему исследует и что будет означать успех | архитектурный замысел |
-| [`FOUNDATIONAL_CONTRACT_SKELETON.ru.md`](./FOUNDATIONAL_CONTRACT_SKELETON.ru.md) · [English](./FOUNDATIONAL_CONTRACT_SKELETON.md) | Каркас из шести семейств: семантические роли, идентичность, события, полномочия, конфликт/unknown и семантическая эквивалентность | принятая abstract-contract map; не реализована |
-| [`contracts/NORMATIVE_CONTRACTS_V1.ru.md`](./contracts/NORMATIVE_CONTRACTS_V1.ru.md) · [English](./contracts/NORMATIVE_CONTRACTS_V1.md) | Точные v1-контракты identity, single-writer append/replay, deletion/restriction и executable fixtures | приняты ADR-0011…0014; fixture tooling проверено локально; Kernel runtime не реализован |
-| [`LONG_HORIZON_VISION.md`](./LONG_HORIZON_VISION.md) | Архитектурный Canon, контракты, профили и будущие технологии | исследовательское видение |
-| [`STORAGE_AND_EXECUTION_PROFILES.ru.md`](./STORAGE_AND_EXECUTION_PROFILES.ru.md) · [English](./STORAGE_AND_EXECUTION_PROFILES.md) | PostgreSQL как основной полный профиль, SQLite как опциональный embedded-профиль, offline-работа, выбор профиля и миграция | принятое направление; не реализовано |
-| [`CONFORMANCE_MODEL.md`](./CONFORMANCE_MODEL.md) | Как проверить соответствие реализации архитектуре | принятый abstract contract; fixture-integrity tooling существует; Kernel runtime evidence отсутствует |
-| [`DECISION_PROCESS.md`](./DECISION_PROCESS.md) | Как разделять решение, доказательства, реализацию, мнение ИИ и одобрение оператора | процесс управления решениями |
-| [`adr/README.md`](./adr/README.md) | Индекс Architecture Decision Records | действующий governance-процесс |
-| [`VELANTRIM_ECOSYSTEM.md`](./VELANTRIM_ECOSYSTEM.md) | Роли и ссылки Native Kernel, Mentaury Soul, Titan и Crystal | карта навигации и границ |
-| [`INTEGRATION_BOUNDARIES.md`](./INTEGRATION_BOUNDARIES.md) | Технические границы Native Kernel, Titan, Mentaury и Crystal | документированная граница |
-| [`BENCHMARKS.md`](./BENCHMARKS.md) | Правила бенчмарков и доказательств | исследовательская политика |
-| [`research/BIO_INSPIRED_COMPUTATION_AND_KITARA.ru.md`](./research/BIO_INSPIRED_COMPUTATION_AND_KITARA.ru.md) · [English](./research/BIO_INSPIRED_COMPUTATION_AND_KITARA.md) | Био-вдохновлённый и Kitara research-трек | proposed / experimental / not implemented |
-| [`research/PHYSARUM_ROUTING_EXPERIMENT.ru.md`](./research/PHYSARUM_ROUTING_EXPERIMENT.ru.md) · [English](./research/PHYSARUM_ROUTING_EXPERIMENT.md) | Ограниченный эксперимент адаптивной flow-маршрутизации | proposed / not implemented |
+| [`../AGENTS.md`](../AGENTS.md) | Обязательные правила репозитория | P4/C2 и phase boundaries |
+| [`../STATUS.md`](../STATUS.md) | Authoritative текущее состояние | 41 supported / 13 partial / 18 unsupported |
+| [`ai/README.md`](./ai/README.md) | Карта AI/human continuity | active context pack |
+| [`ai/P4_IMPLEMENTATION_RECORD.md`](./ai/P4_IMPLEMENTATION_RECORD.md) | Exact P4 checks, runs, artifacts и limitations | previous-head C2 evidence |
+| [`FOUNDATIONAL_INTENT.ru.md`](./FOUNDATIONAL_INTENT.ru.md) · [English](./FOUNDATIONAL_INTENT.md) | Зачем существует Native Kernel | архитектурный замысел |
+| [`FOUNDATIONAL_CONTRACT_SKELETON.ru.md`](./FOUNDATIONAL_CONTRACT_SKELETON.ru.md) · [English](./FOUNDATIONAL_CONTRACT_SKELETON.md) | Карта contract families | accepted abstraction |
+| [`contracts/NORMATIVE_CONTRACTS_V1.ru.md`](./contracts/NORMATIVE_CONTRACTS_V1.ru.md) · [English](./contracts/NORMATIVE_CONTRACTS_V1.md) | Exact v1 identity/event/deletion/fixture contracts | accepted; profile support partial |
+| [`CONFORMANCE_MODEL.md`](./CONFORMANCE_MODEL.md) | Assertion states и C0–C5 | P4 adapter реализован; C3 отсутствует |
+| [`rfc/0002-postgresql-reference-profile-v0.ru.md`](./rfc/0002-postgresql-reference-profile-v0.ru.md) | Lifecycle clean PostgreSQL profile | P1–P4 active lineage |
+| [`adr/README.md`](./adr/README.md) | Durable decisions | ADR-0018 accepted |
+| [`VELANTRIM_ECOSYSTEM.md`](./VELANTRIM_ECOSYSTEM.md) | Роли проектов | navigation/boundary map |
+| [`INTEGRATION_BOUNDARIES.md`](./INTEGRATION_BOUNDARIES.md) | Cross-project boundaries | runtime inheritance отсутствует |
+| [`DECISION_PROCESS.md`](./DECISION_PROCESS.md) | Разделение decision/evidence/approval | governance process |
 
-## Рекомендуемый порядок чтения
+## Порядок чтения
 
 ```text
-1. AGENTS.md + STATUS.md
-        ↓
-2. docs/ai context pack
-        ↓
-3. FOUNDATIONAL_INTENT
-        ↓
-4. FOUNDATIONAL_CONTRACT_SKELETON
-        ↓
-5. NORMATIVE_CONTRACTS_V1 + ADR-0011…0014
-        ↓
-6. LONG_HORIZON_VISION
-        ↓
-7. STORAGE_AND_EXECUTION_PROFILES
-        ↓
-8. ARCHITECTURE.md в корне
-        ↓
-9. CONFORMANCE_MODEL + fixture pack в contracts/
-        ↓
-10. DECISION_PROCESS + ADR
-        ↓
-11. ROADMAP + необязательные research notes
+AGENTS + STATUS
+→ AI context pack + P4 implementation record
+→ foundational intent/contracts
+→ Architecture Canon
+→ RFC-0002 + ADR-0015…0018
+→ source/tests/manifests/workflows
+→ exact run/jobs/artifacts
 ```
 
 ## Главное различие
 
 ```text
-Архитектурный Canon
-≠ Абстрактный контракт
-≠ Принятый точный контракт
-≠ Fixture-integrity tooling
-≠ Профиль реализации
-≠ Реализованный Kernel runtime
-≠ Production-доказательства
+Architecture Canon
+≠ Abstract Contract
+≠ Accepted Decision
+≠ Implementation Profile
+≠ Assertion Result
+≠ Evidence Level
+≠ Production Evidence
 ```
 
-Современные технологии используются как лабораторные инструменты. Они не становятся постоянным определением архитектуры только потому, что применяются сегодня.
+Текущая карта P4:
 
-## Простыми словами
+```text
+SUPPORTED:   41
+PARTIAL:     13
+UNSUPPORTED: 18
+FAILED:       0
+support_state: PARTIAL
+```
 
-Native Kernel нужен, чтобы:
+```text
+P4 C2 ≠ все 72 supported
+P4 C2 ≠ C3
+P4 C2 ≠ truth/authenticity
+P4 C2 ≠ physical deletion
+```
 
-- сегодня проверять идеи на доступных инструментах;
-- завтра заменять инструменты без переписывания смысла;
-- хранить историю архитектурных решений;
-- не путать идею, принятое решение, код и доказательство;
-- не превращать мнение нескольких ИИ в evidence;
-- развивать Kernel отдельно от Titan, Mentaury и Crystal.
+## Слои executable evidence
 
-## Более глубокое объяснение
+### Fixture integrity
 
-Проект меняет обычный порядок:
+Standard-library reader проверяет registry/schema/fixture consistency и намеренно выдаёт все assertions как unsupported. Fixture PASS не является Kernel runtime conformance.
+
+### PostgreSQL P4 adapter
+
+P4 adapter выполняет bounded semantic и PostgreSQL checks и выдаёт один `nk-evidence-report/1` result для каждого зарегистрированного assertion.
+
+Команды и границы описаны в [`../tools/conformance/README.md`](../tools/conformance/README.md).
+
+Первоначальное C2 evidence:
+
+```text
+head 93710131fffdea7d9a586cc05e7f258c07fae707
+run 31175767586 — PASS
+Python 3.11/3.12 × PostgreSQL 16/18 — PASS
+4 JSON artifacts retained
+```
+
+C2 достоверно только вместе с внешне видимым exact run/head/artifact, а не с самостоятельно созданным JSON report.
+
+## Технологическая нейтральность
 
 ```text
 сначала смысл и инварианты
-        ↓
-затем абстрактные контракты
-        ↓
-после этого заменяемые технологические профили
+→ затем abstract contracts
+→ после этого replaceable profiles
+→ evidence scoped к exact assertions
 ```
 
-Подробное объяснение находится здесь:
+PostgreSQL, SQLite, Python, graphs, vectors, LLMs и hardware — инструменты, а не Canon.
 
-- [`FOUNDATIONAL_INTENT.ru.md`](./FOUNDATIONAL_INTENT.ru.md)
-- [`FOUNDATIONAL_INTENT.md`](./FOUNDATIONAL_INTENT.md)
-- [`FOUNDATIONAL_CONTRACT_SKELETON.ru.md`](./FOUNDATIONAL_CONTRACT_SKELETON.ru.md)
-- [`FOUNDATIONAL_CONTRACT_SKELETON.md`](./FOUNDATIONAL_CONTRACT_SKELETON.md)
-- [`contracts/NORMATIVE_CONTRACTS_V1.ru.md`](./contracts/NORMATIVE_CONTRACTS_V1.ru.md)
-- [`contracts/NORMATIVE_CONTRACTS_V1.md`](./contracts/NORMATIVE_CONTRACTS_V1.md)
+## Текущие отсутствующие области
 
-## Граница executable fixtures
-
-В репозитории уже есть принятые schemas, golden/invalid vectors и standard-library fixture validator до появления Kernel runtime.
-
-```text
-fixture pack PASS
-≠ Kernel runtime реализован
-≠ C2 Kernel profile conformance
-≠ C3 cross-profile equivalence
-≠ production deletion guarantee
-```
-
-Команды описаны в [`../tools/conformance/README.md`](../tools/conformance/README.md). Machine-readable артефакты: `contracts/registry.json`, `contracts/schema-bundle.json`, `contracts/evidence-report-v1.schema.json`, `contracts/fixture-pack.json`, `contracts/idempotency-scenarios.json`.
-
-Conformance workflow поддерживает PR/push triggers и ручной `workflow_dispatch`; доступный trigger ещё не является выполненным run.
-
-## Необязательный экспериментальный трек
-
-Полезные внешние идеи, которые не входят в Canon, сохраняются как явно ограниченные research notes.
-
-```text
-периферийная обработка событий
-Adaptive Gain
-процедурная / моторная память
-сенсомоторные петли
-адаптация распределённой сети
-Physarum-подобная маршрутизация
-```
-
-Эти механизмы могут проверяться как заменяемые profiles. Они не должны определять истину, обходить policy, превращаться в runtime claims или расширять Issue #1.
+- independent SQLite profile и C3;
+- complete conflict subsystem;
+- physical/cryptographic deletion execution;
+- restore-before-visibility enforcement;
+- cross-project authority adapter;
+- C4/C5 и production operation;
+- историческое восстановление `v0.1.2.1`.
 
 ## Для ИИ и ревьюеров
 
-Начинайте с [`../AGENTS.md`](../AGENTS.md) и [`ai/README.md`](./ai/README.md).
-Перед изменением необходимо:
-
-1. проверить точный SHA репозитория или PR;
-2. проверить `STATUS.md` и последний verified checkpoint;
-3. определить архитектурный уровень;
-4. сохранить границы Native Kernel / Titan / Mentaury / Crystal;
-5. разделить proposal, acceptance, evidence, implementation и approval;
-6. создать или обновить ADR для долговременного решения;
-7. не расширять Issue #1 redesign-работой;
-8. не превращать технологию, биологическую метафору или adaptive routing в постоянный Canon или epistemic authority;
-9. обновлять AI context pack и GitHub↔Notion record при изменении существенных фактов.
+1. проверить exact SHA и относится ли claim к `main` или open PR;
+2. проследить conformance claim от assertion ID до result, check IDs и artifact;
+3. сохранять `support_state: PARTIAL` и support counts;
+4. сохранять границы Issue #1, Issue #18 и ecosystem;
+5. обновлять GitHub и Notion continuity records при material changes;
+6. не начинать P5/C3 без отдельного operator GO.
