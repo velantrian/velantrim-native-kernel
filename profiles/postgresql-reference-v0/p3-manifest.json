@@ -56,7 +56,7 @@
     "semantic_unit_result": "PASS",
     "manifest_tests": 5,
     "manifest_result": "PASS",
-    "integration_tests_declared": 9,
+    "integration_tests_declared": 8,
     "integration_result": "PASS_REPOSITORY_CI",
     "compileall_result": "PASS",
     "repository_ci": "PASS_PREVIOUS_HEAD",
