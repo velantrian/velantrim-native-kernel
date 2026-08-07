@@ -9,7 +9,7 @@ from native_kernel.sqlite_profile.equivalence import build_comparison_report
 from tools.conformance.validate_p5_report import validate_c3
 
 ROOT = Path(__file__).resolve().parents[1]
-FIXTURES = ROOT / "contracts" / "fixtures" / "fixture-pack.json"
+FIXTURES = ROOT / "contracts" / "fixture-pack.json"
 
 
 @unittest.skipUnless(os.environ.get("NK_TEST_POSTGRES_DSN"), "PostgreSQL DSN required")
