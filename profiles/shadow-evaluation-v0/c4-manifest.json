@@ -53,13 +53,36 @@
     "unsupported": 17
   },
   "repository_evidence": {
-    "artifact_count": 0,
+    "artifact_count": 4,
     "artifact_retention_days": 30,
-    "head_sha": null,
-    "matrix": [],
+    "artifacts": [
+      {
+        "digest": "sha256:59cf39e6cbd3e8c95157676cc3fd838687d5911676b227681efd6c83a7f36e90",
+        "name": "c4-shadow-evidence-py3.11-pg16"
+      },
+      {
+        "digest": "sha256:9d4f828095285e479e1a95b87523fbaa800068f82a75cbbefb5f2d736e952032",
+        "name": "c4-shadow-evidence-py3.11-pg18"
+      },
+      {
+        "digest": "sha256:f85e29688a0176c168067fb8ed6f889550342c6faffcb4dc7d391715ea5364d4",
+        "name": "c4-shadow-evidence-py3.12-pg16"
+      },
+      {
+        "digest": "sha256:6892bc2ab7232c96124d4d207aacf06385f8b2ff6a3ea91097d1db6c2e834328",
+        "name": "c4-shadow-evidence-py3.12-pg18"
+      }
+    ],
+    "head_sha": "97abce685a68e24aec9afab451c009df5783b96b",
+    "matrix": [
+      "Python 3.11 / PostgreSQL 16 / SQLite 3.45.1 — PASS",
+      "Python 3.11 / PostgreSQL 18 / SQLite 3.45.1 — PASS",
+      "Python 3.12 / PostgreSQL 16 / SQLite 3.45.1 — PASS",
+      "Python 3.12 / PostgreSQL 18 / SQLite 3.45.1 — PASS"
+    ],
     "reports_per_artifact": 4,
-    "status": "PRE_CI",
-    "workflow_run_id": null
+    "status": "PASS",
+    "workflow_run_id": "31187532364"
   },
   "shadow_receipt_protocol": "nk-shadow-receipt/1",
   "shadow_report_protocol": "nk-shadow-report/1"
