@@ -4,6 +4,113 @@ This is a concise chronology and hand-off surface. Re-verify exact SHAs and evid
 
 ---
 
+## 2026-08-07 — P3 persisted replay, projection rebuild and bounded Receipts under review
+
+```text
+Status:          PR OPEN / P3 PARTIAL / INITIAL REPOSITORY-INTEGRATION-TESTED
+Issue:           #49
+PR:              #50
+Base main:       4e6be77196c633c25dd3896660335c1448b2baf5
+Executable head: 0f8fd4ffe5d5fb0d4bc01f3e441a053f691dbba3
+Profile:         native-kernel/postgresql-reference@0.3-p3
+Evidence line:   clean/postgresql-reference/0.1
+ADR:             ADR-0017
+P3:              AUTHORIZED
+P4–P5:           NOT AUTHORIZED
+Notion impact:   GITHUB_AND_NOTION
+```
+
+Architecture path:
+
+```text
+authoritative PostgreSQL Events
+→ repeatable-read snapshot
+→ canonical/Event-chain/sequence verification
+→ explicit deterministic UpcasterRegistry
+→ P1 reducer from empty state
+→ bounded Replay Receipt
+→ locked current-head comparison
+→ disposable projection rebuild
+→ bounded Projection Rebuild Receipt
+```
+
+Implemented:
+
+- standard-library `UpcasterRegistry` with missing/duplicate/cycle/invalid-path failures;
+- canonical `SemanticState` decoder and form check;
+- repeatable-read selected-instance history snapshot;
+- Event count/max sequence versus captured instance-head validation;
+- full P2 stored-event canonical/hash validation during replay;
+- `GENESIS → nke1` global chain validation;
+- P1 reducer execution from empty state with global/per-stream checks;
+- `operation_receipts` and disposable `projections` tables;
+- canonical Replay and Projection Rebuild Receipts;
+- hard truth/authenticity/complete-integrity/complete-erasure non-claims;
+- locked current-head comparison before publication;
+- `HistoryAdvanced` rejection for stale snapshots;
+- atomic Receipt + projection commit and rollback on injected fault;
+- projection destroy/read/rebuild;
+- monotonic generation based on committed rebuild Receipts;
+- Event, projection and Receipt corruption detection;
+- P3 manifest/validator and PostgreSQL matrix workflow;
+- P2 regression execution inside every P3 matrix job.
+
+Initial exact executable-head evidence:
+
+```text
+P3 run 31171581859 — PASS
+Python 3.11 / PostgreSQL 16 — PASS
+Python 3.11 / PostgreSQL 18 — PASS
+Python 3.12 / PostgreSQL 16 — PASS
+Python 3.12 / PostgreSQL 18 — PASS
+P2 regression run 31171581795 — PASS
+P1 semantic core run 31171581787 — PASS
+Fixture integrity run 31171581791 — PASS
+```
+
+Each P3 matrix job passed:
+
+- 5 semantic unit tests;
+- 5 P3 manifest tests and validator;
+- 7 PostgreSQL integration scenarios;
+- P2 unit/integration regressions;
+- compileall.
+
+The seven integration scenarios cover:
+
+1. persisted replay equals direct P1 reduction;
+2. Replay Receipt persistence/reload;
+3. deterministic projection destroy/rebuild with monotonic generation;
+4. transactional fault preserving the previous projection and Receipt count;
+5. history advancement rejecting stale publication;
+6. Event/projection/Receipt corruption detection;
+7. explicit schema upcaster requirement.
+
+Initial CI passed without a runtime repair. Governance work then advanced the P3 manifest evidence state and synchronized README, Russian README, STATUS, AGENTS, ADR-0017, bilingual RFC, profile map, component map and risk register.
+
+```text
+P3 integration PASS
+≠ complete Kernel runtime
+≠ truth or external authenticity
+≠ physical deletion
+≠ assertion-level conformance
+≠ C1/C2/C3
+≠ production guarantee
+```
+
+All 72 assertion statuses remain `UNSUPPORTED` until P4.
+
+Remaining work in this cycle:
+
+1. complete Notion P3 rationale/evidence record;
+2. run P3 and AI-context workflows on one final exact PR head;
+3. inspect diff, comments and review threads;
+4. squash-merge PR #50 with expected head;
+5. publish a post-merge continuity checkpoint;
+6. close Issue #49 and keep P4 blocked pending separate GO.
+
+---
+
 ## 2026-08-07 — P2 PostgreSQL append/idempotency merged
 
 ```text
@@ -18,7 +125,7 @@ Profile:         native-kernel/postgresql-reference@0.2-p2
 Evidence line:   clean/postgresql-reference/0.1
 ADR:             ADR-0016
 P2:              MERGED
-P3–P5:           NOT AUTHORIZED
+P3–P5:           NOT AUTHORIZED AT THAT CHECKPOINT
 Notion impact:   GITHUB_AND_NOTION
 ```
 
@@ -90,15 +197,6 @@ P2 PostgreSQL integration PASS
 ≠ production guarantee
 ```
 
-All 72 assertion statuses remain `UNSUPPORTED` until P4.
-
-Next gates:
-
-1. merge the post-P2 continuity checkpoint;
-2. synchronize final main SHA to Notion and close Issue #46;
-3. keep P3 blocked pending separate operator GO;
-4. preserve Issue #1 and Issue #18 independently.
-
 ---
 
 ## 2026-08-06 — P1 profile-independent semantic core merged
@@ -129,8 +227,6 @@ standard library only
 package: native_kernel.semantic_core
 ```
 
-This is a reversible implementation-profile choice, not Architecture Canon.
-
 Implemented:
 
 - canonical `nk-id/1.0` JSON/identity helpers;
@@ -145,14 +241,7 @@ Implemented:
 - Python 3.11/3.12 workflow definition;
 - bilingual RFC, ADR, README and AI-continuity updates.
 
-Manual review hardening corrected:
-
-1. duplicated authority scope `stream:stream:*`;
-2. late enum/type failures;
-3. calendar-invalid UTC timestamps;
-4. boolean values accepted as integer sequences;
-5. malformed authority grants and Receipt identifiers/limits;
-6. malformed deletion-state/location evidence.
+Manual review hardening corrected malformed authority scope, enum/type failures, timestamp validation, boolean sequences, grants, Receipt identifiers and deletion evidence.
 
 Exact final-content local evidence:
 
@@ -166,34 +255,13 @@ local interpreter Python 3.13.5
 external dependencies NONE
 ```
 
-Repository evidence at that checkpoint:
-
-```text
-PR #44 unresolved review threads: 0
-submitted reviews:               0
-Codex review:                    unavailable due usage limit
-PR-head workflow runs:           0 / NOT_RECORDED
-merge workflow runs:             0 / NOT_RECORDED
-```
-
-The declared profile range was Python 3.11/3.12. The local Python 3.13 result was an extra compatibility check, not declared-range repository evidence.
-
-```text
-P1 local PASS
-≠ PostgreSQL adapter
-≠ durable append/idempotency
-≠ authoritative replay
-≠ assertion-level conformance
-≠ C1/C2/C3
-```
+Repository workflows for that checkpoint were `NOT_RECORDED`.
 
 ---
 
 ## 2026-08-06 — Clean PostgreSQL reference profile RFC published
 
 PR #41 published RFC-0002 at `1e721aeb5b116694a0dbb417c377aa9f92b6f8e5`; PR #42 finalized continuity at `9ccbb535e22438092393e2686eb76eb362adb29d`.
-
-The plan introduced `native-kernel/postgresql-reference`, clean lineage `clean/postgresql-reference/0.1`, a 72-assertion planning manifest, validator and phased P0–P5 roadmap.
 
 ---
 
@@ -217,4 +285,4 @@ PR #28 → `2d42a1517ba87b39d2395aa5c22b966328615305`.
 
 ## Continuing rule
 
-Record exact PR/SHA, scope, evidence, limitations, Notion state and next action. Never infer replay, production readiness or conformance from P2 integration evidence alone.
+Record exact PR/SHA, scope, evidence, limitations, Notion state and next action. Never infer truth, authenticity, physical deletion, production readiness or conformance from P3 integration evidence alone.
