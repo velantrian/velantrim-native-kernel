@@ -243,7 +243,7 @@ class PostgreSQLReplayProjector:
         )
         if not expected:
             raise ProjectionCorrupt(
-                "linked Receipt does not describe the stored projection rebuild"
+                "linked rebuild Receipt does not describe the stored projection"
             )
         return projection
 
