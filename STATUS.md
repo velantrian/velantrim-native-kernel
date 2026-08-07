@@ -1,8 +1,8 @@
 # Current Status
 
 > **Verified:** 2026-08-07  
-> **Last verified public `main`:** `d1dd4986a8496cd9ca3e353d33ca422038c65d40`  
-> **Current publication candidate:** Issue #64 / PR #65 / ADR-0021  
+> **Last verified public `main`:** `296981ae84ad5bdab5dabbec9b7b9ebb43af63d7`  
+> **Implementation publication:** Issue #64 / PR #65 merged / ADR-0021  
 > **Repository status:** `RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY`
 
 ## Current phase
@@ -14,11 +14,19 @@ P3: MERGED / REPOSITORY-INTEGRATION-TESTED
 P4: MERGED / PARTIAL / POSTGRESQL C2
 P5: MERGED / PARTIAL / SQLITE C2 + CROSS-PROFILE C3
 C4: MERGED / PARTIAL / OFFLINE SHADOW EVIDENCE
-C5: PR #65 OPEN / PARTIAL / BOUNDED SYNTHETIC OPERATIONAL REHEARSAL
+C5: MERGED / PARTIAL / BOUNDED SYNTHETIC OPERATIONAL REHEARSAL
 Production: NOT AUTHORIZED / NOT ESTABLISHED
 ```
 
-C5 is a bounded operational evidence layer. It is not a new storage profile, a production deployment, a public service, a compliance certification, or ecosystem authority.
+C5 is a bounded operational evidence layer. It is not a new storage profile, production deployment, public service, compliance certification or ecosystem authority.
+
+## Publication lineage
+
+```text
+C5 base main:      d1dd4986a8496cd9ca3e353d33ca422038c65d40
+PR #65 final head: 1c4dcc4b9d9b86d5737388ce1469a0bc2420f0e6
+PR #65 merge/main: 296981ae84ad5bdab5dabbec9b7b9ebb43af63d7
+```
 
 ## Semantic and operational levels
 
@@ -47,11 +55,7 @@ scenarios:     18
 deployment:    CI_EPHEMERAL_SYNTHETIC
 ```
 
-Categories:
-
-```text
-SECURITY · PRIVACY · RECOVERY · ROLLBACK · INCIDENT · RELIABILITY · RESILIENCE
-```
+Categories: `SECURITY · PRIVACY · RECOVERY · ROLLBACK · INCIDENT · RELIABILITY · RESILIENCE`.
 
 ## Mandatory deployment boundary
 
@@ -67,14 +71,31 @@ physical_deletion_claimed: false
 compliance_certification_claimed: false
 ```
 
-## First repository C5 evidence
+## Exact final-PR-head evidence
 
 ```text
-Evidence head: 260922de9f2a62b28697db3237b5ebfc7558edec
-C5 run:       31202900408 — PASS
+Final head:  1c4dcc4b9d9b86d5737388ce1469a0bc2420f0e6
+C5:         31204406663 — PASS
+C4:         31204406695 — PASS
+P5/C3:      31204406946 — PASS
+P4:         31204406606 — PASS
+P1:         31204407186 — PASS
+Fixtures:   31204409411 — PASS
+AI context: 31204409408 — PASS
 ```
 
-Matrix:
+## Exact implementation-main evidence
+
+```text
+Main:       296981ae84ad5bdab5dabbec9b7b9ebb43af63d7
+C5:         31204861404 — PASS
+C4:         31204861534 — PASS
+P5/C3:      31204861602 — PASS
+P4:         31204861564 — PASS
+AI context: 31204861416 — PASS
+```
+
+C5 matrix:
 
 ```text
 Python 3.11 / PostgreSQL 16 / SQLite 3.45.1 — PASS
@@ -83,15 +104,20 @@ Python 3.12 / PostgreSQL 16 / SQLite 3.45.1 — PASS
 Python 3.12 / PostgreSQL 18 / SQLite 3.45.1 — PASS
 ```
 
-Every job passed:
-- C5 unit/report/manifest guards;
-- exact P4, P5, C3 and C4 prerequisite reports;
-- 18 operational scenarios;
-- P1–C4 regressions;
-- compileall;
-- six-report artifact upload.
+Every job passed C5 guards, exact P4/P5/C3/C4 prerequisites, all 18 scenarios, P1–C4 regressions, compileall and six-report artifact upload.
 
-## Inspected artifact result
+## Main-bound artifacts
+
+```text
+py3.11/pg16 sha256:25e019cf8428d4697bf3f1f777a3fa8ff0f5e2aac6053e006e2549ecff55f0c0
+py3.11/pg18 sha256:e7a717ff3e7671c82a4544d68d9d16303fccf1fe52fb713d9ad9b286e4e570dd
+py3.12/pg16 sha256:006c56d8cbe8e75b18a28695ca82228b9c55b5d3eab5b31079c1dcfb5b46c331
+py3.12/pg18 sha256:029d2df8d1b32631d6b8a5939b661df0e1a1d2272218766e8371b8c84adb0d82
+```
+
+Artifacts are retained until 2026-09-06. Each contains P4, P5, C3, C4, C5 and logical-backup reports.
+
+## Inspected main-bound result
 
 ```text
 18 / 18 scenarios PASS
@@ -99,51 +125,12 @@ Every job passed:
 0 privacy canary leaks
 0 recovery failures
 0 uncontained incidents
-p95 append latency: 11.484 ms
-total rehearsal duration: 975.163 ms
+p95 append latency: 11.055 ms
+total rehearsal duration: 960.806 ms
 assertion map: 45 / 10 / 17 / 0
 ```
 
-The inspected logical backup contained four exact synthetic Events and passed digest validation and quarantined import/replay. Both configured canaries were absent from report and backup bytes.
-
-All inspected Receipts recorded:
-
-```text
-decision: REHEARSAL_OBSERVATION_ONLY
-live_user_data_used: false
-authority_promoted: false
-authoritative_external_side_effects: false
-production_approved: false
-physical_deletion_proved: false
-compliance_certified: false
-```
-
-## First artifact digests
-
-```text
-py3.11/pg16 sha256:4fd218d6a3d6869cd7e5ede6269a4ee02b6c74bc4d4bb6b8a979d6f69932373e
-py3.11/pg18 sha256:5e94f927ae5353eb356f012f1a3e667fb5e78407ceb357b908af98b784bdecb9
-py3.12/pg16 sha256:b74611b99ad2e1c07862466278d03c8c60d91469eb8f5e922f1fd1565b3048a4
-py3.12/pg18 sha256:ef28de467b35d934ed56c751cd648d7d879b16f69d8ad7709ae504bb29d3a8c6
-```
-
-Artifacts are retained until 2026-09-06.
-
-## What C5 establishes
-
-Within the exact synthetic ephemeral CI plan, repository evidence exists for:
-
-- deny-by-default authority;
-- stale-writer fencing;
-- idempotent retry;
-- rollback after injected precommit faults;
-- deterministic replay and projection rebuild;
-- application-level logical Event export;
-- quarantined exact-history import and replay;
-- corruption detection and containment;
-- incident-stage recording;
-- privacy canary redaction;
-- bounded append workload and latency measurement.
+The logical backup contained four exact synthetic PostgreSQL Events, a validated digest and successful quarantined SQLite exact-history import. Both privacy canaries were absent from report and backup bytes. All Receipts denied live data, authority promotion, external side effects, production approval, physical deletion proof and compliance certification.
 
 ## Explicit non-claims
 
@@ -163,4 +150,4 @@ C5 bounded rehearsal PASS
 
 ## Next gate
 
-Finish exact final-head evidence, review and merge PR #65, reproduce C5 on `main`, publish a documentation checkpoint and synchronize Notion. Any production, live-traffic, cloud deployment, physical deletion or ecosystem authority work requires separate explicit operator approval.
+Merge this documentation-only checkpoint, reproduce its bounded C5/AI evidence on the resulting `main`, synchronize Notion and close Issue #64. Any production, live-traffic, cloud deployment, physical deletion or ecosystem-authority work requires separate explicit operator approval.
