@@ -9,7 +9,7 @@ from native_kernel.sqlite_profile.conformance import build_report
 from tools.conformance.validate_p5_report import ValidationError, validate_sqlite
 
 ROOT = Path(__file__).resolve().parents[1]
-FIXTURES = ROOT / "contracts" / "fixtures" / "fixture-pack.json"
+FIXTURES = ROOT / "contracts" / "fixture-pack.json"
 
 
 class P5ReportValidatorTests(unittest.TestCase):
