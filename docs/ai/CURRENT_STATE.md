@@ -1,101 +1,59 @@
 # 📍 Native Kernel Current State Checkpoint
 
 **Verified:** 2026-08-07  
-**Last verified public `main`:** `07bf1cc955307783f8eaa3becbaa924087b8b325`  
-**Active issue / PR / ADR:** #61 / #62 merged / ADR-0020  
-**Repository status:** `RESEARCH / C4 PARTIAL OFFLINE SHADOW EVALUATION / NOT PRODUCTION-READY`
+**Last verified public `main`:** `d1dd4986a8496cd9ca3e353d33ca422038c65d40`  
+**Active issue / PR / ADR:** #64 / #65 / ADR-0021  
+**Repository status:** `RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY`
 
-> Context checkpoint ≠ automatically current main. Re-check the actual branch ref, exact workflows, artifact contents and the later checkpoint merge.
+> Context checkpoint ≠ automatically current main. Re-check the actual branch ref, plan digest, workflows, reports and retained artifact bytes.
 
 ```text
 NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GLOBALLY_LOST
-C2 ≠ C3 ≠ C4
-C4 OFFLINE SHADOW ≠ LIVE SHADOWING
-C4 SHADOW OBSERVATION ≠ AUTHORITY PROMOTION
-C4 SUPPORTED ASSERTIONS ≠ SUPPORT FOR ALL 72
+C2 ≠ C3 ≠ C4 ≠ C5
+C5 BOUNDED REHEARSAL ≠ PRODUCTION READINESS
+C5 SYNTHETIC DATA ≠ LIVE USER TRAFFIC
+C5 OPERATIONAL VALIDATION ≠ ASSERTION PROMOTION
+C5 LOGICAL BACKUP ≠ PHYSICAL DISASTER RECOVERY
 ASSERTION EVIDENCE ≠ TRUTH / AUTHENTICITY / PHYSICAL ERASURE
 ```
 
 ## Current gate
 
 ```text
-RFC-0002:              ACCEPTED / APPROVED
-P1 semantic core:      MERGED / REPOSITORY-TESTED
-P2 PostgreSQL adapter: MERGED / REPOSITORY-INTEGRATION-TESTED
-P3 replay/projections: MERGED / REPOSITORY-INTEGRATION-TESTED
-P4 conformance:        MERGED / PARTIAL / POSTGRESQL C2
-P5 SQLite/C3:          MERGED / PARTIAL / REPOSITORY-REPRODUCED
+P1–P5:                 MERGED
 C4 offline shadow:     MERGED / PARTIAL / REPOSITORY-REPRODUCED
-C5/production:         NOT AUTHORIZED / NOT ESTABLISHED
+C5 operational:        PR #65 OPEN / PARTIAL / REPOSITORY-REPRODUCED ON PREVIOUS HEAD
+Production/live data:  NOT AUTHORIZED / NOT ESTABLISHED
 Issue #1 / #18:        ACTIVE / INDEPENDENT
 ```
 
-## Publication lineage
+## Distinct evidence dimensions
 
 ```text
-Base main:       b10be105743355a04e58611639a9d28faf7ea514
-PR #62 head:     b7786c088ef2cfd203c02625a5e0c40129cbf148
-PR #62 merge:    07bf1cc955307783f8eaa3becbaa924087b8b325
+kernel_runtime_conformance: C4
+operational_validation:     C5_BOUNDED_REHEARSAL
+support_state:              PARTIAL
+assertion map:              45 / 10 / 17 / 0
 ```
 
-## Profiles, protocols and result map
+C5 adds bounded operational evidence without promoting the 10 partial or 17 unsupported assertions.
+
+## Immutable plan
 
 ```text
-PostgreSQL  native-kernel/postgresql-reference@0.4-p4
-SQLite      native-kernel/sqlite-embedded@0.5-p5
-C4 dataset  native-kernel/c4-offline-shadow-v1
-
-Dataset protocol: nk-shadow-workload/1
-Report protocol:  nk-shadow-report/1
-Receipt protocol: nk-shadow-receipt/1
+native-kernel/c5-bounded-rehearsal-v1
+nk-operational-plan/1
+sha256 4ed680ff4e83ac9d1aca6c1ab8a435ecb19af4a5badf1be8202bc842f964b098
+18 scenarios
+CI_EPHEMERAL_SYNTHETIC
 ```
+
+## First repository evidence
 
 ```text
-Single-profile C2: 41 SUPPORTED / 13 PARTIAL / 18 UNSUPPORTED / 0 FAILED
-Cross-profile C3:  45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED / 0 FAILED
-C4 shadow scope:   45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED / 0 FAILED
-support_state:     PARTIAL
+Head:    260922de9f2a62b28697db3237b5ebfc7558edec
+C5 run: 31202900408 — PASS
 ```
-
-C4 evaluates only the 45 assertions already supported at C3. All `NK-EPI-001…008` remain `UNSUPPORTED / PROPOSED`.
-
-## Authority boundary
-
-```text
-shadow mode:          OFFLINE_RECORDED_WORKLOAD
-authority promotion: FORBIDDEN
-authoritative writes:FORBIDDEN
-side effects:         FORBIDDEN
-promotion decision:  NOT_AUTHORIZED
-```
-
-The C4 evaluator is not a command path and does not call append, projection mutation, external actions or ecosystem tools.
-
-## Approved dataset
-
-```text
-dataset_id:     native-kernel/c4-offline-shadow-v1
-sha256:         15fb81d8858dcc4e349ffe87c257b25450db026473614582faa7817f90249da3
-cases:          15
-assertion scope:45 / 45 C3-supported assertions
-approval:       ADR-0020 / Issue #61 / OFFLINE_RECORDED_WORKLOAD_ONLY
-```
-
-The dataset is synthetic repository evidence, not captured production traffic.
-
-## Exact implementation-main evidence
-
-```text
-Main:          07bf1cc955307783f8eaa3becbaa924087b8b325
-C4 run:        31189474449 — PASS
-P5/C3 run:     31189474409 — PASS
-P4 run:        31189474739 — PASS
-P1 run:        31189474300 — PASS
-Fixture run:   31189474351 — PASS
-AI context:    31189474423 — PASS
-```
-
-Matrix:
 
 ```text
 Python 3.11 / PostgreSQL 16 / SQLite 3.45.1 — PASS
@@ -104,61 +62,23 @@ Python 3.12 / PostgreSQL 16 / SQLite 3.45.1 — PASS
 Python 3.12 / PostgreSQL 18 / SQLite 3.45.1 — PASS
 ```
 
-Each artifact contains PostgreSQL P4, SQLite P5, C3 equivalence and C4 shadow reports.
+Inspected artifact:
 
 ```text
-py3.11/pg16 sha256:3e58a0ea73445d99a94c1e6b7c637640b9852e20b0a71a47f243a14e49995e44
-py3.11/pg18 sha256:14cd00c605d247873ff4ae58b3e8d884b6a3e986f13c1f47e0665eee5e33cb9e
-py3.12/pg16 sha256:08e1ecccc2679a7ce7bc8fadf43a9586794696b08f8f549f9350d8c658cc160f
-py3.12/pg18 sha256:4f890220eb7b1aed36aab74e4aedf4b6e6a4bd71dcc81534a6fe546ae9c75fd6
+18/18 scenarios PASS
+18 Receipts
+0 canary leaks
+0 recovery failures
+0 uncontained incidents
+p95 append 11.484 ms
+total 975.163 ms
+4-event logical backup validated and imported in quarantine
 ```
 
-One main-bound artifact was downloaded and inspected:
+## Operational proof boundary
 
-```text
-15 / 15 cases matched
-15 / 15 Shadow Receipts present
-45 / 45 C3-supported assertions covered
-0 semantic divergences
-0 critical divergences
-0 missing Receipts
-30 declared allowed operational differences
-72 assertion results
-```
-
-The inspected Receipt recorded no authority promotion, authoritative write or side effect.
-
-Artifacts are retained until 2026-09-06.
-
-## Evidence meaning
-
-```text
-PostgreSQL C2:    REPOSITORY_REPRODUCED for 41 SUPPORTED assertions
-SQLite C2:        REPOSITORY_REPRODUCED for 41 SUPPORTED assertions
-Cross-profile C3: REPOSITORY_REPRODUCED for 45 SUPPORTED assertions
-Offline C4:       REPOSITORY_REPRODUCED for the approved 15-case dataset and 45-assertion scope
-C5:               NOT_ESTABLISHED
-```
-
-A passing C4 report means the declared observations matched inside this exact dataset and threshold policy. It is not an exhaustive, live or operational proof.
-
-## Explicitly absent
-
-- live traffic capture or live production shadowing;
-- authority promotion, candidate approval or automatic action;
-- exhaustive equivalence proof;
-- PostgreSQL/SQLite operational equivalence;
-- complete conflict subsystem;
-- physical/cryptographic deletion execution;
-- restore-before-visibility enforcement;
-- cross-project authority adapter;
-- truth/signature/notarization certification;
-- network API;
-- C5 security/privacy/incident evidence;
-- production security, HA, backup, restore or compliance guarantees;
-- Titan, Mentaury or Crystal runtime wiring;
-- historical `v0.1.2.1` recovery.
+The rehearsal proves only the named synthetic scenarios in one ephemeral CI environment. It does not establish production security, live privacy, provider IAM, multi-region availability, regulatory compliance, physical backup/restore, physical deletion, or ecosystem authority.
 
 ## Next action
 
-Merge the documentation-only C4 checkpoint, reproduce bounded evidence on the resulting `main`, synchronize Notion and close Issue #61. C5 or any live/production/integration work requires a new explicit operator GO.
+Complete C5 publication documentation, repeat all gates on one exact final PR head, inspect the final artifact, review and merge, then reproduce on `main` and synchronize Notion.
