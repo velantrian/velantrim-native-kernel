@@ -1,8 +1,8 @@
-"""Profile-independent P1 semantic core.
+"""Profile-independent semantic core and deterministic schema helpers.
 
-This package implements deterministic in-memory semantics only. It provides no
-storage adapter, durable append path, database schema, network service or
-profile conformance claim.
+The package remains standard-library-only. It provides semantic objects,
+reduction, state decoding and explicit upcaster routing, but no storage adapter,
+network service or profile conformance claim.
 """
 
 from .authority import AuthorityDecision, AuthorityGrant, StaticAuthorityPolicy
@@ -42,6 +42,13 @@ from .reducer import (
     reduce_event,
     reduce_events,
 )
+from .state_codec import semantic_state_from_contract_object
+from .upcasting import (
+    UpcastResult,
+    UpcastStep,
+    UpcasterRegistry,
+    identity_upcaster_registry,
+)
 
 __all__ = [
     "AdmissionReceipt",
@@ -67,15 +74,20 @@ __all__ = [
     "SequenceViolation",
     "StaticAuthorityPolicy",
     "UnsupportedVersion",
+    "UpcastResult",
+    "UpcastStep",
+    "UpcasterRegistry",
     "canonical_json_bytes",
     "claim_id",
     "command_digest",
     "content_hash",
     "domain_hash",
+    "identity_upcaster_registry",
     "lineage_id",
     "reduce_event",
     "reduce_events",
     "run_transitions",
+    "semantic_state_from_contract_object",
     "state_digest",
     "transition",
 ]

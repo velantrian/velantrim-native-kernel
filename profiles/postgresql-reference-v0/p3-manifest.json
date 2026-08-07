@@ -1,0 +1,101 @@
+{
+  "manifest_version": "nk-p3-implementation-manifest/1",
+  "profile_id": "native-kernel/postgresql-reference",
+  "profile_version": "0.3-p3",
+  "evidence_lineage": "clean/postgresql-reference/0.1",
+  "rfc": "RFC-0002",
+  "decision_record": "ADR-0017",
+  "decision_status": "ACCEPTED",
+  "operator_approval": "APPROVED",
+  "phase": "P3",
+  "implementation_status": "PARTIAL",
+  "evidence_level": "REPOSITORY_REPRODUCED_P3_INTEGRATION_PREVIOUS_HEAD",
+  "kernel_runtime_conformance": "UNSUPPORTED",
+  "c1": "NOT_ESTABLISHED",
+  "c2": "NOT_ESTABLISHED",
+  "c3": "NOT_ESTABLISHED",
+  "language_profile": {
+    "language": "Python",
+    "runtime_range": ">=3.11,<3.13",
+    "semantic_helper_dependency_policy": "STANDARD_LIBRARY_ONLY",
+    "postgresql_driver": "psycopg>=3.3,<3.4",
+    "package": "native_kernel.postgresql_profile",
+    "permanent_architecture_choice": false
+  },
+  "postgresql_profile": {
+    "supported_major_versions": [16, 17, 18],
+    "ci_service_versions": [16, 18],
+    "migration_strategy": "NUMBERED_PLAIN_SQL_WITH_SHA256_LEDGER",
+    "replay_snapshot": "REPEATABLE_READ_READ_ONLY",
+    "projection_publish_guard": "OPTIMISTIC_INSTANCE_HEAD_COMPARE_UNDER_ROW_LOCK",
+    "projection_generation": "MONOTONIC_PER_INSTANCE_AND_PROJECTION_VIA_RECEIPTS"
+  },
+  "implemented_components": [
+    "deterministic explicit upcaster registry",
+    "persisted Event replay from empty state",
+    "canonical payload envelope and hash-chain verification",
+    "global and stream sequence verification through reducer",
+    "disposable semantic-state projection persistence",
+    "projection destroy and deterministic rebuild",
+    "stale history-head rejection before projection publication",
+    "transactional projection rebuild rollback",
+    "canonical persisted Replay and Projection Rebuild Receipts",
+    "projection-to-rebuild-Receipt linkage verification",
+    "Receipt truth authenticity integrity erasure overclaim guards"
+  ],
+  "receipt_limits": [
+    "selected PostgreSQL instance snapshot only",
+    "no truth claim",
+    "no external authenticity claim",
+    "no complete Event Integrity claim",
+    "no physical deletion claim",
+    "no C1 C2 C3 or production claim"
+  ],
+  "local_validation": {
+    "semantic_unit_tests": 5,
+    "semantic_unit_result": "PASS",
+    "manifest_tests": 5,
+    "manifest_result": "PASS",
+    "integration_tests_declared": 8,
+    "integration_result": "PASS_REPOSITORY_CI",
+    "compileall_result": "PASS",
+    "repository_ci": "PASS_PREVIOUS_HEAD",
+    "evidence_run_id": 31172865993,
+    "evidence_run_head": "d484d7e2ee7f3502ddd8eedc339ba1feac546397",
+    "matrix": [
+      "python-3.11/postgresql-16:PASS",
+      "python-3.11/postgresql-18:PASS",
+      "python-3.12/postgresql-16:PASS",
+      "python-3.12/postgresql-18:PASS"
+    ],
+    "p2_regression": "PASS"
+  },
+  "assertion_support_policy": {
+    "registry_version": "nk-contract-registry/1.1.0",
+    "reported_runtime_support": "UNSUPPORTED",
+    "reason": "P3 has no P4 conformance adapter or complete assertion-scoped evidence report."
+  },
+  "issue_1_boundary": {
+    "relationship": "INDEPENDENT",
+    "historical_lineage": null,
+    "may_claim_recovery": false,
+    "may_use_v0_1_2_1_name": false
+  },
+  "issue_18_boundary": {
+    "relationship": "INDEPENDENT",
+    "package_published": false,
+    "external_code_vendored": false
+  },
+  "forbidden_in_p3": [
+    "physical or cryptographic deletion execution",
+    "network API",
+    "P4 assertion-level conformance promotion",
+    "P5 SQLite implementation",
+    "C1, C2 or C3 profile claim",
+    "Titan, Mentaury or Crystal runtime wiring",
+    "v0.1.2.1 recovery claim",
+    "ADR-0008 or NK-EPI promotion",
+    "production durability security privacy backup HA or compliance guarantee"
+  ],
+  "next_gate": "Separate operator GO for P4 conformance adapter and complete assertion-scoped evidence"
+}

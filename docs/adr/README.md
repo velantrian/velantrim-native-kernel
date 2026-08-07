@@ -57,34 +57,35 @@ Decision status
 | ADR | Title | Decision | Evidence | Implementation | Approval |
 |---|---|---|---|---|---|
 | [`0001`](./0001-architecture-canon-vs-implementation-profiles.md) | Architecture Canon is separate from Implementation Profiles | `ACCEPTED` | `DOCUMENTED` | documentation complete; portability unproven | `APPROVED` |
-| [`0002`](./0002-state-checkpoints-are-disposable.md) | State Checkpoints are disposable replay accelerators | `PROPOSED` | `DOCUMENTED` | `NOT_STARTED` | `NOT_REQUESTED` |
+| [`0002`](./0002-state-checkpoints-are-disposable.md) | State Checkpoints are disposable replay accelerators | `PROPOSED` | `DOCUMENTED` | concept reflected by P3 disposable projections; ADR itself not promoted | `NOT_REQUESTED` |
 | [`0003`](./0003-semantic-conflicts-require-explicit-resolution.md) | Semantic conflicts require explicit resolution | `PROPOSED` | `DOCUMENTED` | `NOT_STARTED` | `NOT_REQUESTED` |
-| [`0004`](./0004-rebuild-from-authoritative-history.md) | Rebuild from authoritative history is the first conformance experiment | `PROPOSED` | `DOCUMENTED` | `NOT_STARTED` | `NOT_REQUESTED` |
+| [`0004`](./0004-rebuild-from-authoritative-history.md) | Rebuild from authoritative history is the first conformance experiment | `PROPOSED` | P3 rebuild mechanism `REPOSITORY_REPRODUCED`; ADR/conformance promotion not implied | bounded profile mechanism `PARTIAL`; P4 absent | `NOT_REQUESTED` |
 | [`0005`](./0005-curiosity-core-is-optional-and-non-authoritative.md) | Curiosity Core is optional and non-authoritative | `PROPOSED` | `DOCUMENTED` | `NOT_STARTED` | `NOT_REQUESTED` |
 | [`0006`](./0006-causal-links-are-relations.md) | Causal links are relations, not knowledge types | `ACCEPTED` | `DOCUMENTED` | `NOT_STARTED` | `APPROVED` |
 | [`0007`](./0007-operator-approval-is-not-evidence.md) | Operator approval is separate from empirical evidence | `ACCEPTED` | `DOCUMENTED` | governance documentation complete | `APPROVED` |
 | [`0008`](./0008-epistemic-boundaries-are-representation-disciplines.md) | Epistemic boundaries are representation disciplines | `PROPOSED` | `DOCUMENTED` | `NOT_STARTED` | `PENDING` |
-| [`0009`](./0009-postgresql-primary-sqlite-optional-profile.md) | PostgreSQL is the primary full profile and SQLite is optional | `ACCEPTED` | `DOCUMENTED` | profile direction only | `APPROVED` |
-| [`0010`](./0010-foundational-contract-families.md) | Foundational contracts are separated by semantic role | `ACCEPTED` | `DOCUMENTED` | `NOT_STARTED` | `APPROVED` |
+| [`0009`](./0009-postgresql-primary-sqlite-optional-profile.md) | PostgreSQL is the primary full profile and SQLite is optional | `ACCEPTED` | `DOCUMENTED` | PostgreSQL P1–P3 profile `PARTIAL`; portability unproven | `APPROVED` |
+| [`0010`](./0010-foundational-contract-families.md) | Foundational contracts are separated by semantic role | `ACCEPTED` | `DOCUMENTED` | `PARTIAL` profile paths | `APPROVED` |
 | [`0011`](./0011-canonical-identity-contract-v1.md) | Canonical identity contract v1 | `ACCEPTED` | reference vectors `LOCALLY_TESTED` | P1 identity path `PARTIAL`; full profile absent | `APPROVED` |
-| [`0012`](./0012-single-writer-append-and-replay-contract-v1.md) | Single-writer append and replay contract v1 | `ACCEPTED` | P2 append integration `REPOSITORY_REPRODUCED` | durable append/idempotency `PARTIAL`; replay absent | `APPROVED` |
+| [`0012`](./0012-single-writer-append-and-replay-contract-v1.md) | Single-writer append and replay contract v1 | `ACCEPTED` | P2/P3 integration `REPOSITORY_REPRODUCED` | append/replay paths `PARTIAL`; complete assertion report absent | `APPROVED` |
 | [`0013`](./0013-deletion-restriction-retention-contract-v1.md) | Deletion, restriction and retention contract v1 | `ACCEPTED` | fixtures + P1 transitions `LOCALLY_TESTED` | state semantics `PARTIAL`; operational deletion absent | `APPROVED` |
-| [`0014`](./0014-executable-conformance-fixture-protocol-v1.md) | Executable conformance fixture protocol v1 | `ACCEPTED` | tooling `LOCALLY_TESTED` | fixture tooling `PARTIAL`; runtime adapter absent | `APPROVED` |
+| [`0014`](./0014-executable-conformance-fixture-protocol-v1.md) | Executable conformance fixture protocol v1 | `ACCEPTED` | tooling `LOCALLY_TESTED` | fixture tooling `PARTIAL`; P4 adapter absent | `APPROVED` |
 | [`0015`](./0015-accept-clean-profile-and-authorize-p1-semantic-core.md) | Accept clean profile lineage and authorize bounded P1 semantic core | `ACCEPTED` | `LOCALLY_TESTED` | `PARTIAL — P1` | `APPROVED` |
-| [`0016`](./0016-authorize-p2-postgresql-append-profile.md) | Authorize P2 PostgreSQL authoritative append profile | `ACCEPTED` | `REPOSITORY_REPRODUCED — P2 INTEGRATION` | `PARTIAL — P2`; P3 absent | `APPROVED` |
+| [`0016`](./0016-authorize-p2-postgresql-append-profile.md) | Authorize P2 PostgreSQL authoritative append profile | `ACCEPTED` | `REPOSITORY_REPRODUCED — P2 INTEGRATION` | `PARTIAL — P2` | `APPROVED` |
+| [`0017`](./0017-authorize-p3-replay-projection-receipts.md) | Authorize bounded P3 replay, projection rebuild and operational Receipts | `ACCEPTED` | initial matrix `REPOSITORY_REPRODUCED — P3 INTEGRATION` | `PARTIAL — P3`; P4/P5 absent | `APPROVED` |
 
 ## Current boundary
 
 ```text
-accepted clean profile + P1/P2 code
+accepted clean profile + P1/P2/P3 code
 ≠ complete Kernel runtime
-≠ replay/projection runtime
+≠ physical deletion
 ≠ assertion-level conformance
 ≠ C1/C2/C3
 ≠ recovered v0.1.2.1
 ```
 
-P3–P5 require separate operator decisions.
+P4–P5 require separate operator decisions. P3 implementation does not automatically promote still-proposed ADR-0002, ADR-0004, ADR-0008 or NK-EPI.
 
 ## When an ADR is required
 
@@ -104,6 +105,7 @@ Routine refactors, formatting and narrow tests usually do not need a new ADR whe
 8. Issue #1 controlled import remains separate from clean implementation work.
 9. Translation must preserve decision/evidence/implementation/approval meaning.
 10. Comments should explain why a boundary exists.
+11. A P3 operational Receipt is bounded evidence, not truth, authenticity, complete Event Integrity or physical erasure proof.
 
 ## Naming and template
 

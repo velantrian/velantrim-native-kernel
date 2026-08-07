@@ -1,46 +1,67 @@
 # Current Status
 
 > **Verified:** 2026-08-07  
-> **Last verified public `main`:** `113452a365890bf6c143d76657b810be59530ed4`  
-> **Repository status:** `RESEARCH / P2 PARTIAL IMPLEMENTATION / NOT PRODUCTION-READY`  
-> **Current phase:** `P2 MERGED / REPOSITORY-INTEGRATION-TESTED`
+> **Last verified public `main`:** `4e6be77196c633c25dd3896660335c1448b2baf5`  
+> **Active branch / PR / issue:** `agent/p3-replay-projections` / #50 / #49  
+> **Repository status:** `RESEARCH / P3 PARTIAL IMPLEMENTATION / NOT PRODUCTION-READY`
 
 ## Current profile
 
 ```text
 Profile ID:       native-kernel/postgresql-reference
-Profile version:  0.2-p2
+Profile version:  0.3-p3
 Evidence lineage: clean/postgresql-reference/0.1
-P1:               MERGED
+P1:               MERGED / REPOSITORY-TESTED
 P2:               MERGED / REPOSITORY-INTEGRATION-TESTED
-P3–P5:            NOT AUTHORIZED
+P3:               AUTHORIZED / REPOSITORY-INTEGRATION-TESTED / PR OPEN
+P4–P5:            NOT AUTHORIZED
 ```
 
-PostgreSQL and Psycopg remain replaceable Implementation Profile technologies, not Architecture Canon.
+PostgreSQL, Psycopg, Python modules, SQL tables and locks remain replaceable Implementation Profile technologies, not Architecture Canon.
 
-## P2 publication evidence
+## P3 implementation
 
 ```text
-PR:             #47
-Final PR head:  36ddb1d0342914f0c06fe7f31171bac06565ee72
-Merge SHA:      113452a365890bf6c143d76657b810be59530ed4
-Merge method:   squash
-Changed files:  31
-Review threads: 0 unresolved
-Reviews:        0
-Codex review:   unavailable due external usage limit
+authoritative PostgreSQL Events
+→ repeatable-read snapshot
+→ canonical payload/envelope verification
+→ Event count, sequence and global hash-chain verification
+→ explicit deterministic upcaster registry
+→ P1 reducer from empty state
+→ bounded persisted Replay Receipt
+→ locked authoritative-head comparison
+→ disposable projection rebuild
+→ bounded persisted Projection Rebuild Receipt
 ```
 
-Final-head workflows:
+Implemented:
+
+- explicit identity and multi-step upcaster routing;
+- failure on missing, duplicate, cyclic or invalid upcaster paths;
+- canonical semantic-state decoding;
+- full selected-instance replay from global sequence `1`;
+- P2 stored-event commitment verification during replay;
+- reducer global/per-stream sequence verification;
+- disposable projection persistence, read, destroy and rebuild;
+- monotonic generation through committed rebuild Receipts;
+- stale-head rejection before projection publication;
+- transactional rollback for Receipt/projection publication faults;
+- canonical `REPLAY` and `PROJECTION_REBUILD` Receipts;
+- Receipt non-claims for truth, external authenticity, complete integrity, physical erasure and C-levels.
+
+## Repository evidence
+
+Initial executable PR head:
 
 ```text
-P2 run 31152380799 — PASS
-AI context run 31152380802 — PASS
-P1 semantic core run 31152380832 — PASS
-Fixture integrity run 31152380800 — PASS
+Head:          0f8fd4ffe5d5fb0d4bc01f3e441a053f691dbba3
+P3 run:        31171581859 — PASS
+P2 regression: 31171581795 — PASS
+P1 core:       31171581787 — PASS
+Fixtures:      31171581791 — PASS
 ```
 
-P2 matrix:
+P3 matrix:
 
 ```text
 Python 3.11 / PostgreSQL 16 — PASS
@@ -49,47 +70,31 @@ Python 3.12 / PostgreSQL 16 — PASS
 Python 3.12 / PostgreSQL 18 — PASS
 ```
 
-Every P2 job passed 9 unit tests, 5 PostgreSQL integration tests, 5 manifest tests, validator and compileall.
+Every P3 matrix job passed 5 semantic tests, 5 manifest tests, 7 PostgreSQL integration scenarios, P2 regression tests and compileall.
 
-No push-to-main workflow run was recorded for merge `113452a3…`.
-
-## Implemented P2 scope
-
-- lazy Psycopg boundary;
-- checksum-locked migrations with advisory-lock serialization;
-- Kernel instance registration;
-- DB-backed writer owner/epoch/expiry lease;
-- stale/expired writer fencing;
-- atomic Event/idempotency persistence;
-- same-key/same-digest original-result return;
-- conflicting-key rejection;
-- rollback-safe global and stream counters;
-- canonical payload/envelope bytes;
-- `nkp1` payload commitment and `nke1` global chain;
-- stored-event consistency checks.
+The final PR head must repeat affected workflows after documentation/evidence updates. The initial PASS remains evidence only for its exact SHA.
 
 ## Evidence boundary
 
 ```text
-P2 PostgreSQL integration: REPOSITORY_REPRODUCED
-Kernel runtime conformance: UNSUPPORTED
-C1/C2/C3:                  NOT_ESTABLISHED
+P3 replay/projection integration: REPOSITORY_REPRODUCED
+Kernel runtime conformance:       UNSUPPORTED
+C1/C2/C3:                         NOT_ESTABLISHED
 ```
 
-P2 evidence is bounded to append/idempotency, writer fencing, rollback and tested concurrency. It is not a complete Kernel/runtime promotion.
+P3 Receipts prove only their declared selected-instance snapshot/rebuild operation and checks. They do not establish truth, external authenticity, complete Event Integrity, physical deletion, production durability, security, privacy or compliance.
 
 ## Explicitly absent
 
-- P3 projections/rebuild and replay/upcasters;
-- operational replay/deletion Receipts;
-- byte/key/backup deletion execution;
+- physical or cryptographic deletion execution;
+- provider/backup/export/log/key erasure evidence;
 - network API;
-- P4 conformance adapter;
-- P5 SQLite profile;
+- P4 complete assertion-scoped conformance adapter;
+- P5 independent SQLite profile;
 - C1/C2/C3;
-- packaging/publication decision under Issue #18;
+- package publication decision under Issue #18;
 - Titan, Mentaury or Crystal runtime wiring;
-- production credentials, HA, backup, restore, security, privacy or compliance guarantees.
+- production credentials, HA, backup, restore or compliance guarantees.
 
 All 72 registry assertions remain runtime `UNSUPPORTED` until P4.
 
@@ -105,8 +110,8 @@ Issue #1 remains active and independent. `NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GL
 
 ## Next gates
 
-1. merge the post-P2 continuity checkpoint;
-2. synchronize final main/evidence to Notion and close Issue #46;
-3. keep P3 blocked until separate operator GO;
-4. preserve Issue #1 and Issue #18 as independent gates;
-5. keep all assertion-level runtime support `UNSUPPORTED` until P4.
+1. complete exact final-head P3, P2, P1, fixture and AI-context checks;
+2. inspect PR #50 full diff, comments and review threads;
+3. merge only with P4/P5, physical deletion and ecosystem scope absent;
+4. synchronize final PR/merge/run evidence to GitHub and Notion;
+5. require separate operator GO before P4.
