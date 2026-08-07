@@ -1,11 +1,12 @@
-# Conformance tooling
+# Conformance and shadow-evidence tooling
 
-This directory contains three distinct layers:
+This directory contains four distinct layers:
 
 ```text
 fixture integrity
 ≠ single-profile evidence adapters
 ≠ cross-profile equivalence comparator
+≠ authority-free offline shadow evaluator
 ```
 
 ## Fixture-integrity layer
@@ -21,11 +22,7 @@ The built-in fixture reader deliberately emits every assertion as `UNSUPPORTED`.
 
 ## PostgreSQL P4 adapter
 
-```text
-tools/conformance/postgresql_profile_adapter.py
-```
-
-It executes semantic and real PostgreSQL checks and emits `nk-evidence-report/1` for all 72 assertions.
+`postgresql_profile_adapter.py` executes semantic and real PostgreSQL checks and emits `nk-evidence-report/1` for all 72 assertions.
 
 ```bash
 export NK_TEST_POSTGRES_DSN='postgresql://postgres:postgres@127.0.0.1/native_kernel_test'
@@ -41,11 +38,7 @@ python tools/conformance/validate_p4_report.py postgresql-p4-report.json
 
 ## SQLite P5 adapter
 
-```text
-tools/conformance/sqlite_profile_adapter.py
-```
-
-It executes the independent stdlib-`sqlite3` profile and emits `nk-evidence-report/1` for all 72 assertions.
+`sqlite_profile_adapter.py` executes the independent stdlib-`sqlite3` profile and emits `nk-evidence-report/1` for all 72 assertions.
 
 ```bash
 export NK_TEST_SQLITE_PATH='./p5-test.db'
@@ -67,11 +60,7 @@ PostgreSQL and SQLite single-profile maps are guarded as:
 
 ## Cross-profile C3 comparator
 
-```text
-tools/conformance/cross_profile_comparator.py
-```
-
-The comparator uses a distinct protocol, `nk-equivalence-report/1`. It must not be routed through the generic single-profile evidence runner.
+`cross_profile_comparator.py` uses a distinct protocol, `nk-equivalence-report/1`. It must not be routed through the generic single-profile evidence runner.
 
 ```bash
 export NK_TEST_POSTGRES_DSN='postgresql://postgres:postgres@127.0.0.1/native_kernel_test'
@@ -85,17 +74,6 @@ python tools/conformance/cross_profile_comparator.py \
 python tools/conformance/validate_p5_report.py c3 c3-equivalence-report.json
 ```
 
-Repository C3 metadata additionally requires:
-
-```text
-NK_EVIDENCE_LEVEL=REPOSITORY_REPRODUCED
-NK_EVIDENCE_COMMIT=<exact head>
-NK_EVIDENCE_RUN_ID=<exact Actions run>
-NK_PYTHON_VERSION=<matrix Python>
-NK_POSTGRESQL_VERSION=<matrix PostgreSQL>
-NK_SQLITE_VERSION=<runtime SQLite>
-```
-
 The comparator executes declared BYTE, STRUCTURAL, SEMANTIC and BEHAVIOURAL checks and emits:
 
 ```text
@@ -103,63 +81,105 @@ The comparator executes declared BYTE, STRUCTURAL, SEMANTIC and BEHAVIOURAL chec
 support_state: PARTIAL
 ```
 
-Promoted only by cross-profile evidence:
+All `NK-EPI-001…008` remain unsupported.
+
+## C4 offline shadow evaluator
+
+`offline_shadow_evaluator.py` consumes:
 
 ```text
-NK-SEM-008
-NK-ID-008
-NK-EQV-002
-NK-EQV-003
+1. exact approved nk-shadow-workload/1 dataset bytes
+2. exact validated nk-equivalence-report/1 prerequisite
 ```
 
-All `NK-EPI-001…008` remain unsupported.
+Local generation:
+
+```bash
+export NK_EVIDENCE_LEVEL=LOCALLY_TESTED
+
+python tools/conformance/offline_shadow_evaluator.py \
+  contracts/shadow-workload-v1.json \
+  c3-equivalence-report.json \
+  > c4-shadow-report.json
+
+python tools/conformance/validate_c4_report.py c4-shadow-report.json
+```
+
+Repository metadata requires:
+
+```text
+NK_EVIDENCE_LEVEL=REPOSITORY_REPRODUCED_OFFLINE_SHADOW
+NK_EVIDENCE_COMMIT=<exact head>
+NK_EVIDENCE_RUN_ID=<exact Actions run>
+NK_PYTHON_VERSION=<matrix Python>
+NK_POSTGRESQL_VERSION=<matrix PostgreSQL>
+NK_SQLITE_VERSION=<runtime SQLite>
+```
+
+Approved dataset:
+
+```text
+dataset_id:      native-kernel/c4-offline-shadow-v1
+sha256:          15fb81d8858dcc4e349ffe87c257b25450db026473614582faa7817f90249da3
+cases:           15
+assertion scope: 45 / 45 C3-supported assertions
+```
+
+The evaluator emits `nk-shadow-report/1` and one bounded `nk-shadow-receipt/1` per case.
+
+Mandatory authority boundary:
+
+```text
+mode:                  SHADOW_ONLY
+authority promotion:   FORBIDDEN
+authoritative writes:  FORBIDDEN
+side effects:           FORBIDDEN
+promotion decision:    NOT_AUTHORIZED
+```
 
 ## Strict validation
 
 `validate_p4_report.py` guards the PostgreSQL C2 report.
 
-`validate_p5_report.py sqlite` rejects:
+`validate_p5_report.py` guards SQLite C2 and cross-profile C3 maps, traceability, proposed-family non-promotion, difference declarations, repository metadata and non-claims.
 
-- incomplete/duplicate/unknown assertion results;
-- wrong `41/13/18/0` map;
-- missing or failed evidence references;
+`validate_c4_report.py` rejects:
+
+- wrong shadow protocol, dataset identity or dataset digest;
+- wrong/missing C3 prerequisite binding;
+- missing, duplicate or unknown case IDs;
+- missing/duplicate Shadow Receipts;
+- unsafe authority, write, side-effect or promotion fields;
+- incomplete 45-assertion C3-supported coverage;
+- wrong complete `45/10/17/0` assertion map;
+- semantic or critical divergence above zero thresholds;
 - missing limitations;
-- `NK-EPI` promotion;
-- fake repository C2 metadata;
-- missing truth/deletion/C3 boundaries.
+- false repository C4 metadata;
+- live-shadow, authority-promotion, truth, deletion, C5 or production overclaim.
 
-`validate_p5_report.py c3` rejects:
-
-- wrong equivalence protocol/profile IDs;
-- wrong `45/10/17/0` map;
-- unknown/failed cross-profile checks;
-- untraceable supported/partial results;
-- missing allowed/forbidden difference declarations;
-- false C3 with local/placeholder metadata;
-- operational-equivalence, truth, deletion or production overclaim.
-
-## P5 test route
+## C4 test route
 
 ```bash
-python -m unittest discover -s tests -p 'test_sqlite_profile_unit.py' -v
-python -m unittest discover -s tests -p 'test_p5_sqlite_integration.py' -v
-python -m unittest discover -s tests -p 'test_p5_report_validator.py' -v
-python -m unittest discover -s tests -p 'test_p5_manifest.py' -v
-python tools/profiles/validate_p5_manifest.py
-
-NK_TEST_POSTGRES_DSN='postgresql://...' \
-  python -m unittest discover -s tests -p 'test_p5_cross_profile_integration.py' -v
+python -m unittest discover -s tests -p 'test_c4_shadow_evaluation.py' -v
+python -m unittest discover -s tests -p 'test_c4_report_validator.py' -v
+python -m unittest discover -s tests -p 'test_c4_manifest.py' -v
+python tools/profiles/validate_c4_manifest.py
 ```
+
+P1–P5 prerequisite tests must also remain green.
 
 ## Repository workflow
 
-`.github/workflows/p5-sqlite-c3.yml` runs:
+`.github/workflows/c4-offline-shadow.yml` runs:
 
 ```text
 Python 3.11/3.12 × PostgreSQL 16/18
 + runner SQLite version
-+ P1–P4 regressions
-+ 3 reports per artifact
++ C4 unit/manifest/report guards
++ exact P4/P5/C3 prerequisite report generation
++ exact C4 evaluation
++ P1–P5 regressions
++ 4 reports per artifact
 ```
 
 Each matrix artifact contains:
@@ -168,18 +188,20 @@ Each matrix artifact contains:
 postgresql-p4-report.json
 sqlite-p5-report.json
 c3-equivalence-report.json
+c4-shadow-report.json
 ```
 
-A self-generated JSON file is not sufficient C2/C3 evidence. Verify the external exact run, head, jobs and retained artifact.
+A self-generated JSON file is not sufficient C2/C3/C4 evidence. Verify the external exact run, head, jobs and retained artifact bytes.
 
 ## Boundaries
 
 ```text
-C2 ≠ C3
-C3 ≠ all 72 supported
-C3 semantic equivalence ≠ operational equivalence
-C3 ≠ truth/authenticity
-C3 ≠ physical deletion
-C3 ≠ C4/C5
-C3 ≠ production certification
+C2 ≠ C3 ≠ C4
+C4 ≠ all 72 supported
+C4 offline shadow ≠ live shadowing
+C4 observation ≠ authority promotion
+C4 ≠ exhaustive or operational equivalence
+C4 ≠ truth/authenticity
+C4 ≠ physical deletion
+C4 ≠ C5 / production certification
 ```
