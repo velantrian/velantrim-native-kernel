@@ -51,8 +51,8 @@
     "integration_result": "PASS_REPOSITORY_CI",
     "compileall_result": "PASS",
     "repository_ci": "PASS",
-    "repository_run_id": 31151297646,
-    "repository_head": "e80492bcacde2ff2be3a2ee03aa5aa53a714d288",
+    "evidence_run_id": 31151297646,
+    "evidence_run_head": "e80492bcacde2ff2be3a2ee03aa5aa53a714d288",
     "matrix": [
       "python-3.11/postgresql-16:PASS",
       "python-3.11/postgresql-18:PASS",
