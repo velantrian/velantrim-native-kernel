@@ -1,8 +1,8 @@
 # Current Status
 
 > **Verified:** 2026-08-07  
-> **Last verified public `main`:** `b10be105743355a04e58611639a9d28faf7ea514`  
-> **Current publication candidate:** PR #62 / Issue #61 / ADR-0020  
+> **Last verified public `main`:** `07bf1cc955307783f8eaa3becbaa924087b8b325`  
+> **Implementation publication:** PR #62 merged / Issue #61 pending final closure / ADR-0020  
 > **Repository status:** `RESEARCH / C4 PARTIAL OFFLINE SHADOW EVALUATION / NOT PRODUCTION-READY`
 
 ## Current phase
@@ -13,30 +13,31 @@ P2: MERGED / REPOSITORY-INTEGRATION-TESTED
 P3: MERGED / REPOSITORY-INTEGRATION-TESTED
 P4: MERGED / PARTIAL / POSTGRESQL C2 REPOSITORY-REPRODUCED
 P5: MERGED / PARTIAL / SQLITE C2 + CROSS-PROFILE C3 REPOSITORY-REPRODUCED
-C4: PR #62 OPEN / PARTIAL / OFFLINE RECORDED-WORKLOAD SHADOW EVIDENCE REPOSITORY-REPRODUCED
+C4: MERGED / PARTIAL / OFFLINE RECORDED-WORKLOAD SHADOW EVIDENCE REPOSITORY-REPRODUCED
 C5: NOT AUTHORIZED / NOT ESTABLISHED
 ```
 
-C4 is an evidence layer over the existing profiles. It does not become an authoritative runtime, a storage profile, a deployment mode or an ecosystem authority.
+C4 is an evidence layer over the existing profiles. It is not an authoritative runtime, storage profile, deployment mode or ecosystem authority.
 
-## Profiles and lineages
+## Publication lineage
 
 ```text
-PostgreSQL profile: native-kernel/postgresql-reference@0.4-p4
-Lineage:           clean/postgresql-reference/0.1
-
-SQLite profile:    native-kernel/sqlite-embedded@0.5-p5
-Lineage:           clean/sqlite-embedded/0.1
-
-C4 evaluator:      native-kernel/c4-offline-shadow-v1
-Dataset protocol:  nk-shadow-workload/1
-Report protocol:   nk-shadow-report/1
-Receipt protocol:  nk-shadow-receipt/1
+C4 base main:       b10be105743355a04e58611639a9d28faf7ea514
+PR #62 final head:  b7786c088ef2cfd203c02625a5e0c40129cbf148
+PR #62 merge/main:  07bf1cc955307783f8eaa3becbaa924087b8b325
 ```
 
-PostgreSQL, SQLite, Python, Psycopg, SQL layouts, files, locks, CI runners and the current evaluator remain replaceable Implementation Profile technologies, not Architecture Canon.
+## Profiles, protocols and maps
 
-## Assertion-scoped maps
+```text
+PostgreSQL: native-kernel/postgresql-reference@0.4-p4
+SQLite:     native-kernel/sqlite-embedded@0.5-p5
+C4 dataset: native-kernel/c4-offline-shadow-v1
+
+Dataset protocol: nk-shadow-workload/1
+Report protocol:  nk-shadow-report/1
+Receipt protocol: nk-shadow-receipt/1
+```
 
 Single-profile PostgreSQL and SQLite C2:
 
@@ -48,7 +49,7 @@ FAILED:       0
 TOTAL:       72
 ```
 
-PostgreSQL↔SQLite C3 and C4 shadow scope:
+PostgreSQL↔SQLite C3 and C4 assertion scope:
 
 ```text
 SUPPORTED:   45
@@ -61,7 +62,7 @@ support_state: PARTIAL
 
 C4 evaluates exactly the existing 45 C3-supported assertions. It does not promote the remaining 27 assertions. All `NK-EPI-001…008` remain `UNSUPPORTED / PROPOSED`.
 
-## C4 authority boundary
+## Authority boundary
 
 ```text
 mode:                  SHADOW_ONLY
@@ -71,9 +72,9 @@ side effects:           FORBIDDEN
 promotion decision:    NOT_AUTHORIZED
 ```
 
-The evaluator accepts an explicitly approved, immutable recorded dataset and compares declared reference/candidate observations. It cannot append to Kernel history, mutate either storage profile, approve a candidate, trigger actions or connect itself to Titan, Mentaury or Crystal.
+The evaluator cannot append to Kernel history, mutate either storage profile, approve a candidate, trigger actions or connect itself to Titan, Mentaury or Crystal.
 
-## Approved C4 dataset
+## Approved dataset
 
 ```text
 dataset_id:      native-kernel/c4-offline-shadow-v1
@@ -85,15 +86,28 @@ approval:        ADR-0020 / Issue #61 / OFFLINE_RECORDED_WORKLOAD_ONLY
 
 The dataset contains approved synthetic repository workloads. It is not captured production traffic.
 
-## First repository C4 evidence
+## Exact PR-head evidence
 
 ```text
-Evidence head: 97abce685a68e24aec9afab451c009df5783b96b
-C4 run:       31187532364 — PASS
-P5/C3 run:    31187532391 — PASS
-P4 run:       31187532618 — PASS
-P1 run:       31187532346 — PASS
-Fixtures:     31187532580 — PASS
+Final head:    b7786c088ef2cfd203c02625a5e0c40129cbf148
+C4 run:        31189149796 — PASS
+P5/C3 run:     31189149627 — PASS
+P4 run:        31189149839 — PASS
+P1 run:        31189149436 — PASS
+Fixtures:      31189149449 — PASS
+AI context:    31189149274 — PASS
+```
+
+## Exact implementation-main evidence
+
+```text
+Main:          07bf1cc955307783f8eaa3becbaa924087b8b325
+C4 run:        31189474449 — PASS
+P5/C3 run:     31189474409 — PASS
+P4 run:        31189474739 — PASS
+P1 run:        31189474300 — PASS
+Fixtures:      31189474351 — PASS
+AI context:    31189474423 — PASS
 ```
 
 Matrix:
@@ -105,6 +119,10 @@ Python 3.12 / PostgreSQL 16 / SQLite 3.45.1 — PASS
 Python 3.12 / PostgreSQL 18 / SQLite 3.45.1 — PASS
 ```
 
+Every C4 job passed C4 unit/report/manifest guards, exact P4/P5/C3 prerequisite generation, offline evaluation, P1–P5 regressions, compileall and four-report artifact upload.
+
+## Main-bound artifacts
+
 Each artifact contains:
 
 ```text
@@ -114,16 +132,16 @@ c3-equivalence-report.json
 c4-shadow-report.json
 ```
 
-Artifact digests:
-
 ```text
-py3.11/pg16 sha256:59cf39e6cbd3e8c95157676cc3fd838687d5911676b227681efd6c83a7f36e90
-py3.11/pg18 sha256:9d4f828095285e479e1a95b87523fbaa800068f82a75cbbefb5f2d736e952032
-py3.12/pg16 sha256:f85e29688a0176c168067fb8ed6f889550342c6faffcb4dc7d391715ea5364d4
-py3.12/pg18 sha256:6892bc2ab7232c96124d4d207aacf06385f8b2ff6a3ea91097d1db6c2e834328
+py3.11/pg16 sha256:3e58a0ea73445d99a94c1e6b7c637640b9852e20b0a71a47f243a14e49995e44
+py3.11/pg18 sha256:14cd00c605d247873ff4ae58b3e8d884b6a3e986f13c1f47e0665eee5e33cb9e
+py3.12/pg16 sha256:08e1ecccc2679a7ce7bc8fadf43a9586794696b08f8f549f9350d8c658cc160f
+py3.12/pg18 sha256:4f890220eb7b1aed36aab74e4aedf4b6e6a4bd71dcc81534a6fe546ae9c75fd6
 ```
 
-One archive was downloaded and inspected. The exact C4 report was bound to head `97abce68…`, run `31187532364`, Python 3.11, PostgreSQL 16 and SQLite 3.45.1. It contained:
+Artifacts are retained until 2026-09-06.
+
+One main-bound archive was downloaded and inspected. It was bound to exact `main@07bf1cc9…` and run `31189474449` and contained:
 
 ```text
 15 / 15 matched cases
@@ -138,7 +156,13 @@ status: PASS
 support_state: PARTIAL
 ```
 
-Artifacts are retained until 2026-09-06.
+The inspected Receipt explicitly recorded:
+
+```text
+authority_promoted: false
+authoritative_write_performed: false
+side_effects_executed: false
+```
 
 ## What C4 proves
 
@@ -178,16 +202,6 @@ C4 offline shadow PASS
 - historical `v0.1.2.1` recovery;
 - package-publication decision under Issue #18.
 
-## Historical P5 publication checkpoint
-
-```text
-PR #59 final head: 6483c9a229aea7d49929745b7652e67f1c39949c
-PR #59 merge:      a8bb0ae232b977856730a1a4f21f977c1f69ca0a
-PR #60 checkpoint: b10be105743355a04e58611639a9d28faf7ea514
-```
-
-P5 established independent SQLite C2 and partial PostgreSQL↔SQLite C3 with map `45/10/17/0`. C4 reuses that exact assertion boundary; it does not replace or broaden it.
-
 ## Issue boundaries
 
 ```text
@@ -204,4 +218,4 @@ Issue #18 remains independent. No package was published and no new external runt
 
 ## Next gate
 
-Finish exact final-head C4 evidence, review and publication for PR #62, then merge and record a main-bound checkpoint. C5, live shadowing, production, deletion execution and ecosystem integration require a new explicit operator GO.
+Publish and merge this documentation-only checkpoint, reproduce the bounded C4 evidence on the resulting `main`, synchronize Notion and close Issue #61. C5, live shadowing, production, deletion execution and ecosystem integration require a new explicit operator GO.
