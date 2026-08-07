@@ -9,7 +9,7 @@
   "operator_approval": "APPROVED",
   "phase": "P3",
   "implementation_status": "PARTIAL",
-  "evidence_level": "REPOSITORY_REPRODUCED_P3_INTEGRATION",
+  "evidence_level": "REPOSITORY_REPRODUCED_P3_INTEGRATION_PREVIOUS_HEAD",
   "kernel_runtime_conformance": "UNSUPPORTED",
   "c1": "NOT_ESTABLISHED",
   "c2": "NOT_ESTABLISHED",
@@ -40,6 +40,7 @@
     "stale history-head rejection before projection publication",
     "transactional projection rebuild rollback",
     "canonical persisted Replay and Projection Rebuild Receipts",
+    "projection-to-rebuild-Receipt linkage verification",
     "Receipt truth authenticity integrity erasure overclaim guards"
   ],
   "receipt_limits": [
@@ -55,10 +56,10 @@
     "semantic_unit_result": "PASS",
     "manifest_tests": 5,
     "manifest_result": "PASS",
-    "integration_tests_declared": 7,
+    "integration_tests_declared": 8,
     "integration_result": "PASS_REPOSITORY_CI",
     "compileall_result": "PASS",
-    "repository_ci": "PASS",
+    "repository_ci": "PASS_PREVIOUS_HEAD",
     "evidence_run_id": 31171581859,
     "evidence_run_head": "0f8fd4ffe5d5fb0d4bc01f3e441a053f691dbba3",
     "matrix": [
