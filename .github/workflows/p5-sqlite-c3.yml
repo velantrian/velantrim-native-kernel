@@ -28,6 +28,7 @@ on:
       - "profiles/postgresql-reference-v0/**"
       - "tests/test_p5_*.py"
       - "tests/test_sqlite_profile_unit.py"
+      - "tests/test_p4_*.py"
       - "tools/conformance/**"
       - "tools/profiles/validate_p5_manifest.py"
       - "docs/**"
@@ -106,9 +107,9 @@ jobs:
           python tools/conformance/validate_p5_report.py sqlite \
             artifacts/sqlite-p5-report.json --require-repository
           rm -f "$NK_TEST_SQLITE_PATH" artifacts/p5-c3-behaviour.db artifacts/p5-c3-import.db
-          python tools/conformance/runner.py adapter \
-            --output artifacts/c3-equivalence-report.json \
-            -- python tools/conformance/cross_profile_comparator.py
+          python tools/conformance/cross_profile_comparator.py \
+            contracts/fixture-pack.json \
+            > artifacts/c3-equivalence-report.json
           python tools/conformance/validate_p5_report.py c3 \
             artifacts/c3-equivalence-report.json --require-repository
       - name: P1-P4 regressions
