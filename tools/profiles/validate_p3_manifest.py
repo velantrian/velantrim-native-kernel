@@ -63,7 +63,12 @@ def validate(data: dict[str, object]) -> None:
         "PASS_REPOSITORY_CI",
     }:
         raise ManifestError("invalid integration evidence status")
-    if validation.get("repository_ci") == "PASS" and validation.get("integration_result") != "PASS_REPOSITORY_CI":
+    repository_status = validation.get("repository_ci")
+    if repository_status not in {"NOT_RECORDED", "PASS_PREVIOUS_HEAD", "PASS"}:
+        raise ManifestError("invalid repository CI evidence status")
+    if repository_status in {"PASS_PREVIOUS_HEAD", "PASS"} and validation.get(
+        "integration_result"
+    ) != "PASS_REPOSITORY_CI":
         raise ManifestError("repository PASS requires repository integration evidence")
 
     support = data.get("assertion_support_policy")
