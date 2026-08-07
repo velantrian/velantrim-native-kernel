@@ -28,7 +28,8 @@ jobs:
       - name: Verify and apply text package
         run: |
           set -euo pipefail
-          base64 --decode .github/state-reconciliation-patch.tar.gz.b64 > /tmp/state-reconciliation-patch.tar.gz
+          tr -cd 'A-Za-z0-9+/=' < .github/state-reconciliation-patch.tar.gz.b64 \
+            | base64 --decode > /tmp/state-reconciliation-patch.tar.gz
           echo "acb9cf7bb270a1029dbb5a912cf3fb0c8eb2f6bf3cae12b6b0bed16a1f207912  /tmp/state-reconciliation-patch.tar.gz" | sha256sum --check -
           if tar -tzf /tmp/state-reconciliation-patch.tar.gz | grep -E '(^/|(^|/)\.\.(/|$))'; then
             echo "unsafe path in reconciliation package" >&2
