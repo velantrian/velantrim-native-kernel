@@ -29,7 +29,10 @@ class C4ManifestTests(unittest.TestCase):
 
     def test_false_repository_pass_is_rejected(self) -> None:
         manifest = copy.deepcopy(self.manifest)
-        manifest["repository_evidence"]["status"] = "PASS"
+        manifest["repository_evidence"]["head_sha"] = None
+        manifest["repository_evidence"]["workflow_run_id"] = None
+        manifest["repository_evidence"]["artifact_count"] = 0
+        manifest["repository_evidence"]["matrix"] = []
         with self.assertRaisesRegex(module.ManifestError, "requires exact repository run"):
             module.validate(manifest, root=ROOT)
 
