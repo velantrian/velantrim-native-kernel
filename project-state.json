@@ -1,14 +1,14 @@
 {
   "protocol": "nk-project-state/1",
-  "snapshot_id": "native-kernel/state/2026-08-07-post-c5",
-  "observed_at": "2026-08-07T21:46:57Z",
+  "snapshot_id": "native-kernel/state/2026-08-07-pr67-published",
+  "observed_at": "2026-08-07T22:18:28Z",
   "repository": {
     "full_name": "velantrian/velantrim-native-kernel",
     "visibility": "PUBLIC",
     "default_branch": "main",
-    "observed_main_sha": "3d56912260ea41b5b501b65477bff1642dfc2d58",
+    "observed_main_sha": "ee4e29624c8022842f5a1c6cd93ae63c65a099c2",
     "implementation_evidence_sha": "296981ae84ad5bdab5dabbec9b7b9ebb43af63d7",
-    "checkpoint_semantics": "The observed SHA is a verified ancestor checkpoint, not a self-referential claim that this file is the current HEAD."
+    "checkpoint_semantics": "The observed SHA is the merged PR #67 publication checkpoint and remains an ancestor of any later documentation-only commit."
   },
   "status": {
     "repository_status": "RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY",
@@ -108,7 +108,7 @@
   },
   "notion": {
     "synchronization_required": true,
-    "status": "PLANNED_IN_SAME_WORK_CYCLE",
+    "status": "SYNCED",
     "authority_boundary": "Notion carries rationale and history; GitHub remains sufficient for technical state and evidence."
   },
   "non_claims": [
