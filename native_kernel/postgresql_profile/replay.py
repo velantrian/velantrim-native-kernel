@@ -228,6 +228,23 @@ class PostgreSQLReplayProjector:
             raise ProjectionCorrupt("stored projection reducer version is unsupported")
         if projection.target_schema_version != self._upcasters.target_version:
             raise ProjectionCorrupt("stored projection target schema version differs from registry")
+
+        receipt = self.load_receipt(projection.receipt_id)
+        expected = (
+            receipt.operation_type is OperationType.PROJECTION_REBUILD
+            and receipt.instance_id == projection.instance_id
+            and receipt.projection_name == projection.projection_name
+            and receipt.projection_generation == projection.generation
+            and receipt.last_global_seq == projection.last_global_seq
+            and receipt.last_event_hash == projection.last_event_hash
+            and receipt.reducer_version == projection.reducer_version
+            and receipt.target_schema_version == projection.target_schema_version
+            and receipt.state_digest == projection.state_digest
+        )
+        if not expected:
+            raise ProjectionCorrupt(
+                "linked Receipt does not describe the stored projection rebuild"
+            )
         return projection
 
     def destroy_projection(
