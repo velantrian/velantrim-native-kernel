@@ -4,23 +4,25 @@ This is a concise chronology and hand-off surface. Re-verify exact SHAs and evid
 
 ---
 
-## 2026-08-07 — P3 persisted replay, projection rebuild and bounded Receipts under review
+## 2026-08-07 — P3 persisted replay, projection rebuild and bounded Receipts merged
 
 ```text
-Status:          PR OPEN / P3 PARTIAL / INITIAL REPOSITORY-INTEGRATION-TESTED
+Status:          MERGED / P3 PARTIAL / REPOSITORY-INTEGRATION-TESTED
 Issue:           #49
 PR:              #50
 Base main:       4e6be77196c633c25dd3896660335c1448b2baf5
-Executable head: 0f8fd4ffe5d5fb0d4bc01f3e441a053f691dbba3
+Final PR head:   7e615bc633cbf966211d3b2815f51b8ff9eb9716
+Merge SHA:       4af642930e18752f8f8b0bce75df355f76100d6f
+Changed files:   35
 Profile:         native-kernel/postgresql-reference@0.3-p3
 Evidence line:   clean/postgresql-reference/0.1
 ADR:             ADR-0017
-P3:              AUTHORIZED
+P3:              MERGED
 P4–P5:           NOT AUTHORIZED
 Notion impact:   GITHUB_AND_NOTION
 ```
 
-Architecture path:
+Final architecture path:
 
 ```text
 authoritative PostgreSQL Events
@@ -32,9 +34,83 @@ authoritative PostgreSQL Events
 → locked current-head comparison
 → disposable projection rebuild
 → bounded Projection Rebuild Receipt
+→ linked rebuild-Receipt verification
 ```
 
-Implemented:
+Final-head repository evidence:
+
+```text
+P3 run 31173133661 — PASS
+P2 regression run 31173133709 — PASS
+P1 semantic core run 31173133657 — PASS
+Fixture integrity run 31173133713 — PASS
+AI context run 31173133635 — PASS
+```
+
+P3 matrix:
+
+```text
+Python 3.11 / PostgreSQL 16 — PASS
+Python 3.11 / PostgreSQL 18 — PASS
+Python 3.12 / PostgreSQL 16 — PASS
+Python 3.12 / PostgreSQL 18 — PASS
+```
+
+Each P3 matrix job passed:
+
+- 5 semantic/upcaster/Receipt tests;
+- 5 P3 manifest and anti-overclaim tests plus validator;
+- 8 unique PostgreSQL P3 integration tests;
+- 9 P2 unit tests;
+- 5 P2 PostgreSQL integration tests;
+- compileall.
+
+Final review evidence:
+
+```text
+unresolved review threads: 0
+submitted reviews:          0
+technical comments:         0
+Codex review:               unavailable due usage limit
+behind base:                0
+merge method:               squash
+```
+
+Hardening during the cycle corrected:
+
+1. stale P2 maturity expectations in AI-context tests;
+2. missing projection-to-rebuild-Receipt linkage validation;
+3. weak PASS-like manifest status validation;
+4. stale linkage diagnostic wording;
+5. duplicate focused integration coverage and duplicate Issue #51;
+6. a documentation reference to nonexistent `verified_replay.py`.
+
+No push-to-main workflow run was recorded for merge `4af64293…`; this is recorded as `NOT_RECORDED`, not PASS or failure.
+
+```text
+P3 integration PASS
+≠ complete Kernel runtime
+≠ truth or external authenticity
+≠ physical deletion
+≠ assertion-level conformance
+≠ C1/C2/C3
+≠ production guarantee
+```
+
+All 72 assertion statuses remain `UNSUPPORTED` until P4. P4/P5 and physical deletion require separate operator decisions.
+
+---
+
+## 2026-08-07 — P3 development and pre-merge evidence history
+
+```text
+Initial executable head: 0f8fd4ffe5d5fb0d4bc01f3e441a053f691dbba3
+Initial P3 run:          31171581859 — PASS
+Hardening head:          d484d7e2ee7f3502ddd8eedc339ba1feac546397
+Hardening P3 run:        31172865993 — PASS
+```
+
+Implemented during the cycle:
 
 - standard-library `UpcasterRegistry` with missing/duplicate/cycle/invalid-path failures;
 - canonical `SemanticState` decoder and form check;
@@ -52,62 +128,9 @@ Implemented:
 - projection destroy/read/rebuild;
 - monotonic generation based on committed rebuild Receipts;
 - Event, projection and Receipt corruption detection;
+- linked rebuild-Receipt consistency validation;
 - P3 manifest/validator and PostgreSQL matrix workflow;
 - P2 regression execution inside every P3 matrix job.
-
-Initial exact executable-head evidence:
-
-```text
-P3 run 31171581859 — PASS
-Python 3.11 / PostgreSQL 16 — PASS
-Python 3.11 / PostgreSQL 18 — PASS
-Python 3.12 / PostgreSQL 16 — PASS
-Python 3.12 / PostgreSQL 18 — PASS
-P2 regression run 31171581795 — PASS
-P1 semantic core run 31171581787 — PASS
-Fixture integrity run 31171581791 — PASS
-```
-
-Each P3 matrix job passed:
-
-- 5 semantic unit tests;
-- 5 P3 manifest tests and validator;
-- 7 PostgreSQL integration scenarios;
-- P2 unit/integration regressions;
-- compileall.
-
-The seven integration scenarios cover:
-
-1. persisted replay equals direct P1 reduction;
-2. Replay Receipt persistence/reload;
-3. deterministic projection destroy/rebuild with monotonic generation;
-4. transactional fault preserving the previous projection and Receipt count;
-5. history advancement rejecting stale publication;
-6. Event/projection/Receipt corruption detection;
-7. explicit schema upcaster requirement.
-
-Initial CI passed without a runtime repair. Governance work then advanced the P3 manifest evidence state and synchronized README, Russian README, STATUS, AGENTS, ADR-0017, bilingual RFC, profile map, component map and risk register.
-
-```text
-P3 integration PASS
-≠ complete Kernel runtime
-≠ truth or external authenticity
-≠ physical deletion
-≠ assertion-level conformance
-≠ C1/C2/C3
-≠ production guarantee
-```
-
-All 72 assertion statuses remain `UNSUPPORTED` until P4.
-
-Remaining work in this cycle:
-
-1. complete Notion P3 rationale/evidence record;
-2. run P3 and AI-context workflows on one final exact PR head;
-3. inspect diff, comments and review threads;
-4. squash-merge PR #50 with expected head;
-5. publish a post-merge continuity checkpoint;
-6. close Issue #49 and keep P4 blocked pending separate GO.
 
 ---
 
@@ -168,34 +191,7 @@ P1 semantic core run 31152380832 — PASS
 Fixture integrity run 31152380800 — PASS
 ```
 
-Each P2 matrix job passed 9 unit tests, 5 PostgreSQL integration tests, 5 manifest tests, validator and compileall.
-
-Review evidence:
-
-```text
-unresolved review threads: 0
-submitted reviews:          0
-Codex review:               unavailable due usage limit
-merge method:               squash with expected head
-```
-
-Two quality defects were found and corrected before merge:
-
-1. the AI-context validator still required the old P1 maturity marker;
-2. an anti-overclaim test became stale after the manifest legitimately moved to repository PASS.
-
-A documentation-depth review also restored the accumulated README, RFC, ADR guide, component map, risk history and work-log chronology before adding P2 as a new layer.
-
-No push-to-main workflow run was recorded for merge `113452a3…`; this is recorded as `NOT_RECORDED`, not PASS.
-
-```text
-P2 PostgreSQL integration PASS
-≠ P3 replay/projection runtime
-≠ operational deletion
-≠ assertion-level conformance
-≠ C1/C2/C3
-≠ production guarantee
-```
+No push-to-main workflow run was recorded for merge `113452a3…`; this is recorded as `NOT_RECORDED`.
 
 ---
 
@@ -219,18 +215,10 @@ Issue #1:        ACTIVE / INDEPENDENT
 Notion impact:   GITHUB_AND_NOTION
 ```
 
-Technology choice:
-
-```text
-Python profile: >=3.11,<3.13
-standard library only
-package: native_kernel.semantic_core
-```
-
 Implemented:
 
 - canonical `nk-id/1.0` JSON/identity helpers;
-- immutable semantic content, Claim identity, command and logical Event models;
+- immutable semantic content, Claim identity, Command and logical Event models;
 - explicit deny-by-default local authority policy;
 - deterministic version-bound in-memory reducer;
 - deletion/restriction transition graph;
@@ -240,8 +228,6 @@ Implemented:
 - P1 manifest validator and negative tests;
 - Python 3.11/3.12 workflow definition;
 - bilingual RFC, ADR, README and AI-continuity updates.
-
-Manual review hardening corrected malformed authority scope, enum/type failures, timestamp validation, boolean sequences, grants, Receipt identifiers and deletion evidence.
 
 Exact final-content local evidence:
 
