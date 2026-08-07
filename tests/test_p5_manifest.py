@@ -28,7 +28,12 @@ class P5ManifestTests(unittest.TestCase):
 
     def test_rejects_false_c3_without_repository_evidence(self) -> None:
         candidate = copy.deepcopy(self.manifest)
-        candidate["conformance_state"]["cross_profile_c3"] = "REPOSITORY_REPRODUCED"
+        candidate["repository_evidence"].update(
+            status="NOT_RECORDED",
+            head_sha=None,
+            workflow_run_id=None,
+            artifact_count=0,
+        )
         with self.assertRaises(ManifestError):
             validate_manifest(candidate)
 
