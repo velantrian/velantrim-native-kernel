@@ -109,6 +109,18 @@ class BilingualParityValidatorTests(unittest.TestCase):
         )
         self.assertEqual([], self._findings())
 
+    def test_shorter_fence_does_not_close_longer_fence(self):
+        self._write(
+            self.english_path,
+            self.english + "\n````markdown\n```\n### Still inside the long fence\n````\n",
+        )
+        self.assertEqual([], self._findings())
+
+    def test_up_to_three_leading_spaces_are_valid_atx_headings(self):
+        self._write(self.english_path, self.english.replace("## Shared section", "   ## Shared section"))
+        self._write(self.russian_path, self.russian.replace("## Общий раздел", "   ## Общий раздел"))
+        self.assertEqual([], self._findings())
+
     def test_single_h1_is_enforced(self):
         self._write(self.english_path, self.english + "\n# Second top-level heading\n")
         findings = self._findings()
