@@ -49,7 +49,7 @@ GitHub `main` at the verified publication checkpoint remains the authority for i
 
 ## Current item — 2026-08-08 ADR-0023 SQLite integrity remediation
 
-- **Status:** `SYNCED_EVIDENCE_CANDIDATE / PR #69 MERGED / PR #70 CI PENDING`
+- **Status:** `SYNCED / PR #69 AND PR #70 MERGED`
 - **Documentation impact:** `GITHUB_AND_NOTION`
 - **PR #69 head:** `ab7a203ce7ed8ec46c341bc4da9063d56f023338`
 - **Merged runtime main:** `675aa4b398a2fc0181dc71d38904a2d33a09f5f8`
@@ -57,12 +57,14 @@ GitHub `main` at the verified publication checkpoint remains the authority for i
 - **Implementation:** strict SQLite/PostgreSQL Event Envelope fields; linked SQLite 3.51.3 WAL floor; pinned source hash; atomic migrations; configured busy timeout
 - **Repository proof:** PR-head and final-main P5/C3/C4/C5 matrices PASS
 - **Additive evidence:** `evidence/c5/2026-08-08-adr0023/manifest.json` — 2 checkpoints / 8 original ZIPs
-- **Evidence PR:** #70; payload commit `65d3375dbb5506540ba6d2d41e5508ea9c5dabc5`
+- **Evidence PR:** #70 final head `c9d3944627b40619002428d2a37b8621b2cbfe3b`; squash-merge `f13e0c8a948789d8d4e93e95fd95b61324478528`
+- **Immutable payload:** commit `65d3375dbb5506540ba6d2d41e5508ea9c5dabc5`; tree `da5dfd59dbdcc75e930898a8a79ddd67fa7aec68`
+- **Post-merge checks:** P5/C3 `31252262213`, C4 `31252262246`, C5 `31252262218`, P4 `31252262210`, AI-context `31252262208`, fixtures `31252262220` — PASS
 - **Historical boundary:** 2026-08-07 C5 ZIPs on SQLite 3.45.1 remain immutable and separately identified
 - **Unchanged:** assertion map `45/10/17/0`; NK-EPI `0/8`; C4/C5 maturity; production false; ecosystem authority absent
-- **Pending:** PR #70 CI/review/merge and final post-merge Notion reread
+- **Pending:** none for ADR-0023 publication; reducer and NK-EPI work remain separate contract-first slices
 
-Implementation and evidence-candidate states were prepended on 2026-08-08 to all five intended Notion surfaces below. A final append/update remains required only for PR #70's merge result and SHA.
+Implementation, evidence-candidate and final publication states were prepended on 2026-08-08 to all five intended Notion surfaces below. The final blocks contain both merge SHAs, exact run IDs, additive bundle identity and unchanged claim boundaries.
 
 Intended Notion surfaces:
 
