@@ -10,7 +10,7 @@ Re-verify exact SHAs, live issue state, runs and artifacts before treating an en
 Reviewed main:            d8fe6c9f6e1233eb29ade630a85771e581c2813e
 Source reviews:           PR #69 + PR #70 / 4 unresolved actionable threads
 Classification:           Contract + Implementation Profile + Evidence + Governance
-Candidate status:         LOCAL FOCUSED TESTS PASS / PR AND REPOSITORY CI PENDING
+Candidate status:         PR #72 DRAFT / LOCAL FULL SUITE PASS / REPOSITORY CI PENDING
 Assertion map / NK-EPI:   UNCHANGED
 ```
 
@@ -22,6 +22,8 @@ Reproduced and corrected in the candidate tree:
 - associated P5/C3 and C4 run IDs accepted as arbitrary positive integers.
 
 Historical and ADR-0023 ZIPs remain byte-identical and keep their original evidence scope. Final PR/main runs and synchronization must be appended after merge; no maturity, production, assertion or NK-EPI promotion is authorized.
+
+The tested implementation payload is remote commit `90c4a286dec2673c3768899cb67a55f854aa7b9c`, tree `bcd40890df6de12e0dbdd6371f4ba8b504325868`. Local validation: 172 PASS / 15 PostgreSQL-only SKIP on linked SQLite 3.51.3. Candidate state was prepended to the five canonical Notion pages before repository review.
 
 ## 2026-08-08 — SQLite integrity and WAL safety remediation completed
 

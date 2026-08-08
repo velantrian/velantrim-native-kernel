@@ -4,7 +4,7 @@
 > **C5 implementation evidence checkpoint:** `296981ae84ad5bdab5dabbec9b7b9ebb43af63d7`
 > **Implementation publication:** PR #69 squash-merged, ADR-0023 accepted; Issue #64 remains `CLOSED / COMPLETED`
 > **Repository status:** `RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY`
-> **Post-merge Codex review follow-up:** `IMPLEMENTED IN CURRENT CHANGESET / PR AND CI PENDING`
+> **Post-merge Codex review follow-up:** `PR #72 DRAFT / REPOSITORY CI PENDING`
 
 The checkpoint above is the verified repository state this document describes. A descendant documentation commit does not invalidate the evidence lineage and must not be confused with the artifact-producing SHA.
 
@@ -19,7 +19,7 @@ evidence-bundle-v1 schema drift:      CONFIRMED
 associated run-ID identity gap:       CONFIRMED
 ```
 
-The current changeset adds type-exact canonical Event field comparison in both profiles, `tools/sqlite/**` triggers in P5/C3/C4/C5, a backward-compatible `nk-evidence-bundle/1` schema extension and role-bound exact ADR-0023 run identities. Focused regression tests pass. Repository CI and final merge evidence remain pending; the retained ADR-0023 ZIPs are not rewritten or described as evidence of this later fix.
+Draft PR [#72](https://github.com/velantrian/velantrim-native-kernel/pull/72) adds type-exact canonical Event field comparison in both profiles, `tools/sqlite/**` triggers in P5/C3/C4/C5, a backward-compatible `nk-evidence-bundle/1` schema extension and role-bound exact ADR-0023 run identities. Its tested implementation payload is commit `90c4a286dec2673c3768899cb67a55f854aa7b9c`, tree `bcd40890df6de12e0dbdd6371f4ba8b504325868`. Local validation and candidate Notion synchronization are complete. Repository CI and final merge evidence remain pending; the retained ADR-0023 ZIPs are not rewritten or described as evidence of this later fix.
 
 ## 2026-08-08 integrity remediation
 

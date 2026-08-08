@@ -12,19 +12,19 @@ The 2026-08-07 SQLite verifier did not bind `contract`, `recorded_at`, nested `p
 
 Post-merge review found one residual type-confusion path: Python considers booleans equal to corresponding integers, so structural equality could accept a re-hashed envelope with `true` where the canonical payload stored `1`.
 
-**State:** `FOLLOW-UP IMPLEMENTED IN CURRENT CHANGESET / PR AND CI PENDING / HISTORICAL EVIDENCE VERSION-BOUND`. The correction compares each committed Event field by canonical JSON bytes in SQLite and PostgreSQL. Exact repository CI remains required. Earlier evidence is not erased or retroactively repaired.
+**State:** `FOLLOW-UP IN DRAFT PR #72 / REPOSITORY CI PENDING / HISTORICAL EVIDENCE VERSION-BOUND`. The correction compares each committed Event field by canonical JSON bytes in SQLite and PostgreSQL. Exact repository CI remains required. Earlier evidence is not erased or retroactively repaired.
 
 ## P0 — Evidence bundle contract and verifier identity drift
 
 The ADR-0023 manifest published `evidence_purpose` and `sqlite_integrity` under `nk-evidence-bundle/1`, but the v1 JSON Schema did not declare them. The repository verifier also accepted arbitrary positive P5/C3 and C4 associated run IDs.
 
-**State:** `FOLLOW-UP IMPLEMENTED IN CURRENT CHANGESET / PR AND CI PENDING`. The v1 contract is extended compatibly for the optional revalidation fields, while the verifier binds both ADR-0023 checkpoint roles to exact commit and P5/C3/C4/C5 run identities. This verifies repository-declared identity; it is not an external signature or independent custody proof.
+**State:** `FOLLOW-UP IN DRAFT PR #72 / REPOSITORY CI PENDING`. The v1 contract is extended compatibly for the optional revalidation fields, while the verifier binds both ADR-0023 checkpoint roles to exact commit and P5/C3/C4/C5 run identities. This verifies repository-declared identity; it is not an external signature or independent custody proof.
 
 ## P1 — SQLite builder workflow path trigger gap
 
 A change limited to `tools/sqlite/build_safe_sqlite.sh` did not trigger P5/C3, C4 or C5 although all three workflows execute it.
 
-**State:** `FOLLOW-UP IMPLEMENTED IN CURRENT CHANGESET / PR AND CI PENDING`. Both pull-request and `main` push filters now include `tools/sqlite/**` in every dependent workflow.
+**State:** `FOLLOW-UP IN DRAFT PR #72 / REPOSITORY CI PENDING`. Both pull-request and `main` push filters now include `tools/sqlite/**` in every dependent workflow.
 
 ## P0 — Historical SQLite 3.45.1 is in the WAL-reset bug range
 

@@ -2,7 +2,7 @@
 
 - **Decision status:** `ACCEPTED`
 - **Evidence level:** `REPOSITORY_REPRODUCED / EVIDENCE_CAPTURED`
-- **Implementation status:** `MERGED VIA PR #69 / POST-MERGE REVIEW FOLLOW-UP IN CURRENT CHANGESET`
+- **Implementation status:** `MERGED VIA PR #69 / POST-MERGE REVIEW FOLLOW-UP IN DRAFT PR #72`
 - **Operator approval:** `APPROVED`
 - **Date:** `2026-08-08`
 - **Decider:** `@velantrian`
