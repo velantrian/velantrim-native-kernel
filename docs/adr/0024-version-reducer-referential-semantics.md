@@ -11,56 +11,56 @@
 - **Tags:** `reducer, referential-integrity, replay, compatibility, supersession, links`
 
 > [!IMPORTANT]
-> The current `nk-p1-reducer/1` is part of already published P1–C5 evidence. Tightening its behavior in place would reinterpret old Event histories. This proposal therefore separates a future strict reducer contract from historical reducer v1 and does not authorize runtime changes.
+> The current `nk-p1-reducer/1` is part of published P1–C5 evidence. Tightening it in place would reinterpret old Event histories. This proposal separates a future strict reducer contract from historical reducer v1 and does not authorize runtime changes.
 
 ## Context 🧭
 
-The current reducer validates Event version and sequence, then applies structurally valid payloads to an immutable semantic state. It does not currently require referenced Claims to have been admitted and does not constrain supersession topology.
+The current reducer validates Event schema version and contiguous sequence, then applies structurally valid payloads to immutable state. It does not require referenced Claims to have been admitted and does not constrain supersession topology.
 
-Observed behavior includes:
+Observed reducer-v1 behavior:
 
 ```text
-LINK unknown source or target              accepted by reducer v1
-UTILIZED unknown or erased Claim           accepted by reducer v1
-SUPERSEDED unknown source or successor      accepted by reducer v1
-SUPERSEDED self-reference or cycle          not rejected by reducer v1
-SUPERSEDED different second successor       silently replaces prior mapping
-ERASED unknown Claim                        accepted by reducer v1
+LINK unknown source or target              accepted
+UTILIZED unknown or erased Claim           accepted
+SUPERSEDED unknown source or successor      accepted
+SUPERSEDED self-reference or cycle          not rejected
+SUPERSEDED different second successor       replaces prior mapping
+ERASED unknown Claim                        accepted
 generic LINK self-reference or cycle        not classified
 ```
 
-Existing tests intentionally admit Claim `a`, then link and supersede it to Claim `b` without first admitting `b`. This behavior is repository evidence for reducer v1 and cannot be silently changed after publication.
+Existing tests intentionally admit Claim `a`, then link and supersede it to Claim `b` without first admitting `b`. That is repository evidence for reducer v1 and cannot be silently changed after publication.
 
-PostgreSQL and SQLite replay currently import one process-wide `REDUCER_VERSION`. A direct constant change would cause all histories to be replayed under new semantics without an instance-level compatibility declaration.
+PostgreSQL and SQLite replay currently import one process-wide `REDUCER_VERSION`. Changing that constant would replay all histories under new semantics without an instance-level compatibility declaration.
 
 - **Problem:** define honest referential semantics without rewriting already evidenced history.
-- **Constraints:** deterministic replay, technology neutrality, explicit versioning, no silent semantic migration, generic relation extensibility, and fail-closed strict behavior.
-- **Non-goals:** implement runtime v2, add Event verbs, implement conflict resolution, implement NK-EPI-004, define causal truth, or integrate another Velantrim project.
-- **Current implementation boundary:** only `nk-p1-reducer/1` exists; no strict reducer or per-instance reducer-version selection exists.
-- **Source-derived facts:** reducer v1 accepts dangling references; replay uses a global reducer version; typed relations may be cyclic or reflexive; supersession requires a coherent successor chain.
-- **Open uncertainty:** exact profile schema for reducer-version selection, old-history migration protocol, relation registry, restoration after logical erasure, and Receipt shape for validation/migration.
+- **Constraints:** deterministic replay, technology neutrality, explicit versioning, no silent migration, generic relation extensibility and fail-closed strict behavior.
+- **Non-goals:** implement runtime v2, add Event verbs, implement conflict resolution, implement NK-EPI-004, define causal truth or integrate another Velantrim project.
+- **Current implementation boundary:** only `nk-p1-reducer/1` exists; no strict reducer or per-history version selection exists.
+- **Open uncertainty:** profile schema, migration protocol, relation registry, restoration after logical erasure and Receipt shape for validation/migration.
 
 ## Inputs considered 🔍
 
 ```text
 Repository evidence:
-- native_kernel/semantic_core/reducer.py performs no referential validation
-- tests/test_semantic_core.py relies on a not-yet-admitted LINK/SUPERSEDED target
+- semantic_core/reducer.py performs no referential validation
+- test_semantic_core.py relies on a not-yet-admitted target
 - PostgreSQL and SQLite replay bind to one imported REDUCER_VERSION
+- ADR-0012 already requires explicit reducer versions
 - ADR-0003 rejects silent semantic resolution
 - ADR-0006 permits typed directed relation graphs and defers relation-specific rules
 
-Codex review lessons:
-- integrity comparisons must be type-exact and evidence identities exact
-- follow-up changes must not relabel earlier artifacts as proof of later code
+Codex review lessons from PRs #69/#70:
+- integrity comparisons must be exact
+- later fixes must not relabel earlier artifacts as proof
 
 External AI-generated inputs supplied by the operator:
 - several audits recommended explicit dangling/self/cycle rules
-- one recommendation treated cycle handling generically; repository review narrowed this to relation-specific topology and supersession cycles
+- repository review narrowed generic cycle handling to relation-specific topology and supersession cycles
 
 Operator interpretation:
 - current instruction authorizes continued investigation and proposal drafting
-- final acceptance of this abstract contract remains a separate operator decision
+- final acceptance remains a separate operator decision
 ```
 
 AI-generated inputs are design inputs, not evidence or approval.
@@ -70,56 +70,30 @@ AI-generated inputs are design inputs, not evidence or approval.
 - preserve historical replay and evidence identity;
 - prevent unknown or erased references from becoming silent current state;
 - prevent supersession cycles and last-write overwrite;
-- avoid imposing false acyclicity on generic typed relations;
-- keep relation meaning outside storage technology;
+- avoid false acyclicity for generic typed relations;
+- keep relation meaning independent of storage technology;
 - make failures deterministic and cross-profile testable;
-- require explicit migration rather than inference from current code or date.
+- require explicit migration rather than inference from code version or date.
 
 ## Considered options 🧪
 
-### Option A — Tighten `nk-p1-reducer/1` in place
+### Option A — Tighten reducer v1 in place
 
-**Advantages**
+**Advantages:** smallest implementation change; every replay receives strict checks.
 
-- smallest code diff;
-- every replay immediately receives stricter validation.
+**Disadvantages:** changes existing history meaning, breaks fixtures/evidence boundaries and makes interpretation depend on installed code.
 
-**Disadvantages**
+### Option B — Validate only outside the reducer
 
-- changes the meaning of existing Event histories;
-- invalidates current fixtures and prior evidence boundaries;
-- makes historical replay depend on whichever code version is installed;
-- silently converts a new policy into old Canon.
+**Advantages:** append-time rejection can fail early while v1 remains unchanged.
 
-### Option B — Add strict checks outside the reducer only
+**Disadvantages:** imported/corrupted history can bypass checks, replay cannot verify independently, and profile behavior may diverge.
 
-**Advantages**
+### Option C — Version the strict reducer and require explicit selection
 
-- append-time admission can fail early;
-- reducer v1 remains unchanged.
+**Advantages:** preserves v1 exactly, makes append/replay deterministic, supports cross-profile fixtures and makes migration auditable.
 
-**Disadvantages**
-
-- imported or corrupted history can bypass append-time checks;
-- replay would not independently verify referential semantics;
-- PostgreSQL and SQLite adapters could diverge;
-- semantics become profile policy rather than reducer contract.
-
-### Option C — Version the strict reducer contract and require explicit selection
-
-**Advantages**
-
-- preserves v1 history exactly;
-- makes strict behavior deterministic during append and replay;
-- supports cross-profile fixtures;
-- permits future relation-specific policies without rewriting generic topology;
-- makes migration an explicit auditable act.
-
-**Disadvantages**
-
-- requires profile metadata and version dispatch;
-- old histories remain v1 until explicitly validated or migrated;
-- multiple reducer versions increase testing and maintenance cost.
+**Disadvantages:** requires version metadata and dispatch; multiple reducer versions increase maintenance and test cost.
 
 ## Proposed decision 💭
 
@@ -128,58 +102,57 @@ Select **Option C** if approved.
 ### Compatibility boundary
 
 1. `nk-p1-reducer/1` remains readable with its published behavior.
-2. No existing history, projection, Receipt, assertion report, or retained ZIP is relabelled as strict-reducer evidence.
-3. A future strict contract uses a new reducer identifier; candidate identifier: `nk-p1-reducer/2`.
+2. Existing histories, projections, Receipts, reports and ZIPs are not relabelled as strict-reducer evidence.
+3. A future strict contract uses a new identifier; candidate: `nk-p1-reducer/2`.
 4. Reducer version is selected explicitly per Kernel instance or equivalent authoritative history boundary.
-5. Selection must not be inferred from wall-clock date, software version, database type, current default, or first replay after upgrade.
-6. Mixed reducer semantics inside one history are prohibited unless a separate migration contract defines an explicit boundary and replay algorithm.
+5. Selection is not inferred from date, software release, database type, current default or first replay after upgrade.
+6. Mixed semantics inside one history are prohibited unless a separate migration contract defines the boundary and replay algorithm.
 7. A v1 history is not v2-conformant merely because its final projection resembles a v2 state.
 
-### Proposed strict Event rules
+## Proposed strict Event rules
 
-#### `ADMIT`
+### `ADMIT`
 
-- first admission of a Claim adds it to `admitted_claims`;
-- repeated admission of the same non-erased Claim is a deterministic no-op while the Event remains in authoritative history;
+- first admission adds the Claim;
+- repeated admission of the same live Claim is a deterministic no-op while the Event remains in history;
 - admission of a logically erased Claim fails closed;
-- admission does not establish truth, authenticity, or epistemic validity.
+- admission does not establish truth or authenticity.
 
-#### `LINK`
+### `LINK`
 
-- source and target Claims must already be admitted;
-- source and target must not be logically erased at the Event position;
-- an identical repeated `(source, relation, target)` link is a deterministic no-op;
-- the generic reducer does **not** reject self-links or generic relation cycles globally;
-- reflexivity, symmetry, transitivity, acyclicity, evidence, direction and other relation meaning require a separately accepted typed-relation contract;
-- relation existence is not truth or causal proof.
+- source and target must already be admitted and live at that Event position;
+- an identical repeated edge is a deterministic no-op;
+- the base reducer does **not** reject self-links or generic graph cycles globally;
+- reflexivity, symmetry, transitivity, acyclicity, evidence and other relation meaning require a separate typed-relation contract;
+- relation existence is not causal proof or truth.
 
-#### `UTILIZED`
+### `UTILIZED`
 
-- the Claim must already be admitted and not erased;
+- the Claim must already be admitted and live;
 - unknown or erased Claim utilization fails closed;
-- utilization count is operational history, not truth, relevance authority, or epistemic promotion.
+- utilization count is operational history, not epistemic promotion.
 
-#### `SUPERSEDED`
+### `SUPERSEDED`
 
-- source and successor must already be admitted and not erased;
-- source and successor must be different;
-- repeated declaration of the same source/successor pair is a deterministic no-op;
+- source and successor must already be admitted and live;
+- source and successor must differ;
+- repeated identical source/successor is a deterministic no-op;
 - a different second successor for the same source fails closed; no last-write overwrite;
-- adding the edge must not create a cycle in the `superseded_by` chain;
-- successor chains are permitted, for example `A → B → C`;
-- supersession records an explicit relation in history and does not silently erase the superseded Claim or prove the successor true.
+- the new edge must not create a cycle in the `superseded_by` chain;
+- successor chains such as `A → B → C` are allowed;
+- supersession does not erase the source or prove the successor true.
 
-#### `ERASED`
+### `ERASED`
 
 - the Claim must already be admitted;
 - repeated erasure is a deterministic no-op;
-- erasure does not delete or rewrite earlier Events, links, utilization, or supersession records;
-- later LINK, UTILIZED, SUPERSEDED, or ADMIT operations involving that erased Claim fail closed under the strict reducer;
-- this state remains logical erasure only and does not claim physical or cryptographic deletion.
+- erasure does not rewrite earlier Events, links, utilization or supersession records;
+- later LINK, UTILIZED, SUPERSEDED or ADMIT operations involving the erased Claim fail closed;
+- this remains logical erasure, not physical or cryptographic deletion.
 
-### Deterministic failure surface
+## Deterministic failure surface
 
-A future implementation should expose a dedicated bounded failure class such as `ReferentialIntegrityViolation`, derived from `ContractViolation`, with stable machine-readable reason codes. Candidate reasons:
+A future implementation should expose a bounded failure class, such as `ReferentialIntegrityViolation`, derived from `ContractViolation`, with stable machine-readable reasons. Candidate reasons:
 
 ```text
 CLAIM_NOT_ADMITTED
@@ -192,37 +165,34 @@ REDUCER_VERSION_UNSUPPORTED
 MIXED_REDUCER_HISTORY
 ```
 
-Exact names are implementation details until separately authorized, but profiles must emit equivalent failure meaning.
+Exact names remain implementation details until separately authorized, but profiles must preserve equivalent meaning.
 
 ## Required fixture matrix before runtime authorization 🧪
 
 | Event | Case | Proposed strict result |
 |---|---|---|
-| ADMIT | first admission | PASS / add Claim |
+| ADMIT | first admission | PASS / add |
 | ADMIT | duplicate live Claim | PASS / no-op |
 | ADMIT | erased Claim | FAIL |
-| LINK | both admitted and live | PASS |
-| LINK | unknown source | FAIL |
-| LINK | unknown target | FAIL |
+| LINK | both admitted/live | PASS |
+| LINK | unknown endpoint | FAIL |
 | LINK | erased endpoint | FAIL |
 | LINK | duplicate exact edge | PASS / no-op |
-| LINK | self-link | PRESERVE / relation-specific policy deferred |
-| LINK | generic graph cycle | PRESERVE / relation-specific policy deferred |
-| UTILIZED | admitted live Claim | PASS / increment |
-| UTILIZED | unknown Claim | FAIL |
-| UTILIZED | erased Claim | FAIL |
-| SUPERSEDED | admitted live A → B | PASS |
+| LINK | self-link | PRESERVE / relation policy deferred |
+| LINK | generic graph cycle | PRESERVE / relation policy deferred |
+| UTILIZED | admitted/live Claim | PASS / increment |
+| UTILIZED | unknown or erased Claim | FAIL |
+| SUPERSEDED | admitted/live A → B | PASS |
 | SUPERSEDED | duplicate A → B | PASS / no-op |
 | SUPERSEDED | A → A | FAIL |
-| SUPERSEDED | unknown endpoint | FAIL |
-| SUPERSEDED | erased endpoint | FAIL |
+| SUPERSEDED | unknown or erased endpoint | FAIL |
 | SUPERSEDED | A → B after A → C | FAIL |
-| SUPERSEDED | A → B completing B → … → A | FAIL |
+| SUPERSEDED | edge completing a successor cycle | FAIL |
 | ERASED | admitted Claim | PASS / mark erased |
 | ERASED | duplicate erase | PASS / no-op |
 | ERASED | unknown Claim | FAIL |
 
-Fixtures must prove identical outcomes and equivalent failure reasons in the semantic core, PostgreSQL profile, SQLite profile, replay, projection rebuild, and cross-profile comparison before any support claim changes.
+Fixtures must prove identical results and equivalent failure reasons in the semantic core, PostgreSQL, SQLite, replay, projection rebuild and cross-profile comparison before any support claim changes.
 
 ## Consequences 📌
 
@@ -231,34 +201,34 @@ Fixtures must prove identical outcomes and equivalent failure reasons in the sem
 - old evidence remains honest and replayable;
 - strict histories cannot silently accumulate dangling current references;
 - supersession becomes a deterministic acyclic successor relation;
-- generic relation graphs remain extensible rather than falsely constrained;
+- generic relation graphs remain extensible;
 - append and replay can share one explicit contract;
-- migration requires an auditable decision.
+- migration becomes auditable.
 
 ### Negative / accepted trade-offs
 
 - v1 and a future v2 must coexist;
-- storage profiles need explicit reducer-version metadata and dispatch;
+- profiles need explicit reducer-version metadata and dispatch;
 - a v1 history with dangling references cannot be silently promoted;
-- logical erasure may leave historical edges pointing to an erased Claim, which projections must represent honestly;
+- logical erasure may leave historical edges pointing to an erased Claim;
 - relation-specific validity remains deferred.
 
 ### Neutral
 
-- no assertion map, NK-EPI, C4/C5, production, deletion, or ecosystem status changes;
-- no current Event vocabulary changes;
+- assertion map, NK-EPI, C4/C5, production, deletion and ecosystem status do not change;
+- Event vocabulary does not change;
 - Track H remains independent.
 
 ## Invariants 🔒
 
-1. Published reducer v1 history is never replayed under v2 semantics without explicit authorization and migration evidence.
-2. Reducer version is part of authoritative interpretation context, not a process-local default.
-3. Strict referential validation runs during replay as well as append/admission.
+1. Published reducer-v1 history is never replayed under v2 semantics without explicit authorization and migration evidence.
+2. Reducer version is authoritative interpretation context, not a process-local default.
+3. Strict validation runs during replay as well as append/admission.
 4. Unknown and erased references fail closed under the strict contract.
 5. Supersession never uses last-write overwrite and never forms a cycle.
 6. Generic relation topology is not declared acyclic by the base reducer.
-7. Logical erasure does not rewrite authoritative history or claim physical deletion.
-8. Deterministic failure does not establish semantic falsehood; it only states that the Event is invalid under the declared reducer contract.
+7. Logical erasure does not rewrite history or claim physical deletion.
+8. Referential failure does not prove a represented statement false; it only marks the Event invalid under the declared reducer.
 9. Profile technology does not change the result.
 10. Acceptance of this ADR does not authorize implementation.
 
@@ -276,18 +246,18 @@ Fixtures must prove identical outcomes and equivalent failure reasons in the sem
 
 A separate authorization ADR/PR must define:
 
-- authoritative storage of reducer version per instance/history;
-- default for existing instances and newly created instances;
-- version dispatcher API in the semantic core;
+- authoritative reducer-version storage per instance/history;
+- default for existing and new instances;
+- semantic-core version dispatcher;
 - PostgreSQL and SQLite schema migration;
-- append-time validation and replay-time validation;
+- append-time and replay-time validation;
 - projection and Receipt binding to exact reducer version;
 - v1 validation report and optional migration protocol;
-- stable failure reason representation;
+- stable failure representation;
 - exact conformance fixtures and assertion-map impact;
-- rollback to v1 for newly created experimental instances without rewriting history.
+- rollback without reinterpreting history.
 
-The safest initial implementation is likely:
+Safest initial implementation candidate:
 
 ```text
 existing instances → explicit v1
@@ -296,34 +266,33 @@ no automatic conversion
 no mixed history
 ```
 
-This is a design recommendation, not authorization.
+This is a recommendation, not authorization.
 
 ## Validation and evidence 🧪
 
 | Evidence | Artifact / command | Result | Required for next level |
 |---|---|---|---|
-| Repository review | reducer, tests, replay paths | gap reproduced | exact code references preserved in Issue #74 |
-| Documentation | ADR-0024 + ADR index + roadmap/status | proposed contract | independent review + operator decision |
-| Unit tests | none in this slice | `NOT_STARTED` | v1 regression + v2 matrix |
-| Replay test | none in this slice | `NOT_STARTED` | exact per-version replay tests |
-| Cross-profile test | none in this slice | `NOT_STARTED` | PostgreSQL/SQLite equivalence |
+| Repository review | reducer, tests and replay paths | gap reproduced | Issue #74 |
+| Documentation | ADR-0024, ADR index, Roadmap and Notion handoff | proposal recorded | independent review + operator decision |
+| Repository CI | PR #75 workflows | required before merge | exact-head PASS |
+| Unit/replay/cross-profile tests | none in this slice | `NOT_STARTED` | required for runtime authorization |
 | Operator approval | pending | `PENDING` | explicit accept/reject/revise |
 
 ## Failure cases 🚨
 
-- changing `REDUCER_VERSION` and replaying all old histories as v2;
-- silently treating all existing instances as strict because deployment was upgraded;
-- accepting at append time but skipping checks during replay;
-- prohibiting every LINK cycle without a relation-specific contract;
+- changing `REDUCER_VERSION` and replaying old histories as v2;
+- treating existing instances as strict merely because deployment was upgraded;
+- validating append but not replay;
+- prohibiting every LINK cycle without a relation contract;
 - allowing a second successor to overwrite the first;
 - removing historical edges when a Claim is erased;
-- reporting referential failure as proof that the represented statement is false;
-- claiming retained P1–C5 artifacts prove the future reducer;
-- introducing Titan, Crystal, or Mentaury semantics into the reducer contract.
+- reporting referential failure as semantic falsehood;
+- claiming earlier P1–C5 artifacts prove the future reducer;
+- introducing Titan, Crystal or Mentaury semantics into this contract.
 
 ## Rollback / supersession
 
-Because this slice is documentation-only, rollback is removal or revision before acceptance. If accepted later, a superseding ADR must preserve reducer v1 readability and explain migration consequences. Runtime rollback must select an already declared reducer version for a compatible history; it must never reinterpret an existing v2 history as v1 by changing a default.
+This slice is documentation-only and may be revised or removed before acceptance. A later superseding ADR must preserve reducer-v1 readability and explain migration. Runtime rollback must select a declared version compatible with the history; it must not reinterpret v2 history as v1 by changing a default.
 
 ## Consistency checklist 🔱
 
@@ -335,7 +304,7 @@ Because this slice is documentation-only, rollback is removal or revision before
 - [x] Current technology is not silently promoted to permanent architecture.
 - [x] Titan and Crystal boundaries remain explicit.
 - [x] Issue #1 import scope is not silently expanded.
-- [x] Decision status, evidence level, implementation status and approval remain separate.
+- [x] Decision, evidence, implementation and approval remain separate.
 
 ## References 📚
 
