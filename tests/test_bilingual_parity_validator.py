@@ -144,6 +144,26 @@ class BilingualParityValidatorTests(unittest.TestCase):
         self.assertEqual("configuration", findings[0].pair_id)
         self.assertIn("repository-relative path", findings[0].message)
 
+    def test_non_posix_config_path_is_rejected(self):
+        data = self._configuration()
+        pair = data["pairs"][0]
+        assert isinstance(pair, dict)
+        pair["english"] = "docs\\example.md"
+        self._write_config(data)
+        findings = self._findings()
+        self.assertEqual(1, len(findings))
+        self.assertIn("POSIX separators", findings[0].message)
+
+    def test_non_canonical_config_path_is_rejected(self):
+        data = self._configuration()
+        pair = data["pairs"][0]
+        assert isinstance(pair, dict)
+        pair["english"] = "docs/./example.md"
+        self._write_config(data)
+        findings = self._findings()
+        self.assertEqual(1, len(findings))
+        self.assertIn("canonical repository-relative path", findings[0].message)
+
     def test_duplicate_document_registration_is_rejected(self):
         data = self._configuration()
         original = data["pairs"][0]
