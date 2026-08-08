@@ -29,7 +29,7 @@ PAIR_KEYS = {
     "require_single_h1",
 }
 HEADING_RE = re.compile(r"^[ ]{0,3}(#{1,6})[ \t]+\S")
-FENCE_RE = re.compile(r"^[ ]{0,3}(`{3,}|~{3,})")
+FENCE_RE = re.compile(r"^[ ]{0,3}(`{3,}|~{3,})(.*)$")
 
 
 @dataclass(frozen=True, slots=True)
@@ -173,10 +173,15 @@ def heading_levels(markdown: str) -> tuple[int, ...]:
         fence_match = FENCE_RE.match(line)
         if fence_match:
             token = fence_match.group(1)
+            trailing = fence_match.group(2)
             marker = (token[0], len(token))
             if active_fence is None:
                 active_fence = marker
-            elif active_fence[0] == marker[0] and marker[1] >= active_fence[1]:
+            elif (
+                active_fence[0] == marker[0]
+                and marker[1] >= active_fence[1]
+                and not trailing.strip()
+            ):
                 active_fence = None
             continue
         if active_fence is not None:
