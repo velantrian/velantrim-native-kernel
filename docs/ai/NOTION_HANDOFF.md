@@ -90,3 +90,17 @@ Intended Notion surfaces:
 - **Evidence boundary:** archived ZIPs unchanged and not relabelled as proof of later code
 - **Unchanged:** 45/10/17/0; NK-EPI 0/8; C4/C5 maturity; production false; no deletion, ecosystem or historical-recovery promotion
 - **Pending:** none for PR #72 synchronization; reducer referential semantics and NK-EPI-004 remain separate contract-first slices
+
+## Current item — 2026-08-08 reducer referential semantics proposal
+
+- **Status:** `SYNCED_CANDIDATE / ISSUE #74 OPEN / DRAFT PR #75 / OPERATOR DECISION PENDING`
+- **Documentation impact:** `GITHUB_AND_NOTION`
+- **Base:** `0950683e5b447970212a743757e8877f3b155b08`
+- **Candidate head before this handoff update:** `e34b90299f8596471789f5d72f86aa7e444a350a`
+- **Decision record:** ADR-0024 `PROPOSED / DOCUMENTED / NOT_STARTED / APPROVAL PENDING`
+- **Compatibility boundary:** preserve `nk-p1-reducer/1`; no in-place reinterpretation of existing P1–C5 histories or evidence
+- **Proposed strict scope:** admitted/live references; deterministic duplicate no-ops; no self-supersession, successor overwrite or supersession cycle
+- **Relation boundary:** no blanket prohibition of generic LINK self-reference or cycles; relation-specific topology remains a separate contract
+- **Notion candidate sync:** Hub, Roadmap/Decision Ledger and AI Continuity carry the same proposal state and exact candidate boundary
+- **Unchanged:** runtime, Event vocabulary, assertion map 45/10/17/0, NK-EPI 0/8, C4/C5 maturity, production, deletion, historical recovery and ecosystem authority
+- **Pending:** repository CI, Codex/human review, explicit operator accept/revise/reject decision; no runtime implementation is authorized by this item
