@@ -1,0 +1,136 @@
+{
+  "protocol": "nk-bilingual-doc-parity/1",
+  "pairs": [
+    {
+      "pair_id": "root-readme",
+      "english": "README.md",
+      "russian": "README.ru.md",
+      "selectors": [
+        "(./README.md)",
+        "(./README.ru.md)"
+      ],
+      "shared_literals": [
+        "RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY",
+        "45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED",
+        "C5_BOUNDED_REHEARSAL",
+        "production_authorized: false"
+      ],
+      "english_literals": [
+        "Human quickstart",
+        "Current evidence"
+      ],
+      "russian_literals": [
+        "Быстрый старт для человека",
+        "Текущая карта evidence"
+      ],
+      "compare_heading_levels": true,
+      "require_single_h1": true
+    },
+    {
+      "pair_id": "docs-index",
+      "english": "docs/README.md",
+      "russian": "docs/README.ru.md",
+      "selectors": [
+        "(./README.md)",
+        "(./README.ru.md)"
+      ],
+      "shared_literals": [
+        "C5_BOUNDED_REHEARSAL",
+        "45 / 10 / 17 / 0",
+        "NK-EPI: 0 / 8 SUPPORTED",
+        "production: NOT AUTHORIZED"
+      ],
+      "english_literals": [
+        "Start here",
+        "Reading order"
+      ],
+      "russian_literals": [
+        "Начать здесь",
+        "Порядок чтения"
+      ],
+      "compare_heading_levels": true,
+      "require_single_h1": true
+    },
+    {
+      "pair_id": "human-quickstart",
+      "english": "docs/QUICKSTART.md",
+      "russian": "docs/QUICKSTART.ru.md",
+      "selectors": [
+        "(./QUICKSTART.md)",
+        "(./QUICKSTART.ru.md)"
+      ],
+      "shared_literals": [
+        "SQLite 3.51.3",
+        "NK_TEST_POSTGRES_DSN",
+        "test_semantic_core.py",
+        "test_postgresql_profile_integration.py",
+        "test_p5_cross_profile_integration.py"
+      ],
+      "english_literals": [
+        "Why the system SQLite may be rejected",
+        "Interpret results carefully"
+      ],
+      "russian_literals": [
+        "Почему системный SQLite может быть отклонён",
+        "Результаты нужно трактовать строго"
+      ],
+      "compare_heading_levels": true,
+      "require_single_h1": true
+    },
+    {
+      "pair_id": "glossary",
+      "english": "docs/GLOSSARY.md",
+      "russian": "docs/GLOSSARY.ru.md",
+      "selectors": [
+        "(./GLOSSARY.md)",
+        "(./GLOSSARY.ru.md)"
+      ],
+      "shared_literals": [
+        "0/8 SUPPORTED",
+        "Public repository",
+        "open-source license",
+        "Accepted ADR",
+        "implemented runtime"
+      ],
+      "english_literals": [
+        "Non-equivalences to preserve",
+        "Claim              ≠ truth"
+      ],
+      "russian_literals": [
+        "Неэквивалентности, которые нужно сохранять",
+        "Claim               ≠ truth"
+      ],
+      "compare_heading_levels": true,
+      "require_single_h1": true
+    },
+    {
+      "pair_id": "storage-execution-profiles",
+      "english": "docs/STORAGE_AND_EXECUTION_PROFILES.md",
+      "russian": "docs/STORAGE_AND_EXECUTION_PROFILES.ru.md",
+      "selectors": [
+        "(./STORAGE_AND_EXECUTION_PROFILES.md)",
+        "(./STORAGE_AND_EXECUTION_PROFILES.ru.md)"
+      ],
+      "shared_literals": [
+        "native-kernel/postgresql-reference@0.4-p4",
+        "clean/postgresql-reference/0.1",
+        "native-kernel/sqlite-embedded@0.5-p5",
+        "clean/sqlite-embedded/0.1",
+        "45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED / 0 FAILED",
+        "C3 semantic/behavioural equivalence",
+        "operational equivalence",
+        "production readiness"
+      ],
+      "english_literals": [
+        "Compute and storage are independent axes",
+        "A model choice must not silently select the authoritative database."
+      ],
+      "russian_literals": [
+        "Compute и storage — независимые оси",
+        "Выбор модели, процессора или способа вычисления не должен незаметно выбирать authoritative database."
+      ],
+      "compare_heading_levels": false,
+      "require_single_h1": true
+    }
+  ]
+}

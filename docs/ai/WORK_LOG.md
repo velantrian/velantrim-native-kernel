@@ -4,6 +4,22 @@ Re-verify exact SHAs, live issue state, runs and artifacts before treating an en
 
 ---
 
+## 2026-08-08 — Bounded bilingual documentation parity validator
+
+```text
+Issue:                      #78
+Base main:                  fc4559752ba8ed51907b0c0bc0a6a9952868c611
+Classification:             Documentation integrity tooling
+Translation scoring:        FORBIDDEN / NOT IMPLEMENTED
+Runtime and contracts:      UNCHANGED
+Assertion map / NK-EPI:     UNCHANGED
+Production authorization:   UNCHANGED / false
+```
+
+Added an explicit `nk-bilingual-doc-parity/1` registry, dependency-free validator, failure-mode unit tests and AI-context workflow integration. The initial scope covers root and docs indexes, human Quickstart, glossary and storage/execution profiles.
+
+The validator checks only configured file presence, language selectors, exact shared/language-specific obligations, single-H1 structure and optional heading-level outlines. It deliberately does not use file length, translation scores, semantic similarity models or automatic discovery of every `.ru.md` file. A PASS does not certify translation accuracy, completeness, legal equivalence, Canon or runtime evidence.
+
 ## 2026-08-08 — Human onboarding, glossary and bilingual profile parity
 
 ```text

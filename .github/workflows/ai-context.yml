@@ -15,17 +15,15 @@ on:
       - ".github/workflows/ai-context.yml"
       - "contracts/project-state-v1.schema.json"
       - "contracts/evidence-bundle-v1.schema.json"
-      - "docs/README.md"
-      - "docs/README.ru.md"
-      - "docs/ai/**"
-      - "docs/adr/**"
-      - "docs/research/**"
+      - "docs/**"
       - "evidence/**"
       - "profiles/operational-validation-v0/c5-manifest.json"
       - "tools/ai_context/**"
+      - "tools/docs/**"
       - "tools/evidence/**"
       - "tools/profiles/validate_c5_manifest.py"
       - "tests/test_ai_context_validator.py"
+      - "tests/test_bilingual_parity_validator.py"
       - "tests/test_project_state.py"
       - "tests/test_evidence_bundle.py"
       - "tests/test_c5_manifest.py"
@@ -44,17 +42,15 @@ on:
       - ".github/workflows/ai-context.yml"
       - "contracts/project-state-v1.schema.json"
       - "contracts/evidence-bundle-v1.schema.json"
-      - "docs/README.md"
-      - "docs/README.ru.md"
-      - "docs/ai/**"
-      - "docs/adr/**"
-      - "docs/research/**"
+      - "docs/**"
       - "evidence/**"
       - "profiles/operational-validation-v0/c5-manifest.json"
       - "tools/ai_context/**"
+      - "tools/docs/**"
       - "tools/evidence/**"
       - "tools/profiles/validate_c5_manifest.py"
       - "tests/test_ai_context_validator.py"
+      - "tests/test_bilingual_parity_validator.py"
       - "tests/test_project_state.py"
       - "tests/test_evidence_bundle.py"
       - "tests/test_c5_manifest.py"
@@ -85,28 +81,32 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Compile continuity and evidence tooling
+      - name: Compile continuity, evidence and documentation tooling
         run: |
           python -m compileall -q \
             tools/ai_context \
+            tools/docs \
             tools/evidence \
             tools/profiles/validate_c5_manifest.py \
             tests/test_ai_context_validator.py \
+            tests/test_bilingual_parity_validator.py \
             tests/test_project_state.py \
             tests/test_evidence_bundle.py \
             tests/test_c5_manifest.py
 
-      - name: Run continuity and evidence unit tests
+      - name: Run continuity, evidence and documentation unit tests
         run: |
           python -m unittest discover -s tests -p 'test_ai_context_validator.py' -v
+          python -m unittest discover -s tests -p 'test_bilingual_parity_validator.py' -v
           python -m unittest discover -s tests -p 'test_project_state.py' -v
           python -m unittest discover -s tests -p 'test_evidence_bundle.py' -v
           python -m unittest discover -s tests -p 'test_c5_manifest.py' -v
 
-      - name: Validate project state and durable evidence
+      - name: Validate project state, durable evidence and bilingual obligations
         run: |
           python tools/evidence/verify_bundle.py evidence/c5/2026-08-07/manifest.json
           python tools/evidence/verify_bundle.py evidence/c5/2026-08-08-adr0023/manifest.json
           python tools/ai_context/validate_project_state.py --repo .
           python tools/profiles/validate_c5_manifest.py
           python tools/ai_context/validate_context.py --repo .
+          python tools/docs/validate_bilingual_parity.py --repo .
