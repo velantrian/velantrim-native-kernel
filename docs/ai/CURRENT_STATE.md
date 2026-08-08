@@ -1,16 +1,31 @@
 # 📍 Native Kernel Current State Checkpoint
 
-**Verified source checkpoint:** `675aa4b398a2fc0181dc71d38904a2d33a09f5f8` — ADR-0023 runtime and final safe-version evidence
+**Verified source checkpoint:** `a1cdc6d8f36d67f40f065641809bc6da463c10a4` — PR #72 Codex review follow-up merged and post-merge verified
+**ADR-0023 safe-runtime checkpoint:** `675aa4b398a2fc0181dc71d38904a2d33a09f5f8`
 **C5 implementation evidence checkpoint:** `296981ae84ad5bdab5dabbec9b7b9ebb43af63d7`
-**Issue / PR / ADR:** #64 `CLOSED / COMPLETED` / #69 squash-merged / ADR-0023 accepted
+**Issue / PR / ADR:** #64 `CLOSED / COMPLETED` / #69 and #72 squash-merged / ADR-0023 accepted
 **Repository status:** `RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY`
-**Post-merge review follow-up:** `PR #72 DRAFT / REPOSITORY CI PENDING`
+**Post-merge review follow-up:** `PR #72 MERGED / EXACT MAIN CI 9 OF 9 PASS`
 
 > Context checkpoint ≠ automatically current HEAD. Re-check the branch ref and live remote state. The checkpoint must remain an ancestor of the reviewed commit.
 
-## Post-merge Codex review — current candidate
+## Post-merge Codex review — finalized
 
-Four unresolved threads on merged PRs #69/#70 were reproduced against `main@d8fe6c9f6e1233eb29ade630a85771e581c2813e`. Draft PR [#72](https://github.com/velantrian/velantrim-native-kernel/pull/72) covers JSON type-exact Event comparison, SQLite-builder workflow path coverage, compatible evidence schema declaration and exact identity-bound associated workflow runs. The locally tested payload is `90c4a286dec2673c3768899cb67a55f854aa7b9c` / tree `bcd40890df6de12e0dbdd6371f4ba8b504325868`; 172 tests pass, with 15 PostgreSQL-only skips. Candidate state is synchronized to the five Notion surfaces. Exact PR/main CI is not yet recorded. Existing ZIP artifacts remain immutable evidence of their original commits and do not prove this candidate.
+Four unresolved threads on merged PRs #69/#70 were reproduced against `main@d8fe6c9f6e1233eb29ade630a85771e581c2813e`. PR [#72](https://github.com/velantrian/velantrim-native-kernel/pull/72), exact head `ebb6ac99e2051c01f0fb8e8effc7eaad6d4fe8da`, implemented JSON type-exact Event comparison, SQLite-builder workflow path coverage, compatible evidence schema declaration and exact identity-bound associated workflow runs. It was squash-merged as `a1cdc6d8f36d67f40f065641809bc6da463c10a4`. All nine PR workflows and all nine exact post-merge `main` workflows passed. Existing ZIP artifacts remain immutable evidence of their original commits and do not prove this later follow-up.
+
+Exact post-merge runs:
+
+```text
+P1 semantic core:                 31266881458 — PASS
+P2 PostgreSQL append integrity:   31266881488 — PASS
+P3 replay/projection integrity:   31266881449 — PASS
+Conformance fixture integrity:    31266881438 — PASS
+AI context integrity:             31266881442 — PASS
+P4 assertion conformance:         31266881459 — PASS
+P5 SQLite / C3 equivalence:       31266881460 — PASS
+C4 offline shadow evaluation:     31266881444 — PASS
+C5 bounded operational rehearsal: 31266881455 — PASS
+```
 
 ## ADR-0023 remediation result — 2026-08-08
 
@@ -149,4 +164,4 @@ They remain proposed. `NK-EPI-004 — unknown ≠ false` is the preferred first 
 
 ## Next action
 
-Complete review and repository CI for the four post-merge findings. After that, define reducer referential semantics in a separate contract-first decision before changing dangling/self/cycle behavior. NK-EPI-004 remains a separate proposed executable slice; operational hardening cannot alone increase semantic maturity.
+Define reducer referential semantics in a separate contract-first decision before changing dangling/self/cycle behavior. NK-EPI-004 remains a separate proposed executable slice; operational hardening cannot alone increase semantic maturity.
