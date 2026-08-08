@@ -16,7 +16,7 @@ profile/evidence manifest
 | `native-kernel/postgresql-reference@0.4-p4` | `ACCEPTED / APPROVED` | `PARTIAL — P1–P4` | `C2 REPOSITORY_REPRODUCED` | `41 / 13 / 18 / 0` |
 | `native-kernel/sqlite-embedded@0.5-p5` | `ACCEPTED / APPROVED` | `PARTIAL — P5` | `C2 REPOSITORY_REPRODUCED` | `41 / 13 / 18 / 0` |
 
-SQLite operational note: the preserved matrices below used 3.45.1. ADR-0023 requires linked SQLite 3.51.3+ for WAL and safe-version repository reproduction is pending. The historical rows remain exact evidence, not a current minimum-version recommendation.
+SQLite operational note: the preserved matrices below used 3.45.1. ADR-0023 requires linked SQLite 3.51.3+ for WAL; the safe-version PR-head and final-main matrices are repository-reproduced and captured under `evidence/c5/2026-08-08-adr0023/`. The historical rows remain exact evidence, not a current minimum-version recommendation.
 | PostgreSQL↔SQLite comparison | ADR-0019 | `PARTIAL — C3` | `REPOSITORY_REPRODUCED` | `45 / 10 / 17 / 0` |
 | `native-kernel/c4-offline-shadow-v1` | ADR-0020 | `PARTIAL — C4` | `REPOSITORY_REPRODUCED ON APPROVED DATASET` | `45 / 10 / 17 / 0` |
 

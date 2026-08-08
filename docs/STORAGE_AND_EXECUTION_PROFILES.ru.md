@@ -12,7 +12,7 @@
 | Production | `NOT READY / NOT CLAIMED` |
 
 > [!WARNING]
-> Historical P5/C3/C4/C5 evidence использовал SQLite 3.45.1. ADR-0023 теперь требует фактически linked SQLite 3.51.3+ до открытия WAL. Repository reproduction на безопасной версии ещё ожидается; historical artifacts сохраняются, assertion arithmetic не меняется.
+> Historical P5/C3/C4/C5 evidence использовал SQLite 3.45.1. ADR-0023 теперь требует фактически linked SQLite 3.51.3+ до открытия WAL. Safe-version PR-head и final-main reproduction сохранён additively; historical artifacts остаются неизменными, assertion arithmetic не меняется.
 
 > [!IMPORTANT]
 > PostgreSQL и SQLite — заменяемые современные профили. Ни одна база данных не определяет смысл Claim, Event, Relation, Conflict, Projection или Receipt.
@@ -167,7 +167,7 @@ Matrix:        Python 3.11/3.12 × PostgreSQL 16/18 × SQLite 3.45.1
 Artifacts:     4 archives × 3 JSON reports
 ```
 
-Это historical evidence на SQLite 3.45.1. Оно не удовлетворяет текущему WAL floor 3.51.3; additive evidence cycle ADR-0023 ещё ожидается.
+Это historical evidence на SQLite 3.45.1. Оно не удовлетворяет текущему WAL floor 3.51.3; additive bundle ADR-0023 хранит replacement proof, не переименовывая эти строки.
 
 ## Явные границы
 

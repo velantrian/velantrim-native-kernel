@@ -1,14 +1,14 @@
 {
   "protocol": "nk-project-state/1",
-  "snapshot_id": "native-kernel/state/2026-08-08-adr0023-candidate",
-  "observed_at": "2026-08-08T09:37:03Z",
+  "snapshot_id": "native-kernel/state/2026-08-08-adr0023-revalidated",
+  "observed_at": "2026-08-08T09:57:17Z",
   "repository": {
     "full_name": "velantrian/velantrim-native-kernel",
     "visibility": "PUBLIC",
     "default_branch": "main",
-    "observed_main_sha": "20b80a40b360670c1231865b020a3fa62208c471",
+    "observed_main_sha": "675aa4b398a2fc0181dc71d38904a2d33a09f5f8",
     "implementation_evidence_sha": "296981ae84ad5bdab5dabbec9b7b9ebb43af63d7",
-    "checkpoint_semantics": "The observed SHA is the verified main base for the ADR-0023 remediation candidate; implementation evidence remains separately bound to its producing checkpoint."
+    "checkpoint_semantics": "The observed SHA is the merged ADR-0023 implementation and final safe-runtime evidence checkpoint. The repository-resident evidence manifest is carried by a descendant evidence-only commit; the earlier implementation evidence SHA remains separately historical."
   },
   "status": {
     "repository_status": "RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY",
@@ -42,11 +42,11 @@
       },
       "integrity_review": {
         "decision": "ADR-0023",
-        "status": "IMPLEMENTED_LOCAL / REPOSITORY_REPRODUCTION_PENDING",
+        "status": "REPOSITORY_REPRODUCED / EVIDENCE_CAPTURED",
         "sqlite_wal_minimum": "3.51.3",
         "historical_sqlite_version": "3.45.1",
         "historical_evidence_preserved": true,
-        "affected_assertions_re_adjudicated": false,
+        "affected_assertions_re_adjudicated": true,
         "assertion_arithmetic_changed": false
       }
     },
@@ -115,17 +115,24 @@
       "source_retention_expiry": "2026-09-06"
     },
     "sqlite_integrity_revalidation": {
-      "status": "PENDING_REPOSITORY_REPRODUCTION",
+      "status": "CAPTURED_REPOSITORY_RESIDENT",
+      "protocol": "nk-evidence-bundle/1",
+      "path": "evidence/c5/2026-08-08-adr0023/manifest.json",
+      "checkpoint_count": 2,
+      "artifact_count": 8,
       "required_profiles": ["P5", "C3", "C4", "C5"],
       "minimum_linked_sqlite": "3.51.3",
       "new_evidence_identity_required": true,
-      "may_rewrite_2026_08_07_bundle": false
+      "new_evidence_identity": "native-kernel/c5/2026-08-08-adr0023",
+      "may_rewrite_2026_08_07_bundle": false,
+      "original_archives_preserved": true,
+      "source_retention_expiry": "2026-09-07"
     }
   },
   "notion": {
     "synchronization_required": true,
     "status": "SYNCED",
-    "scope": "ADR-0023 candidate state synchronized; final PR, CI, evidence and merge identifiers remain pending",
+    "scope": "ADR-0023 implementation and additive evidence state synchronized; GitHub remains authoritative for exact checkpoints",
     "authority_boundary": "Notion carries rationale and history; GitHub remains sufficient for technical state and evidence."
   },
   "non_claims": [
@@ -133,6 +140,6 @@
     "Operational validation does not promote NK-EPI assertions.",
     "Clean implementation is not recovered v0.1.2.1.",
     "Repository-resident artifacts do not prove live-data safety, compliance, physical deletion, operational equivalence or ecosystem authority.",
-    "ADR-0023 remediation does not change assertion arithmetic until safe-version repository evidence is reproduced and adjudicated."
+    "ADR-0023 safe-version reproduction and re-adjudication preserved the assertion arithmetic without promotion."
   ]
 }

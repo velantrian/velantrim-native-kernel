@@ -22,7 +22,7 @@ PostgreSQL, SQLite, Python, JSON, CI, LLMs, vectors and hardware are replaceable
 
 ## Current evidence
 
-> **Integrity revalidation:** the preserved P5/C3/C4/C5 runs used SQLite 3.45.1. The current remediation candidate requires linked SQLite 3.51.3+, verifies the exact Event Envelope, and is awaiting repository reproduction. Historical artifacts remain unchanged; assertion counts are not promoted or silently rewritten.
+> **Integrity revalidation:** ADR-0023 is merged and repository-reproduced on linked SQLite 3.51.3. Exact P5/C3/C4/C5 checkpoints and eight original C5 ZIPs are preserved under a new evidence identity. The historical SQLite 3.45.1 artifacts remain unchanged; assertion counts were re-adjudicated without promotion or arithmetic change.
 
 ```text
 Single-profile C2: 41 SUPPORTED / 13 PARTIAL / 18 UNSUPPORTED
@@ -76,6 +76,16 @@ Python 3.11/3.12 × PostgreSQL 16/18 × SQLite 3.45.1
 
 This matrix is historical evidence of those exact runs, not the current SQLite minimum. See [ADR-0023](docs/adr/0023-harden-sqlite-wal-and-event-integrity.md).
 
+ADR-0023 safe-runtime checkpoint:
+
+```text
+head 675aa4b398a2fc0181dc71d38904a2d33a09f5f8
+P5/C3 run 31251526992 — PASS
+C4 run     31251526965 — PASS
+C5 run     31251526982 — PASS
+Python 3.11/3.12 × PostgreSQL 16/18 × linked SQLite 3.51.3
+```
+
 ```text
 18/18 scenarios PASS in every matrix job
 18 Receipts per job
@@ -84,7 +94,7 @@ This matrix is historical evidence of those exact runs, not the current SQLite m
 0 uncontained incidents
 ```
 
-The exact ZIP bytes from both the implementation-main and final-main C5 runs are preserved under [`evidence/c5/`](evidence/c5/README.md) with archive- and file-level hashes.
+The historical and ADR-0023 C5 identities preserve sixteen exact ZIP archives under [`evidence/c5/`](evidence/c5/README.md) with archive- and file-level hashes.
 
 ## Explicit boundary
 

@@ -17,9 +17,27 @@ SPEC.loader.exec_module(module)
 class EvidenceBundleTests(unittest.TestCase):
     def setUp(self) -> None:
         self.manifest = json.loads((ROOT / "evidence" / "c5" / "2026-08-07" / "manifest.json").read_text(encoding="utf-8"))
+        self.revalidation_manifest = json.loads(
+            (ROOT / "evidence" / "c5" / "2026-08-08-adr0023" / "manifest.json").read_text(
+                encoding="utf-8"
+            )
+        )
 
     def test_repository_bundle_passes(self) -> None:
         module.validate(copy.deepcopy(self.manifest), repo=ROOT)
+        module.validate(copy.deepcopy(self.revalidation_manifest), repo=ROOT)
+
+    def test_revalidation_requires_safe_linked_sqlite_floor(self) -> None:
+        manifest = copy.deepcopy(self.revalidation_manifest)
+        manifest["sqlite_integrity"]["minimum_linked_version"] = "3.45.1"
+        with self.assertRaisesRegex(module.EvidenceBundleError, "unsafe SQLite evidence floor"):
+            module.validate(manifest, repo=ROOT)
+
+    def test_revalidation_cannot_rewrite_historical_bundle(self) -> None:
+        manifest = copy.deepcopy(self.revalidation_manifest)
+        manifest["sqlite_integrity"]["historical_bundle_rewritten"] = True
+        with self.assertRaisesRegex(module.EvidenceBundleError, "rewrite forbidden"):
+            module.validate(manifest, repo=ROOT)
 
     def test_digest_drift_is_rejected(self) -> None:
         manifest = copy.deepcopy(self.manifest)

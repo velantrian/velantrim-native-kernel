@@ -4,17 +4,17 @@ Re-verify exact SHAs, live issue state, runs and artifacts before treating an en
 
 ---
 
-## 2026-08-08 — SQLite integrity and WAL safety remediation opened
+## 2026-08-08 — SQLite integrity and WAL safety remediation completed
 
 ```text
-Base main:              20b80a40b360670c1231865b020a3fa62208c471
-Branch:                 agent/sqlite-integrity-wal-safety
+PR:                     #69 SQUASH-MERGED
+Runtime main:           675aa4b398a2fc0181dc71d38904a2d33a09f5f8
 Decision:               ADR-0023 ACCEPTED / APPROVED
-Repository evidence:    PENDING
+Repository evidence:    PR-HEAD + FINAL-MAIN PASS / ADDITIVE BUNDLE CAPTURED
 Assertion map / NK-EPI: UNCHANGED
 ```
 
-Implemented in the candidate:
+Completed:
 
 - strict SQLite Event Envelope equality for contract, time, nested payload and exact fields;
 - exact field-set parity in the PostgreSQL stored Event verifier;
@@ -26,14 +26,7 @@ Implemented in the candidate:
 - `timeout_seconds` now controls `PRAGMA busy_timeout`;
 - regression tests for previously accepted malformed envelopes and failure paths.
 
-```text
-local tests on linked SQLite 3.51.3
-≠ repository reproduction
-≠ re-adjudicated assertion status
-≠ replacement of historical C5 evidence
-```
-
-Next: exact-head matrices, additive artifact capture, review, merge, final state/Notion synchronization. Reducer dangling/self/cycle semantics remain a separate contract-first slice because current accepted fixtures do not define the proposed rejection rule.
+Repository P5/C3, C4 and C5 matrices passed at PR head `ab7a203c…` and final main `675aa4b3…`. Eight exact new C5 archives are preserved under `evidence/c5/2026-08-08-adr0023/`; the 2026-08-07 bytes remain unchanged. Re-adjudication preserved 45/10/17/0 and NK-EPI 0/8. Reducer dangling/self/cycle semantics remain a separate contract-first slice because current accepted fixtures do not define the proposed rejection rule.
 
 ## 2026-08-07 — C5 evidence preserved; state surfaces reconciled
 

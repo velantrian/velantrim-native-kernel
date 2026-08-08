@@ -63,6 +63,19 @@ class ProjectStateTests(unittest.TestCase):
         with self.assertRaisesRegex(module.ProjectStateError, "immutable"):
             module.validate(state, repo=ROOT, check_git=False)
 
+    def test_sqlite_revalidation_evidence_cannot_be_removed(self) -> None:
+        state = copy.deepcopy(self.state)
+        state["evidence"]["sqlite_integrity_revalidation"]["artifact_count"] = 0
+        with self.assertRaisesRegex(module.ProjectStateError, "inventory"):
+            module.validate(state, repo=ROOT, check_git=False)
+
+        state = copy.deepcopy(self.state)
+        state["tracks"]["clean_implementation"]["integrity_review"][
+            "affected_assertions_re_adjudicated"
+        ] = False
+        with self.assertRaisesRegex(module.ProjectStateError, "re-adjudicated"):
+            module.validate(state, repo=ROOT, check_git=False)
+
 
 if __name__ == "__main__":
     unittest.main()

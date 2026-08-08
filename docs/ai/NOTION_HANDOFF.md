@@ -49,17 +49,19 @@ GitHub `main` at the verified publication checkpoint remains the authority for i
 
 ## Current item — 2026-08-08 ADR-0023 SQLite integrity remediation
 
-- **Status:** `SYNCED_CANDIDATE / IMPLEMENTED LOCALLY / REPOSITORY CI PENDING`
+- **Status:** `SYNCED_CANDIDATE / PR #69 MERGED / EVIDENCE CAPTURED`
 - **Documentation impact:** `GITHUB_AND_NOTION`
-- **Base main:** `20b80a40b360670c1231865b020a3fa62208c471`
-- **Branch:** `agent/sqlite-integrity-wal-safety`
+- **PR #69 head:** `ab7a203ce7ed8ec46c341bc4da9063d56f023338`
+- **Merged runtime main:** `675aa4b398a2fc0181dc71d38904a2d33a09f5f8`
 - **Decision:** ADR-0023 `ACCEPTED / APPROVED`
-- **Implemented candidate:** strict SQLite/PostgreSQL Event Envelope fields; linked SQLite 3.51.3 WAL floor; pinned source hash; atomic migrations; configured busy timeout
+- **Implementation:** strict SQLite/PostgreSQL Event Envelope fields; linked SQLite 3.51.3 WAL floor; pinned source hash; atomic migrations; configured busy timeout
+- **Repository proof:** PR-head and final-main P5/C3/C4/C5 matrices PASS
+- **Additive evidence:** `evidence/c5/2026-08-08-adr0023/manifest.json` — 2 checkpoints / 8 original ZIPs
 - **Historical boundary:** 2026-08-07 C5 ZIPs on SQLite 3.45.1 remain immutable and separately identified
 - **Unchanged:** assertion map `45/10/17/0`; NK-EPI `0/8`; C4/C5 maturity; production false; ecosystem authority absent
-- **Pending:** exact-head P5/C3/C4/C5, additive artifact capture, PR/review/merge SHAs and final Notion reread
+- **Pending:** evidence-publication PR identifier and final post-merge Notion reread
 
-Candidate state was prepended on 2026-08-08 to all five intended Notion surfaces below. A final append/update remains required after repository CI, additive evidence capture and merge so the remote identifiers are not guessed in advance.
+Candidate state was prepended on 2026-08-08 to all five intended Notion surfaces below. A final append/update remains required for the evidence-publication PR and its merge SHA.
 
 Intended Notion surfaces:
 

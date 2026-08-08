@@ -71,6 +71,21 @@ def validate_manifest(manifest: Mapping[str, Any]) -> None:
         "REPOSITORY_REPRODUCED / EVIDENCE_CAPTURED",
     }:
         raise ManifestError("invalid integrity revalidation status")
+    if revalidation.get("status") == "REPOSITORY_REPRODUCED / EVIDENCE_CAPTURED":
+        if revalidation.get("decision") != "ADR-0023":
+            raise ManifestError("captured integrity evidence requires ADR-0023")
+        if revalidation.get("evidence_bundle") != "evidence/c5/2026-08-08-adr0023/manifest.json":
+            raise ManifestError("captured integrity evidence bundle drift")
+        if revalidation.get("remediation_pr_head") != "ab7a203ce7ed8ec46c341bc4da9063d56f023338":
+            raise ManifestError("remediation PR checkpoint drift")
+        if revalidation.get("remediation_final_main") != "675aa4b398a2fc0181dc71d38904a2d33a09f5f8":
+            raise ManifestError("remediation final-main checkpoint drift")
+        for key in ("p5_c3_workflow_runs", "c4_workflow_runs", "c5_workflow_runs"):
+            runs = revalidation.get(key)
+            if not isinstance(runs, list) or len(runs) != 2 or not all(
+                isinstance(run_id, int) and run_id > 0 for run_id in runs
+            ):
+                raise ManifestError(f"integrity_revalidation.{key} must bind two runs")
     for key in (
         "historical_evidence_preserved",
         "assertion_arithmetic_changed",

@@ -1,27 +1,27 @@
 # Current Status
 
-> **Verified source checkpoint:** `3d56912260ea41b5b501b65477bff1642dfc2d58`
+> **Verified ADR-0023 runtime checkpoint:** `675aa4b398a2fc0181dc71d38904a2d33a09f5f8`
 > **C5 implementation evidence checkpoint:** `296981ae84ad5bdab5dabbec9b7b9ebb43af63d7`
-> **Implementation publication:** Issue #64 `CLOSED / COMPLETED`, PR #65 merged, ADR-0021 accepted
+> **Implementation publication:** PR #69 squash-merged, ADR-0023 accepted; Issue #64 remains `CLOSED / COMPLETED`
 > **Repository status:** `RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY`
 
 The checkpoint above is the verified repository state this document describes. A descendant documentation commit does not invalidate the evidence lineage and must not be confused with the artifact-producing SHA.
 
-## 2026-08-08 integrity remediation candidate
+## 2026-08-08 integrity remediation
 
 ```text
-Branch:                 agent/sqlite-integrity-wal-safety
+PR:                     #69 SQUASH-MERGED
 Decision:               ADR-0023 ACCEPTED / APPROVED
 SQLite WAL minimum:     linked 3.51.3
-Event Envelope:         exact field/value/hash verification implemented
+Event Envelope:         exact field/value/hash verification merged
 Migration atomicity:    repaired
 Configured busy timeout: preserved
-Local focused tests:    PASS on linked SQLite 3.51.3
-Repository matrices:    PENDING
-New durable evidence:   PENDING / must be additive
+PR-head P5/C3/C4/C5:    PASS / runs 31251376567, 31251376572, 31251376574
+Final-main P5/C3/C4/C5: PASS / runs 31251526992, 31251526965, 31251526982
+New durable evidence:   evidence/c5/2026-08-08-adr0023/manifest.json
 ```
 
-The 2026-08-07 P5/C3/C4/C5 results on SQLite 3.45.1 remain exact historical evidence. Because 3.45.1 is inside SQLite's documented WAL-reset bug range and the prior SQLite verifier omitted committed fields, affected integrity/equivalence evidence is under review until safe-version reproduction. The arithmetic remains `45 / 10 / 17 / 0`; `NK-EPI` remains `0 / 8 SUPPORTED`; production remains unauthorized.
+The 2026-08-07 P5/C3/C4/C5 results on SQLite 3.45.1 remain exact historical evidence under their original identity. Revalidation on the actually linked SQLite 3.51.3 completed at PR-head and final-main checkpoints; the new eight ZIPs are additive. Re-adjudication preserved `45 / 10 / 17 / 0`; `NK-EPI` remains `0 / 8 SUPPORTED`; production remains unauthorized.
 
 ## Three independent tracks
 
@@ -119,12 +119,29 @@ Python 3.12 / PostgreSQL 18 / SQLite 3.45.1 — PASS
 
 Every job passed C5 guards, exact P4/P5/C3/C4 prerequisites, all 18 scenarios, P1–C4 regressions, compileall and six-report artifact upload.
 
+### ADR-0023 safe-runtime checkpoints
+
+```text
+PR #69 head ab7a203ce7ed8ec46c341bc4da9063d56f023338
+  P5/C3 31251376567 — PASS
+  C4     31251376572 — PASS
+  C5     31251376574 — PASS
+
+Merged main 675aa4b398a2fc0181dc71d38904a2d33a09f5f8
+  P5/C3 31251526992 — PASS
+  C4     31251526965 — PASS
+  C5     31251526982 — PASS
+```
+
+Both matrices used Python 3.11/3.12 × PostgreSQL 16/18 × linked SQLite 3.51.3. Every C5 job recorded 18/18 scenarios, 18 Receipts, zero canary leaks, zero recovery failures and zero uncontained incidents.
+
 ## Durable evidence capture
 
-The exact eight ZIP archives from both C5 checkpoints are repository-resident:
+Both additive eight-archive identities are repository-resident:
 
 ```text
 evidence/c5/2026-08-07/manifest.json
+evidence/c5/2026-08-08-adr0023/manifest.json
 ```
 
 The bundle records:
@@ -139,6 +156,7 @@ Verification:
 
 ```bash
 python tools/evidence/verify_bundle.py evidence/c5/2026-08-07/manifest.json
+python tools/evidence/verify_bundle.py evidence/c5/2026-08-08-adr0023/manifest.json
 ```
 
 The original GitHub Actions copies expire on 2026-09-06. The repository-resident bytes no longer depend on that retention window.
@@ -181,10 +199,9 @@ C5 bounded rehearsal PASS
 
 ## Next gate
 
-1. reproduce P5/C3/C4/C5 on linked SQLite 3.51.3 at the exact remediation head;
-2. preserve the new artifacts under a new evidence identity without changing the 2026-08-07 ZIPs;
-3. re-adjudicate only affected integrity/equivalence assertions from executable evidence;
-4. complete GitHub↔Notion synchronization for ADR-0023;
-5. keep reducer referential rules and NK-EPI work in separately authorized contract-first slices.
+1. define reducer referential rules (dangling, self and cycle semantics) in a separate contract-first decision before changing runtime behavior;
+2. keep NK-EPI-004 in its own separately authorized executable slice;
+3. continue Track H source recovery independently;
+4. continue operational hardening without promoting maturity through operations alone.
 
 Any production, live-traffic, physical-deletion, NK-EPI promotion or ecosystem-authority work requires separate explicit operator approval and evidence.

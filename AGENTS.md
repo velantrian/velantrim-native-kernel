@@ -62,6 +62,7 @@ sha256: 4ed680ff4e83ac9d1aca6c1ab8a435ecb19af4a5badf1be8202bc842f964b098
 scenarios: 18
 deployment: CI_EPHEMERAL_SYNTHETIC
 durable bundle: evidence/c5/2026-08-07/manifest.json
+ADR-0023 additive bundle: evidence/c5/2026-08-08-adr0023/manifest.json
 ```
 
 Never change plan scenarios or thresholds under the same plan identity/digest. Never rewrite archived ZIPs under the same evidence bundle identity.
@@ -91,6 +92,7 @@ python -c 'from native_kernel.sqlite_profile import linked_sqlite_version; print
 
 ```bash
 python tools/evidence/verify_bundle.py evidence/c5/2026-08-07/manifest.json
+python tools/evidence/verify_bundle.py evidence/c5/2026-08-08-adr0023/manifest.json
 python tools/ai_context/validate_project_state.py --repo .
 python -m unittest discover -s tests -p 'test_evidence_bundle.py' -v
 python -m unittest discover -s tests -p 'test_project_state.py' -v
