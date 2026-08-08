@@ -5,7 +5,23 @@
 **Verified implementation main:** `a8bb0ae232b977856730a1a4f21f977c1f69ca0a`  
 **Issue / PR / ADR:** #58 / #59 / ADR-0019 `ACCEPTED / APPROVED`
 
-> **2026-08-08 integrity amendment:** ADR-0023 introduces strict Event Envelope verification and a fail-closed linked SQLite 3.51.3 WAL floor. The matrices below remain historical 3.45.1 evidence and are under bounded integrity revalidation; they are not rewritten. Assertion arithmetic and NK-EPI status remain unchanged pending new repository evidence.
+> **2026-08-08 integrity amendment:** ADR-0023 introduced strict Event Envelope verification and a fail-closed linked SQLite 3.51.3 WAL floor. The matrices below remain historical 3.45.1 evidence and were not rewritten. Safe-runtime PR-head and final-main evidence is captured additively; assertion arithmetic and NK-EPI status remain unchanged after re-adjudication.
+
+## ADR-0023 revalidation
+
+```text
+PR #69 head: ab7a203ce7ed8ec46c341bc4da9063d56f023338
+P5/C3 run:  31251376567 — PASS
+C4 run:     31251376572 — PASS
+C5 run:     31251376574 — PASS
+
+Final main: 675aa4b398a2fc0181dc71d38904a2d33a09f5f8
+P5/C3 run:  31251526992 — PASS
+C4 run:     31251526965 — PASS
+C5 run:     31251526982 — PASS
+```
+
+Both matrices used linked SQLite 3.51.3 across Python 3.11/3.12 and PostgreSQL 16/18. The exact C5 ZIPs and embedded P5/C3 reports are preserved at `evidence/c5/2026-08-08-adr0023/`.
 
 ## Profiles and lineages
 
@@ -160,7 +176,7 @@ C3 for 45 SUPPORTED assertions
 - physical deletion and restore-before-visibility remain absent;
 - artifacts expire;
 - future contract/profile changes require renewed C3 evidence;
-- historical SQLite 3.45.1 evidence requires ADR-0023 safe-version reproduction;
+- historical SQLite 3.45.1 evidence remains version-bound beside the completed ADR-0023 safe-version reproduction;
 - Issue #18 publication/licensing remains unresolved.
 
 ## Publication completion

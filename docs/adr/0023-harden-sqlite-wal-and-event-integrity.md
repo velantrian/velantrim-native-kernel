@@ -1,8 +1,8 @@
 # ADR-0023 — Harden SQLite WAL runtime and stored Event integrity
 
 - **Decision status:** `ACCEPTED`
-- **Evidence level:** `LOCALLY_TESTED / REPOSITORY_REPRODUCTION_PENDING`
-- **Implementation status:** `IMPLEMENTED IN CURRENT REMEDIATION CANDIDATE`
+- **Evidence level:** `REPOSITORY_REPRODUCED / EVIDENCE_CAPTURED`
+- **Implementation status:** `MERGED VIA PR #69`
 - **Operator approval:** `APPROVED`
 - **Date:** `2026-08-08`
 - **Decider:** `@velantrian`
@@ -57,7 +57,7 @@ historical PASS on SQLite 3.45.1
 ≠ proof that the WAL-reset race could not occur
 ```
 
-The assertion arithmetic remains `45 / 10 / 17 / 0` and `NK-EPI` remains `0 / 8 SUPPORTED`. Affected integrity/equivalence evidence is under review until P5/C3/C4/C5 is reproduced on a safe linked SQLite and separately recorded. This decision does not promote or demote assertions by wording alone.
+The assertion arithmetic remains `45 / 10 / 17 / 0` and `NK-EPI` remains `0 / 8 SUPPORTED`. P5/C3/C4/C5 was reproduced at PR head `ab7a203c…` and merged main `675aa4b3…` on linked SQLite 3.51.3; the exact C5 ZIPs are separately recorded under `evidence/c5/2026-08-08-adr0023/`. Re-adjudication preserved the existing labels and did not promote or demote assertions by wording alone.
 
 ## Rejected alternatives
 
@@ -100,4 +100,4 @@ LD_LIBRARY_PATH=/tmp/native-kernel-sqlite-3.51.3/lib \
   /usr/bin/python3 -m unittest tests.test_sqlite_profile_unit -v
 ```
 
-Repository completion additionally requires the four-job P5/C3, C4, and C5 matrices and a new evidence checkpoint that preserves the older archives unchanged.
+Repository completion was established by four-job P5/C3, C4, and C5 matrices at both remediation checkpoints plus a new additive evidence identity. The older archives remain unchanged.

@@ -60,6 +60,12 @@ class P5ManifestTests(unittest.TestCase):
         with self.assertRaises(ManifestError):
             validate_manifest(candidate)
 
+    def test_captured_integrity_evidence_identity_is_required(self) -> None:
+        candidate = copy.deepcopy(self.manifest)
+        candidate["integrity_revalidation"]["evidence_bundle"] = "evidence/other.json"
+        with self.assertRaisesRegex(ManifestError, "bundle drift"):
+            validate_manifest(candidate)
+
 
 if __name__ == "__main__":
     unittest.main()

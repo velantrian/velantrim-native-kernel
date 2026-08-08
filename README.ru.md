@@ -22,7 +22,7 @@ PostgreSQL, SQLite, Python, JSON, CI, LLM, vectors и hardware — заменя�
 
 ## Текущая карта evidence
 
-> **Integrity revalidation:** сохранённые P5/C3/C4/C5 runs использовали SQLite 3.45.1. Текущий remediation candidate требует linked SQLite 3.51.3+, строго проверяет весь Event Envelope и ожидает repository reproduction. Исторические artifacts не изменяются; assertion counts не повышаются и не переписываются молча.
+> **Integrity revalidation:** ADR-0023 merged и repository-reproduced на linked SQLite 3.51.3. Точные P5/C3/C4/C5 checkpoints и восемь оригинальных C5 ZIP сохранены под новой evidence identity. Исторические artifacts SQLite 3.45.1 не изменены; assertions re-adjudicated без promotion и изменения arithmetic.
 
 ```text
 Single-profile C2: 41 SUPPORTED / 13 PARTIAL / 18 UNSUPPORTED
@@ -76,6 +76,16 @@ Python 3.11/3.12 × PostgreSQL 16/18 × SQLite 3.45.1
 
 Эта matrix — historical evidence именно тех runs, а не текущий SQLite minimum. См. [ADR-0023](docs/adr/0023-harden-sqlite-wal-and-event-integrity.md).
 
+ADR-0023 safe-runtime checkpoint:
+
+```text
+head 675aa4b398a2fc0181dc71d38904a2d33a09f5f8
+P5/C3 run 31251526992 — PASS
+C4 run     31251526965 — PASS
+C5 run     31251526982 — PASS
+Python 3.11/3.12 × PostgreSQL 16/18 × linked SQLite 3.51.3
+```
+
 ```text
 18/18 scenarios PASS в каждом matrix job
 18 Receipts на job
@@ -84,7 +94,7 @@ Python 3.11/3.12 × PostgreSQL 16/18 × SQLite 3.45.1
 0 uncontained incidents
 ```
 
-Точные ZIP-байты implementation-main и final-main C5 runs сохранены в [`evidence/c5/`](evidence/c5/README.md) с archive- и file-level hashes.
+Historical и ADR-0023 C5 identities сохраняют шестнадцать точных ZIP-архивов в [`evidence/c5/`](evidence/c5/README.md) с archive- и file-level hashes.
 
 ## Точная граница
 

@@ -6,7 +6,7 @@
 **Final documentation checkpoint:** `3d56912260ea41b5b501b65477bff1642dfc2d58`
 **State:** `MERGED / C5 PARTIAL / BOUNDED SYNTHETIC OPERATIONAL REHEARSAL / NOT PRODUCTION-READY`
 
-> **2026-08-08 evidence-impact notice:** all runs and ZIPs below used SQLite 3.45.1 and predate the strict SQLite Event verifier in ADR-0023. Exact bytes remain preserved. A new safe-version C5 run is required and must be captured separately; no assertion, NK-EPI, production, or authority status changes automatically.
+> **2026-08-08 evidence-impact notice:** all 2026-08-07 runs and ZIPs below used SQLite 3.45.1 and predate the strict SQLite Event verifier in ADR-0023. Exact bytes remain preserved. Safe-version PR-head and final-main runs are captured separately; assertion, NK-EPI, production and authority status remain unchanged.
 
 ## Authorized boundary
 
@@ -114,27 +114,46 @@ py3.12/pg18 sha256:4a68f36a17e958c1def3923d3181ebcd974e8a3adba94fb4892ec02505720
 
 All four jobs passed 18/18 scenarios with 18 Receipts and zero canary/recovery/incident failures. Exact per-environment metrics remain in the retained reports.
 
+## ADR-0023 safe-runtime evidence
+
+```text
+PR #69 head ab7a203ce7ed8ec46c341bc4da9063d56f023338
+  P5/C3 31251376567 — PASS
+  C4     31251376572 — PASS
+  C5     31251376574 — PASS
+
+Final main 675aa4b398a2fc0181dc71d38904a2d33a09f5f8
+  P5/C3 31251526992 — PASS
+  C4     31251526965 — PASS
+  C5     31251526982 — PASS
+```
+
+Every C5 archive records linked SQLite 3.51.3, 18/18 scenarios, 18 Receipts, zero canary leaks, zero recovery failures, zero uncontained incidents and assertion counts 45/10/17/0.
+
 ## Durable preservation
 
-Eight exact original ZIP archives are committed under:
+Sixteen exact original ZIP archives across two identities are committed under:
 
 ```text
 evidence/c5/2026-08-07/original/
+evidence/c5/2026-08-08-adr0023/original/
 ```
 
 Their archive hashes, internal file inventories and file hashes are bound by:
 
 ```text
 evidence/c5/2026-08-07/manifest.json
+evidence/c5/2026-08-08-adr0023/manifest.json
 ```
 
 Verifier:
 
 ```bash
 python tools/evidence/verify_bundle.py evidence/c5/2026-08-07/manifest.json
+python tools/evidence/verify_bundle.py evidence/c5/2026-08-08-adr0023/manifest.json
 ```
 
-The source GitHub artifacts expire on 2026-09-06; the repository-resident bytes do not.
+The source GitHub artifacts expire on 2026-09-06 and 2026-09-07 respectively; the repository-resident bytes do not.
 
 ## Logical backup boundary
 

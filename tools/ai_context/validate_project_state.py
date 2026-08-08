@@ -83,7 +83,11 @@ def validate(state: Mapping[str, Any], *, repo: Path, check_git: bool = True) ->
     _require(integrity_review.get("sqlite_wal_minimum") == "3.51.3", "unsafe SQLite WAL floor")
     _require(integrity_review.get("historical_sqlite_version") == "3.45.1", "historical SQLite evidence drift")
     _require(integrity_review.get("historical_evidence_preserved") is True, "historical evidence must remain preserved")
-    _require(integrity_review.get("affected_assertions_re_adjudicated") is False, "assertions cannot be pre-adjudicated")
+    _require(
+        integrity_review.get("status") == "REPOSITORY_REPRODUCED / EVIDENCE_CAPTURED",
+        "SQLite integrity evidence must remain reproduced and captured",
+    )
+    _require(integrity_review.get("affected_assertions_re_adjudicated") is True, "affected assertions must be re-adjudicated")
     _require(integrity_review.get("assertion_arithmetic_changed") is False, "assertion arithmetic cannot change implicitly")
     _require(research.get("id") == "R", "research track id must be R")
     _require(research.get("runtime_authorized") is False, "research must not authorize runtime")
@@ -124,6 +128,14 @@ def validate(state: Mapping[str, Any], *, repo: Path, check_git: bool = True) ->
     revalidation = state.get("evidence", {}).get("sqlite_integrity_revalidation")
     _require(isinstance(revalidation, Mapping), "SQLite integrity revalidation entry required")
     _require(revalidation.get("minimum_linked_sqlite") == "3.51.3", "revalidation SQLite floor drift")
+    _require(revalidation.get("status") == "CAPTURED_REPOSITORY_RESIDENT", "SQLite revalidation evidence missing")
+    _require(revalidation.get("protocol") == "nk-evidence-bundle/1", "SQLite evidence protocol drift")
+    _require(
+        revalidation.get("path") == "evidence/c5/2026-08-08-adr0023/manifest.json",
+        "SQLite evidence identity drift",
+    )
+    _require(revalidation.get("checkpoint_count") == 2 and revalidation.get("artifact_count") == 8, "SQLite evidence inventory drift")
+    _require((repo / revalidation["path"]).is_file(), "SQLite revalidation manifest missing")
     _require(revalidation.get("new_evidence_identity_required") is True, "new evidence identity required")
     _require(revalidation.get("may_rewrite_2026_08_07_bundle") is False, "historical C5 bundle is immutable")
 
@@ -137,7 +149,7 @@ def validate(state: Mapping[str, Any], *, repo: Path, check_git: bool = True) ->
         "does not promote nk-epi",
         "not recovered v0.1.2.1",
         "do not prove live-data safety",
-        "does not change assertion arithmetic",
+        "preserved the assertion arithmetic",
     ):
         _require(phrase in non_claims, f"missing project-state boundary: {phrase}")
 

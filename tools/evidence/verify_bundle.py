@@ -46,6 +46,32 @@ def validate(manifest: dict[str, Any], *, repo: Path) -> None:
     _require(manifest.get("protocol") == "nk-evidence-bundle/1", "unsupported evidence bundle protocol")
     _require(manifest.get("repository") == "velantrian/velantrim-native-kernel", "wrong repository identity")
 
+    evidence_purpose = manifest.get("evidence_purpose")
+    sqlite_integrity_revalidation = evidence_purpose == "ADR_0023_SQLITE_INTEGRITY_REVALIDATION"
+    if evidence_purpose is None:
+        expected_roles = {"implementation_main", "final_documentation_main"}
+    else:
+        _require(sqlite_integrity_revalidation, "unsupported evidence purpose")
+        _require(
+            manifest.get("bundle_id") == "native-kernel/c5/2026-08-08-adr0023",
+            "unexpected ADR-0023 bundle identity",
+        )
+        expected_roles = {"remediation_pr_head", "remediation_final_main"}
+        integrity = manifest.get("sqlite_integrity")
+        _require(isinstance(integrity, dict), "SQLite integrity boundary required")
+        _require(integrity.get("decision") == "ADR-0023", "SQLite integrity decision drift")
+        _require(integrity.get("minimum_linked_version") == "3.51.3", "unsafe SQLite evidence floor")
+        _require(integrity.get("historical_bundle_preserved") is True, "historical bundle must remain preserved")
+        _require(integrity.get("historical_bundle_rewritten") is False, "historical bundle rewrite forbidden")
+        historical_path = integrity.get("historical_manifest_path")
+        _require(
+            historical_path == "evidence/c5/2026-08-07/manifest.json",
+            "historical manifest identity drift",
+        )
+        _require(_resolve_inside(repo, historical_path).is_file(), "historical manifest missing")
+        _require(integrity.get("assertion_arithmetic_changed") is False, "assertion arithmetic cannot change")
+        _require(integrity.get("nk_epi_changed") is False, "NK-EPI cannot change through revalidation")
+
     plan = manifest.get("plan")
     _require(isinstance(plan, dict), "plan object required")
     _require(plan.get("id") == "native-kernel/c5-bounded-rehearsal-v1", "unexpected plan id")
@@ -60,7 +86,6 @@ def validate(manifest: dict[str, Any], *, repo: Path) -> None:
 
     checkpoints = manifest.get("checkpoints")
     _require(isinstance(checkpoints, list) and len(checkpoints) == 2, "exactly two C5 checkpoints required")
-    expected_roles = {"implementation_main", "final_documentation_main"}
     _require({item.get("role") for item in checkpoints if isinstance(item, dict)} == expected_roles, "checkpoint roles drift")
 
     total_artifacts = 0
@@ -70,6 +95,15 @@ def validate(manifest: dict[str, Any], *, repo: Path) -> None:
         run_id = checkpoint.get("workflow_run_id")
         _require(isinstance(head_sha, str) and len(head_sha) == 40 and all(ch in "0123456789abcdef" for ch in head_sha), "invalid checkpoint SHA")
         _require(isinstance(run_id, int) and run_id > 0, "invalid workflow run id")
+        if sqlite_integrity_revalidation:
+            associated_runs = checkpoint.get("associated_workflow_run_ids")
+            _require(
+                isinstance(associated_runs, dict)
+                and set(associated_runs) == {"p5_c3", "c4", "c5"}
+                and all(isinstance(value, int) and value > 0 for value in associated_runs.values()),
+                "exact P5/C3/C4/C5 workflow run IDs required",
+            )
+            _require(associated_runs.get("c5") == run_id, "C5 workflow run identity mismatch")
         artifacts = checkpoint.get("artifacts")
         _require(isinstance(artifacts, list) and len(artifacts) == 4, "each checkpoint requires four artifacts")
         total_artifacts += len(artifacts)
@@ -111,6 +145,11 @@ def validate(manifest: dict[str, Any], *, repo: Path) -> None:
             _require(environment.get("commit") == head_sha, f"report commit mismatch: {path_text}")
             _require(str(environment.get("run_id")) == str(run_id), f"report run mismatch: {path_text}")
             _require(environment == artifact.get("environment"), f"environment snapshot mismatch: {path_text}")
+            if sqlite_integrity_revalidation:
+                _require(
+                    environment.get("sqlite_version") == "3.51.3",
+                    f"unsafe linked SQLite evidence: {path_text}",
+                )
 
             metrics = report.get("metrics")
             _require(isinstance(metrics, dict), f"metrics missing: {path_text}")

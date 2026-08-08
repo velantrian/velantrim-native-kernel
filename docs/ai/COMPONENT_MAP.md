@@ -32,6 +32,7 @@ R long-horizon research    docs/research/ + proposed ADR/RFC work
 | `native_kernel/operational_validation/` | report/Receipt validation core | evidence layer, not authority |
 | `tools/operations/c5_rehearsal.py` | real profile rehearsal runner | no production/live data |
 | `evidence/c5/2026-08-07/manifest.json` | two-checkpoint archive inventory | retained bytes, no proof expansion |
+| `evidence/c5/2026-08-08-adr0023/manifest.json` | additive linked-SQLite 3.51.3 revalidation inventory | does not relabel historical evidence or promote maturity |
 | `tools/evidence/verify_bundle.py` | archive/file integrity verifier | integrity, not truth/authenticity |
 | `.github/workflows/c5-operational-rehearsal.yml` | four-environment C5 matrix | exact runs/artifacts only |
 | `native_kernel/sqlite_profile/runtime.py` | fail-closed linked SQLite WAL-version and metadata guard | profile safety, not Canon |

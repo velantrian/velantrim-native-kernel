@@ -1,7 +1,7 @@
 # ⚠️ Native Kernel Known Risks and Required Proof
 
-**Snapshot:** 2026-08-07
-**Verified source checkpoint:** `3d56912260ea41b5b501b65477bff1642dfc2d58`
+**Snapshot:** 2026-08-08
+**Verified ADR-0023 runtime checkpoint:** `675aa4b398a2fc0181dc71d38904a2d33a09f5f8`
 **Repository status:** `RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY`
 
 C5 closes none of the production, live-data, compliance, physical-deletion, provider-IAM, multi-region, historical-recovery or ecosystem-authority risks.
@@ -10,13 +10,13 @@ C5 closes none of the production, live-data, compliance, physical-deletion, prov
 
 The 2026-08-07 SQLite verifier did not bind `contract`, `recorded_at`, nested `payload`, or the exact envelope key set to stored Event columns. A canonical re-hashed malformed envelope could therefore pass SQLite verification while PostgreSQL rejected several of the same mismatches.
 
-**Current candidate:** strict SQLite/PostgreSQL field-set parity and negative tests are implemented under ADR-0023. **Remaining proof:** exact P5/C3/C4/C5 repository reproduction and additive evidence capture. Until then, affected historical integrity/equivalence evidence remains under review without automatic assertion-map changes.
+**State:** `MITIGATED IN CURRENT PROFILE / HISTORICAL EVIDENCE VERSION-BOUND`. Strict SQLite/PostgreSQL field-set parity and negative tests are merged under ADR-0023. Exact P5/C3/C4/C5 reproduction and additive evidence capture completed at PR-head and final-main checkpoints. Re-adjudication kept the assertion map unchanged; the historical verifier limitation is not erased or retroactively repaired.
 
 ## P0 — Historical SQLite 3.45.1 is in the WAL-reset bug range
 
 SQLite upstream documents a rare corruption race for WAL databases using multiple connections with concurrent write/checkpoint activity in versions 3.7.0 through 3.51.2. All retained C5 jobs used SQLite 3.45.1.
 
-**Current candidate:** fail closed below linked SQLite 3.51.3, pin and hash-check the official CI source archive, and reject declared/runtime version mismatch. Known backports are not implicitly allowlisted. Historical artifacts remain immutable and explicitly version-bound.
+**State:** `MITIGATED IN CURRENT PROFILE / HISTORICAL EVIDENCE VERSION-BOUND`. The profile fails closed below linked SQLite 3.51.3, CI pins and hash-checks the official source archive, and declared/runtime mismatch is rejected. Both safe-runtime checkpoints are repository-captured. Known backports are not implicitly allowlisted; historical artifacts remain immutable and explicitly version-bound.
 
 ## P0 — Bounded rehearsal may be mistaken for production readiness
 
@@ -72,7 +72,7 @@ PostgreSQL and SQLite pass the same bounded scenarios, but concurrency, durabili
 
 ## P1 — Durable evidence is repository-resident but not independent custody
 
-Eight exact ZIPs are preserved and verified under `evidence/c5/2026-08-07/`. This closes the immediate Actions-retention loss, but does not provide:
+Sixteen exact ZIPs across the historical and ADR-0023 identities are preserved and verified under `evidence/c5/`. This closes the immediate Actions-retention loss, but does not provide:
 
 - independent third-party custody;
 - signed timestamping;
@@ -86,9 +86,9 @@ The current p95 limit is 5000 ms and workload is 24 Events per profile. Passing 
 
 ## P1 — Environment scope
 
-Current preserved C5 evidence is Ubuntu 24.04, Python 3.11/3.12, PostgreSQL 16/18 and runner SQLite 3.45.1. Other OS, architecture, provider, filesystem and runtime combinations are untested.
+Current preserved C5 evidence is Ubuntu 24.04, Python 3.11/3.12, PostgreSQL 16/18, historical runner SQLite 3.45.1 and current linked SQLite 3.51.3. Other OS, architecture, provider, filesystem and runtime combinations are untested.
 
-SQLite 3.45.1 is an evidence-bound historical environment, not a recommended future minimum. ADR-0023 sets linked SQLite 3.51.3 as the WAL floor; the replacement exact evidence cycle is pending.
+SQLite 3.45.1 is an evidence-bound historical environment, not a recommended future minimum. ADR-0023 sets linked SQLite 3.51.3 as the WAL floor; the replacement exact evidence cycle is captured under a separate identity.
 
 ## P1 — Machine-readable state can drift
 

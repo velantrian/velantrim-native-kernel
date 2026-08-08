@@ -106,6 +106,7 @@ jobs:
       - name: Validate project state and durable evidence
         run: |
           python tools/evidence/verify_bundle.py evidence/c5/2026-08-07/manifest.json
+          python tools/evidence/verify_bundle.py evidence/c5/2026-08-08-adr0023/manifest.json
           python tools/ai_context/validate_project_state.py --repo .
           python tools/profiles/validate_c5_manifest.py
           python tools/ai_context/validate_context.py --repo .
