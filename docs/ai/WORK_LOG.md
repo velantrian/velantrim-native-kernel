@@ -4,6 +4,20 @@ Re-verify exact SHAs, live issue state, runs and artifacts before treating an en
 
 ---
 
+## 2026-08-08 — Human onboarding, glossary and bilingual profile parity
+
+```text
+Base main:                 da5d042d830508e46f36c7113197c87b8cef2f9c
+Classification:            Documentation / onboarding / translation parity
+Runtime and contracts:     UNCHANGED
+Assertion map / NK-EPI:    UNCHANGED
+Production authorization:  UNCHANGED / false
+```
+
+Prepared a bilingual human quickstart with exact semantic-core commands, the pinned SQLite 3.51.3 build path, PostgreSQL test setup, expected skip/fail-closed interpretation and evidence boundaries. Added a bilingual GitHub glossary that distinguishes Claim, Event, reducer state, epistemic state, projections, Receipts, evidence levels and governance status without describing proposed features as implemented.
+
+The Russian storage/execution profile now restores the missing compute-versus-storage independence section and profile lineage fields. Root and documentation indexes expose the new human entry points. This is documentation-only work: no package publication, license choice, reducer v2, assertion promotion, evidence relabelling or maturity change is claimed.
+
 ## 2026-08-08 — Post-merge Codex integrity review follow-up in progress
 
 ```text
