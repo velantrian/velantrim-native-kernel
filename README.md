@@ -24,7 +24,7 @@ PostgreSQL, SQLite, Python, JSON, CI, LLMs, vectors and hardware are replaceable
 
 > **Integrity revalidation:** ADR-0023 is merged and repository-reproduced on linked SQLite 3.51.3. Exact P5/C3/C4/C5 checkpoints and eight original C5 ZIPs are preserved under a new evidence identity. The historical SQLite 3.45.1 artifacts remain unchanged; assertion counts were re-adjudicated without promotion or arithmetic change.
 
-> **Post-merge review:** four follow-up gaps were reproduced on `main@d8fe6c9…`. Draft [PR #72](https://github.com/velantrian/velantrim-native-kernel/pull/72) adds JSON type-exact Event comparison, SQLite-builder workflow triggers, a compatible v1 evidence-schema extension and exact associated-run identity checks. PR/main CI is still required; retained ZIPs are not relabelled as proof of later code.
+> **Post-merge review finalization:** four follow-up gaps reproduced on `main@d8fe6c9…` were corrected by [PR #72](https://github.com/velantrian/velantrim-native-kernel/pull/72), exact head `ebb6ac99e2051c01f0fb8e8effc7eaad6d4fe8da`, squash-merged as `main@a1cdc6d8f36d67f40f065641809bc6da463c10a4`. JSON type-exact Event comparison, SQLite-builder workflow triggers, compatible v1 evidence-schema fields and exact associated-run identities passed all nine PR workflows and all nine post-merge `main` workflows. Retained ZIPs remain evidence only of their original producing commits and are not relabelled as proof of this later code.
 
 ```text
 Single-profile C2: 41 SUPPORTED / 13 PARTIAL / 18 UNSUPPORTED

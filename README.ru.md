@@ -24,7 +24,7 @@ PostgreSQL, SQLite, Python, JSON, CI, LLM, vectors и hardware — заменя�
 
 > **Integrity revalidation:** ADR-0023 merged и repository-reproduced на linked SQLite 3.51.3. Точные P5/C3/C4/C5 checkpoints и восемь оригинальных C5 ZIP сохранены под новой evidence identity. Исторические artifacts SQLite 3.45.1 не изменены; assertions re-adjudicated без promotion и изменения arithmetic.
 
-> **Post-merge review:** четыре follow-up gap воспроизведены на `main@d8fe6c9…`. Draft [PR #72](https://github.com/velantrian/velantrim-native-kernel/pull/72) добавляет JSON type-exact сравнение Event, workflow triggers для SQLite builder, совместимое расширение v1 evidence-schema и проверку точной identity связанных runs. PR/main CI ещё обязателен; сохранённые ZIP не переобозначаются как доказательство более позднего кода.
+> **Финализация post-merge review:** четыре follow-up gap, воспроизведённые на `main@d8fe6c9…`, исправлены в [PR #72](https://github.com/velantrian/velantrim-native-kernel/pull/72), exact head `ebb6ac99e2051c01f0fb8e8effc7eaad6d4fe8da`, squash-merge `main@a1cdc6d8f36d67f40f065641809bc6da463c10a4`. JSON type-exact сравнение Event, workflow triggers для SQLite builder, совместимые v1 evidence-schema fields и exact associated-run identities прошли все девять PR workflows и все девять post-merge workflows на `main`. Сохранённые ZIP остаются evidence только своих исходных producing commits и не переобозначаются как доказательство более позднего кода.
 
 ```text
 Single-profile C2: 41 SUPPORTED / 13 PARTIAL / 18 UNSUPPORTED
