@@ -57,7 +57,7 @@ GitHub `main` at the verified publication checkpoint remains the authority for i
 - **Implementation:** strict SQLite/PostgreSQL Event Envelope fields; linked SQLite 3.51.3 WAL floor; pinned source hash; atomic migrations; configured busy timeout
 - **Repository proof:** PR-head and final-main P5/C3/C4/C5 matrices PASS
 - **Additive evidence:** `evidence/c5/2026-08-08-adr0023/manifest.json` — 2 checkpoints / 8 original ZIPs
-- **Evidence PR:** #70 head `65d3375dbb5506540ba6d2d41e5508ea9c5dabc5`
+- **Evidence PR:** #70; payload commit `65d3375dbb5506540ba6d2d41e5508ea9c5dabc5`
 - **Historical boundary:** 2026-08-07 C5 ZIPs on SQLite 3.45.1 remain immutable and separately identified
 - **Unchanged:** assertion map `45/10/17/0`; NK-EPI `0/8`; C4/C5 maturity; production false; ecosystem authority absent
 - **Pending:** PR #70 CI/review/merge and final post-merge Notion reread
