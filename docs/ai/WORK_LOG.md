@@ -28,6 +28,8 @@ Completed:
 
 Repository P5/C3, C4 and C5 matrices passed at PR head `ab7a203c…` and final main `675aa4b3…`. Eight exact new C5 archives are preserved under `evidence/c5/2026-08-08-adr0023/`; the 2026-08-07 bytes remain unchanged. Re-adjudication preserved 45/10/17/0 and NK-EPI 0/8. Reducer dangling/self/cycle semantics remain a separate contract-first slice because current accepted fixtures do not define the proposed rejection rule.
 
+Evidence publication continues in PR #70 from exact head `65d3375dbb5506540ba6d2d41e5508ea9c5dabc5`. The five canonical Notion surfaces record this candidate identity; only the final merge result remains to append.
+
 ## 2026-08-07 — C5 evidence preserved; state surfaces reconciled
 
 ```text

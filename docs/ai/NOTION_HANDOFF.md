@@ -49,7 +49,7 @@ GitHub `main` at the verified publication checkpoint remains the authority for i
 
 ## Current item — 2026-08-08 ADR-0023 SQLite integrity remediation
 
-- **Status:** `SYNCED_CANDIDATE / PR #69 MERGED / EVIDENCE CAPTURED`
+- **Status:** `SYNCED_EVIDENCE_CANDIDATE / PR #69 MERGED / PR #70 CI PENDING`
 - **Documentation impact:** `GITHUB_AND_NOTION`
 - **PR #69 head:** `ab7a203ce7ed8ec46c341bc4da9063d56f023338`
 - **Merged runtime main:** `675aa4b398a2fc0181dc71d38904a2d33a09f5f8`
@@ -57,11 +57,12 @@ GitHub `main` at the verified publication checkpoint remains the authority for i
 - **Implementation:** strict SQLite/PostgreSQL Event Envelope fields; linked SQLite 3.51.3 WAL floor; pinned source hash; atomic migrations; configured busy timeout
 - **Repository proof:** PR-head and final-main P5/C3/C4/C5 matrices PASS
 - **Additive evidence:** `evidence/c5/2026-08-08-adr0023/manifest.json` — 2 checkpoints / 8 original ZIPs
+- **Evidence PR:** #70 head `65d3375dbb5506540ba6d2d41e5508ea9c5dabc5`
 - **Historical boundary:** 2026-08-07 C5 ZIPs on SQLite 3.45.1 remain immutable and separately identified
 - **Unchanged:** assertion map `45/10/17/0`; NK-EPI `0/8`; C4/C5 maturity; production false; ecosystem authority absent
-- **Pending:** evidence-publication PR identifier and final post-merge Notion reread
+- **Pending:** PR #70 CI/review/merge and final post-merge Notion reread
 
-Candidate state was prepended on 2026-08-08 to all five intended Notion surfaces below. A final append/update remains required for the evidence-publication PR and its merge SHA.
+Implementation and evidence-candidate states were prepended on 2026-08-08 to all five intended Notion surfaces below. A final append/update remains required only for PR #70's merge result and SHA.
 
 Intended Notion surfaces:
 
