@@ -517,7 +517,11 @@ class PostgreSQLAppendStore:
             envelope = json.loads(event.envelope_canonical.decode("utf-8"))
         except (UnicodeDecodeError, json.JSONDecodeError) as exc:
             raise StoredEventCorrupt("stored envelope bytes are not canonical JSON") from exc
-        if canonical_json_bytes(envelope) != event.envelope_canonical:
+        try:
+            canonical_envelope = canonical_json_bytes(envelope)
+        except ContractViolation as exc:
+            raise StoredEventCorrupt("stored envelope is outside the canonical JSON subset") from exc
+        if canonical_envelope != event.envelope_canonical:
             raise StoredEventCorrupt("stored envelope bytes are not canonical")
         expected_fields = {
             "contract": "nk-event-envelope/1",
@@ -544,7 +548,11 @@ class PostgreSQLAppendStore:
                 f"stored envelope field set mismatch; missing={missing}; unexpected={unexpected}"
             )
         for key, expected in expected_fields.items():
-            if envelope.get(key) != expected:
+            try:
+                exact_value_match = canonical_json_bytes(envelope[key]) == canonical_json_bytes(expected)
+            except ContractViolation as exc:
+                raise StoredEventCorrupt(f"stored envelope field is not canonical: {key}") from exc
+            if not exact_value_match:
                 raise StoredEventCorrupt(f"stored envelope field mismatch: {key}")
         committed = dict(envelope)
         declared = committed.pop("event_hash")

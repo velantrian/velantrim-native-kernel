@@ -15,6 +15,28 @@ class EvidenceBundleError(RuntimeError):
     """Raised when an evidence bundle fails closed validation."""
 
 
+ADR_0023_CHECKPOINT_IDENTITIES: dict[str, dict[str, Any]] = {
+    "remediation_pr_head": {
+        "head_sha": "ab7a203ce7ed8ec46c341bc4da9063d56f023338",
+        "workflow_run_id": 31251376574,
+        "associated_workflow_run_ids": {
+            "p5_c3": 31251376567,
+            "c4": 31251376572,
+            "c5": 31251376574,
+        },
+    },
+    "remediation_final_main": {
+        "head_sha": "675aa4b398a2fc0181dc71d38904a2d33a09f5f8",
+        "workflow_run_id": 31251526982,
+        "associated_workflow_run_ids": {
+            "p5_c3": 31251526992,
+            "c4": 31251526965,
+            "c5": 31251526982,
+        },
+    },
+}
+
+
 def _require(condition: bool, message: str) -> None:
     if not condition:
         raise EvidenceBundleError(message)
@@ -56,11 +78,15 @@ def validate(manifest: dict[str, Any], *, repo: Path) -> None:
             manifest.get("bundle_id") == "native-kernel/c5/2026-08-08-adr0023",
             "unexpected ADR-0023 bundle identity",
         )
-        expected_roles = {"remediation_pr_head", "remediation_final_main"}
+        expected_roles = set(ADR_0023_CHECKPOINT_IDENTITIES)
         integrity = manifest.get("sqlite_integrity")
         _require(isinstance(integrity, dict), "SQLite integrity boundary required")
         _require(integrity.get("decision") == "ADR-0023", "SQLite integrity decision drift")
         _require(integrity.get("minimum_linked_version") == "3.51.3", "unsafe SQLite evidence floor")
+        _require(
+            integrity.get("historical_bundle_id") == "native-kernel/c5/2026-08-07",
+            "historical bundle identity drift",
+        )
         _require(integrity.get("historical_bundle_preserved") is True, "historical bundle must remain preserved")
         _require(integrity.get("historical_bundle_rewritten") is False, "historical bundle rewrite forbidden")
         historical_path = integrity.get("historical_manifest_path")
@@ -104,6 +130,19 @@ def validate(manifest: dict[str, Any], *, repo: Path) -> None:
                 "exact P5/C3/C4/C5 workflow run IDs required",
             )
             _require(associated_runs.get("c5") == run_id, "C5 workflow run identity mismatch")
+            expected_identity = ADR_0023_CHECKPOINT_IDENTITIES[checkpoint["role"]]
+            _require(
+                head_sha == expected_identity["head_sha"],
+                f"{checkpoint['role']} checkpoint SHA identity mismatch",
+            )
+            _require(
+                run_id == expected_identity["workflow_run_id"],
+                f"{checkpoint['role']} C5 workflow run identity mismatch",
+            )
+            _require(
+                associated_runs == expected_identity["associated_workflow_run_ids"],
+                f"{checkpoint['role']} associated workflow run identity mismatch",
+            )
         artifacts = checkpoint.get("artifacts")
         _require(isinstance(artifacts, list) and len(artifacts) == 4, "each checkpoint requires four artifacts")
         total_artifacts += len(artifacts)

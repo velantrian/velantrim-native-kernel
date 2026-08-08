@@ -38,7 +38,7 @@ def policy() -> StaticAuthorityPolicy:
     ),))
 
 
-def command(key: str, payload: dict[str, str] | None = None) -> Command:
+def command(key: str, payload: dict[str, object] | None = None) -> Command:
     return Command(
         command_id="command:" + key.replace(":", "-"),
         idempotency_key=key,
@@ -47,18 +47,23 @@ def command(key: str, payload: dict[str, str] | None = None) -> Command:
         authority_ref="authority:test",
         event_type=EventType.ADMIT,
         schema_version="1",
-        payload=payload or {"claim_id": "claim:a"},
+        payload={"claim_id": "claim:a"} if payload is None else payload,
     )
 
 
 class SQLiteProfileUnitTests(unittest.TestCase):
-    def _store_with_event(self, directory: str, label: str) -> tuple[SQLiteAppendStore, Path]:
+    def _store_with_event(
+        self,
+        directory: str,
+        label: str,
+        payload: dict[str, object] | None = None,
+    ) -> tuple[SQLiteAppendStore, Path]:
         path = Path(directory) / f"{label}.db"
         store = SQLiteAppendStore(path, policy())
         store.migrate()
         store.register_instance("instance:test")
         token = store.acquire_writer_lease("instance:test", "writer:test", ttl_seconds=120)
-        store.append(command(f"idem:{label}"), token)
+        store.append(command(f"idem:{label}", payload), token)
         return store, path
 
     @staticmethod
@@ -144,6 +149,20 @@ class SQLiteProfileUnitTests(unittest.TestCase):
                 self._rewrite_envelope(path, mutate)
                 with self.assertRaisesRegex(StoredEventCorrupt, "envelope"):
                     store.read_events("instance:test")
+
+    def test_event_envelope_payload_comparison_preserves_json_types(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            store, path = self._store_with_event(
+                directory,
+                "typed-payload",
+                {"claim_id": "claim:a", "ordinal": 1},
+            )
+            self._rewrite_envelope(
+                path,
+                lambda envelope: envelope["payload"].__setitem__("ordinal", True),
+            )
+            with self.assertRaisesRegex(StoredEventCorrupt, "payload mismatch"):
+                store.read_events("instance:test")
 
     def test_invalid_stored_json_is_reported_as_corruption(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

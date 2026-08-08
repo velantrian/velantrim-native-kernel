@@ -73,3 +73,17 @@ Intended Notion surfaces:
 - `🗺️ Roadmap, Acceptance Gates & Decision Ledger` — ADR-0023 and additive evidence cycle;
 - `🤖 AI Agent Context & Documentation Continuity` — required linked version and affected historical-evidence boundary;
 - `🛡️ C5 Bounded Operational Rehearsal — ADR-0021 / PR #65` — append-only evidence-impact note; do not alter prior hashes/results.
+
+## Current item — 2026-08-08 ADR-0023 post-merge Codex review follow-up
+
+- **Status:** `SYNCED_CANDIDATE / PR #72 DRAFT / REPOSITORY CI PENDING`
+- **Documentation impact:** `GITHUB_AND_NOTION`
+- **Reviewed base:** `d8fe6c9f6e1233eb29ade630a85771e581c2813e`
+- **Tested payload:** commit `90c4a286dec2673c3768899cb67a55f854aa7b9c`; tree `bcd40890df6de12e0dbdd6371f4ba8b504325868`
+- **Review source:** four unresolved actionable Codex threads on merged PRs #69/#70
+- **Correction:** canonical-byte Event field equality; SQLite-builder workflow triggers; compatible v1 evidence schema; exact ADR-0023 associated-run identities
+- **Local proof:** 172 PASS / 15 PostgreSQL-only SKIP / linked SQLite 3.51.3 / all continuity and bundle guards PASS
+- **Notion candidate:** prepended to Hub, Core, Roadmap, AI Context and C5 pages
+- **Evidence boundary:** archived ZIPs unchanged and not relabelled as proof of later code
+- **Unchanged:** 45/10/17/0; NK-EPI 0/8; C4/C5 maturity; production false; no deletion, ecosystem or historical-recovery promotion
+- **Pending:** exact final PR head, repository CI, merge SHA, post-merge checks and final Notion append

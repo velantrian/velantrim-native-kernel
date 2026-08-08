@@ -8,6 +8,8 @@
 
 > **2026-08-08 evidence-impact notice:** all 2026-08-07 runs and ZIPs below used SQLite 3.45.1 and predate the strict SQLite Event verifier in ADR-0023. Exact bytes remain preserved. Safe-version PR-head and final-main runs are captured separately; assertion, NK-EPI, production and authority status remain unchanged.
 
+> **Post-merge review notice:** the ADR-0023 runs also predate the later canonical-byte type comparison, evidence-schema compatibility fix, exact associated-run binding and SQLite-builder path triggers. Those artifacts remain exact evidence of their producing commits only. The follow-up does not rewrite them or broaden their claims.
+
 ## Authorized boundary
 
 ```text

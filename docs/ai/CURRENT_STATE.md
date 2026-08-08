@@ -4,8 +4,13 @@
 **C5 implementation evidence checkpoint:** `296981ae84ad5bdab5dabbec9b7b9ebb43af63d7`
 **Issue / PR / ADR:** #64 `CLOSED / COMPLETED` / #69 squash-merged / ADR-0023 accepted
 **Repository status:** `RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY`
+**Post-merge review follow-up:** `PR #72 DRAFT / REPOSITORY CI PENDING`
 
 > Context checkpoint ≠ automatically current HEAD. Re-check the branch ref and live remote state. The checkpoint must remain an ancestor of the reviewed commit.
+
+## Post-merge Codex review — current candidate
+
+Four unresolved threads on merged PRs #69/#70 were reproduced against `main@d8fe6c9f6e1233eb29ade630a85771e581c2813e`. Draft PR [#72](https://github.com/velantrian/velantrim-native-kernel/pull/72) covers JSON type-exact Event comparison, SQLite-builder workflow path coverage, compatible evidence schema declaration and exact identity-bound associated workflow runs. The locally tested payload is `90c4a286dec2673c3768899cb67a55f854aa7b9c` / tree `bcd40890df6de12e0dbdd6371f4ba8b504325868`; 172 tests pass, with 15 PostgreSQL-only skips. Candidate state is synchronized to the five Notion surfaces. Exact PR/main CI is not yet recorded. Existing ZIP artifacts remain immutable evidence of their original commits and do not prove this candidate.
 
 ## ADR-0023 remediation result — 2026-08-08
 
@@ -144,4 +149,4 @@ They remain proposed. `NK-EPI-004 — unknown ≠ false` is the preferred first 
 
 ## Next action
 
-Define reducer referential semantics in a separate contract-first decision before changing dangling/self/cycle behavior. NK-EPI-004 remains a separate proposed executable slice; operational hardening cannot alone increase semantic maturity.
+Complete review and repository CI for the four post-merge findings. After that, define reducer referential semantics in a separate contract-first decision before changing dangling/self/cycle behavior. NK-EPI-004 remains a separate proposed executable slice; operational hardening cannot alone increase semantic maturity.

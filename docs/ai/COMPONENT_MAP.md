@@ -33,10 +33,12 @@ R long-horizon research    docs/research/ + proposed ADR/RFC work
 | `tools/operations/c5_rehearsal.py` | real profile rehearsal runner | no production/live data |
 | `evidence/c5/2026-08-07/manifest.json` | two-checkpoint archive inventory | retained bytes, no proof expansion |
 | `evidence/c5/2026-08-08-adr0023/manifest.json` | additive linked-SQLite 3.51.3 revalidation inventory | does not relabel historical evidence or promote maturity |
-| `tools/evidence/verify_bundle.py` | archive/file integrity verifier | integrity, not truth/authenticity |
+| `contracts/evidence-bundle-v1.schema.json` | compatible v1 shape for historical and optional ADR-0023 revalidation metadata | contract shape, not evidence authenticity |
+| `tools/evidence/verify_bundle.py` | archive/file integrity plus identity-specific ADR-0023 run verifier | repository-bound integrity, not signature/truth/authenticity |
 | `.github/workflows/c5-operational-rehearsal.yml` | four-environment C5 matrix | exact runs/artifacts only |
 | `native_kernel/sqlite_profile/runtime.py` | fail-closed linked SQLite WAL-version and metadata guard | profile safety, not Canon |
 | `tools/sqlite/build_safe_sqlite.sh` | pinned/hash-verified SQLite 3.51.3 CI build | Linux evidence environment only |
+| SQLite/PostgreSQL stored Event verifiers | canonical-byte comparison per committed field | JSON type exactness, not privileged-rewrite protection |
 | `docs/adr/0023-harden-sqlite-wal-and-event-integrity.md` | accepted integrity-hardening decision and evidence impact | no maturity promotion |
 | `docs/research/POST_C5_RESEARCH_BACKLOG.md` | deferred/proposed ideas | no implementation or promotion |
 

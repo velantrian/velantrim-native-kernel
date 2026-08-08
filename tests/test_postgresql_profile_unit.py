@@ -147,6 +147,57 @@ class HashingTests(unittest.TestCase):
         with self.assertRaisesRegex(StoredEventCorrupt, "field set mismatch"):
             PostgreSQLAppendStore._verify_stored_event(corrupted)
 
+    def test_stored_envelope_payload_comparison_preserves_json_types(self) -> None:
+        command = replace(
+            fixture_command(),
+            payload={"claim_id": "claim:a", "ordinal": 1},
+        )
+        recorded_at = datetime(2026, 8, 6, 18, 1, tzinfo=timezone.utc)
+        envelope, payload_bytes, envelope_bytes = build_event_envelope(
+            command,
+            event_id="event:typed-payload",
+            global_seq=1,
+            stream_seq=1,
+            recorded_at=recorded_at,
+            prev_global_hash="GENESIS",
+        )
+        event = StoredEvent(
+            instance_id="instance:test",
+            event_id="event:typed-payload",
+            command_id=command.command_id,
+            idempotency_key=command.idempotency_key,
+            command_contract=command.contract,
+            command_digest=command.digest,
+            stream_id=command.stream_id,
+            global_seq=1,
+            stream_seq=1,
+            actor_ref=command.actor_ref,
+            authority_ref=command.authority_ref,
+            recorded_at=recorded_at,
+            event_type=command.event_type,
+            schema_version=command.schema_version,
+            payload=command.as_contract_object()["payload"],
+            prev_global_hash="GENESIS",
+            payload_hash=envelope["payload_hash"],
+            event_hash=envelope["event_hash"],
+            writer_epoch=1,
+            payload_canonical=payload_bytes,
+            envelope_canonical=envelope_bytes,
+        )
+        forged = dict(envelope)
+        forged["payload"] = dict(forged["payload"])
+        forged["payload"]["ordinal"] = True
+        forged_without_hash = dict(forged)
+        forged_without_hash.pop("event_hash")
+        forged["event_hash"] = event_hash(forged_without_hash)
+        corrupted = replace(
+            event,
+            event_hash=forged["event_hash"],
+            envelope_canonical=canonical_json_bytes(forged),
+        )
+        with self.assertRaisesRegex(StoredEventCorrupt, "payload"):
+            PostgreSQLAppendStore._verify_stored_event(corrupted)
+
 
 class MigrationTests(unittest.TestCase):
     def test_discovery_is_ordered_and_checksummed(self) -> None:
