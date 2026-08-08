@@ -1,5 +1,7 @@
 # 🧬 Velantrim Native Kernel
 
+**[English](./README.md) · [Русский](./README.ru.md)**
+
 ### Технологически нейтральные контракты семантической памяти, заменяемые профили и ограниченные доказательства
 
 > **Текущее состояние:** `RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY`
@@ -19,6 +21,17 @@ Architecture Canon
 ```
 
 PostgreSQL, SQLite, Python, JSON, CI, LLM, vectors и hardware — заменяемые инструменты, а не Canon.
+
+## Быстрый старт для человека
+
+Самая быстрая технологически нейтральная проверка требует только Python 3.11 или 3.12:
+
+```bash
+python -m unittest discover -s tests -p 'test_semantic_core.py' -v
+python -m unittest discover -s tests -p 'test_p1_manifest.py' -v
+```
+
+SQLite profile намеренно fail-closed, если Python связан с SQLite старше 3.51.3. Инструкции по сборке, PostgreSQL setup, допустимым skips и полным локальным командам находятся в [`docs/QUICKSTART.ru.md`](docs/QUICKSTART.ru.md). Термины и ключевые неэквивалентности собраны в [`docs/GLOSSARY.ru.md`](docs/GLOSSARY.ru.md).
 
 ## Текущая карта evidence
 
@@ -115,6 +128,8 @@ C5 bounded rehearsal
 
 ## Читать дальше
 
+- [`docs/QUICKSTART.ru.md`](docs/QUICKSTART.ru.md)
+- [`docs/GLOSSARY.ru.md`](docs/GLOSSARY.ru.md)
 - [`project-state.json`](project-state.json)
 - [`STATUS.md`](STATUS.md)
 - [`AGENTS.md`](AGENTS.md)
