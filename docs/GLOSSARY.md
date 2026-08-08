@@ -8,7 +8,7 @@
 
 | Term | Compact definition | Important boundary |
 |---|---|---|
-| **Claim** | An immutable semantic assertion or observation with stable identity and provenance fields. | A Claim is not automatically true, current, authorized, or conflict-free. |
+| **Claim** | An immutable semantic content unit with a declared role, stable identity and provenance fields; roles may include proposition, observation, measurement, interpretation, hypothesis, question or explicit unknown. | A Claim is not automatically true, current, authorized, or conflict-free. |
 | **Claim identity** | Deterministic identity derived under a versioned canonicalization contract. | Identity equality does not prove truth or source authenticity. |
 | **Content hash** | A versioned digest of canonical semantic content. | Equal hashes mean equal canonical bytes under the declared contract, not equal real-world origin. |
 | **Lineage** | A stable continuity relation used to connect revisions or related semantic history. | Lineage is not identity, ownership, personhood, or causal proof. |
