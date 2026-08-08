@@ -32,6 +32,7 @@ from .replay_models import (
     ReplaySnapshot,
     StoredProjection,
 )
+from .runtime import require_safe_sqlite_for_wal
 
 DEFAULT_PROJECTION = "semantic-state"
 SnapshotHook = Callable[[ReplaySnapshot], None]
@@ -110,6 +111,7 @@ class SQLiteReplayProjector:
         self._clock = clock or _default_clock
 
     def _connect(self) -> sqlite3.Connection:
+        require_safe_sqlite_for_wal()
         connection = sqlite3.connect(self.database_path, isolation_level=None, timeout=5)
         connection.row_factory = sqlite3.Row
         connection.execute("PRAGMA foreign_keys = ON")

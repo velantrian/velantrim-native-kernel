@@ -17,12 +17,15 @@ from .errors import (
     ReceiptCorrupt,
     ReplayIntegrityError,
     SQLiteProfileError,
+    SQLiteConfigurationError,
     StaleWriterEpoch,
     StoredEventCorrupt,
     UnknownKernelInstance,
+    UnsafeSQLiteVersion,
     WriterLeaseBusy,
     WriterLeaseExpired,
 )
+from .runtime import MINIMUM_WAL_SAFE_SQLITE, linked_sqlite_version
 from .models import AppendResult, AppendStatus, StoredEvent, WriterToken
 from .replay import SQLiteReplayProjector
 from .replay_models import (
@@ -53,6 +56,10 @@ __all__ = [
     "build_sqlite_conformance_report",
     "build_comparison_report",
     "SQLiteProfileError",
+    "SQLiteConfigurationError",
+    "UnsafeSQLiteVersion",
+    "MINIMUM_WAL_SAFE_SQLITE",
+    "linked_sqlite_version",
     "MigrationDrift",
     "UnknownKernelInstance",
     "WriterLeaseBusy",

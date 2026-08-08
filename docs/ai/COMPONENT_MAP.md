@@ -34,6 +34,9 @@ R long-horizon research    docs/research/ + proposed ADR/RFC work
 | `evidence/c5/2026-08-07/manifest.json` | two-checkpoint archive inventory | retained bytes, no proof expansion |
 | `tools/evidence/verify_bundle.py` | archive/file integrity verifier | integrity, not truth/authenticity |
 | `.github/workflows/c5-operational-rehearsal.yml` | four-environment C5 matrix | exact runs/artifacts only |
+| `native_kernel/sqlite_profile/runtime.py` | fail-closed linked SQLite WAL-version and metadata guard | profile safety, not Canon |
+| `tools/sqlite/build_safe_sqlite.sh` | pinned/hash-verified SQLite 3.51.3 CI build | Linux evidence environment only |
+| `docs/adr/0023-harden-sqlite-wal-and-event-integrity.md` | accepted integrity-hardening decision and evidence impact | no maturity promotion |
 | `docs/research/POST_C5_RESEARCH_BACKLOG.md` | deferred/proposed ideas | no implementation or promotion |
 
 ## C5 scenario map

@@ -5,6 +5,8 @@
 **Verified implementation main:** `a8bb0ae232b977856730a1a4f21f977c1f69ca0a`  
 **Issue / PR / ADR:** #58 / #59 / ADR-0019 `ACCEPTED / APPROVED`
 
+> **2026-08-08 integrity amendment:** ADR-0023 introduces strict Event Envelope verification and a fail-closed linked SQLite 3.51.3 WAL floor. The matrices below remain historical 3.45.1 evidence and are under bounded integrity revalidation; they are not rewritten. Assertion arithmetic and NK-EPI status remain unchanged pending new repository evidence.
+
 ## Profiles and lineages
 
 ```text
@@ -41,7 +43,9 @@ C3 promotes exactly `NK-SEM-008`, `NK-ID-008`, `NK-EQV-002` and `NK-EQV-003`. Al
 
 ```text
 stdlib sqlite3
+→ linked SQLite >= 3.51.3 WAL guard
 → migration ledger + digest drift guard
+→ atomic statement-by-statement migrations
 → Kernel-instance registration
 → BEGIN IMMEDIATE single-writer transaction
 → owner / epoch / expiry fence
@@ -156,6 +160,7 @@ C3 for 45 SUPPORTED assertions
 - physical deletion and restore-before-visibility remain absent;
 - artifacts expire;
 - future contract/profile changes require renewed C3 evidence;
+- historical SQLite 3.45.1 evidence requires ADR-0023 safe-version reproduction;
 - Issue #18 publication/licensing remains unresolved.
 
 ## Publication completion

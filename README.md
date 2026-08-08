@@ -22,6 +22,8 @@ PostgreSQL, SQLite, Python, JSON, CI, LLMs, vectors and hardware are replaceable
 
 ## Current evidence
 
+> **Integrity revalidation:** the preserved P5/C3/C4/C5 runs used SQLite 3.45.1. The current remediation candidate requires linked SQLite 3.51.3+, verifies the exact Event Envelope, and is awaiting repository reproduction. Historical artifacts remain unchanged; assertion counts are not promoted or silently rewritten.
+
 ```text
 Single-profile C2: 41 SUPPORTED / 13 PARTIAL / 18 UNSUPPORTED
 Cross-profile C3:  45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED
@@ -71,6 +73,8 @@ head 3d56912260ea41b5b501b65477bff1642dfc2d58
 run  31205512911 — PASS
 Python 3.11/3.12 × PostgreSQL 16/18 × SQLite 3.45.1
 ```
+
+This matrix is historical evidence of those exact runs, not the current SQLite minimum. See [ADR-0023](docs/adr/0023-harden-sqlite-wal-and-event-integrity.md).
 
 ```text
 18/18 scenarios PASS in every matrix job

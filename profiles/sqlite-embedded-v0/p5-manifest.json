@@ -13,6 +13,22 @@
   "evidence_report_protocol": "nk-evidence-report/1",
   "equivalence_report_protocol": "nk-equivalence-report/1",
   "contract_registry": "nk-contract-registry/1.1.0",
+  "sqlite_runtime_safety": {
+    "journal_mode": "WAL",
+    "minimum_linked_version": "3.51.3",
+    "guard_behavior": "FAIL_CLOSED_BEFORE_DATABASE_OPEN",
+    "declared_version_must_match_linked_version": true,
+    "ci_source_archive": "sqlite-autoconf-3510300.tar.gz",
+    "ci_source_sha256": "81f5be397049b0cae1b167f2225af7646fc0f82e4a9b3c48c9ea3a533e21d77a",
+    "backports_implicitly_allowed": false
+  },
+  "integrity_revalidation": {
+    "status": "IMPLEMENTED_LOCAL / REPOSITORY_REPRODUCTION_PENDING",
+    "scope": "strict Event Envelope verification plus SQLite WAL/version/migration/timeout hardening",
+    "historical_evidence_preserved": true,
+    "assertion_arithmetic_changed": false,
+    "nk_epi_changed": false
+  },
   "sqlite_assertion_coverage": {
     "total": 72,
     "supported": 41,
@@ -115,7 +131,8 @@
     "C3 semantic equivalence is not PostgreSQL and SQLite operational equivalence",
     "no truth or external authenticity certification",
     "no physical or cryptographic deletion evidence",
-    "no C4 C5 production security privacy compliance claim"
+    "no C4 C5 production security privacy compliance claim",
+    "historical SQLite 3.45.1 evidence remains preserved but integrity revalidation on SQLite 3.51.3 is pending"
   ],
   "issue_1_boundary": {
     "relationship": "INDEPENDENT",

@@ -91,8 +91,14 @@ jobs:
           python-version: ${{ matrix.python }}
       - name: Install PostgreSQL integration driver
         run: python -m pip install --upgrade pip -r profiles/postgresql-reference-v0/requirements-p2-ci.txt
+      - name: Build pinned WAL-safe SQLite
+        run: |
+          tools/sqlite/build_safe_sqlite.sh "$RUNNER_TEMP/sqlite-3.51.3" python
+          echo "LD_LIBRARY_PATH=$RUNNER_TEMP/sqlite-3.51.3/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}" >> "$GITHUB_ENV"
       - name: Record SQLite version
-        run: echo "NK_SQLITE_VERSION=$(python -c 'import sqlite3; print(sqlite3.sqlite_version)')" >> "$GITHUB_ENV"
+        run: |
+          python -c 'from native_kernel.sqlite_profile import linked_sqlite_version; print(linked_sqlite_version())'
+          echo "NK_SQLITE_VERSION=$(python -c 'from native_kernel.sqlite_profile import linked_sqlite_version; print(linked_sqlite_version())')" >> "$GITHUB_ENV"
       - name: C5 unit, validator and manifest guards
         run: |
           python -m unittest discover -s tests -p 'test_c5_operational_validation.py' -v

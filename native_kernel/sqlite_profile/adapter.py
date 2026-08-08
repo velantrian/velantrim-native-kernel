@@ -18,6 +18,7 @@ from .errors import (
     IdempotencyConflict,
     ImportConflict,
     MigrationDrift,
+    SQLiteConfigurationError,
     StaleWriterEpoch,
     StoredEventCorrupt,
     UnknownKernelInstance,
@@ -26,6 +27,7 @@ from .errors import (
 )
 from .hashing import build_event_envelope, event_hash, payload_hash
 from .models import AppendResult, AppendStatus, StoredEvent, WriterToken
+from .runtime import require_safe_sqlite_for_wal
 
 PROFILE_ID = "native-kernel/sqlite-embedded"
 PROFILE_VERSION = "0.5-p5"
@@ -192,6 +194,21 @@ def _migration_digest(sql: str) -> str:
     return hashlib.sha256(sql.encode("utf-8")).hexdigest()
 
 
+def _execute_script_atomic(connection: sqlite3.Connection, sql: str) -> None:
+    """Execute a migration without sqlite3.executescript's implicit COMMIT."""
+
+    pending = ""
+    for line in sql.splitlines(keepends=True):
+        pending += line
+        if sqlite3.complete_statement(pending):
+            statement = pending.strip()
+            if statement:
+                connection.execute(statement)
+            pending = ""
+    if pending.strip():
+        raise ContractViolation("migration contains an incomplete SQL statement")
+
+
 class SQLiteAppendStore:
     """Independent embedded P5 append/idempotency adapter.
 
@@ -231,17 +248,24 @@ class SQLiteAppendStore:
         self._timeout = float(timeout_seconds)
 
     def _connect(self) -> sqlite3.Connection:
+        require_safe_sqlite_for_wal()
         connection = sqlite3.connect(
             self.database_path,
             timeout=self._timeout,
             isolation_level=None,
         )
-        connection.row_factory = sqlite3.Row
-        connection.execute("PRAGMA foreign_keys = ON")
-        connection.execute("PRAGMA busy_timeout = 5000")
-        connection.execute("PRAGMA journal_mode = WAL")
-        connection.execute("PRAGMA synchronous = FULL")
-        return connection
+        try:
+            connection.row_factory = sqlite3.Row
+            connection.execute("PRAGMA foreign_keys = ON")
+            connection.execute(f"PRAGMA busy_timeout = {max(1, round(self._timeout * 1000))}")
+            row = connection.execute("PRAGMA journal_mode = WAL").fetchone()
+            if row is None or str(row[0]).lower() != "wal":
+                raise SQLiteConfigurationError("SQLite did not enter required WAL journal mode")
+            connection.execute("PRAGMA synchronous = FULL")
+            return connection
+        except Exception:
+            connection.close()
+            raise
 
     @contextmanager
     def _transaction(self, *, immediate: bool = True) -> Iterable[sqlite3.Connection]:
@@ -273,7 +297,7 @@ class SQLiteAppendStore:
                     if row["digest"] != digest:
                         raise MigrationDrift(version)
                     continue
-                connection.executescript(sql)
+                _execute_script_atomic(connection, sql)
                 connection.execute(
                     "INSERT INTO schema_migrations(version, digest, applied_at) VALUES(?,?,?)",
                     (version, digest, _format_time(self._clock())),
@@ -622,20 +646,26 @@ class SQLiteAppendStore:
 
     @staticmethod
     def _verify_event(event: StoredEvent) -> None:
-        payload_object = json.loads(event.payload_canonical.decode("utf-8"))
+        try:
+            payload_object = json.loads(event.payload_canonical.decode("utf-8"))
+        except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+            raise StoredEventCorrupt("payload canonical bytes are not JSON") from exc
+        if not isinstance(payload_object, dict):
+            raise StoredEventCorrupt("payload canonical JSON must be an object")
         if canonical_json_bytes(payload_object) != event.payload_canonical:
             raise StoredEventCorrupt("payload canonical bytes mismatch")
         if payload_hash(payload_object) != event.payload_hash:
             raise StoredEventCorrupt("payload hash mismatch")
-        envelope = json.loads(event.envelope_canonical.decode("utf-8"))
+        try:
+            envelope = json.loads(event.envelope_canonical.decode("utf-8"))
+        except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+            raise StoredEventCorrupt("envelope canonical bytes are not JSON") from exc
+        if not isinstance(envelope, dict):
+            raise StoredEventCorrupt("envelope canonical JSON must be an object")
         if canonical_json_bytes(envelope) != event.envelope_canonical:
             raise StoredEventCorrupt("envelope canonical bytes mismatch")
-        declared_hash = envelope.pop("event_hash", None)
-        if declared_hash != event.event_hash or event_hash(envelope) != event.event_hash:
-            raise StoredEventCorrupt("event hash mismatch")
-        if envelope.get("payload_hash") != event.payload_hash:
-            raise StoredEventCorrupt("envelope payload hash mismatch")
         expected = {
+            "contract": "nk-event-envelope/1",
             "event_id": event.event_id,
             "command_id": event.command_id,
             "idempotency_key": event.idempotency_key,
@@ -644,13 +674,27 @@ class SQLiteAppendStore:
             "stream_seq": event.stream_seq,
             "actor_ref": event.actor_ref,
             "authority_ref": event.authority_ref,
+            "recorded_at": _format_time(event.recorded_at),
             "event_type": event.event_type.value,
             "schema_version": event.schema_version,
+            "payload": payload_object,
             "prev_global_hash": event.prev_global_hash,
+            "payload_hash": event.payload_hash,
+            "event_hash": event.event_hash,
         }
+        if set(envelope) != set(expected):
+            missing = sorted(set(expected) - set(envelope))
+            unexpected = sorted(set(envelope) - set(expected))
+            raise StoredEventCorrupt(
+                f"envelope field set mismatch; missing={missing}; unexpected={unexpected}"
+            )
         for key, value in expected.items():
             if envelope.get(key) != value:
                 raise StoredEventCorrupt(f"envelope field {key} mismatch")
+        committed = dict(envelope)
+        declared_hash = committed.pop("event_hash")
+        if declared_hash != event.event_hash or event_hash(committed) != event.event_hash:
+            raise StoredEventCorrupt("event hash mismatch")
 
     @classmethod
     def _load_event(cls, connection: sqlite3.Connection, instance_id: str, global_seq: int) -> StoredEvent:
@@ -662,7 +706,10 @@ class SQLiteAppendStore:
             raise StoredEventCorrupt(f"missing Event {instance_id}/{global_seq}")
         payload_bytes = bytes(row["payload_canonical"])
         envelope_bytes = bytes(row["envelope_canonical"])
-        payload = json.loads(row["payload_text"])
+        try:
+            payload = json.loads(row["payload_text"])
+        except json.JSONDecodeError as exc:
+            raise StoredEventCorrupt("payload_text is not JSON") from exc
         event = StoredEvent(
             instance_id=instance_id,
             event_id=row["event_id"],

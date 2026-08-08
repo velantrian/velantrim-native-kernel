@@ -5,6 +5,14 @@ class SQLiteProfileError(RuntimeError):
     """Base error for the clean SQLite embedded profile."""
 
 
+class UnsafeSQLiteVersion(SQLiteProfileError):
+    """The linked SQLite library is not approved for the profile's WAL mode."""
+
+
+class SQLiteConfigurationError(SQLiteProfileError):
+    """SQLite could not establish a required fail-closed runtime setting."""
+
+
 class MigrationDrift(SQLiteProfileError):
     """A recorded SQLite migration version has different bytes."""
 

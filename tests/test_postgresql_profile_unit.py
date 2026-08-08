@@ -6,12 +6,16 @@ import json
 import sys
 import tempfile
 import unittest
+from dataclasses import replace
 from datetime import datetime, timezone
 from pathlib import Path
 
 from native_kernel.postgresql_profile import (
     AppendStatus,
     MigrationDrift,
+    PostgreSQLAppendStore,
+    StoredEvent,
+    StoredEventCorrupt,
     WriterToken,
     build_event_envelope,
     canonical_recorded_at,
@@ -19,6 +23,7 @@ from native_kernel.postgresql_profile import (
     event_hash,
     payload_hash,
 )
+from native_kernel.semantic_core.canonical import canonical_json_bytes
 from native_kernel.postgresql_profile.migrations import Migration, apply_migrations
 from native_kernel.semantic_core.errors import ContractViolation
 from native_kernel.semantic_core.models import Command, EventType
@@ -92,6 +97,55 @@ class HashingTests(unittest.TestCase):
         kwargs["global_seq"] = True
         with self.assertRaises(ContractViolation):
             build_event_envelope(**kwargs)
+
+    def test_stored_envelope_rejects_unexpected_committed_fields(self) -> None:
+        command = fixture_command()
+        recorded_at = datetime(2026, 8, 6, 18, 1, tzinfo=timezone.utc)
+        envelope, payload_bytes, envelope_bytes = build_event_envelope(
+            command,
+            event_id="event:0001",
+            global_seq=1,
+            stream_seq=1,
+            recorded_at=recorded_at,
+            prev_global_hash="GENESIS",
+        )
+        event = StoredEvent(
+            instance_id="instance:test",
+            event_id="event:0001",
+            command_id=command.command_id,
+            idempotency_key=command.idempotency_key,
+            command_contract=command.contract,
+            command_digest=command.digest,
+            stream_id=command.stream_id,
+            global_seq=1,
+            stream_seq=1,
+            actor_ref=command.actor_ref,
+            authority_ref=command.authority_ref,
+            recorded_at=recorded_at,
+            event_type=command.event_type,
+            schema_version=command.schema_version,
+            payload=command.as_contract_object()["payload"],
+            prev_global_hash="GENESIS",
+            payload_hash=envelope["payload_hash"],
+            event_hash=envelope["event_hash"],
+            writer_epoch=1,
+            payload_canonical=payload_bytes,
+            envelope_canonical=envelope_bytes,
+        )
+        PostgreSQLAppendStore._verify_stored_event(event)
+
+        forged = dict(envelope)
+        forged["unexpected"] = "field"
+        forged_without_hash = dict(forged)
+        forged_without_hash.pop("event_hash")
+        forged["event_hash"] = event_hash(forged_without_hash)
+        corrupted = replace(
+            event,
+            event_hash=forged["event_hash"],
+            envelope_canonical=canonical_json_bytes(forged),
+        )
+        with self.assertRaisesRegex(StoredEventCorrupt, "field set mismatch"):
+            PostgreSQLAppendStore._verify_stored_event(corrupted)
 
 
 class MigrationTests(unittest.TestCase):

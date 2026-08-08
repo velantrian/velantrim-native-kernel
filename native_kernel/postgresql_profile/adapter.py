@@ -535,10 +535,18 @@ class PostgreSQLAppendStore:
             "payload": json.loads(event.payload_canonical.decode("utf-8")),
             "prev_global_hash": event.prev_global_hash,
             "payload_hash": event.payload_hash,
+            "event_hash": event.event_hash,
         }
+        if set(envelope) != set(expected_fields):
+            missing = sorted(set(expected_fields) - set(envelope))
+            unexpected = sorted(set(envelope) - set(expected_fields))
+            raise StoredEventCorrupt(
+                f"stored envelope field set mismatch; missing={missing}; unexpected={unexpected}"
+            )
         for key, expected in expected_fields.items():
             if envelope.get(key) != expected:
                 raise StoredEventCorrupt(f"stored envelope field mismatch: {key}")
-        declared = envelope.pop("event_hash", None)
-        if declared != event.event_hash or event_hash(envelope) != event.event_hash:
+        committed = dict(envelope)
+        declared = committed.pop("event_hash")
+        if declared != event.event_hash or event_hash(committed) != event.event_hash:
             raise StoredEventCorrupt("stored event hash mismatch")

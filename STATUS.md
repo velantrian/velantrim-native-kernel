@@ -7,6 +7,22 @@
 
 The checkpoint above is the verified repository state this document describes. A descendant documentation commit does not invalidate the evidence lineage and must not be confused with the artifact-producing SHA.
 
+## 2026-08-08 integrity remediation candidate
+
+```text
+Branch:                 agent/sqlite-integrity-wal-safety
+Decision:               ADR-0023 ACCEPTED / APPROVED
+SQLite WAL minimum:     linked 3.51.3
+Event Envelope:         exact field/value/hash verification implemented
+Migration atomicity:    repaired
+Configured busy timeout: preserved
+Local focused tests:    PASS on linked SQLite 3.51.3
+Repository matrices:    PENDING
+New durable evidence:   PENDING / must be additive
+```
+
+The 2026-08-07 P5/C3/C4/C5 results on SQLite 3.45.1 remain exact historical evidence. Because 3.45.1 is inside SQLite's documented WAL-reset bug range and the prior SQLite verifier omitted committed fields, affected integrity/equivalence evidence is under review until safe-version reproduction. The arithmetic remains `45 / 10 / 17 / 0`; `NK-EPI` remains `0 / 8 SUPPORTED`; production remains unauthorized.
+
 ## Three independent tracks
 
 | Track | Scope | Status |
@@ -165,9 +181,10 @@ C5 bounded rehearsal PASS
 
 ## Next gate
 
-1. complete GitHub↔Notion reconciliation for this checkpoint;
-2. keep post-C5 proposals in `docs/research/POST_C5_RESEARCH_BACKLOG.md`;
-3. scope a separate decision and implementation cycle for the first executable NK-EPI vertical slice;
-4. continue operational hardening without promoting maturity through operations alone.
+1. reproduce P5/C3/C4/C5 on linked SQLite 3.51.3 at the exact remediation head;
+2. preserve the new artifacts under a new evidence identity without changing the 2026-08-07 ZIPs;
+3. re-adjudicate only affected integrity/equivalence assertions from executable evidence;
+4. complete GitHub↔Notion synchronization for ADR-0023;
+5. keep reducer referential rules and NK-EPI work in separately authorized contract-first slices.
 
 Any production, live-traffic, physical-deletion, NK-EPI promotion or ecosystem-authority work requires separate explicit operator approval and evidence.
