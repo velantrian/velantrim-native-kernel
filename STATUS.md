@@ -1,6 +1,6 @@
 # Current Status
 
-> **Verified current main checkpoint:** `a1cdc6d8f36d67f40f065641809bc6da463c10a4`
+> **Verified PR #72 review checkpoint:** `a1cdc6d8f36d67f40f065641809bc6da463c10a4`
 > **Verified ADR-0023 runtime checkpoint:** `675aa4b398a2fc0181dc71d38904a2d33a09f5f8`
 > **C5 implementation evidence checkpoint:** `296981ae84ad5bdab5dabbec9b7b9ebb43af63d7`
 > **Implementation publication:** PR #69 and PR #72 squash-merged, ADR-0023 accepted; Issue #64 remains `CLOSED / COMPLETED`
