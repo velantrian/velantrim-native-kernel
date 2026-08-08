@@ -62,12 +62,17 @@ def _require_string_list(value: Any, *, field: str) -> list[str]:
 
 def _safe_relative_path(value: Any, *, field: str) -> str:
     raw = _require_string(value, field=field)
+    if "\\" in raw:
+        raise ConfigurationError(
+            f"{field} must be a canonical repository-relative path using POSIX separators"
+        )
     path = PurePosixPath(raw)
-    if path.is_absolute() or ".." in path.parts or raw.startswith("./"):
-        raise ConfigurationError(f"{field} must be a repository-relative path without '..' or './'")
-    if any(part in {"", "."} for part in path.parts):
-        raise ConfigurationError(f"{field} contains an invalid path component")
-    return path.as_posix()
+    normalized = path.as_posix()
+    if path.is_absolute() or ".." in path.parts or normalized != raw:
+        raise ConfigurationError(
+            f"{field} must be a canonical repository-relative path without '..', '.', or repeated separators"
+        )
+    return normalized
 
 
 def load_configuration(path: Path) -> list[dict[str, Any]]:
