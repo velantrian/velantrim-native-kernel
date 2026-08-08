@@ -1,25 +1,40 @@
 # Current Status
 
+> **Verified current main checkpoint:** `a1cdc6d8f36d67f40f065641809bc6da463c10a4`
 > **Verified ADR-0023 runtime checkpoint:** `675aa4b398a2fc0181dc71d38904a2d33a09f5f8`
 > **C5 implementation evidence checkpoint:** `296981ae84ad5bdab5dabbec9b7b9ebb43af63d7`
-> **Implementation publication:** PR #69 squash-merged, ADR-0023 accepted; Issue #64 remains `CLOSED / COMPLETED`
+> **Implementation publication:** PR #69 and PR #72 squash-merged, ADR-0023 accepted; Issue #64 remains `CLOSED / COMPLETED`
 > **Repository status:** `RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY`
-> **Post-merge Codex review follow-up:** `PR #72 DRAFT / REPOSITORY CI PENDING`
+> **Post-merge Codex review follow-up:** `PR #72 MERGED / EXACT MAIN CI 9 OF 9 PASS`
 
-The checkpoint above is the verified repository state this document describes. A descendant documentation commit does not invalidate the evidence lineage and must not be confused with the artifact-producing SHA.
+The checkpoints above distinguish current repository state from the earlier artifact-producing evidence identities. A descendant documentation commit does not invalidate those evidence lineages and must not be confused with their producing SHAs.
 
 ## 2026-08-08 post-merge review follow-up
 
 Four unresolved Codex review findings against PRs #69 and #70 were reproduced on `main@d8fe6c9f6e1233eb29ade630a85771e581c2813e`:
 
 ```text
-Python bool/int equality bypass:      CONFIRMED
-SQLite builder workflow trigger gap: CONFIRMED
-evidence-bundle-v1 schema drift:      CONFIRMED
-associated run-ID identity gap:       CONFIRMED
+Python bool/int equality bypass:      CONFIRMED / FIXED
+SQLite builder workflow trigger gap: CONFIRMED / FIXED
+evidence-bundle-v1 schema drift:      CONFIRMED / FIXED
+associated run-ID identity gap:       CONFIRMED / FIXED
 ```
 
-Draft PR [#72](https://github.com/velantrian/velantrim-native-kernel/pull/72) adds type-exact canonical Event field comparison in both profiles, `tools/sqlite/**` triggers in P5/C3/C4/C5, a backward-compatible `nk-evidence-bundle/1` schema extension and role-bound exact ADR-0023 run identities. Its tested implementation payload is commit `90c4a286dec2673c3768899cb67a55f854aa7b9c`, tree `bcd40890df6de12e0dbdd6371f4ba8b504325868`. Local validation and candidate Notion synchronization are complete. Repository CI and final merge evidence remain pending; the retained ADR-0023 ZIPs are not rewritten or described as evidence of this later fix.
+PR [#72](https://github.com/velantrian/velantrim-native-kernel/pull/72), exact head `ebb6ac99e2051c01f0fb8e8effc7eaad6d4fe8da`, added type-exact canonical Event field comparison in both profiles, `tools/sqlite/**` triggers in P5/C3/C4/C5, a backward-compatible `nk-evidence-bundle/1` schema extension and role-bound exact ADR-0023 run identities. It was squash-merged as `a1cdc6d8f36d67f40f065641809bc6da463c10a4`. All nine workflows passed on the exact PR head and all nine push workflows passed on the exact merged `main` commit.
+
+```text
+P1 semantic core:                 31266881458 — PASS
+P2 PostgreSQL append integrity:   31266881488 — PASS
+P3 replay/projection integrity:   31266881449 — PASS
+Conformance fixture integrity:    31266881438 — PASS
+AI context integrity:             31266881442 — PASS
+P4 assertion conformance:         31266881459 — PASS
+P5 SQLite / C3 equivalence:       31266881460 — PASS
+C4 offline shadow evaluation:     31266881444 — PASS
+C5 bounded operational rehearsal: 31266881455 — PASS
+```
+
+The retained ADR-0023 ZIPs are not rewritten or described as evidence of this later fix. No assertion, NK-EPI, C4/C5 maturity, production, deletion, historical-recovery or ecosystem-authority promotion occurred.
 
 ## 2026-08-08 integrity remediation
 
@@ -213,10 +228,9 @@ C5 bounded rehearsal PASS
 
 ## Next gate
 
-1. complete PR review and exact P5/C3/C4/C5 CI for the post-merge Codex findings;
-2. define reducer referential rules (dangling, self and cycle semantics) in a separate contract-first decision before changing runtime behavior;
-3. keep NK-EPI-004 in its own separately authorized executable slice;
-4. continue Track H source recovery independently;
-5. continue operational hardening without promoting maturity through operations alone.
+1. define reducer referential rules (dangling, self and cycle semantics) in a separate contract-first decision before changing runtime behavior;
+2. keep NK-EPI-004 in its own separately authorized executable slice;
+3. continue Track H source recovery independently;
+4. continue operational hardening without promoting maturity through operations alone.
 
 Any production, live-traffic, physical-deletion, NK-EPI promotion or ecosystem-authority work requires separate explicit operator approval and evidence.
