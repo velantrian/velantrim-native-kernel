@@ -40,6 +40,7 @@ Decision status
 | [`0021`](./0021-authorize-c5-bounded-operational-rehearsal.md) | Authorize C5 bounded operational rehearsal | `ACCEPTED` | two passing checkpoints + retained ZIPs | `PARTIAL — C5` | `APPROVED` |
 | [`0022`](./0022-preserve-c5-evidence-and-declare-project-state.md) | Preserve C5 evidence and declare project state | `ACCEPTED` | local bundle/state validation; CI pending | implemented in change | `APPROVED` |
 | [`0023`](./0023-harden-sqlite-wal-and-event-integrity.md) | Harden SQLite WAL and stored Event integrity | `ACCEPTED` | repository-reproduced; additive evidence captured | merged via PR #69 | `APPROVED` |
+| [`0024`](./0024-version-reducer-referential-semantics.md) | Version reducer referential semantics without rewriting history | `PROPOSED` | repository gap documented | `NOT_STARTED` | `PENDING` |
 
 ## Current boundary
 
@@ -71,3 +72,4 @@ production: NOT AUTHORIZED
 13. C5 operational evidence cannot promote NK-EPI.
 14. Research notes cannot authorize runtime or Canon changes.
 15. Dataset, plan or bundle changes require new identity/digest and evidence.
+16. Reducer semantics may not change for an existing history through a process-local default or silent version upgrade.
