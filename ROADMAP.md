@@ -87,14 +87,14 @@ Exact implementation-main and final-main ZIP artifacts are retained under `evide
 
 Potential work must be separately scoped:
 
-1. first executable NK-EPI vertical slice;
-2. admission-boundary evidence;
-3. SQLite/runtime hardening;
+1. decide versioned reducer referential semantics under Issue #74 / ADR-0024 before changing dangling, erased, self-reference or cycle behavior;
+2. first executable NK-EPI vertical slice;
+3. admission-boundary evidence;
 4. evidence automation for future runs;
 5. deletion evidence without physical-erasure overclaim;
 6. independent cross-language conformance reader.
 
-Operational work may continue, but it cannot alone raise semantic conformance or authorize C6.
+Reducer v1 remains the interpretation contract for existing evidence until a separately accepted and implemented compatibility/migration decision exists. Operational work may continue, but it cannot alone raise semantic conformance or authorize C6.
 
 ## Track R — Long-Horizon Research
 
