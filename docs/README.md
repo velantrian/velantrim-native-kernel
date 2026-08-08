@@ -8,6 +8,8 @@
 
 | Document | Purpose |
 |---|---|
+| [`QUICKSTART.md`](./QUICKSTART.md) | human setup, pinned SQLite and first test commands |
+| [`GLOSSARY.md`](./GLOSSARY.md) | compact terminology and required non-equivalences |
 | [`../STATUS.md`](../STATUS.md) | current implementation/evidence boundary |
 | [`../project-state.json`](../project-state.json) | machine-readable state snapshot |
 | [`../AGENTS.md`](../AGENTS.md) | mandatory repository guidance |
@@ -36,7 +38,8 @@ production: NOT AUTHORIZED
 ## Reading order
 
 ```text
-STATUS + project-state
+QUICKSTART + GLOSSARY
+→ STATUS + project-state
 → AGENTS + AI context
 → C5 implementation/evidence archive
 → contracts + conformance model

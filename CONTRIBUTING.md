@@ -12,6 +12,17 @@ Before auditing or changing the repository, read:
 
 Verify the actual branch/PR SHA. Context documents are last-verified checkpoints, not automatically live state.
 
+## Human setup and first checks
+
+Use the bilingual quickstart before interpreting local failures or skips:
+
+- [`docs/QUICKSTART.md`](./docs/QUICKSTART.md)
+- [`docs/QUICKSTART.ru.md`](./docs/QUICKSTART.ru.md)
+- [`docs/GLOSSARY.md`](./docs/GLOSSARY.md)
+- [`docs/GLOSSARY.ru.md`](./docs/GLOSSARY.ru.md)
+
+The repository currently runs from its checkout root and is not a published Python package. The SQLite profile requires the actually linked SQLite library to be 3.51.3 or later before WAL is opened; an older linked version must fail closed rather than be treated as a passing environment. PostgreSQL-only tests may skip when no test DSN is configured. Local results remain local evidence and must not be relabelled as repository reproduction.
+
 ## Scope
 
 Contributions should preserve research discipline and storage/model/runtime/hardware independence at the contract level.

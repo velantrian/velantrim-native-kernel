@@ -8,6 +8,8 @@
 
 | Документ | Назначение |
 |---|---|
+| [`QUICKSTART.ru.md`](./QUICKSTART.ru.md) | человеческий setup, закреплённый SQLite и первые test commands |
+| [`GLOSSARY.ru.md`](./GLOSSARY.ru.md) | краткие термины и обязательные неэквивалентности |
 | [`../STATUS.md`](../STATUS.md) | текущее состояние реализации/evidence |
 | [`../project-state.json`](../project-state.json) | машиночитаемый snapshot состояния |
 | [`../AGENTS.md`](../AGENTS.md) | обязательные правила репозитория |
@@ -36,7 +38,8 @@ production: NOT AUTHORIZED
 ## Порядок чтения
 
 ```text
-STATUS + project-state
+QUICKSTART + GLOSSARY
+→ STATUS + project-state
 → AGENTS + AI context
 → C5 implementation/evidence archive
 → contracts + conformance model
@@ -44,6 +47,8 @@ STATUS + project-state
 → source/tests/workflows
 → research только для будущих направлений
 ```
+
+## Центральное различие
 
 ```text
 Architecture Canon

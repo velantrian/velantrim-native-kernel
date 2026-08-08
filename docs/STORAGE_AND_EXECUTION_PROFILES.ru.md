@@ -36,6 +36,7 @@
 
 ```text
 Profile: native-kernel/postgresql-reference@0.4-p4
+Lineage: clean/postgresql-reference/0.1
 Role:    полный локальный/server profile
 ```
 
@@ -45,6 +46,7 @@ Role:    полный локальный/server profile
 
 ```text
 Profile: native-kernel/sqlite-embedded@0.5-p5
+Lineage: clean/sqlite-embedded/0.1
 Role:    embedded / portable / single-file profile
 ```
 
@@ -63,6 +65,18 @@ SQLite implementation не вызывает PostgreSQL adapters.
 ```
 
 Оба профиля могут работать без интернета. Выбор профиля — deployment/operational decision, а не семантическое определение.
+
+## Compute и storage — независимые оси
+
+| Compute profile | Возможный storage profile |
+|---|---|
+| Локальная малая модель | PostgreSQL или SQLite |
+| Локальная большая модель | PostgreSQL или SQLite — в зависимости от deployment |
+| Удалённая модель | PostgreSQL или SQLite |
+| Символьный движок | любой conforming profile |
+| Будущий compute substrate | текущий или будущий storage adapter |
+
+Выбор модели, процессора или способа вычисления не должен незаметно выбирать authoritative database. Compute policy и storage authority являются разными deployment decisions.
 
 ## Когда выбирать PostgreSQL
 
@@ -183,4 +197,4 @@ C3 semantic/behavioural equivalence
 ≠ production readiness
 ```
 
-Будущий storage substrate может не иметь SQL, таблиц или файлов. Он будет считаться conforming только после реализации accepted contracts и собственного assertion-scoped C2/C3 evidence.
+Будущий storage substrate может не иметь SQL, таблиц или файлов. Он будет считаться conforming только после реализации accepted contracts и собственного assertion-scoped C2/C3 evidence. PostgreSQL и SQLite остаются современными профилями, а не постоянными архитектурными определениями.
