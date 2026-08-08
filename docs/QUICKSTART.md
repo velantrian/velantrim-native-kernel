@@ -89,7 +89,7 @@ export NK_TEST_POSTGRES_DSN='postgresql://postgres:postgres@127.0.0.1:5432/nativ
 Then run the relevant integration suites:
 
 ```bash
-python -m unittest discover -s tests -p 'test_p2_postgresql_integration.py' -v
+python -m unittest discover -s tests -p 'test_postgresql_profile_integration.py' -v
 python -m unittest discover -s tests -p 'test_p5_cross_profile_integration.py' -v
 ```
 
