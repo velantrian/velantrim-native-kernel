@@ -50,6 +50,35 @@ def validate_manifest(manifest: Mapping[str, Any]) -> None:
     for key, expected in exact.items():
         if manifest.get(key) != expected:
             raise ManifestError(f"{key} must be {expected!r}")
+    runtime_safety = manifest.get("sqlite_runtime_safety")
+    expected_runtime_safety = {
+        "journal_mode": "WAL",
+        "minimum_linked_version": "3.51.3",
+        "guard_behavior": "FAIL_CLOSED_BEFORE_DATABASE_OPEN",
+        "declared_version_must_match_linked_version": True,
+        "ci_source_archive": "sqlite-autoconf-3510300.tar.gz",
+        "ci_source_sha256": "81f5be397049b0cae1b167f2225af7646fc0f82e4a9b3c48c9ea3a533e21d77a",
+        "backports_implicitly_allowed": False,
+    }
+    if runtime_safety != expected_runtime_safety:
+        raise ManifestError("SQLite WAL runtime safety contract drift")
+    revalidation = manifest.get("integrity_revalidation")
+    if not isinstance(revalidation, dict):
+        raise ManifestError("integrity_revalidation must be an object")
+    if revalidation.get("status") not in {
+        "IMPLEMENTED_LOCAL / REPOSITORY_REPRODUCTION_PENDING",
+        "REPOSITORY_REPRODUCED / EVIDENCE_CAPTURE_PENDING",
+        "REPOSITORY_REPRODUCED / EVIDENCE_CAPTURED",
+    }:
+        raise ManifestError("invalid integrity revalidation status")
+    for key in (
+        "historical_evidence_preserved",
+        "assertion_arithmetic_changed",
+        "nk_epi_changed",
+    ):
+        expected_value = key == "historical_evidence_preserved"
+        if revalidation.get(key) is not expected_value:
+            raise ManifestError(f"integrity_revalidation.{key} must be {expected_value!r}")
     _require_counts(
         manifest.get("sqlite_assertion_coverage"),
         {
@@ -125,6 +154,9 @@ def validate_manifest(manifest: Mapping[str, Any]) -> None:
             raise ManifestError("reproduced evidence requires workflow_run_id")
         if evidence.get("artifact_count", 0) < 3:
             raise ManifestError("reproduced P5 evidence requires at least three artifacts")
+        matrix = evidence.get("matrix")
+        if not isinstance(matrix, list) or not any("SQLite 3.45.1" in str(item) for item in matrix):
+            raise ManifestError("historical SQLite 3.45.1 evidence boundary must remain explicit")
     else:
         if evidence.get("status") != "NOT_RECORDED":
             raise ManifestError("unreproduced P5 evidence must remain NOT_RECORDED")

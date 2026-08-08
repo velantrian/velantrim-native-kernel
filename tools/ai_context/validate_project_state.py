@@ -77,6 +77,14 @@ def validate(state: Mapping[str, Any], *, repo: Path, check_git: bool = True) ->
     _require(clean.get("id") == "C" and clean.get("status") == "ACTIVE / PARTIAL", "clean track must remain active/partial")
     phases = clean.get("phases")
     _require(isinstance(phases, Mapping) and set(phases) == {"P1", "P2", "P3", "P4", "P5", "C4", "C5"}, "clean phase inventory drift")
+    integrity_review = clean.get("integrity_review")
+    _require(isinstance(integrity_review, Mapping), "SQLite integrity review required")
+    _require(integrity_review.get("decision") == "ADR-0023", "SQLite integrity decision drift")
+    _require(integrity_review.get("sqlite_wal_minimum") == "3.51.3", "unsafe SQLite WAL floor")
+    _require(integrity_review.get("historical_sqlite_version") == "3.45.1", "historical SQLite evidence drift")
+    _require(integrity_review.get("historical_evidence_preserved") is True, "historical evidence must remain preserved")
+    _require(integrity_review.get("affected_assertions_re_adjudicated") is False, "assertions cannot be pre-adjudicated")
+    _require(integrity_review.get("assertion_arithmetic_changed") is False, "assertion arithmetic cannot change implicitly")
     _require(research.get("id") == "R", "research track id must be R")
     _require(research.get("runtime_authorized") is False, "research must not authorize runtime")
 
@@ -113,9 +121,24 @@ def validate(state: Mapping[str, Any], *, repo: Path, check_git: bool = True) ->
     _require(evidence.get("checkpoint_count") == 2 and evidence.get("artifact_count") == 8, "C5 evidence inventory drift")
     bundle_path = repo / str(evidence.get("path"))
     _require(bundle_path.is_file(), "C5 evidence manifest missing")
+    revalidation = state.get("evidence", {}).get("sqlite_integrity_revalidation")
+    _require(isinstance(revalidation, Mapping), "SQLite integrity revalidation entry required")
+    _require(revalidation.get("minimum_linked_sqlite") == "3.51.3", "revalidation SQLite floor drift")
+    _require(revalidation.get("new_evidence_identity_required") is True, "new evidence identity required")
+    _require(revalidation.get("may_rewrite_2026_08_07_bundle") is False, "historical C5 bundle is immutable")
+
+    notion = state.get("notion")
+    _require(isinstance(notion, Mapping), "Notion synchronization state required")
+    _require(notion.get("status") in {"HANDOFF_REQUIRED", "SYNCED"}, "invalid Notion synchronization state")
 
     non_claims = " ".join(str(item).lower() for item in state.get("non_claims", []))
-    for phrase in ("not production readiness", "does not promote nk-epi", "not recovered v0.1.2.1", "do not prove live-data safety"):
+    for phrase in (
+        "not production readiness",
+        "does not promote nk-epi",
+        "not recovered v0.1.2.1",
+        "do not prove live-data safety",
+        "does not change assertion arithmetic",
+    ):
         _require(phrase in non_claims, f"missing project-state boundary: {phrase}")
 
     if check_git and (repo / ".git").exists():

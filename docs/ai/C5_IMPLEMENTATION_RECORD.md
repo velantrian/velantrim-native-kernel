@@ -6,6 +6,8 @@
 **Final documentation checkpoint:** `3d56912260ea41b5b501b65477bff1642dfc2d58`
 **State:** `MERGED / C5 PARTIAL / BOUNDED SYNTHETIC OPERATIONAL REHEARSAL / NOT PRODUCTION-READY`
 
+> **2026-08-08 evidence-impact notice:** all runs and ZIPs below used SQLite 3.45.1 and predate the strict SQLite Event verifier in ADR-0023. Exact bytes remain preserved. A new safe-version C5 run is required and must be captured separately; no assertion, NK-EPI, production, or authority status changes automatically.
+
 ## Authorized boundary
 
 ```text

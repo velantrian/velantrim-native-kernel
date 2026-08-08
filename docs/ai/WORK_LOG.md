@@ -4,6 +4,37 @@ Re-verify exact SHAs, live issue state, runs and artifacts before treating an en
 
 ---
 
+## 2026-08-08 — SQLite integrity and WAL safety remediation opened
+
+```text
+Base main:              20b80a40b360670c1231865b020a3fa62208c471
+Branch:                 agent/sqlite-integrity-wal-safety
+Decision:               ADR-0023 ACCEPTED / APPROVED
+Repository evidence:    PENDING
+Assertion map / NK-EPI: UNCHANGED
+```
+
+Implemented in the candidate:
+
+- strict SQLite Event Envelope equality for contract, time, nested payload and exact fields;
+- exact field-set parity in the PostgreSQL stored Event verifier;
+- stored JSON failures normalized to `StoredEventCorrupt`;
+- fail-closed linked SQLite 3.51.3 WAL minimum;
+- pinned official SQLite source archive with SHA-256 verification in P5/C3/C4/C5 CI;
+- evidence metadata must match the actually linked SQLite version;
+- atomic migration execution without `executescript()` implicit commit;
+- `timeout_seconds` now controls `PRAGMA busy_timeout`;
+- regression tests for previously accepted malformed envelopes and failure paths.
+
+```text
+local tests on linked SQLite 3.51.3
+≠ repository reproduction
+≠ re-adjudicated assertion status
+≠ replacement of historical C5 evidence
+```
+
+Next: exact-head matrices, additive artifact capture, review, merge, final state/Notion synchronization. Reducer dangling/self/cycle semantics remain a separate contract-first slice because current accepted fixtures do not define the proposed rejection rule.
+
 ## 2026-08-07 — C5 evidence preserved; state surfaces reconciled
 
 ```text

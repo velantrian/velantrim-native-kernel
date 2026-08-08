@@ -7,6 +7,20 @@
 
 > Context checkpoint ≠ automatically current HEAD. Re-check the branch ref and live remote state. The checkpoint must remain an ancestor of the reviewed commit.
 
+## Current remediation candidate — 2026-08-08
+
+```text
+Base main:               20b80a40b360670c1231865b020a3fa62208c471
+Branch:                  agent/sqlite-integrity-wal-safety
+ADR:                     ADR-0023 ACCEPTED / APPROVED
+SQLite WAL floor:        linked 3.51.3
+Strict Event verifier:   IMPLEMENTED / LOCALLY TESTED
+Repository reproduction: PENDING
+Evidence capture:        PENDING / ADDITIVE ONLY
+```
+
+Historical C5 evidence on SQLite 3.45.1 remains preserved. It is now explicitly evidence-bound and under integrity review; it is not rewritten as a safe-version run. Assertion map, NK-EPI, C4/C5 labels, production boundary and H/C/R tracks are unchanged pending reproducible re-adjudication.
+
 ```text
 NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GLOBALLY_LOST
 historical recovery ≠ clean implementation
@@ -113,4 +127,4 @@ They remain proposed. `NK-EPI-004 — unknown ≠ false` is the preferred first 
 
 ## Next action
 
-Complete synchronization, merge this evidence/state reconciliation, then authorize a separately scoped NK-EPI implementation cycle. Operational hardening may continue but cannot alone increase semantic maturity.
+Complete exact-head P5/C3/C4/C5 reproduction for ADR-0023, preserve the new artifacts under a new evidence identity, and synchronize GitHub/Notion. Reducer referential semantics and NK-EPI-004 remain separate contract-first work; operational hardening cannot alone increase semantic maturity.

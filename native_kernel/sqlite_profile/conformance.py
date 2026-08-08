@@ -39,6 +39,7 @@ from .errors import (
 )
 from .models import AppendStatus
 from .replay import SQLiteReplayProjector
+from .runtime import linked_sqlite_version
 
 REGISTRY_VERSION = "nk-contract-registry/1.1.0"
 
@@ -357,6 +358,7 @@ def build_report(
     python_version: str = "LOCAL",
     sqlite_version: str = sqlite3.sqlite_version,
 ) -> dict[str, Any]:
+    sqlite_version = linked_sqlite_version(sqlite_version)
     if conformance_level not in {"C1", "C2"}:
         raise ConformanceExecutionError("SQLite adapter supports only C1 or C2")
     if evidence_level not in {"LOCALLY_TESTED", "REPOSITORY_REPRODUCED"}:

@@ -11,6 +11,9 @@
 | Architecture layer | Implementation Profiles, not Architecture Canon |
 | Production status | `NOT READY / NOT CLAIMED` |
 
+> [!WARNING]
+> Historical P5/C3/C4/C5 evidence used SQLite 3.45.1. ADR-0023 now requires the actually linked SQLite library to be 3.51.3+ before WAL is opened. Safe-version repository reproduction is pending; historical artifacts remain preserved and assertion arithmetic is unchanged.
+
 > [!IMPORTANT]
 > PostgreSQL and SQLite are replaceable present-day profiles. Neither database defines Claim, Event, Relation, Conflict, Projection or Receipt meaning.
 
@@ -60,8 +63,10 @@ Role:     embedded / portable / single-file profile
 Mechanisms:
 
 - Python standard-library `sqlite3`;
+- fail-closed linked SQLite 3.51.3+ WAL gate;
+- exact stored Event Envelope field/value/hash verification;
 - WAL, foreign keys, synchronous FULL and busy timeout;
-- checksum/digest-guarded migrations;
+- checksum/digest-guarded atomic migrations;
 - `BEGIN IMMEDIATE` single-writer transaction envelope;
 - owner/epoch/expiry fencing;
 - durable idempotency and rollback-safe ordering;
@@ -201,6 +206,8 @@ P5/C3 run:    31181341275 — PASS
 Matrix:        Python 3.11/3.12 × PostgreSQL 16/18 × SQLite 3.45.1
 Artifacts:     4 archives × 3 JSON reports
 ```
+
+This is historical evidence from SQLite 3.45.1. It does not satisfy the current 3.51.3 WAL floor; the additive ADR-0023 evidence cycle is pending.
 
 ## Explicit limits
 

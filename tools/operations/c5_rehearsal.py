@@ -39,7 +39,11 @@ from native_kernel.semantic_core import (
     EventType,
     StaticAuthorityPolicy,
 )
-from native_kernel.sqlite_profile import SQLiteAppendStore, SQLiteReplayProjector
+from native_kernel.sqlite_profile import (
+    SQLiteAppendStore,
+    SQLiteReplayProjector,
+    linked_sqlite_version,
+)
 from native_kernel.sqlite_profile.errors import (
     StaleWriterEpoch as SQLiteStaleWriterEpoch,
     StoredEventCorrupt as SQLiteStoredEventCorrupt,
@@ -530,6 +534,10 @@ def main() -> int:
     args = parser.parse_args()
     if not args.dsn:
         raise SystemExit("PostgreSQL DSN is required")
+
+    os.environ["NK_SQLITE_VERSION"] = linked_sqlite_version(
+        os.environ.get("NK_SQLITE_VERSION")
+    )
 
     plan_bytes = args.plan.read_bytes()
     c4_bytes = args.c4_report.read_bytes()

@@ -46,3 +46,25 @@ C5 evidence preservation
 ```
 
 GitHub `main` at the verified publication checkpoint remains the authority for implementation state and evidence. Notion carries rationale, navigation and historical context.
+
+## Current item — 2026-08-08 ADR-0023 SQLite integrity remediation
+
+- **Status:** `SYNCED_CANDIDATE / IMPLEMENTED LOCALLY / REPOSITORY CI PENDING`
+- **Documentation impact:** `GITHUB_AND_NOTION`
+- **Base main:** `20b80a40b360670c1231865b020a3fa62208c471`
+- **Branch:** `agent/sqlite-integrity-wal-safety`
+- **Decision:** ADR-0023 `ACCEPTED / APPROVED`
+- **Implemented candidate:** strict SQLite/PostgreSQL Event Envelope fields; linked SQLite 3.51.3 WAL floor; pinned source hash; atomic migrations; configured busy timeout
+- **Historical boundary:** 2026-08-07 C5 ZIPs on SQLite 3.45.1 remain immutable and separately identified
+- **Unchanged:** assertion map `45/10/17/0`; NK-EPI `0/8`; C4/C5 maturity; production false; ecosystem authority absent
+- **Pending:** exact-head P5/C3/C4/C5, additive artifact capture, PR/review/merge SHAs and final Notion reread
+
+Candidate state was prepended on 2026-08-08 to all five intended Notion surfaces below. A final append/update remains required after repository CI, additive evidence capture and merge so the remote identifiers are not guessed in advance.
+
+Intended Notion surfaces:
+
+- `🗺Velantrim-Native-Kernel📚` — current remediation checkpoint and next gate;
+- `🏛️ Core Architecture & Invariants` — implementation-profile safety boundary, not Canon;
+- `🗺️ Roadmap, Acceptance Gates & Decision Ledger` — ADR-0023 and additive evidence cycle;
+- `🤖 AI Agent Context & Documentation Continuity` — required linked version and affected historical-evidence boundary;
+- `🛡️ C5 Bounded Operational Rehearsal — ADR-0021 / PR #65` — append-only evidence-impact note; do not alter prior hashes/results.

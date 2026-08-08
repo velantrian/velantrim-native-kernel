@@ -41,6 +41,7 @@ from .errors import (
     WriterLeaseBusy as SQLiteWriterLeaseBusy,
 )
 from .replay import SQLiteReplayProjector
+from .runtime import linked_sqlite_version
 
 ROOT = Path(__file__).resolve().parents[2]
 REGISTRY = ROOT / "contracts" / "registry.json"
@@ -329,6 +330,7 @@ def build_comparison_report(
     sqlite_version: str = sqlite3.sqlite_version,
     evidence_level: str = "LOCALLY_TESTED",
 ) -> dict[str, Any]:
+    sqlite_version = linked_sqlite_version(sqlite_version)
     if evidence_level not in {"LOCALLY_TESTED", "REPOSITORY_REPRODUCED"}:
         raise EquivalenceExecutionError("invalid C3 evidence level")
     if not dsn or not sqlite_path:

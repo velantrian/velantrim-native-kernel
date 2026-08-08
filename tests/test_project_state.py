@@ -48,6 +48,21 @@ class ProjectStateTests(unittest.TestCase):
         with self.assertRaisesRegex(module.ProjectStateError, "NK-EPI"):
             module.validate(state, repo=ROOT, check_git=False)
 
+    def test_sqlite_floor_and_historical_bundle_fail_closed(self) -> None:
+        state = copy.deepcopy(self.state)
+        state["tracks"]["clean_implementation"]["integrity_review"][
+            "sqlite_wal_minimum"
+        ] = "3.45.1"
+        with self.assertRaisesRegex(module.ProjectStateError, "SQLite WAL floor"):
+            module.validate(state, repo=ROOT, check_git=False)
+
+        state = copy.deepcopy(self.state)
+        state["evidence"]["sqlite_integrity_revalidation"][
+            "may_rewrite_2026_08_07_bundle"
+        ] = True
+        with self.assertRaisesRegex(module.ProjectStateError, "immutable"):
+            module.validate(state, repo=ROOT, check_git=False)
+
 
 if __name__ == "__main__":
     unittest.main()

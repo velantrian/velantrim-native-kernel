@@ -81,6 +81,14 @@ Never change plan scenarios or thresholds under the same plan identity/digest. N
 
 ## Verification
 
+The SQLite WAL profile fails closed below linked SQLite 3.51.3. On Linux, build the pinned library before SQLite/P5/C3/C4/C5 checks:
+
+```bash
+tools/sqlite/build_safe_sqlite.sh /tmp/native-kernel-sqlite-3.51.3 /usr/bin/python3
+export LD_LIBRARY_PATH=/tmp/native-kernel-sqlite-3.51.3/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
+python -c 'from native_kernel.sqlite_profile import linked_sqlite_version; print(linked_sqlite_version())'
+```
+
 ```bash
 python tools/evidence/verify_bundle.py evidence/c5/2026-08-07/manifest.json
 python tools/ai_context/validate_project_state.py --repo .

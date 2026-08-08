@@ -49,6 +49,17 @@ class P5ManifestTests(unittest.TestCase):
         with self.assertRaises(ManifestError):
             validate_manifest(candidate)
 
+    def test_rejects_unsafe_sqlite_floor_or_erased_history(self) -> None:
+        candidate = copy.deepcopy(self.manifest)
+        candidate["sqlite_runtime_safety"]["minimum_linked_version"] = "3.45.1"
+        with self.assertRaises(ManifestError):
+            validate_manifest(candidate)
+
+        candidate = copy.deepcopy(self.manifest)
+        candidate["integrity_revalidation"]["historical_evidence_preserved"] = False
+        with self.assertRaises(ManifestError):
+            validate_manifest(candidate)
+
 
 if __name__ == "__main__":
     unittest.main()
