@@ -76,14 +76,16 @@ Intended Notion surfaces:
 
 ## Current item — 2026-08-08 ADR-0023 post-merge Codex review follow-up
 
-- **Status:** `SYNCED_CANDIDATE / PR #72 DRAFT / REPOSITORY CI PENDING`
+- **Status:** `SYNCED_CANDIDATE / PR #72 MERGED / EXACT MAIN CI 9 OF 9 PASS / FINAL NOTION SYNC PENDING`
 - **Documentation impact:** `GITHUB_AND_NOTION`
 - **Reviewed base:** `d8fe6c9f6e1233eb29ade630a85771e581c2813e`
-- **Tested payload:** commit `90c4a286dec2673c3768899cb67a55f854aa7b9c`; tree `bcd40890df6de12e0dbdd6371f4ba8b504325868`
+- **Tested implementation payload:** commit `90c4a286dec2673c3768899cb67a55f854aa7b9c`; tree `bcd40890df6de12e0dbdd6371f4ba8b504325868`
+- **Final PR head:** `ebb6ac99e2051c01f0fb8e8effc7eaad6d4fe8da`
+- **Squash-merge / verified main:** `a1cdc6d8f36d67f40f065641809bc6da463c10a4`
 - **Review source:** four unresolved actionable Codex threads on merged PRs #69/#70
 - **Correction:** canonical-byte Event field equality; SQLite-builder workflow triggers; compatible v1 evidence schema; exact ADR-0023 associated-run identities
-- **Local proof:** 172 PASS / 15 PostgreSQL-only SKIP / linked SQLite 3.51.3 / all continuity and bundle guards PASS
-- **Notion candidate:** prepended to Hub, Core, Roadmap, AI Context and C5 pages
+- **PR proof:** all nine workflows PASS on exact PR head
+- **Post-merge proof:** P1 `31266881458`, P2 `31266881488`, P3 `31266881449`, fixtures `31266881438`, AI context `31266881442`, P4 `31266881459`, P5/C3 `31266881460`, C4 `31266881444`, C5 `31266881455` — PASS
 - **Evidence boundary:** archived ZIPs unchanged and not relabelled as proof of later code
 - **Unchanged:** 45/10/17/0; NK-EPI 0/8; C4/C5 maturity; production false; no deletion, ecosystem or historical-recovery promotion
-- **Pending:** exact final PR head, repository CI, merge SHA, post-merge checks and final Notion append
+- **Pending:** replace the five candidate Notion blocks with the exact final PR head, merge SHA and post-merge run identities; then mark this item `SYNCED / MERGED`
