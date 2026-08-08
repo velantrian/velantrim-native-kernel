@@ -662,7 +662,11 @@ class SQLiteAppendStore:
             raise StoredEventCorrupt("envelope canonical bytes are not JSON") from exc
         if not isinstance(envelope, dict):
             raise StoredEventCorrupt("envelope canonical JSON must be an object")
-        if canonical_json_bytes(envelope) != event.envelope_canonical:
+        try:
+            canonical_envelope = canonical_json_bytes(envelope)
+        except ContractViolation as exc:
+            raise StoredEventCorrupt("envelope is outside the canonical JSON subset") from exc
+        if canonical_envelope != event.envelope_canonical:
             raise StoredEventCorrupt("envelope canonical bytes mismatch")
         expected = {
             "contract": "nk-event-envelope/1",
@@ -689,7 +693,11 @@ class SQLiteAppendStore:
                 f"envelope field set mismatch; missing={missing}; unexpected={unexpected}"
             )
         for key, value in expected.items():
-            if envelope.get(key) != value:
+            try:
+                exact_value_match = canonical_json_bytes(envelope[key]) == canonical_json_bytes(value)
+            except ContractViolation as exc:
+                raise StoredEventCorrupt(f"envelope field {key} is not canonical") from exc
+            if not exact_value_match:
                 raise StoredEventCorrupt(f"envelope field {key} mismatch")
         committed = dict(envelope)
         declared_hash = committed.pop("event_hash")

@@ -4,8 +4,22 @@
 > **C5 implementation evidence checkpoint:** `296981ae84ad5bdab5dabbec9b7b9ebb43af63d7`
 > **Implementation publication:** PR #69 squash-merged, ADR-0023 accepted; Issue #64 remains `CLOSED / COMPLETED`
 > **Repository status:** `RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY`
+> **Post-merge Codex review follow-up:** `IMPLEMENTED IN CURRENT CHANGESET / PR AND CI PENDING`
 
 The checkpoint above is the verified repository state this document describes. A descendant documentation commit does not invalidate the evidence lineage and must not be confused with the artifact-producing SHA.
+
+## 2026-08-08 post-merge review follow-up
+
+Four unresolved Codex review findings against PRs #69 and #70 were reproduced on `main@d8fe6c9f6e1233eb29ade630a85771e581c2813e`:
+
+```text
+Python bool/int equality bypass:      CONFIRMED
+SQLite builder workflow trigger gap: CONFIRMED
+evidence-bundle-v1 schema drift:      CONFIRMED
+associated run-ID identity gap:       CONFIRMED
+```
+
+The current changeset adds type-exact canonical Event field comparison in both profiles, `tools/sqlite/**` triggers in P5/C3/C4/C5, a backward-compatible `nk-evidence-bundle/1` schema extension and role-bound exact ADR-0023 run identities. Focused regression tests pass. Repository CI and final merge evidence remain pending; the retained ADR-0023 ZIPs are not rewritten or described as evidence of this later fix.
 
 ## 2026-08-08 integrity remediation
 
@@ -199,9 +213,10 @@ C5 bounded rehearsal PASS
 
 ## Next gate
 
-1. define reducer referential rules (dangling, self and cycle semantics) in a separate contract-first decision before changing runtime behavior;
-2. keep NK-EPI-004 in its own separately authorized executable slice;
-3. continue Track H source recovery independently;
-4. continue operational hardening without promoting maturity through operations alone.
+1. complete PR review and exact P5/C3/C4/C5 CI for the post-merge Codex findings;
+2. define reducer referential rules (dangling, self and cycle semantics) in a separate contract-first decision before changing runtime behavior;
+3. keep NK-EPI-004 in its own separately authorized executable slice;
+4. continue Track H source recovery independently;
+5. continue operational hardening without promoting maturity through operations alone.
 
 Any production, live-traffic, physical-deletion, NK-EPI promotion or ecosystem-authority work requires separate explicit operator approval and evidence.

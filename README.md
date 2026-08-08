@@ -24,6 +24,8 @@ PostgreSQL, SQLite, Python, JSON, CI, LLMs, vectors and hardware are replaceable
 
 > **Integrity revalidation:** ADR-0023 is merged and repository-reproduced on linked SQLite 3.51.3. Exact P5/C3/C4/C5 checkpoints and eight original C5 ZIPs are preserved under a new evidence identity. The historical SQLite 3.45.1 artifacts remain unchanged; assertion counts were re-adjudicated without promotion or arithmetic change.
 
+> **Post-merge review:** four follow-up gaps were reproduced on `main@d8fe6c9…`. The current candidate adds JSON type-exact Event comparison, SQLite-builder workflow triggers, a compatible v1 evidence-schema extension and exact associated-run identity checks. PR/main CI is still required; retained ZIPs are not relabelled as proof of later code.
+
 ```text
 Single-profile C2: 41 SUPPORTED / 13 PARTIAL / 18 UNSUPPORTED
 Cross-profile C3:  45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED

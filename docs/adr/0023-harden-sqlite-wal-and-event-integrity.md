@@ -2,7 +2,7 @@
 
 - **Decision status:** `ACCEPTED`
 - **Evidence level:** `REPOSITORY_REPRODUCED / EVIDENCE_CAPTURED`
-- **Implementation status:** `MERGED VIA PR #69`
+- **Implementation status:** `MERGED VIA PR #69 / POST-MERGE REVIEW FOLLOW-UP IN CURRENT CHANGESET`
 - **Operator approval:** `APPROVED`
 - **Date:** `2026-08-08`
 - **Decider:** `@velantrian`
@@ -41,6 +41,14 @@ prev_global_hash · payload_hash · event_hash
 
 SQLite JSON decode failures are normalized to `StoredEventCorrupt`. Canonical payload bytes, nested envelope payload, stored columns and both hashes must agree.
 
+Post-merge review established that Python structural equality is not type-exact for JSON because `True == 1` and `False == 0`. Event field equality therefore compares canonical JSON bytes per field in both profiles. This preserves the JSON type distinction for payloads and sequence fields instead of relying on Python `==`.
+
+### Evidence and workflow follow-up
+
+1. `nk-evidence-bundle/1` is compatibly extended with optional, schema-declared ADR-0023 revalidation fields; the historical bundle remains valid without them.
+2. The ADR-0023 bundle verifier binds each checkpoint role to its exact commit and P5/C3, C4 and C5 workflow run IDs. Positive integers alone are insufficient evidence identity.
+3. P5/C3, C4 and C5 pull-request and `main` path filters include `tools/sqlite/**`, because all three workflows execute the pinned SQLite builder.
+
 ### Transaction and timeout behavior
 
 - SQLite migrations execute statement-by-statement inside the caller-owned transaction; `executescript()` is not used.
@@ -58,6 +66,8 @@ historical PASS on SQLite 3.45.1
 ```
 
 The assertion arithmetic remains `45 / 10 / 17 / 0` and `NK-EPI` remains `0 / 8 SUPPORTED`. P5/C3/C4/C5 was reproduced at PR head `ab7a203c…` and merged main `675aa4b3…` on linked SQLite 3.51.3; the exact C5 ZIPs are separately recorded under `evidence/c5/2026-08-08-adr0023/`. Re-adjudication preserved the existing labels and did not promote or demote assertions by wording alone.
+
+The retained ADR-0023 ZIPs predate the type-exact comparison and verifier/workflow follow-up. Their bytes and producing-run claims remain unchanged; they are not relabelled as evidence of later code. The follow-up requires its own exact PR and `main` CI results before completion can be claimed.
 
 ## Rejected alternatives
 

@@ -4,6 +4,25 @@ Re-verify exact SHAs, live issue state, runs and artifacts before treating an en
 
 ---
 
+## 2026-08-08 — Post-merge Codex integrity review follow-up in progress
+
+```text
+Reviewed main:            d8fe6c9f6e1233eb29ade630a85771e581c2813e
+Source reviews:           PR #69 + PR #70 / 4 unresolved actionable threads
+Classification:           Contract + Implementation Profile + Evidence + Governance
+Candidate status:         LOCAL FOCUSED TESTS PASS / PR AND REPOSITORY CI PENDING
+Assertion map / NK-EPI:   UNCHANGED
+```
+
+Reproduced and corrected in the candidate tree:
+
+- JSON `true` versus `1` type confusion in stored Event envelope comparison;
+- absent `tools/sqlite/**` pull/push triggers in P5/C3, C4 and C5;
+- undeclared ADR-0023 fields in `evidence-bundle-v1.schema.json`;
+- associated P5/C3 and C4 run IDs accepted as arbitrary positive integers.
+
+Historical and ADR-0023 ZIPs remain byte-identical and keep their original evidence scope. Final PR/main runs and synchronization must be appended after merge; no maturity, production, assertion or NK-EPI promotion is authorized.
+
 ## 2026-08-08 — SQLite integrity and WAL safety remediation completed
 
 ```text

@@ -40,6 +40,8 @@ The verifier checks archive hashes, internal file inventories and hashes, source
 
 The additive `2026-08-08-adr0023` identity preserves PR-head and final-main C5 archives from linked SQLite 3.51.3. It cross-binds the exact P5/C3, C4 and C5 workflow runs used for the integrity revalidation. It does not rewrite the 2026-08-07 identity.
 
+Post-merge review tightened that cross-binding: the v1 JSON Schema now declares the optional ADR-0023 metadata, and the repository verifier binds each remediation role to its exact commit and P5/C3, C4 and C5 run IDs. This is a compatible contract/verifier correction; neither manifest nor any archived ZIP is rewritten. The retained runs predate the later JSON type-exact Event comparison and are not evidence of that follow-up implementation.
+
 ## Explicit non-claims
 
 ```text
