@@ -28,8 +28,8 @@ PAIR_KEYS = {
     "compare_heading_levels",
     "require_single_h1",
 }
-HEADING_RE = re.compile(r"^(#{1,6})[ \t]+\S")
-FENCE_RE = re.compile(r"^[ \t]*(`{3,}|~{3,})")
+HEADING_RE = re.compile(r"^[ ]{0,3}(#{1,6})[ \t]+\S")
+FENCE_RE = re.compile(r"^[ ]{0,3}(`{3,}|~{3,})")
 
 
 @dataclass(frozen=True, slots=True)
@@ -168,14 +168,15 @@ def heading_levels(markdown: str) -> tuple[int, ...]:
     """Return Markdown ATX heading levels, ignoring fenced code blocks."""
 
     levels: list[int] = []
-    active_fence: str | None = None
+    active_fence: tuple[str, int] | None = None
     for line in markdown.splitlines():
         fence_match = FENCE_RE.match(line)
         if fence_match:
-            marker = fence_match.group(1)[0]
+            token = fence_match.group(1)
+            marker = (token[0], len(token))
             if active_fence is None:
                 active_fence = marker
-            elif active_fence == marker:
+            elif active_fence[0] == marker[0] and marker[1] >= active_fence[1]:
                 active_fence = None
             continue
         if active_fence is not None:
