@@ -1,5 +1,7 @@
 # 🧬 Velantrim Native Kernel
 
+**[English](./README.md) · [Русский](./README.ru.md)**
+
 ### Technology-neutral semantic memory contracts with replaceable profiles and bounded evidence
 
 > **Current state:** `RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY`
@@ -19,6 +21,17 @@ Architecture Canon
 ```
 
 PostgreSQL, SQLite, Python, JSON, CI, LLMs, vectors and hardware are replaceable instruments, not Canon.
+
+## Human quickstart
+
+The fastest technology-neutral check requires only Python 3.11 or 3.12:
+
+```bash
+python -m unittest discover -s tests -p 'test_semantic_core.py' -v
+python -m unittest discover -s tests -p 'test_p1_manifest.py' -v
+```
+
+The SQLite profile deliberately fails closed when Python links SQLite older than 3.51.3. Build instructions, PostgreSQL setup, expected skips and full local commands are in [`docs/QUICKSTART.md`](docs/QUICKSTART.md). Terminology and non-equivalences are collected in [`docs/GLOSSARY.md`](docs/GLOSSARY.md).
 
 ## Current evidence
 
@@ -115,6 +128,8 @@ C5 bounded rehearsal
 
 ## Read next
 
+- [`docs/QUICKSTART.md`](docs/QUICKSTART.md)
+- [`docs/GLOSSARY.md`](docs/GLOSSARY.md)
 - [`project-state.json`](project-state.json)
 - [`STATUS.md`](STATUS.md)
 - [`AGENTS.md`](AGENTS.md)
