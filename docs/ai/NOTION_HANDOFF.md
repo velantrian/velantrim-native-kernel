@@ -93,17 +93,18 @@ Intended Notion surfaces:
 
 ## Current item — 2026-08-08 reducer referential semantics proposal
 
-- **Status:** `SYNCED_CANDIDATE / ISSUE #74 OPEN / PR #75 READY / OPERATOR DECISION PENDING`
+- **Status:** `SYNCED / ISSUE #74 OPEN / PR #75 MERGED / POST-MERGE MAIN CI 5 OF 5 PASS / OPERATOR DECISION PENDING`
 - **Documentation impact:** `GITHUB_AND_NOTION`
-- **Base:** `0950683e5b447970212a743757e8877f3b155b08`
-- **Reviewed candidate content:** `49ce0164f9900f2d8f1c19de68f91cac2bb8e2f7`; this handoff-only update follows it
+- **Proposal base:** `0950683e5b447970212a743757e8877f3b155b08`
+- **Final PR head:** `c34fe3384f9deba347462815833689848ad95978`
+- **Squash-merge / proposal publication checkpoint:** `880bcd7acc3a21107681c1b20930ab9767c3c036`
 - **Decision record:** ADR-0024 `PROPOSED / DOCUMENTED / NOT_STARTED / APPROVAL PENDING`
 - **Compatibility boundary:** preserve `nk-p1-reducer/1`; no in-place reinterpretation of existing P1–C5 histories or evidence
 - **Proposed strict scope:** admitted/live references; deterministic duplicate no-ops; no self-supersession, successor overwrite or supersession cycle
 - **Relation boundary:** no blanket prohibition of generic LINK self-reference or cycles; relation-specific topology remains a separate contract
-- **PR-head proof before this handoff-only update:** AI context `31267858793`, P4 `31267858804`, P5/C3 `31267858796`, C4 `31267858790`, C5 `31267858807` — PASS
+- **Post-merge proof:** AI context `31268176457`, P4 `31268176472`, P5/C3 `31268176467`, C4 `31268176449`, C5 `31268176465` — PASS
 - **Codex state:** review was not performed because the Codex review quota was exhausted; the bot posted a usage-limit notice, not an approval
-- **Independent review:** corrected stale draft/CI wording and an inaccurate validation reference to an unchanged STATUS file
-- **Notion candidate sync:** Hub, Roadmap/Decision Ledger and AI Continuity carry the proposal state; exact head is finalized after the last documentation-only commit
+- **Independent review:** corrected stale draft/CI wording and an inaccurate validation reference before merge
+- **Notion sync:** Hub, Roadmap/Decision Ledger and AI Continuity now record PR #75 as a published proposal with exact merge identity, post-merge runs and unchanged approval boundary
 - **Unchanged:** runtime, Event vocabulary, assertion map 45/10/17/0, NK-EPI 0/8, C4/C5 maturity, production, deletion, historical recovery and ecosystem authority
-- **Pending:** exact-head rerun, final candidate SHA sync, merge as a proposal if green; explicit operator accept/revise/reject remains required before runtime implementation
+- **Pending:** explicit operator accept/revise/reject decision; runtime-v2 design or implementation remains unauthorized
