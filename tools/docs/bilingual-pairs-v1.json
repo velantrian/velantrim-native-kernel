@@ -17,11 +17,11 @@
       ],
       "english_literals": [
         "Human quickstart",
-        "C5 bounded rehearsal"
+        "Current evidence"
       ],
       "russian_literals": [
         "Быстрый старт для человека",
-        "C5 bounded operational rehearsal"
+        "Текущая карта evidence"
       ],
       "compare_heading_levels": true,
       "require_single_h1": true
