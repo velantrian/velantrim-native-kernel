@@ -116,6 +116,13 @@ class BilingualParityValidatorTests(unittest.TestCase):
         )
         self.assertEqual([], self._findings())
 
+    def test_fence_with_trailing_text_does_not_close_active_fence(self):
+        self._write(
+            self.english_path,
+            self.english + "\n````markdown\n````still-code\n### Still fenced\n````\n",
+        )
+        self.assertEqual([], self._findings())
+
     def test_up_to_three_leading_spaces_are_valid_atx_headings(self):
         self._write(self.english_path, self.english.replace("## Shared section", "   ## Shared section"))
         self._write(self.russian_path, self.russian.replace("## Общий раздел", "   ## Общий раздел"))
