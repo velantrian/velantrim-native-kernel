@@ -110,8 +110,32 @@ jobs:
       - name: Test project state
         run: python -m unittest discover -s tests -p 'test_project_state.py' -v
 
-      - name: Test reconciliation state
-        run: python -m unittest discover -s tests -p 'test_reconciliation_state.py' -v
+      - name: Reconciliation repository pass
+        run: python -m unittest discover -s tests -p 'test_reconciliation_state.py' -k repository_reconciliation_passes -v
+
+      - name: Reconciliation issue snapshots
+        run: python -m unittest discover -s tests -p 'test_reconciliation_state.py' -k foundational_issues_are_present_and_open -v
+
+      - name: Reconciliation checkpoint roles
+        run: python -m unittest discover -s tests -p 'test_reconciliation_state.py' -k checkpoint_roles_separate_publication_and_notion -v
+
+      - name: Reconciliation closed issue rejection
+        run: python -m unittest discover -s tests -p 'test_reconciliation_state.py' -k closed_foundational_issue_is_rejected -v
+
+      - name: Reconciliation checkpoint drift rejection
+        run: python -m unittest discover -s tests -p 'test_reconciliation_state.py' -k notion_checkpoint_drift_is_rejected -v
+
+      - name: Reconciliation role collapse rejection
+        run: python -m unittest discover -s tests -p 'test_reconciliation_state.py' -k publication_and_notion_role_collapse_is_rejected -v
+
+      - name: Reconciliation current surface rejection
+        run: python -m unittest discover -s tests -p 'test_reconciliation_state.py' -k current_surface_missing_descendant_checkpoint_is_rejected -v
+
+      - name: Reconciliation missing comment rejection
+        run: python -m unittest discover -s tests -p 'test_reconciliation_state.py' -k missing_comment_identity_is_rejected -v
+
+      - name: Reconciliation identities recorded
+        run: python -m unittest discover -s tests -p 'test_reconciliation_state.py' -k all_comment_and_page_identities_are_recorded -v
 
       - name: Test evidence bundle
         run: python -m unittest discover -s tests -p 'test_evidence_bundle.py' -v
