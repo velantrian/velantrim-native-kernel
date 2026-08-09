@@ -53,6 +53,8 @@ Each sweep must record:
 - false positives and why they were rejected;
 - conclusion and remaining inaccessible surfaces.
 
+Prospective sweeps must record an exact UTC execution timestamp while the sweep is performed. If a historical record is amended after the fact and the exact per-call timestamp was not retained, the amendment must use a clearly labelled bounded timestamp, explain its semantics, and preserve the resulting provenance limitation rather than inventing precision.
+
 ## Candidate handling
 
 Any candidate artifact must be handled as untrusted and read-only.
@@ -82,6 +84,12 @@ These tools verify byte consistency. They do not prove historical authenticity.
 
 - [`2026-07-26-accessible-sources-sweep.md`](./2026-07-26-accessible-sources-sweep.md) — connected GitHub, Notion, ChatGPT Library, and conversation-file sweep.
 - [`2026-08-09-bootstrap-branch-resweep.md`](./2026-08-09-bootstrap-branch-resweep.md) — full lineage and tree inspection of the retained `bootstrap/research-kernel-v0.1.2.1` docs branch, plus GitHub and Notion resweep.
+
+## Preservation manifests
+
+- [`manifests/bootstrap-v0.1.2.1-docs-lineage.md`](./manifests/bootstrap-v0.1.2.1-docs-lineage.md) — repository-resident commit/tree/path inventory for the docs-only bootstrap lineage, additionally anchored by `archive/bootstrap-v0.1.2.1-docs-lineage` at exact head `d64855afc4b34bcfb0ed8f1c3766925d287b07c6`.
+
+A preservation manifest is not a source-candidate manifest. It preserves the inspected evidence boundary and does not authenticate the missing runtime.
 
 ## Decision outcomes
 
