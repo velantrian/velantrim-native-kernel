@@ -14,15 +14,17 @@
 | [`../ROADMAP.md`](../ROADMAP.md) | active sequence and authorization boundaries |
 | [`ARCHITECTURE_REFOUNDATION.md`](./ARCHITECTURE_REFOUNDATION.md) | active blueprint plan |
 | [`ARCHITECTURE_REFOUNDATION.ru.md`](./ARCHITECTURE_REFOUNDATION.ru.md) | Russian blueprint plan |
-| [`A1_KERNEL_PURPOSE_AND_NON_GOALS.md`](./A1_KERNEL_PURPOSE_AND_NON_GOALS.md) | blueprint deliverable A1 (drafted) |
+| [`A1_KERNEL_PURPOSE_AND_NON_GOALS.md`](./A1_KERNEL_PURPOSE_AND_NON_GOALS.md) | blueprint deliverable A1 (drafted / provisional) |
 | [`A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md`](./A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md) | Russian blueprint deliverable A1 |
+| [`A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md`](./A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md) | blueprint deliverable A2 (drafted / provisional) |
+| [`A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md`](./A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md) | Russian blueprint deliverable A2 |
 | [`../AGENTS.md`](../AGENTS.md) | mandatory repository instructions |
 | [`ai/CURRENT_STATE.md`](./ai/CURRENT_STATE.md) | compact AI continuity state |
 | [`ai/KNOWN_RISKS.md`](./ai/KNOWN_RISKS.md) | active risks |
 | [`adr/README.md`](./adr/README.md) | accepted and proposed decisions |
 | [`../evidence/c5/README.md`](../evidence/c5/README.md) | immutable evidence boundaries |
 | [`QUICKSTART.md`](./QUICKSTART.md) | reference-laboratory setup and tests |
-| [`GLOSSARY.md`](./GLOSSARY.md) | terminology and required distinctions |
+| [`GLOSSARY.md`](./GLOSSARY.md) | onboarding terminology; provisional A2 distinctions take precedence for blueprint review |
 
 ## Reading order
 
@@ -30,6 +32,7 @@
 STATUS and project-state
 → active ROADMAP
 → Architecture Re-foundation plan
+→ A1 and A2 provisional blueprint deliverables
 → relevant Canon and ADRs
 → only then reference runtime, tests, and evidence
 ```
@@ -43,6 +46,8 @@ H historical recovery: OPEN / BLOCKED / independent
 C clean implementation: PRESERVED / PARTIAL / BOUNDED REFERENCE LABORATORY
 R architecture re-foundation: ACTIVE / BLUEPRINT-FIRST
 
+blueprint content: A1-A2 DRAFTED / PROVISIONAL
+next content slice: A3 ABSTRACT NATIVE KERNEL MACHINE
 kernel runtime: C4
 operational validation: C5_BOUNDED_REHEARSAL
 assertions: 45 / 10 / 17 / 0
@@ -53,9 +58,9 @@ production: NOT AUTHORIZED
 ## Active sequence
 
 ```text
-A1 Purpose and Non-goals
-→ A2 Knowledge and Memory Ontology
-→ A3 Abstract Native Kernel Machine
+A1 Purpose and Non-goals                         DRAFTED / PROVISIONAL
+→ A2 Knowledge and Memory Ontology              DRAFTED / PROVISIONAL
+→ A3 Abstract Native Kernel Machine             NEXT BOUNDED SLICE
 → A4 Semantic Laws and Invariants
 → A5 Identity / Time / Change
 → A6 Knowledge Lifecycle
@@ -76,10 +81,19 @@ Issue #18 remains `PENDING_OPERATOR` for license/publication. ADR-0024 remains `
 ```text
 reference laboratory ≠ final architecture
 blueprint documentation ≠ implementation evidence
-PostgreSQL + SQLite ≠ full substrate neutrality
-C5 PASS ≠ production readiness
+Observation ≠ Claim
+Claim ≠ Truth
+Evidence ≠ Source
+Repetition ≠ Evidence
+Belief ≠ Knowledge
+Memory ≠ merely a stored Record
+retrieval relevance ≠ epistemic validity
+Conflict ≠ necessarily Contradiction
 Unknown ≠ False
-admission ≠ truth
+Event usage in P1-C5 ≠ Event as universal primitive
+State ≠ necessarily reducer output
+Knowledge ≠ LLM / embeddings / SQL / JSON / specific processor
+C5 PASS ≠ production readiness
 logical ERASED ≠ physical deletion
 public repository ≠ open-source license
 future-facing design ≠ demonstrated future substrate support
