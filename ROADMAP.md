@@ -85,7 +85,7 @@ production_authorized:      false
 
 #### 0A — Machine-readable truth
 
-**State:** `MERGED AS PR #80 / POST-MERGE VALIDATION REQUIRED`.
+**State:** `COMPLETE / PR #80 / POST-MERGE PASS`.
 
 Delivered:
 
@@ -97,27 +97,29 @@ Delivered:
 
 #### 0B — Human-readable truth
 
-**State:** `IN PROGRESS`.
+**State:** `COMPLETE / PR #81 / POST-MERGE PASS`.
 
-Scope:
+Delivered:
 
-- separate current state, history, proposal, known gap and next authorized gate;
-- remove stale PR/CI wording;
-- replace ambiguous `0 / 8 SUPPORTED` notation with exact NK-EPI counts;
-- correct profile and roadmap drift;
-- preserve historical snapshots through immutable links and Git history.
+- current state separated from history and proposals;
+- stale PR/CI wording removed;
+- exact NK-EPI counts published;
+- README, roadmap, risks, profiles, agent guidance and ADR index reconciled;
+- English/Russian public surfaces and validators synchronized.
 
 #### 0C — Issues and Notion
 
-**State:** `PENDING AFTER 0B MERGE`.
+**State:** `COMPLETE / REPOSITORY RECORD IN PROGRESS`.
 
-Scope:
+Delivered:
 
-- reconcile Issues #14–#17 without automatic closure;
-- record completed scope, evidence, remaining work, next gate and non-goals;
-- create a compact Notion current-state dashboard;
-- separate current pages from historical reports and proposals;
-- record exact GitHub publication and synchronization checkpoints.
+- Issues #14–#17 reconciled without automatic closure;
+- each issue records completed scope, evidence boundary, remaining work, next gate and non-goals;
+- compact Notion Current State dashboard created;
+- Decision, Evidence, Risks, Sync and Historical ledgers created;
+- Hub, Architecture and Roadmap pages begin with a current reading boundary;
+- old reports and proposals remain preserved as historical material;
+- synchronization is conservatively declared through PR #81 publication checkpoint.
 
 ## Phase 0.5 — License and Publication Decision
 
@@ -281,12 +283,12 @@ No normative C6–C8 ladder is accepted. Production readiness must be defined pe
 ## Current authorized work
 
 ```text
-complete Phase 0B
-→ complete Phase 0C
-→ prepare Phase 0.5 options
-→ prepare Phase 1 decision package
-→ define Phase 1.25
-→ define Phase 1.5
+prepare Phase 0.5 license options
+→ obtain explicit operator decision
+→ prepare Phase 1 ADR-0024 decision package
+→ obtain explicit operator decision
+→ define Phase 1.25 NK-SAM and equivalence
+→ define Phase 1.5 Event/history commitment
 ```
 
 Not authorized inside the current slice:

@@ -6,10 +6,11 @@ status_as_of: 2026-08-09
 authoritative_machine_source: project-state.json (nk-project-state/2)
 live_head_source: GitHub API or checked-out Git ref
 machine_truth_reconciliation_merge: d9eee591de308a689ace940c2efe58c9e8a137f2
+human_truth_reconciliation_merge: 07549a0cd952b4e06b61ef24d21b2dcdbc9f861d
 runtime_checkpoint: 675aa4b398a2fc0181dc71d38904a2d33a09f5f8
 runtime_integrity_checkpoint: a1cdc6d8f36d67f40f065641809bc6da463c10a4
 evidence_producing_checkpoint: 296981ae84ad5bdab5dabbec9b7b9ebb43af63d7
-notion_synchronized_through: 626f34e6328b455258f2dd5fcf2145ec4db64a60
+notion_synchronized_through: 07549a0cd952b4e06b61ef24d21b2dcdbc9f861d
 ```
 
 > **Repository status:** `RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY`
@@ -35,12 +36,23 @@ P1–P5, C4 and C5 are merged in the clean implementation lineage. C5 is a bound
 | Role | Checkpoint | Meaning |
 |---|---|---|
 | Machine truth reconciliation | `d9eee591de308a689ace940c2efe58c9e8a137f2` | PR #80 introduced `nk-project-state/2`, non-self-referential checkpoints and registry↔state consistency checks. |
+| Human truth reconciliation | `07549a0cd952b4e06b61ef24d21b2dcdbc9f861d` | PR #81 separated current truth from history and proposals across public and AI-facing documentation. |
 | Runtime | `675aa4b398a2fc0181dc71d38904a2d33a09f5f8` | ADR-0023 safe SQLite/Event runtime checkpoint. |
 | Runtime integrity follow-up | `a1cdc6d8f36d67f40f065641809bc6da463c10a4` | PR #72 closed the post-merge integrity review findings. |
 | Evidence producing | `296981ae84ad5bdab5dabbec9b7b9ebb43af63d7` | C5 implementation evidence lineage. |
-| Notion synchronized through | `626f34e6328b455258f2dd5fcf2145ec4db64a60` | Last publication checkpoint confirmed in Notion before the current reconciliation sequence. Later merges require a new sync record. |
+| Notion synchronized through | `07549a0cd952b4e06b61ef24d21b2dcdbc9f861d` | Current dashboard, decision/evidence/risk ledgers, sync log and historical archive reflect PRs #80–#81 and reconciled Issues #14–#17. |
 
 These identities are intentionally different. No committed file attempts to contain the SHA of its own commit.
+
+## Truth-surface reconciliation
+
+```text
+Phase 0A — machine-readable truth:  COMPLETE / PR #80
+Phase 0B — human-readable truth:    COMPLETE / PR #81
+Phase 0C — issues and Notion:       COMPLETE / REPOSITORY RECORD IN PROGRESS
+```
+
+Issues #14–#17 remain open. Each now distinguishes original scope, completed work, evidence boundary, remaining scope, next acceptance gate and non-goals. Notion preserves old chronology as historical material while routing current retrieval through dedicated current-state pages.
 
 ## Three independent tracks
 
@@ -87,16 +99,14 @@ The retained archives prove only their declared environments, inputs, runs and b
 ## Next authorized gate
 
 ```text
-human-readable truth reconciliation
-→ issues and Notion reconciliation
-→ license decision options
-→ ADR-0024 operator decision
+license decision options
+→ ADR-0024 operator decision package
 → NK-SAM and equivalence contracts
 → Event/history commitment contract
 → only then reducer-v2 runtime work
 ```
 
-Do not begin Temporal, executable NK-EPI, full Admission, operational deletion, full Rust/Go implementation or ecosystem integration inside the current reconciliation slice.
+Do not begin Temporal, executable NK-EPI, full Admission, operational deletion, full Rust/Go implementation or ecosystem integration before those gates.
 
 ## Explicit non-claims
 
