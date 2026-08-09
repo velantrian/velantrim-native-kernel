@@ -1,0 +1,29 @@
+{
+  "protocol": "nk-operator-decisions/1",
+  "status_as_of": "2026-08-09",
+  "repository_checkpoint": "cdf559a3a32decd538e4cab3dd7fb591fc6e9322",
+  "overall_state": "PENDING_OPERATOR",
+  "license_publication": {
+    "issue": 18,
+    "state": "PENDING_OPERATOR",
+    "selected_option": null,
+    "operator_decision_ref": null,
+    "runtime_effect": "NO_LICENSE_OR_PUBLICATION_POLICY_CHANGE"
+  },
+  "adr_0024": {
+    "issue": 74,
+    "adr": "ADR-0024",
+    "state": "PENDING_OPERATOR",
+    "selected_option": null,
+    "operator_decision_ref": null,
+    "runtime_effect": "REDUCER_V2_NOT_AUTHORIZED"
+  },
+  "non_authorizations": [
+    "No license is selected by this manifest.",
+    "No external contribution policy is activated.",
+    "ADR-0024 remains proposed.",
+    "Reducer v2 runtime is not authorized.",
+    "No semantic assertion is promoted.",
+    "No production authorization is granted."
+  ]
+}
