@@ -5,6 +5,7 @@ document_role: CURRENT_STATE
 status_as_of: 2026-08-09
 authoritative_machine_source: ../../project-state.json
 machine_protocol: nk-project-state/2
+repository_status: RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY
 live_head_source: GitHub API or checked-out Git ref
 machine_truth_reconciliation_merge: d9eee591de308a689ace940c2efe58c9e8a137f2
 runtime_checkpoint: 675aa4b398a2fc0181dc71d38904a2d33a09f5f8
