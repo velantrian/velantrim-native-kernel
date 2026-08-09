@@ -61,10 +61,14 @@ Machine-readable truth is recorded in [`project-state.json`](project-state.json)
 |---|---|
 | Machine truth reconciliation merge | `d9eee591de308a689ace940c2efe58c9e8a137f2` |
 | Human truth reconciliation merge | `07549a0cd952b4e06b61ef24d21b2dcdbc9f861d` |
+| Issues and Notion reconciliation record | `cdf559a3a32decd538e4cab3dd7fb591fc6e9322` |
+| Operator decision packages / publication checkpoint | `10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c` |
 | Runtime checkpoint | `675aa4b398a2fc0181dc71d38904a2d33a09f5f8` |
 | Runtime integrity checkpoint | `a1cdc6d8f36d67f40f065641809bc6da463c10a4` |
 | Evidence-producing checkpoint | `296981ae84ad5bdab5dabbec9b7b9ebb43af63d7` |
-| Notion synchronized through | `07549a0cd952b4e06b61ef24d21b2dcdbc9f861d` |
+| Notion synchronized through | `10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c` |
+
+PR #83 exact head was `57c14742f705f96e33e929e7e206f14169d42fc0`. Five exact-head workflows and five post-merge workflows passed, with 18 successful jobs at each checkpoint and no failed, cancelled or skipped jobs. There were no review submissions or unresolved review threads; the Codex quota notice was not a review or approval.
 
 Live `main` is resolved from GitHub or the checked-out Git ref. A committed manifest records verified checkpoints and their expected relationship to HEAD; it does not attempt to contain its own commit SHA.
 
@@ -73,8 +77,8 @@ Live `main` is resolved from GitHub or the checked-out Git ref. A committed mani
 ```text
 machine-readable truth: COMPLETE / PR #80
 human-readable truth:   COMPLETE / PR #81
-Issues #14–#17:         RECONCILED / OPEN
-Notion dashboard:       SYNCED THROUGH PR #81
+Issues #14–#17:         RECONCILED / OPEN / PR #82 RECORD
+Notion dashboard:       SYNCED THROUGH PR #83
 ```
 
 Historical reports and proposals remain preserved but are excluded from the authoritative current-state retrieval path.
@@ -122,11 +126,15 @@ Clean implementation does not claim recovery of `v0.1.2.1`. Historical recovery 
 
 ```text
 license/publication operator decision — Issue #18
+  PENDING_OPERATOR / selected_option: null
 → ADR-0024 operator decision — Issue #74
+  PROPOSED / PENDING_OPERATOR / selected_option: null
 → NK-SAM and named equivalence profiles
 → Event/history commitment contract
 → only then reducer-v2 runtime
 ```
+
+Until the decisions are explicit, there is no license change, external contributions remain not accepted, package publication is not authorized, reducer v1 remains immutable and reducer-v2 runtime is not authorized.
 
 Not yet authorized:
 

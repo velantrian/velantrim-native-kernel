@@ -7,7 +7,7 @@ import json
 from pathlib import Path
 from typing import Any, Mapping
 
-PUBLICATION_SHA = "07549a0cd952b4e06b61ef24d21b2dcdbc9f861d"
+PUBLICATION_SHA = "10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c"
 ISSUES = ("14", "15", "16", "17")
 ISSUE_COMMENTS = {
     "14": "5231286665",

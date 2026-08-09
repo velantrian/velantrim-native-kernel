@@ -36,11 +36,15 @@ NK-EPI:                     0 SUPPORTED / 0 PARTIAL / 8 UNSUPPORTED / 0 FAILED
 ## Truth reconciliation
 
 ```text
-PR #80 — machine-readable truth: COMPLETE
-PR #81 — human-readable truth:   COMPLETE
-Issues #14–#17:                  RECONCILED / OPEN
-Notion current dashboard:        SYNCED THROUGH PR #81
+PR #80 — machine-readable truth:         COMPLETE
+PR #81 — human-readable truth:           COMPLETE
+PR #82 — Issues/Notion repository record: COMPLETE
+PR #83 — operator decision packages:     MERGED / PENDING_OPERATOR PRESERVED
+Issues #14–#17:                          RECONCILED / OPEN
+Notion current dashboard:                SYNCED THROUGH PR #83
 ```
+
+PR #83 exact head was `57c14742f705f96e33e929e7e206f14169d42fc0`; merge/publication checkpoint is `10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c`. All five exact-head and all five post-merge workflows passed with 18 successful jobs at each checkpoint and no failed, cancelled or skipped jobs. There were no review submissions or unresolved review threads. The Codex quota notice was not a review or approval.
 
 ## Truth surfaces
 
@@ -100,13 +104,20 @@ Live HEAD must be resolved through Git or GitHub. A descendant commit does not s
 ## Current authorized sequence
 
 ```text
-license decision options
-→ explicit operator decision
-→ ADR-0024 decision package
-→ explicit operator decision
+explicit license/publication operator selection
+→ explicit ADR-0024 operator selection
 → NK-SAM and named equivalence profiles
 → Event/history commitment
 → only then reducer-v2 runtime
+```
+
+Current decision state:
+
+```text
+license/publication: PENDING_OPERATOR / selected_option: null
+ADR-0024: PROPOSED / PENDING_OPERATOR / selected_option: null
+reducer v1: IMMUTABLE
+reducer-v2 runtime: NOT AUTHORIZED
 ```
 
 Executable NK-EPI, Temporal, full Admission, operational deletion, full independent implementation and ecosystem integration remain outside the current slice.

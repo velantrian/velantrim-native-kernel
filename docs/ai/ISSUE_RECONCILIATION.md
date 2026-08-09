@@ -3,16 +3,17 @@
 ```yaml
 document_role: ISSUE_RECONCILIATION
 status_as_of: 2026-08-09
-verified_repository_checkpoint: 07549a0cd952b4e06b61ef24d21b2dcdbc9f861d
+verified_repository_checkpoint: 10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c
+original_issue_reconciliation_checkpoint: 07549a0cd952b4e06b61ef24d21b2dcdbc9f861d
 issue_state_source: GitHub API
 result: RECONCILED / ALL ISSUES REMAIN OPEN
 ```
 
-This record captures the bounded reconciliation of foundational Issues #14–#17 after machine-readable PR #80 and human-readable PR #81.
+This record captures the bounded reconciliation of foundational Issues #14–#17 after machine-readable PR #80 and human-readable PR #81. PR #82 preserved the repository record, and the issue states/comments were directly rechecked during the PR #83 publication/Notion reconciliation. The remaining scope below is unchanged.
 
 ## Verification boundary
 
-The following post-merge workflows passed on `main@07549a0cd952b4e06b61ef24d21b2dcdbc9f861d`:
+The original reconciliation workflows passed on `main@07549a0cd952b4e06b61ef24d21b2dcdbc9f861d`:
 
 | Workflow | Run | Result |
 |---|---:|---|
@@ -23,7 +24,9 @@ The following post-merge workflows passed on `main@07549a0cd952b4e06b61ef24d21b2
 | C4 offline shadow evaluation | `31310849869` | `PASS` |
 | C5 bounded operational rehearsal | `31310849864` | `PASS` |
 
-These runs verify the repository checkpoint and its existing bounded profiles. They do not prove that every remaining item in the issues is implemented.
+PR #83 exact head `57c14742f705f96e33e929e7e206f14169d42fc0` and merge `10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c` were also validated by AI-context, P4, P5/C3, C4 and C5 workflows. Issues #14–#17 remained open when directly rechecked. This follow-up does not broaden the original issue evidence boundary.
+
+These runs verify their exact repository checkpoints and existing bounded profiles. They do not prove that every remaining item in the issues is implemented.
 
 ## Issue #14 — Canonical identity
 

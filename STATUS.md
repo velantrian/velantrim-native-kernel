@@ -7,10 +7,12 @@ authoritative_machine_source: project-state.json (nk-project-state/2)
 live_head_source: GitHub API or checked-out Git ref
 machine_truth_reconciliation_merge: d9eee591de308a689ace940c2efe58c9e8a137f2
 human_truth_reconciliation_merge: 07549a0cd952b4e06b61ef24d21b2dcdbc9f861d
+issues_notion_reconciliation_merge: cdf559a3a32decd538e4cab3dd7fb591fc6e9322
+operator_decision_packages_merge: 10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c
 runtime_checkpoint: 675aa4b398a2fc0181dc71d38904a2d33a09f5f8
 runtime_integrity_checkpoint: a1cdc6d8f36d67f40f065641809bc6da463c10a4
 evidence_producing_checkpoint: 296981ae84ad5bdab5dabbec9b7b9ebb43af63d7
-notion_synchronized_through: 07549a0cd952b4e06b61ef24d21b2dcdbc9f861d
+notion_synchronized_through: 10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c
 ```
 
 > **Repository status:** `RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY`
@@ -37,10 +39,12 @@ P1–P5, C4 and C5 are merged in the clean implementation lineage. C5 is a bound
 |---|---|---|
 | Machine truth reconciliation | `d9eee591de308a689ace940c2efe58c9e8a137f2` | PR #80 introduced `nk-project-state/2`, non-self-referential checkpoints and registry↔state consistency checks. |
 | Human truth reconciliation | `07549a0cd952b4e06b61ef24d21b2dcdbc9f861d` | PR #81 separated current truth from history and proposals across public and AI-facing documentation. |
+| Issues and Notion reconciliation record | `cdf559a3a32decd538e4cab3dd7fb591fc6e9322` | PR #82 recorded reconciled Issues #14–#17 and the established Notion structure. |
+| Operator decision packages / publication checkpoint | `10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c` | PR #83 published fail-closed bilingual packages while retaining both decisions as `PENDING_OPERATOR`. |
 | Runtime | `675aa4b398a2fc0181dc71d38904a2d33a09f5f8` | ADR-0023 safe SQLite/Event runtime checkpoint. |
 | Runtime integrity follow-up | `a1cdc6d8f36d67f40f065641809bc6da463c10a4` | PR #72 closed the post-merge integrity review findings. |
 | Evidence producing | `296981ae84ad5bdab5dabbec9b7b9ebb43af63d7` | C5 implementation evidence lineage. |
-| Notion synchronized through | `07549a0cd952b4e06b61ef24d21b2dcdbc9f861d` | Current dashboard, decision/evidence/risk ledgers, sync log and historical archive reflect PRs #80–#81 and reconciled Issues #14–#17. |
+| Notion synchronized through | `10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c` | Hub, current-state, architecture, roadmap, decision, sync and AI-continuity surfaces were directly verified and reconciled through PR #83. |
 
 These identities are intentionally different. No committed file attempts to contain the SHA of its own commit.
 
@@ -49,10 +53,10 @@ These identities are intentionally different. No committed file attempts to cont
 ```text
 Phase 0A — machine-readable truth:  COMPLETE / PR #80
 Phase 0B — human-readable truth:    COMPLETE / PR #81
-Phase 0C — issues and Notion:       COMPLETE / REPOSITORY RECORD IN PROGRESS
+Phase 0C — issues and Notion:       COMPLETE / PR #82 + PR #83 SYNC VERIFIED
 ```
 
-Issues #14–#17 remain open. Each now distinguishes original scope, completed work, evidence boundary, remaining scope, next acceptance gate and non-goals. Notion preserves old chronology as historical material while routing current retrieval through dedicated current-state pages.
+Issues #14–#17 remain open. Each distinguishes original scope, completed work, evidence boundary, remaining scope, next acceptance gate and non-goals. Notion preserves old chronology as historical material while routing current retrieval through dedicated current-state pages.
 
 ## Three independent tracks
 
@@ -85,9 +89,9 @@ The retained archives prove only their declared environments, inputs, runs and b
 
 | Boundary | State | Next gate |
 |---|---|---|
-| License and publication terms — Issue #18 | `OPEN / OPERATOR DECISION REQUIRED` | Choose a publication regime before external collaboration or package publication. |
-| Reducer referential semantics — Issue #74 / ADR-0024 | `PROPOSED / NOT STARTED` | Explicit operator decision before reducer-v2 runtime work. |
-| Semantic abstract machine and equivalence profiles | `PROPOSED` | Define NK-SAM and named equivalence profiles before independent implementation claims. |
+| License and publication terms — Issue #18 | `PENDING_OPERATOR / selected_option: null` | Operator selects A–G before external collaboration or package publication. |
+| Reducer referential semantics — Issue #74 / ADR-0024 | `PROPOSED / PENDING_OPERATOR / selected_option: null` | Explicit operator selection before any reducer-v2 runtime work. |
+| Semantic abstract machine and equivalence profiles | `PROPOSED` | Define NK-SAM and named equivalence profiles after the two operator decisions. |
 | Event/history commitment | `INCOMPLETE` | Separate portable semantic commitment from operational/profile receipts before reducer-v2 histories. |
 | NK-EPI-001…008 | `8 UNSUPPORTED` | Contract-first executable slices; operations alone cannot promote them. |
 | Temporal semantics | `NOT IMPLEMENTED AS A COMPLETE CONTRACT` | Decide identity impact and valid/recorded/write-order semantics separately. |
@@ -99,8 +103,8 @@ The retained archives prove only their declared environments, inputs, runs and b
 ## Next authorized gate
 
 ```text
-license decision options
-→ ADR-0024 operator decision package
+explicit license/publication operator selection
+→ explicit ADR-0024 operator selection
 → NK-SAM and equivalence contracts
 → Event/history commitment contract
 → only then reducer-v2 runtime work
