@@ -12,6 +12,17 @@ Current technologies remain useful as research instruments. They are implementat
 
 See [`docs/LONG_HORIZON_VISION.md`](./docs/LONG_HORIZON_VISION.md) for the full future-substrate vision.
 
+### Current authority boundary
+
+ADR-0025 places Native Kernel in an Architecture Re-foundation / Blueprint-first phase. This file preserves the current laboratory model and cross-cutting semantic boundaries, but it is not a completed A1–A10 blueprint.
+
+In particular, Event sourcing, append-only history, deterministic reduction, Claim serialization, and rebuildable projections remain binding for the existing P1–C5 reference laboratory and its versioned contracts. They are **not yet settled as mandatory substrate-neutral Canon mechanisms**. The integrated blueprint must determine which parts are semantic obligations and which are replaceable implementation strategies.
+
+```text
+accepted laboratory contract
+≠ final cross-substrate architecture
+```
+
 ## 2. Architecture layers
 
 ```text
@@ -26,24 +37,26 @@ The Canon defines stable semantic meaning:
 
 - identity and lineage;
 - explicit change history;
-- state reconstruction;
+- state reconstruction or an accepted functional equivalent;
 - provenance and evidence boundaries;
 - temporal semantics;
 - conflict visibility;
 - context accountability;
-- auditable Receipts.
+- bounded, auditable explanations or Receipts.
+
+The A1–A10 blueprint must state these obligations without assuming that one current mechanism—such as serialized append-only Events—is the only valid realization.
 
 ### Abstract Contracts
 
 Contracts define required behaviour without prescribing a technology:
 
 - storage;
-- projection;
+- projection or reconstruction;
 - retrieval;
 - compute and reduction;
 - admission and policy;
 - audit and Receipt;
-- migration and replay.
+- migration and replay or an accepted functional equivalent.
 
 ### Implementation Profiles
 
@@ -53,7 +66,9 @@ The current laboratory profile may use Python, SQLite, FTS, graph adapters, vect
 
 A future profile may use a different storage medium, execution model, representation, or hardware substrate without redefining the Canon.
 
-## 3. Canon Shape
+## 3. Current reference-laboratory shape
+
+The following shape describes the existing P1–C5 event-sourced laboratory. It is preserved for reproducibility and remains authoritative for that versioned implementation lineage. ADR-0025 explicitly leaves open whether append-only history and deterministic reduction are Canon requirements or one implementation of explicit change, reconstruction, and auditability.
 
 ```text
 Claim
@@ -65,15 +80,17 @@ Claim
 → Receipt
 ```
 
+No document or implementation may cite this diagram alone as proof that all future Native Kernel profiles must use the same Event envelope, persistence pattern, reducer, or serialized representation.
+
 ### Claim
 
-A Claim is the semantic identity of a statement or memory unit. It includes stable identity, content hash, lineage, version/write order, memory type, knowledge type, provenance, and temporal validity.
+Within the current laboratory, a Claim is the semantic identity of a statement or memory unit. It includes stable identity, content hash, lineage, version/write order, memory type, knowledge type, provenance, and temporal validity.
 
-A Claim is not automatically true because it exists.
+A Claim is not automatically true because it exists. The blueprint must determine which Claim properties are semantic obligations and which belong only to this representation profile.
 
 ### Event
 
-An Event records an append-only mutation or relationship involving a Claim. The current research model uses a small explicit verb set such as:
+Within the current laboratory, an Event records an append-only mutation or relationship involving a Claim. The implemented verb set includes:
 
 - `ADMIT`
 - `LINK`
@@ -81,11 +98,11 @@ An Event records an append-only mutation or relationship involving a Claim. The 
 - `SUPERSEDED`
 - `ERASED`
 
-Current state is derived from events rather than maintained as an opaque mutable row.
+Current laboratory state is derived from Events rather than maintained as an opaque mutable row. This is an accepted implementation contract for P1–C5, not a settled answer to the A10 question of whether every substrate-neutral realization must use append-only Events.
 
 ### Projection
 
-A projection is rebuildable state derived from authoritative history. Candidate projections include:
+Within the current laboratory, a projection is rebuildable state derived from its authoritative recorded Event history. Candidate projections include:
 
 - SQLite read tables;
 - graph adjacency;
@@ -94,7 +111,7 @@ A projection is rebuildable state derived from authoritative history. Candidate 
 - temporal views;
 - conflict views.
 
-A projection does not self-canonize and must be reproducible from authoritative history.
+A projection does not self-canonize and must be reproducible from the history declared authoritative by its profile. The blueprint may permit another reconstruction model if it preserves the named semantic obligations and discloses non-equivalence.
 
 ### Epistemic State
 
@@ -116,12 +133,27 @@ The research prototype performs deterministic lexical activation, typed propagat
 
 A Receipt records what the engine selected and how it processed a request. A receipt may support replay and auditability. It does not prove that the selected set was sufficient for the user's real task.
 
-## 4. Core invariants
+## 4. Laboratory invariants and cross-cutting boundaries
 
-1. The append-only event history is authoritative.
-2. Claims are immutable semantic records.
-3. Current state is derived, not silently overwritten.
-4. Projections are disposable and rebuildable.
+The following list contains two categories:
+
+```text
+items 1–4
+= current event-sourced reference-laboratory invariants
+= binding for existing P1–C5 contracts and evidence
+≠ automatically permanent Canon
+
+items 5–30
+= cross-cutting semantic, epistemic, governance, and proof boundaries
+= candidates for reconciliation into A1–A10
+```
+
+ADR-0025 does not silently repeal accepted laboratory contracts. It prevents their mechanisms from becoming future Canon through inertia before blueprint review.
+
+1. Within the current reference laboratory, append-only Event history is authoritative for **recorded laboratory history**, not objective truth or every future profile.
+2. Within the current reference laboratory, Claims are immutable semantic records.
+3. Within the current reference laboratory, current state is derived rather than silently overwritten.
+4. Within the current reference laboratory, projections are disposable and rebuildable.
 5. Event history is not equivalent to admitted truth.
 6. Selection relevance is not epistemic validity.
 7. Utility outcomes are not truth evidence by default.
@@ -131,7 +163,7 @@ A Receipt records what the engine selected and how it processed a request. A rec
 11. Receipt replayability does not imply task sufficiency.
 12. SQLite, graph, FTS, and vectors are adapters, not the architecture.
 13. LLMs may propose or interpret; they do not become the source of truth.
-14. Legal deletion and restriction requirements cannot be nullified by append-only design.
+14. Legal deletion and restriction requirements cannot be nullified by an append-only implementation choice.
 15. Production promotion requires independent evidence and rollback behaviour.
 16. Only the operator or maintainer may approve a research proposal as an accepted implementation decision.
 17. Current processor and hardware assumptions belong to an implementation profile, not the Canon.
@@ -149,7 +181,7 @@ A Receipt records what the engine selected and how it processed a request. A rec
 29. Worldview claims must retain explicit domain and scope when that distinction affects interpretation or admission.
 30. No observation, model, hypothesis, retrieval result, useful outcome, or proposal may be silently promoted into admitted knowledge.
 
-See [`docs/WORLD_AND_EPISTEMIC_BOUNDARIES.md`](./docs/WORLD_AND_EPISTEMIC_BOUNDARIES.md) and [`ADR-0008`](./docs/adr/0008-epistemic-boundaries-are-representation-disciplines.md).
+See [`docs/WORLD_AND_EPISTEMIC_BOUNDARIES.md`](./docs/WORLD_AND_EPISTEMIC_BOUNDARIES.md), [`ADR-0008`](./docs/adr/0008-epistemic-boundaries-are-representation-disciplines.md), and [`ADR-0025`](./docs/adr/0025-blueprint-before-runtime-expansion.md).
 
 ## 5. World and epistemic boundary
 
@@ -212,9 +244,11 @@ previous_hash
 
 The envelope requires a threat model, crash-consistency rules, replay rules, and multi-writer ordering. A simple hash chain alone is not sufficient.
 
+This section is a target for the current Event-based laboratory family. The A1–A10 blueprint must decide whether Event/history commitment is a universal contract, a named equivalence profile, or one replaceable mechanism.
+
 ## 8. Read model separation
 
-Two concepts must remain distinct:
+Two concepts must remain distinct in the current laboratory:
 
 - **ReadIndex** — stable structural indexes built once per snapshot, such as claims, events, adjacency, lineage, outcomes, and charge caches;
 - **PullContext** — query-, time-, and task-dependent state used for one selection request.
@@ -234,29 +268,36 @@ Performance statements must distinguish:
 - conflict analysis;
 - ablation.
 
+These performance properties belong to the current laboratory and are not substrate-neutral semantic requirements.
+
 ## 10. Portability contract
 
-A new implementation profile is acceptable only if it can preserve or explicitly translate:
+A new implementation profile is acceptable only if it can preserve or explicitly translate the semantic obligations accepted by the completed blueprint and the named contract/equivalence profile under test.
+
+Current candidate obligations include:
 
 - Claim identity and lineage;
-- Event ordering and replay semantics;
+- explicit change and reconstruction semantics;
 - provenance and temporal meaning;
 - conflict visibility;
 - epistemic-state boundaries;
 - world and epistemic boundary assertions;
-- Receipt semantics.
+- bounded explanation or Receipt semantics.
 
 Candidate portability evidence includes:
 
 ```text
-same authoritative history
+same declared semantic input/history
 → implementation profile A
 → semantic state A
 
-same authoritative history
+same declared semantic input/history
 → implementation profile B
 → semantic state B
 
 required result:
-explicitly defined semantic equivalence
+explicitly defined named equivalence
++ disclosed non-equivalence
 ```
+
+The current PostgreSQL/SQLite comparison is bounded evidence for the existing Python semantic lineage. It is not proof that the listed mechanisms are final Canon or that arbitrary future substrates are supported.
