@@ -33,6 +33,7 @@ class ReconciliationStateTests(unittest.TestCase):
             "docs/ai/CURRENT_STATE.md",
             "docs/ai/ISSUE_RECONCILIATION.md",
             "docs/ai/NOTION_HANDOFF.md",
+            "docs/ai/KNOWN_RISKS.md",
         ):
             source = ROOT / rel
             target = directory / rel
@@ -116,7 +117,85 @@ class ReconciliationStateTests(unittest.TestCase):
             )
             with self.assertRaisesRegex(
                 module.ReconciliationError,
-                "CURRENT_STATE.md: Notion descendant checkpoint drift",
+                "CURRENT_STATE.md: manifest source binding missing or ambiguous",
+            ):
+                module.validate(repo)
+
+    def test_current_surface_role_collapse_is_rejected_when_sha_remains_in_prose(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            repo = Path(temp)
+            self._copy_fixture(repo)
+            current = repo / "docs/ai/CURRENT_STATE.md"
+            text = current.read_text(encoding="utf-8")
+            text = text.replace(
+                f"manifest_generated_from: {module.NOTION_SYNC_SHA}",
+                f"manifest_generated_from: {module.PUBLICATION_SHA}",
+                1,
+            ).replace(
+                f"notion_synchronized_through: {module.NOTION_SYNC_SHA}",
+                f"notion_synchronized_through: {module.PUBLICATION_SHA}",
+                1,
+            )
+            self.assertIn(module.NOTION_SYNC_SHA, text)
+            current.write_text(text, encoding="utf-8")
+            with self.assertRaisesRegex(
+                module.ReconciliationError,
+                "CURRENT_STATE.md: manifest source binding drift",
+            ):
+                module.validate(repo)
+
+    def test_readme_role_row_collapse_is_rejected_when_sha_remains_in_prose(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            repo = Path(temp)
+            self._copy_fixture(repo)
+            readme = repo / "README.md"
+            text = readme.read_text(encoding="utf-8").replace(
+                f"| Manifest source / Notion synchronized descendant | `{module.NOTION_SYNC_SHA}` |",
+                f"| Manifest source / Notion synchronized descendant | `{module.PUBLICATION_SHA}` |",
+                1,
+            )
+            self.assertIn(module.NOTION_SYNC_SHA, text)
+            readme.write_text(text, encoding="utf-8")
+            with self.assertRaisesRegex(
+                module.ReconciliationError,
+                "README.md: Notion synchronized descendant binding drift",
+            ):
+                module.validate(repo)
+
+    def test_stale_active_risk_state_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            repo = Path(temp)
+            self._copy_fixture(repo)
+            risks = repo / "docs/ai/KNOWN_RISKS.md"
+            risks.write_text(
+                risks.read_text(encoding="utf-8").replace(
+                    module.CURRENT_RISK_STATE,
+                    "**State:** `MITIGATED BY PR #80 / HUMAN AND NOTION RECONCILIATION IN PROGRESS`.",
+                    1,
+                ),
+                encoding="utf-8",
+            )
+            with self.assertRaisesRegex(
+                module.ReconciliationError,
+                "active current-state drift risk state drift",
+            ):
+                module.validate(repo)
+
+    def test_known_risks_checkpoint_role_collapse_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            repo = Path(temp)
+            self._copy_fixture(repo)
+            risks = repo / "docs/ai/KNOWN_RISKS.md"
+            text = risks.read_text(encoding="utf-8").replace(
+                f"notion_synchronized_descendant: {module.NOTION_SYNC_SHA}",
+                f"notion_synchronized_descendant: {module.PUBLICATION_SHA}",
+                1,
+            )
+            self.assertIn(module.NOTION_SYNC_SHA, text)
+            risks.write_text(text, encoding="utf-8")
+            with self.assertRaisesRegex(
+                module.ReconciliationError,
+                "KNOWN_RISKS.md: Notion synchronized descendant binding drift",
             ):
                 module.validate(repo)
 
