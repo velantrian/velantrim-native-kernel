@@ -1,0 +1,220 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/velantrian/velantrim-native-kernel/contracts/project-state-v2.schema.json",
+  "title": "Native Kernel Project State v2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol",
+    "snapshot_id",
+    "observed_at",
+    "repository",
+    "checkpoints",
+    "status",
+    "tracks",
+    "assertion_map",
+    "nk_epi",
+    "issues",
+    "evidence",
+    "notion",
+    "non_claims"
+  ],
+  "properties": {
+    "protocol": {
+      "const": "nk-project-state/2"
+    },
+    "snapshot_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "observed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "repository": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "full_name",
+        "visibility",
+        "default_branch"
+      ],
+      "properties": {
+        "full_name": {
+          "const": "velantrian/velantrim-native-kernel"
+        },
+        "visibility": {
+          "const": "PUBLIC"
+        },
+        "default_branch": {
+          "const": "main"
+        }
+      }
+    },
+    "checkpoints": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "manifest_generated_from_sha",
+        "expected_head_relationship",
+        "runtime_checkpoint_sha",
+        "runtime_integrity_checkpoint_sha",
+        "evidence_producing_sha",
+        "publication_checkpoint_sha",
+        "notion_synchronized_through_sha",
+        "checkpoint_semantics"
+      ],
+      "properties": {
+        "manifest_generated_from_sha": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "expected_head_relationship": {
+          "enum": [
+            "EXACT",
+            "DESCENDANT_OR_EQUAL",
+            "UNRELATED",
+            "UNKNOWN"
+          ]
+        },
+        "runtime_checkpoint_sha": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "runtime_integrity_checkpoint_sha": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "evidence_producing_sha": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "publication_checkpoint_sha": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "notion_synchronized_through_sha": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "checkpoint_semantics": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "status": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "repository_status",
+        "support_state",
+        "clean_runtime_support",
+        "kernel_runtime_conformance",
+        "operational_validation",
+        "production_authorized"
+      ],
+      "properties": {
+        "repository_status": {
+          "const": "RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY"
+        },
+        "support_state": {
+          "const": "PARTIAL"
+        },
+        "clean_runtime_support": {
+          "const": "PARTIAL"
+        },
+        "kernel_runtime_conformance": {
+          "const": "C4"
+        },
+        "operational_validation": {
+          "const": "C5_BOUNDED_REHEARSAL"
+        },
+        "production_authorized": {
+          "const": false
+        }
+      }
+    },
+    "tracks": {
+      "type": "object",
+      "required": [
+        "historical_recovery",
+        "clean_implementation",
+        "long_horizon_research"
+      ]
+    },
+    "assertion_map": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "supported",
+        "partial",
+        "unsupported",
+        "failed",
+        "total"
+      ],
+      "properties": {
+        "supported": {
+          "const": 45
+        },
+        "partial": {
+          "const": 10
+        },
+        "unsupported": {
+          "const": 17
+        },
+        "failed": {
+          "const": 0
+        },
+        "total": {
+          "const": 72
+        }
+      }
+    },
+    "nk_epi": {
+      "type": "object",
+      "required": [
+        "contract_version",
+        "decision_status",
+        "implementation_support",
+        "supported",
+        "partial",
+        "unsupported",
+        "failed",
+        "next_candidate",
+        "next_candidate_semantics",
+        "promotion_authorized"
+      ]
+    },
+    "issues": {
+      "type": "object",
+      "required": [
+        "1",
+        "64"
+      ]
+    },
+    "evidence": {
+      "type": "object",
+      "required": [
+        "c5_bundle",
+        "sqlite_integrity_revalidation"
+      ]
+    },
+    "notion": {
+      "type": "object",
+      "required": [
+        "synchronization_required",
+        "status",
+        "scope",
+        "authority_boundary"
+      ]
+    },
+    "non_claims": {
+      "type": "array",
+      "minItems": 5,
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}
