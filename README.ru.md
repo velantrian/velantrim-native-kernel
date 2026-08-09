@@ -60,12 +60,24 @@ C5 не повышает semantic assertions и не разрешает producti
 | Роль | Checkpoint |
 |---|---|
 | Merge reconciliation машиночитаемой правды | `d9eee591de308a689ace940c2efe58c9e8a137f2` |
+| Merge reconciliation человекочитаемой правды | `07549a0cd952b4e06b61ef24d21b2dcdbc9f861d` |
 | Runtime checkpoint | `675aa4b398a2fc0181dc71d38904a2d33a09f5f8` |
 | Runtime integrity checkpoint | `a1cdc6d8f36d67f40f065641809bc6da463c10a4` |
 | Evidence-producing checkpoint | `296981ae84ad5bdab5dabbec9b7b9ebb43af63d7` |
-| Notion синхронизирован по | `626f34e6328b455258f2dd5fcf2145ec4db64a60` |
+| Notion синхронизирован по | `07549a0cd952b4e06b61ef24d21b2dcdbc9f861d` |
 
 Live `main` определяется через GitHub или checked-out Git ref. Committed manifest записывает проверенные checkpoints и ожидаемую связь с HEAD; он не пытается содержать SHA собственного commit.
+
+## Reconciliation правды
+
+```text
+machine-readable truth: COMPLETE / PR #80
+human-readable truth:   COMPLETE / PR #81
+Issues #14–#17:         RECONCILED / OPEN
+Notion dashboard:       SYNCED THROUGH PR #81
+```
+
+Исторические отчёты и proposals сохранены, но исключены из authoritative current-state retrieval path.
 
 ## Текущая карта evidence
 
@@ -109,16 +121,14 @@ Clean implementation не выдаётся за восстановленный `
 ## Текущие gates
 
 ```text
-human-readable truth reconciliation
-→ reconciliation Issues #14–#17 и Notion
-→ operator decision по license/publication — Issue #18
+operator decision по license/publication — Issue #18
 → operator decision по ADR-0024 — Issue #74
 → NK-SAM и именованные equivalence profiles
 → Event/history commitment contract
 → только затем reducer-v2 runtime
 ```
 
-Пока не разрешены в текущем slice:
+Пока не разрешены:
 
 - reducer-v2 runtime;
 - executable NK-EPI;
@@ -170,6 +180,8 @@ public repository ≠ open-source license
 - [`docs/GLOSSARY.ru.md`](docs/GLOSSARY.ru.md) — terminology и non-equivalences
 - [`AGENTS.md`](AGENTS.md) — обязательные инструкции репозитория
 - [`docs/ai/CURRENT_STATE.md`](docs/ai/CURRENT_STATE.md) — AI continuity checkpoint
+- [`docs/ai/ISSUE_RECONCILIATION.md`](docs/ai/ISSUE_RECONCILIATION.md) — reconciliation foundational issues
+- [`docs/ai/NOTION_HANDOFF.md`](docs/ai/NOTION_HANDOFF.md) — текущий Notion sync record
 - [`docs/ai/KNOWN_RISKS.md`](docs/ai/KNOWN_RISKS.md) — active и closed risks
 - [`evidence/c5/README.md`](evidence/c5/README.md) — сохранённые evidence identities
 - [`docs/CONFORMANCE_MODEL.md`](docs/CONFORMANCE_MODEL.md) — conformance levels и proof boundaries
