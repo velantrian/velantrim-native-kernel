@@ -60,12 +60,24 @@ Machine-readable truth is recorded in [`project-state.json`](project-state.json)
 | Role | Checkpoint |
 |---|---|
 | Machine truth reconciliation merge | `d9eee591de308a689ace940c2efe58c9e8a137f2` |
+| Human truth reconciliation merge | `07549a0cd952b4e06b61ef24d21b2dcdbc9f861d` |
 | Runtime checkpoint | `675aa4b398a2fc0181dc71d38904a2d33a09f5f8` |
 | Runtime integrity checkpoint | `a1cdc6d8f36d67f40f065641809bc6da463c10a4` |
 | Evidence-producing checkpoint | `296981ae84ad5bdab5dabbec9b7b9ebb43af63d7` |
-| Notion synchronized through | `626f34e6328b455258f2dd5fcf2145ec4db64a60` |
+| Notion synchronized through | `07549a0cd952b4e06b61ef24d21b2dcdbc9f861d` |
 
 Live `main` is resolved from GitHub or the checked-out Git ref. A committed manifest records verified checkpoints and their expected relationship to HEAD; it does not attempt to contain its own commit SHA.
+
+## Truth reconciliation
+
+```text
+machine-readable truth: COMPLETE / PR #80
+human-readable truth:   COMPLETE / PR #81
+Issues #14–#17:         RECONCILED / OPEN
+Notion dashboard:       SYNCED THROUGH PR #81
+```
+
+Historical reports and proposals remain preserved but are excluded from the authoritative current-state retrieval path.
 
 ## Current evidence
 
@@ -109,16 +121,14 @@ Clean implementation does not claim recovery of `v0.1.2.1`. Historical recovery 
 ## Current gates
 
 ```text
-human-readable truth reconciliation
-→ Issues #14–#17 and Notion reconciliation
-→ license/publication operator decision — Issue #18
+license/publication operator decision — Issue #18
 → ADR-0024 operator decision — Issue #74
 → NK-SAM and named equivalence profiles
 → Event/history commitment contract
 → only then reducer-v2 runtime
 ```
 
-Not yet authorized in the current slice:
+Not yet authorized:
 
 - reducer-v2 runtime;
 - executable NK-EPI;
@@ -170,6 +180,8 @@ public repository ≠ open-source license
 - [`docs/GLOSSARY.md`](docs/GLOSSARY.md) — terminology and non-equivalences
 - [`AGENTS.md`](AGENTS.md) — mandatory repository instructions
 - [`docs/ai/CURRENT_STATE.md`](docs/ai/CURRENT_STATE.md) — AI continuity checkpoint
+- [`docs/ai/ISSUE_RECONCILIATION.md`](docs/ai/ISSUE_RECONCILIATION.md) — foundational issue reconciliation
+- [`docs/ai/NOTION_HANDOFF.md`](docs/ai/NOTION_HANDOFF.md) — current Notion sync record
 - [`docs/ai/KNOWN_RISKS.md`](docs/ai/KNOWN_RISKS.md) — active and closed risks
 - [`evidence/c5/README.md`](evidence/c5/README.md) — retained evidence identities
 - [`docs/CONFORMANCE_MODEL.md`](docs/CONFORMANCE_MODEL.md) — conformance levels and proof boundaries
