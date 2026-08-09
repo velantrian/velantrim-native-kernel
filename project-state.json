@@ -1,20 +1,20 @@
 {
   "protocol": "nk-project-state/2",
-  "snapshot_id": "native-kernel/state/2026-08-09-truth-reconciliation",
-  "observed_at": "2026-08-09T10:53:56Z",
+  "snapshot_id": "native-kernel/state/2026-08-09-issues-notion-reconciliation",
+  "observed_at": "2026-08-09T11:31:28Z",
   "repository": {
     "full_name": "velantrian/velantrim-native-kernel",
     "visibility": "PUBLIC",
     "default_branch": "main"
   },
   "checkpoints": {
-    "manifest_generated_from_sha": "626f34e6328b455258f2dd5fcf2145ec4db64a60",
+    "manifest_generated_from_sha": "07549a0cd952b4e06b61ef24d21b2dcdbc9f861d",
     "expected_head_relationship": "DESCENDANT_OR_EQUAL",
     "runtime_checkpoint_sha": "675aa4b398a2fc0181dc71d38904a2d33a09f5f8",
     "runtime_integrity_checkpoint_sha": "a1cdc6d8f36d67f40f065641809bc6da463c10a4",
     "evidence_producing_sha": "296981ae84ad5bdab5dabbec9b7b9ebb43af63d7",
-    "publication_checkpoint_sha": "626f34e6328b455258f2dd5fcf2145ec4db64a60",
-    "notion_synchronized_through_sha": "626f34e6328b455258f2dd5fcf2145ec4db64a60",
+    "publication_checkpoint_sha": "07549a0cd952b4e06b61ef24d21b2dcdbc9f861d",
+    "notion_synchronized_through_sha": "07549a0cd952b4e06b61ef24d21b2dcdbc9f861d",
     "checkpoint_semantics": "The committed manifest records verified checkpoints and the relationship expected between its source SHA and the checked-out HEAD. Live HEAD is resolved by Git or the GitHub API; the file does not attempt to contain the SHA of its own commit."
   },
   "status": {
@@ -97,8 +97,48 @@
       "verification": {
         "status": "VERIFIED",
         "method": "GITHUB_API",
-        "observed_at": "2026-08-09T10:53:56Z",
+        "observed_at": "2026-08-09T11:31:28Z",
         "source": "issue/1"
+      }
+    },
+    "14": {
+      "state": "OPEN",
+      "meaning": "Canonical identity has a partial executable reference profile; independent encoding, migration and collision-response scope remains open.",
+      "verification": {
+        "status": "VERIFIED",
+        "method": "GITHUB_API",
+        "observed_at": "2026-08-09T11:31:28Z",
+        "source": "issue/14"
+      }
+    },
+    "15": {
+      "state": "OPEN",
+      "meaning": "Append, idempotency, ordering and replay have a partial clean runtime; portable history commitment and broader threat cases remain open.",
+      "verification": {
+        "status": "VERIFIED",
+        "method": "GITHUB_API",
+        "observed_at": "2026-08-09T11:31:28Z",
+        "source": "issue/15"
+      }
+    },
+    "16": {
+      "state": "OPEN",
+      "meaning": "Deletion and restriction have a semantic state machine; execution across actual locations and physical or cryptographic deletion remain open.",
+      "verification": {
+        "status": "VERIFIED",
+        "method": "GITHUB_API",
+        "observed_at": "2026-08-09T11:31:28Z",
+        "source": "issue/16"
+      }
+    },
+    "17": {
+      "state": "OPEN",
+      "meaning": "Fixtures, runners and evidence exist through C5; NK-EPI, Temporal, reducer-v2 and independent-language conformance remain open.",
+      "verification": {
+        "status": "VERIFIED",
+        "method": "GITHUB_API",
+        "observed_at": "2026-08-09T11:31:28Z",
+        "source": "issue/17"
       }
     },
     "64": {
@@ -108,7 +148,7 @@
       "verification": {
         "status": "VERIFIED",
         "method": "GITHUB_API",
-        "observed_at": "2026-08-09T10:53:56Z",
+        "observed_at": "2026-08-09T11:31:28Z",
         "source": "issue/64"
       }
     }
@@ -146,8 +186,8 @@
   "notion": {
     "synchronization_required": true,
     "status": "SYNCED_THROUGH_PUBLICATION_CHECKPOINT",
-    "scope": "GitHub and Notion current-state surfaces were verified through the publication checkpoint; later descendant commits require a new synchronization record.",
-    "authority_boundary": "Notion carries rationale and history; GitHub remains sufficient for technical state and evidence."
+    "scope": "GitHub machine and human truth reconciliation through PR #81, Issues #14-#17 scope records, and the Notion Current State, Decision, Evidence, Risks, Sync Log and Historical Archive surfaces were verified through publication checkpoint 07549a0cd952b4e06b61ef24d21b2dcdbc9f861d. Later descendant commits require a new synchronization record.",
+    "authority_boundary": "Notion carries current orientation, rationale and history; GitHub remains sufficient and authoritative for technical state, live refs, contracts, tests, workflow results and evidence."
   },
   "non_claims": [
     "C5 bounded rehearsal is not production readiness.",
