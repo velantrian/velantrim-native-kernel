@@ -36,15 +36,17 @@ NK-EPI:                     0 SUPPORTED / 0 PARTIAL / 8 UNSUPPORTED / 0 FAILED
 ## Truth reconciliation
 
 ```text
-PR #80 — machine-readable truth:         COMPLETE
-PR #81 — human-readable truth:           COMPLETE
+PR #80 — machine-readable truth:          COMPLETE
+PR #81 — human-readable truth:            COMPLETE
 PR #82 — Issues/Notion repository record: COMPLETE
-PR #83 — operator decision packages:     MERGED / PENDING_OPERATOR PRESERVED
-Issues #14–#17:                          RECONCILED / OPEN
-Notion current dashboard:                SYNCED THROUGH PR #83
+PR #83 — publication checkpoint:          MERGED / PENDING_OPERATOR PRESERVED
+PR #86 — Notion synchronized descendant:  MERGED / VALIDATED / READ BACK
+Issues #14–#17:                           RECONCILED / OPEN
 ```
 
-PR #83 exact head was `57c14742f705f96e33e929e7e206f14169d42fc0`; merge/publication checkpoint is `10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c`. All five exact-head and all five post-merge workflows passed with 18 successful jobs at each checkpoint and no failed, cancelled or skipped jobs. There were no review submissions or unresolved review threads. The Codex quota notice was not a review or approval.
+Publication checkpoint: `10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c` from PR #83. Manifest source and Notion synchronized descendant: `70acd0da61fee19131947aa56125833adb156ced` from PR #86. PR #86 exact head was `c3b8695bf3d7207ac4c6b19dcb5e9e2bda92f764`; all five exact-head and all five post-merge workflows passed with 18 successful jobs at each checkpoint and no failed, cancelled or skipped jobs.
+
+The later Notion checkpoint does not rewrite or replace the publication checkpoint. A committed state file may reference only an already merged, synchronized and read-back ancestor; it never predicts its own future merge SHA.
 
 ## Truth surfaces
 
@@ -99,7 +101,7 @@ logical backup ≠ physical disaster recovery
 
 `project-state.json` uses `nk-project-state/2` and records separate runtime, integrity, evidence, publication and Notion synchronization checkpoints.
 
-Live HEAD must be resolved through Git or GitHub. A descendant commit does not silently broaden an earlier evidence or synchronization checkpoint.
+Live HEAD must be resolved through Git or GitHub. A descendant commit does not silently broaden an earlier evidence or publication checkpoint. A later post-merge Notion write can be newer than the repository-committed synchronization checkpoint until a subsequent non-self-referential manifest records the already completed sync.
 
 ## Current authorized sequence
 
@@ -156,6 +158,7 @@ These archives are version-bound. They are not production, compliance, independe
 python tools/evidence/verify_bundle.py evidence/c5/2026-08-07/manifest.json
 python tools/evidence/verify_bundle.py evidence/c5/2026-08-08-adr0023/manifest.json
 python tools/ai_context/validate_project_state.py --repo .
+python tools/ai_context/validate_reconciliation.py --repo .
 python tools/ai_context/validate_context.py --repo .
 python tools/docs/validate_bilingual_parity.py --repo .
 ```

@@ -52,10 +52,26 @@ class ProjectStateTests(unittest.TestCase):
         with self.assertRaisesRegex(module.ProjectStateError, "relationship"):
             self.validate(state=state)
 
-    def test_notion_checkpoint_must_match_publication(self) -> None:
+    def test_manifest_source_must_match_notion_checkpoint(self) -> None:
         state = copy.deepcopy(self.state)
-        state["checkpoints"]["notion_synchronized_through_sha"] = "0" * 40
-        with self.assertRaisesRegex(module.ProjectStateError, "Notion/publication"):
+        state["checkpoints"]["manifest_generated_from_sha"] = state["checkpoints"][
+            "publication_checkpoint_sha"
+        ]
+        with self.assertRaisesRegex(module.ProjectStateError, "manifest/Notion"):
+            self.validate(state=state)
+
+    def test_descendant_notion_status_requires_distinct_checkpoint(self) -> None:
+        state = copy.deepcopy(self.state)
+        publication = state["checkpoints"]["publication_checkpoint_sha"]
+        state["checkpoints"]["manifest_generated_from_sha"] = publication
+        state["checkpoints"]["notion_synchronized_through_sha"] = publication
+        with self.assertRaisesRegex(module.ProjectStateError, "distinct checkpoints"):
+            self.validate(state=state)
+
+    def test_publication_notion_status_requires_equal_checkpoint(self) -> None:
+        state = copy.deepcopy(self.state)
+        state["notion"]["status"] = "SYNCED_THROUGH_PUBLICATION_CHECKPOINT"
+        with self.assertRaisesRegex(module.ProjectStateError, "equal checkpoints"):
             self.validate(state=state)
 
     def test_historical_recovery_cannot_block_clean_lineage(self) -> None:

@@ -66,11 +66,13 @@ Machine-readable truth is recorded in [`project-state.json`](project-state.json)
 | Runtime checkpoint | `675aa4b398a2fc0181dc71d38904a2d33a09f5f8` |
 | Runtime integrity checkpoint | `a1cdc6d8f36d67f40f065641809bc6da463c10a4` |
 | Evidence-producing checkpoint | `296981ae84ad5bdab5dabbec9b7b9ebb43af63d7` |
-| Notion synchronized through | `10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c` |
+| Manifest source / Notion synchronized descendant | `70acd0da61fee19131947aa56125833adb156ced` |
 
-PR #83 exact head was `57c14742f705f96e33e929e7e206f14169d42fc0`. Five exact-head workflows and five post-merge workflows passed, with 18 successful jobs at each checkpoint and no failed, cancelled or skipped jobs. There were no review submissions or unresolved review threads; the Codex quota notice was not a review or approval.
+The publication checkpoint remains the immutable PR #83 decision-package identity. The later Notion checkpoint is PR #86, which was merged, fully validated, synchronized to the four affected Notion pages and read back before this manifest was authored. The later checkpoint does not rewrite or replace the publication checkpoint.
 
-Live `main` is resolved from GitHub or the checked-out Git ref. A committed manifest records verified checkpoints and their expected relationship to HEAD; it does not attempt to contain its own commit SHA.
+PR #86 exact head was `c3b8695bf3d7207ac4c6b19dcb5e9e2bda92f764`. Five exact-head workflows and five post-merge workflows passed, with 18 successful jobs at each checkpoint and no failed, cancelled or skipped jobs. A delayed Codex review found the checkpoint-role collapse corrected by the next bounded reconciliation PR; it did not identify a runtime or evidence change.
+
+Live `main` is resolved from GitHub or the checked-out Git ref. A committed manifest records verified checkpoints and their expected relationship to HEAD; it does not attempt to contain its own future merge SHA. A post-merge Notion update may temporarily be newer than the latest repository-committed sync checkpoint until the next non-self-referential manifest records it.
 
 ## Truth reconciliation
 
@@ -78,7 +80,8 @@ Live `main` is resolved from GitHub or the checked-out Git ref. A committed mani
 machine-readable truth: COMPLETE / PR #80
 human-readable truth:   COMPLETE / PR #81
 Issues #14–#17:         RECONCILED / OPEN / PR #82 RECORD
-Notion dashboard:       SYNCED THROUGH PR #83
+publication checkpoint: PR #83
+Notion dashboard:       SYNCED AND READ BACK THROUGH PR #86
 ```
 
 Historical reports and proposals remain preserved but are excluded from the authoritative current-state retrieval path.

@@ -35,6 +35,11 @@ CHECKPOINT_FIELDS = (
     "publication_checkpoint_sha",
     "notion_synchronized_through_sha",
 )
+NOTION_STATUSES = {
+    "HANDOFF_REQUIRED",
+    "SYNCED_THROUGH_PUBLICATION_CHECKPOINT",
+    "SYNCED_THROUGH_DESCENDANT_CHECKPOINT",
+}
 
 
 class ProjectStateError(RuntimeError):
@@ -204,9 +209,9 @@ def _validate_checkpoint_relationships(
         "invalid expected HEAD relationship",
     )
     _require(
-        checkpoints["publication_checkpoint_sha"]
+        checkpoints["manifest_generated_from_sha"]
         == checkpoints["notion_synchronized_through_sha"],
-        "Notion/publication checkpoint mismatch",
+        "manifest/Notion checkpoint mismatch",
     )
     _require(
         isinstance(checkpoints.get("checkpoint_semantics"), str)
@@ -252,6 +257,20 @@ def _validate_checkpoint_relationships(
             == 0,
             f"{field} is not an ancestor of HEAD",
         )
+
+    publication = checkpoints["publication_checkpoint_sha"]
+    notion_checkpoint = checkpoints["notion_synchronized_through_sha"]
+    _require(
+        _git(
+            repo,
+            "merge-base",
+            "--is-ancestor",
+            publication,
+            notion_checkpoint,
+        ).returncode
+        == 0,
+        "publication checkpoint is not an ancestor of the Notion checkpoint",
+    )
 
 
 def validate(
@@ -530,11 +549,27 @@ def validate(
         notion.get("synchronization_required") is True,
         "Notion synchronization must remain required",
     )
+    notion_status = notion.get("status")
     _require(
-        notion.get("status")
-        in {"HANDOFF_REQUIRED", "SYNCED_THROUGH_PUBLICATION_CHECKPOINT"},
+        notion_status in NOTION_STATUSES,
         "invalid Notion synchronization state",
     )
+    publication = checkpoints["publication_checkpoint_sha"]
+    notion_checkpoint = checkpoints["notion_synchronized_through_sha"]
+    if notion_status == "SYNCED_THROUGH_PUBLICATION_CHECKPOINT":
+        _require(
+            notion_checkpoint == publication,
+            "publication synchronization status requires equal checkpoints",
+        )
+    elif notion_status == "SYNCED_THROUGH_DESCENDANT_CHECKPOINT":
+        _require(
+            notion_checkpoint != publication,
+            "descendant synchronization status requires distinct checkpoints",
+        )
+        _require(
+            checkpoints["manifest_generated_from_sha"] == notion_checkpoint,
+            "descendant synchronization manifest must use the Notion checkpoint",
+        )
 
     non_claims = " ".join(
         str(item).lower() for item in state.get("non_claims", [])
@@ -546,6 +581,7 @@ def validate(
         "do not prove live-data safety",
         "preserved the assertion arithmetic",
         "does not silently broaden the proof scope",
+        "does not rewrite or replace the earlier publication checkpoint",
     ):
         _require(
             phrase in non_claims,

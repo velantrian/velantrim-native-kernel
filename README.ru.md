@@ -66,11 +66,13 @@ C5 не повышает semantic assertions и не разрешает producti
 | Runtime checkpoint | `675aa4b398a2fc0181dc71d38904a2d33a09f5f8` |
 | Runtime integrity checkpoint | `a1cdc6d8f36d67f40f065641809bc6da463c10a4` |
 | Evidence-producing checkpoint | `296981ae84ad5bdab5dabbec9b7b9ebb43af63d7` |
-| Notion синхронизирован по | `10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c` |
+| Источник manifest / синхронизированный Notion descendant | `70acd0da61fee19131947aa56125833adb156ced` |
 
-Exact head PR #83: `57c14742f705f96e33e929e7e206f14169d42fc0`. Пять exact-head workflows и пять post-merge workflows прошли; на каждом checkpoint было 18 успешных jobs без failed, cancelled или skipped. Review submissions и unresolved review threads отсутствовали; уведомление Codex о quota не являлось review или approval.
+Publication checkpoint остаётся неизменяемой identity decision packages из PR #83. Более поздний Notion checkpoint — PR #86, который был смержен, полностью проверен, синхронизирован с четырьмя затронутыми страницами Notion и прочитан обратно до создания этого manifest. Более поздний checkpoint не переписывает и не заменяет publication checkpoint.
 
-Live `main` определяется через GitHub или checked-out Git ref. Committed manifest записывает проверенные checkpoints и ожидаемую связь с HEAD; он не пытается содержать SHA собственного commit.
+Exact head PR #86: `c3b8695bf3d7207ac4c6b19dcb5e9e2bda92f764`. Пять exact-head workflows и пять post-merge workflows прошли; на каждом checkpoint было 18 успешных jobs без failed, cancelled или skipped. Delayed Codex review обнаружил collapse ролей checkpoints, исправляемый следующим bounded reconciliation PR; runtime и evidence он не меняет.
+
+Live `main` определяется через GitHub или checked-out Git ref. Committed manifest записывает проверенные checkpoints и ожидаемую связь с HEAD; он не пытается содержать SHA собственного будущего merge. Post-merge обновление Notion может временно быть новее последнего repository-committed sync checkpoint, пока следующий non-self-referential manifest его не запишет.
 
 ## Reconciliation правды
 
@@ -78,7 +80,8 @@ Live `main` определяется через GitHub или checked-out Git re
 machine-readable truth: COMPLETE / PR #80
 human-readable truth:   COMPLETE / PR #81
 Issues #14–#17:         RECONCILED / OPEN / PR #82 RECORD
-Notion dashboard:       SYNCED THROUGH PR #83
+publication checkpoint: PR #83
+Notion dashboard:       SYNCED AND READ BACK THROUGH PR #86
 ```
 
 Исторические отчёты и proposals сохранены, но исключены из authoritative current-state retrieval path.

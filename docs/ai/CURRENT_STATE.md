@@ -11,10 +11,12 @@ machine_truth_reconciliation_merge: d9eee591de308a689ace940c2efe58c9e8a137f2
 human_truth_reconciliation_merge: 07549a0cd952b4e06b61ef24d21b2dcdbc9f861d
 issues_notion_reconciliation_merge: cdf559a3a32decd538e4cab3dd7fb591fc6e9322
 operator_decision_packages_merge: 10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c
+publication_checkpoint: 10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c
 runtime_checkpoint: 675aa4b398a2fc0181dc71d38904a2d33a09f5f8
 runtime_integrity_checkpoint: a1cdc6d8f36d67f40f065641809bc6da463c10a4
 evidence_producing_checkpoint: 296981ae84ad5bdab5dabbec9b7b9ebb43af63d7
-notion_synchronized_through: 10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c
+manifest_generated_from: 70acd0da61fee19131947aa56125833adb156ced
+notion_synchronized_through: 70acd0da61fee19131947aa56125833adb156ced
 ```
 
 > This page contains current repository truth only. Historical implementation and review chronology is linked under **Historical records** and remains available in Git history.
@@ -46,16 +48,19 @@ public repository ≠ open-source license
 0A machine-readable truth: COMPLETE / PR #80
 0B human-readable truth:   COMPLETE / PR #81
 0C Issues #14–#17:         RECONCILED / OPEN / PR #82 RECORD
-0C Notion dashboard:       SYNCHRONIZED THROUGH PR #83
+publication checkpoint:    PR #83 / PENDING_OPERATOR PRESERVED
+Notion descendant sync:    SYNCHRONIZED AND READ BACK THROUGH PR #86
 ```
 
-The Notion Hub routes current retrieval through Current State, Decision Ledger, Evidence Ledger, Active Risks, GitHub Sync Log and Historical Archive pages. Hub, Current State, Architecture, Roadmap, Decision Ledger, GitHub Sync Log and AI continuity were directly rechecked and reconciled through `main@10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c`.
+The publication checkpoint remains `10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c`. The latest repository-committed Notion synchronization checkpoint is `70acd0da61fee19131947aa56125833adb156ced`. PR #86 exact head was `c3b8695bf3d7207ac4c6b19dcb5e9e2bda92f764`; exact-head and post-merge validation each completed with `18 success / 0 failed / 0 cancelled / 0 skipped`.
 
-Notion remains synchronized only through the recorded publication checkpoint. Any later descendant commit requires a new synchronization record before it can be represented as synchronized.
+The four affected Notion pages—Hub, Current State, GitHub Sync Log and Prototype Status—were updated through PR #86 and read back. A delayed Codex review then found that GitHub machine/current-state files still collapsed the publication and Notion checkpoint roles; the current bounded reconciliation corrects that validator defect.
+
+The later Notion synchronization checkpoint does not rewrite or replace the earlier publication checkpoint. A later post-merge Notion write may be newer than the repository-committed checkpoint until the next manifest records an already merged and read-back ancestor.
 
 ## Checkpoint model
 
-The machine protocol does not attempt to store the SHA of its own commit.
+The machine protocol does not attempt to store the SHA of its own future commit.
 
 ```text
 GitHub API / checked-out ref
@@ -68,10 +73,10 @@ runtime checkpoint
 runtime-integrity checkpoint
 evidence-producing checkpoint
 publication checkpoint
-Notion synchronization checkpoint
+Notion synchronized descendant checkpoint
 ```
 
-A descendant commit does not invalidate earlier evidence, but it also does not broaden that evidence.
+A descendant commit does not invalidate earlier evidence, but it also does not broaden that evidence or rewrite an earlier publication identity.
 
 ## Three independent tracks
 
@@ -114,19 +119,19 @@ The current SQLite WAL floor is linked SQLite `3.51.3`. Historical SQLite `3.45.
 
 No AI agent may select the license or accept ADR-0024 on behalf of the operator.
 
-## Verified PR #83 boundary
+## Verified PR #86 boundary
 
 ```text
-exact head: 57c14742f705f96e33e929e7e206f14169d42fc0
-merge:      10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c
+exact head: c3b8695bf3d7207ac4c6b19dcb5e9e2bda92f764
+merge:      70acd0da61fee19131947aa56125833adb156ced
 exact-head workflows: 5 PASS / 18 jobs success
 post-merge workflows: 5 PASS / 18 jobs success
-reviews: 0
-unresolved review threads: 0
-Codex: NOT AVAILABLE — quota notice, not review or approval
+pre-merge reviews: 0
+pre-merge unresolved review threads: 0
+delayed Codex: 1 P1 checkpoint-modelling finding / confirmed
 ```
 
-Passing CI proves the fail-closed decision packages and unchanged runtime/evidence guards. It does not choose a license, accept ADR-0024, prove reducer v2 or authorize production.
+Passing CI proved the previous validators and unchanged runtime/evidence guards, but the delayed review exposed a missing invariant between machine state and the human current-state route. The follow-up adds the missing fail-closed checks; it does not choose a license, accept ADR-0024, prove reducer v2 or authorize production.
 
 ## Next authorized sequence
 
@@ -165,6 +170,7 @@ project-state.json
 contracts/project-state-v2.schema.json
 contracts/registry.json
 tools/ai_context/validate_project_state.py
+tools/ai_context/validate_reconciliation.py
 ```
 
 `project-state.json` is authoritative for committed repository status metadata. GitHub remains authoritative for live refs, issues, PRs and Actions. Exact source, tests and evidence artifacts remain authoritative for their own technical claims.

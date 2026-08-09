@@ -1,21 +1,21 @@
 {
   "protocol": "nk-project-state/2",
-  "snapshot_id": "native-kernel/state/2026-08-09-pr83-notion-reconciliation",
-  "observed_at": "2026-08-09T13:03:03Z",
+  "snapshot_id": "native-kernel/state/2026-08-09-pr86-notion-descendant-reconciliation",
+  "observed_at": "2026-08-09T15:05:38Z",
   "repository": {
     "full_name": "velantrian/velantrim-native-kernel",
     "visibility": "PUBLIC",
     "default_branch": "main"
   },
   "checkpoints": {
-    "manifest_generated_from_sha": "10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c",
+    "manifest_generated_from_sha": "70acd0da61fee19131947aa56125833adb156ced",
     "expected_head_relationship": "DESCENDANT_OR_EQUAL",
     "runtime_checkpoint_sha": "675aa4b398a2fc0181dc71d38904a2d33a09f5f8",
     "runtime_integrity_checkpoint_sha": "a1cdc6d8f36d67f40f065641809bc6da463c10a4",
     "evidence_producing_sha": "296981ae84ad5bdab5dabbec9b7b9ebb43af63d7",
     "publication_checkpoint_sha": "10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c",
-    "notion_synchronized_through_sha": "10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c",
-    "checkpoint_semantics": "The committed manifest records verified checkpoints and the relationship expected between its source SHA and the checked-out HEAD. Live HEAD is resolved by Git or the GitHub API; the file does not attempt to contain the SHA of its own commit."
+    "notion_synchronized_through_sha": "70acd0da61fee19131947aa56125833adb156ced",
+    "checkpoint_semantics": "The publication checkpoint records the PR #83 decision-package publication identity. The manifest source and Notion synchronization checkpoint record the latest already merged descendant that was synchronized and read back before this file was authored. Live HEAD is resolved by Git or the GitHub API; no committed file attempts to contain the SHA of its own future merge."
   },
   "status": {
     "repository_status": "RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY",
@@ -205,9 +205,9 @@
   },
   "notion": {
     "synchronization_required": true,
-    "status": "SYNCED_THROUGH_PUBLICATION_CHECKPOINT",
-    "scope": "GitHub and Notion were directly verified and reconciled through PR #83 publication checkpoint 10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c. The Hub, Current State, Architecture, Roadmap, Decision Ledger, GitHub Sync Log and AI continuity surfaces record the pending license/publication and ADR-0024 decisions without authorization. Later descendant commits require a new synchronization record.",
-    "authority_boundary": "Notion carries current orientation, rationale and history; GitHub remains sufficient and authoritative for technical state, live refs, contracts, tests, workflow results and evidence."
+    "status": "SYNCED_THROUGH_DESCENDANT_CHECKPOINT",
+    "scope": "GitHub and Notion were directly synchronized and read back through merged PR #86 checkpoint 70acd0da61fee19131947aa56125833adb156ced. The PR #83 publication checkpoint 10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c remains a separate immutable role. Hub, Current State, GitHub Sync Log and Prototype Status record the PR #86 recovery-provenance result and the delayed Codex P1 that required this descendant-checkpoint reconciliation.",
+    "authority_boundary": "Notion carries current orientation, rationale and history; GitHub remains sufficient and authoritative for technical state, live refs, contracts, tests, workflow results and evidence. A later post-merge Notion write may be newer than the latest repository-committed synchronization checkpoint until a subsequent non-self-referential manifest records it."
   },
   "non_claims": [
     "C5 bounded rehearsal is not production readiness.",
@@ -215,6 +215,7 @@
     "Clean implementation is not recovered v0.1.2.1.",
     "Repository-resident artifacts do not prove live-data safety, compliance, physical deletion, operational equivalence or ecosystem authority.",
     "ADR-0023 safe-version reproduction and re-adjudication preserved the assertion arithmetic without promotion.",
-    "A descendant HEAD does not silently broaden the proof scope of an earlier runtime, evidence or publication checkpoint."
+    "A descendant HEAD does not silently broaden the proof scope of an earlier runtime, evidence or publication checkpoint.",
+    "A later Notion synchronization checkpoint does not rewrite or replace the earlier publication checkpoint."
   ]
 }
