@@ -2,7 +2,7 @@
 
 [← Project README](../../README.md) · [Русский README](../../README.ru.md) · [Decision process](../DECISION_PROCESS.md) · [Research RFCs](../rfc/README.md)
 
-ADRs preserve why durable architectural, profile and evidence boundaries exist. Acceptance is not empirical proof.
+ADRs preserve why durable architectural, profile, evidence, and research-priority boundaries exist. Acceptance is not empirical proof.
 
 ## Independent dimensions
 
@@ -41,13 +41,14 @@ Decision status
 | [`0022`](./0022-preserve-c5-evidence-and-declare-project-state.md) | Preserve C5 evidence and declare project state | `ACCEPTED` | repository and post-merge validation passed; superseded machine protocol retained historically | implemented; current state now uses `nk-project-state/2` | `APPROVED` |
 | [`0023`](./0023-harden-sqlite-wal-and-event-integrity.md) | Harden SQLite WAL and stored Event integrity | `ACCEPTED` | repository-reproduced; additive evidence captured; follow-up integrity checks passed | merged via PR #69 + follow-up PR #72 | `APPROVED` |
 | [`0024`](./0024-version-reducer-referential-semantics.md) | Version reducer referential semantics without rewriting history | `PROPOSED` | repository gap documented | `NOT_STARTED` | `PENDING` |
+| [`0025`](./0025-blueprint-before-runtime-expansion.md) | Complete the architecture blueprint before further runtime expansion | `ACCEPTED` | `DOCUMENTED` | governance/plan partial; blueprint incomplete | `APPROVED` |
 
 ## Current boundary
 
 ```text
 H historical recovery: OPEN / BLOCKED / independent
-C clean implementation: P1–P5 + C4 + C5 / ACTIVE / PARTIAL
-R long-horizon research: PROPOSED / BOUNDED / NO AUTOMATIC PROMOTION
+C clean implementation: P1–P5 + C4 + C5 / BOUNDED REFERENCE LABORATORY
+R architecture re-foundation: ACTIVE / BLUEPRINT-FIRST
 kernel_runtime_conformance: C4
 operational_validation: C5_BOUNDED_REHEARSAL
 assertion map: 45 / 10 / 17 / 0
@@ -55,40 +56,55 @@ NK-EPI: 0 SUPPORTED / 0 PARTIAL / 8 UNSUPPORTED / 0 FAILED
 production: NOT AUTHORIZED
 ```
 
-## Current decision gate
+## Active architecture gate
 
 ```text
+ADR-0025 — Blueprint before Runtime
+  ACCEPTED / OPERATOR APPROVED
+  runtime expansion: FROZEN
+  current P1–C5: PRESERVED AS BOUNDED REFERENCE LABORATORY
+
+Architecture Re-foundation A1–A10
+  ACTIVE / CONTENT INCOMPLETE
+
 Issue #18 — license/publication terms
-  OPERATOR DECISION REQUIRED
+  PENDING_OPERATOR
+  blocks open contribution/publication regime
 
-Issue #74 / ADR-0024 — reducer referential semantics
-  PROPOSED / APPROVAL PENDING / RUNTIME NOT STARTED
-
-After those decisions:
-  NK-SAM and named equivalence profiles
-  Event/history commitment contract
-  only then reducer-v2 runtime
+Issue #74 / ADR-0024
+  PROPOSED / PENDING_OPERATOR
+  blocks reducer-v2 path, not ontology research
 ```
 
-An AI agent may prepare options but may not choose the license or accept ADR-0024 for the operator.
+After the integrated blueprint review:
+
+```text
+reconcile contract families
+→ define NK-SAM and named equivalence
+→ define Event/history commitment
+→ decide ADR-0024 outcome when reducer work resumes
+→ only then reducer-v2 runtime
+```
 
 ## Operational rules
 
 1. Multi-model agreement is input, not approval.
 2. Proposed decisions must not be summarized as implemented behavior.
 3. `ACCEPTED` does not mean complete runtime.
-4. Evidence must link exact checks, bytes, digests, reports, commits, runs or artifacts.
+4. Evidence must link exact checks, bytes, digests, reports, commits, runs, or artifacts.
 5. Approval and evidence remain separate.
 6. Reproducible evidence does not silently promote proposals.
 7. Historical reasoning remains after supersession.
 8. Issue #1 remains separate from clean implementation.
 9. Translation preserves decision/evidence/implementation/approval meaning.
-10. A Receipt/report/archive is bounded evidence, not truth, authenticity or physical-erasure proof.
+10. A Receipt/report/archive is bounded evidence, not truth, authenticity, or physical-erasure proof.
 11. C2/C3/C4/C5 labels include assertion counts and support state.
 12. C3 semantic equivalence is not operational equivalence or independent implementation.
 13. C5 operational evidence cannot promote NK-EPI.
 14. Research notes cannot authorize runtime or Canon changes.
-15. Dataset, plan or bundle changes require new identity/digest and evidence.
+15. Dataset, plan, or bundle changes require new identity/digest and evidence.
 16. Reducer semantics may not change for an existing history through a process-local default or silent version upgrade.
 17. Portable semantic commitments and operational/profile receipts must not be collapsed without an accepted contract.
 18. A public repository does not imply an open-source license.
+19. Existing implementation profiles cannot define Canon merely by being implemented first.
+20. ADR-0025 permits maintenance and falsification experiments, not semantic/runtime expansion.
