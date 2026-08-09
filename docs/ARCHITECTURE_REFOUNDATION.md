@@ -50,7 +50,7 @@ experiments and evidence
 
 ### A1 — Kernel Purpose and Non-goals
 
-**Status:** `DRAFTED` — see [`A1_KERNEL_PURPOSE_AND_NON_GOALS.md`](./A1_KERNEL_PURPOSE_AND_NON_GOALS.md) / [`A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md`](./A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md). Pending independent review and integrated blueprint review with `A2`–`A10`.
+**Status:** `DRAFTED / PROVISIONAL` — see [`A1_KERNEL_PURPOSE_AND_NON_GOALS.md`](./A1_KERNEL_PURPOSE_AND_NON_GOALS.md) / [`A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md`](./A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md). Pending independent review and integrated blueprint review with `A2`–`A10`.
 
 Define:
 
@@ -64,46 +64,57 @@ Define:
 
 ### A2 — Knowledge and Memory Ontology
 
-Define candidate primitives and their distinctions, including:
+**Status:** `DRAFTED / PROVISIONAL` — see [`A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md`](./A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md) / [`A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md`](./A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md). Pending independent review and integrated blueprint review with A1 and A3–A10.
+
+The drafted inventory distinguishes:
 
 ```text
-Occurrence
 Signal
 Observation
 Record
+Proposition
 Claim
-Concept
-Relation
-Context
-Source
-Provenance
-Evidence
 Interpretation
 Hypothesis
 Belief
-Uncertainty
-Conflict
-Decision
-Action
-Outcome
-Experience
+Knowledge
 Memory
-Identity
+Evidence
+Source
+Provenance
+Context
+Relation
+State
+Change
+Event
+Conflict
+Contradiction
+Uncertainty
+Revision
+Supersession
+Authority
+Receipt
 ```
 
-For each primitive record:
+For every concept A2 records:
 
-- definition;
-- identity conditions;
-- lifecycle;
+- a working architectural definition;
+- what it is not;
+- neighbouring distinctions;
 - allowed relations;
-- forbidden collapses;
-- uncertainty;
-- whether it belongs to Canon, a contract, or a profile.
+- identity and lifecycle notes;
+- minimum semantic obligations;
+- unresolved questions;
+- falsification or counterexample;
+- provisional classification as `CANDIDATE_PRIMITIVE`, `DERIVED_CONCEPT`, or `OPEN_QUESTION`.
 
-**Completion test:** no core term is defined only through Python fields, SQL rows, JSON, graph nodes, embeddings, or an LLM operation.
+A2 compares a linear pipeline, Event-centred ontology, relation-first model, and stratified role ontology. It uses the stratified organization only as a drafting aid, not Canon. Event and State remain open primitive questions; Knowledge and Memory do not require an LLM, embeddings, SQL, JSON, digital bytes, or a specific processor.
+
+**Completion test:** satisfied for first-draft scope: no core term is defined only through Python fields, SQL rows, JSON, graph nodes, embeddings, an LLM operation, or current Event-sourced laboratory mechanics. Final acceptance still requires independent and integrated review.
 
 ### A3 — Abstract Native Kernel Machine
+
+**Status:** `NEXT BOUNDED SLICE`.
 
 Define the smallest technology-independent machine capable of representing the declared architecture.
 
@@ -124,7 +135,7 @@ encounter
 → emit bounded explanation/Receipt
 ```
 
-The final model may reject or reorganize these stages.
+The final model may reject or reorganize these stages. It must use A2 concepts without turning the A2 navigation groups into mandatory pipeline stages.
 
 Required outputs:
 
@@ -144,11 +155,20 @@ Create a numbered, versioned law set.
 Candidate laws include:
 
 - representation is not represented reality;
-- a record is not the occurrence it describes;
+- a Record is not the occurrence it describes;
+- Observation is not Claim;
+- Claim is not Truth;
+- Evidence is not Source;
+- repetition is not Evidence;
+- Belief is not Knowledge;
+- Memory is not merely a stored Record;
+- retrieval relevance is not epistemic validity;
+- Conflict is not necessarily Contradiction;
+- unknown is not false;
+- Event use in P1–C5 does not make Event a universal primitive;
+- State is not necessarily reducer output;
 - storage presence is not admission;
 - admission is not objective truth;
-- evidence relevance is not truth;
-- unknown is not false;
 - recency is not correctness;
 - utility is not epistemic validity;
 - conflict detection is not conflict resolution;
@@ -169,16 +189,16 @@ For every law provide:
 Define without committing to a physical encoding:
 
 - semantic identity;
-- record identity;
+- Record identity;
 - content identity;
 - lineage identity;
 - aliasing and migration;
 - occurrence time;
-- observation time;
+- Observation time;
 - valid time;
-- record time;
+- Record time;
 - write/causal order;
-- correction, revision, supersession, restriction, erasure, and forgetting.
+- correction, Revision, Supersession, restriction, erasure, and forgetting.
 
 **Completion test:** the model explains which changes preserve identity, create a new version, create a new entity, or remain undecided.
 
@@ -209,14 +229,14 @@ No lifecycle state may obtain authority solely from storage, retrieval rank, rep
 
 Define:
 
-- candidate versus established conflict;
-- contradiction versus scope mismatch;
+- candidate versus established Conflict;
+- Contradiction versus scope mismatch;
 - unresolved plurality;
-- uncertainty types;
-- missing evidence and provenance gaps;
-- resolution authority;
+- Uncertainty types;
+- missing Evidence and Provenance gaps;
+- resolution Authority;
 - reversible versus irreversible decisions;
-- belief revision without rewriting history;
+- Belief Revision without rewriting history;
 - how the system may remain undecided.
 
 ### A8 — Substrate-independence Contract
@@ -226,16 +246,16 @@ Define what a future implementation must preserve or explicitly translate.
 The contract must classify obligations such as:
 
 - semantic identity;
-- history and change visibility;
-- provenance;
+- history and Change visibility;
+- Provenance;
 - temporal meaning;
-- uncertainty and conflict visibility;
+- Uncertainty and Conflict visibility;
 - replay/reconstruction or an accepted functional equivalent;
-- authority and admission boundaries;
+- Authority and admission boundaries;
 - bounded explanations/Receipts;
 - migration and loss disclosure.
 
-It must also identify architecture assumptions that may be artifacts of present event-sourcing practice.
+It must also identify architecture assumptions that may be artifacts of present Event-sourcing practice.
 
 ### A9 — Reference Laboratory Boundary
 
@@ -264,21 +284,21 @@ Record questions that the project does not yet answer.
 
 Examples:
 
-- Is append-only history a Canon requirement or one implementation of explicit change?
+- Is append-only history a Canon requirement or one implementation of explicit Change?
 - Can identity exist without stable serialized bytes?
 - What is the minimum notion of replay on analog or neuromorphic substrates?
-- Which forms of uncertainty can be compared across profiles?
+- Which forms of Uncertainty can be compared across profiles?
 - Can forgetting be represented without permanent retention of forbidden content?
-- What constitutes the same semantic state across probabilistic systems?
+- What constitutes the same semantic State across probabilistic systems?
 
 Each major architectural hypothesis must include evidence that would weaken or refute it.
 
 ## 4. Work sequence
 
 ```text
-A1 Purpose and Non-goals
-→ A2 Ontology
-→ A3 Abstract Machine
+A1 Purpose and Non-goals                         DRAFTED / PROVISIONAL
+→ A2 Ontology                                   DRAFTED / PROVISIONAL
+→ A3 Abstract Machine                           NEXT BOUNDED SLICE
 → A4 Semantic Laws
 → A5 Identity / Time / Change
 → A6 Knowledge Lifecycle
@@ -324,7 +344,7 @@ Not allowed without a separate explicit operator decision:
 
 - new semantic features;
 - reducer v2;
-- new event vocabulary;
+- new Event vocabulary;
 - new databases, language ports, model adapters, or ecosystem integrations;
 - performance optimization that changes semantic behaviour;
 - new evidence or maturity labels presented as proof of the unfinished blueprint.
@@ -339,7 +359,7 @@ License selection remains required before an open contribution/publication regim
 ADR-0024 remains required before any reducer-v2 path resumes.
 ```
 
-Neither pending decision blocks ontology and blueprint research. Neither is silently decided by this plan.
+Neither pending decision blocks ontology and blueprint research. Neither is silently decided by this plan or A2.
 
 ## 8. Blueprint completion gate
 
@@ -362,7 +382,8 @@ Completion requires:
 ```text
 Architecture Re-foundation decision: established by ADR-0025
 Blueprint plan: this document
-Blueprint content: A1 DRAFTED / A2-A10 NOT YET COMPLETE
+Blueprint content: A1-A2 DRAFTED / PROVISIONAL; A3-A10 NOT YET COMPLETE
+Next bounded slice: A3 ABSTRACT NATIVE KERNEL MACHINE
 Runtime expansion: FROZEN
 Existing P1–C5 laboratory: PRESERVED / BOUNDED
 Production authorization: false
