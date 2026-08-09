@@ -79,6 +79,9 @@ REQUIRED_STATUS_MARKERS = (
     "logical ERASED ≠ physical deletion",
     "public repository ≠ open-source license",
     "No AI agent may select the license or accept ADR-0024",
+    "The later Notion synchronization checkpoint does not rewrite or replace the earlier publication checkpoint.",
+)
+FORBIDDEN_STATUS_MARKERS = (
     "Notion remains synchronized only through the recorded publication checkpoint",
 )
 
@@ -182,6 +185,11 @@ def read_checkpoint(repo: Path) -> tuple[str | None, list[Finding]]:
         if marker not in text:
             findings.append(
                 Finding(rel, f"required current-state marker is missing: {marker}")
+            )
+    for marker in FORBIDDEN_STATUS_MARKERS:
+        if marker in text:
+            findings.append(
+                Finding(rel, f"forbidden legacy current-state marker is present: {marker}")
             )
     return match.group(1), findings
 
