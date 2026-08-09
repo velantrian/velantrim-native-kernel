@@ -4,13 +4,19 @@
 document_role: PROFILE_STATUS
 status_as_of: 2026-08-09
 authoritative_machine_source: ../project-state.json
+active_architecture_decision: ADR-0025
+architecture_phase: ARCHITECTURE_REFOUNDATION_BLUEPRINT_FIRST
+runtime_expansion_frozen: true
 ```
 
 This directory contains machine-readable planning, implementation and evidence surfaces for replaceable profiles and bounded evaluation layers.
 
+The current P1–C5 profiles are preserved as a **bounded reference laboratory**. They remain valid for their versioned contracts, fixtures and evidence, but they are not architectural authority and may not expand semantic/runtime scope before the ADR-0025 blueprint gate.
+
 ```text
 profile or evidence manifest
 ≠ Architecture Canon
+≠ completed A1–A10 blueprint
 ≠ complete runtime support
 ≠ evidence by itself
 ≠ production authorization
@@ -139,13 +145,42 @@ C5 bounded synthetic rehearsal
 
 ## Next gate
 
-Profile runtime expansion is blocked until truth reconciliation, license/publication options, ADR-0024 decision, NK-SAM/equivalence contracts and Event/history commitment are complete.
+Profile runtime expansion is frozen under ADR-0025. The authoritative sequence is:
+
+```text
+A1 Purpose and Non-goals
+→ A2 Knowledge and Memory Ontology
+→ A3 Abstract Native Kernel Machine
+→ A4 Semantic Laws and Invariants
+→ A5 Identity / Time / Change
+→ A6 Knowledge Lifecycle
+→ A7 Conflict / Uncertainty / Revision
+→ A8 Substrate-independence Contract
+→ A9 Reference Laboratory Boundary
+→ A10 Open Questions / Falsification
+→ integrated blueprint review
+→ separate operator decision reopening runtime work
+```
+
+Only after that gate may downstream profile work be reconsidered:
+
+```text
+reconcile contract families
+→ define NK-SAM and named equivalence profiles
+→ define portable Event/history commitment
+→ obtain the relevant license/publication and ADR-0024 decisions where required
+→ only then authorize a new profile or reducer-v2 runtime slice
+```
+
+Completing an older profile checklist does not bypass ADR-0025. Integrity, security, reproducibility, provenance, evidence-preservation, validator and historical-recovery fixes remain allowed without semantic/runtime promotion.
 
 ## Read next
 
 - [`../STATUS.md`](../STATUS.md)
 - [`../ROADMAP.md`](../ROADMAP.md)
 - [`../project-state.json`](../project-state.json)
+- [`../docs/ARCHITECTURE_REFOUNDATION.md`](../docs/ARCHITECTURE_REFOUNDATION.md)
+- [`../docs/adr/0025-blueprint-before-runtime-expansion.md`](../docs/adr/0025-blueprint-before-runtime-expansion.md)
 - [`../docs/CONFORMANCE_MODEL.md`](../docs/CONFORMANCE_MODEL.md)
 - [`../docs/ai/CURRENT_STATE.md`](../docs/ai/CURRENT_STATE.md)
 - [`../docs/ai/KNOWN_RISKS.md`](../docs/ai/KNOWN_RISKS.md)
