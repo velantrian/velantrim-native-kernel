@@ -44,7 +44,7 @@ R architecture re-foundation: ACTIVE / BLUEPRINT-FIRST
 kernel runtime: C4
 operational validation: C5_BOUNDED_REHEARSAL
 assertions: 45 / 10 / 17 / 0
-NK-EPI: 0 / 0 / 8 / 0
+NK-EPI: 0 SUPPORTED / 0 PARTIAL / 8 UNSUPPORTED / 0 FAILED
 production: NOT AUTHORIZED
 ```
 
