@@ -28,6 +28,8 @@ REQUIRED_PATHS = (
     "docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md",
     "docs/A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md",
     "docs/A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md",
+    "docs/A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md",
+    "docs/A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md",
     "docs/adr/0025-blueprint-before-runtime-expansion.md",
     "docs/ai/README.md",
     "docs/ai/CURRENT_STATE.md",
@@ -59,6 +61,8 @@ LINK_SCAN_PATHS = (
     "docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md",
     "docs/A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md",
     "docs/A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md",
+    "docs/A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md",
+    "docs/A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md",
     "docs/adr/0025-blueprint-before-runtime-expansion.md",
     "docs/ai/README.md",
     "docs/ai/CURRENT_STATE.md",
@@ -97,13 +101,14 @@ REQUIRED_STATUS_MARKERS = (
     "Architecture Re-foundation: ACTIVE / BLUEPRINT-FIRST",
     "No new semantic/runtime expansion before blueprint gate completion.",
     "BOUNDED REFERENCE LABORATORY",
-    "blueprint content A1–A2 is `DRAFTED / PROVISIONAL`",
-    "next bounded content slice is `A3 — Abstract Native Kernel Machine`",
+    "blueprint content A1–A3 is `DRAFTED / PROVISIONAL`",
+    "next bounded content slice is `A4 — Semantic Laws and Invariants`",
 )
 FORBIDDEN_STATUS_MARKERS = (
     "Notion remains synchronized only through the recorded publication checkpoint",
     "Next work is limited to explicit operator decisions",
     "next bounded content slice is `A2 — Knowledge and Memory Ontology`",
+    "next bounded content slice is `A3 — Abstract Native Kernel Machine`",
 )
 
 
