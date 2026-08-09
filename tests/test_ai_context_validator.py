@@ -59,6 +59,7 @@ class AIContextValidatorTests(unittest.TestCase):
         *,
         status: str | None = None,
         omit: str | None = None,
+        append: str = "",
     ) -> None:
         markers = list(validator.REQUIRED_STATUS_MARKERS)
         if status is not None:
@@ -72,7 +73,8 @@ class AIContextValidatorTests(unittest.TestCase):
             f"machine_truth_reconciliation_merge: {checkpoint}\n"
             "```\n\n"
             + "\n".join(markers)
-            + "\n",
+            + "\n"
+            + append,
         )
 
     def _write_required_files(self, checkpoint: str) -> None:
@@ -171,6 +173,17 @@ class AIContextValidatorTests(unittest.TestCase):
                         for finding in validator.validate(self.repo)
                     )
                 )
+
+    def test_legacy_publication_only_notion_marker_is_rejected(self):
+        legacy = validator.FORBIDDEN_STATUS_MARKERS[0]
+        self._write_current_state(self.initial_sha, append=legacy + "\n")
+        self.assertTrue(
+            any(
+                "forbidden legacy current-state marker" in finding.message
+                and legacy in finding.message
+                for finding in validator.validate(self.repo)
+            )
+        )
 
 
 if __name__ == "__main__":
