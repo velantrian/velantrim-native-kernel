@@ -11,11 +11,13 @@ This directory is the mandatory continuity surface for AI agents, auditors and m
 5. [`CURRENT_STATE.md`](CURRENT_STATE.md)
 6. [`KNOWN_RISKS.md`](KNOWN_RISKS.md)
 7. [`../../ROADMAP.md`](../../ROADMAP.md)
-8. affected Canon, contracts and ADRs
-9. affected source, tests and workflows
-10. relevant implementation/evidence records
-11. [`DOCUMENTATION_SYNC_PROTOCOL.md`](DOCUMENTATION_SYNC_PROTOCOL.md)
-12. current GitHub and Notion state
+8. [`ISSUE_RECONCILIATION.md`](ISSUE_RECONCILIATION.md)
+9. [`NOTION_HANDOFF.md`](NOTION_HANDOFF.md)
+10. affected Canon, contracts and ADRs
+11. affected source, tests and workflows
+12. relevant implementation/evidence records
+13. [`DOCUMENTATION_SYNC_PROTOCOL.md`](DOCUMENTATION_SYNC_PROTOCOL.md)
+14. current GitHub and Notion state
 
 Do not read every historical handoff before identifying the current task. Do not begin with random code search.
 
@@ -31,6 +33,15 @@ assertion map:              45 / 10 / 17 / 0
 NK-EPI:                     0 SUPPORTED / 0 PARTIAL / 8 UNSUPPORTED / 0 FAILED
 ```
 
+## Truth reconciliation
+
+```text
+PR #80 — machine-readable truth: COMPLETE
+PR #81 — human-readable truth:   COMPLETE
+Issues #14–#17:                  RECONCILED / OPEN
+Notion current dashboard:        SYNCED THROUGH PR #81
+```
+
 ## Truth surfaces
 
 ```text
@@ -44,6 +55,10 @@ ACTIVE ROADMAP
 
 ACTIVE RISKS
   KNOWN_RISKS.md
+
+RECONCILIATION RECORDS
+  ISSUE_RECONCILIATION.md
+  NOTION_HANDOFF.md
 
 HISTORICAL RECORD
   implementation records
@@ -80,21 +95,21 @@ logical backup ≠ physical disaster recovery
 
 `project-state.json` uses `nk-project-state/2` and records separate runtime, integrity, evidence, publication and Notion synchronization checkpoints.
 
-Live HEAD must be resolved through Git or GitHub. A descendant commit does not silently broaden an earlier evidence checkpoint.
+Live HEAD must be resolved through Git or GitHub. A descendant commit does not silently broaden an earlier evidence or synchronization checkpoint.
 
 ## Current authorized sequence
 
 ```text
-human-readable truth reconciliation
-→ Issues #14–#17 and Notion reconciliation
-→ license decision options
-→ ADR-0024 decision options
+license decision options
+→ explicit operator decision
+→ ADR-0024 decision package
+→ explicit operator decision
 → NK-SAM and named equivalence profiles
 → Event/history commitment
 → only then reducer-v2 runtime
 ```
 
-Executable NK-EPI, Temporal, full Admission, operational deletion, full independent implementation and ecosystem integration remain outside the current reconciliation slice.
+Executable NK-EPI, Temporal, full Admission, operational deletion, full independent implementation and ecosystem integration remain outside the current slice.
 
 ## Evidence route
 
@@ -121,7 +136,7 @@ These archives are version-bound. They are not production, compliance, independe
 2. exact-SHA CI jobs/logs and GitHub live refs, issues and reviews;
 3. `project-state.json`, `STATUS.md` and `CURRENT_STATE.md`;
 4. accepted ADRs and versioned contracts;
-5. implementation records, work log and PR/issue history;
+5. implementation and reconciliation records, work log and PR/issue history;
 6. Notion and historical chats.
 
 ## Automated guards
@@ -143,7 +158,6 @@ Read only when relevant:
 - [`C4_IMPLEMENTATION_RECORD.md`](C4_IMPLEMENTATION_RECORD.md)
 - [`C5_IMPLEMENTATION_RECORD.md`](C5_IMPLEMENTATION_RECORD.md)
 - [`WORK_LOG.md`](WORK_LOG.md)
-- [`NOTION_HANDOFF.md`](NOTION_HANDOFF.md)
 - [`AUDIT_PLAYBOOK.md`](AUDIT_PLAYBOOK.md)
 
 Historical records preserve provenance; they do not override current state.
