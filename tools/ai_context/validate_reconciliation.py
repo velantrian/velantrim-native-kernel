@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 from pathlib import Path
 from typing import Any, Mapping
 
@@ -24,14 +25,110 @@ NOTION_PAGE_IDS = (
     "3b7ac84d-0547-8101-ada4-de9702b68eb3",
     "3b7ac84d-0547-81b6-80a6-f87a05ed6f9e",
 )
-CURRENT_SURFACES = (
-    "README.md",
-    "README.ru.md",
-    "STATUS.md",
-    "docs/ai/README.md",
-    "docs/ai/CURRENT_STATE.md",
-    "docs/ai/NOTION_HANDOFF.md",
-)
+SURFACE_ROLE_PATTERNS = {
+    "README.md": (
+        (
+            "publication checkpoint",
+            PUBLICATION_SHA,
+            r"^\| Operator decision packages / publication checkpoint \| `([0-9a-f]{40})` \|$",
+        ),
+        (
+            "Notion synchronized descendant",
+            NOTION_SYNC_SHA,
+            r"^\| Manifest source / Notion synchronized descendant \| `([0-9a-f]{40})` \|$",
+        ),
+    ),
+    "README.ru.md": (
+        (
+            "publication checkpoint",
+            PUBLICATION_SHA,
+            r"^\| Operator decision packages / publication checkpoint \| `([0-9a-f]{40})` \|$",
+        ),
+        (
+            "Notion synchronized descendant",
+            NOTION_SYNC_SHA,
+            r"^\| Источник manifest / синхронизированный Notion descendant \| `([0-9a-f]{40})` \|$",
+        ),
+    ),
+    "STATUS.md": (
+        (
+            "publication checkpoint",
+            PUBLICATION_SHA,
+            r"^publication_checkpoint:\s*([0-9a-f]{40})\s*$",
+        ),
+        (
+            "manifest source",
+            NOTION_SYNC_SHA,
+            r"^manifest_generated_from:\s*([0-9a-f]{40})\s*$",
+        ),
+        (
+            "Notion synchronized descendant",
+            NOTION_SYNC_SHA,
+            r"^notion_synchronized_through:\s*([0-9a-f]{40})\s*$",
+        ),
+    ),
+    "docs/ai/README.md": (
+        (
+            "publication checkpoint",
+            PUBLICATION_SHA,
+            r"^Publication checkpoint: `([0-9a-f]{40})` from PR #83\.",
+        ),
+        (
+            "Notion synchronized descendant",
+            NOTION_SYNC_SHA,
+            r"^Publication checkpoint: `[0-9a-f]{40}` from PR #83\. Manifest source and Notion synchronized descendant: `([0-9a-f]{40})` from PR #86\.",
+        ),
+    ),
+    "docs/ai/CURRENT_STATE.md": (
+        (
+            "publication checkpoint",
+            PUBLICATION_SHA,
+            r"^publication_checkpoint:\s*([0-9a-f]{40})\s*$",
+        ),
+        (
+            "manifest source",
+            NOTION_SYNC_SHA,
+            r"^manifest_generated_from:\s*([0-9a-f]{40})\s*$",
+        ),
+        (
+            "Notion synchronized descendant",
+            NOTION_SYNC_SHA,
+            r"^notion_synchronized_through:\s*([0-9a-f]{40})\s*$",
+        ),
+    ),
+    "docs/ai/NOTION_HANDOFF.md": (
+        (
+            "publication checkpoint",
+            PUBLICATION_SHA,
+            r"^publication_checkpoint:\s*([0-9a-f]{40})\s*$",
+        ),
+        (
+            "manifest source",
+            NOTION_SYNC_SHA,
+            r"^manifest_generated_from:\s*([0-9a-f]{40})\s*$",
+        ),
+        (
+            "Notion synchronized descendant",
+            NOTION_SYNC_SHA,
+            r"^latest_synchronized_descendant:\s*([0-9a-f]{40})\s*$",
+        ),
+    ),
+    "docs/ai/KNOWN_RISKS.md": (
+        (
+            "publication checkpoint",
+            PUBLICATION_SHA,
+            r"^publication_checkpoint:\s*([0-9a-f]{40})\s*$",
+        ),
+        (
+            "Notion synchronized descendant",
+            NOTION_SYNC_SHA,
+            r"^notion_synchronized_descendant:\s*([0-9a-f]{40})\s*$",
+        ),
+    ),
+}
+CURRENT_SURFACES = tuple(SURFACE_ROLE_PATTERNS)
+CURRENT_RISK_STATE = "**State:** `MITIGATED / RESIDUAL LIVE-DRIFT RISK OPEN`."
+OBSOLETE_RISK_STATE = "HUMAN AND NOTION RECONCILIATION IN PROGRESS"
 
 
 class ReconciliationError(RuntimeError):
@@ -57,6 +154,24 @@ def _read(path: Path) -> str:
         return path.read_text(encoding="utf-8")
     except OSError as exc:
         raise ReconciliationError(f"cannot read {path}: {exc}") from exc
+
+
+def _require_role_binding(
+    text: str,
+    relative: str,
+    role: str,
+    expected_sha: str,
+    pattern: str,
+) -> None:
+    matches = re.findall(pattern, text, flags=re.MULTILINE)
+    _require(
+        len(matches) == 1,
+        f"{relative}: {role} binding missing or ambiguous",
+    )
+    _require(
+        matches[0] == expected_sha,
+        f"{relative}: {role} binding drift",
+    )
 
 
 def validate(repo: Path) -> None:
@@ -131,15 +246,22 @@ def validate(repo: Path) -> None:
     for page_id in NOTION_PAGE_IDS:
         _require(page_id in notion_record, f"Notion page identity missing: {page_id}")
 
-    current_texts: list[tuple[str, str]] = []
-    for relative in CURRENT_SURFACES:
+    current_texts: dict[str, str] = {}
+    for relative, bindings in SURFACE_ROLE_PATTERNS.items():
         text = _read(repo / relative)
-        current_texts.append((text, relative))
-        _require(PUBLICATION_SHA in text, f"{relative}: publication checkpoint drift")
-        _require(NOTION_SYNC_SHA in text, f"{relative}: Notion descendant checkpoint drift")
+        current_texts[relative] = text
+        for role, expected_sha, pattern in bindings:
+            _require_role_binding(text, relative, role, expected_sha, pattern)
+
+    risk_text = current_texts["docs/ai/KNOWN_RISKS.md"]
+    _require(CURRENT_RISK_STATE in risk_text, "active current-state drift risk state drift")
+    _require(
+        OBSOLETE_RISK_STATE not in risk_text,
+        "obsolete current-state drift risk state remains present",
+    )
 
     boundaries = " ".join(
-        [issue_record, notion_record, *(text for text, _ in current_texts)]
+        [issue_record, notion_record, *current_texts.values()]
     ).lower()
     for phrase in (
         "remain open",
@@ -160,7 +282,8 @@ def main() -> int:
     print(
         "Reconciliation validation passed; "
         f"publication={PUBLICATION_SHA}; notion={NOTION_SYNC_SHA}; "
-        f"issues=14,15,16,17; notion_pages={len(NOTION_PAGE_IDS)}"
+        f"issues=14,15,16,17; notion_pages={len(NOTION_PAGE_IDS)}; "
+        f"current_surfaces={len(CURRENT_SURFACES)}"
     )
     return 0
 
