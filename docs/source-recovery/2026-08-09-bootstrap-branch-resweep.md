@@ -52,11 +52,13 @@ locations_checked:
     access_mode: read-only Notion connector workspace search and page inspection
     result: not_found
     detail: results contained historical/status documentation but no source attachment or original test inventory
-  - location: operator-controlled devices, local Git state, backups, private archives, removable media, email, and disconnected storage
-    access_mode: inaccessible to current connectors
+  - location: operator-controlled devices, local Git state, backups, private archives, removable media, disconnected storage, and mail accounts other than the separately recorded connected Gmail sweep
+    access_mode: inaccessible to this sweep
     result: inaccessible
 candidate_artifacts: []
 ```
+
+The connected Gmail mailbox was searched in an earlier separately recorded Issue #1 sweep (`issuecomment-5082461536`). This resweep did not repeat that mailbox search and does not misclassify the connected Gmail surface as inaccessible.
 
 The bounded timestamp is intentionally not described as an exact start time or as a complete log of every connector call. That limitation narrows the record; it does not change the search result.
 
@@ -226,7 +228,7 @@ Unsupported conclusion:
 The source is globally and permanently lost.
 ```
 
-Operator-controlled local devices, IDE history, local Git reflogs/stashes, backups, private archives, disconnected cloud folders, email attachments, removable media, and inaccessible repositories remain outside this sweep.
+Operator-controlled local devices, IDE history, local Git reflogs/stashes, backups, private archives, disconnected cloud folders, removable media, mail accounts other than the separately searched connected Gmail mailbox, and inaccessible repositories remain outside this sweep.
 
 ## 11. Next gate
 
