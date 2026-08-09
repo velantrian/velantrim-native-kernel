@@ -37,7 +37,7 @@ assertion map: 45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED / 0 FAILED
 NK-EPI:        0 SUPPORTED / 0 PARTIAL / 8 UNSUPPORTED / 0 FAILED
 ```
 
-P1–P5, C4, and C5 remain merged in the clean lineage. They are now explicitly classified as a **bounded reference laboratory**. They are not the final definition of Native Kernel and may not expand semantic/runtime scope before the blueprint completion gate.
+P1–P5, C4, and C5 remain merged in the clean lineage. They are explicitly classified as a **bounded reference laboratory**. They are not the final definition of Native Kernel and may not expand semantic/runtime scope before the blueprint completion gate.
 
 ## Active Architecture Re-foundation
 
@@ -53,9 +53,9 @@ Tracking: [Issue #88](https://github.com/velantrian/velantrim-native-kernel/issu
 
 Required deliverables:
 
-1. Kernel purpose and non-goals — `DRAFTED`: [English](docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.md) · [Русский](docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md);
-2. knowledge and memory ontology;
-3. abstract Native Kernel machine;
+1. Kernel purpose and non-goals — `DRAFTED / PROVISIONAL`: [English](docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.md) · [Русский](docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md);
+2. knowledge and memory ontology — `DRAFTED / PROVISIONAL`: [English](docs/A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md) · [Русский](docs/A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md);
+3. abstract Native Kernel machine — `NEXT BOUNDED SLICE`;
 4. semantic laws and invariants;
 5. identity, time, and change model;
 6. knowledge lifecycle;
@@ -69,10 +69,12 @@ Current progress:
 ```text
 ADR-0025 decision: ACCEPTED / OPERATOR APPROVED
 blueprint plan: PRESENT
-blueprint content: A1 DRAFTED / A2-A10 INCOMPLETE
-next content slice: A2 — KNOWLEDGE AND MEMORY ONTOLOGY
+blueprint content: A1-A2 DRAFTED / PROVISIONAL; A3-A10 INCOMPLETE
+next content slice: A3 — ABSTRACT NATIVE KERNEL MACHINE
 runtime expansion: FROZEN
 ```
+
+A2 defines a provisional technology-/substrate-neutral distinction set for Signal, Observation, Record, Proposition, Claim, Interpretation, Hypothesis, Belief, Knowledge, Memory, Evidence, Source, Provenance, Context, Relation, State, Change, Event, Conflict, Contradiction, Uncertainty, Revision, Supersession, Authority, and Receipt. It rejects automatic promotion of current Python classes, SQL schemas, reducer output, or Event sourcing into Canon.
 
 Maintenance remains allowed for integrity, security, reproducibility, provenance, evidence preservation, truth-surface repair, historical recovery, and isolated blueprint-falsification experiments with no runtime promotion.
 
@@ -89,6 +91,18 @@ NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GLOBALLY_LOST
 historical recovery ≠ clean implementation
 reference laboratory ≠ final architecture
 blueprint documentation ≠ runtime evidence
+Observation ≠ Claim
+Claim ≠ Truth
+Evidence ≠ Source
+Repetition ≠ Evidence
+Belief ≠ Knowledge
+Memory ≠ merely a stored Record
+retrieval relevance ≠ epistemic validity
+Conflict ≠ necessarily Contradiction
+Unknown ≠ False
+Event usage in P1-C5 ≠ Event as universal primitive
+State ≠ necessarily reducer output
+Knowledge ≠ LLM / embeddings / SQL / JSON / specific processor
 ```
 
 ## Checkpoint roles
@@ -104,7 +118,7 @@ blueprint documentation ≠ runtime evidence
 | Evidence producing | `296981ae84ad5bdab5dabbec9b7b9ebb43af63d7` | C5 implementation evidence lineage. |
 | Manifest source / Notion synchronized descendant | `70acd0da61fee19131947aa56125833adb156ced` | PR #86 was merged, validated, synchronized, and read back before the current machine snapshot. |
 
-The publication and Notion synchronization checkpoints are intentionally different roles. ADR-0025 does not rewrite runtime or evidence identities and does not predict its own future merge or Notion synchronization SHA.
+The publication and Notion synchronization checkpoints are intentionally different roles. This candidate does not rewrite runtime or evidence identities and does not predict its own future merge or Notion synchronization SHA.
 
 ## Independent pending decisions
 
@@ -113,7 +127,7 @@ The publication and Notion synchronization checkpoints are intentionally differe
 | License/publication — Issue #18 | `PENDING_OPERATOR / selected_option: null` | no license change; external contributions and package publication remain unauthorized |
 | Reducer semantics — Issue #74 / ADR-0024 | `PROPOSED / PENDING_OPERATOR / selected_option: null` | reducer v1 remains immutable; reducer-v2 runtime remains unauthorized |
 
-These decisions no longer block ontology and blueprint research. Issue #18 still blocks an open contribution/publication regime. ADR-0024 still blocks reducer-v2 work.
+These decisions do not block ontology and blueprint research. Issue #18 still blocks an open contribution/publication regime. ADR-0024 still blocks reducer-v2 work.
 
 ## Runtime freeze
 
@@ -146,6 +160,11 @@ Architecture Re-foundation
 ≠ completed blueprint
 ≠ runtime implementation
 ≠ future substrate support
+
+A1-A2 DRAFTED
+≠ independent approval
+≠ integrated blueprint approval
+≠ Canon promotion
 
 C5 PASS
 ≠ production readiness
