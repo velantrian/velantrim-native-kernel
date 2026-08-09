@@ -2,116 +2,73 @@
 
 **[English](./README.md) · [Русский](./README.ru.md)**
 
-> **Текущая граница:** `RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY`
+> **Текущая граница:** `RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY`  
+> **Активная фаза:** `ARCHITECTURE RE-FOUNDATION / BLUEPRINT-FIRST / RUNTIME EXPANSION FROZEN`
 
 ## Начать здесь
 
 | Документ | Роль |
 |---|---|
-| [`../STATUS.md`](../STATUS.md) | authoritative human current state и роли checkpoints |
-| [`../project-state.json`](../project-state.json) | authoritative committed machine status (`nk-project-state/2`) |
-| [`../ROADMAP.md`](../ROADMAP.md) | active gate sequence и границы authorization |
-| [`QUICKSTART.ru.md`](./QUICKSTART.ru.md) | setup, безопасный SQLite floor и первые tests |
-| [`GLOSSARY.ru.md`](./GLOSSARY.ru.md) | terminology и обязательные non-equivalences |
+| [`../STATUS.md`](../STATUS.md) | authoritative human current state |
+| [`../project-state.json`](../project-state.json) | committed machine state (`nk-project-state/2`) |
+| [`../ROADMAP.md`](../ROADMAP.md) | active sequence и authorization boundaries |
+| [`ARCHITECTURE_REFOUNDATION.ru.md`](./ARCHITECTURE_REFOUNDATION.ru.md) | активный план архитектурного чертежа |
+| [`ARCHITECTURE_REFOUNDATION.md`](./ARCHITECTURE_REFOUNDATION.md) | English blueprint plan |
 | [`../AGENTS.md`](../AGENTS.md) | обязательные инструкции репозитория |
-| [`ai/CURRENT_STATE.md`](./ai/CURRENT_STATE.md) | компактный AI continuity checkpoint |
-| [`ai/KNOWN_RISKS.md`](./ai/KNOWN_RISKS.md) | active, mitigated и closed risks |
-| [`../evidence/c5/README.md`](../evidence/c5/README.md) | неизменяемые evidence identities и proof boundaries |
-| [`CONFORMANCE_MODEL.md`](./CONFORMANCE_MODEL.md) | C0–C5 и границы assertions |
+| [`ai/CURRENT_STATE.md`](./ai/CURRENT_STATE.md) | компактный AI continuity state |
+| [`ai/KNOWN_RISKS.md`](./ai/KNOWN_RISKS.md) | active risks |
 | [`adr/README.md`](./adr/README.md) | accepted и proposed decisions |
-| [`research/POST_C5_RESEARCH_BACKLOG.md`](./research/POST_C5_RESEARCH_BACKLOG.md) | только proposed research |
-| [`INTEGRATION_BOUNDARIES.md`](./INTEGRATION_BOUNDARIES.md) | границы ecosystem authority |
+| [`../evidence/c5/README.md`](../evidence/c5/README.md) | immutable evidence boundaries |
+| [`QUICKSTART.ru.md`](./QUICKSTART.ru.md) | setup и tests reference laboratory |
+| [`GLOSSARY.ru.md`](./GLOSSARY.ru.md) | terminology и обязательные distinctions |
 
 ## Текущая карта
 
 ```text
 H historical recovery: OPEN / BLOCKED / independent
-C clean implementation: P1–P5 + C4 + C5 / ACTIVE / PARTIAL
-R long-horizon research: PROPOSED / BOUNDED / NO AUTOMATIC PROMOTION
+C clean implementation: PRESERVED / PARTIAL / BOUNDED REFERENCE LABORATORY
+R architecture re-foundation: ACTIVE / BLUEPRINT-FIRST
 
-kernel_runtime_conformance: C4
-operational_validation: C5_BOUNDED_REHEARSAL
+kernel runtime: C4
+operational validation: C5_BOUNDED_REHEARSAL
 assertions: 45 / 10 / 17 / 0
-NK-EPI: 0 SUPPORTED / 0 PARTIAL / 8 UNSUPPORTED / 0 FAILED
+NK-EPI: 0 / 0 / 8 / 0
 production: NOT AUTHORIZED
 ```
 
-## Роли правды
+## Активная последовательность
 
 ```text
-CURRENT STATE
-  STATUS.md
-  project-state.json
-  docs/ai/CURRENT_STATE.md
-
-ACTIVE ROADMAP
-  ROADMAP.md
-
-ACTIVE RISKS
-  docs/ai/KNOWN_RISKS.md
-
-HISTORICAL RECORD
-  implementation records
-  accepted ADRs
-  immutable evidence manifests
-  Git history и checkpoint permalinks
-
-PROPOSAL
-  proposed ADRs
-  research backlog
-  unaccepted contract drafts
+A1 Purpose и Non-goals
+→ A2 Knowledge and Memory Ontology
+→ A3 Abstract Native Kernel Machine
+→ A4 Semantic Laws and Invariants
+→ A5 Identity / Time / Change
+→ A6 Knowledge Lifecycle
+→ A7 Conflict / Uncertainty / Revision
+→ A8 Substrate-independence Contract
+→ A9 Reference Laboratory Boundary
+→ A10 Open Questions / Falsification
+→ integrated blueprint review
+→ отдельное operator decision до возобновления runtime expansion
 ```
 
-Historical reports, proposals и старая Notion chronology не являются authoritative current state.
+ADR-0025 сохраняет существующую Python/PostgreSQL/SQLite реализацию как bounded laboratory и замораживает новое semantic/runtime expansion.
 
-## Порядок чтения
+Issue #18 остаётся `PENDING_OPERATOR` для license/publication. ADR-0024 остаётся `PROPOSED / PENDING_OPERATOR` и продолжает блокировать reducer-v2, но не blueprint research.
 
-```text
-STATUS + project-state
-→ ROADMAP
-→ QUICKSTART + GLOSSARY
-→ AGENTS + AI context
-→ contracts + conformance model
-→ implementation и tests
-→ evidence manifests и records
-→ ADR history
-→ research только когда важно будущее направление
-```
-
-## Текущая разрешённая последовательность
+## Обязательные различия
 
 ```text
-human-readable truth reconciliation
-→ reconciliation Issues #14–#17 и Notion
-→ license decision options
-→ ADR-0024 decision options
-→ NK-SAM и именованные equivalence profiles
-→ Event/history commitment
-→ только затем reducer-v2 runtime
-```
-
-Executable NK-EPI, Temporal, полный Admission, operational deletion, полная independent implementation и ecosystem integration остаются за пределами текущего reconciliation slice.
-
-## Центральные различия
-
-```text
-Architecture Canon
-≠ Abstract Contract
-≠ Accepted Decision
-≠ Implementation Profile
-≠ Evidence Layer
-≠ Assertion Result
-≠ Operator Authorization
-≠ Production Evidence
-```
-
-```text
+reference laboratory ≠ final architecture
+blueprint documentation ≠ implementation evidence
 PostgreSQL + SQLite ≠ full substrate neutrality
 C5 PASS ≠ production readiness
 Unknown ≠ False
 admission ≠ truth
 logical ERASED ≠ physical deletion
 public repository ≠ open-source license
+future-facing design ≠ demonstrated future substrate support
 ```
 
-PostgreSQL, SQLite, Python, JSON, graphs, vectors, LLM и hardware — инструменты или profiles, а не Canon.
+Current technologies являются заменяемыми research instruments, а не Architecture Canon.
