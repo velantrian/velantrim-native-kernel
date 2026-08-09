@@ -1,18 +1,26 @@
 {
-  "protocol": "nk-project-state/1",
-  "snapshot_id": "native-kernel/state/2026-08-08-adr0023-revalidated",
-  "observed_at": "2026-08-08T09:57:17Z",
+  "protocol": "nk-project-state/2",
+  "snapshot_id": "native-kernel/state/2026-08-09-truth-reconciliation",
+  "observed_at": "2026-08-09T10:53:56Z",
   "repository": {
     "full_name": "velantrian/velantrim-native-kernel",
     "visibility": "PUBLIC",
-    "default_branch": "main",
-    "observed_main_sha": "675aa4b398a2fc0181dc71d38904a2d33a09f5f8",
-    "implementation_evidence_sha": "296981ae84ad5bdab5dabbec9b7b9ebb43af63d7",
-    "checkpoint_semantics": "The observed SHA is the merged ADR-0023 implementation and final safe-runtime evidence checkpoint. The repository-resident evidence manifest is carried by a descendant evidence-only commit; the earlier implementation evidence SHA remains separately historical."
+    "default_branch": "main"
+  },
+  "checkpoints": {
+    "manifest_generated_from_sha": "626f34e6328b455258f2dd5fcf2145ec4db64a60",
+    "expected_head_relationship": "DESCENDANT_OR_EQUAL",
+    "runtime_checkpoint_sha": "675aa4b398a2fc0181dc71d38904a2d33a09f5f8",
+    "runtime_integrity_checkpoint_sha": "a1cdc6d8f36d67f40f065641809bc6da463c10a4",
+    "evidence_producing_sha": "296981ae84ad5bdab5dabbec9b7b9ebb43af63d7",
+    "publication_checkpoint_sha": "626f34e6328b455258f2dd5fcf2145ec4db64a60",
+    "notion_synchronized_through_sha": "626f34e6328b455258f2dd5fcf2145ec4db64a60",
+    "checkpoint_semantics": "The committed manifest records verified checkpoints and the relationship expected between its source SHA and the checked-out HEAD. Live HEAD is resolved by Git or the GitHub API; the file does not attempt to contain the SHA of its own commit."
   },
   "status": {
     "repository_status": "RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY",
     "support_state": "PARTIAL",
+    "clean_runtime_support": "PARTIAL",
     "kernel_runtime_conformance": "C4",
     "operational_validation": "C5_BOUNDED_REHEARSAL",
     "production_authorized": false
@@ -73,6 +81,7 @@
   "nk_epi": {
     "contract_version": "nk-epi/0.1-proposed",
     "decision_status": "PROPOSED",
+    "implementation_support": "NOT_IMPLEMENTED",
     "supported": 0,
     "partial": 0,
     "unsupported": 8,
@@ -88,7 +97,7 @@
       "verification": {
         "status": "VERIFIED",
         "method": "GITHUB_API",
-        "observed_at": "2026-08-07T21:06:45Z",
+        "observed_at": "2026-08-09T10:53:56Z",
         "source": "issue/1"
       }
     },
@@ -99,7 +108,7 @@
       "verification": {
         "status": "VERIFIED",
         "method": "GITHUB_API",
-        "observed_at": "2026-08-07T21:28:07Z",
+        "observed_at": "2026-08-09T10:53:56Z",
         "source": "issue/64"
       }
     }
@@ -120,7 +129,12 @@
       "path": "evidence/c5/2026-08-08-adr0023/manifest.json",
       "checkpoint_count": 2,
       "artifact_count": 8,
-      "required_profiles": ["P5", "C3", "C4", "C5"],
+      "required_profiles": [
+        "P5",
+        "C3",
+        "C4",
+        "C5"
+      ],
       "minimum_linked_sqlite": "3.51.3",
       "new_evidence_identity_required": true,
       "new_evidence_identity": "native-kernel/c5/2026-08-08-adr0023",
@@ -131,8 +145,8 @@
   },
   "notion": {
     "synchronization_required": true,
-    "status": "SYNCED",
-    "scope": "ADR-0023 implementation and additive evidence state synchronized; GitHub remains authoritative for exact checkpoints",
+    "status": "SYNCED_THROUGH_PUBLICATION_CHECKPOINT",
+    "scope": "GitHub and Notion current-state surfaces were verified through the publication checkpoint; later descendant commits require a new synchronization record.",
     "authority_boundary": "Notion carries rationale and history; GitHub remains sufficient for technical state and evidence."
   },
   "non_claims": [
@@ -140,6 +154,7 @@
     "Operational validation does not promote NK-EPI assertions.",
     "Clean implementation is not recovered v0.1.2.1.",
     "Repository-resident artifacts do not prove live-data safety, compliance, physical deletion, operational equivalence or ecosystem authority.",
-    "ADR-0023 safe-version reproduction and re-adjudication preserved the assertion arithmetic without promotion."
+    "ADR-0023 safe-version reproduction and re-adjudication preserved the assertion arithmetic without promotion.",
+    "A descendant HEAD does not silently broaden the proof scope of an earlier runtime, evidence or publication checkpoint."
   ]
 }
