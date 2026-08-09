@@ -1,64 +1,54 @@
 # Current Status
 
-> **Verified PR #72 review checkpoint:** `a1cdc6d8f36d67f40f065641809bc6da463c10a4`
-> **Verified ADR-0023 runtime checkpoint:** `675aa4b398a2fc0181dc71d38904a2d33a09f5f8`
-> **C5 implementation evidence checkpoint:** `296981ae84ad5bdab5dabbec9b7b9ebb43af63d7`
-> **Implementation publication:** PR #69 and PR #72 squash-merged, ADR-0023 accepted; Issue #64 remains `CLOSED / COMPLETED`
+```yaml
+document_role: CURRENT_STATE
+status_as_of: 2026-08-09
+authoritative_machine_source: project-state.json (nk-project-state/2)
+live_head_source: GitHub API or checked-out Git ref
+machine_truth_reconciliation_merge: d9eee591de308a689ace940c2efe58c9e8a137f2
+runtime_checkpoint: 675aa4b398a2fc0181dc71d38904a2d33a09f5f8
+runtime_integrity_checkpoint: a1cdc6d8f36d67f40f065641809bc6da463c10a4
+evidence_producing_checkpoint: 296981ae84ad5bdab5dabbec9b7b9ebb43af63d7
+notion_synchronized_through: 626f34e6328b455258f2dd5fcf2145ec4db64a60
+```
+
 > **Repository status:** `RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY`
-> **Post-merge Codex review follow-up:** `PR #72 MERGED / EXACT MAIN CI 9 OF 9 PASS`
+>
+> A checkpoint is not automatically the live branch head. Live `main` must be resolved from GitHub or the checked-out Git ref. A later documentation or metadata commit does not silently broaden the proof scope of an earlier runtime or evidence checkpoint.
 
-The checkpoints above distinguish current repository state from the earlier artifact-producing evidence identities. A descendant documentation commit does not invalidate those evidence lineages and must not be confused with their producing SHAs.
-
-## 2026-08-08 post-merge review follow-up
-
-Four unresolved Codex review findings against PRs #69 and #70 were reproduced on `main@d8fe6c9f6e1233eb29ade630a85771e581c2813e`:
+## Current state
 
 ```text
-Python bool/int equality bypass:      CONFIRMED / FIXED
-SQLite builder workflow trigger gap: CONFIRMED / FIXED
-evidence-bundle-v1 schema drift:      CONFIRMED / FIXED
-associated run-ID identity gap:       CONFIRMED / FIXED
+clean_runtime_support:       PARTIAL
+kernel_runtime_conformance: C4
+operational_validation:     C5_BOUNDED_REHEARSAL
+production_authorized:      false
+
+assertion map: 45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED / 0 FAILED
+NK-EPI:        0 SUPPORTED / 0 PARTIAL / 8 UNSUPPORTED / 0 FAILED
 ```
 
-PR [#72](https://github.com/velantrian/velantrim-native-kernel/pull/72), exact head `ebb6ac99e2051c01f0fb8e8effc7eaad6d4fe8da`, added type-exact canonical Event field comparison in both profiles, `tools/sqlite/**` triggers in P5/C3/C4/C5, a backward-compatible `nk-evidence-bundle/1` schema extension and role-bound exact ADR-0023 run identities. It was squash-merged as `a1cdc6d8f36d67f40f065641809bc6da463c10a4`. All nine workflows passed on the exact PR head and all nine push workflows passed on the exact merged `main` commit.
+P1–P5, C4 and C5 are merged in the clean implementation lineage. C5 is a bounded synthetic operational rehearsal, not a production deployment, live-data validation, compliance certification or authority promotion.
 
-```text
-P1 semantic core:                 31266881458 — PASS
-P2 PostgreSQL append integrity:   31266881488 — PASS
-P3 replay/projection integrity:   31266881449 — PASS
-Conformance fixture integrity:    31266881438 — PASS
-AI context integrity:             31266881442 — PASS
-P4 assertion conformance:         31266881459 — PASS
-P5 SQLite / C3 equivalence:       31266881460 — PASS
-C4 offline shadow evaluation:     31266881444 — PASS
-C5 bounded operational rehearsal: 31266881455 — PASS
-```
+## Checkpoint roles
 
-The retained ADR-0023 ZIPs are not rewritten or described as evidence of this later fix. No assertion, NK-EPI, C4/C5 maturity, production, deletion, historical-recovery or ecosystem-authority promotion occurred.
+| Role | Checkpoint | Meaning |
+|---|---|---|
+| Machine truth reconciliation | `d9eee591de308a689ace940c2efe58c9e8a137f2` | PR #80 introduced `nk-project-state/2`, non-self-referential checkpoints and registry↔state consistency checks. |
+| Runtime | `675aa4b398a2fc0181dc71d38904a2d33a09f5f8` | ADR-0023 safe SQLite/Event runtime checkpoint. |
+| Runtime integrity follow-up | `a1cdc6d8f36d67f40f065641809bc6da463c10a4` | PR #72 closed the post-merge integrity review findings. |
+| Evidence producing | `296981ae84ad5bdab5dabbec9b7b9ebb43af63d7` | C5 implementation evidence lineage. |
+| Notion synchronized through | `626f34e6328b455258f2dd5fcf2145ec4db64a60` | Last publication checkpoint confirmed in Notion before the current reconciliation sequence. Later merges require a new sync record. |
 
-## 2026-08-08 integrity remediation
-
-```text
-PR:                     #69 SQUASH-MERGED
-Decision:               ADR-0023 ACCEPTED / APPROVED
-SQLite WAL minimum:     linked 3.51.3
-Event Envelope:         exact field/value/hash verification merged
-Migration atomicity:    repaired
-Configured busy timeout: preserved
-PR-head P5/C3/C4/C5:    PASS / runs 31251376567, 31251376572, 31251376574
-Final-main P5/C3/C4/C5: PASS / runs 31251526992, 31251526965, 31251526982
-New durable evidence:   evidence/c5/2026-08-08-adr0023/manifest.json
-```
-
-The 2026-08-07 P5/C3/C4/C5 results on SQLite 3.45.1 remain exact historical evidence under their original identity. Revalidation on the actually linked SQLite 3.51.3 completed at PR-head and final-main checkpoints; the new eight ZIPs are additive. Re-adjudication preserved `45 / 10 / 17 / 0`; `NK-EPI` remains `0 / 8 SUPPORTED`; production remains unauthorized.
+These identities are intentionally different. No committed file attempts to contain the SHA of its own commit.
 
 ## Three independent tracks
 
-| Track | Scope | Status |
+| Track | Scope | Current state |
 |---|---|---|
-| `H` — Historical Recovery | authentic `v0.1.2.1` and original 44-test suite | `BLOCKED / ACTIVE EVIDENCE-RECOVERY` |
-| `C` — Clean Implementation | independently versioned P1–P5, C4 and C5 | `ACTIVE / PARTIAL` |
-| `R` — Long-Horizon Research | proposed future contracts, profiles and experiments | `PROPOSED / BOUNDED` |
+| `H` — Historical Recovery | authentic `v0.1.2.1` and original 44-test suite | `BLOCKED / ACTIVE EVIDENCE-RECOVERY`; not found in accessible sources |
+| `C` — Clean Implementation | P1–P5, C4 and C5 | `ACTIVE / PARTIAL` |
+| `R` — Long-Horizon Research | proposed future contracts, profiles and experiments | `PROPOSED / BOUNDED / NO AUTOMATIC PROMOTION` |
 
 ```text
 NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GLOBALLY_LOST
@@ -66,171 +56,71 @@ historical recovery ≠ clean implementation
 research proposal ≠ accepted contract ≠ runtime
 ```
 
-Track H does not block Track C. Track R does not gain runtime or Canon status through documentation.
+Track H does not block Track C. Track R cannot obtain Canon or runtime status through prose.
 
-## Clean implementation phase
+## Durable evidence
 
-```text
-P1: MERGED / REPOSITORY-TESTED
-P2: MERGED / REPOSITORY-INTEGRATION-TESTED
-P3: MERGED / REPOSITORY-INTEGRATION-TESTED
-P4: MERGED / PARTIAL / POSTGRESQL C2
-P5: MERGED / PARTIAL / SQLITE C2 + CROSS-PROFILE C3
-C4: MERGED / PARTIAL / OFFLINE SHADOW EVIDENCE
-C5: MERGED / PARTIAL / BOUNDED SYNTHETIC OPERATIONAL REHEARSAL
-Production: NOT AUTHORIZED / NOT ESTABLISHED
-```
-
-C5 is a bounded operational evidence layer. It is not a new storage profile, production deployment, public service, compliance certification or ecosystem authority.
-
-## Semantic and operational levels
-
-```text
-kernel_runtime_conformance: C4
-operational_validation:     C5_BOUNDED_REHEARSAL
-support_state:              PARTIAL
-```
-
-```text
-Single-profile C2: 41 SUPPORTED / 13 PARTIAL / 18 UNSUPPORTED / 0 FAILED
-Cross-profile C3:  45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED / 0 FAILED
-Offline C4 scope:  45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED / 0 FAILED
-C5 assertion map:  45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED / 0 FAILED
-NK-EPI-001…008:     0 SUPPORTED /  0 PARTIAL /  8 UNSUPPORTED / 0 FAILED
-```
-
-C5 does not promote semantic assertions. `NK-EPI-004 — unknown ≠ false` is a research candidate, not current runtime support.
-
-## Operational plan
-
-```text
-plan_id:       native-kernel/c5-bounded-rehearsal-v1
-protocol:      nk-operational-plan/1
-sha256:        4ed680ff4e83ac9d1aca6c1ab8a435ecb19af4a5badf1be8202bc842f964b098
-scenarios:     18
-deployment:    CI_EPHEMERAL_SYNTHETIC
-```
-
-Categories: `SECURITY · PRIVACY · RECOVERY · ROLLBACK · INCIDENT · RELIABILITY · RESILIENCE`.
-
-## Exact C5 evidence lineage
-
-### Implementation-main checkpoint
-
-```text
-Head:       296981ae84ad5bdab5dabbec9b7b9ebb43af63d7
-C5 run:     31204861404 — PASS
-C4:         31204861534 — PASS
-P5/C3:      31204861602 — PASS
-P4:         31204861564 — PASS
-AI context: 31204861416 — PASS
-```
-
-### Final documentation-main checkpoint
-
-```text
-Head:       3d56912260ea41b5b501b65477bff1642dfc2d58
-C5 run:     31205512911 — PASS
-C4:         31205512919 — PASS
-P5/C3:      31205512874 — PASS
-P4:         31205512957 — PASS
-AI context: 31205512966 — PASS
-```
-
-C5 matrix at both checkpoints:
-
-```text
-Python 3.11 / PostgreSQL 16 / SQLite 3.45.1 — PASS
-Python 3.11 / PostgreSQL 18 / SQLite 3.45.1 — PASS
-Python 3.12 / PostgreSQL 16 / SQLite 3.45.1 — PASS
-Python 3.12 / PostgreSQL 18 / SQLite 3.45.1 — PASS
-```
-
-Every job passed C5 guards, exact P4/P5/C3/C4 prerequisites, all 18 scenarios, P1–C4 regressions, compileall and six-report artifact upload.
-
-### ADR-0023 safe-runtime checkpoints
-
-```text
-PR #69 head ab7a203ce7ed8ec46c341bc4da9063d56f023338
-  P5/C3 31251376567 — PASS
-  C4     31251376572 — PASS
-  C5     31251376574 — PASS
-
-Merged main 675aa4b398a2fc0181dc71d38904a2d33a09f5f8
-  P5/C3 31251526992 — PASS
-  C4     31251526965 — PASS
-  C5     31251526982 — PASS
-```
-
-Both matrices used Python 3.11/3.12 × PostgreSQL 16/18 × linked SQLite 3.51.3. Every C5 job recorded 18/18 scenarios, 18 Receipts, zero canary leaks, zero recovery failures and zero uncontained incidents.
-
-## Durable evidence capture
-
-Both additive eight-archive identities are repository-resident:
+Repository-resident evidence remains immutable under its original identities:
 
 ```text
 evidence/c5/2026-08-07/manifest.json
 evidence/c5/2026-08-08-adr0023/manifest.json
 ```
 
-The bundle records:
+The retained archives prove only their declared environments, inputs, runs and bounded outputs. They do not prove live-user safety, independent custody, complete authenticity, physical deletion, operational equivalence or production readiness.
 
-- two checkpoint SHAs and workflow runs;
-- eight original GitHub Actions ZIPs;
-- GitHub and locally recomputed archive SHA-256 values;
-- exact six-file inventories and file-level hashes;
-- environment and bounded result metadata.
+## Current gaps and decisions
 
-Verification:
+| Boundary | State | Next gate |
+|---|---|---|
+| License and publication terms — Issue #18 | `OPEN / OPERATOR DECISION REQUIRED` | Choose a publication regime before external collaboration or package publication. |
+| Reducer referential semantics — Issue #74 / ADR-0024 | `PROPOSED / NOT STARTED` | Explicit operator decision before reducer-v2 runtime work. |
+| Semantic abstract machine and equivalence profiles | `PROPOSED` | Define NK-SAM and named equivalence profiles before independent implementation claims. |
+| Event/history commitment | `INCOMPLETE` | Separate portable semantic commitment from operational/profile receipts before reducer-v2 histories. |
+| NK-EPI-001…008 | `8 UNSUPPORTED` | Contract-first executable slices; operations alone cannot promote them. |
+| Temporal semantics | `NOT IMPLEMENTED AS A COMPLETE CONTRACT` | Decide identity impact and valid/recorded/write-order semantics separately. |
+| Admission lifecycle | `NOT IMPLEMENTED AS A COMPLETE PIPELINE` | Define policy, authority, scope and decision records without truth overclaim. |
+| Operational deletion | `NOT ESTABLISHED` | Inventory locations, execution methods and bounded Receipts. |
+| Independent cross-language conformance | `NOT ESTABLISHED` | Independent encoder/parser/reducer and declared equivalence evidence. |
+| Production authorization | `false` | Deployment-specific threat model, operations, evidence and explicit operator GO. |
 
-```bash
-python tools/evidence/verify_bundle.py evidence/c5/2026-08-07/manifest.json
-python tools/evidence/verify_bundle.py evidence/c5/2026-08-08-adr0023/manifest.json
-```
-
-The original GitHub Actions copies expire on 2026-09-06. The repository-resident bytes no longer depend on that retention window.
-
-## Mandatory deployment boundary
+## Next authorized gate
 
 ```text
-live_user_data: false
-synthetic_data_only: true
-production_traffic: false
-network_api_exposed: false
-authority_promotion: false
-authoritative_external_side_effects: false
-ecosystem_wiring: false
-physical_deletion_claimed: false
-compliance_certification_claimed: false
+human-readable truth reconciliation
+→ issues and Notion reconciliation
+→ license decision options
+→ ADR-0024 operator decision
+→ NK-SAM and equivalence contracts
+→ Event/history commitment contract
+→ only then reducer-v2 runtime work
 ```
+
+Do not begin Temporal, executable NK-EPI, full Admission, operational deletion, full Rust/Go implementation or ecosystem integration inside the current reconciliation slice.
 
 ## Explicit non-claims
 
 ```text
-C5 bounded rehearsal PASS
+C5 PASS
 ≠ production readiness
 ≠ live-user-traffic validation
-≠ cloud IAM or multi-region HA proof
-≠ exhaustive disaster recovery
-≠ physical PostgreSQL backup
+≠ full substrate neutrality
+≠ independent language equivalence
+≠ complete Event authenticity
 ≠ physical or cryptographic deletion
 ≠ compliance certification
-≠ operational equivalence
-≠ truth or external authenticity
-≠ authority promotion
-≠ ecosystem wiring
+≠ authority or truth promotion
 ≠ NK-EPI advancement
+≠ recovered v0.1.2.1
 ```
 
-## Machine-readable state
+## Historical record
 
-`project-state.json` is the authoritative machine-readable project snapshot for repository state and evidence boundaries. It does not claim truth about the external world and does not replace exact code, tests, artifacts or GitHub live state.
+Earlier detailed status chronology remains inspectable in Git history and in the following version-bound records:
 
-## Next gate
+- [`docs/ai/C5_IMPLEMENTATION_RECORD.md`](docs/ai/C5_IMPLEMENTATION_RECORD.md)
+- [`docs/adr/0023-harden-sqlite-wal-and-event-integrity.md`](docs/adr/0023-harden-sqlite-wal-and-event-integrity.md)
+- [`evidence/c5/README.md`](evidence/c5/README.md)
+- [historical `STATUS.md` at publication checkpoint `626f34e…`](https://github.com/velantrian/velantrim-native-kernel/blob/626f34e6328b455258f2dd5fcf2145ec4db64a60/STATUS.md)
 
-1. define reducer referential rules (dangling, self and cycle semantics) in a separate contract-first decision before changing runtime behavior;
-2. keep NK-EPI-004 in its own separately authorized executable slice;
-3. continue Track H source recovery independently;
-4. continue operational hardening without promoting maturity through operations alone.
-
-Any production, live-traffic, physical-deletion, NK-EPI promotion or ecosystem-authority work requires separate explicit operator approval and evidence.
+Historical reports are evidence of their exact checkpoints. They are not the authoritative current-state surface.
