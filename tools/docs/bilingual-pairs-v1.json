@@ -53,6 +53,33 @@
       "require_single_h1": true
     },
     {
+      "pair_id": "architecture-refoundation",
+      "english": "docs/ARCHITECTURE_REFOUNDATION.md",
+      "russian": "docs/ARCHITECTURE_REFOUNDATION.ru.md",
+      "selectors": [
+        "(./ARCHITECTURE_REFOUNDATION.md)",
+        "(./ARCHITECTURE_REFOUNDATION.ru.md)"
+      ],
+      "shared_literals": [
+        "ACTIVE / BLUEPRINT-FIRST / RUNTIME EXPANSION FROZEN",
+        "ADR-0025",
+        "A1",
+        "A10",
+        "Python + PostgreSQL + SQLite",
+        "Production authorization: false"
+      ],
+      "english_literals": [
+        "Why this phase exists",
+        "Blueprint completion gate"
+      ],
+      "russian_literals": [
+        "Зачем нужна эта фаза",
+        "Gate завершения blueprint"
+      ],
+      "compare_heading_levels": true,
+      "require_single_h1": true
+    },
+    {
       "pair_id": "human-quickstart",
       "english": "docs/QUICKSTART.md",
       "russian": "docs/QUICKSTART.ru.md",
