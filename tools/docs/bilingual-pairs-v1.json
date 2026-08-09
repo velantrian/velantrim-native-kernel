@@ -5,7 +5,10 @@
       "pair_id": "root-readme",
       "english": "README.md",
       "russian": "README.ru.md",
-      "selectors": ["(./README.md)", "(./README.ru.md)"],
+      "selectors": [
+        "(./README.md)",
+        "(./README.ru.md)"
+      ],
       "shared_literals": [
         "RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY",
         "45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED",
@@ -13,8 +16,14 @@
         "C5_BOUNDED_REHEARSAL",
         "production_authorized:      false"
       ],
-      "english_literals": ["Human quickstart", "Current evidence"],
-      "russian_literals": ["Быстрый старт для человека", "Текущая карта evidence"],
+      "english_literals": [
+        "Human quickstart",
+        "Current evidence"
+      ],
+      "russian_literals": [
+        "Быстрый старт для человека",
+        "Текущая карта evidence"
+      ],
       "compare_heading_levels": true,
       "require_single_h1": true
     },
@@ -22,15 +31,24 @@
       "pair_id": "docs-index",
       "english": "docs/README.md",
       "russian": "docs/README.ru.md",
-      "selectors": ["(./README.md)", "(./README.ru.md)"],
+      "selectors": [
+        "(./README.md)",
+        "(./README.ru.md)"
+      ],
       "shared_literals": [
         "C5_BOUNDED_REHEARSAL",
         "45 / 10 / 17 / 0",
         "NK-EPI: 0 SUPPORTED / 0 PARTIAL / 8 UNSUPPORTED / 0 FAILED",
         "production: NOT AUTHORIZED"
       ],
-      "english_literals": ["Start here", "Reading order"],
-      "russian_literals": ["Начать здесь", "Порядок чтения"],
+      "english_literals": [
+        "Start here",
+        "Reading order"
+      ],
+      "russian_literals": [
+        "Начать здесь",
+        "Порядок чтения"
+      ],
       "compare_heading_levels": true,
       "require_single_h1": true
     },
@@ -50,8 +68,14 @@
         "Python + PostgreSQL + SQLite",
         "Production authorization: false"
       ],
-      "english_literals": ["Why this phase exists", "Blueprint completion gate"],
-      "russian_literals": ["Зачем нужна эта фаза", "Gate завершения blueprint"],
+      "english_literals": [
+        "Why this phase exists",
+        "Blueprint completion gate"
+      ],
+      "russian_literals": [
+        "Зачем нужна эта фаза",
+        "Gate завершения blueprint"
+      ],
       "compare_heading_levels": true,
       "require_single_h1": true
     },
@@ -115,7 +139,10 @@
       "pair_id": "human-quickstart",
       "english": "docs/QUICKSTART.md",
       "russian": "docs/QUICKSTART.ru.md",
-      "selectors": ["(./QUICKSTART.md)", "(./QUICKSTART.ru.md)"],
+      "selectors": [
+        "(./QUICKSTART.md)",
+        "(./QUICKSTART.ru.md)"
+      ],
       "shared_literals": [
         "SQLite 3.51.3",
         "NK_TEST_POSTGRES_DSN",
@@ -138,7 +165,10 @@
       "pair_id": "glossary",
       "english": "docs/GLOSSARY.md",
       "russian": "docs/GLOSSARY.ru.md",
-      "selectors": ["(./GLOSSARY.md)", "(./GLOSSARY.ru.md)"],
+      "selectors": [
+        "(./GLOSSARY.md)",
+        "(./GLOSSARY.ru.md)"
+      ],
       "shared_literals": [
         "0/8 SUPPORTED",
         "Public repository",
@@ -146,7 +176,10 @@
         "Accepted ADR",
         "implemented runtime"
       ],
-      "english_literals": ["Non-equivalences to preserve", "Claim              ≠ truth"],
+      "english_literals": [
+        "Non-equivalences to preserve",
+        "Claim              ≠ truth"
+      ],
       "russian_literals": [
         "Неэквивалентности, которые нужно сохранять",
         "Claim               ≠ truth"
