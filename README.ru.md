@@ -61,10 +61,14 @@ C5 не повышает semantic assertions и не разрешает producti
 |---|---|
 | Merge reconciliation машиночитаемой правды | `d9eee591de308a689ace940c2efe58c9e8a137f2` |
 | Merge reconciliation человекочитаемой правды | `07549a0cd952b4e06b61ef24d21b2dcdbc9f861d` |
+| Repository record Issues и Notion | `cdf559a3a32decd538e4cab3dd7fb591fc6e9322` |
+| Operator decision packages / publication checkpoint | `10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c` |
 | Runtime checkpoint | `675aa4b398a2fc0181dc71d38904a2d33a09f5f8` |
 | Runtime integrity checkpoint | `a1cdc6d8f36d67f40f065641809bc6da463c10a4` |
 | Evidence-producing checkpoint | `296981ae84ad5bdab5dabbec9b7b9ebb43af63d7` |
-| Notion синхронизирован по | `07549a0cd952b4e06b61ef24d21b2dcdbc9f861d` |
+| Notion синхронизирован по | `10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c` |
+
+Exact head PR #83: `57c14742f705f96e33e929e7e206f14169d42fc0`. Пять exact-head workflows и пять post-merge workflows прошли; на каждом checkpoint было 18 успешных jobs без failed, cancelled или skipped. Review submissions и unresolved review threads отсутствовали; уведомление Codex о quota не являлось review или approval.
 
 Live `main` определяется через GitHub или checked-out Git ref. Committed manifest записывает проверенные checkpoints и ожидаемую связь с HEAD; он не пытается содержать SHA собственного commit.
 
@@ -73,8 +77,8 @@ Live `main` определяется через GitHub или checked-out Git re
 ```text
 machine-readable truth: COMPLETE / PR #80
 human-readable truth:   COMPLETE / PR #81
-Issues #14–#17:         RECONCILED / OPEN
-Notion dashboard:       SYNCED THROUGH PR #81
+Issues #14–#17:         RECONCILED / OPEN / PR #82 RECORD
+Notion dashboard:       SYNCED THROUGH PR #83
 ```
 
 Исторические отчёты и proposals сохранены, но исключены из authoritative current-state retrieval path.
@@ -122,11 +126,15 @@ Clean implementation не выдаётся за восстановленный `
 
 ```text
 operator decision по license/publication — Issue #18
+  PENDING_OPERATOR / selected_option: null
 → operator decision по ADR-0024 — Issue #74
+  PROPOSED / PENDING_OPERATOR / selected_option: null
 → NK-SAM и именованные equivalence profiles
 → Event/history commitment contract
 → только затем reducer-v2 runtime
 ```
+
+До явных решений license не изменена, external contributions остаются не приняты, package publication не разрешена, reducer v1 остаётся immutable, а reducer-v2 runtime не авторизован.
 
 Пока не разрешены:
 
