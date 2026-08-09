@@ -87,9 +87,10 @@
           "A10_OPEN_QUESTIONS_AND_FALSIFICATION"
         ],
         "completion_requires_operator_review": true,
-        "next_content_slice": "A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY",
+        "next_content_slice": "A3_ABSTRACT_NATIVE_KERNEL_MACHINE",
         "completed_deliverables": [
-          "A1_KERNEL_PURPOSE_AND_NON_GOALS"
+          "A1_KERNEL_PURPOSE_AND_NON_GOALS",
+          "A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY"
         ]
       },
       "runtime_freeze_exceptions": [
@@ -132,93 +133,48 @@
     "1": {
       "state": "OPEN",
       "meaning": "Historical source recovery remains independent from the clean implementation.",
-      "verification": {
-        "status": "VERIFIED",
-        "method": "GITHUB_API",
-        "observed_at": "2026-08-09T11:31:28Z",
-        "source": "issue/1"
-      }
+      "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-09T11:31:28Z", "source": "issue/1"}
     },
     "14": {
       "state": "OPEN",
       "meaning": "Canonical identity has a partial executable reference profile; independent encoding, migration and collision-response scope remains open.",
-      "verification": {
-        "status": "VERIFIED",
-        "method": "GITHUB_API",
-        "observed_at": "2026-08-09T11:31:28Z",
-        "source": "issue/14"
-      }
+      "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-09T11:31:28Z", "source": "issue/14"}
     },
     "15": {
       "state": "OPEN",
       "meaning": "Append, idempotency, ordering and replay have a partial clean runtime; portable history commitment and broader threat cases remain open.",
-      "verification": {
-        "status": "VERIFIED",
-        "method": "GITHUB_API",
-        "observed_at": "2026-08-09T11:31:28Z",
-        "source": "issue/15"
-      }
+      "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-09T11:31:28Z", "source": "issue/15"}
     },
     "16": {
       "state": "OPEN",
       "meaning": "Deletion and restriction have a semantic state machine; execution across actual locations and physical or cryptographic deletion remain open.",
-      "verification": {
-        "status": "VERIFIED",
-        "method": "GITHUB_API",
-        "observed_at": "2026-08-09T11:31:28Z",
-        "source": "issue/16"
-      }
+      "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-09T11:31:28Z", "source": "issue/16"}
     },
     "17": {
       "state": "OPEN",
       "meaning": "Fixtures, runners and evidence exist through C5; NK-EPI, Temporal, reducer-v2 and independent-language conformance remain open.",
-      "verification": {
-        "status": "VERIFIED",
-        "method": "GITHUB_API",
-        "observed_at": "2026-08-09T11:31:28Z",
-        "source": "issue/17"
-      }
+      "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-09T11:31:28Z", "source": "issue/17"}
     },
     "18": {
       "state": "OPEN",
       "meaning": "License and publication terms remain PENDING_OPERATOR; no license, contribution regime or package publication is authorized.",
-      "verification": {
-        "status": "VERIFIED",
-        "method": "GITHUB_API",
-        "observed_at": "2026-08-09T13:03:03Z",
-        "source": "issue/18"
-      }
+      "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-09T13:03:03Z", "source": "issue/18"}
     },
     "64": {
       "state": "CLOSED",
       "state_reason": "COMPLETED",
       "meaning": "C5 bounded operational rehearsal implementation issue is complete.",
-      "verification": {
-        "status": "VERIFIED",
-        "method": "GITHUB_API",
-        "observed_at": "2026-08-09T11:31:28Z",
-        "source": "issue/64"
-      }
+      "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-09T11:31:28Z", "source": "issue/64"}
     },
     "74": {
       "state": "OPEN",
       "meaning": "ADR-0024 remains PROPOSED / PENDING_OPERATOR; reducer v1 is immutable and reducer-v2 runtime is not authorized.",
-      "verification": {
-        "status": "VERIFIED",
-        "method": "GITHUB_API",
-        "observed_at": "2026-08-09T13:03:03Z",
-        "source": "issue/74"
-      }
+      "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-09T13:03:03Z", "source": "issue/74"}
     },
     "88": {
       "state": "OPEN",
       "meaning": "Architecture Re-foundation is active under ADR-0025; the blueprint must be completed and reviewed before new semantic/runtime expansion.",
-      "verification": {
-        "status": "VERIFIED",
-        "method": "GITHUB_API",
-        "observed_at": "2026-08-09T15:40:30Z",
-        "source": "issue/88"
-      }
+      "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-09T15:40:30Z", "source": "issue/88"}
     }
   },
   "evidence": {
@@ -237,12 +193,7 @@
       "path": "evidence/c5/2026-08-08-adr0023/manifest.json",
       "checkpoint_count": 2,
       "artifact_count": 8,
-      "required_profiles": [
-        "P5",
-        "C3",
-        "C4",
-        "C5"
-      ],
+      "required_profiles": ["P5", "C3", "C4", "C5"],
       "minimum_linked_sqlite": "3.51.3",
       "new_evidence_identity_required": true,
       "new_evidence_identity": "native-kernel/c5/2026-08-08-adr0023",
