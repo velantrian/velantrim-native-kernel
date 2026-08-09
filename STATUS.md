@@ -53,7 +53,7 @@ Tracking: [Issue #88](https://github.com/velantrian/velantrim-native-kernel/issu
 
 Required deliverables:
 
-1. Kernel purpose and non-goals;
+1. Kernel purpose and non-goals — `DRAFTED`: [English](docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.md) · [Русский](docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md);
 2. knowledge and memory ontology;
 3. abstract Native Kernel machine;
 4. semantic laws and invariants;
@@ -69,8 +69,8 @@ Current progress:
 ```text
 ADR-0025 decision: ACCEPTED / OPERATOR APPROVED
 blueprint plan: PRESENT
-blueprint content: INCOMPLETE
-next content slice: A1 — KERNEL PURPOSE AND NON-GOALS
+blueprint content: A1 DRAFTED / A2-A10 INCOMPLETE
+next content slice: A2 — KNOWLEDGE AND MEMORY ONTOLOGY
 runtime expansion: FROZEN
 ```
 

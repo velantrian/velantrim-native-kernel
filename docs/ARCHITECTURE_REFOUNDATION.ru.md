@@ -50,6 +50,8 @@ Native Kernel задуман как технологически нейтрал�
 
 ### A1 — Purpose и Non-goals Kernel
 
+**Статус:** `DRAFTED` — см. [`A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md`](./A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md) / [`A1_KERNEL_PURPOSE_AND_NON_GOALS.md`](./A1_KERNEL_PURPOSE_AND_NON_GOALS.md). Ожидает independent review и integrated blueprint review вместе с `A2`–`A10`.
+
 Определить:
 
 - какую проблему изучает Native Kernel;
@@ -360,7 +362,7 @@ ADR-0024 остаётся обязательным до возобновлени
 ```text
 Architecture Re-foundation decision: established by ADR-0025
 Blueprint plan: этот документ
-Blueprint content: NOT YET COMPLETE
+Blueprint content: A1 DRAFTED / A2-A10 NOT YET COMPLETE
 Runtime expansion: FROZEN
 Existing P1–C5 laboratory: PRESERVED / BOUNDED
 Production authorization: false

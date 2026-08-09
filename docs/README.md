@@ -14,6 +14,8 @@
 | [`../ROADMAP.md`](../ROADMAP.md) | active sequence and authorization boundaries |
 | [`ARCHITECTURE_REFOUNDATION.md`](./ARCHITECTURE_REFOUNDATION.md) | active blueprint plan |
 | [`ARCHITECTURE_REFOUNDATION.ru.md`](./ARCHITECTURE_REFOUNDATION.ru.md) | Russian blueprint plan |
+| [`A1_KERNEL_PURPOSE_AND_NON_GOALS.md`](./A1_KERNEL_PURPOSE_AND_NON_GOALS.md) | blueprint deliverable A1 (drafted) |
+| [`A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md`](./A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md) | Russian blueprint deliverable A1 |
 | [`../AGENTS.md`](../AGENTS.md) | mandatory repository instructions |
 | [`ai/CURRENT_STATE.md`](./ai/CURRENT_STATE.md) | compact AI continuity state |
 | [`ai/KNOWN_RISKS.md`](./ai/KNOWN_RISKS.md) | active risks |

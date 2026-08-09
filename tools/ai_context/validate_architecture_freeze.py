@@ -46,7 +46,16 @@ EXPECTED_REFOUNDATION_FIELDS = {
     "plan_ru",
     "deliverables",
     "completion_requires_operator_review",
+    "completed_deliverables",
     "next_content_slice",
+}
+EXPECTED_COMPLETED_DELIVERABLES = ["A1_KERNEL_PURPOSE_AND_NON_GOALS"]
+EXPECTED_NEXT_CONTENT_SLICE = "A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY"
+COMPLETED_DELIVERABLE_DOCS = {
+    "A1_KERNEL_PURPOSE_AND_NON_GOALS": (
+        "docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.md",
+        "docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md",
+    ),
 }
 
 
@@ -154,15 +163,40 @@ def validate(state: Mapping[str, Any], *, repo: Path) -> None:
         refoundation.get("completion_requires_operator_review") is True,
         "blueprint completion must retain separate operator review",
     )
+
+    completed = refoundation.get("completed_deliverables")
     _require(
-        refoundation.get("next_content_slice")
-        == "A1_KERNEL_PURPOSE_AND_NON_GOALS",
+        completed == EXPECTED_COMPLETED_DELIVERABLES,
+        "completed blueprint deliverable inventory drift",
+    )
+    _require(
+        all(item in EXPECTED_DELIVERABLES for item in completed),
+        "completed deliverable is not a declared blueprint deliverable",
+    )
+    _require(
+        len(completed) == len(set(completed)),
+        "completed deliverable inventory must not contain duplicates",
+    )
+
+    _require(
+        refoundation.get("next_content_slice") == EXPECTED_NEXT_CONTENT_SLICE,
         "next blueprint content slice drift",
+    )
+    _require(
+        EXPECTED_NEXT_CONTENT_SLICE not in completed,
+        "next content slice must not already be marked completed",
     )
 
     for plan_field in ("plan_en", "plan_ru"):
         plan = repo / str(refoundation[plan_field])
         _require(plan.is_file(), f"missing architecture blueprint plan: {plan}")
+
+    for deliverable in completed:
+        for doc_path in COMPLETED_DELIVERABLE_DOCS.get(deliverable, ()):
+            _require(
+                (repo / doc_path).is_file(),
+                f"missing completed deliverable document: {doc_path}",
+            )
 
     _require(
         research.get("runtime_freeze_exceptions") == EXPECTED_FREEZE_EXCEPTIONS,

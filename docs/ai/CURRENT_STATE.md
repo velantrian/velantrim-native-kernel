@@ -68,6 +68,8 @@ Plan:
 - [Переоснование архитектуры — Русский](../ARCHITECTURE_REFOUNDATION.ru.md)
 - [ADR-0025](../adr/0025-blueprint-before-runtime-expansion.md)
 - [Issue #88](https://github.com/velantrian/velantrim-native-kernel/issues/88)
+- [A1 — Kernel Purpose and Non-goals — English](../A1_KERNEL_PURPOSE_AND_NON_GOALS.md)
+- [A1 — Purpose и Non-goals Kernel — Русский](../A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md)
 
 Required sequence:
 
@@ -86,7 +88,7 @@ A1 Purpose and Non-goals
 → separate operator decision before runtime expansion
 ```
 
-Current blueprint content is incomplete. The next bounded content slice is `A1 — Kernel Purpose and Non-goals`.
+`A1 — Kernel Purpose and Non-goals` is drafted. Current blueprint content is otherwise incomplete. The next bounded content slice is `A2 — Knowledge and Memory Ontology`.
 
 ## Runtime freeze boundary
 
@@ -177,7 +179,7 @@ Architecture Re-foundation can proceed without deciding either one. Issue #18 st
 
 ## Current known gaps
 
-- the architecture purpose and non-goals are distributed rather than integrated as a versioned blueprint deliverable;
+- `A1` is a first drafted slice pending independent review and integrated blueprint review with `A2`–`A10`;
 - the ontology of knowledge and memory is incomplete;
 - the abstract Kernel machine is not yet fully specified independently of event-sourcing and current code;
 - semantic laws are present as scattered invariants but not yet a reconciled formal set;

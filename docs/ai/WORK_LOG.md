@@ -4,6 +4,25 @@ Re-verify exact SHAs, live issue state, runs and artifacts before treating an en
 
 ---
 
+## 2026-08-09 — A1 Kernel Purpose and Non-goals (first blueprint content slice)
+
+```text
+Issue:                      #88
+Decision:                   ADR-0025
+Base main:                  e578db8acd2d4f8a1f5600722cd7880e1c79f397
+Classification:             Architecture Re-foundation blueprint content
+Deliverable:                A1_KERNEL_PURPOSE_AND_NON_GOALS
+Runtime and contracts:      UNCHANGED
+Assertion map / NK-EPI:     UNCHANGED
+Production authorization:   UNCHANGED / false
+```
+
+Drafted the first Architecture Re-foundation content deliverable, `A1 — Kernel Purpose and Non-goals`, as bilingual documents (`docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.md` / `.ru.md`). The document defines the problem Native Kernel studies, what `Kernel` means in this project, the candidate durable qualities a conforming implementation must preserve, what is explicitly outside the Kernel, and the boundary with Titan, Crystal, Mentaury, operating systems, databases, and model runtimes, satisfying the completion test recorded in `docs/ARCHITECTURE_REFOUNDATION.md`.
+
+Wired the new document into the bilingual parity registry (`tools/docs/bilingual-pairs-v1.json`) and the AI-context required-path/link-scan inventories. Advanced the fail-closed architecture-freeze validator (`tools/ai_context/validate_architecture_freeze.py`) and `project-state.json` to record `A1` as the sole completed deliverable and `A2 — Knowledge and Memory Ontology` as the next content slice; the deliverable inventory, runtime freeze, and operator-review gate remain unchanged and fail closed.
+
+This is a documentation and governance-tracking change only. It does not resume runtime, reducer, or profile work, does not change the assertion map, `NK-EPI`, `C4`/`C5` maturity, or production authorization, and does not decide Issue #18 or ADR-0024.
+
 ## 2026-08-08 — Bounded bilingual documentation parity validator
 
 ```text

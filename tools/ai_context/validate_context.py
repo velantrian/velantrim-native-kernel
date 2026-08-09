@@ -24,6 +24,8 @@ REQUIRED_PATHS = (
     "evidence/c5/2026-08-08-adr0023/manifest.json",
     "docs/ARCHITECTURE_REFOUNDATION.md",
     "docs/ARCHITECTURE_REFOUNDATION.ru.md",
+    "docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.md",
+    "docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md",
     "docs/adr/0025-blueprint-before-runtime-expansion.md",
     "docs/ai/README.md",
     "docs/ai/CURRENT_STATE.md",
@@ -51,6 +53,8 @@ LINK_SCAN_PATHS = (
     "docs/README.ru.md",
     "docs/ARCHITECTURE_REFOUNDATION.md",
     "docs/ARCHITECTURE_REFOUNDATION.ru.md",
+    "docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.md",
+    "docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md",
     "docs/adr/0025-blueprint-before-runtime-expansion.md",
     "docs/ai/README.md",
     "docs/ai/CURRENT_STATE.md",
@@ -89,7 +93,7 @@ REQUIRED_STATUS_MARKERS = (
     "Architecture Re-foundation: ACTIVE / BLUEPRINT-FIRST",
     "No new semantic/runtime expansion before blueprint gate completion.",
     "BOUNDED REFERENCE LABORATORY",
-    "next bounded content slice is `A1 — Kernel Purpose and Non-goals`",
+    "next bounded content slice is `A2 — Knowledge and Memory Ontology`",
 )
 FORBIDDEN_STATUS_MARKERS = (
     "Notion remains synchronized only through the recorded publication checkpoint",

@@ -93,6 +93,57 @@ class ArchitectureFreezeTests(unittest.TestCase):
         ):
             self.validate(state)
 
+    def test_completed_deliverable_inventory_is_exact(self) -> None:
+        state = copy.deepcopy(self.state)
+        state["tracks"]["long_horizon_research"]["architecture_refoundation"][
+            "completed_deliverables"
+        ] = []
+        with self.assertRaisesRegex(
+            module.ArchitectureFreezeError,
+            "completed blueprint deliverable inventory drift",
+        ):
+            self.validate(state)
+
+    def test_completed_deliverable_must_be_a_declared_deliverable(self) -> None:
+        state = copy.deepcopy(self.state)
+        refoundation = state["tracks"]["long_horizon_research"][
+            "architecture_refoundation"
+        ]
+        refoundation["completed_deliverables"] = ["NOT_A_REAL_DELIVERABLE"]
+        with self.assertRaisesRegex(
+            module.ArchitectureFreezeError,
+            "completed blueprint deliverable inventory drift",
+        ):
+            self.validate(state)
+
+    def test_next_content_slice_must_match_expected_value(self) -> None:
+        state = copy.deepcopy(self.state)
+        state["tracks"]["long_horizon_research"]["architecture_refoundation"][
+            "next_content_slice"
+        ] = "A1_KERNEL_PURPOSE_AND_NON_GOALS"
+        with self.assertRaisesRegex(
+            module.ArchitectureFreezeError,
+            "next blueprint content slice drift",
+        ):
+            self.validate(state)
+
+    def test_completed_deliverable_document_must_exist(self) -> None:
+        state = copy.deepcopy(self.state)
+        module.COMPLETED_DELIVERABLE_DOCS["A1_KERNEL_PURPOSE_AND_NON_GOALS"] = (
+            "docs/DOES_NOT_EXIST.md",
+        )
+        try:
+            with self.assertRaisesRegex(
+                module.ArchitectureFreezeError,
+                "missing completed deliverable document",
+            ):
+                self.validate(state)
+        finally:
+            module.COMPLETED_DELIVERABLE_DOCS["A1_KERNEL_PURPOSE_AND_NON_GOALS"] = (
+                "docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.md",
+                "docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md",
+            )
+
     def test_issue_88_must_remain_open_and_verified(self) -> None:
         state = copy.deepcopy(self.state)
         state["issues"]["88"]["state"] = "CLOSED"

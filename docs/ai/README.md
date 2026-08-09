@@ -38,7 +38,8 @@ ADR-0025: ACCEPTED / OPERATOR APPROVED
 Architecture Re-foundation: ACTIVE / BLUEPRINT-FIRST
 runtime expansion: FROZEN
 P1–C5 role: BOUNDED REFERENCE LABORATORY
-next content slice: A1 — Kernel Purpose and Non-goals
+next content slice: A2 — Knowledge and Memory Ontology
+A1 — Kernel Purpose and Non-goals: DRAFTED
 ```
 
 The full plan is maintained in:

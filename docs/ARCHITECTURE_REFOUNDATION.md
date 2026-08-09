@@ -50,6 +50,8 @@ experiments and evidence
 
 ### A1 — Kernel Purpose and Non-goals
 
+**Status:** `DRAFTED` — see [`A1_KERNEL_PURPOSE_AND_NON_GOALS.md`](./A1_KERNEL_PURPOSE_AND_NON_GOALS.md) / [`A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md`](./A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md). Pending independent review and integrated blueprint review with `A2`–`A10`.
+
 Define:
 
 - the problem Native Kernel exists to study;
@@ -360,7 +362,7 @@ Completion requires:
 ```text
 Architecture Re-foundation decision: established by ADR-0025
 Blueprint plan: this document
-Blueprint content: NOT YET COMPLETE
+Blueprint content: A1 DRAFTED / A2-A10 NOT YET COMPLETE
 Runtime expansion: FROZEN
 Existing P1–C5 laboratory: PRESERVED / BOUNDED
 Production authorization: false
