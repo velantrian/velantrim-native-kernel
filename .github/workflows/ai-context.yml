@@ -110,12 +110,23 @@ jobs:
           python -m unittest discover -s tests -p 'test_evidence_bundle.py' -v
           python -m unittest discover -s tests -p 'test_c5_manifest.py' -v
 
-      - name: Validate project state, durable evidence and bilingual obligations
-        run: |
-          python tools/evidence/verify_bundle.py evidence/c5/2026-08-07/manifest.json
-          python tools/evidence/verify_bundle.py evidence/c5/2026-08-08-adr0023/manifest.json
-          python tools/ai_context/validate_project_state.py --repo .
-          python tools/ai_context/validate_reconciliation.py --repo .
-          python tools/profiles/validate_c5_manifest.py
-          python tools/ai_context/validate_context.py --repo .
-          python tools/docs/validate_bilingual_parity.py --repo .
+      - name: Verify historical C5 evidence bundle
+        run: python tools/evidence/verify_bundle.py evidence/c5/2026-08-07/manifest.json
+
+      - name: Verify ADR-0023 C5 evidence bundle
+        run: python tools/evidence/verify_bundle.py evidence/c5/2026-08-08-adr0023/manifest.json
+
+      - name: Validate project state
+        run: python tools/ai_context/validate_project_state.py --repo .
+
+      - name: Validate reconciliation state
+        run: python tools/ai_context/validate_reconciliation.py --repo .
+
+      - name: Validate C5 profile manifest
+        run: python tools/profiles/validate_c5_manifest.py
+
+      - name: Validate AI context
+        run: python tools/ai_context/validate_context.py --repo .
+
+      - name: Validate bilingual documentation parity
+        run: python tools/docs/validate_bilingual_parity.py --repo .
