@@ -136,6 +136,36 @@
       "require_single_h1": true
     },
     {
+      "pair_id": "a3-abstract-native-kernel-machine",
+      "english": "docs/A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md",
+      "russian": "docs/A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md",
+      "selectors": [
+        "(./A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md)",
+        "(./A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md)"
+      ],
+      "shared_literals": [
+        "A3_ABSTRACT_NATIVE_KERNEL_MACHINE",
+        "next_content_slice: A4_SEMANTIC_LAWS_AND_INVARIANTS",
+        "ADR-0025",
+        "Issue #88",
+        "K = ⟨B, R, I, C, P, E, L, U, G, V, D, A, O⟩",
+        "transition ≠ Event envelope",
+        "history visibility ≠ mandatory Event sourcing",
+        "admission ≠ truth",
+        "profile conformance ≠ production authorization"
+      ],
+      "english_literals": [
+        "Alternative machine structures considered",
+        "Authority boundaries"
+      ],
+      "russian_literals": [
+        "Рассмотренные структуры machine",
+        "Границы Authority"
+      ],
+      "compare_heading_levels": true,
+      "require_single_h1": true
+    },
+    {
       "pair_id": "human-quickstart",
       "english": "docs/QUICKSTART.md",
       "russian": "docs/QUICKSTART.ru.md",
