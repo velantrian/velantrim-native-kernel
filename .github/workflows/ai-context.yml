@@ -101,14 +101,23 @@ jobs:
             tests/test_evidence_bundle.py \
             tests/test_c5_manifest.py
 
-      - name: Run continuity, evidence and documentation unit tests
-        run: |
-          python -m unittest discover -s tests -p 'test_ai_context_validator.py' -v
-          python -m unittest discover -s tests -p 'test_bilingual_parity_validator.py' -v
-          python -m unittest discover -s tests -p 'test_project_state.py' -v
-          python -m unittest discover -s tests -p 'test_reconciliation_state.py' -v
-          python -m unittest discover -s tests -p 'test_evidence_bundle.py' -v
-          python -m unittest discover -s tests -p 'test_c5_manifest.py' -v
+      - name: Test AI context validator
+        run: python -m unittest discover -s tests -p 'test_ai_context_validator.py' -v
+
+      - name: Test bilingual parity validator
+        run: python -m unittest discover -s tests -p 'test_bilingual_parity_validator.py' -v
+
+      - name: Test project state
+        run: python -m unittest discover -s tests -p 'test_project_state.py' -v
+
+      - name: Test reconciliation state
+        run: python -m unittest discover -s tests -p 'test_reconciliation_state.py' -v
+
+      - name: Test evidence bundle
+        run: python -m unittest discover -s tests -p 'test_evidence_bundle.py' -v
+
+      - name: Test C5 manifest
+        run: python -m unittest discover -s tests -p 'test_c5_manifest.py' -v
 
       - name: Validate project state, durable evidence and bilingual obligations
         run: |
