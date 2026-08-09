@@ -22,6 +22,18 @@
 | [`QUICKSTART.ru.md`](./QUICKSTART.ru.md) | setup и tests reference laboratory |
 | [`GLOSSARY.ru.md`](./GLOSSARY.ru.md) | terminology и обязательные distinctions |
 
+## Порядок чтения
+
+```text
+STATUS и project-state
+→ active ROADMAP
+→ план Architecture Re-foundation
+→ релевантные Canon и ADR
+→ только затем reference runtime, tests и evidence
+```
+
+Historical implementation records и research proposals читаются только при необходимости; они не переопределяют текущую blueprint phase.
+
 ## Текущая карта
 
 ```text
