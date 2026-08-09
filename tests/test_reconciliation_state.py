@@ -1,9 +1,10 @@
 from __future__ import annotations
 
-import copy
 import importlib.util
 import json
+import shutil
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -21,6 +22,19 @@ class ReconciliationStateTests(unittest.TestCase):
         self.state = json.loads(
             (ROOT / "project-state.json").read_text(encoding="utf-8")
         )
+
+    def _copy_fixture(self, directory: Path) -> None:
+        for rel in (
+            "project-state.json",
+            "STATUS.md",
+            "docs/ai/CURRENT_STATE.md",
+            "docs/ai/ISSUE_RECONCILIATION.md",
+            "docs/ai/NOTION_HANDOFF.md",
+        ):
+            source = ROOT / rel
+            target = directory / rel
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(source, target)
 
     def test_repository_reconciliation_passes(self) -> None:
         module.validate(ROOT)
@@ -43,10 +57,39 @@ class ReconciliationStateTests(unittest.TestCase):
             checkpoints["notion_synchronized_through_sha"],
         )
 
-    def test_rejects_closed_foundational_issue(self) -> None:
-        state = copy.deepcopy(self.state)
-        state["issues"]["14"]["state"] = "CLOSED"
-        self.assertNotEqual("OPEN", state["issues"]["14"]["state"])
+    def test_closed_foundational_issue_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            repo = Path(temp)
+            self._copy_fixture(repo)
+            state_path = repo / "project-state.json"
+            state = json.loads(state_path.read_text(encoding="utf-8"))
+            state["issues"]["14"]["state"] = "CLOSED"
+            state_path.write_text(json.dumps(state), encoding="utf-8")
+            with self.assertRaisesRegex(module.ReconciliationError, "Issue #14"):
+                module.validate(repo)
+
+    def test_notion_checkpoint_drift_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            repo = Path(temp)
+            self._copy_fixture(repo)
+            state_path = repo / "project-state.json"
+            state = json.loads(state_path.read_text(encoding="utf-8"))
+            state["checkpoints"]["notion_synchronized_through_sha"] = "0" * 40
+            state_path.write_text(json.dumps(state), encoding="utf-8")
+            with self.assertRaisesRegex(module.ReconciliationError, "Notion"):
+                module.validate(repo)
+
+    def test_missing_comment_identity_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            repo = Path(temp)
+            self._copy_fixture(repo)
+            record = repo / "docs/ai/ISSUE_RECONCILIATION.md"
+            record.write_text(
+                record.read_text(encoding="utf-8").replace("5231286665", "removed"),
+                encoding="utf-8",
+            )
+            with self.assertRaisesRegex(module.ReconciliationError, "comment identity"):
+                module.validate(repo)
 
     def test_all_comment_and_page_identities_are_recorded(self) -> None:
         issue_record = (ROOT / "docs/ai/ISSUE_RECONCILIATION.md").read_text(
