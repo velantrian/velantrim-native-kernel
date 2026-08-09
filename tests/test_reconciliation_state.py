@@ -31,6 +31,7 @@ class ReconciliationStateTests(unittest.TestCase):
             "STATUS.md",
             "docs/ai/README.md",
             "docs/ai/CURRENT_STATE.md",
+            "docs/ai/KNOWN_RISKS.md",
             "docs/ai/ISSUE_RECONCILIATION.md",
             "docs/ai/NOTION_HANDOFF.md",
         ):
@@ -109,14 +110,109 @@ class ReconciliationStateTests(unittest.TestCase):
             current = repo / "docs/ai/CURRENT_STATE.md"
             current.write_text(
                 current.read_text(encoding="utf-8").replace(
-                    module.NOTION_SYNC_SHA,
-                    "removed-descendant-checkpoint",
+                    f"manifest_generated_from: {module.NOTION_SYNC_SHA}",
+                    "manifest_generated_from: removed-descendant-checkpoint",
+                    1,
                 ),
                 encoding="utf-8",
             )
             with self.assertRaisesRegex(
                 module.ReconciliationError,
-                "CURRENT_STATE.md: Notion descendant checkpoint drift",
+                "CURRENT_STATE.md: manifest source binding missing or ambiguous",
+            ):
+                module.validate(repo)
+
+    def test_yaml_role_collapse_is_rejected_when_sha_remains_in_prose(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            repo = Path(temp)
+            self._copy_fixture(repo)
+            current = repo / "docs/ai/CURRENT_STATE.md"
+            text = current.read_text(encoding="utf-8")
+            text = text.replace(
+                f"manifest_generated_from: {module.NOTION_SYNC_SHA}",
+                f"manifest_generated_from: {module.PUBLICATION_SHA}",
+                1,
+            ).replace(
+                f"notion_synchronized_through: {module.NOTION_SYNC_SHA}",
+                f"notion_synchronized_through: {module.PUBLICATION_SHA}",
+                1,
+            )
+            self.assertIn(module.NOTION_SYNC_SHA, text)
+            current.write_text(text, encoding="utf-8")
+            with self.assertRaisesRegex(
+                module.ReconciliationError,
+                "CURRENT_STATE.md: manifest source binding drift",
+            ):
+                module.validate(repo)
+
+    def test_readme_role_collapse_is_rejected_when_sha_remains_elsewhere(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            repo = Path(temp)
+            self._copy_fixture(repo)
+            readme = repo / "README.md"
+            text = readme.read_text(encoding="utf-8").replace(
+                f"| Manifest source / Notion synchronized descendant | `{module.NOTION_SYNC_SHA}` |",
+                f"| Manifest source / Notion synchronized descendant | `{module.PUBLICATION_SHA}` |",
+                1,
+            )
+            text += f"\nHistorical prose identity: `{module.NOTION_SYNC_SHA}`.\n"
+            readme.write_text(text, encoding="utf-8")
+            with self.assertRaisesRegex(
+                module.ReconciliationError,
+                "README.md: Notion synchronized descendant binding drift",
+            ):
+                module.validate(repo)
+
+    def test_ai_readme_role_collapse_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            repo = Path(temp)
+            self._copy_fixture(repo)
+            readme = repo / "docs/ai/README.md"
+            text = readme.read_text(encoding="utf-8").replace(
+                "manifest source / Notion synchronized descendant:\n"
+                f"  {module.NOTION_SYNC_SHA}",
+                "manifest source / Notion synchronized descendant:\n"
+                f"  {module.PUBLICATION_SHA}",
+                1,
+            )
+            text += f"\nHistorical prose identity: `{module.NOTION_SYNC_SHA}`.\n"
+            readme.write_text(text, encoding="utf-8")
+            with self.assertRaisesRegex(
+                module.ReconciliationError,
+                "docs/ai/README.md: Notion synchronized descendant binding drift",
+            ):
+                module.validate(repo)
+
+    def test_duplicate_role_binding_is_rejected_as_ambiguous(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            repo = Path(temp)
+            self._copy_fixture(repo)
+            status = repo / "STATUS.md"
+            text = status.read_text(encoding="utf-8")
+            text += f"\npublication_checkpoint: {module.PUBLICATION_SHA}\n"
+            status.write_text(text, encoding="utf-8")
+            with self.assertRaisesRegex(
+                module.ReconciliationError,
+                "STATUS.md: publication checkpoint binding missing or ambiguous",
+            ):
+                module.validate(repo)
+
+    def test_stale_active_risk_state_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            repo = Path(temp)
+            self._copy_fixture(repo)
+            risks = repo / "docs/ai/KNOWN_RISKS.md"
+            risks.write_text(
+                risks.read_text(encoding="utf-8").replace(
+                    module.ACTIVE_RISK_MARKER,
+                    "**State:** `MITIGATED BY PR #80 / HUMAN AND NOTION RECONCILIATION IN PROGRESS`.",
+                    1,
+                ),
+                encoding="utf-8",
+            )
+            with self.assertRaisesRegex(
+                module.ReconciliationError,
+                "active current-state drift risk state drift",
             ):
                 module.validate(repo)
 

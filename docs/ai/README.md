@@ -49,6 +49,8 @@ The full plan is maintained in:
 
 No new semantic/runtime expansion is authorized before blueprint review. Existing code and evidence remain preserved and may receive bounded maintenance, integrity, reproducibility, provenance, and validator fixes.
 
+The machine-readable freeze is enforced fail closed by [`../../tools/ai_context/validate_architecture_freeze.py`](../../tools/ai_context/validate_architecture_freeze.py) in AI-context CI. Removing ADR-0025 state, disabling the freeze, authorizing semantic/runtime expansion, losing A1–A10, or bypassing separate operator review must fail validation.
+
 ## Track boundary
 
 ```text
@@ -192,6 +194,7 @@ These archives are version-bound. ADR-0025 does not expand their proof boundary.
 python tools/evidence/verify_bundle.py evidence/c5/2026-08-07/manifest.json
 python tools/evidence/verify_bundle.py evidence/c5/2026-08-08-adr0023/manifest.json
 python tools/ai_context/validate_project_state.py --repo .
+python tools/ai_context/validate_architecture_freeze.py --repo .
 python tools/ai_context/validate_reconciliation.py --repo .
 python tools/ai_context/validate_context.py --repo .
 python tools/docs/validate_bilingual_parity.py --repo .

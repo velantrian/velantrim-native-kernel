@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Validate the bounded Issues #14-#17 and Notion reconciliation record."""
+"""Validate Issues #14-#17 and publication/Notion checkpoint roles."""
 from __future__ import annotations
 
 import argparse
 import json
+import re
 from pathlib import Path
 from typing import Any, Mapping
 
@@ -30,8 +31,15 @@ CURRENT_SURFACES = (
     "STATUS.md",
     "docs/ai/README.md",
     "docs/ai/CURRENT_STATE.md",
+    "docs/ai/KNOWN_RISKS.md",
     "docs/ai/NOTION_HANDOFF.md",
 )
+ACTIVE_RISK_MARKER = (
+    "**State:** `MITIGATED BY PR #80, PR #86 AND PR #87 / "
+    "RESIDUAL LIVE-STATE RISK OPEN`."
+)
+OBSOLETE_RISK_MARKER = "HUMAN AND NOTION RECONCILIATION IN PROGRESS"
+SHA_PATTERN = r"[0-9a-f]{40}"
 
 
 class ReconciliationError(RuntimeError):
@@ -59,9 +67,182 @@ def _read(path: Path) -> str:
         raise ReconciliationError(f"cannot read {path}: {exc}") from exc
 
 
+def _single_match(
+    text: str,
+    *,
+    relative: str,
+    role: str,
+    pattern: str,
+) -> str:
+    matches = re.findall(pattern, text, flags=re.MULTILINE)
+    _require(
+        len(matches) == 1,
+        f"{relative}: {role} binding missing or ambiguous",
+    )
+    value = matches[0]
+    _require(isinstance(value, str), f"{relative}: {role} binding malformed")
+    return value
+
+
+def _require_yaml_binding(
+    text: str,
+    *,
+    relative: str,
+    field: str,
+    role: str,
+    expected: str,
+) -> None:
+    value = _single_match(
+        text,
+        relative=relative,
+        role=role,
+        pattern=rf"^{re.escape(field)}:\s*({SHA_PATTERN})\s*$",
+    )
+    _require(value == expected, f"{relative}: {role} binding drift")
+
+
+def _require_table_binding(
+    text: str,
+    *,
+    relative: str,
+    label: str,
+    role: str,
+    expected: str,
+) -> None:
+    value = _single_match(
+        text,
+        relative=relative,
+        role=role,
+        pattern=(
+            rf"^\|\s*{re.escape(label)}\s*\|\s*`({SHA_PATTERN})`\s*\|\s*$"
+        ),
+    )
+    _require(value == expected, f"{relative}: {role} binding drift")
+
+
+def _require_indented_binding(
+    text: str,
+    *,
+    relative: str,
+    label: str,
+    role: str,
+    expected: str,
+) -> None:
+    value = _single_match(
+        text,
+        relative=relative,
+        role=role,
+        pattern=rf"^{re.escape(label)}:\s*\n\s{{2}}({SHA_PATTERN})\s*$",
+    )
+    _require(value == expected, f"{relative}: {role} binding drift")
+
+
+def _validate_surface_bindings(texts: Mapping[str, str]) -> None:
+    _require_table_binding(
+        texts["README.md"],
+        relative="README.md",
+        label="Publication checkpoint",
+        role="publication checkpoint",
+        expected=PUBLICATION_SHA,
+    )
+    _require_table_binding(
+        texts["README.md"],
+        relative="README.md",
+        label="Manifest source / Notion synchronized descendant",
+        role="Notion synchronized descendant",
+        expected=NOTION_SYNC_SHA,
+    )
+    _require_table_binding(
+        texts["README.ru.md"],
+        relative="README.ru.md",
+        label="Publication checkpoint",
+        role="publication checkpoint",
+        expected=PUBLICATION_SHA,
+    )
+    _require_table_binding(
+        texts["README.ru.md"],
+        relative="README.ru.md",
+        label="Источник manifest / Notion synchronized descendant",
+        role="Notion synchronized descendant",
+        expected=NOTION_SYNC_SHA,
+    )
+
+    for relative in ("STATUS.md", "docs/ai/CURRENT_STATE.md"):
+        text = texts[relative]
+        _require_yaml_binding(
+            text,
+            relative=relative,
+            field="publication_checkpoint",
+            role="publication checkpoint",
+            expected=PUBLICATION_SHA,
+        )
+        _require_yaml_binding(
+            text,
+            relative=relative,
+            field="manifest_generated_from",
+            role="manifest source",
+            expected=NOTION_SYNC_SHA,
+        )
+        _require_yaml_binding(
+            text,
+            relative=relative,
+            field="notion_synchronized_through",
+            role="Notion synchronized descendant",
+            expected=NOTION_SYNC_SHA,
+        )
+
+    _require_indented_binding(
+        texts["docs/ai/README.md"],
+        relative="docs/ai/README.md",
+        label="publication checkpoint",
+        role="publication checkpoint",
+        expected=PUBLICATION_SHA,
+    )
+    _require_indented_binding(
+        texts["docs/ai/README.md"],
+        relative="docs/ai/README.md",
+        label="manifest source / Notion synchronized descendant",
+        role="Notion synchronized descendant",
+        expected=NOTION_SYNC_SHA,
+    )
+
+    handoff = texts["docs/ai/NOTION_HANDOFF.md"]
+    _require_yaml_binding(
+        handoff,
+        relative="docs/ai/NOTION_HANDOFF.md",
+        field="publication_checkpoint",
+        role="publication checkpoint",
+        expected=PUBLICATION_SHA,
+    )
+    _require_yaml_binding(
+        handoff,
+        relative="docs/ai/NOTION_HANDOFF.md",
+        field="manifest_generated_from",
+        role="manifest source",
+        expected=NOTION_SYNC_SHA,
+    )
+    _require_yaml_binding(
+        handoff,
+        relative="docs/ai/NOTION_HANDOFF.md",
+        field="latest_synchronized_descendant",
+        role="Notion synchronized descendant",
+        expected=NOTION_SYNC_SHA,
+    )
+
+    risks = texts["docs/ai/KNOWN_RISKS.md"]
+    _require(ACTIVE_RISK_MARKER in risks, "active current-state drift risk state drift")
+    _require(
+        OBSOLETE_RISK_MARKER not in risks,
+        "obsolete current-state drift risk state remains present",
+    )
+
+
 def validate(repo: Path) -> None:
     state = _load_json(repo / "project-state.json")
-    _require(state.get("protocol") == "nk-project-state/2", "project-state protocol drift")
+    _require(
+        state.get("protocol") == "nk-project-state/2",
+        "project-state protocol drift",
+    )
 
     checkpoints = state.get("checkpoints")
     _require(isinstance(checkpoints, Mapping), "checkpoint inventory required")
@@ -115,9 +296,9 @@ def validate(repo: Path) -> None:
         notion.get("status") == "SYNCED_THROUGH_DESCENDANT_CHECKPOINT",
         "Notion status drift",
     )
+    scope = str(notion.get("scope", ""))
     _require(
-        PUBLICATION_SHA in str(notion.get("scope", ""))
-        and NOTION_SYNC_SHA in str(notion.get("scope", "")),
+        PUBLICATION_SHA in scope and NOTION_SYNC_SHA in scope,
         "Notion scope must name publication and synchronized descendant checkpoints",
     )
 
@@ -131,15 +312,13 @@ def validate(repo: Path) -> None:
     for page_id in NOTION_PAGE_IDS:
         _require(page_id in notion_record, f"Notion page identity missing: {page_id}")
 
-    current_texts: list[tuple[str, str]] = []
-    for relative in CURRENT_SURFACES:
-        text = _read(repo / relative)
-        current_texts.append((text, relative))
-        _require(PUBLICATION_SHA in text, f"{relative}: publication checkpoint drift")
-        _require(NOTION_SYNC_SHA in text, f"{relative}: Notion descendant checkpoint drift")
+    current_texts = {
+        relative: _read(repo / relative) for relative in CURRENT_SURFACES
+    }
+    _validate_surface_bindings(current_texts)
 
     boundaries = " ".join(
-        [issue_record, notion_record, *(text for text, _ in current_texts)]
+        [issue_record, notion_record, *current_texts.values()]
     ).lower()
     for phrase in (
         "remain open",
@@ -160,7 +339,8 @@ def main() -> int:
     print(
         "Reconciliation validation passed; "
         f"publication={PUBLICATION_SHA}; notion={NOTION_SYNC_SHA}; "
-        f"issues=14,15,16,17; notion_pages={len(NOTION_PAGE_IDS)}"
+        f"issues=14,15,16,17; notion_pages={len(NOTION_PAGE_IDS)}; "
+        f"current_surfaces={len(CURRENT_SURFACES)}"
     )
     return 0
 
