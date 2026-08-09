@@ -9,10 +9,12 @@ repository_status: RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-
 live_head_source: GitHub API or checked-out Git ref
 machine_truth_reconciliation_merge: d9eee591de308a689ace940c2efe58c9e8a137f2
 human_truth_reconciliation_merge: 07549a0cd952b4e06b61ef24d21b2dcdbc9f861d
+issues_notion_reconciliation_merge: cdf559a3a32decd538e4cab3dd7fb591fc6e9322
+operator_decision_packages_merge: 10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c
 runtime_checkpoint: 675aa4b398a2fc0181dc71d38904a2d33a09f5f8
 runtime_integrity_checkpoint: a1cdc6d8f36d67f40f065641809bc6da463c10a4
 evidence_producing_checkpoint: 296981ae84ad5bdab5dabbec9b7b9ebb43af63d7
-notion_synchronized_through: 07549a0cd952b4e06b61ef24d21b2dcdbc9f861d
+notion_synchronized_through: 10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c
 ```
 
 > This page contains current repository truth only. Historical implementation and review chronology is linked under **Historical records** and remains available in Git history.
@@ -43,17 +45,17 @@ public repository ≠ open-source license
 ```text
 0A machine-readable truth: COMPLETE / PR #80
 0B human-readable truth:   COMPLETE / PR #81
-0C Issues #14–#17:         RECONCILED / OPEN
-0C Notion dashboard:       SYNCHRONIZED THROUGH PR #81
+0C Issues #14–#17:         RECONCILED / OPEN / PR #82 RECORD
+0C Notion dashboard:       SYNCHRONIZED THROUGH PR #83
 ```
 
-The Notion Hub now routes current retrieval through dedicated Current State, Decision Ledger, Evidence Ledger, Active Risks, GitHub Sync Log and Historical Archive pages. Existing long-form reports remain preserved as historical or proposal material.
+The Notion Hub routes current retrieval through Current State, Decision Ledger, Evidence Ledger, Active Risks, GitHub Sync Log and Historical Archive pages. Hub, Current State, Architecture, Roadmap, Decision Ledger, GitHub Sync Log and AI continuity were directly rechecked and reconciled through `main@10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c`.
 
 Notion remains synchronized only through the recorded publication checkpoint. Any later descendant commit requires a new synchronization record before it can be represented as synchronized.
 
 ## Checkpoint model
 
-The current machine protocol does not attempt to store the SHA of its own commit.
+The machine protocol does not attempt to store the SHA of its own commit.
 
 ```text
 GitHub API / checked-out ref
@@ -107,20 +109,33 @@ The current SQLite WAL floor is linked SQLite `3.51.3`. Historical SQLite `3.45.
 
 | Decision | State | Effect |
 |---|---|---|
-| Issue #18 — license/publication terms | `OPEN` | External collaboration and package publication remain blocked by an unresolved rights regime. |
-| Issue #74 / ADR-0024 — reducer referential semantics | `PROPOSED / APPROVAL PENDING` | Reducer v1 remains immutable; reducer-v2 runtime work is not authorized yet. |
+| Issue #18 — license/publication terms | `PENDING_OPERATOR / selected_option: null` | No license change; external contributions remain not accepted; package publication remains unauthorized. |
+| Issue #74 / ADR-0024 — reducer referential semantics | `PROPOSED / PENDING_OPERATOR / selected_option: null` | Reducer v1 remains immutable; reducer-v2 runtime is not authorized. |
 
 No AI agent may select the license or accept ADR-0024 on behalf of the operator.
+
+## Verified PR #83 boundary
+
+```text
+exact head: 57c14742f705f96e33e929e7e206f14169d42fc0
+merge:      10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c
+exact-head workflows: 5 PASS / 18 jobs success
+post-merge workflows: 5 PASS / 18 jobs success
+reviews: 0
+unresolved review threads: 0
+Codex: NOT AVAILABLE — quota notice, not review or approval
+```
+
+Passing CI proves the fail-closed decision packages and unchanged runtime/evidence guards. It does not choose a license, accept ADR-0024, prove reducer v2 or authorize production.
 
 ## Next authorized sequence
 
 ```text
-1. prepare license options for operator decision
-2. prepare ADR-0024 final decision options
-3. obtain explicit operator decisions
-4. define NK-SAM and named equivalence profiles
-5. define Event/history commitment boundaries
-6. only then begin reducer-v2 runtime work
+1. obtain explicit license/publication operator selection
+2. obtain explicit ADR-0024 operator selection
+3. define NK-SAM and named equivalence profiles
+4. define Event/history commitment boundaries
+5. only then begin reducer-v2 runtime work
 ```
 
 Out of scope until those gates are complete:
