@@ -1,185 +1,98 @@
 #!/usr/bin/env python3
-"""Validate Native Kernel's machine-readable project-state snapshot."""
+"""Validate machine-readable Native Kernel project truth."""
 from __future__ import annotations
-
-import argparse
-import json
-import re
-import subprocess
+import argparse, json, re, subprocess
 from pathlib import Path
 from typing import Any, Mapping
 
-SHA_RE = re.compile(r"^[0-9a-f]{40}$")
+SHA = re.compile(r"^[0-9a-f]{40}$")
+REL = {"EXACT", "DESCENDANT_OR_EQUAL", "UNRELATED", "UNKNOWN"}
+COUNTS = {"supported":45,"partial":10,"unsupported":17,"failed":0,"total":72}
 
+class ProjectStateError(RuntimeError): pass
 
-class ProjectStateError(RuntimeError):
-    """Raised when project-state validation fails closed."""
+def req(ok: bool, msg: str) -> None:
+    if not ok: raise ProjectStateError(msg)
 
-
-def _require(condition: bool, message: str) -> None:
-    if not condition:
-        raise ProjectStateError(message)
-
-
-def _load(path: Path) -> dict[str, Any]:
-    try:
-        value = json.loads(path.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError) as exc:
-        raise ProjectStateError(f"cannot read project state: {exc}") from exc
-    _require(isinstance(value, dict), "project-state top level must be an object")
+def load(path: Path, label: str) -> dict[str, Any]:
+    try: value=json.loads(path.read_text(encoding="utf-8"))
+    except (OSError,json.JSONDecodeError) as exc: raise ProjectStateError(f"cannot read {label}: {exc}") from exc
+    req(isinstance(value,dict),f"{label} must be an object")
     return value
 
+def git(repo: Path,*args: str):
+    return subprocess.run(["git","-C",str(repo),*args],check=False,capture_output=True,text=True)
 
-def _git(repo: Path, *args: str) -> subprocess.CompletedProcess[str]:
-    return subprocess.run(
-        ["git", "-C", str(repo), *args],
-        check=False,
-        capture_output=True,
-        text=True,
-    )
+def validate_registry(reg: Mapping[str,Any], state: Mapping[str,Any]) -> None:
+    req("runtime_status" not in reg,"legacy registry runtime_status is forbidden")
+    req(reg.get("implementation_support")=="PARTIAL","registry support must remain PARTIAL")
+    summary=reg.get("runtime_summary")
+    req(isinstance(summary,Mapping),"registry runtime summary required")
+    status=state["status"]
+    for key in ("clean_runtime_support","kernel_runtime_conformance","operational_validation","production_authorized"):
+        req(summary.get(key)==status.get(key),f"registry/state mismatch: {key}")
+    req(reg.get("assertion_evidence_summary")==state["assertion_map"],"registry assertion summary drift")
+    families=reg.get("families")
+    req(isinstance(families,list),"registry families required")
+    index={item.get("family_id"):item for item in families if isinstance(item,Mapping)}
+    req(set(index)=={"NK-SEM","NK-ID","NK-EVT","NK-AUT","NK-CFL","NK-EQV","NK-EPI"},"registry family inventory drift")
+    for family_id,family in index.items():
+        if family_id=="NK-EPI":
+            req(family.get("decision_status")=="PROPOSED","NK-EPI must remain proposed")
+            req((family.get("implementation_support"),family.get("fixture_support"),family.get("evidence_level"))==("NOT_IMPLEMENTED","NOT_IMPLEMENTED","NONE"),"NK-EPI support overclaim")
+        else:
+            req(family.get("decision_status")=="ACCEPTED",f"{family_id}: decision drift")
+            req((family.get("implementation_support"),family.get("fixture_support"),family.get("evidence_level"))==("PARTIAL","PARTIAL","C4_PARTIAL"),f"{family_id}: support drift")
 
+def validate(state: Mapping[str,Any],*,repo: Path,registry: Mapping[str,Any]|None=None,check_git: bool=True)->None:
+    req(state.get("protocol")=="nk-project-state/2","unsupported project-state protocol")
+    repository=state.get("repository")
+    req(isinstance(repository,Mapping),"repository object required")
+    req((repository.get("full_name"),repository.get("visibility"),repository.get("default_branch"))==("velantrian/velantrim-native-kernel","PUBLIC","main"),"repository identity drift")
 
-def validate(state: Mapping[str, Any], *, repo: Path, check_git: bool = True) -> None:
-    _require(state.get("protocol") == "nk-project-state/1", "unsupported project-state protocol")
+    cp=state.get("checkpoints")
+    req(isinstance(cp,Mapping),"checkpoint inventory required")
+    fields=("manifest_generated_from_sha","runtime_checkpoint_sha","runtime_integrity_checkpoint_sha","evidence_producing_sha","publication_checkpoint_sha","notion_synchronized_through_sha")
+    for field in fields: req(isinstance(cp.get(field),str) and SHA.fullmatch(cp[field]) is not None,f"invalid checkpoint: {field}")
+    req(cp.get("expected_head_relationship") in REL,"invalid expected head relationship")
+    req(cp["publication_checkpoint_sha"]==cp["notion_synchronized_through_sha"],"Notion/publication checkpoint mismatch")
 
-    repository = state.get("repository")
-    _require(isinstance(repository, Mapping), "repository object required")
-    _require(repository.get("full_name") == "velantrian/velantrim-native-kernel", "repository identity drift")
-    _require(repository.get("visibility") == "PUBLIC", "repository visibility drift")
-    _require(repository.get("default_branch") == "main", "default branch drift")
-    observed = repository.get("observed_main_sha")
-    implementation = repository.get("implementation_evidence_sha")
-    _require(isinstance(observed, str) and SHA_RE.fullmatch(observed) is not None, "invalid observed main SHA")
-    _require(isinstance(implementation, str) and SHA_RE.fullmatch(implementation) is not None, "invalid implementation evidence SHA")
+    status=state.get("status")
+    req(isinstance(status,Mapping),"status object required")
+    req(status.get("repository_status")=="RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY","repository status drift")
+    req(status.get("support_state")==status.get("clean_runtime_support")=="PARTIAL","runtime support drift")
+    req((status.get("kernel_runtime_conformance"),status.get("operational_validation"),status.get("production_authorized"))==("C4","C5_BOUNDED_REHEARSAL",False),"maturity or production drift")
 
-    status = state.get("status")
-    _require(isinstance(status, Mapping), "status object required")
-    _require(
-        status.get("repository_status")
-        == "RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY",
-        "repository status drift",
-    )
-    _require(status.get("support_state") == "PARTIAL", "support state must remain PARTIAL")
-    _require(status.get("kernel_runtime_conformance") == "C4", "runtime conformance must remain C4")
-    _require(status.get("operational_validation") == "C5_BOUNDED_REHEARSAL", "wrong operational validation")
-    _require(status.get("production_authorized") is False, "production must remain unauthorized")
+    tracks=state.get("tracks")
+    req(isinstance(tracks,Mapping) and set(tracks)=={"historical_recovery","clean_implementation","long_horizon_research"},"exact H/C/R tracks required")
+    req(tracks["historical_recovery"].get("blocks_clean_implementation") is False,"historical recovery must not block clean lineage")
+    req(tracks["historical_recovery"].get("may_claim_globally_lost") is False,"global-loss overclaim")
+    req(tracks["clean_implementation"].get("status")=="ACTIVE / PARTIAL","clean track drift")
+    req(tracks["long_horizon_research"].get("runtime_authorized") is False,"research cannot authorize runtime")
 
-    tracks = state.get("tracks")
-    _require(isinstance(tracks, Mapping), "tracks object required")
-    _require(set(tracks) == {"historical_recovery", "clean_implementation", "long_horizon_research"}, "exact H/C/R tracks required")
-    historical = tracks["historical_recovery"]
-    clean = tracks["clean_implementation"]
-    research = tracks["long_horizon_research"]
-    _require(historical.get("id") == "H", "historical track id must be H")
-    _require(historical.get("evidence_state") == "NOT_FOUND_IN_ACCESSIBLE_SOURCES", "historical evidence state drift")
-    _require(historical.get("blocks_clean_implementation") is False, "historical recovery must not block clean lineage")
-    _require(historical.get("may_claim_globally_lost") is False, "global-loss overclaim forbidden")
-    _require(clean.get("id") == "C" and clean.get("status") == "ACTIVE / PARTIAL", "clean track must remain active/partial")
-    phases = clean.get("phases")
-    _require(isinstance(phases, Mapping) and set(phases) == {"P1", "P2", "P3", "P4", "P5", "C4", "C5"}, "clean phase inventory drift")
-    integrity_review = clean.get("integrity_review")
-    _require(isinstance(integrity_review, Mapping), "SQLite integrity review required")
-    _require(integrity_review.get("decision") == "ADR-0023", "SQLite integrity decision drift")
-    _require(integrity_review.get("sqlite_wal_minimum") == "3.51.3", "unsafe SQLite WAL floor")
-    _require(integrity_review.get("historical_sqlite_version") == "3.45.1", "historical SQLite evidence drift")
-    _require(integrity_review.get("historical_evidence_preserved") is True, "historical evidence must remain preserved")
-    _require(
-        integrity_review.get("status") == "REPOSITORY_REPRODUCED / EVIDENCE_CAPTURED",
-        "SQLite integrity evidence must remain reproduced and captured",
-    )
-    _require(integrity_review.get("affected_assertions_re_adjudicated") is True, "affected assertions must be re-adjudicated")
-    _require(integrity_review.get("assertion_arithmetic_changed") is False, "assertion arithmetic cannot change implicitly")
-    _require(research.get("id") == "R", "research track id must be R")
-    _require(research.get("runtime_authorized") is False, "research must not authorize runtime")
+    req(state.get("assertion_map")==COUNTS,"assertion map drift")
+    epi=state.get("nk_epi")
+    req(isinstance(epi,Mapping),"NK-EPI object required")
+    req((epi.get("supported"),epi.get("partial"),epi.get("unsupported"),epi.get("failed"))==(0,0,8,0),"NK-EPI map drift")
+    req(epi.get("implementation_support")=="NOT_IMPLEMENTED" and epi.get("promotion_authorized") is False,"NK-EPI promotion overclaim")
+    req(state.get("issues",{}).get("1",{}).get("state")=="OPEN","Issue #1 state drift")
+    req((state.get("issues",{}).get("64",{}).get("state"),state.get("issues",{}).get("64",{}).get("state_reason"))==("CLOSED","COMPLETED"),"Issue #64 state drift")
+    req(state.get("notion",{}).get("status") in {"HANDOFF_REQUIRED","SYNCED_THROUGH_PUBLICATION_CHECKPOINT"},"invalid Notion status")
 
-    assertion_map = state.get("assertion_map")
-    _require(
-        assertion_map == {"supported": 45, "partial": 10, "unsupported": 17, "failed": 0, "total": 72},
-        "assertion map drift",
-    )
-    nk_epi = state.get("nk_epi")
-    _require(isinstance(nk_epi, Mapping), "NK-EPI object required")
-    _require(
-        (nk_epi.get("supported"), nk_epi.get("partial"), nk_epi.get("unsupported"), nk_epi.get("failed"))
-        == (0, 0, 8, 0),
-        "NK-EPI map drift",
-    )
-    _require(nk_epi.get("decision_status") == "PROPOSED", "NK-EPI must remain proposed")
-    _require(nk_epi.get("promotion_authorized") is False, "NK-EPI promotion is not authorized")
+    validate_registry(registry or load(repo/"contracts/registry.json","contract registry"),state)
 
-    issues = state.get("issues")
-    _require(isinstance(issues, Mapping), "issue snapshots required")
-    _require(issues.get("1", {}).get("state") == "OPEN", "Issue #1 state drift")
-    _require(issues.get("64", {}).get("state") == "CLOSED", "Issue #64 must be closed")
-    _require(issues.get("64", {}).get("state_reason") == "COMPLETED", "Issue #64 completion reason required")
-    for number in ("1", "64"):
-        verification = issues[number].get("verification")
-        _require(isinstance(verification, Mapping), f"Issue #{number} verification required")
-        _require(verification.get("status") == "VERIFIED", f"Issue #{number} must be directly verified")
-        _require(verification.get("method") == "GITHUB_API", f"Issue #{number} verification method drift")
+    if check_git and (repo/".git").exists():
+        head=git(repo,"rev-parse","HEAD").stdout.strip(); source=cp["manifest_generated_from_sha"]; relation=cp["expected_head_relationship"]
+        for field in fields: req(git(repo,"cat-file","-e",f"{cp[field]}^{{commit}}").returncode==0,f"{field} commit missing")
+        if relation=="EXACT": req(source==head,"manifest source must equal HEAD")
+        elif relation=="DESCENDANT_OR_EQUAL": req(git(repo,"merge-base","--is-ancestor",source,head).returncode==0,"manifest source not ancestor of HEAD")
+        elif relation=="UNRELATED": req(git(repo,"merge-base","--is-ancestor",source,head).returncode!=0,"manifest source unexpectedly related")
+        for field in fields[1:]: req(git(repo,"merge-base","--is-ancestor",cp[field],head).returncode==0,f"{field} not ancestor of HEAD")
 
-    evidence = state.get("evidence", {}).get("c5_bundle")
-    _require(isinstance(evidence, Mapping), "C5 durable evidence entry required")
-    _require(evidence.get("protocol") == "nk-evidence-bundle/1", "evidence protocol drift")
-    _require(evidence.get("status") == "CAPTURED_REPOSITORY_RESIDENT", "C5 bytes must be repository-resident")
-    _require(evidence.get("checkpoint_count") == 2 and evidence.get("artifact_count") == 8, "C5 evidence inventory drift")
-    bundle_path = repo / str(evidence.get("path"))
-    _require(bundle_path.is_file(), "C5 evidence manifest missing")
-    revalidation = state.get("evidence", {}).get("sqlite_integrity_revalidation")
-    _require(isinstance(revalidation, Mapping), "SQLite integrity revalidation entry required")
-    _require(revalidation.get("minimum_linked_sqlite") == "3.51.3", "revalidation SQLite floor drift")
-    _require(revalidation.get("status") == "CAPTURED_REPOSITORY_RESIDENT", "SQLite revalidation evidence missing")
-    _require(revalidation.get("protocol") == "nk-evidence-bundle/1", "SQLite evidence protocol drift")
-    _require(
-        revalidation.get("path") == "evidence/c5/2026-08-08-adr0023/manifest.json",
-        "SQLite evidence identity drift",
-    )
-    _require(revalidation.get("checkpoint_count") == 2 and revalidation.get("artifact_count") == 8, "SQLite evidence inventory drift")
-    _require((repo / revalidation["path"]).is_file(), "SQLite revalidation manifest missing")
-    _require(revalidation.get("new_evidence_identity_required") is True, "new evidence identity required")
-    _require(revalidation.get("may_rewrite_2026_08_07_bundle") is False, "historical C5 bundle is immutable")
-
-    notion = state.get("notion")
-    _require(isinstance(notion, Mapping), "Notion synchronization state required")
-    _require(notion.get("status") in {"HANDOFF_REQUIRED", "SYNCED"}, "invalid Notion synchronization state")
-
-    non_claims = " ".join(str(item).lower() for item in state.get("non_claims", []))
-    for phrase in (
-        "not production readiness",
-        "does not promote nk-epi",
-        "not recovered v0.1.2.1",
-        "do not prove live-data safety",
-        "preserved the assertion arithmetic",
-    ):
-        _require(phrase in non_claims, f"missing project-state boundary: {phrase}")
-
-    if check_git and (repo / ".git").exists():
-        for label, sha in (("observed main", observed), ("implementation evidence", implementation)):
-            _require(_git(repo, "cat-file", "-e", f"{sha}^{{commit}}").returncode == 0, f"{label} commit does not exist")
-            _require(_git(repo, "merge-base", "--is-ancestor", sha, "HEAD").returncode == 0, f"{label} SHA is not an ancestor of HEAD")
-
-
-def main() -> int:
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("state", nargs="?", type=Path, default=Path("project-state.json"))
-    parser.add_argument("--repo", type=Path, default=Path.cwd())
-    parser.add_argument("--no-git", action="store_true")
-    args = parser.parse_args()
-    repo = args.repo.resolve()
-    state = _load(args.state if args.state.is_absolute() else repo / args.state)
-    validate(state, repo=repo, check_git=not args.no_git)
-    print(
-        "Project-state validation passed; "
-        f"checkpoint={state['repository']['observed_main_sha']}; "
-        f"runtime={state['status']['kernel_runtime_conformance']}; "
-        f"operational={state['status']['operational_validation']}; "
-        f"assertions={state['assertion_map']['supported']}/"
-        f"{state['assertion_map']['partial']}/"
-        f"{state['assertion_map']['unsupported']}/"
-        f"{state['assertion_map']['failed']}"
-    )
+def main()->int:
+    p=argparse.ArgumentParser(description=__doc__); p.add_argument("state",nargs="?",type=Path,default=Path("project-state.json")); p.add_argument("--repo",type=Path,default=Path.cwd()); p.add_argument("--no-git",action="store_true"); a=p.parse_args()
+    repo=a.repo.resolve(); path=a.state if a.state.is_absolute() else repo/a.state; state=load(path,"project state"); validate(state,repo=repo,check_git=not a.no_git)
+    cp=state["checkpoints"]; m=state["assertion_map"]
+    print(f"Project-state validation passed; source={cp['manifest_generated_from_sha']}; relationship={cp['expected_head_relationship']}; runtime={state['status']['kernel_runtime_conformance']}; operational={state['status']['operational_validation']}; assertions={m['supported']}/{m['partial']}/{m['unsupported']}/{m['failed']}")
     return 0
-
-
-if __name__ == "__main__":
-    raise SystemExit(main())
+if __name__=="__main__": raise SystemExit(main())

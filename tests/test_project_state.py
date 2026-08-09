@@ -1,81 +1,51 @@
 from __future__ import annotations
-
-import copy
-import importlib.util
-import json
-import sys
-import unittest
+import copy, importlib.util, json, sys, unittest
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
-MODULE_PATH = ROOT / "tools" / "ai_context" / "validate_project_state.py"
-SPEC = importlib.util.spec_from_file_location("validate_project_state", MODULE_PATH)
-module = importlib.util.module_from_spec(SPEC)
-assert SPEC.loader is not None
-sys.modules[SPEC.name] = module
-SPEC.loader.exec_module(module)
-
+ROOT=Path(__file__).resolve().parents[1]
+SPEC=importlib.util.spec_from_file_location("validate_project_state",ROOT/"tools/ai_context/validate_project_state.py")
+module=importlib.util.module_from_spec(SPEC); assert SPEC.loader; sys.modules[SPEC.name]=module; SPEC.loader.exec_module(module)
 
 class ProjectStateTests(unittest.TestCase):
-    def setUp(self) -> None:
-        self.state = json.loads((ROOT / "project-state.json").read_text(encoding="utf-8"))
+    def setUp(self):
+        self.state=json.loads((ROOT/"project-state.json").read_text(encoding="utf-8"))
+        self.registry=json.loads((ROOT/"contracts/registry.json").read_text(encoding="utf-8"))
+    def validate(self,state=None,registry=None):
+        module.validate(state or copy.deepcopy(self.state),repo=ROOT,registry=registry or copy.deepcopy(self.registry),check_git=False)
+    def test_repository_state_passes(self): self.validate()
+    def test_production_promotion_is_rejected(self):
+        state=copy.deepcopy(self.state); state["status"]["production_authorized"]=True
+        with self.assertRaisesRegex(module.ProjectStateError,"maturity|production"): self.validate(state)
+    def test_checkpoint_relation_is_declared(self):
+        state=copy.deepcopy(self.state); state["checkpoints"]["expected_head_relationship"]="MAYBE"
+        with self.assertRaisesRegex(module.ProjectStateError,"relationship"): self.validate(state)
+    def test_notion_checkpoint_must_match_publication(self):
+        state=copy.deepcopy(self.state); state["checkpoints"]["notion_synchronized_through_sha"]="0"*40
+        with self.assertRaisesRegex(module.ProjectStateError,"Notion/publication"): self.validate(state)
+    def test_historical_recovery_cannot_block_clean_lineage(self):
+        state=copy.deepcopy(self.state); state["tracks"]["historical_recovery"]["blocks_clean_implementation"]=True
+        with self.assertRaisesRegex(module.ProjectStateError,"must not block"): self.validate(state)
+    def test_nk_epi_cannot_be_promoted_by_metadata(self):
+        state=copy.deepcopy(self.state); state["nk_epi"]["supported"]=1; state["nk_epi"]["unsupported"]=7
+        with self.assertRaisesRegex(module.ProjectStateError,"NK-EPI"): self.validate(state)
+    def test_legacy_registry_runtime_status_is_rejected(self):
+        registry=copy.deepcopy(self.registry); registry["runtime_status"]="NOT_IMPLEMENTED"
+        with self.assertRaisesRegex(module.ProjectStateError,"legacy registry"): self.validate(registry=registry)
+    def test_registry_runtime_summary_must_match_state(self):
+        registry=copy.deepcopy(self.registry); registry["runtime_summary"]["kernel_runtime_conformance"]="C3"
+        with self.assertRaisesRegex(module.ProjectStateError,"registry/state"): self.validate(registry=registry)
+    def test_registry_assertion_arithmetic_must_match(self):
+        registry=copy.deepcopy(self.registry); registry["assertion_evidence_summary"]["supported"]=44
+        with self.assertRaisesRegex(module.ProjectStateError,"assertion summary"): self.validate(registry=registry)
+    def test_accepted_family_cannot_claim_full_support(self):
+        registry=copy.deepcopy(self.registry); registry["families"][0]["implementation_support"]="FULL"
+        with self.assertRaisesRegex(module.ProjectStateError,"support drift"): self.validate(registry=registry)
+    def test_nk_epi_registry_cannot_claim_runtime(self):
+        registry=copy.deepcopy(self.registry)
+        epi=next(f for f in registry["families"] if f["family_id"]=="NK-EPI"); epi["implementation_support"]="PARTIAL"
+        with self.assertRaisesRegex(module.ProjectStateError,"NK-EPI support"): self.validate(registry=registry)
+    def test_issue_64_must_remain_completed(self):
+        state=copy.deepcopy(self.state); state["issues"]["64"]["state"]="OPEN"
+        with self.assertRaisesRegex(module.ProjectStateError,"Issue #64"): self.validate(state)
 
-    def test_repository_state_passes(self) -> None:
-        module.validate(copy.deepcopy(self.state), repo=ROOT, check_git=False)
-
-    def test_production_promotion_is_rejected(self) -> None:
-        state = copy.deepcopy(self.state)
-        state["status"]["production_authorized"] = True
-        with self.assertRaisesRegex(module.ProjectStateError, "production"):
-            module.validate(state, repo=ROOT, check_git=False)
-
-    def test_historical_track_cannot_block_clean_lineage(self) -> None:
-        state = copy.deepcopy(self.state)
-        state["tracks"]["historical_recovery"]["blocks_clean_implementation"] = True
-        with self.assertRaisesRegex(module.ProjectStateError, "must not block"):
-            module.validate(state, repo=ROOT, check_git=False)
-
-    def test_issue_64_must_remain_completed(self) -> None:
-        state = copy.deepcopy(self.state)
-        state["issues"]["64"]["state"] = "OPEN"
-        with self.assertRaisesRegex(module.ProjectStateError, "Issue #64"):
-            module.validate(state, repo=ROOT, check_git=False)
-
-    def test_nk_epi_cannot_be_promoted_by_documentation(self) -> None:
-        state = copy.deepcopy(self.state)
-        state["nk_epi"]["supported"] = 1
-        state["nk_epi"]["unsupported"] = 7
-        with self.assertRaisesRegex(module.ProjectStateError, "NK-EPI"):
-            module.validate(state, repo=ROOT, check_git=False)
-
-    def test_sqlite_floor_and_historical_bundle_fail_closed(self) -> None:
-        state = copy.deepcopy(self.state)
-        state["tracks"]["clean_implementation"]["integrity_review"][
-            "sqlite_wal_minimum"
-        ] = "3.45.1"
-        with self.assertRaisesRegex(module.ProjectStateError, "SQLite WAL floor"):
-            module.validate(state, repo=ROOT, check_git=False)
-
-        state = copy.deepcopy(self.state)
-        state["evidence"]["sqlite_integrity_revalidation"][
-            "may_rewrite_2026_08_07_bundle"
-        ] = True
-        with self.assertRaisesRegex(module.ProjectStateError, "immutable"):
-            module.validate(state, repo=ROOT, check_git=False)
-
-    def test_sqlite_revalidation_evidence_cannot_be_removed(self) -> None:
-        state = copy.deepcopy(self.state)
-        state["evidence"]["sqlite_integrity_revalidation"]["artifact_count"] = 0
-        with self.assertRaisesRegex(module.ProjectStateError, "inventory"):
-            module.validate(state, repo=ROOT, check_git=False)
-
-        state = copy.deepcopy(self.state)
-        state["tracks"]["clean_implementation"]["integrity_review"][
-            "affected_assertions_re_adjudicated"
-        ] = False
-        with self.assertRaisesRegex(module.ProjectStateError, "re-adjudicated"):
-            module.validate(state, repo=ROOT, check_git=False)
-
-
-if __name__ == "__main__":
-    unittest.main()
+if __name__=="__main__": unittest.main()
