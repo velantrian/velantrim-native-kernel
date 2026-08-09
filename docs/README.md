@@ -2,116 +2,73 @@
 
 **[English](./README.md) · [Русский](./README.ru.md)**
 
-> **Current boundary:** `RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY`
+> **Current boundary:** `RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY`  
+> **Active phase:** `ARCHITECTURE RE-FOUNDATION / BLUEPRINT-FIRST / RUNTIME EXPANSION FROZEN`
 
 ## Start here
 
 | Document | Role |
 |---|---|
-| [`../STATUS.md`](../STATUS.md) | authoritative human current state and checkpoint roles |
-| [`../project-state.json`](../project-state.json) | authoritative committed machine status (`nk-project-state/2`) |
-| [`../ROADMAP.md`](../ROADMAP.md) | active gate sequence and authorization boundaries |
-| [`QUICKSTART.md`](./QUICKSTART.md) | setup, safe SQLite floor and first tests |
-| [`GLOSSARY.md`](./GLOSSARY.md) | terminology and required non-equivalences |
+| [`../STATUS.md`](../STATUS.md) | authoritative human current state |
+| [`../project-state.json`](../project-state.json) | committed machine state (`nk-project-state/2`) |
+| [`../ROADMAP.md`](../ROADMAP.md) | active sequence and authorization boundaries |
+| [`ARCHITECTURE_REFOUNDATION.md`](./ARCHITECTURE_REFOUNDATION.md) | active blueprint plan |
+| [`ARCHITECTURE_REFOUNDATION.ru.md`](./ARCHITECTURE_REFOUNDATION.ru.md) | Russian blueprint plan |
 | [`../AGENTS.md`](../AGENTS.md) | mandatory repository instructions |
-| [`ai/CURRENT_STATE.md`](./ai/CURRENT_STATE.md) | compact AI continuity checkpoint |
-| [`ai/KNOWN_RISKS.md`](./ai/KNOWN_RISKS.md) | active, mitigated and closed risks |
-| [`../evidence/c5/README.md`](../evidence/c5/README.md) | immutable evidence identities and proof boundaries |
-| [`CONFORMANCE_MODEL.md`](./CONFORMANCE_MODEL.md) | C0–C5 and assertion boundaries |
+| [`ai/CURRENT_STATE.md`](./ai/CURRENT_STATE.md) | compact AI continuity state |
+| [`ai/KNOWN_RISKS.md`](./ai/KNOWN_RISKS.md) | active risks |
 | [`adr/README.md`](./adr/README.md) | accepted and proposed decisions |
-| [`research/POST_C5_RESEARCH_BACKLOG.md`](./research/POST_C5_RESEARCH_BACKLOG.md) | proposed research only |
-| [`INTEGRATION_BOUNDARIES.md`](./INTEGRATION_BOUNDARIES.md) | ecosystem authority boundaries |
+| [`../evidence/c5/README.md`](../evidence/c5/README.md) | immutable evidence boundaries |
+| [`QUICKSTART.md`](./QUICKSTART.md) | reference-laboratory setup and tests |
+| [`GLOSSARY.md`](./GLOSSARY.md) | terminology and required distinctions |
 
 ## Current map
 
 ```text
 H historical recovery: OPEN / BLOCKED / independent
-C clean implementation: P1–P5 + C4 + C5 / ACTIVE / PARTIAL
-R long-horizon research: PROPOSED / BOUNDED / NO AUTOMATIC PROMOTION
+C clean implementation: PRESERVED / PARTIAL / BOUNDED REFERENCE LABORATORY
+R architecture re-foundation: ACTIVE / BLUEPRINT-FIRST
 
-kernel_runtime_conformance: C4
-operational_validation: C5_BOUNDED_REHEARSAL
+kernel runtime: C4
+operational validation: C5_BOUNDED_REHEARSAL
 assertions: 45 / 10 / 17 / 0
-NK-EPI: 0 SUPPORTED / 0 PARTIAL / 8 UNSUPPORTED / 0 FAILED
+NK-EPI: 0 / 0 / 8 / 0
 production: NOT AUTHORIZED
 ```
 
-## Truth roles
+## Active sequence
 
 ```text
-CURRENT STATE
-  STATUS.md
-  project-state.json
-  docs/ai/CURRENT_STATE.md
-
-ACTIVE ROADMAP
-  ROADMAP.md
-
-ACTIVE RISKS
-  docs/ai/KNOWN_RISKS.md
-
-HISTORICAL RECORD
-  implementation records
-  accepted ADRs
-  immutable evidence manifests
-  Git history and checkpoint permalinks
-
-PROPOSAL
-  proposed ADRs
-  research backlog
-  unaccepted contract drafts
+A1 Purpose and Non-goals
+→ A2 Knowledge and Memory Ontology
+→ A3 Abstract Native Kernel Machine
+→ A4 Semantic Laws and Invariants
+→ A5 Identity / Time / Change
+→ A6 Knowledge Lifecycle
+→ A7 Conflict / Uncertainty / Revision
+→ A8 Substrate-independence Contract
+→ A9 Reference Laboratory Boundary
+→ A10 Open Questions / Falsification
+→ integrated blueprint review
+→ separate operator decision before runtime expansion
 ```
 
-Do not treat historical reports, proposals or old Notion chronology as the authoritative current state.
+ADR-0025 preserves the existing Python/PostgreSQL/SQLite implementation as a bounded laboratory while freezing new semantic/runtime expansion.
 
-## Reading order
+Issue #18 remains `PENDING_OPERATOR` for license/publication. ADR-0024 remains `PROPOSED / PENDING_OPERATOR` and continues to block reducer-v2, not blueprint research.
 
-```text
-STATUS + project-state
-→ ROADMAP
-→ QUICKSTART + GLOSSARY
-→ AGENTS + AI context
-→ contracts + conformance model
-→ implementation and tests
-→ evidence manifests and records
-→ ADR history
-→ research only when future direction is relevant
-```
-
-## Current authorized sequence
+## Required distinctions
 
 ```text
-human-readable truth reconciliation
-→ Issues #14–#17 and Notion reconciliation
-→ license decision options
-→ ADR-0024 decision options
-→ NK-SAM and named equivalence profiles
-→ Event/history commitment
-→ only then reducer-v2 runtime
-```
-
-Executable NK-EPI, Temporal, full Admission, operational deletion, full independent implementation and ecosystem integration remain outside the current reconciliation slice.
-
-## Central distinctions
-
-```text
-Architecture Canon
-≠ Abstract Contract
-≠ Accepted Decision
-≠ Implementation Profile
-≠ Evidence Layer
-≠ Assertion Result
-≠ Operator Authorization
-≠ Production Evidence
-```
-
-```text
+reference laboratory ≠ final architecture
+blueprint documentation ≠ implementation evidence
 PostgreSQL + SQLite ≠ full substrate neutrality
 C5 PASS ≠ production readiness
 Unknown ≠ False
 admission ≠ truth
 logical ERASED ≠ physical deletion
 public repository ≠ open-source license
+future-facing design ≠ demonstrated future substrate support
 ```
 
-PostgreSQL, SQLite, Python, JSON, graphs, vectors, LLMs and hardware are instruments or profiles, not Canon.
+Current technologies are replaceable research instruments, not Architecture Canon.
