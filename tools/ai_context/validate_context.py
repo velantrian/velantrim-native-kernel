@@ -126,10 +126,16 @@ def _run_git(repo: Path, *args: str) -> subprocess.CompletedProcess[str]:
 
 
 def validate_required_paths(repo: Path) -> list[Finding]:
-    return [Finding(rel, "required AI-context file is missing") for rel in REQUIRED_PATHS if not (repo / rel).is_file()]
+    return [
+        Finding(rel, "required AI-context file is missing")
+        for rel in REQUIRED_PATHS
+        if not (repo / rel).is_file()
+    ]
 
 
-def _normalize_link_target(source: Path, raw_target: str, repo: Path) -> Path | None:
+def _normalize_link_target(
+    source: Path, raw_target: str, repo: Path
+) -> Path | None:
     target = raw_target.strip()
     if not target or target.startswith("#"):
         return None
@@ -145,7 +151,11 @@ def _normalize_link_target(source: Path, raw_target: str, repo: Path) -> Path | 
     path_text = unquote(parsed.path)
     if not path_text:
         return None
-    return (repo / path_text.lstrip("/") if path_text.startswith("/") else source.parent / path_text).resolve()
+    return (
+        repo / path_text.lstrip("/")
+        if path_text.startswith("/")
+        else source.parent / path_text
+    ).resolve()
 
 
 def validate_links(repo: Path) -> list[Finding]:
@@ -155,7 +165,9 @@ def validate_links(repo: Path) -> list[Finding]:
         source = repo / rel
         if not source.is_file():
             continue
-        for match in MARKDOWN_LINK_RE.finditer(source.read_text(encoding="utf-8")):
+        for match in MARKDOWN_LINK_RE.finditer(
+            source.read_text(encoding="utf-8")
+        ):
             raw = match.group(1)
             candidate = _normalize_link_target(source, raw, repo)
             if candidate is None:
@@ -163,7 +175,9 @@ def validate_links(repo: Path) -> list[Finding]:
             try:
                 candidate.relative_to(repo_resolved)
             except ValueError:
-                findings.append(Finding(rel, f"relative link escapes repository: {raw}"))
+                findings.append(
+                    Finding(rel, f"relative link escapes repository: {raw}")
+                )
                 continue
             if not candidate.exists():
                 findings.append(Finding(rel, f"broken relative link: {raw}"))
@@ -174,31 +188,55 @@ def read_checkpoint(repo: Path) -> tuple[str | None, list[Finding]]:
     rel = "docs/ai/CURRENT_STATE.md"
     path = repo / rel
     if not path.is_file():
-        return None, [Finding(rel, "cannot read checkpoint because file is missing")]
+        return None, [
+            Finding(rel, "cannot read checkpoint because file is missing")
+        ]
     text = path.read_text(encoding="utf-8")
     findings: list[Finding] = []
     match = CHECKPOINT_RE.search(text)
     if not match:
-        findings.append(Finding(rel, "missing exact 40-character machine truth reconciliation checkpoint"))
+        findings.append(
+            Finding(
+                rel,
+                "missing exact 40-character machine truth reconciliation checkpoint",
+            )
+        )
         return None, findings
     for marker in REQUIRED_STATUS_MARKERS:
         if marker not in text:
-            findings.append(Finding(rel, f"required current-state marker is missing: {marker}"))
+            findings.append(
+                Finding(rel, f"required current-state marker is missing: {marker}")
+            )
     for marker in FORBIDDEN_STATUS_MARKERS:
         if marker in text:
-            findings.append(Finding(rel, f"forbidden legacy current-state marker is present: {marker}"))
+            findings.append(
+                Finding(rel, f"forbidden legacy current-state marker is present: {marker}")
+            )
     return match.group(1), findings
 
 
-def validate_checkpoint(repo: Path, checkpoint: str | None) -> list[Finding]:
+def validate_checkpoint(
+    repo: Path, checkpoint: str | None
+) -> list[Finding]:
     if checkpoint is None or not (repo / ".git").exists():
         return []
-    if _run_git(repo, "cat-file", "-e", f"{checkpoint}^{{commit}}").returncode != 0:
-        return [Finding("docs/ai/CURRENT_STATE.md", f"checkpoint commit does not exist: {checkpoint}")]
+    if (
+        _run_git(repo, "cat-file", "-e", f"{checkpoint}^{{commit}}").returncode
+        != 0
+    ):
+        return [
+            Finding(
+                "docs/ai/CURRENT_STATE.md",
+                f"checkpoint commit does not exist: {checkpoint}",
+            )
+        ]
     head = _run_git(repo, "rev-parse", "HEAD")
     if head.returncode != 0:
         return [Finding(".git", "cannot resolve HEAD")]
-    if _run_git(repo, "merge-base", "--is-ancestor", checkpoint, "HEAD").returncode != 0:
+    if (
+        _run_git(repo, "merge-base", "--is-ancestor", checkpoint, "HEAD").returncode
+        != 0
+    ):
         return [
             Finding(
                 "docs/ai/CURRENT_STATE.md",
