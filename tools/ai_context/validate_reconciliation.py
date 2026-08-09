@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Any, Mapping
 
 PUBLICATION_SHA = "10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c"
+NOTION_SYNC_SHA = "70acd0da61fee19131947aa56125833adb156ced"
 ISSUES = ("14", "15", "16", "17")
 ISSUE_COMMENTS = {
     "14": "5231286665",
@@ -22,6 +23,14 @@ NOTION_PAGE_IDS = (
     "3b7ac84d-0547-8112-8595-ca44940cc242",
     "3b7ac84d-0547-8101-ada4-de9702b68eb3",
     "3b7ac84d-0547-81b6-80a6-f87a05ed6f9e",
+)
+CURRENT_SURFACES = (
+    "README.md",
+    "README.ru.md",
+    "STATUS.md",
+    "docs/ai/README.md",
+    "docs/ai/CURRENT_STATE.md",
+    "docs/ai/NOTION_HANDOFF.md",
 )
 
 
@@ -57,7 +66,7 @@ def validate(repo: Path) -> None:
     checkpoints = state.get("checkpoints")
     _require(isinstance(checkpoints, Mapping), "checkpoint inventory required")
     _require(
-        checkpoints.get("manifest_generated_from_sha") == PUBLICATION_SHA,
+        checkpoints.get("manifest_generated_from_sha") == NOTION_SYNC_SHA,
         "reconciliation source checkpoint drift",
     )
     _require(
@@ -65,8 +74,13 @@ def validate(repo: Path) -> None:
         "publication checkpoint drift",
     )
     _require(
-        checkpoints.get("notion_synchronized_through_sha") == PUBLICATION_SHA,
+        checkpoints.get("notion_synchronized_through_sha") == NOTION_SYNC_SHA,
         "Notion synchronization checkpoint drift",
+    )
+    _require(
+        checkpoints.get("publication_checkpoint_sha")
+        != checkpoints.get("notion_synchronized_through_sha"),
+        "publication and descendant synchronization roles collapsed",
     )
 
     issues = state.get("issues")
@@ -98,18 +112,17 @@ def validate(repo: Path) -> None:
         "Notion synchronization must remain required",
     )
     _require(
-        notion.get("status") == "SYNCED_THROUGH_PUBLICATION_CHECKPOINT",
+        notion.get("status") == "SYNCED_THROUGH_DESCENDANT_CHECKPOINT",
         "Notion status drift",
     )
     _require(
-        PUBLICATION_SHA in str(notion.get("scope", "")),
-        "Notion scope must name the synchronized checkpoint",
+        PUBLICATION_SHA in str(notion.get("scope", ""))
+        and NOTION_SYNC_SHA in str(notion.get("scope", "")),
+        "Notion scope must name publication and synchronized descendant checkpoints",
     )
 
     issue_record = _read(repo / "docs/ai/ISSUE_RECONCILIATION.md")
     notion_record = _read(repo / "docs/ai/NOTION_HANDOFF.md")
-    current_state = _read(repo / "docs/ai/CURRENT_STATE.md")
-    status = _read(repo / "STATUS.md")
 
     for number, comment_id in ISSUE_COMMENTS.items():
         _require(f"Issue #{number}" in issue_record, f"Issue #{number} missing from record")
@@ -118,20 +131,22 @@ def validate(repo: Path) -> None:
     for page_id in NOTION_PAGE_IDS:
         _require(page_id in notion_record, f"Notion page identity missing: {page_id}")
 
-    for text, label in (
-        (issue_record, "issue reconciliation"),
-        (notion_record, "Notion synchronization"),
-        (current_state, "AI current state"),
-        (status, "human status"),
-    ):
-        _require(PUBLICATION_SHA in text, f"{label} checkpoint drift")
+    current_texts: list[tuple[str, str]] = []
+    for relative in CURRENT_SURFACES:
+        text = _read(repo / relative)
+        current_texts.append((text, relative))
+        _require(PUBLICATION_SHA in text, f"{relative}: publication checkpoint drift")
+        _require(NOTION_SYNC_SHA in text, f"{relative}: Notion descendant checkpoint drift")
 
-    boundaries = " ".join((issue_record, notion_record, current_state, status)).lower()
+    boundaries = " ".join(
+        [issue_record, notion_record, *(text for text, _ in current_texts)]
+    ).lower()
     for phrase in (
         "remain open",
         "not production readiness",
         "not runtime evidence",
         "only then reducer-v2 runtime",
+        "does not rewrite",
     ):
         _require(phrase in boundaries, f"missing reconciliation boundary: {phrase}")
 
@@ -144,7 +159,8 @@ def main() -> int:
     validate(repo)
     print(
         "Reconciliation validation passed; "
-        f"publication={PUBLICATION_SHA}; issues=14,15,16,17; notion_pages={len(NOTION_PAGE_IDS)}"
+        f"publication={PUBLICATION_SHA}; notion={NOTION_SYNC_SHA}; "
+        f"issues=14,15,16,17; notion_pages={len(NOTION_PAGE_IDS)}"
     )
     return 0
 
