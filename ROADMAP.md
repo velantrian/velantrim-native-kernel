@@ -47,7 +47,7 @@ Decision: [`ADR-0025`](docs/adr/0025-blueprint-before-runtime-expansion.md).
 Plan: [English](docs/ARCHITECTURE_REFOUNDATION.md) · [Русский](docs/ARCHITECTURE_REFOUNDATION.ru.md).  
 Issue: [#88](https://github.com/velantrian/velantrim-native-kernel/issues/88).
 
-The project now completes the architecture blueprint before further semantic/runtime expansion.
+The project now completes the architecture blueprint before further semantic/runtime expansion. `A1` is drafted: [English](docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.md) · [Русский](docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md), pending independent review and integrated blueprint review with `A2`–`A10`. The next bounded content slice is `A2 — Knowledge and Memory Ontology`.
 
 ```text
 A1 Purpose and Non-goals
