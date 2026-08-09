@@ -97,7 +97,7 @@ class ArchitectureFreezeTests(unittest.TestCase):
         state = copy.deepcopy(self.state)
         state["tracks"]["long_horizon_research"]["architecture_refoundation"][
             "completed_deliverables"
-        ] = []
+        ] = ["A1_KERNEL_PURPOSE_AND_NON_GOALS"]
         with self.assertRaisesRegex(
             module.ArchitectureFreezeError,
             "completed blueprint deliverable inventory drift",
@@ -120,16 +120,38 @@ class ArchitectureFreezeTests(unittest.TestCase):
         state = copy.deepcopy(self.state)
         state["tracks"]["long_horizon_research"]["architecture_refoundation"][
             "next_content_slice"
-        ] = "A1_KERNEL_PURPOSE_AND_NON_GOALS"
+        ] = "A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY"
         with self.assertRaisesRegex(
             module.ArchitectureFreezeError,
             "next blueprint content slice drift",
         ):
             self.validate(state)
 
-    def test_completed_deliverable_document_must_exist(self) -> None:
+    def test_next_content_slice_must_not_be_completed(self) -> None:
         state = copy.deepcopy(self.state)
-        module.COMPLETED_DELIVERABLE_DOCS["A1_KERNEL_PURPOSE_AND_NON_GOALS"] = (
+        refoundation = state["tracks"]["long_horizon_research"][
+            "architecture_refoundation"
+        ]
+        refoundation["completed_deliverables"].append(
+            "A3_ABSTRACT_NATIVE_KERNEL_MACHINE"
+        )
+        module.EXPECTED_COMPLETED_DELIVERABLES.append(
+            "A3_ABSTRACT_NATIVE_KERNEL_MACHINE"
+        )
+        try:
+            with self.assertRaisesRegex(
+                module.ArchitectureFreezeError,
+                "must not already be marked completed",
+            ):
+                self.validate(state)
+        finally:
+            module.EXPECTED_COMPLETED_DELIVERABLES.pop()
+
+    def test_completed_deliverable_document_must_exist(self) -> None:
+        original = module.COMPLETED_DELIVERABLE_DOCS[
+            "A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY"
+        ]
+        module.COMPLETED_DELIVERABLE_DOCS["A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY"] = (
             "docs/DOES_NOT_EXIST.md",
         )
         try:
@@ -137,12 +159,26 @@ class ArchitectureFreezeTests(unittest.TestCase):
                 module.ArchitectureFreezeError,
                 "missing completed deliverable document",
             ):
-                self.validate(state)
+                self.validate()
         finally:
-            module.COMPLETED_DELIVERABLE_DOCS["A1_KERNEL_PURPOSE_AND_NON_GOALS"] = (
-                "docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.md",
-                "docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md",
-            )
+            module.COMPLETED_DELIVERABLE_DOCS[
+                "A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY"
+            ] = original
+
+    def test_completed_deliverable_document_mapping_must_exist(self) -> None:
+        original = module.COMPLETED_DELIVERABLE_DOCS.pop(
+            "A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY"
+        )
+        try:
+            with self.assertRaisesRegex(
+                module.ArchitectureFreezeError,
+                "missing completed deliverable document mapping",
+            ):
+                self.validate()
+        finally:
+            module.COMPLETED_DELIVERABLE_DOCS[
+                "A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY"
+            ] = original
 
     def test_issue_88_must_remain_open_and_verified(self) -> None:
         state = copy.deepcopy(self.state)

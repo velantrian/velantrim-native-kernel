@@ -106,6 +106,36 @@
       "require_single_h1": true
     },
     {
+      "pair_id": "a2-knowledge-and-memory-ontology",
+      "english": "docs/A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md",
+      "russian": "docs/A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md",
+      "selectors": [
+        "(./A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md)",
+        "(./A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md)"
+      ],
+      "shared_literals": [
+        "A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY",
+        "next_content_slice: A3_ABSTRACT_NATIVE_KERNEL_MACHINE",
+        "ADR-0025",
+        "Issue #88",
+        "Observation ≠ Claim",
+        "Evidence ≠ Source",
+        "Event usage in P1–C5 ≠ Event as universal primitive",
+        "State ≠ necessarily reducer output",
+        "Knowledge ≠ LLM / embeddings / SQL / JSON / specific processor"
+      ],
+      "english_literals": [
+        "Alternative ontology structures considered",
+        "Required non-equivalences"
+      ],
+      "russian_literals": [
+        "Рассмотренные альтернативные структуры ontology",
+        "Обязательные non-equivalences"
+      ],
+      "compare_heading_levels": true,
+      "require_single_h1": true
+    },
+    {
       "pair_id": "human-quickstart",
       "english": "docs/QUICKSTART.md",
       "russian": "docs/QUICKSTART.ru.md",

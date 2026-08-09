@@ -12,10 +12,12 @@ This directory is the mandatory continuity surface for AI agents, auditors, and 
 6. [`KNOWN_RISKS.md`](KNOWN_RISKS.md)
 7. [`../../ROADMAP.md`](../../ROADMAP.md)
 8. [`../ARCHITECTURE_REFOUNDATION.md`](../ARCHITECTURE_REFOUNDATION.md)
-9. [`ISSUE_RECONCILIATION.md`](ISSUE_RECONCILIATION.md)
-10. [`NOTION_HANDOFF.md`](NOTION_HANDOFF.md)
-11. affected Canon, contracts, ADRs, source, tests, workflows, and evidence
-12. current GitHub and Notion state
+9. [`../A1_KERNEL_PURPOSE_AND_NON_GOALS.md`](../A1_KERNEL_PURPOSE_AND_NON_GOALS.md) and [`../A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md`](../A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md)
+10. [`../A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md`](../A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md) and [`../A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md`](../A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md)
+11. [`ISSUE_RECONCILIATION.md`](ISSUE_RECONCILIATION.md)
+12. [`NOTION_HANDOFF.md`](NOTION_HANDOFF.md)
+13. affected Canon, contracts, ADRs, source, tests, workflows, and evidence
+14. current GitHub and Notion state
 
 Do not read every historical handoff before identifying the current task. Do not begin with random code search.
 
@@ -38,19 +40,42 @@ ADR-0025: ACCEPTED / OPERATOR APPROVED
 Architecture Re-foundation: ACTIVE / BLUEPRINT-FIRST
 runtime expansion: FROZEN
 P1–C5 role: BOUNDED REFERENCE LABORATORY
-next content slice: A2 — Knowledge and Memory Ontology
-A1 — Kernel Purpose and Non-goals: DRAFTED
+blueprint content: A1-A2 DRAFTED / PROVISIONAL
+next content slice: A3 — Abstract Native Kernel Machine
 ```
 
-The full plan is maintained in:
+The full plan and drafted content are maintained in:
 
 - [`../ARCHITECTURE_REFOUNDATION.md`](../ARCHITECTURE_REFOUNDATION.md)
 - [`../ARCHITECTURE_REFOUNDATION.ru.md`](../ARCHITECTURE_REFOUNDATION.ru.md)
+- [`../A1_KERNEL_PURPOSE_AND_NON_GOALS.md`](../A1_KERNEL_PURPOSE_AND_NON_GOALS.md)
+- [`../A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md`](../A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md)
+- [`../A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md`](../A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md)
+- [`../A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md`](../A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md)
 - [`../adr/0025-blueprint-before-runtime-expansion.md`](../adr/0025-blueprint-before-runtime-expansion.md)
+
+A1 and A2 are first drafted, provisional architecture slices. They are not independently approved, not integrated Canon, and remain subject to revision during A3–A10 and integrated review.
+
+A2 records a provisional technology-/substrate-neutral ontology and preserves at least these distinctions:
+
+```text
+Observation ≠ Claim
+Claim ≠ Truth
+Evidence ≠ Source
+Repetition ≠ Evidence
+Belief ≠ Knowledge
+Memory ≠ merely a stored Record
+retrieval relevance ≠ epistemic validity
+Conflict ≠ necessarily Contradiction
+Unknown ≠ False
+Event usage in P1-C5 ≠ Event as universal primitive
+State ≠ necessarily reducer output
+Knowledge ≠ LLM / embeddings / SQL / JSON / specific processor
+```
 
 No new semantic/runtime expansion is authorized before blueprint review. Existing code and evidence remain preserved and may receive bounded maintenance, integrity, reproducibility, provenance, and validator fixes.
 
-The machine-readable freeze is enforced fail closed by [`../../tools/ai_context/validate_architecture_freeze.py`](../../tools/ai_context/validate_architecture_freeze.py) in AI-context CI. Removing ADR-0025 state, disabling the freeze, authorizing semantic/runtime expansion, losing A1–A10, or bypassing separate operator review must fail validation.
+The machine-readable freeze is enforced fail closed by [`../../tools/ai_context/validate_architecture_freeze.py`](../../tools/ai_context/validate_architecture_freeze.py) in AI-context CI. Removing ADR-0025 state, disabling the freeze, authorizing semantic/runtime expansion, losing A1–A10, changing completed content away from exact A1+A2, or bypassing separate operator review must fail validation.
 
 ## Track boundary
 
@@ -88,9 +113,9 @@ Live HEAD must be resolved through Git or GitHub. A descendant commit does not s
 ## Active sequence
 
 ```text
-A1 Purpose and Non-goals
-→ A2 Knowledge and Memory Ontology
-→ A3 Abstract Native Kernel Machine
+A1 Purpose and Non-goals                         DRAFTED / PROVISIONAL
+→ A2 Knowledge and Memory Ontology              DRAFTED / PROVISIONAL
+→ A3 Abstract Native Kernel Machine             NEXT BOUNDED SLICE
 → A4 Semantic Laws and Invariants
 → A5 Identity / Time / Change
 → A6 Knowledge Lifecycle
@@ -107,9 +132,9 @@ Only after that review may downstream contract/runtime sequencing be reopened:
 ```text
 reconcile contract families
 → NK-SAM and named equivalence
-→ Event/history commitment
+→ Event/history commitment if required by the integrated blueprint
 → ADR-0024 outcome if reducer work resumes
-→ only then reducer-v2 runtime
+→ only then any reducer-v2 runtime
 ```
 
 ## Independent pending decisions
@@ -139,6 +164,12 @@ CURRENT STATE
 ACTIVE ROADMAP
   ../../ROADMAP.md
   ../ARCHITECTURE_REFOUNDATION.md
+
+DRAFTED BLUEPRINT CONTENT
+  ../A1_KERNEL_PURPOSE_AND_NON_GOALS.md
+  ../A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md
+  ../A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md
+  ../A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md
 
 ACTIVE RISKS
   KNOWN_RISKS.md
@@ -177,7 +208,7 @@ Evidence roots:
 ../../evidence/c5/2026-08-08-adr0023/manifest.json
 ```
 
-These archives are version-bound. ADR-0025 does not expand their proof boundary.
+These archives are version-bound. ADR-0025 and A2 do not expand their proof boundary.
 
 ## Source-of-truth order
 
@@ -185,7 +216,7 @@ These archives are version-bound. ADR-0025 does not expand their proof boundary.
 2. exact-SHA CI jobs/logs and GitHub live refs, issues, and reviews;
 3. `project-state.json`, `STATUS.md`, and `CURRENT_STATE.md`;
 4. accepted ADRs and versioned contracts;
-5. active blueprint plan and research deliverables;
+5. active blueprint plan and drafted research deliverables;
 6. implementation and reconciliation records, work log, and PR/issue history;
 7. Notion and historical chats.
 
@@ -199,6 +230,7 @@ python tools/ai_context/validate_architecture_freeze.py --repo .
 python tools/ai_context/validate_reconciliation.py --repo .
 python tools/ai_context/validate_context.py --repo .
 python tools/docs/validate_bilingual_parity.py --repo .
+python -m unittest tests.test_a2_ontology tests.test_architecture_freeze tests.test_ai_context_validator
 ```
 
 ## Historical records

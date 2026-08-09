@@ -29,13 +29,13 @@ Native Kernel задуман как технологически нейтрал�
 
 ### Эта фаза определяет
 
-- онтологию;
-- семантические законы;
-- абстрактные состояния и переходы;
-- границы identity, времени, provenance, неопределённости и конфликта;
+- ontology;
+- semantic laws;
+- abstract state и transition models;
+- границы identity, time, Provenance, Uncertainty и Conflict;
 - substrate-independent obligations;
-- правила отображения Canon на implementation profiles;
-- явные неизвестные и критерии опровержения.
+- mapping rules между Canon и implementation profiles;
+- explicit unknowns и falsification criteria.
 
 ### Эта фаза не определяет
 
@@ -44,13 +44,13 @@ Native Kernel задуман как технологически нейтрал�
 - product integration;
 - performance tuning;
 - production deployment;
-- доказательство поддержки произвольных будущих substrates.
+- proof, что arbitrary future substrates уже conform.
 
 ## 3. Обязательные результаты
 
 ### A1 — Purpose и Non-goals Kernel
 
-**Статус:** `DRAFTED` — см. [`A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md`](./A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md) / [`A1_KERNEL_PURPOSE_AND_NON_GOALS.md`](./A1_KERNEL_PURPOSE_AND_NON_GOALS.md). Ожидает independent review и integrated blueprint review вместе с `A2`–`A10`.
+**Статус:** `DRAFTED / PROVISIONAL` — см. [`A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md`](./A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md) / [`A1_KERNEL_PURPOSE_AND_NON_GOALS.md`](./A1_KERNEL_PURPOSE_AND_NON_GOALS.md). Ожидает independent review и integrated blueprint review вместе с `A2`–`A10`.
 
 Определить:
 
@@ -58,54 +58,65 @@ Native Kernel задуман как технологически нейтрал�
 - какие долговечные свойства он должен сохранять;
 - что означает слово `Kernel` в этом проекте;
 - что находится вне Kernel;
-- границы с Titan, Crystal, Mentaury, операционными системами, базами данных и model runtimes.
+- границы с Titan, Crystal, Mentaury, operating systems, databases и model runtimes.
 
-**Критерий завершения:** читатель отличает архитектуру от продукта, базы данных, framework, cognitive system и storage engine без обращения к текущему коду.
+**Критерий завершения:** читатель отличает architecture от product, database, framework, cognitive system и storage engine без обращения к current source code.
 
 ### A2 — Онтология знания и памяти
 
-Определить candidate primitives и различия между ними, включая:
+**Статус:** `DRAFTED / PROVISIONAL` — см. [`A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md`](./A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md) / [`A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md`](./A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md). Ожидает independent review и integrated blueprint review вместе с A1 и A3–A10.
+
+Drafted inventory различает:
 
 ```text
-Occurrence
 Signal
 Observation
 Record
+Proposition
 Claim
-Concept
-Relation
-Context
-Source
-Provenance
-Evidence
 Interpretation
 Hypothesis
 Belief
-Uncertainty
-Conflict
-Decision
-Action
-Outcome
-Experience
+Knowledge
 Memory
-Identity
+Evidence
+Source
+Provenance
+Context
+Relation
+State
+Change
+Event
+Conflict
+Contradiction
+Uncertainty
+Revision
+Supersession
+Authority
+Receipt
 ```
 
-Для каждого primitive зафиксировать:
+Для каждого concept A2 фиксирует:
 
-- определение;
-- условия identity;
-- lifecycle;
-- допустимые связи;
-- запрещённые смешения;
-- неопределённость;
-- принадлежность к Canon, contract или profile.
+- working architectural definition;
+- чем concept не является;
+- отличия от neighbouring concepts;
+- allowed relations;
+- identity и lifecycle notes;
+- minimum semantic obligations;
+- unresolved questions;
+- falsification или counterexample;
+- provisional classification `CANDIDATE_PRIMITIVE`, `DERIVED_CONCEPT` или `OPEN_QUESTION`.
 
-**Критерий завершения:** ни один core term не определяется только через Python fields, SQL rows, JSON, graph nodes, embeddings или LLM operation.
+A2 сравнивает linear pipeline, Event-centred ontology, relation-first model и stratified role ontology. Stratified organization используется только как drafting aid, не Canon. Event и State остаются open primitive questions; Knowledge и Memory не требуют LLM, embeddings, SQL, JSON, digital bytes или specific processor.
+
+**Критерий завершения:** выполнен для first-draft scope: ни один core term не определяется только через Python fields, SQL rows, JSON, graph nodes, embeddings, LLM operation или current Event-sourced laboratory mechanics. Final acceptance всё ещё требует independent/integrated review.
 
 ### A3 — Абстрактная машина Native Kernel
 
-Определить минимальную технологически независимую машину, способную выразить заявленную архитектуру.
+**Статус:** `NEXT BOUNDED SLICE`.
+
+Определить minimal technology-independent machine, способную выразить declared architecture.
 
 Candidate stages:
 
@@ -124,69 +135,78 @@ encounter
 → emit bounded explanation/Receipt
 ```
 
-Финальная модель может отвергнуть или перестроить эти стадии.
+Final model может reject/reorganize эти stages. Она должна использовать A2 concepts, не превращая A2 navigation groups в mandatory pipeline stages.
 
 Обязательные результаты:
 
-- inventory абстрактных состояний;
+- inventory abstract states;
 - transition relations;
 - preconditions и postconditions;
 - failure states;
 - границы deterministic, reproducible и non-deterministic behaviour;
-- authority boundaries.
+- Authority boundaries.
 
-**Критерий завершения:** как минимум два существенно разных гипотетических substrate могут быть сопоставлены машине без переноса SQL/Python semantics в Canon.
+**Критерий завершения:** минимум два materially different hypothetical substrates map to machine без переноса SQL/Python semantics в Canon.
 
 ### A4 — Семантические законы и инварианты
 
-Создать нумерованный версионированный набор законов.
+Создать numbered, versioned law set.
 
 Candidate laws:
 
-- representation не равна represented reality;
-- record не равен occurrence, которое он описывает;
-- storage presence не равна admission;
-- admission не равна objective truth;
-- evidence relevance не равна truth;
-- unknown не равен false;
-- recency не равна correctness;
-- utility не равна epistemic validity;
-- conflict detection не равна conflict resolution;
-- derived state не может молча переписать history;
-- optimization не может молча изменить meaning;
-- implementation equivalence должна быть именованной, а не предполагаемой.
+- representation ≠ represented reality;
+- Record ≠ occurrence, которое он описывает;
+- Observation ≠ Claim;
+- Claim ≠ Truth;
+- Evidence ≠ Source;
+- repetition ≠ Evidence;
+- Belief ≠ Knowledge;
+- Memory ≠ merely stored Record;
+- retrieval relevance ≠ epistemic validity;
+- Conflict ≠ necessarily Contradiction;
+- unknown ≠ false;
+- Event use in P1–C5 не делает Event universal primitive;
+- State ≠ necessarily reducer output;
+- storage presence ≠ admission;
+- admission ≠ objective truth;
+- recency ≠ correctness;
+- utility ≠ epistemic validity;
+- conflict detection ≠ conflict resolution;
+- derived state не может silently rewrite history;
+- optimization не может silently change meaning;
+- implementation equivalence должна быть named, а не assumed.
 
-Для каждого закона указать:
+Для каждого law указать:
 
 - rationale;
 - counterexample;
 - failure mode;
 - observable obligation;
-- известные исключения или открытую неопределённость.
+- known exceptions/open uncertainty.
 
 ### A5 — Модель Identity, Time и Change
 
-Определить без привязки к физическому encoding:
+Определить без привязки к physical encoding:
 
 - semantic identity;
-- record identity;
+- Record identity;
 - content identity;
 - lineage identity;
 - aliasing и migration;
 - occurrence time;
-- observation time;
+- Observation time;
 - valid time;
-- record time;
+- Record time;
 - write/causal order;
-- correction, revision, supersession, restriction, erasure и forgetting.
+- correction, Revision, Supersession, restriction, erasure и forgetting.
 
-**Критерий завершения:** модель объясняет, какие изменения сохраняют identity, создают новую version, создают новую сущность или пока остаются неразрешёнными.
+**Критерий завершения:** model объясняет, какие Changes preserve identity, create new version, create new entity или remain undecided.
 
 ### A6 — Lifecycle знания
 
-Смоделировать путь от raw encounter до возможного использования, пересмотра, ограничения и исторического сохранения.
+Смоделировать путь от raw encounter до possible use, Revision, restriction и historical retention.
 
-Lifecycle должен сохранять различия:
+Lifecycle должен сохранять distinctions:
 
 ```text
 captured
@@ -203,43 +223,43 @@ restricted
 erased/forgotten
 ```
 
-Ни одно состояние не получает authority только из storage, retrieval rank, repetition, model confidence или usefulness.
+Ни одно lifecycle state не получает Authority только из storage, retrieval rank, repetition, model confidence или usefulness.
 
 ### A7 — Модель Conflict, Uncertainty и Revision
 
 Определить:
 
-- candidate и established conflict;
-- contradiction и scope mismatch;
+- candidate versus established Conflict;
+- Contradiction versus scope mismatch;
 - unresolved plurality;
-- типы uncertainty;
-- missing evidence и provenance gaps;
-- authority разрешения;
-- reversible и irreversible decisions;
-- belief revision без переписывания history;
-- возможность системы оставаться undecided.
+- Uncertainty types;
+- missing Evidence и Provenance gaps;
+- resolution Authority;
+- reversible versus irreversible decisions;
+- Belief Revision без rewriting history;
+- возможность system оставаться undecided.
 
 ### A8 — Контракт substrate independence
 
-Определить, что future implementation обязана сохранить или явно перевести.
+Определить, что future implementation обязана preserve или explicitly translate.
 
-Контракт классифицирует обязательства:
+Contract классифицирует obligations:
 
 - semantic identity;
-- видимость history и change;
-- provenance;
+- visibility history и Change;
+- Provenance;
 - temporal meaning;
-- видимость uncertainty и conflict;
-- replay/reconstruction или принятый functional equivalent;
-- authority и admission boundaries;
+- visibility Uncertainty и Conflict;
+- replay/reconstruction или accepted functional equivalent;
+- Authority и admission boundaries;
 - bounded explanations/Receipts;
-- migration и disclosure потерь.
+- migration и loss disclosure.
 
-Также необходимо определить, какие assumptions могут быть артефактами современного event sourcing.
+Также нужно определить assumptions, которые могут быть artifacts present Event sourcing.
 
 ### A9 — Граница Reference Laboratory
 
-Классифицировать текущую реализацию:
+Классифицировать current implementation:
 
 ```text
 Python + PostgreSQL + SQLite
@@ -247,38 +267,38 @@ Python + PostgreSQL + SQLite
 ≠ final architecture
 ```
 
-Для каждого крупного модуля позднее определить, является ли он:
+Для каждого major module позднее определить, является ли он:
 
-- допустимым примером abstract contract;
-- временным экспериментом;
-- implementation-specific механизмом;
-- инструментом falsification;
-- legacy evidence, которое должно оставаться читаемым, но не управлять blueprint;
-- candidate на removal или replacement после blueprint review.
+- valid example abstract contract;
+- temporary experiment;
+- implementation-specific mechanism;
+- falsification tool;
+- legacy evidence, сохраняемым readable, но не governing blueprint;
+- candidate for removal/replacement после blueprint review.
 
-На этой фазе код и evidence не удаляются и не переписываются только из-за возможной реклассификации.
+На этой фазе code/evidence не удаляются и не переписываются только из-за possible reclassification.
 
 ### A10 — Открытые вопросы и критерии falsification
 
-Зафиксировать вопросы, на которые проект пока не отвечает.
+Зафиксировать вопросы, на которые project пока не отвечает.
 
 Примеры:
 
-- Является ли append-only history требованием Canon или одной реализацией explicit change?
-- Может ли identity существовать без стабильных serialized bytes?
-- Каков минимальный смысл replay для analog или neuromorphic substrates?
-- Какие формы uncertainty сравнимы между profiles?
-- Возможно ли forgetting без постоянного удержания запрещённого content?
-- Что означает одинаковое semantic state в probabilistic systems?
+- Append-only history — Canon requirement или одна implementation explicit Change?
+- Может ли identity существовать без stable serialized bytes?
+- Каков minimum replay на analog/neuromorphic substrates?
+- Какие forms Uncertainty сравнимы across profiles?
+- Возможно ли forgetting без permanent retention forbidden content?
+- Что означает same semantic State в probabilistic systems?
 
-Каждая крупная архитектурная гипотеза должна содержать evidence, которое способно её ослабить или опровергнуть.
+Каждая major architectural hypothesis должна содержать evidence, способное её weaken/refute.
 
 ## 4. Последовательность работы
 
 ```text
-A1 Purpose и Non-goals
-→ A2 Ontology
-→ A3 Abstract Machine
+A1 Purpose и Non-goals                           DRAFTED / PROVISIONAL
+→ A2 Ontology                                   DRAFTED / PROVISIONAL
+→ A3 Abstract Machine                           NEXT BOUNDED SLICE
 → A4 Semantic Laws
 → A5 Identity / Time / Change
 → A6 Knowledge Lifecycle
@@ -286,11 +306,11 @@ A1 Purpose и Non-goals
 → A8 Substrate Independence
 → A9 Reference Laboratory Boundary
 → A10 Open Questions / Falsification
-→ интегрированный blueprint review
+→ integrated blueprint review
 → operator decision о возобновлении runtime work
 ```
 
-Документы могут итеративно уточняться, но поздние слои не могут молча переопределять ранние.
+Documents могут iteratively уточняться, но later layers не могут silently redefine earlier ones.
 
 ## 5. Метод исследования
 
@@ -302,32 +322,32 @@ A1 Purpose и Non-goals
 4. counterexamples;
 5. failure cases;
 6. unresolved questions;
-7. связь с существующими contracts и runtime;
+7. relationship to existing contracts/runtime;
 8. substrate mapping examples;
 9. review status;
 10. evidence boundary.
 
-Источники, papers, existing systems и AI analyses являются inputs. Они не становятся Canon автоматически.
+Sources, papers, existing systems и AI analyses являются inputs. Они не становятся Canon автоматически.
 
 ## 6. Политика runtime freeze
 
 Разрешено:
 
-- critical integrity и security fixes;
-- reproducibility и provenance corrections;
+- critical integrity/security fixes;
+- reproducibility/provenance corrections;
 - evidence preservation;
-- validator и current-truth repair;
+- validator/current-truth repair;
 - historical recovery;
-- изолированные architecture experiments без runtime promotion.
+- isolated architecture experiments без runtime promotion.
 
 Не разрешено без отдельного explicit operator decision:
 
 - новые semantic features;
 - reducer v2;
-- новый event vocabulary;
+- новый Event vocabulary;
 - новые databases, language ports, model adapters или ecosystem integrations;
 - performance optimization, меняющая semantic behaviour;
-- новые evidence или maturity labels как доказательство незавершённого blueprint.
+- новые evidence/maturity labels как proof unfinished blueprint.
 
 ## 7. Связь с pending decisions
 
@@ -335,34 +355,35 @@ Issue #18 и ADR-0024 остаются pending.
 
 ```text
 Architecture Re-foundation может продолжаться сейчас.
-License selection остаётся обязательным до открытого contribution/publication режима.
-ADR-0024 остаётся обязательным до возобновления reducer-v2 path.
+License selection требуется до open contribution/publication regime.
+ADR-0024 требуется до возобновления reducer-v2 path.
 ```
 
-Ни одно pending decision не блокирует ontology и blueprint research. Этот plan не принимает их молча.
+Ни одно pending decision не блокирует ontology/blueprint research. Ни plan, ни A2 не принимают их silently.
 
 ## 8. Gate завершения blueprint
 
-Фаза не завершается только потому, что создано десять документов.
+Фаза не завершена только потому, что созданы ten documents.
 
-Необходимо:
+Completion требует:
 
-- наличие и linkage всех десяти deliverables;
-- reconciliation терминологии;
-- явный список противоречий;
-- маркировка implementation-specific assumptions;
-- открытые вопросы и falsification criteria;
-- mapping к существующим accepted contracts;
-- минимум два контрастных substrate thought experiments;
-- independent critical review или явная запись о его отсутствии;
-- operator review и отдельное решение о следующей фазе.
+- all ten deliverables present/linked;
+- reconciled terminology;
+- explicit contradictions;
+- labelled implementation-specific assumptions;
+- open questions/falsification criteria;
+- mapping to existing accepted contracts;
+- минимум два contrasting substrate thought experiments;
+- independent critical review или record unavailable;
+- operator review и separate next-phase decision.
 
 ## 9. Текущий прогресс
 
 ```text
 Architecture Re-foundation decision: established by ADR-0025
 Blueprint plan: этот документ
-Blueprint content: A1 DRAFTED / A2-A10 NOT YET COMPLETE
+Blueprint content: A1-A2 DRAFTED / PROVISIONAL; A3-A10 NOT YET COMPLETE
+Next bounded slice: A3 ABSTRACT NATIVE KERNEL MACHINE
 Runtime expansion: FROZEN
 Existing P1–C5 laboratory: PRESERVED / BOUNDED
 Production authorization: false

@@ -47,12 +47,17 @@ Decision: [`ADR-0025`](docs/adr/0025-blueprint-before-runtime-expansion.md).
 Plan: [English](docs/ARCHITECTURE_REFOUNDATION.md) · [Русский](docs/ARCHITECTURE_REFOUNDATION.ru.md).  
 Issue: [#88](https://github.com/velantrian/velantrim-native-kernel/issues/88).
 
-The project now completes the architecture blueprint before further semantic/runtime expansion. `A1` is drafted: [English](docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.md) · [Русский](docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md), pending independent review and integrated blueprint review with `A2`–`A10`. The next bounded content slice is `A2 — Knowledge and Memory Ontology`.
+Drafted provisional content:
+
+- `A1 — Kernel Purpose and Non-goals`: [English](docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.md) · [Русский](docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md);
+- `A2 — Knowledge and Memory Ontology`: [English](docs/A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md) · [Русский](docs/A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md).
+
+Both remain pending independent review and integrated blueprint review with A3–A10. The next bounded content slice is `A3 — Abstract Native Kernel Machine`.
 
 ```text
-A1 Purpose and Non-goals
-→ A2 Knowledge and Memory Ontology
-→ A3 Abstract Native Kernel Machine
+A1 Purpose and Non-goals                         DRAFTED / PROVISIONAL
+→ A2 Knowledge and Memory Ontology              DRAFTED / PROVISIONAL
+→ A3 Abstract Native Kernel Machine             NEXT BOUNDED SLICE
 → A4 Semantic Laws and Invariants
 → A5 Identity / Time / Change
 → A6 Knowledge Lifecycle
@@ -63,6 +68,8 @@ A1 Purpose and Non-goals
 → integrated blueprint review
 → operator decision on reopening runtime work
 ```
+
+A2 provides a provisional stratified role ontology, compares linear, Event-centred, relation-first, and stratified alternatives, and records explicit falsification criteria. It does not make its classifications Canon and does not bind the architecture to Python classes, SQL schemas, Event sourcing, LLMs, embeddings, JSON, or current processors.
 
 ### Runtime freeze
 
@@ -163,9 +170,9 @@ NK-SAM, named equivalence profiles, and Event/history commitment remain required
 complete blueprint
 → reconcile accepted contract families
 → define NK-SAM and named equivalence
-→ define portable Event/history commitment
+→ define portable Event/history commitment if the blueprint requires it
 → decide ADR-0024 outcome when reducer work resumes
-→ only then reducer-v2 runtime
+→ only then any reducer-v2 runtime
 ```
 
 ## Blueprint completion gate
@@ -185,9 +192,22 @@ The phase is complete only when:
 ## Explicit non-claims
 
 ```text
+A1-A2 drafted ≠ independent approval or integrated blueprint approval
 blueprint documentation ≠ implementation evidence
 reference laboratory ≠ final architecture
 future-facing design ≠ future substrate support
+Observation ≠ Claim
+Claim ≠ Truth
+Evidence ≠ Source
+Repetition ≠ Evidence
+Belief ≠ Knowledge
+Memory ≠ merely a stored Record
+retrieval relevance ≠ epistemic validity
+Conflict ≠ necessarily Contradiction
+Unknown ≠ False
+Event usage in P1-C5 ≠ Event as universal primitive
+State ≠ necessarily reducer output
+Knowledge ≠ LLM / embeddings / SQL / JSON / specific processor
 C5 PASS ≠ production readiness
 PostgreSQL + SQLite ≠ full substrate neutrality
 public repository ≠ open-source license

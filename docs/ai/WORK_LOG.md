@@ -4,6 +4,44 @@ Re-verify exact SHAs, live issue state, runs and artifacts before treating an en
 
 ---
 
+## 2026-08-09 — A2 Knowledge and Memory Ontology (second blueprint content slice)
+
+```text
+Issue:                      #88
+Decision:                   ADR-0025
+Base main:                  7b73015c07c46ba9490028768a587f768017f4b3
+Classification:             Architecture Re-foundation blueprint content
+Deliverable:                A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY
+Runtime and contracts:      UNCHANGED
+Assertion map / NK-EPI:     UNCHANGED
+Production authorization:   UNCHANGED / false
+```
+
+Drafted the second Architecture Re-foundation content deliverable, `A2 — Knowledge and Memory Ontology`, as bilingual documents (`docs/A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md` / `.ru.md`). The document defines a provisional technology- and substrate-neutral distinction set for Signal, Observation, Record, Proposition, Claim, Interpretation, Hypothesis, Belief, Knowledge, Memory, Evidence, Source, Provenance, Context, Relation, State, Change, Event, Conflict, Contradiction, Uncertainty, Revision, Supersession, Authority, and Receipt.
+
+For every concept A2 records a working definition, non-definition, neighbouring distinctions, allowed relations, identity/lifecycle notes, minimum semantic obligations, unresolved questions, a falsification/counterexample, and provisional classification as `CANDIDATE_PRIMITIVE`, `DERIVED_CONCEPT`, or `OPEN_QUESTION`. It compares linear-pipeline, Event-centred, relation-first, and stratified-role organizations without accepting any one as final Canon. Event, State, and Memory remain open primitive questions.
+
+A2 explicitly preserves:
+
+```text
+Observation ≠ Claim
+Claim ≠ Truth
+Evidence ≠ Source
+Repetition ≠ Evidence
+Belief ≠ Knowledge
+Memory ≠ merely a stored Record
+retrieval relevance ≠ epistemic validity
+Conflict ≠ necessarily Contradiction
+Unknown ≠ False
+Event usage in P1–C5 ≠ Event as universal primitive
+State ≠ necessarily reducer output
+Knowledge ≠ LLM / embeddings / SQL / JSON / specific processor
+```
+
+Wired the pair into navigation and the bilingual parity registry, advanced `project-state.json` and the fail-closed architecture-freeze validator to exact completed deliverables `[A1, A2]` and next slice `A3_ABSTRACT_NATIVE_KERNEL_MACHINE`, extended AI continuity surfaces, and added dedicated ontology regression tests. A2 maps the current P1–C5 model as a bounded profile without changing any runtime class, reducer, Event vocabulary, storage profile, contract, fixture, evidence artifact, assertion, or maturity label.
+
+This first draft remains `DRAFTED / PROVISIONAL` pending independent review and integrated review with A1 and A3–A10. It does not decide Issue #18, Issue #74/ADR-0024, or Track H source acceptance. Runtime expansion remains frozen.
+
 ## 2026-08-09 — A1 Kernel Purpose and Non-goals (first blueprint content slice)
 
 ```text

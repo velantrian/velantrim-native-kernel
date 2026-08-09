@@ -62,7 +62,7 @@ not architectural authority
 not the final Native Kernel definition
 ```
 
-Plan:
+Plan and drafted content:
 
 - [Architecture Re-foundation — English](../ARCHITECTURE_REFOUNDATION.md)
 - [Переоснование архитектуры — Русский](../ARCHITECTURE_REFOUNDATION.ru.md)
@@ -70,13 +70,15 @@ Plan:
 - [Issue #88](https://github.com/velantrian/velantrim-native-kernel/issues/88)
 - [A1 — Kernel Purpose and Non-goals — English](../A1_KERNEL_PURPOSE_AND_NON_GOALS.md)
 - [A1 — Purpose и Non-goals Kernel — Русский](../A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md)
+- [A2 — Knowledge and Memory Ontology — English](../A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md)
+- [A2 — Онтология знания и памяти — Русский](../A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md)
 
 Required sequence:
 
 ```text
-A1 Purpose and Non-goals
-→ A2 Knowledge and Memory Ontology
-→ A3 Abstract Native Kernel Machine
+A1 Purpose and Non-goals                         DRAFTED / PROVISIONAL
+→ A2 Knowledge and Memory Ontology              DRAFTED / PROVISIONAL
+→ A3 Abstract Native Kernel Machine             NEXT BOUNDED SLICE
 → A4 Semantic Laws and Invariants
 → A5 Identity / Time / Change
 → A6 Knowledge Lifecycle
@@ -88,7 +90,9 @@ A1 Purpose and Non-goals
 → separate operator decision before runtime expansion
 ```
 
-`A1 — Kernel Purpose and Non-goals` is drafted. Current blueprint content is otherwise incomplete. The next bounded content slice is `A2 — Knowledge and Memory Ontology`.
+The blueprint content A1–A2 is `DRAFTED / PROVISIONAL` and remains pending independent review plus integrated review with A3–A10. The next bounded content slice is `A3 — Abstract Native Kernel Machine`.
+
+A2 provisionally distinguishes Signal, Observation, Record, Proposition, Claim, Interpretation, Hypothesis, Belief, Knowledge, Memory, Evidence, Source, Provenance, Context, Relation, State, Change, Event, Conflict, Contradiction, Uncertainty, Revision, Supersession, Authority, and Receipt without copying current Python classes, SQL schemas, or Event-sourced laboratory mechanics into Canon.
 
 ## Runtime freeze boundary
 
@@ -150,7 +154,7 @@ publication checkpoint
 Notion synchronized descendant checkpoint
 ```
 
-The publication checkpoint remains `10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c`. The latest repository-committed Notion synchronization checkpoint remains `70acd0da61fee19131947aa56125833adb156ced` from PR #86. ADR-0025 does not predict its own future merge SHA or claim that its future post-merge Notion update already occurred.
+The publication checkpoint remains `10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c`. The latest repository-committed Notion synchronization checkpoint remains `70acd0da61fee19131947aa56125833adb156ced` from PR #86. This repository state does not predict the future A2 merge SHA or claim that its future post-merge Notion update already occurred.
 
 A descendant commit does not invalidate earlier evidence, but it also does not broaden that evidence or rewrite an earlier publication identity.
 
@@ -179,12 +183,13 @@ Architecture Re-foundation can proceed without deciding either one. Issue #18 st
 
 ## Current known gaps
 
-- `A1` is a first drafted slice pending independent review and integrated blueprint review with `A2`–`A10`;
-- the ontology of knowledge and memory is incomplete;
-- the abstract Kernel machine is not yet fully specified independently of event-sourcing and current code;
+- `A1` and `A2` are drafted/provisional and remain pending independent plus integrated blueprint review;
+- A2 primitive/derived/open classifications are hypotheses, not final Canon;
+- the abstract Kernel machine is not yet specified independently of Event sourcing and current code;
 - semantic laws are present as scattered invariants but not yet a reconciled formal set;
-- identity, time, change, conflict, uncertainty, and revision models remain partial;
+- identity, time, change, lifecycle, conflict, uncertainty, and revision models remain partial;
 - substrate-independence obligations and falsification criteria remain incomplete;
+- Glossary and older architecture prose still contain laboratory-shaped compact definitions that require later integrated reconciliation, not silent rewriting in A2;
 - reducer v1 has known referential gaps, but runtime work is frozen;
 - current PostgreSQL and SQLite profiles share Python semantic lineage;
 - NK-EPI assertions have no executable support;
@@ -198,6 +203,7 @@ contracts/project-state-v2.schema.json
 contracts/registry.json
 tools/ai_context/validate_project_state.py
 tools/ai_context/validate_reconciliation.py
+tools/ai_context/validate_architecture_freeze.py
 tools/ai_context/validate_context.py
 ```
 

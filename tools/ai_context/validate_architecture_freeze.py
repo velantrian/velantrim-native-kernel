@@ -49,12 +49,19 @@ EXPECTED_REFOUNDATION_FIELDS = {
     "completed_deliverables",
     "next_content_slice",
 }
-EXPECTED_COMPLETED_DELIVERABLES = ["A1_KERNEL_PURPOSE_AND_NON_GOALS"]
-EXPECTED_NEXT_CONTENT_SLICE = "A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY"
+EXPECTED_COMPLETED_DELIVERABLES = [
+    "A1_KERNEL_PURPOSE_AND_NON_GOALS",
+    "A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY",
+]
+EXPECTED_NEXT_CONTENT_SLICE = "A3_ABSTRACT_NATIVE_KERNEL_MACHINE"
 COMPLETED_DELIVERABLE_DOCS = {
     "A1_KERNEL_PURPOSE_AND_NON_GOALS": (
         "docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.md",
         "docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md",
+    ),
+    "A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY": (
+        "docs/A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md",
+        "docs/A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md",
     ),
 }
 
@@ -192,7 +199,12 @@ def validate(state: Mapping[str, Any], *, repo: Path) -> None:
         _require(plan.is_file(), f"missing architecture blueprint plan: {plan}")
 
     for deliverable in completed:
-        for doc_path in COMPLETED_DELIVERABLE_DOCS.get(deliverable, ()):
+        docs = COMPLETED_DELIVERABLE_DOCS.get(deliverable)
+        _require(
+            docs is not None,
+            f"missing completed deliverable document mapping: {deliverable}",
+        )
+        for doc_path in docs:
             _require(
                 (repo / doc_path).is_file(),
                 f"missing completed deliverable document: {doc_path}",
@@ -258,7 +270,7 @@ def main(argv: list[str] | None = None) -> int:
     print(
         "Architecture freeze validation passed; "
         "decision=ADR-0025; issue=88; deliverables=A1-A10; "
-        "runtime_expansion_frozen=true"
+        "completed=A1,A2; next=A3; runtime_expansion_frozen=true"
     )
     return 0
 
