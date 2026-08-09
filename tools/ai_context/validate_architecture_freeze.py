@@ -85,7 +85,10 @@ def _load(path: Path) -> dict[str, Any]:
 
 
 def validate(state: Mapping[str, Any], *, repo: Path) -> None:
-    _require(state.get("protocol") == "nk-project-state/2", "unsupported project-state protocol")
+    _require(
+        state.get("protocol") == "nk-project-state/2",
+        "unsupported project-state protocol",
+    )
 
     status = state.get("status")
     _require(isinstance(status, Mapping), "status object required")
@@ -116,13 +119,20 @@ def validate(state: Mapping[str, Any], *, repo: Path) -> None:
     _require(isinstance(research, Mapping), "long-horizon research track required")
     _require(research.get("id") == "R", "research track id must be R")
     _require(
-        research.get("status") == "ACTIVE / ARCHITECTURE RE-FOUNDATION / NO AUTOMATIC PROMOTION",
+        research.get("status")
+        == "ACTIVE / ARCHITECTURE RE-FOUNDATION / NO AUTOMATIC PROMOTION",
         "architecture re-foundation status drift",
     )
-    _require(research.get("runtime_authorized") is False, "research track must not authorize runtime")
+    _require(
+        research.get("runtime_authorized") is False,
+        "research track must not authorize runtime",
+    )
 
     refoundation = research.get("architecture_refoundation")
-    _require(isinstance(refoundation, Mapping), "ADR-0025 architecture_refoundation object required")
+    _require(
+        isinstance(refoundation, Mapping),
+        "ADR-0025 architecture_refoundation object required",
+    )
     _require(
         set(refoundation) == EXPECTED_REFOUNDATION_FIELDS,
         "architecture_refoundation field inventory drift",
@@ -142,12 +152,14 @@ def validate(state: Mapping[str, Any], *, repo: Path) -> None:
         "runtime expansion freeze must remain enabled",
     )
     _require(
-        refoundation.get("existing_reference_runtime_role") == "BOUNDED_REFERENCE_LABORATORY",
+        refoundation.get("existing_reference_runtime_role")
+        == "BOUNDED_REFERENCE_LABORATORY",
         "existing runtime role drift",
     )
     _require(
         refoundation.get("plan_en") == "docs/ARCHITECTURE_REFOUNDATION.md"
-        and refoundation.get("plan_ru") == "docs/ARCHITECTURE_REFOUNDATION.ru.md",
+        and refoundation.get("plan_ru")
+        == "docs/ARCHITECTURE_REFOUNDATION.ru.md",
         "architecture blueprint plan identity drift",
     )
     _require(
@@ -188,16 +200,23 @@ def validate(state: Mapping[str, Any], *, repo: Path) -> None:
 
     for deliverable in completed:
         docs = COMPLETED_DELIVERABLE_DOCS.get(deliverable)
-        _require(docs is not None, f"missing completed deliverable document mapping: {deliverable}")
+        _require(
+            docs is not None,
+            f"missing completed deliverable document mapping: {deliverable}",
+        )
         for doc_path in docs:
-            _require((repo / doc_path).is_file(), f"missing completed deliverable document: {doc_path}")
+            _require(
+                (repo / doc_path).is_file(),
+                f"missing completed deliverable document: {doc_path}",
+            )
 
     _require(
         research.get("runtime_freeze_exceptions") == EXPECTED_FREEZE_EXCEPTIONS,
         "runtime freeze exception inventory drift",
     )
     _require(
-        research.get("canonical_promotion_requires") == EXPECTED_PROMOTION_REQUIREMENTS,
+        research.get("canonical_promotion_requires")
+        == EXPECTED_PROMOTION_REQUIREMENTS,
         "canonical promotion requirement inventory drift",
     )
 
@@ -219,7 +238,9 @@ def validate(state: Mapping[str, Any], *, repo: Path) -> None:
         "Issue #88 verification drift",
     )
 
-    non_claims = " ".join(str(item).lower() for item in state.get("non_claims", []))
+    non_claims = " ".join(
+        str(item).lower() for item in state.get("non_claims", [])
+    )
     for phrase in (
         "architecture re-foundation documentation is not runtime implementation evidence",
         "future-facing blueprint does not prove compatibility with arbitrary future substrates",
@@ -229,7 +250,12 @@ def validate(state: Mapping[str, Any], *, repo: Path) -> None:
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("state", nargs="?", type=Path, default=Path("project-state.json"))
+    parser.add_argument(
+        "state",
+        nargs="?",
+        type=Path,
+        default=Path("project-state.json"),
+    )
     parser.add_argument("--repo", type=Path, default=Path.cwd())
     args = parser.parse_args(argv)
 
