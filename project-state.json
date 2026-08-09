@@ -206,7 +206,7 @@
   "notion": {
     "synchronization_required": true,
     "status": "SYNCED_THROUGH_DESCENDANT_CHECKPOINT",
-    "scope": "GitHub and Notion were directly synchronized and read back through merged PR #86 checkpoint 70acd0da61fee19131947aa56125833adb156ced. The PR #83 publication checkpoint remains a separate immutable role. Hub, Current State, GitHub Sync Log and Prototype Status record the PR #86 recovery-provenance result and the delayed Codex P1 that required this descendant-checkpoint reconciliation.",
+    "scope": "GitHub and Notion were directly synchronized and read back through merged PR #86 checkpoint 70acd0da61fee19131947aa56125833adb156ced. The PR #83 publication checkpoint 10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c remains a separate immutable role. Hub, Current State, GitHub Sync Log and Prototype Status record the PR #86 recovery-provenance result and the delayed Codex P1 that required this descendant-checkpoint reconciliation.",
     "authority_boundary": "Notion carries current orientation, rationale and history; GitHub remains sufficient and authoritative for technical state, live refs, contracts, tests, workflow results and evidence. A later post-merge Notion write may be newer than the latest repository-committed synchronization checkpoint until a subsequent non-self-referential manifest records it."
   },
   "non_claims": [
