@@ -55,8 +55,8 @@ Required deliverables:
 
 1. Kernel purpose and non-goals — `DRAFTED / PROVISIONAL`: [English](docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.md) · [Русский](docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md);
 2. knowledge and memory ontology — `DRAFTED / PROVISIONAL`: [English](docs/A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md) · [Русский](docs/A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md);
-3. abstract Native Kernel machine — `NEXT BOUNDED SLICE`;
-4. semantic laws and invariants;
+3. abstract Native Kernel machine — `DRAFTED / PROVISIONAL`: [English](docs/A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md) · [Русский](docs/A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md);
+4. semantic laws and invariants — `NEXT BOUNDED SLICE`;
 5. identity, time, and change model;
 6. knowledge lifecycle;
 7. conflict, uncertainty, and revision model;
@@ -69,12 +69,14 @@ Current progress:
 ```text
 ADR-0025 decision: ACCEPTED / OPERATOR APPROVED
 blueprint plan: PRESENT
-blueprint content: A1-A2 DRAFTED / PROVISIONAL; A3-A10 INCOMPLETE
-next content slice: A3 — ABSTRACT NATIVE KERNEL MACHINE
+blueprint content: A1-A3 DRAFTED / PROVISIONAL; A4-A10 INCOMPLETE
+next content slice: A4 — SEMANTIC LAWS AND INVARIANTS
 runtime expansion: FROZEN
 ```
 
 A2 defines a provisional technology-/substrate-neutral distinction set for Signal, Observation, Record, Proposition, Claim, Interpretation, Hypothesis, Belief, Knowledge, Memory, Evidence, Source, Provenance, Context, Relation, State, Change, Event, Conflict, Contradiction, Uncertainty, Revision, Supersession, Authority, and Receipt. It rejects automatic promotion of current Python classes, SQL schemas, reducer output, or Event sourcing into Canon.
+
+A3 proposes a provisional scoped obligation-and-transition machine with thirteen logical configuration facets, thirteen transition families, explicit preconditions/postconditions, failure outcomes, Authority boundaries, ordering/concurrency rules, and contrasting manual, analog/neuromorphic, and digital laboratory mappings. It does not make transition synonymous with Event, State synonymous with reducer output, or conformance synonymous with production authorization.
 
 Maintenance remains allowed for integrity, security, reproducibility, provenance, evidence preservation, truth-surface repair, historical recovery, and isolated blueprint-falsification experiments with no runtime promotion.
 
@@ -103,6 +105,12 @@ Unknown ≠ False
 Event usage in P1-C5 ≠ Event as universal primitive
 State ≠ necessarily reducer output
 Knowledge ≠ LLM / embeddings / SQL / JSON / specific processor
+abstract machine ≠ runtime implementation
+transition ≠ Event envelope
+transition relation ≠ reducer
+history visibility ≠ mandatory Event sourcing
+admission ≠ truth
+profile conformance ≠ production authorization
 ```
 
 ## Checkpoint roles
@@ -161,7 +169,7 @@ Architecture Re-foundation
 ≠ runtime implementation
 ≠ future substrate support
 
-A1-A2 DRAFTED
+A1-A3 DRAFTED
 ≠ independent approval
 ≠ integrated blueprint approval
 ≠ Canon promotion

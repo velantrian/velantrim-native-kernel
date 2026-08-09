@@ -18,13 +18,15 @@
 | [`A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md`](./A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md) | Russian blueprint deliverable A1 |
 | [`A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md`](./A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md) | blueprint deliverable A2 (drafted / provisional) |
 | [`A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md`](./A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md) | Russian blueprint deliverable A2 |
+| [`A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md`](./A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md) | blueprint deliverable A3 (drafted / provisional) |
+| [`A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md`](./A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md) | Russian blueprint deliverable A3 |
 | [`../AGENTS.md`](../AGENTS.md) | mandatory repository instructions |
 | [`ai/CURRENT_STATE.md`](./ai/CURRENT_STATE.md) | compact AI continuity state |
 | [`ai/KNOWN_RISKS.md`](./ai/KNOWN_RISKS.md) | active risks |
 | [`adr/README.md`](./adr/README.md) | accepted and proposed decisions |
 | [`../evidence/c5/README.md`](../evidence/c5/README.md) | immutable evidence boundaries |
 | [`QUICKSTART.md`](./QUICKSTART.md) | reference-laboratory setup and tests |
-| [`GLOSSARY.md`](./GLOSSARY.md) | onboarding terminology; provisional A2 distinctions take precedence for blueprint review |
+| [`GLOSSARY.md`](./GLOSSARY.md) | onboarding terminology; provisional A2/A3 distinctions take precedence for blueprint review |
 
 ## Reading order
 
@@ -32,7 +34,7 @@
 STATUS and project-state
 → active ROADMAP
 → Architecture Re-foundation plan
-→ A1 and A2 provisional blueprint deliverables
+→ A1, A2, and A3 provisional blueprint deliverables
 → relevant Canon and ADRs
 → only then reference runtime, tests, and evidence
 ```
@@ -46,8 +48,8 @@ H historical recovery: OPEN / BLOCKED / independent
 C clean implementation: PRESERVED / PARTIAL / BOUNDED REFERENCE LABORATORY
 R architecture re-foundation: ACTIVE / BLUEPRINT-FIRST
 
-blueprint content: A1-A2 DRAFTED / PROVISIONAL
-next content slice: A3 ABSTRACT NATIVE KERNEL MACHINE
+blueprint content: A1-A3 DRAFTED / PROVISIONAL
+next content slice: A4 SEMANTIC LAWS AND INVARIANTS
 kernel runtime: C4
 operational validation: C5_BOUNDED_REHEARSAL
 assertions: 45 / 10 / 17 / 0
@@ -60,8 +62,8 @@ production: NOT AUTHORIZED
 ```text
 A1 Purpose and Non-goals                         DRAFTED / PROVISIONAL
 → A2 Knowledge and Memory Ontology              DRAFTED / PROVISIONAL
-→ A3 Abstract Native Kernel Machine             NEXT BOUNDED SLICE
-→ A4 Semantic Laws and Invariants
+→ A3 Abstract Native Kernel Machine             DRAFTED / PROVISIONAL
+→ A4 Semantic Laws and Invariants               NEXT BOUNDED SLICE
 → A5 Identity / Time / Change
 → A6 Knowledge Lifecycle
 → A7 Conflict / Uncertainty / Revision
@@ -93,6 +95,12 @@ Unknown ≠ False
 Event usage in P1-C5 ≠ Event as universal primitive
 State ≠ necessarily reducer output
 Knowledge ≠ LLM / embeddings / SQL / JSON / specific processor
+abstract machine ≠ runtime implementation
+transition ≠ Event envelope
+transition relation ≠ reducer
+history visibility ≠ mandatory Event sourcing
+admission ≠ truth
+profile conformance ≠ production authorization
 C5 PASS ≠ production readiness
 logical ERASED ≠ physical deletion
 public repository ≠ open-source license
