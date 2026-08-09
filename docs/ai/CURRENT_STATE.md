@@ -8,10 +8,11 @@ machine_protocol: nk-project-state/2
 repository_status: RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY
 live_head_source: GitHub API or checked-out Git ref
 machine_truth_reconciliation_merge: d9eee591de308a689ace940c2efe58c9e8a137f2
+human_truth_reconciliation_merge: 07549a0cd952b4e06b61ef24d21b2dcdbc9f861d
 runtime_checkpoint: 675aa4b398a2fc0181dc71d38904a2d33a09f5f8
 runtime_integrity_checkpoint: a1cdc6d8f36d67f40f065641809bc6da463c10a4
 evidence_producing_checkpoint: 296981ae84ad5bdab5dabbec9b7b9ebb43af63d7
-notion_synchronized_through: 626f34e6328b455258f2dd5fcf2145ec4db64a60
+notion_synchronized_through: 07549a0cd952b4e06b61ef24d21b2dcdbc9f861d
 ```
 
 > This page contains current repository truth only. Historical implementation and review chronology is linked under **Historical records** and remains available in Git history.
@@ -36,6 +37,19 @@ repository-resident evidence ≠ independent custody
 logical ERASED ≠ physical deletion
 public repository ≠ open-source license
 ```
+
+## Reconciliation state
+
+```text
+0A machine-readable truth: COMPLETE / PR #80
+0B human-readable truth:   COMPLETE / PR #81
+0C Issues #14–#17:         RECONCILED / OPEN
+0C Notion dashboard:       SYNCHRONIZED THROUGH PR #81
+```
+
+The Notion Hub now routes current retrieval through dedicated Current State, Decision Ledger, Evidence Ledger, Active Risks, GitHub Sync Log and Historical Archive pages. Existing long-form reports remain preserved as historical or proposal material.
+
+Notion remains synchronized only through the recorded publication checkpoint. Any later descendant commit requires a new synchronization record before it can be represented as synchronized.
 
 ## Checkpoint model
 
@@ -101,13 +115,12 @@ No AI agent may select the license or accept ADR-0024 on behalf of the operator.
 ## Next authorized sequence
 
 ```text
-1. complete human-readable truth reconciliation
-2. reconcile Issues #14–#17 and Notion current-state pages
-3. prepare license options for operator decision
-4. prepare ADR-0024 final decision options
-5. define NK-SAM and named equivalence profiles
-6. define Event/history commitment boundaries
-7. only then begin reducer-v2 runtime work
+1. prepare license options for operator decision
+2. prepare ADR-0024 final decision options
+3. obtain explicit operator decisions
+4. define NK-SAM and named equivalence profiles
+5. define Event/history commitment boundaries
+6. only then begin reducer-v2 runtime work
 ```
 
 Out of scope until those gates are complete:
@@ -128,8 +141,7 @@ Out of scope until those gates are complete:
 - temporal identity and interval semantics are incomplete;
 - admission is not a complete replayable policy pipeline;
 - physical/cryptographic deletion across actual locations is not established;
-- production threat model, operations and authorization are absent;
-- Notion remains synchronized only through the recorded publication checkpoint until the dedicated reconciliation step completes.
+- production threat model, operations and authorization are absent.
 
 ## Machine-readable state
 
@@ -141,6 +153,11 @@ tools/ai_context/validate_project_state.py
 ```
 
 `project-state.json` is authoritative for committed repository status metadata. GitHub remains authoritative for live refs, issues, PRs and Actions. Exact source, tests and evidence artifacts remain authoritative for their own technical claims.
+
+## Reconciliation records
+
+- [`ISSUE_RECONCILIATION.md`](ISSUE_RECONCILIATION.md)
+- [`NOTION_HANDOFF.md`](NOTION_HANDOFF.md)
 
 ## Historical records
 
