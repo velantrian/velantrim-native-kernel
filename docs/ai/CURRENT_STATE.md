@@ -1,167 +1,151 @@
-# 📍 Native Kernel Current State Checkpoint
+# 📍 Native Kernel Current State
 
-**Verified source checkpoint:** `a1cdc6d8f36d67f40f065641809bc6da463c10a4` — PR #72 Codex review follow-up merged and post-merge verified
-**ADR-0023 safe-runtime checkpoint:** `675aa4b398a2fc0181dc71d38904a2d33a09f5f8`
-**C5 implementation evidence checkpoint:** `296981ae84ad5bdab5dabbec9b7b9ebb43af63d7`
-**Issue / PR / ADR:** #64 `CLOSED / COMPLETED` / #69 and #72 squash-merged / ADR-0023 accepted
-**Repository status:** `RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY`
-**Post-merge review follow-up:** `PR #72 MERGED / EXACT MAIN CI 9 OF 9 PASS`
-
-> Context checkpoint ≠ automatically current HEAD. Re-check the branch ref and live remote state. The checkpoint must remain an ancestor of the reviewed commit.
-
-## Post-merge Codex review — finalized
-
-Four unresolved threads on merged PRs #69/#70 were reproduced against `main@d8fe6c9f6e1233eb29ade630a85771e581c2813e`. PR [#72](https://github.com/velantrian/velantrim-native-kernel/pull/72), exact head `ebb6ac99e2051c01f0fb8e8effc7eaad6d4fe8da`, implemented JSON type-exact Event comparison, SQLite-builder workflow path coverage, compatible evidence schema declaration and exact identity-bound associated workflow runs. It was squash-merged as `a1cdc6d8f36d67f40f065641809bc6da463c10a4`. All nine PR workflows and all nine exact post-merge `main` workflows passed. Existing ZIP artifacts remain immutable evidence of their original commits and do not prove this later follow-up.
-
-Exact post-merge runs:
-
-```text
-P1 semantic core:                 31266881458 — PASS
-P2 PostgreSQL append integrity:   31266881488 — PASS
-P3 replay/projection integrity:   31266881449 — PASS
-Conformance fixture integrity:    31266881438 — PASS
-AI context integrity:             31266881442 — PASS
-P4 assertion conformance:         31266881459 — PASS
-P5 SQLite / C3 equivalence:       31266881460 — PASS
-C4 offline shadow evaluation:     31266881444 — PASS
-C5 bounded operational rehearsal: 31266881455 — PASS
+```yaml
+document_role: CURRENT_STATE
+status_as_of: 2026-08-09
+authoritative_machine_source: ../../project-state.json
+machine_protocol: nk-project-state/2
+live_head_source: GitHub API or checked-out Git ref
+machine_truth_reconciliation_merge: d9eee591de308a689ace940c2efe58c9e8a137f2
+runtime_checkpoint: 675aa4b398a2fc0181dc71d38904a2d33a09f5f8
+runtime_integrity_checkpoint: a1cdc6d8f36d67f40f065641809bc6da463c10a4
+evidence_producing_checkpoint: 296981ae84ad5bdab5dabbec9b7b9ebb43af63d7
+notion_synchronized_through: 626f34e6328b455258f2dd5fcf2145ec4db64a60
 ```
 
-## ADR-0023 remediation result — 2026-08-08
+> This page contains current repository truth only. Historical implementation and review chronology is linked under **Historical records** and remains available in Git history.
+
+## Current boundary
 
 ```text
-PR head:                 ab7a203ce7ed8ec46c341bc4da9063d56f023338
-Final main:              675aa4b398a2fc0181dc71d38904a2d33a09f5f8
-ADR:                     ADR-0023 ACCEPTED / APPROVED
-SQLite WAL floor:        linked 3.51.3
-Strict Event verifier:   MERGED / REPOSITORY-TESTED
-Repository reproduction: PASS AT PR HEAD AND FINAL MAIN
-Evidence capture:        evidence/c5/2026-08-08-adr0023/manifest.json
+repository:                  RESEARCH
+clean_runtime_support:       PARTIAL
+kernel_runtime_conformance: C4
+operational_validation:     C5_BOUNDED_REHEARSAL
+production_authorized:      false
+
+assertion map: 45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED / 0 FAILED
+NK-EPI:        0 SUPPORTED / 0 PARTIAL / 8 UNSUPPORTED / 0 FAILED
 ```
 
-Historical C5 evidence on SQLite 3.45.1 remains preserved under its original identity and was not rewritten as a safe-version run. Re-adjudication on linked SQLite 3.51.3 preserved the assertion map, NK-EPI, C4/C5 labels, production boundary and H/C/R tracks.
-
 ```text
-NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GLOBALLY_LOST
-historical recovery ≠ clean implementation
-research proposal ≠ accepted contract ≠ runtime
-C2 ≠ C3 ≠ C4 ≠ C5
-C5 BOUNDED REHEARSAL ≠ PRODUCTION READINESS
-C5 SYNTHETIC DATA ≠ LIVE USER TRAFFIC
-C5 OPERATIONAL VALIDATION ≠ ASSERTION PROMOTION
-C5 LOGICAL BACKUP ≠ PHYSICAL DISASTER RECOVERY
-ASSERTION EVIDENCE ≠ TRUTH / AUTHENTICITY / PHYSICAL ERASURE
+C5 bounded rehearsal ≠ production readiness
+C5 operations ≠ semantic assertion promotion
+repository-resident evidence ≠ independent custody
+logical ERASED ≠ physical deletion
+public repository ≠ open-source license
 ```
 
-## Three tracks
+## Checkpoint model
+
+The current machine protocol does not attempt to store the SHA of its own commit.
 
 ```text
-H historical recovery:
-  v0.1.2.1 + original 44 tests
+GitHub API / checked-out ref
+        ↓ resolves live HEAD
+
+project-state.json
+        ↓ records verified checkpoint roles and expected relation to HEAD
+
+runtime checkpoint
+runtime-integrity checkpoint
+evidence-producing checkpoint
+publication checkpoint
+Notion synchronization checkpoint
+```
+
+A descendant commit does not invalidate earlier evidence, but it also does not broaden that evidence.
+
+## Three independent tracks
+
+```text
+H — Historical Recovery
+  authentic v0.1.2.1 + original 44 tests
   BLOCKED / ACTIVE EVIDENCE-RECOVERY
-  does not block clean implementation
+  NOT_FOUND_IN_ACCESSIBLE_SOURCES
+  does not block Track C
 
-C clean implementation:
+C — Clean Implementation
   P1–P5 + C4 + C5
   ACTIVE / PARTIAL
 
-R long-horizon research:
-  PROPOSED / BOUNDED
-  no runtime or Canon promotion through prose
+R — Long-Horizon Research
+  PROPOSED / BOUNDED / NO AUTOMATIC PROMOTION
+  no runtime or Canon status through prose
 ```
 
-## Current gate
+## Implemented and repository-evidenced boundary
 
 ```text
-P1–P5:                 MERGED
-C4 offline shadow:     MERGED / PARTIAL / REPOSITORY-REPRODUCED
-C5 operational:        MERGED / PARTIAL / REPOSITORY-REPRODUCED
-Production/live data:  NOT AUTHORIZED / NOT ESTABLISHED
-Issue #1:              OPEN / INDEPENDENT
-Issue #64:             CLOSED / COMPLETED
-Issue #18:             OPEN / INDEPENDENT
+P1 semantic core:                    MERGED / REPOSITORY-TESTED
+P2 PostgreSQL append:                MERGED / REPOSITORY-INTEGRATION-TESTED
+P3 replay, projection and Receipts:  MERGED / REPOSITORY-INTEGRATION-TESTED
+P4 PostgreSQL assertion profile:     MERGED / PARTIAL / C2
+P5 SQLite and profile comparison:    MERGED / PARTIAL / C2 + C3
+C4 offline shadow evaluation:        MERGED / PARTIAL
+C5 bounded operational rehearsal:    MERGED / PARTIAL / SYNTHETIC
 ```
 
-## Distinct evidence dimensions
+The current SQLite WAL floor is linked SQLite `3.51.3`. Historical SQLite `3.45.1` evidence remains immutable and version-bound.
+
+## Current operator decisions
+
+| Decision | State | Effect |
+|---|---|---|
+| Issue #18 — license/publication terms | `OPEN` | External collaboration and package publication remain blocked by an unresolved rights regime. |
+| Issue #74 / ADR-0024 — reducer referential semantics | `PROPOSED / APPROVAL PENDING` | Reducer v1 remains immutable; reducer-v2 runtime work is not authorized yet. |
+
+No AI agent may select the license or accept ADR-0024 on behalf of the operator.
+
+## Next authorized sequence
 
 ```text
-kernel_runtime_conformance: C4
-operational_validation:     C5_BOUNDED_REHEARSAL
-support_state:              PARTIAL
-assertion map:              45 / 10 / 17 / 0
-NK-EPI:                     0 / 0 / 8 / 0
+1. complete human-readable truth reconciliation
+2. reconcile Issues #14–#17 and Notion current-state pages
+3. prepare license options for operator decision
+4. prepare ADR-0024 final decision options
+5. define NK-SAM and named equivalence profiles
+6. define Event/history commitment boundaries
+7. only then begin reducer-v2 runtime work
 ```
 
-## Exact C5 checkpoints
+Out of scope until those gates are complete:
 
-```text
-Implementation main:
-  SHA 296981ae84ad5bdab5dabbec9b7b9ebb43af63d7
-  C5 run 31204861404 — PASS
+- executable NK-EPI;
+- Temporal v0.1;
+- full Admission lifecycle;
+- operational deletion;
+- full independent Rust/Go implementation;
+- Titan, Crystal or Mentaury integration.
 
-Final documentation main:
-  SHA 3d56912260ea41b5b501b65477bff1642dfc2d58
-  C5 run 31205512911 — PASS
-```
+## Current known gaps
 
-Both used:
-
-```text
-Python 3.11 / PostgreSQL 16 / SQLite 3.45.1 — PASS
-Python 3.11 / PostgreSQL 18 / SQLite 3.45.1 — PASS
-Python 3.12 / PostgreSQL 16 / SQLite 3.45.1 — PASS
-Python 3.12 / PostgreSQL 18 / SQLite 3.45.1 — PASS
-```
-
-Every final-main job recorded 18/18 scenarios, 18 Receipts and zero canary leaks, recovery failures or uncontained incidents.
-
-## ADR-0023 safe-runtime evidence
-
-```text
-PR head ab7a203ce7ed8ec46c341bc4da9063d56f023338
-  P5/C3 31251376567 — PASS
-  C4     31251376572 — PASS
-  C5     31251376574 — PASS
-
-Final main 675aa4b398a2fc0181dc71d38904a2d33a09f5f8
-  P5/C3 31251526992 — PASS
-  C4     31251526965 — PASS
-  C5     31251526982 — PASS
-```
-
-Both four-job matrices used linked SQLite 3.51.3. The eight original C5 ZIPs are retained at `evidence/c5/2026-08-08-adr0023/`; each contains the exact P4/P5/C3/C4/C5 reports and quarantine backup from its producing job.
-
-## Durable evidence
-
-Exact original ZIP bytes from both checkpoints are retained:
-
-```text
-evidence/c5/2026-08-07/manifest.json
-evidence/c5/2026-08-08-adr0023/manifest.json
-```
-
-This removes dependence on the original GitHub Actions retention deadline. It does not broaden the evidence boundary.
+- reducer v1 does not enforce the proposed referential semantics for all LINK, UTILIZED, SUPERSEDED and ERASED cases;
+- portable semantic Event commitment is not fully separated from operational/profile receipts;
+- current C3 evidence compares PostgreSQL and SQLite profiles sharing a Python semantic lineage, not an independent language implementation;
+- NK-EPI assertions have no executable support;
+- temporal identity and interval semantics are incomplete;
+- admission is not a complete replayable policy pipeline;
+- physical/cryptographic deletion across actual locations is not established;
+- production threat model, operations and authorization are absent;
+- Notion remains synchronized only through the recorded publication checkpoint until the dedicated reconciliation step completes.
 
 ## Machine-readable state
 
 ```text
 project-state.json
-contracts/project-state-v1.schema.json
+contracts/project-state-v2.schema.json
+contracts/registry.json
 tools/ai_context/validate_project_state.py
 ```
 
-The state snapshot records live-verified Issue #1/#64 states, H/C/R tracks, maturity, assertion maps and durable evidence location.
+`project-state.json` is authoritative for committed repository status metadata. GitHub remains authoritative for live refs, issues, PRs and Actions. Exact source, tests and evidence artifacts remain authoritative for their own technical claims.
 
-## Research boundary
+## Historical records
 
-Post-C5 ideas are held in:
+- [`C5_IMPLEMENTATION_RECORD.md`](C5_IMPLEMENTATION_RECORD.md)
+- [`../adr/0023-harden-sqlite-wal-and-event-integrity.md`](../adr/0023-harden-sqlite-wal-and-event-integrity.md)
+- [`../../evidence/c5/README.md`](../../evidence/c5/README.md)
+- [previous current-state snapshot at `626f34e…`](https://github.com/velantrian/velantrim-native-kernel/blob/626f34e6328b455258f2dd5fcf2145ec4db64a60/docs/ai/CURRENT_STATE.md)
 
-```text
-docs/research/POST_C5_RESEARCH_BACKLOG.md
-```
-
-They remain proposed. `NK-EPI-004 — unknown ≠ false` is the preferred first candidate but is not supported yet.
-
-## Next action
-
-Define reducer referential semantics in a separate contract-first decision before changing dangling/self/cycle behavior. NK-EPI-004 remains a separate proposed executable slice; operational hardening cannot alone increase semantic maturity.
+Historical records are version-bound evidence and chronology, not current-state authority.
