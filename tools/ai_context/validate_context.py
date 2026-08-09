@@ -22,6 +22,9 @@ REQUIRED_PATHS = (
     "evidence/c5/README.md",
     "evidence/c5/2026-08-07/manifest.json",
     "evidence/c5/2026-08-08-adr0023/manifest.json",
+    "docs/ARCHITECTURE_REFOUNDATION.md",
+    "docs/ARCHITECTURE_REFOUNDATION.ru.md",
+    "docs/adr/0025-blueprint-before-runtime-expansion.md",
     "docs/ai/README.md",
     "docs/ai/CURRENT_STATE.md",
     "docs/ai/COMPONENT_MAP.md",
@@ -46,6 +49,9 @@ LINK_SCAN_PATHS = (
     ".github/pull_request_template.md",
     "docs/README.md",
     "docs/README.ru.md",
+    "docs/ARCHITECTURE_REFOUNDATION.md",
+    "docs/ARCHITECTURE_REFOUNDATION.ru.md",
+    "docs/adr/0025-blueprint-before-runtime-expansion.md",
     "docs/ai/README.md",
     "docs/ai/CURRENT_STATE.md",
     "docs/ai/COMPONENT_MAP.md",
@@ -80,9 +86,14 @@ REQUIRED_STATUS_MARKERS = (
     "public repository ≠ open-source license",
     "No AI agent may select the license or accept ADR-0024",
     "The later Notion synchronization checkpoint does not rewrite or replace the earlier publication checkpoint.",
+    "Architecture Re-foundation: ACTIVE / BLUEPRINT-FIRST",
+    "No new semantic/runtime expansion before blueprint gate completion.",
+    "BOUNDED REFERENCE LABORATORY",
+    "next bounded content slice is `A1 — Kernel Purpose and Non-goals`",
 )
 FORBIDDEN_STATUS_MARKERS = (
     "Notion remains synchronized only through the recorded publication checkpoint",
+    "Next work is limited to explicit operator decisions",
 )
 
 
