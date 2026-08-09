@@ -38,8 +38,8 @@ Decision status
 | [`0019`](./0019-authorize-p5-sqlite-and-c3-equivalence.md) | Authorize P5 SQLite and C3 equivalence | `ACCEPTED` | C2/C3 | `PARTIAL — P5` | `APPROVED` |
 | [`0020`](./0020-authorize-c4-offline-shadow-evaluation.md) | Authorize C4 offline shadow evaluation | `ACCEPTED` | approved dataset + C3 + reports | `PARTIAL — C4` | `APPROVED` |
 | [`0021`](./0021-authorize-c5-bounded-operational-rehearsal.md) | Authorize C5 bounded operational rehearsal | `ACCEPTED` | two passing checkpoints + retained ZIPs | `PARTIAL — C5` | `APPROVED` |
-| [`0022`](./0022-preserve-c5-evidence-and-declare-project-state.md) | Preserve C5 evidence and declare project state | `ACCEPTED` | local bundle/state validation; CI pending | implemented in change | `APPROVED` |
-| [`0023`](./0023-harden-sqlite-wal-and-event-integrity.md) | Harden SQLite WAL and stored Event integrity | `ACCEPTED` | repository-reproduced; additive evidence captured | merged via PR #69 | `APPROVED` |
+| [`0022`](./0022-preserve-c5-evidence-and-declare-project-state.md) | Preserve C5 evidence and declare project state | `ACCEPTED` | repository and post-merge validation passed; superseded machine protocol retained historically | implemented; current state now uses `nk-project-state/2` | `APPROVED` |
+| [`0023`](./0023-harden-sqlite-wal-and-event-integrity.md) | Harden SQLite WAL and stored Event integrity | `ACCEPTED` | repository-reproduced; additive evidence captured; follow-up integrity checks passed | merged via PR #69 + follow-up PR #72 | `APPROVED` |
 | [`0024`](./0024-version-reducer-referential-semantics.md) | Version reducer referential semantics without rewriting history | `PROPOSED` | repository gap documented | `NOT_STARTED` | `PENDING` |
 
 ## Current boundary
@@ -47,13 +47,30 @@ Decision status
 ```text
 H historical recovery: OPEN / BLOCKED / independent
 C clean implementation: P1–P5 + C4 + C5 / ACTIVE / PARTIAL
-R long-horizon research: PROPOSED / BOUNDED
+R long-horizon research: PROPOSED / BOUNDED / NO AUTOMATIC PROMOTION
 kernel_runtime_conformance: C4
 operational_validation: C5_BOUNDED_REHEARSAL
 assertion map: 45 / 10 / 17 / 0
-NK-EPI: 0 / 8 SUPPORTED
+NK-EPI: 0 SUPPORTED / 0 PARTIAL / 8 UNSUPPORTED / 0 FAILED
 production: NOT AUTHORIZED
 ```
+
+## Current decision gate
+
+```text
+Issue #18 — license/publication terms
+  OPERATOR DECISION REQUIRED
+
+Issue #74 / ADR-0024 — reducer referential semantics
+  PROPOSED / APPROVAL PENDING / RUNTIME NOT STARTED
+
+After those decisions:
+  NK-SAM and named equivalence profiles
+  Event/history commitment contract
+  only then reducer-v2 runtime
+```
+
+An AI agent may prepare options but may not choose the license or accept ADR-0024 for the operator.
 
 ## Operational rules
 
@@ -68,8 +85,10 @@ production: NOT AUTHORIZED
 9. Translation preserves decision/evidence/implementation/approval meaning.
 10. A Receipt/report/archive is bounded evidence, not truth, authenticity or physical-erasure proof.
 11. C2/C3/C4/C5 labels include assertion counts and support state.
-12. C3 semantic equivalence is not operational equivalence.
+12. C3 semantic equivalence is not operational equivalence or independent implementation.
 13. C5 operational evidence cannot promote NK-EPI.
 14. Research notes cannot authorize runtime or Canon changes.
 15. Dataset, plan or bundle changes require new identity/digest and evidence.
 16. Reducer semantics may not change for an existing history through a process-local default or silent version upgrade.
+17. Portable semantic commitments and operational/profile receipts must not be collapsed without an accepted contract.
+18. A public repository does not imply an open-source license.
