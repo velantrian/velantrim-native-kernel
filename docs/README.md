@@ -22,6 +22,18 @@
 | [`QUICKSTART.md`](./QUICKSTART.md) | reference-laboratory setup and tests |
 | [`GLOSSARY.md`](./GLOSSARY.md) | terminology and required distinctions |
 
+## Reading order
+
+```text
+STATUS and project-state
+→ active ROADMAP
+→ Architecture Re-foundation plan
+→ relevant Canon and ADRs
+→ only then reference runtime, tests, and evidence
+```
+
+Historical implementation records and research proposals are read only when relevant; they do not override the current blueprint phase.
+
 ## Current map
 
 ```text
