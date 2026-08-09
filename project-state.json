@@ -1,20 +1,20 @@
 {
   "protocol": "nk-project-state/2",
-  "snapshot_id": "native-kernel/state/2026-08-09-issues-notion-reconciliation",
-  "observed_at": "2026-08-09T11:31:28Z",
+  "snapshot_id": "native-kernel/state/2026-08-09-pr83-notion-reconciliation",
+  "observed_at": "2026-08-09T13:03:03Z",
   "repository": {
     "full_name": "velantrian/velantrim-native-kernel",
     "visibility": "PUBLIC",
     "default_branch": "main"
   },
   "checkpoints": {
-    "manifest_generated_from_sha": "07549a0cd952b4e06b61ef24d21b2dcdbc9f861d",
+    "manifest_generated_from_sha": "10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c",
     "expected_head_relationship": "DESCENDANT_OR_EQUAL",
     "runtime_checkpoint_sha": "675aa4b398a2fc0181dc71d38904a2d33a09f5f8",
     "runtime_integrity_checkpoint_sha": "a1cdc6d8f36d67f40f065641809bc6da463c10a4",
     "evidence_producing_sha": "296981ae84ad5bdab5dabbec9b7b9ebb43af63d7",
-    "publication_checkpoint_sha": "07549a0cd952b4e06b61ef24d21b2dcdbc9f861d",
-    "notion_synchronized_through_sha": "07549a0cd952b4e06b61ef24d21b2dcdbc9f861d",
+    "publication_checkpoint_sha": "10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c",
+    "notion_synchronized_through_sha": "10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c",
     "checkpoint_semantics": "The committed manifest records verified checkpoints and the relationship expected between its source SHA and the checked-out HEAD. Live HEAD is resolved by Git or the GitHub API; the file does not attempt to contain the SHA of its own commit."
   },
   "status": {
@@ -141,6 +141,16 @@
         "source": "issue/17"
       }
     },
+    "18": {
+      "state": "OPEN",
+      "meaning": "License and publication terms remain PENDING_OPERATOR; no license, contribution regime or package publication is authorized.",
+      "verification": {
+        "status": "VERIFIED",
+        "method": "GITHUB_API",
+        "observed_at": "2026-08-09T13:03:03Z",
+        "source": "issue/18"
+      }
+    },
     "64": {
       "state": "CLOSED",
       "state_reason": "COMPLETED",
@@ -150,6 +160,16 @@
         "method": "GITHUB_API",
         "observed_at": "2026-08-09T11:31:28Z",
         "source": "issue/64"
+      }
+    },
+    "74": {
+      "state": "OPEN",
+      "meaning": "ADR-0024 remains PROPOSED / PENDING_OPERATOR; reducer v1 is immutable and reducer-v2 runtime is not authorized.",
+      "verification": {
+        "status": "VERIFIED",
+        "method": "GITHUB_API",
+        "observed_at": "2026-08-09T13:03:03Z",
+        "source": "issue/74"
       }
     }
   },
@@ -186,7 +206,7 @@
   "notion": {
     "synchronization_required": true,
     "status": "SYNCED_THROUGH_PUBLICATION_CHECKPOINT",
-    "scope": "GitHub machine and human truth reconciliation through PR #81, Issues #14-#17 scope records, and the Notion Current State, Decision, Evidence, Risks, Sync Log and Historical Archive surfaces were verified through publication checkpoint 07549a0cd952b4e06b61ef24d21b2dcdbc9f861d. Later descendant commits require a new synchronization record.",
+    "scope": "GitHub and Notion were directly verified and reconciled through PR #83 publication checkpoint 10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c. The Hub, Current State, Architecture, Roadmap, Decision Ledger, GitHub Sync Log and AI continuity surfaces record the pending license/publication and ADR-0024 decisions without authorization. Later descendant commits require a new synchronization record.",
     "authority_boundary": "Notion carries current orientation, rationale and history; GitHub remains sufficient and authoritative for technical state, live refs, contracts, tests, workflow results and evidence."
   },
   "non_claims": [
