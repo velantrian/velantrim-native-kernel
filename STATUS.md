@@ -9,15 +9,17 @@ machine_truth_reconciliation_merge: d9eee591de308a689ace940c2efe58c9e8a137f2
 human_truth_reconciliation_merge: 07549a0cd952b4e06b61ef24d21b2dcdbc9f861d
 issues_notion_reconciliation_merge: cdf559a3a32decd538e4cab3dd7fb591fc6e9322
 operator_decision_packages_merge: 10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c
+publication_checkpoint: 10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c
 runtime_checkpoint: 675aa4b398a2fc0181dc71d38904a2d33a09f5f8
 runtime_integrity_checkpoint: a1cdc6d8f36d67f40f065641809bc6da463c10a4
 evidence_producing_checkpoint: 296981ae84ad5bdab5dabbec9b7b9ebb43af63d7
-notion_synchronized_through: 10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c
+manifest_generated_from: 70acd0da61fee19131947aa56125833adb156ced
+notion_synchronized_through: 70acd0da61fee19131947aa56125833adb156ced
 ```
 
 > **Repository status:** `RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY`
 >
-> A checkpoint is not automatically the live branch head. Live `main` must be resolved from GitHub or the checked-out Git ref. A later documentation or metadata commit does not silently broaden the proof scope of an earlier runtime or evidence checkpoint.
+> A checkpoint is not automatically the live branch head. Live `main` must be resolved from GitHub or the checked-out Git ref. A later documentation or metadata commit does not silently broaden the proof scope of an earlier runtime, evidence or publication checkpoint.
 
 ## Current state
 
@@ -44,19 +46,22 @@ P1–P5, C4 and C5 are merged in the clean implementation lineage. C5 is a bound
 | Runtime | `675aa4b398a2fc0181dc71d38904a2d33a09f5f8` | ADR-0023 safe SQLite/Event runtime checkpoint. |
 | Runtime integrity follow-up | `a1cdc6d8f36d67f40f065641809bc6da463c10a4` | PR #72 closed the post-merge integrity review findings. |
 | Evidence producing | `296981ae84ad5bdab5dabbec9b7b9ebb43af63d7` | C5 implementation evidence lineage. |
-| Notion synchronized through | `10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c` | Hub, current-state, architecture, roadmap, decision, sync and AI-continuity surfaces were directly verified and reconciled through PR #83. |
+| Manifest source / Notion synchronized descendant | `70acd0da61fee19131947aa56125833adb156ced` | PR #86 was merged, validated, synchronized to the affected Notion pages and read back before this state manifest was authored. |
 
-These identities are intentionally different. No committed file attempts to contain the SHA of its own commit.
+The publication checkpoint and Notion synchronization checkpoint are intentionally different roles. PR #86 does not rewrite or replace PR #83. No committed file attempts to contain the SHA of its own future merge.
 
 ## Truth-surface reconciliation
 
 ```text
 Phase 0A — machine-readable truth:  COMPLETE / PR #80
 Phase 0B — human-readable truth:    COMPLETE / PR #81
-Phase 0C — issues and Notion:       COMPLETE / PR #82 + PR #83 SYNC VERIFIED
+Phase 0C — issues and publication:  COMPLETE / PR #82 + PR #83
+Phase 0D — Notion descendant sync:  COMPLETE / READ BACK THROUGH PR #86
 ```
 
 Issues #14–#17 remain open. Each distinguishes original scope, completed work, evidence boundary, remaining scope, next acceptance gate and non-goals. Notion preserves old chronology as historical material while routing current retrieval through dedicated current-state pages.
+
+A later post-merge Notion write may temporarily be newer than the repository-committed synchronization checkpoint. The next manifest records only an already merged and read-back ancestor, preserving the non-self-referential model.
 
 ## Three independent tracks
 
