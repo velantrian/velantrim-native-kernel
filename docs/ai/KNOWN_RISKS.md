@@ -162,9 +162,18 @@ Passing current thresholds is not a capacity, SLO, cost, architecture or broad p
 
 GitHub refs, issue states, Actions and Notion can change after a committed snapshot.
 
-**State:** `MITIGATED BY PR #80 / HUMAN AND NOTION RECONCILIATION IN PROGRESS`.
+**State:** `MITIGATED / RESIDUAL LIVE-DRIFT RISK OPEN`.
 
-`nk-project-state/2` now separates checkpoint roles and declares the expected relation to HEAD. It does not make committed metadata self-updating. Live state still requires GitHub verification, and Notion requires a separate sync record.
+```text
+publication_checkpoint: 10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c
+notion_synchronized_descendant: 70acd0da61fee19131947aa56125833adb156ced
+```
+
+PR #80 introduced the machine checkpoint relation. PRs #84, #86 and #87 reconciled the current GitHub and Notion surfaces, preserved the immutable PR #83 publication identity, and recorded PR #86 as an already merged, synchronized and read-back descendant.
+
+The fail-closed reconciliation validator binds each checkpoint to its declared field or table role across the root READMEs, STATUS, AI continuity, Notion handoff and this active-risk surface. It rejects a role collapse even when the expected SHA remains elsewhere in historical prose.
+
+Residual risk remains: `nk-project-state/2` does not make committed metadata self-updating. Live state still requires GitHub verification, later Notion writes may temporarily be newer than the repository-committed checkpoint, and a subsequent non-self-referential manifest is required to record an already completed synchronization.
 
 ## Closed historical findings
 
