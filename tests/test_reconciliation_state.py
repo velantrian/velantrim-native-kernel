@@ -26,7 +26,10 @@ class ReconciliationStateTests(unittest.TestCase):
     def _copy_fixture(self, directory: Path) -> None:
         for rel in (
             "project-state.json",
+            "README.md",
+            "README.ru.md",
             "STATUS.md",
+            "docs/ai/README.md",
             "docs/ai/CURRENT_STATE.md",
             "docs/ai/ISSUE_RECONCILIATION.md",
             "docs/ai/NOTION_HANDOFF.md",
@@ -46,13 +49,21 @@ class ReconciliationStateTests(unittest.TestCase):
             self.assertEqual("VERIFIED", issue["verification"]["status"])
             self.assertEqual("GITHUB_API", issue["verification"]["method"])
 
-    def test_checkpoint_roles_match_notion_publication(self) -> None:
+    def test_checkpoint_roles_separate_publication_and_notion(self) -> None:
         checkpoints = self.state["checkpoints"]
         self.assertEqual(
-            module.PUBLICATION_SHA,
+            module.NOTION_SYNC_SHA,
             checkpoints["manifest_generated_from_sha"],
         )
         self.assertEqual(
+            module.PUBLICATION_SHA,
+            checkpoints["publication_checkpoint_sha"],
+        )
+        self.assertEqual(
+            module.NOTION_SYNC_SHA,
+            checkpoints["notion_synchronized_through_sha"],
+        )
+        self.assertNotEqual(
             checkpoints["publication_checkpoint_sha"],
             checkpoints["notion_synchronized_through_sha"],
         )
@@ -77,6 +88,36 @@ class ReconciliationStateTests(unittest.TestCase):
             state["checkpoints"]["notion_synchronized_through_sha"] = "0" * 40
             state_path.write_text(json.dumps(state), encoding="utf-8")
             with self.assertRaisesRegex(module.ReconciliationError, "Notion"):
+                module.validate(repo)
+
+    def test_publication_and_notion_role_collapse_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            repo = Path(temp)
+            self._copy_fixture(repo)
+            state_path = repo / "project-state.json"
+            state = json.loads(state_path.read_text(encoding="utf-8"))
+            state["checkpoints"]["manifest_generated_from_sha"] = module.PUBLICATION_SHA
+            state["checkpoints"]["notion_synchronized_through_sha"] = module.PUBLICATION_SHA
+            state_path.write_text(json.dumps(state), encoding="utf-8")
+            with self.assertRaisesRegex(module.ReconciliationError, "source|roles collapsed"):
+                module.validate(repo)
+
+    def test_current_surface_missing_descendant_checkpoint_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            repo = Path(temp)
+            self._copy_fixture(repo)
+            current = repo / "docs/ai/CURRENT_STATE.md"
+            current.write_text(
+                current.read_text(encoding="utf-8").replace(
+                    module.NOTION_SYNC_SHA,
+                    "removed-descendant-checkpoint",
+                ),
+                encoding="utf-8",
+            )
+            with self.assertRaisesRegex(
+                module.ReconciliationError,
+                "CURRENT_STATE.md: Notion descendant checkpoint drift",
+            ):
                 module.validate(repo)
 
     def test_missing_comment_identity_is_rejected(self) -> None:
