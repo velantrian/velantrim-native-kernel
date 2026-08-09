@@ -12,8 +12,9 @@
       "shared_literals": [
         "RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY",
         "45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED",
+        "0 SUPPORTED / 0 PARTIAL / 8 UNSUPPORTED / 0 FAILED",
         "C5_BOUNDED_REHEARSAL",
-        "production_authorized: false"
+        "production_authorized:      false"
       ],
       "english_literals": [
         "Human quickstart",
@@ -37,7 +38,7 @@
       "shared_literals": [
         "C5_BOUNDED_REHEARSAL",
         "45 / 10 / 17 / 0",
-        "NK-EPI: 0 / 8 SUPPORTED",
+        "NK-EPI: 0 SUPPORTED / 0 PARTIAL / 8 UNSUPPORTED / 0 FAILED",
         "production: NOT AUTHORIZED"
       ],
       "english_literals": [
