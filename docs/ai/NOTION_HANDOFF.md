@@ -76,6 +76,6 @@ license/publication options
 
 ## Non-claims
 
-Notion synchronization is not runtime evidence, production authorization, a license decision, ADR-0024 acceptance, NK-EPI support or proof of full substrate neutrality.
+Notion synchronization is not runtime evidence and is not production readiness, production authorization, a license decision, ADR-0024 acceptance, NK-EPI support or proof of full substrate neutrality.
 
 The detailed pre-reconciliation chronology remains preserved in Git history at checkpoint `07549a0cd952b4e06b61ef24d21b2dcdbc9f861d`. Any later descendant commit requires a new explicit synchronization record before it is described as synchronized.
