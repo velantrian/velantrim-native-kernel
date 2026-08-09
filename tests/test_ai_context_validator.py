@@ -106,6 +106,29 @@ class AIContextValidatorTests(unittest.TestCase):
             )
         )
 
+    def test_missing_architecture_refoundation_plan(self):
+        (self.repo / "docs/ARCHITECTURE_REFOUNDATION.md").unlink()
+        self.assertTrue(
+            any(
+                finding.path == "docs/ARCHITECTURE_REFOUNDATION.md"
+                and "required AI-context file is missing" in finding.message
+                for finding in validator.validate(self.repo)
+            )
+        )
+
+    def test_missing_blueprint_first_adr(self):
+        (
+            self.repo
+            / "docs/adr/0025-blueprint-before-runtime-expansion.md"
+        ).unlink()
+        self.assertTrue(
+            any(
+                finding.path
+                == "docs/adr/0025-blueprint-before-runtime-expansion.md"
+                for finding in validator.validate(self.repo)
+            )
+        )
+
     def test_missing_evidence_bundle(self):
         (self.repo / "evidence/c5/2026-08-07/manifest.json").unlink()
         self.assertTrue(
@@ -174,16 +197,21 @@ class AIContextValidatorTests(unittest.TestCase):
                     )
                 )
 
-    def test_legacy_publication_only_notion_marker_is_rejected(self):
-        legacy = validator.FORBIDDEN_STATUS_MARKERS[0]
-        self._write_current_state(self.initial_sha, append=legacy + "\n")
-        self.assertTrue(
-            any(
-                "forbidden legacy current-state marker" in finding.message
-                and legacy in finding.message
-                for finding in validator.validate(self.repo)
-            )
-        )
+    def test_each_forbidden_legacy_marker_is_rejected(self):
+        for legacy in validator.FORBIDDEN_STATUS_MARKERS:
+            with self.subTest(marker=legacy):
+                self._write_current_state(
+                    self.initial_sha,
+                    append=legacy + "\n",
+                )
+                self.assertTrue(
+                    any(
+                        "forbidden legacy current-state marker"
+                        in finding.message
+                        and legacy in finding.message
+                        for finding in validator.validate(self.repo)
+                    )
+                )
 
 
 if __name__ == "__main__":

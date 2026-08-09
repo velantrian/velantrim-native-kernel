@@ -9,22 +9,22 @@ repository_status: RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-
 live_head_source: GitHub API or checked-out Git ref
 machine_truth_reconciliation_merge: d9eee591de308a689ace940c2efe58c9e8a137f2
 human_truth_reconciliation_merge: 07549a0cd952b4e06b61ef24d21b2dcdbc9f861d
-issues_notion_reconciliation_merge: cdf559a3a32decd538e4cab3dd7fb591fc6e9322
-operator_decision_packages_merge: 10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c
 publication_checkpoint: 10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c
 runtime_checkpoint: 675aa4b398a2fc0181dc71d38904a2d33a09f5f8
 runtime_integrity_checkpoint: a1cdc6d8f36d67f40f065641809bc6da463c10a4
 evidence_producing_checkpoint: 296981ae84ad5bdab5dabbec9b7b9ebb43af63d7
 manifest_generated_from: 70acd0da61fee19131947aa56125833adb156ced
 notion_synchronized_through: 70acd0da61fee19131947aa56125833adb156ced
+active_architecture_decision: ADR-0025
+active_architecture_issue: 88
 ```
 
-> This page contains current repository truth only. Historical implementation and review chronology is linked under **Historical records** and remains available in Git history.
+> This page contains current repository truth only. Historical implementation and review chronology remains available through linked records and Git history.
 
 ## Current boundary
 
 ```text
-repository:                  RESEARCH
+RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY
 clean_runtime_support:       PARTIAL
 kernel_runtime_conformance: C4
 operational_validation:     C5_BOUNDED_REHEARSAL
@@ -36,47 +36,76 @@ NK-EPI:        0 SUPPORTED / 0 PARTIAL / 8 UNSUPPORTED / 0 FAILED
 
 ```text
 C5 bounded rehearsal ≠ production readiness
-C5 operations ≠ semantic assertion promotion
 repository-resident evidence ≠ independent custody
 logical ERASED ≠ physical deletion
 public repository ≠ open-source license
 ```
 
-## Reconciliation state
+No AI agent may select the license or accept ADR-0024 for the operator.
+
+The later Notion synchronization checkpoint does not rewrite or replace the earlier publication checkpoint.
+
+## Active architecture priority
 
 ```text
-0A machine-readable truth: COMPLETE / PR #80
-0B human-readable truth:   COMPLETE / PR #81
-0C Issues #14–#17:         RECONCILED / OPEN / PR #82 RECORD
-publication checkpoint:    PR #83 / PENDING_OPERATOR PRESERVED
-Notion descendant sync:    SYNCHRONIZED AND READ BACK THROUGH PR #86
+Architecture Re-foundation: ACTIVE / BLUEPRINT-FIRST
+No new semantic/runtime expansion before blueprint gate completion.
 ```
 
-The publication checkpoint remains `10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c`. The latest repository-committed Notion synchronization checkpoint is `70acd0da61fee19131947aa56125833adb156ced`. PR #86 exact head was `c3b8695bf3d7207ac4c6b19dcb5e9e2bda92f764`; exact-head and post-merge validation each completed with `18 success / 0 failed / 0 cancelled / 0 skipped`.
+ADR-0025 is `ACCEPTED / DOCUMENTED / PARTIAL / OPERATOR APPROVED`.
 
-The four affected Notion pages—Hub, Current State, GitHub Sync Log and Prototype Status—were updated through PR #86 and read back. A delayed Codex review then found that GitHub machine/current-state files still collapsed the publication and Notion checkpoint roles; the current bounded reconciliation corrects that validator defect.
-
-The later Notion synchronization checkpoint does not rewrite or replace the earlier publication checkpoint. A later post-merge Notion write may be newer than the repository-committed checkpoint until the next manifest records an already merged and read-back ancestor.
-
-## Checkpoint model
-
-The machine protocol does not attempt to store the SHA of its own future commit.
+The existing P1–C5 clean implementation is preserved as a:
 
 ```text
-GitHub API / checked-out ref
-        ↓ resolves live HEAD
-
-project-state.json
-        ↓ records verified checkpoint roles and expected relation to HEAD
-
-runtime checkpoint
-runtime-integrity checkpoint
-evidence-producing checkpoint
-publication checkpoint
-Notion synchronized descendant checkpoint
+BOUNDED REFERENCE LABORATORY
+not architectural authority
+not the final Native Kernel definition
 ```
 
-A descendant commit does not invalidate earlier evidence, but it also does not broaden that evidence or rewrite an earlier publication identity.
+Plan:
+
+- [Architecture Re-foundation — English](../ARCHITECTURE_REFOUNDATION.md)
+- [Переоснование архитектуры — Русский](../ARCHITECTURE_REFOUNDATION.ru.md)
+- [ADR-0025](../adr/0025-blueprint-before-runtime-expansion.md)
+- [Issue #88](https://github.com/velantrian/velantrim-native-kernel/issues/88)
+
+Required sequence:
+
+```text
+A1 Purpose and Non-goals
+→ A2 Knowledge and Memory Ontology
+→ A3 Abstract Native Kernel Machine
+→ A4 Semantic Laws and Invariants
+→ A5 Identity / Time / Change
+→ A6 Knowledge Lifecycle
+→ A7 Conflict / Uncertainty / Revision
+→ A8 Substrate-independence Contract
+→ A9 Reference Laboratory Boundary
+→ A10 Open Questions / Falsification
+→ integrated blueprint review
+→ separate operator decision before runtime expansion
+```
+
+Current blueprint content is incomplete. The next bounded content slice is `A1 — Kernel Purpose and Non-goals`.
+
+## Runtime freeze boundary
+
+Allowed:
+
+- architecture and ontology research;
+- integrity, security, reproducibility, and provenance fixes;
+- evidence preservation;
+- validator and current-truth repair;
+- historical recovery;
+- isolated experiments that falsify a blueprint assumption without runtime promotion.
+
+Not authorized:
+
+- reducer v2 or new semantic Event verbs;
+- new databases, language ports, LLM/vector adapters, or ecosystem integrations;
+- executable NK-EPI, Temporal, full Admission, or operational deletion;
+- performance-driven semantic changes;
+- maturity or production promotion.
 
 ## Three independent tracks
 
@@ -85,18 +114,45 @@ H — Historical Recovery
   authentic v0.1.2.1 + original 44 tests
   BLOCKED / ACTIVE EVIDENCE-RECOVERY
   NOT_FOUND_IN_ACCESSIBLE_SOURCES
-  does not block Track C
 
-C — Clean Implementation
+C — Clean Reference Implementation
   P1–P5 + C4 + C5
-  ACTIVE / PARTIAL
+  PRESERVED / PARTIAL / BOUNDED REFERENCE LABORATORY
 
-R — Long-Horizon Research
-  PROPOSED / BOUNDED / NO AUTOMATIC PROMOTION
-  no runtime or Canon status through prose
+R — Architecture Re-foundation
+  A1–A10 blueprint
+  ACTIVE / BLUEPRINT-FIRST / NO AUTOMATIC RUNTIME PROMOTION
 ```
 
-## Implemented and repository-evidenced boundary
+```text
+NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GLOBALLY_LOST
+historical recovery ≠ clean implementation
+reference laboratory ≠ final architecture
+blueprint documentation ≠ implementation evidence
+future-facing design ≠ demonstrated future substrate support
+```
+
+## Checkpoint model
+
+```text
+GitHub API / checked-out ref
+        ↓ resolves live HEAD
+
+project-state.json
+        ↓ records verified checkpoint roles and active research phase
+
+runtime checkpoint
+runtime-integrity checkpoint
+evidence-producing checkpoint
+publication checkpoint
+Notion synchronized descendant checkpoint
+```
+
+The publication checkpoint remains `10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c`. The latest repository-committed Notion synchronization checkpoint remains `70acd0da61fee19131947aa56125833adb156ced` from PR #86. ADR-0025 does not predict its own future merge SHA or claim that its future post-merge Notion update already occurred.
+
+A descendant commit does not invalidate earlier evidence, but it also does not broaden that evidence or rewrite an earlier publication identity.
+
+## Existing runtime boundary
 
 ```text
 P1 semantic core:                    MERGED / REPOSITORY-TESTED
@@ -108,60 +164,29 @@ C4 offline shadow evaluation:        MERGED / PARTIAL
 C5 bounded operational rehearsal:    MERGED / PARTIAL / SYNTHETIC
 ```
 
-The current SQLite WAL floor is linked SQLite `3.51.3`. Historical SQLite `3.45.1` evidence remains immutable and version-bound.
+The current SQLite WAL floor remains linked SQLite `3.51.3`. Historical SQLite `3.45.1` evidence remains immutable and version-bound.
 
-## Current operator decisions
+## Independent pending decisions
 
 | Decision | State | Effect |
 |---|---|---|
-| Issue #18 — license/publication terms | `PENDING_OPERATOR / selected_option: null` | No license change; external contributions remain not accepted; package publication remains unauthorized. |
-| Issue #74 / ADR-0024 — reducer referential semantics | `PROPOSED / PENDING_OPERATOR / selected_option: null` | Reducer v1 remains immutable; reducer-v2 runtime is not authorized. |
+| Issue #18 — license/publication terms | `PENDING_OPERATOR / selected_option: null` | no license change; external contributions and package publication remain unauthorized |
+| Issue #74 / ADR-0024 — reducer referential semantics | `PROPOSED / PENDING_OPERATOR / selected_option: null` | reducer v1 remains immutable; reducer-v2 remains unauthorized |
 
-No AI agent may select the license or accept ADR-0024 on behalf of the operator.
-
-## Verified PR #86 boundary
-
-```text
-exact head: c3b8695bf3d7207ac4c6b19dcb5e9e2bda92f764
-merge:      70acd0da61fee19131947aa56125833adb156ced
-exact-head workflows: 5 PASS / 18 jobs success
-post-merge workflows: 5 PASS / 18 jobs success
-pre-merge reviews: 0
-pre-merge unresolved review threads: 0
-delayed Codex: 1 P1 checkpoint-modelling finding / confirmed
-```
-
-Passing CI proved the previous validators and unchanged runtime/evidence guards, but the delayed review exposed a missing invariant between machine state and the human current-state route. The follow-up adds the missing fail-closed checks; it does not choose a license, accept ADR-0024, prove reducer v2 or authorize production.
-
-## Next authorized sequence
-
-```text
-1. obtain explicit license/publication operator selection
-2. obtain explicit ADR-0024 operator selection
-3. define NK-SAM and named equivalence profiles
-4. define Event/history commitment boundaries
-5. only then begin reducer-v2 runtime work
-```
-
-Out of scope until those gates are complete:
-
-- executable NK-EPI;
-- Temporal v0.1;
-- full Admission lifecycle;
-- operational deletion;
-- full independent Rust/Go implementation;
-- Titan, Crystal or Mentaury integration.
+Architecture Re-foundation can proceed without deciding either one. Issue #18 still gates open publication/collaboration terms. ADR-0024 still gates reducer-v2 if that path is reopened after blueprint review.
 
 ## Current known gaps
 
-- reducer v1 does not enforce the proposed referential semantics for all LINK, UTILIZED, SUPERSEDED and ERASED cases;
-- portable semantic Event commitment is not fully separated from operational/profile receipts;
-- current C3 evidence compares PostgreSQL and SQLite profiles sharing a Python semantic lineage, not an independent language implementation;
+- the architecture purpose and non-goals are distributed rather than integrated as a versioned blueprint deliverable;
+- the ontology of knowledge and memory is incomplete;
+- the abstract Kernel machine is not yet fully specified independently of event-sourcing and current code;
+- semantic laws are present as scattered invariants but not yet a reconciled formal set;
+- identity, time, change, conflict, uncertainty, and revision models remain partial;
+- substrate-independence obligations and falsification criteria remain incomplete;
+- reducer v1 has known referential gaps, but runtime work is frozen;
+- current PostgreSQL and SQLite profiles share Python semantic lineage;
 - NK-EPI assertions have no executable support;
-- temporal identity and interval semantics are incomplete;
-- admission is not a complete replayable policy pipeline;
-- physical/cryptographic deletion across actual locations is not established;
-- production threat model, operations and authorization are absent.
+- physical/cryptographic deletion and production operations remain absent.
 
 ## Machine-readable state
 
@@ -171,20 +196,16 @@ contracts/project-state-v2.schema.json
 contracts/registry.json
 tools/ai_context/validate_project_state.py
 tools/ai_context/validate_reconciliation.py
+tools/ai_context/validate_context.py
 ```
 
-`project-state.json` is authoritative for committed repository status metadata. GitHub remains authoritative for live refs, issues, PRs and Actions. Exact source, tests and evidence artifacts remain authoritative for their own technical claims.
-
-## Reconciliation records
-
-- [`ISSUE_RECONCILIATION.md`](ISSUE_RECONCILIATION.md)
-- [`NOTION_HANDOFF.md`](NOTION_HANDOFF.md)
+GitHub remains authoritative for live refs, issues, PRs, Actions, code, contracts, tests, and evidence. Notion carries orientation and history and must be synchronized only after confirmed merge results.
 
 ## Historical records
 
 - [`C5_IMPLEMENTATION_RECORD.md`](C5_IMPLEMENTATION_RECORD.md)
 - [`../adr/0023-harden-sqlite-wal-and-event-integrity.md`](../adr/0023-harden-sqlite-wal-and-event-integrity.md)
 - [`../../evidence/c5/README.md`](../../evidence/c5/README.md)
-- [previous current-state snapshot at `626f34e…`](https://github.com/velantrian/velantrim-native-kernel/blob/626f34e6328b455258f2dd5fcf2145ec4db64a60/docs/ai/CURRENT_STATE.md)
+- [`NOTION_HANDOFF.md`](NOTION_HANDOFF.md)
 
 Historical records are version-bound evidence and chronology, not current-state authority.

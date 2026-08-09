@@ -2,26 +2,33 @@
 
 **[English](./README.md) · [Русский](./README.ru.md)**
 
-### Technology-neutral semantic memory architecture, versioned contracts and bounded evidence
+### Technology-neutral architecture for durable knowledge, memory, change, and explanation
 
-> **Current state:** `RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY`
+> **Current state:** `RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY`  
+> **Active phase:** `ARCHITECTURE RE-FOUNDATION / BLUEPRINT-FIRST / RUNTIME EXPANSION FROZEN`
 
-Velantrim Native Kernel studies how different implementations and future compute substrates can preserve declared semantic meaning, identity, provenance, history, uncertainty and proof boundaries without silently changing them.
+Velantrim Native Kernel studies what semantic meaning, identity, provenance, time, uncertainty, conflict, revision, and explanation should survive when databases, languages, models, processors, and storage media change.
 
-It is **not** an operating-system kernel, database product, LLM memory plugin, vector store or Python framework definition.
+It is **not** an operating-system kernel, database product, LLM memory plugin, vector store, or Python framework definition.
 
 ```text
-same declared meaning
+first define meaning and invariants
         ↓
-different physical mechanisms
+define an abstract Kernel machine
         ↓
-named observable equivalence
+define versioned contracts
+        ↓
+map replaceable implementation profiles
+        ↓
+test and falsify them
 ```
 
 ## Architecture boundary
 
 ```text
-Architecture Canon
+Architecture Purpose and Ontology
+→ Abstract Native Kernel Machine
+→ Semantic Laws and Invariants
 → Versioned Abstract Contracts
 → Replaceable Implementation Profiles
 → Fixtures and Tests
@@ -29,9 +36,9 @@ Architecture Canon
 → Status and Maturity
 ```
 
-The Canon defines durable semantic requirements. Python, JSON, SHA-256, PostgreSQL, SQLite, UTF-8, LLMs, vectors, conventional binary hardware and CI are replaceable profiles or instruments, not permanent Canon.
+Python, JSON, SHA-256, PostgreSQL, SQLite, graphs, vectors, LLMs, conventional hardware, and CI are replaceable research instruments. They are not permanent Canon.
 
-Current Python, PostgreSQL and SQLite code is a bounded reference implementation. It is not the final definition of Native Kernel.
+The current Python/PostgreSQL/SQLite lineage is a **bounded reference laboratory**, not the final definition of Native Kernel.
 
 ## Current state
 
@@ -45,12 +52,6 @@ assertion map: 45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED / 0 FAILED
 NK-EPI:        0 SUPPORTED / 0 PARTIAL / 8 UNSUPPORTED / 0 FAILED
 ```
 
-```text
-P1–P5: merged
-C4:     merged / partial / offline shadow evidence
-C5:     merged / partial / bounded synthetic operational rehearsal
-```
-
 C5 does not promote semantic assertions and does not authorize production.
 
 ## Checkpoint model
@@ -59,32 +60,29 @@ Machine-readable truth is recorded in [`project-state.json`](project-state.json)
 
 | Role | Checkpoint |
 |---|---|
-| Machine truth reconciliation merge | `d9eee591de308a689ace940c2efe58c9e8a137f2` |
-| Human truth reconciliation merge | `07549a0cd952b4e06b61ef24d21b2dcdbc9f861d` |
+| Machine truth reconciliation | `d9eee591de308a689ace940c2efe58c9e8a137f2` |
+| Human truth reconciliation | `07549a0cd952b4e06b61ef24d21b2dcdbc9f861d` |
 | Issues and Notion reconciliation record | `cdf559a3a32decd538e4cab3dd7fb591fc6e9322` |
-| Operator decision packages / publication checkpoint | `10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c` |
+| Publication checkpoint | `10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c` |
 | Runtime checkpoint | `675aa4b398a2fc0181dc71d38904a2d33a09f5f8` |
 | Runtime integrity checkpoint | `a1cdc6d8f36d67f40f065641809bc6da463c10a4` |
 | Evidence-producing checkpoint | `296981ae84ad5bdab5dabbec9b7b9ebb43af63d7` |
 | Manifest source / Notion synchronized descendant | `70acd0da61fee19131947aa56125833adb156ced` |
 
-The publication checkpoint remains the immutable PR #83 decision-package identity. The later Notion checkpoint is PR #86, which was merged, fully validated, synchronized to the four affected Notion pages and read back before this manifest was authored. The later checkpoint does not rewrite or replace the publication checkpoint.
-
-PR #86 exact head was `c3b8695bf3d7207ac4c6b19dcb5e9e2bda92f764`. Five exact-head workflows and five post-merge workflows passed, with 18 successful jobs at each checkpoint and no failed, cancelled or skipped jobs. A delayed Codex review found the checkpoint-role collapse corrected by the next bounded reconciliation PR; it did not identify a runtime or evidence change.
-
-Live `main` is resolved from GitHub or the checked-out Git ref. A committed manifest records verified checkpoints and their expected relationship to HEAD; it does not attempt to contain its own future merge SHA. A post-merge Notion update may temporarily be newer than the latest repository-committed sync checkpoint until the next non-self-referential manifest records it.
+The publication checkpoint remains the PR #83 decision-package identity. The later PR #86 Notion checkpoint does not rewrite or replace it. Live `main` is resolved from GitHub or the checked-out Git ref; committed state does not predict its own future merge SHA.
 
 ## Truth reconciliation
 
 ```text
 machine-readable truth: COMPLETE / PR #80
 human-readable truth:   COMPLETE / PR #81
-Issues #14–#17:         RECONCILED / OPEN / PR #82 RECORD
+Issues #14–#17:         RECONCILED / OPEN / PR #82
 publication checkpoint: PR #83
 Notion dashboard:       SYNCED AND READ BACK THROUGH PR #86
+checkpoint role repair: COMPLETE / PR #87
 ```
 
-Historical reports and proposals remain preserved but are excluded from the authoritative current-state retrieval path.
+Historical reports and proposals remain preserved but do not override current state.
 
 ## Current evidence
 
@@ -97,8 +95,6 @@ evidence/c5/2026-08-08-adr0023/manifest.json
 
 ADR-0023 sets linked SQLite `3.51.3` as the current WAL floor. Historical SQLite `3.45.1` artifacts remain unchanged and version-bound.
 
-Evidence proves only its declared code, environment, fixtures, workflow runs and bounded outputs.
-
 ```text
 repository-resident evidence
 ≠ independent custody
@@ -108,6 +104,8 @@ repository-resident evidence
 ≠ production readiness
 ```
 
+ADR-0025 does not expand any existing evidence boundary.
+
 ## Three independent tracks
 
 ```text
@@ -115,57 +113,82 @@ H — Historical Recovery
   authentic v0.1.2.1 and original 44-test suite
   NOT_FOUND_IN_ACCESSIBLE_SOURCES / OPEN / INDEPENDENT
 
-C — Clean Implementation
+C — Clean Reference Implementation
   P1–P5 + C4 + C5
-  ACTIVE / PARTIAL
+  PRESERVED / PARTIAL / BOUNDED REFERENCE LABORATORY
 
-R — Long-Horizon Research
-  PROPOSED / BOUNDED / NO AUTOMATIC PROMOTION
+R — Architecture Re-foundation
+  blueprint A1–A10
+  ACTIVE / BLUEPRINT-FIRST / NO AUTOMATIC RUNTIME PROMOTION
 ```
 
-Clean implementation does not claim recovery of `v0.1.2.1`. Historical recovery does not block the clean lineage. Research prose does not become Canon or runtime automatically.
+```text
+NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GLOBALLY_LOST
+historical recovery ≠ clean implementation
+reference laboratory ≠ final architecture
+```
 
-## Current gates
+## Active architecture phase
+
+ADR-0025 records the operator-approved direction: complete the architecture blueprint before further semantic/runtime expansion.
 
 ```text
-license/publication operator decision — Issue #18
+A1 Purpose and Non-goals
+→ A2 Knowledge and Memory Ontology
+→ A3 Abstract Native Kernel Machine
+→ A4 Semantic Laws and Invariants
+→ A5 Identity / Time / Change
+→ A6 Knowledge Lifecycle
+→ A7 Conflict / Uncertainty / Revision
+→ A8 Substrate-independence Contract
+→ A9 Reference Laboratory Boundary
+→ A10 Open Questions / Falsification
+→ integrated blueprint review
+→ separate operator decision before runtime expansion
+```
+
+Plan: [English](docs/ARCHITECTURE_REFOUNDATION.md) · [Русский](docs/ARCHITECTURE_REFOUNDATION.ru.md).  
+Decision: [`ADR-0025`](docs/adr/0025-blueprint-before-runtime-expansion.md).  
+Tracking: [Issue #88](https://github.com/velantrian/velantrim-native-kernel/issues/88).
+
+During the freeze, integrity, security, reproducibility, provenance, evidence-preservation, truth-surface, and historical-recovery work remains allowed. New semantic/runtime features are not authorized.
+
+## Pending decisions
+
+```text
+Issue #18 — license/publication
   PENDING_OPERATOR / selected_option: null
-→ ADR-0024 operator decision — Issue #74
+  blocks open contributions and package publication
+
+Issue #74 / ADR-0024 — reducer referential semantics
   PROPOSED / PENDING_OPERATOR / selected_option: null
-→ NK-SAM and named equivalence profiles
-→ Event/history commitment contract
+  blocks reducer-v2 work
+```
+
+Neither decision blocks blueprint research. Neither is silently decided by ADR-0025.
+
+After blueprint review, downstream work may be reconsidered:
+
+```text
+reconcile contract families
+→ define NK-SAM and named equivalence
+→ define portable Event/history commitment
+→ decide ADR-0024 outcome if reducer work resumes
 → only then reducer-v2 runtime
 ```
 
-Until the decisions are explicit, there is no license change, external contributions remain not accepted, package publication is not authorized, reducer v1 remains immutable and reducer-v2 runtime is not authorized.
-
-Not yet authorized:
-
-- reducer-v2 runtime;
-- executable NK-EPI;
-- Temporal runtime;
-- full Admission lifecycle;
-- operational deletion;
-- full independent Rust/Go implementation;
-- Titan, Crystal or Mentaury integration;
-- production promotion.
-
 ## Human quickstart
 
-The smallest semantic-core check requires Python 3.11 or 3.12:
+The current laboratory requires Python 3.11 or 3.12:
 
 ```bash
 python -m unittest discover -s tests -p 'test_semantic_core.py' -v
 python -m unittest discover -s tests -p 'test_p1_manifest.py' -v
-```
-
-Machine-state integrity:
-
-```bash
 python tools/ai_context/validate_project_state.py --repo .
+python tools/ai_context/validate_context.py --repo .
 ```
 
-The SQLite profile fails closed when Python links SQLite older than `3.51.3`. PostgreSQL setup, expected skips and full commands are in [`docs/QUICKSTART.md`](docs/QUICKSTART.md).
+The SQLite profile fails closed when Python links SQLite older than `3.51.3`. Full setup is in [`docs/QUICKSTART.md`](docs/QUICKSTART.md).
 
 ## Explicit non-equivalences
 
@@ -173,6 +196,9 @@ The SQLite profile fails closed when Python links SQLite older than `3.51.3`. Po
 Claim ≠ truth
 admission ≠ objective truth
 Unknown ≠ False
+Architecture Canon ≠ implementation profile
+reference laboratory ≠ final architecture
+blueprint documentation ≠ implementation evidence
 runtime implementation ≠ evidence
 evidence ≠ operator authorization
 C5 PASS ≠ production readiness
@@ -180,22 +206,21 @@ PostgreSQL + SQLite ≠ full substrate neutrality
 hash chain ≠ complete authenticity
 logical ERASED ≠ physical deletion
 public repository ≠ open-source license
+future-facing design ≠ demonstrated future substrate support
 ```
 
 ## Read next
 
-- [`STATUS.md`](STATUS.md) — authoritative human current-state surface
-- [`project-state.json`](project-state.json) — authoritative committed machine status
-- [`ROADMAP.md`](ROADMAP.md) — active gate sequence
-- [`docs/QUICKSTART.md`](docs/QUICKSTART.md) — setup and tests
-- [`docs/GLOSSARY.md`](docs/GLOSSARY.md) — terminology and non-equivalences
+- [`STATUS.md`](STATUS.md) — authoritative human current state
+- [`project-state.json`](project-state.json) — committed machine state
+- [`ROADMAP.md`](ROADMAP.md) — active sequence
+- [`docs/ARCHITECTURE_REFOUNDATION.md`](docs/ARCHITECTURE_REFOUNDATION.md) — blueprint plan
 - [`AGENTS.md`](AGENTS.md) — mandatory repository instructions
-- [`docs/ai/CURRENT_STATE.md`](docs/ai/CURRENT_STATE.md) — AI continuity checkpoint
-- [`docs/ai/ISSUE_RECONCILIATION.md`](docs/ai/ISSUE_RECONCILIATION.md) — foundational issue reconciliation
-- [`docs/ai/NOTION_HANDOFF.md`](docs/ai/NOTION_HANDOFF.md) — current Notion sync record
-- [`docs/ai/KNOWN_RISKS.md`](docs/ai/KNOWN_RISKS.md) — active and closed risks
+- [`docs/ai/CURRENT_STATE.md`](docs/ai/CURRENT_STATE.md) — AI continuity state
+- [`docs/ai/KNOWN_RISKS.md`](docs/ai/KNOWN_RISKS.md) — active risks
+- [`docs/QUICKSTART.md`](docs/QUICKSTART.md) — laboratory setup and tests
+- [`docs/GLOSSARY.md`](docs/GLOSSARY.md) — terminology and distinctions
+- [`docs/adr/README.md`](docs/adr/README.md) — architecture decisions
 - [`evidence/c5/README.md`](evidence/c5/README.md) — retained evidence identities
-- [`docs/CONFORMANCE_MODEL.md`](docs/CONFORMANCE_MODEL.md) — conformance levels and proof boundaries
-- [`docs/research/POST_C5_RESEARCH_BACKLOG.md`](docs/research/POST_C5_RESEARCH_BACKLOG.md) — proposed research only
 
-Historical status and review chronology remains available in Git history and version-bound implementation/evidence records.
+Historical status and review chronology remains available in Git history and version-bound records.

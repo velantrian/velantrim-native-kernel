@@ -5,6 +5,7 @@ document_role: ACTIVE_RISKS
 status_as_of: 2026-08-09
 authoritative_machine_source: ../../project-state.json
 repository_status: RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY
+active_architecture_decision: ADR-0025
 ```
 
 This page lists current risks and explicitly closed historical findings. A closed code defect may still leave version-bound historical evidence or a broader unresolved threat model.
@@ -45,6 +46,42 @@ NK-EPI:                     0 SUPPORTED / 0 PARTIAL / 8 UNSUPPORTED / 0 FAILED
 
 Operational success cannot promote unsupported or partial semantic assertions. In particular, `NK-EPI-004 — Unknown ≠ False` is not executable support yet.
 
+## P0 — Reference implementation may capture the Canon
+
+```text
+available Python / PostgreSQL / SQLite mechanisms
+≠ ontology
+≠ abstract Kernel machine
+≠ permanent architecture
+```
+
+**State:** `MITIGATED BY ADR-0025 / RESIDUAL RISK OPEN`.
+
+The current P1–C5 lineage was implemented before the full knowledge ontology, abstract machine, semantic laws and substrate-independence contract were complete. Without an explicit boundary, current source structures and event-sourcing assumptions could become de facto Canon through inertia.
+
+Controls:
+
+- ADR-0025 establishes `Blueprint before Runtime`;
+- P1–C5 is classified as a `BOUNDED REFERENCE LABORATORY`;
+- new semantic/runtime expansion is frozen until integrated blueprint review and a separate operator decision;
+- machine/current-state surfaces and fail-closed AI-context guards record the phase;
+- isolated experiments are permitted only as falsification instruments without automatic promotion.
+
+Residual risk:
+
+- the blueprint A1–A10 is incomplete;
+- existing accepted contracts may still contain assumptions inherited from current event-sourcing and serialization practice;
+- future contributors or agents may attempt to hide semantic expansion inside maintenance, optimization or portability work;
+- a detailed blueprint may itself be mistaken for implementation or portability evidence.
+
+Detection rule:
+
+```text
+new semantic behaviour
+without ontology / abstract-machine / law / contract / decision lineage
+→ governance failure
+```
+
 ## P0 — Historical and clean lineages may be collapsed
 
 ```text
@@ -61,9 +98,9 @@ Issue #1 remains independent. `NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GLOBALLY_LOST
 
 Reducer v1 permits histories whose LINK, UTILIZED, SUPERSEDED or ERASED references do not satisfy the proposed stricter rules in Issue #74 / ADR-0024.
 
-**State:** `OPEN / CONTRACT DECISION REQUIRED`.
+**State:** `OPEN / CONTRACT DECISION REQUIRED / RUNTIME FROZEN`.
 
-Reducer v1 must not be changed in place. Any stricter behavior requires a separately versioned reducer, fixtures, migration assessment and evidence.
+Reducer v1 must not be changed in place. Any stricter behavior requires a separately versioned reducer, fixtures, migration assessment and evidence after the blueprint gate is reviewed and runtime work is separately reopened.
 
 ## P0 — Event/history commitment is not complete authenticity
 
@@ -98,11 +135,11 @@ External collaboration, package publication, CLA/DCO policy, patent terms and co
 
 ## P0 — Research may be mistaken for authorization
 
-The post-C5 backlog includes NK-EPI, Temporal, Admission, independent profiles, signed Receipts, deletion, ecosystem adapters and future substrates.
+The Architecture Re-foundation plan and post-C5 backlog include ontology, an abstract Kernel machine, semantic laws, NK-EPI, Temporal, Admission, independent profiles, signed Receipts, deletion, ecosystem adapters and future substrates.
 
 **State:** `OPEN / GOVERNANCE BOUNDARY`.
 
-Research prose does not create Canon, accepted contracts, runtime behavior, evidence or production authority.
+Research prose does not create Canon, accepted contracts, runtime behavior, evidence or production authority. ADR-0025 authorizes the research phase and runtime freeze; it does not pre-accept the contents of future blueprint deliverables.
 
 ## P1 — Operational equivalence remains absent
 
@@ -118,7 +155,7 @@ Current PostgreSQL and SQLite profiles share a Python semantic lineage. This is 
 
 **State:** `OPEN`.
 
-A future independent implementation must own its encoder, Event parser/verifier, reducer, state codec and fixture runner and pass declared equivalence profiles without using Python as a hidden oracle.
+A future independent implementation must own its encoder, Event parser/verifier, reducer, state codec and fixture runner and pass declared equivalence profiles without using Python as a hidden oracle. ADR-0025 does not authorize starting that implementation before blueprint review.
 
 ## P1 — Durable evidence lacks independent custody
 
@@ -162,9 +199,9 @@ Passing current thresholds is not a capacity, SLO, cost, architecture or broad p
 
 GitHub refs, issue states, Actions and Notion can change after a committed snapshot.
 
-**State:** `MITIGATED BY PR #80 / HUMAN AND NOTION RECONCILIATION IN PROGRESS`.
+**State:** `MITIGATED BY PR #80, PR #86 AND PR #87 / RESIDUAL LIVE-STATE RISK OPEN`.
 
-`nk-project-state/2` now separates checkpoint roles and declares the expected relation to HEAD. It does not make committed metadata self-updating. Live state still requires GitHub verification, and Notion requires a separate sync record.
+`nk-project-state/2` separates checkpoint roles and declares the expected relation to HEAD. It does not make committed metadata self-updating. Live state still requires GitHub verification, and Notion requires a separate post-merge sync and read-back record.
 
 ## Closed historical findings
 
@@ -209,7 +246,7 @@ For every risk transition record:
 - proof boundary;
 - whether operator approval is required.
 
-Never convert a bounded PASS, retained archive, closed bug or research proposal into production, truth, compliance, deletion, full neutrality or ecosystem-authority claims.
+Never convert a bounded PASS, retained archive, closed bug, accepted research priority or blueprint proposal into production, truth, compliance, deletion, full neutrality, future-substrate support or ecosystem-authority claims.
 
 ## Historical snapshot
 

@@ -6,26 +6,30 @@ status_as_of: 2026-08-09
 authoritative_machine_source: project-state.json
 repository_status: RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY
 publication_checkpoint: 10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c
+active_architecture_decision: ADR-0025
+active_architecture_issue: 88
 ```
 
 Velantrim Native Kernel maintains three independent tracks:
 
 ```text
 H — Historical Recovery
-C — Clean Implementation
-R — Long-Horizon Research
+C — Clean Reference Implementation
+R — Architecture Re-foundation and Long-Horizon Research
 ```
 
-Their status, evidence and authority must never be collapsed.
+Their status, evidence, and authority must never be collapsed.
 
 ## Governing sequence
 
 ```text
-Architecture Canon
-→ versioned abstract contract
-→ failure and threat model
-→ explicit decision
-→ runtime implementation
+Architecture purpose and ontology
+→ abstract Kernel machine
+→ semantic laws and invariants
+→ versioned abstract contracts
+→ failure and threat models
+→ explicit decisions
+→ replaceable implementation profiles
 → positive and negative fixtures
 → cross-profile comparison
 → exact evidence
@@ -33,7 +37,54 @@ Architecture Canon
 → Notion synchronization
 ```
 
-Runtime must not define new semantics before the contract. Evidence must not be relabelled after the fact. Maturity does not rise automatically because more tests passed.
+Runtime must not define new semantics before the blueprint and contract. Evidence must not be relabelled after the fact. Maturity does not rise automatically because more tests passed.
+
+## Active priority — Architecture Re-foundation
+
+**State:** `ACTIVE / BLUEPRINT-FIRST / RUNTIME EXPANSION FROZEN`.
+
+Decision: [`ADR-0025`](docs/adr/0025-blueprint-before-runtime-expansion.md).  
+Plan: [English](docs/ARCHITECTURE_REFOUNDATION.md) · [Русский](docs/ARCHITECTURE_REFOUNDATION.ru.md).  
+Issue: [#88](https://github.com/velantrian/velantrim-native-kernel/issues/88).
+
+The project now completes the architecture blueprint before further semantic/runtime expansion.
+
+```text
+A1 Purpose and Non-goals
+→ A2 Knowledge and Memory Ontology
+→ A3 Abstract Native Kernel Machine
+→ A4 Semantic Laws and Invariants
+→ A5 Identity / Time / Change
+→ A6 Knowledge Lifecycle
+→ A7 Conflict / Uncertainty / Revision
+→ A8 Substrate-independence Contract
+→ A9 Reference Laboratory Boundary
+→ A10 Open Questions / Falsification
+→ integrated blueprint review
+→ operator decision on reopening runtime work
+```
+
+### Runtime freeze
+
+The existing P1–C5 lineage is preserved as a bounded reference laboratory. It is not the final definition of Native Kernel.
+
+Allowed during the freeze:
+
+- architecture and ontology research;
+- integrity, security, reproducibility, and provenance fixes;
+- evidence preservation;
+- validator and current-truth repairs;
+- historical recovery;
+- isolated experiments that test or falsify a blueprint assumption without runtime promotion.
+
+Not authorized without a separate explicit operator decision:
+
+- reducer v2;
+- new semantic Event verbs;
+- new databases, language ports, model adapters, or ecosystem integrations;
+- executable NK-EPI, Temporal, full Admission, or operational deletion;
+- performance-driven semantic changes;
+- maturity or production promotion.
 
 ## Track H — Historical Recovery
 
@@ -46,11 +97,11 @@ NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GLOBALLY_LOST
 clean reconstruction ≠ authentic historical recovery
 ```
 
-A candidate must be preserved read-only, hashed before extraction, inspected in isolation, recorded as `UNVERIFIED_CANDIDATE`, reviewed for provenance and accepted only by an explicit operator decision. Track H does not block Track C.
+A candidate must be preserved read-only, hashed before extraction, inspected in isolation, recorded as `UNVERIFIED_CANDIDATE`, reviewed for provenance, and accepted only by an explicit operator decision.
 
-## Track C — Clean Implementation
+## Track C — Clean Reference Implementation
 
-**Status:** `ACTIVE / PARTIAL / NOT PRODUCTION-READY`.
+**Status:** `PRESERVED / ACTIVE FOR MAINTENANCE / PARTIAL / NOT PRODUCTION-READY`.
 
 ```text
 P1 semantic core                         MERGED / REPOSITORY-TESTED
@@ -68,19 +119,25 @@ NK-EPI:                     0 SUPPORTED / 0 PARTIAL / 8 UNSUPPORTED / 0 FAILED
 production_authorized:      false
 ```
 
-## Phase 0 — Truth-Surface Reconciliation
+The clean implementation may receive maintenance and integrity fixes under ADR-0025. It may not expand semantic scope while the blueprint gate remains open.
+
+## Completed reconciliation phases
 
 ```text
-0A machine-readable truth  COMPLETE / PR #80
-0B human-readable truth    COMPLETE / PR #81
-0C Issues and Notion       COMPLETE / PR #82 RECORD / PR #83 SYNC VERIFIED
+0A machine-readable truth              COMPLETE / PR #80
+0B human-readable truth                COMPLETE / PR #81
+0C Issues and publication              COMPLETE / PR #82 + PR #83
+0D Notion descendant synchronization   COMPLETE / PR #86
+0E checkpoint-role validator repair    COMPLETE / PR #87
 ```
 
-PR #83 publication checkpoint is `10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c`. It published operator decision packages and preserved all maturity, evidence and authorization boundaries.
+Live `main` is resolved through GitHub or a checked-out ref. Committed checkpoint records remain non-self-referential.
 
-## Phase 0.5 — License and Publication Decision
+## Independent pending decisions
 
-**State:** `PACKAGE PREPARED / ISSUE #18 / PENDING_OPERATOR / selected_option: null`.
+### License and publication — Issue #18
+
+**State:** `PACKAGE PREPARED / PENDING_OPERATOR / selected_option: null`.
 
 Until explicit selection:
 
@@ -90,95 +147,63 @@ external contributions: NOT ACCEPTED
 package publication: NOT AUTHORIZED
 ```
 
-The operator must decide the regime for code, documentation, diagrams/media, fixtures/datasets, external contributions, patent terms, trademarks, AI-assisted contributions, recovered historical source and package publication.
+This decision does not block architecture research. It blocks an open contribution/publication regime.
 
-## Phase 1 — ADR-0024 Final Decision
+### Reducer referential semantics — Issue #74 / ADR-0024
 
-**State:** `PACKAGE PREPARED / PROPOSED / PENDING_OPERATOR / RUNTIME NOT AUTHORIZED`.
+**State:** `PROPOSED / PENDING_OPERATOR / RUNTIME NOT AUTHORIZED`.
 
-Available outcomes:
+Reducer v1 remains immutable. ADR-0024 is required only before a reducer-v2 path is reopened; Architecture Re-foundation does not accept, reject, or bypass it.
 
-```text
-ACCEPT
-ACCEPT_WITH_CHANGES
-REVISE
-REJECT
-```
+## Downstream contract work
 
-The technical recommendation `ACCEPT_WITH_CHANGES` is not approval. Reducer v1 remains immutable and authoritative for existing histories and evidence. Any stricter referential behavior belongs to reducer v2 with stable failure codes and explicit migration boundaries.
-
-## Phase 1.25 — NK-SAM and Named Equivalence
-
-**State:** `PROPOSED / BLOCKED BY OPERATOR DECISIONS`.
-
-Define `Apply`, `Observe`, `Equivalent`, `AssessMigration` and `Migrate`, plus named byte, structural, state, observational, trace, epistemic, authority, Receipt and probabilistic equivalence profiles. Separate semantic identity from reference encoding.
-
-## Phase 1.5 — Event and History Commitment
-
-**State:** `PROPOSED / REQUIRED BEFORE REDUCER-V2 HISTORIES`.
-
-Separate portable semantic history commitment from operational/profile receipts. Classify every field as semantically committed, operationally committed, derived or uncommitted metadata. Define history-head, mutation, reorder, truncation, fork, rollback and version-substitution fixtures before signatures or witnesses.
-
-## Phase 2 — Reducer v2
-
-**State:** `BLOCKED BY PHASES 0.5, 1, 1.25 AND 1.5`.
-
-Required order:
-
-1. reducer registry and immutable v1 reader;
-2. reducer v2 semantic core;
-3. stable failure codes and negative fixtures;
-4. instance/history version binding;
-5. migration assessment without silent rewrite;
-6. PostgreSQL and SQLite integration;
-7. new evidence identity.
-
-No in-place reinterpretation of reducer-v1 histories is allowed.
-
-## Later phases
-
-| Phase | State | Boundary |
-|---|---|---|
-| Independent conformance foundation | `PROPOSED` | Rust or Go requires a separate decision; Python may not be a hidden oracle. |
-| Executable NK-EPI-004 | `PROPOSED / 0 OF 8 SUPPORTED` | First slice is `Unknown ≠ False`. |
-| Temporal v0.1 | `PROPOSED` | Valid time, recorded time, write order, intervals and identity impact. |
-| Admission v0.1 | `PROPOSED` | Admission for role/scope is not objective truth. |
-| Operational deletion | `PROPOSED / NOT ESTABLISHED` | Inventory actual locations, execution, verification, retries, retention and restore. |
-| Performance evidence | `PROPOSED` | Reproducible correctness before optimization. |
-| Deployment-specific governance | `UNDEFINED / NOT AUTHORIZED` | No invented C6–C8 ladder; maturity is deployment-specific. |
-
-## Current authorized work
+NK-SAM, named equivalence profiles, and Event/history commitment remain required. Their final forms must derive from the integrated blueprint rather than from current Python/SQL convenience.
 
 ```text
-obtain explicit license/publication operator selection
-→ obtain explicit ADR-0024 operator selection
-→ define NK-SAM and named equivalence profiles
-→ define Event/history commitment
+complete blueprint
+→ reconcile accepted contract families
+→ define NK-SAM and named equivalence
+→ define portable Event/history commitment
+→ decide ADR-0024 outcome when reducer work resumes
+→ only then reducer-v2 runtime
 ```
 
-Not authorized yet:
+## Blueprint completion gate
 
-- reducer-v2 runtime;
-- executable NK-EPI;
-- Temporal runtime;
-- full Admission;
-- operational deletion;
-- full Rust/Go implementation;
-- Titan, Crystal or Mentaury integration;
-- distributed multi-writer architecture;
-- production promotion.
+The phase is complete only when:
+
+- all ten deliverables are present and linked;
+- terminology is reconciled;
+- contradictions and unknowns remain explicit;
+- implementation-specific assumptions are labelled;
+- falsification criteria are recorded;
+- existing contracts and runtime are mapped without automatic authority;
+- at least two contrasting substrate thought experiments are documented;
+- critical review is recorded;
+- the operator approves the next phase separately.
+
+## Explicit non-claims
+
+```text
+blueprint documentation ≠ implementation evidence
+reference laboratory ≠ final architecture
+future-facing design ≠ future substrate support
+C5 PASS ≠ production readiness
+PostgreSQL + SQLite ≠ full substrate neutrality
+public repository ≠ open-source license
+```
 
 ## Promotion rule
 
 ```text
-research hypothesis
-→ explicit versioned contract
-→ failure and threat model
-→ reproducible implementation and tests
-→ negative fixtures
-→ exact evidence
-→ decision record
-→ operator approval
+research question
+→ ontology and semantic law
+→ abstract machine / contract
+→ failure and falsification cases
+→ explicit decision
+→ bounded implementation profile
+→ reproducible evidence
+→ separate promotion decision
 ```
 
-The pre-reconciliation roadmap remains available at [publication checkpoint `626f34e…`](https://github.com/velantrian/velantrim-native-kernel/blob/626f34e6328b455258f2dd5fcf2145ec4db64a60/ROADMAP.md). It is historical context, not the active sequence.
+The pre-refoundation roadmap remains available through Git history. It is historical context, not the active sequence.
