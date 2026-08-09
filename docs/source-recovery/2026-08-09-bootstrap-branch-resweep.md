@@ -4,6 +4,10 @@
 > **Result:** `NOT_FOUND_IN_ACCESSIBLE_SOURCES`  
 > **Target:** reported external `v0.1.2.1`, original 44-test suite, benchmark harness, and environment metadata  
 > **Live main at sweep start:** `1fd1d49e643f253bc1de26bda63d0b56584f8ebe`  
+> **Performed by:** `OpenAI ChatGPT agent through operator-authorized GitHub and Notion connectors`  
+> **Repository actor:** `velantrian`  
+> **Performed at:** `2026-08-09T14:21:23Z`  
+> **Timestamp semantics:** latest confirmed completion bound from the first repository commit containing this record; exact individual connector-call timestamps were not retained  
 > **Decision impact:** Issue #1 remains blocked  
 > **Global-loss claim:** not made
 
@@ -17,7 +21,46 @@ bootstrap/research-kernel-v0.1.2.1
 
 Because the branch name resembles the reported historical checkpoint, it required an explicit lineage and tree inspection before it could be rejected as a source-bearing candidate.
 
-## 2. Branch identity
+## 2. Execution and access record
+
+This section is a retrospective provenance completion added after the post-merge Codex review of PR #85. It records the actor, bounded completion timestamp, exact connected surfaces, access mode, result, and remaining limitations without inventing unavailable local access or exact per-call timestamps.
+
+```yaml
+search_id: NK-SRC-RECOVERY-20260809-004
+performed_at: 2026-08-09T14:21:23Z
+performed_at_semantics: >-
+  Latest confirmed completion bound from the first repository commit containing
+  this record. Exact timestamps for the individual connector search calls were
+  not retained and are not reconstructed.
+performed_by: >-
+  OpenAI ChatGPT agent operating through operator-authorized GitHub and Notion
+  connectors; repository writes were committed through the velantrian account.
+locations_checked:
+  - location: velantrian/velantrim-native-kernel branch bootstrap/research-kernel-v0.1.2.1
+    access_mode: read-only GitHub connector tree and commit inspection
+    result: not_found
+    detail: complete head tree and all 14 reachable commits contained documentation only
+  - location: merged GitHub PR #2 and associated branch lineage
+    access_mode: read-only GitHub connector PR and commit inspection
+    result: not_found
+    detail: PR #2 explicitly described a documentation-first bootstrap with no runnable kernel code
+  - location: connected GitHub code, commit, branch, tag, and release surfaces
+    access_mode: read-only GitHub connector search and API inspection
+    result: not_found
+    detail: no source archive, kernel.py, original tests, benchmark harness, dependency lock, or environment export found
+  - location: connected Notion workspace
+    access_mode: read-only Notion connector workspace search and page inspection
+    result: not_found
+    detail: results contained historical/status documentation but no source attachment or original test inventory
+  - location: operator-controlled devices, local Git state, backups, private archives, removable media, email, and disconnected storage
+    access_mode: inaccessible to current connectors
+    result: inaccessible
+candidate_artifacts: []
+```
+
+The bounded timestamp is intentionally not described as an exact start time or as a complete log of every connector call. That limitation narrows the record; it does not change the search result.
+
+## 3. Branch identity and preservation
 
 ```yaml
 branch: bootstrap/research-kernel-v0.1.2.1
@@ -25,6 +68,9 @@ head: d64855afc4b34bcfb0ed8f1c3766925d287b07c6
 head_date: 2026-07-22T19:57:12Z
 head_message: "docs: standardize evidence grip terminology"
 protected: false
+archival_ref: archive/bootstrap-v0.1.2.1-docs-lineage
+archival_ref_head: d64855afc4b34bcfb0ed8f1c3766925d287b07c6
+lineage_manifest: docs/source-recovery/manifests/bootstrap-v0.1.2.1-docs-lineage.md
 associated_pr: 2
 pr_title: "docs: bootstrap Native Kernel research repository"
 pr_merge: 8377f6c03a9ad5f99bc9aea18aa810ccba0b50f4
@@ -32,7 +78,9 @@ pr_merge: 8377f6c03a9ad5f99bc9aea18aa810ccba0b50f4
 
 PR #2 explicitly described the branch as a documentation-first bootstrap and stated that it added no runnable kernel code. It was merged on 2026-07-22, while the head branch remained retained.
 
-## 3. Head-tree inventory
+A separate archival ref now anchors the same exact head. The repository-resident lineage manifest preserves all 14 commit/tree identities, parent links, timestamps, changed paths, and the complete final tree with blob identities and sizes. No claim is made that a GitHub ref is cryptographically undeletable or that the manifest is a byte-complete Git bundle.
+
+## 4. Head-tree inventory
 
 The complete recursive tree at `d64855afc4b34bcfb0ed8f1c3766925d287b07c6` contains only:
 
@@ -62,7 +110,9 @@ source archive
 CI workflow for the historical suite
 ```
 
-## 4. Full reachable lineage inspection
+The exact tree and blob inventory is preserved in [`manifests/bootstrap-v0.1.2.1-docs-lineage.md`](./manifests/bootstrap-v0.1.2.1-docs-lineage.md).
+
+## 5. Full reachable lineage inspection
 
 The branch is a single-parent chain of 14 commits including the repository initial commit:
 
@@ -87,7 +137,7 @@ Every commit diff was inspected. The chain begins with `.gitignore` and a two-li
 
 The branch therefore does not contain a deleted historical runtime hidden in an earlier reachable tree.
 
-## 5. Evidence inside the branch
+## 6. Evidence inside the branch
 
 The branch documentation itself preserves the opposite boundary:
 
@@ -98,7 +148,7 @@ The branch documentation itself preserves the opposite boundary:
 
 These are historical references, not recovered bytes.
 
-## 6. Additional GitHub checks
+## 7. Additional GitHub checks
 
 The connected GitHub surface was also checked for:
 
@@ -117,9 +167,9 @@ Results:
 - `source` and `recovery` returned only later source-recovery tooling branches;
 - distinctive code identifiers resolved only to derived documentation;
 - commit search returned documentation or unrelated neighboring-project matches, not the historical source;
-- the repository has no tags and no releases.
+- the repository had no tags and no releases at the time of the sweep.
 
-## 7. Notion resweep
+## 8. Notion resweep and final synchronization
 
 Connected Notion workspace search was repeated for:
 
@@ -130,16 +180,26 @@ conclusion_frozen
 _canonical_neighbors
 ```
 
-The results again resolved to the Native Kernel historical status, roadmap, architecture, and hub pages. The full `Prototype Status v0.1.2.1 & Benchmarks` page explicitly classifies the checkpoint as an external report whose source is not located and contains no source attachment or original test inventory.
+The results resolved to the Native Kernel historical status, roadmap, architecture, and hub pages. The full `Prototype Status v0.1.2.1 & Benchmarks` page classified the checkpoint as an external report whose source is not located and contained no source attachment or original test inventory.
 
 No byte-level candidate was surfaced.
 
-## 8. Candidate and false-positive classification
+After PR #85 merged as `0c0818bea171b364f560755e37a6557a80481b0d` and all 18 post-merge jobs passed, the following Notion pages were updated and read back:
+
+- Hub — live main and Track H false-positive boundary;
+- Current State — PR #85 exact-head and post-merge proof;
+- GitHub Sync Log — PR #85 merge, workflows, result, and unchanged boundaries;
+- Prototype Status `v0.1.2.1` & Benchmarks — bootstrap branch exclusion and remaining inaccessible surfaces.
+
+The repository sync record is updated separately in `docs/ai/NOTION_HANDOFF.md`. Notion synchronization is orientation/history evidence, not runtime evidence.
+
+## 9. Candidate and false-positive classification
 
 ```yaml
 candidate_artifacts: []
 false_positive:
   ref: bootstrap/research-kernel-v0.1.2.1
+  archival_ref: archive/bootstrap-v0.1.2.1-docs-lineage
   classification: MERGED_DOCS_BOOTSTRAP_BRANCH
   source_bearing: false
   reason: >-
@@ -147,9 +207,9 @@ false_positive:
     PR #2 explicitly preserved the runtime as an external, future import.
 ```
 
-No artifact was available to hash, quarantine, manifest, or execute.
+No artifact was available to hash, quarantine, manifest as a source candidate, or execute.
 
-## 9. Conclusion
+## 10. Conclusion
 
 Supported conclusion:
 
@@ -168,7 +228,7 @@ The source is globally and permanently lost.
 
 Operator-controlled local devices, IDE history, local Git reflogs/stashes, backups, private archives, disconnected cloud folders, email attachments, removable media, and inaccessible repositories remain outside this sweep.
 
-## 10. Next gate
+## 11. Next gate
 
 Issue #1 remains open. Stage 1 remains blocked until either:
 
