@@ -2,138 +2,177 @@
 
 **[English](./README.md) · [Русский](./README.ru.md)**
 
-### Technology-neutral semantic memory contracts with replaceable profiles and bounded evidence
+### Technology-neutral semantic memory architecture, versioned contracts and bounded evidence
 
 > **Current state:** `RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY`
 
-Native Kernel studies how semantic identity, Event history, deterministic replay and bounded evidence can preserve meaning across changing databases, languages, models and compute substrates.
+Velantrim Native Kernel studies how different implementations and future compute substrates can preserve declared semantic meaning, identity, provenance, history, uncertainty and proof boundaries without silently changing them.
 
-It is **not** an operating-system kernel, Linux replacement, unikernel or device-driver framework.
+It is **not** an operating-system kernel, database product, LLM memory plugin, vector store or Python framework definition.
+
+```text
+same declared meaning
+        ↓
+different physical mechanisms
+        ↓
+named observable equivalence
+```
+
+## Architecture boundary
 
 ```text
 Architecture Canon
-→ abstract contracts
-→ replaceable PostgreSQL / SQLite profiles
-→ C2 profile evidence
-→ C3 cross-profile comparison
-→ C4 offline shadow evaluation
-→ C5 bounded synthetic operational rehearsal
+→ Versioned Abstract Contracts
+→ Replaceable Implementation Profiles
+→ Fixtures and Tests
+→ Evidence
+→ Status and Maturity
 ```
 
-PostgreSQL, SQLite, Python, JSON, CI, LLMs, vectors and hardware are replaceable instruments, not Canon.
+The Canon defines durable semantic requirements. Python, JSON, SHA-256, PostgreSQL, SQLite, UTF-8, LLMs, vectors, conventional binary hardware and CI are replaceable profiles or instruments, not permanent Canon.
+
+Current Python, PostgreSQL and SQLite code is a bounded reference implementation. It is not the final definition of Native Kernel.
+
+## Current state
+
+```text
+clean_runtime_support:       PARTIAL
+kernel_runtime_conformance: C4
+operational_validation:     C5_BOUNDED_REHEARSAL
+production_authorized:      false
+
+assertion map: 45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED / 0 FAILED
+NK-EPI:        0 SUPPORTED / 0 PARTIAL / 8 UNSUPPORTED / 0 FAILED
+```
+
+```text
+P1–P5: merged
+C4:     merged / partial / offline shadow evidence
+C5:     merged / partial / bounded synthetic operational rehearsal
+```
+
+C5 does not promote semantic assertions and does not authorize production.
+
+## Checkpoint model
+
+Machine-readable truth is recorded in [`project-state.json`](project-state.json) under `nk-project-state/2`.
+
+| Role | Checkpoint |
+|---|---|
+| Machine truth reconciliation merge | `d9eee591de308a689ace940c2efe58c9e8a137f2` |
+| Runtime checkpoint | `675aa4b398a2fc0181dc71d38904a2d33a09f5f8` |
+| Runtime integrity checkpoint | `a1cdc6d8f36d67f40f065641809bc6da463c10a4` |
+| Evidence-producing checkpoint | `296981ae84ad5bdab5dabbec9b7b9ebb43af63d7` |
+| Notion synchronized through | `626f34e6328b455258f2dd5fcf2145ec4db64a60` |
+
+Live `main` is resolved from GitHub or the checked-out Git ref. A committed manifest records verified checkpoints and their expected relationship to HEAD; it does not attempt to contain its own commit SHA.
+
+## Current evidence
+
+Two immutable C5 evidence identities are repository-resident:
+
+```text
+evidence/c5/2026-08-07/manifest.json
+evidence/c5/2026-08-08-adr0023/manifest.json
+```
+
+ADR-0023 sets linked SQLite `3.51.3` as the current WAL floor. Historical SQLite `3.45.1` artifacts remain unchanged and version-bound.
+
+Evidence proves only its declared code, environment, fixtures, workflow runs and bounded outputs.
+
+```text
+repository-resident evidence
+≠ independent custody
+≠ complete authenticity
+≠ live-data safety
+≠ physical deletion
+≠ production readiness
+```
+
+## Three independent tracks
+
+```text
+H — Historical Recovery
+  authentic v0.1.2.1 and original 44-test suite
+  NOT_FOUND_IN_ACCESSIBLE_SOURCES / OPEN / INDEPENDENT
+
+C — Clean Implementation
+  P1–P5 + C4 + C5
+  ACTIVE / PARTIAL
+
+R — Long-Horizon Research
+  PROPOSED / BOUNDED / NO AUTOMATIC PROMOTION
+```
+
+Clean implementation does not claim recovery of `v0.1.2.1`. Historical recovery does not block the clean lineage. Research prose does not become Canon or runtime automatically.
+
+## Current gates
+
+```text
+human-readable truth reconciliation
+→ Issues #14–#17 and Notion reconciliation
+→ license/publication operator decision — Issue #18
+→ ADR-0024 operator decision — Issue #74
+→ NK-SAM and named equivalence profiles
+→ Event/history commitment contract
+→ only then reducer-v2 runtime
+```
+
+Not yet authorized in the current slice:
+
+- reducer-v2 runtime;
+- executable NK-EPI;
+- Temporal runtime;
+- full Admission lifecycle;
+- operational deletion;
+- full independent Rust/Go implementation;
+- Titan, Crystal or Mentaury integration;
+- production promotion.
 
 ## Human quickstart
 
-The fastest technology-neutral check requires only Python 3.11 or 3.12:
+The smallest semantic-core check requires Python 3.11 or 3.12:
 
 ```bash
 python -m unittest discover -s tests -p 'test_semantic_core.py' -v
 python -m unittest discover -s tests -p 'test_p1_manifest.py' -v
 ```
 
-The SQLite profile deliberately fails closed when Python links SQLite older than 3.51.3. Build instructions, PostgreSQL setup, expected skips and full local commands are in [`docs/QUICKSTART.md`](docs/QUICKSTART.md). Terminology and non-equivalences are collected in [`docs/GLOSSARY.md`](docs/GLOSSARY.md).
+Machine-state integrity:
 
-## Current evidence
-
-> **Integrity revalidation:** ADR-0023 is merged and repository-reproduced on linked SQLite 3.51.3. Exact P5/C3/C4/C5 checkpoints and eight original C5 ZIPs are preserved under a new evidence identity. The historical SQLite 3.45.1 artifacts remain unchanged; assertion counts were re-adjudicated without promotion or arithmetic change.
-
-> **Post-merge review finalization:** four follow-up gaps reproduced on `main@d8fe6c9…` were corrected by [PR #72](https://github.com/velantrian/velantrim-native-kernel/pull/72), exact head `ebb6ac99e2051c01f0fb8e8effc7eaad6d4fe8da`, squash-merged as `main@a1cdc6d8f36d67f40f065641809bc6da463c10a4`. JSON type-exact Event comparison, SQLite-builder workflow triggers, compatible v1 evidence-schema fields and exact associated-run identities passed all nine PR workflows and all nine post-merge `main` workflows. Retained ZIPs remain evidence only of their original producing commits and are not relabelled as proof of this later code.
-
-```text
-Single-profile C2: 41 SUPPORTED / 13 PARTIAL / 18 UNSUPPORTED
-Cross-profile C3:  45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED
-Offline C4 scope:  45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED
-C5 assertion map:  45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED
-support_state:     PARTIAL
-NK-EPI:            0 / 8 SUPPORTED
+```bash
+python tools/ai_context/validate_project_state.py --repo .
 ```
 
-```text
-kernel_runtime_conformance: C4
-operational_validation: C5_BOUNDED_REHEARSAL
-production_authorized: false
-```
+The SQLite profile fails closed when Python links SQLite older than `3.51.3`. PostgreSQL setup, expected skips and full commands are in [`docs/QUICKSTART.md`](docs/QUICKSTART.md).
 
-## Three independent tracks
+## Explicit non-equivalences
 
 ```text
-H — historical recovery
-v0.1.2.1 and original 44-test suite
-NOT_FOUND_IN_ACCESSIBLE_SOURCES / still open
-
-C — clean implementation
-P1–P5 + C4 + C5
-ACTIVE / PARTIAL
-
-R — long-horizon research
-PROPOSED / BOUNDED / no automatic promotion
-```
-
-Clean implementation does not claim recovery of `v0.1.2.1`. Historical recovery does not block the clean lineage.
-
-## C5 bounded operational rehearsal
-
-```text
-plan:       native-kernel/c5-bounded-rehearsal-v1
-protocol:   nk-operational-plan/1
-sha256:     4ed680ff4e83ac9d1aca6c1ab8a435ecb19af4a5badf1be8202bc842f964b098
-scenarios:  18
-deployment: CI_EPHEMERAL_SYNTHETIC
-```
-
-Final verified checkpoint:
-
-```text
-head 3d56912260ea41b5b501b65477bff1642dfc2d58
-run  31205512911 — PASS
-Python 3.11/3.12 × PostgreSQL 16/18 × SQLite 3.45.1
-```
-
-This matrix is historical evidence of those exact runs, not the current SQLite minimum. See [ADR-0023](docs/adr/0023-harden-sqlite-wal-and-event-integrity.md).
-
-ADR-0023 safe-runtime checkpoint:
-
-```text
-head 675aa4b398a2fc0181dc71d38904a2d33a09f5f8
-P5/C3 run 31251526992 — PASS
-C4 run     31251526965 — PASS
-C5 run     31251526982 — PASS
-Python 3.11/3.12 × PostgreSQL 16/18 × linked SQLite 3.51.3
-```
-
-```text
-18/18 scenarios PASS in every matrix job
-18 Receipts per job
-0 canary leaks
-0 recovery failures
-0 uncontained incidents
-```
-
-The historical and ADR-0023 C5 identities preserve sixteen exact ZIP archives under [`evidence/c5/`](evidence/c5/README.md) with archive- and file-level hashes.
-
-## Explicit boundary
-
-```text
-C5 bounded rehearsal
-≠ production readiness
-≠ live user traffic
-≠ cloud IAM / multi-region HA
-≠ compliance certification
-≠ physical backup or deletion
-≠ operational equivalence
-≠ authority promotion
-≠ ecosystem wiring
-≠ NK-EPI promotion
+Claim ≠ truth
+admission ≠ objective truth
+Unknown ≠ False
+runtime implementation ≠ evidence
+evidence ≠ operator authorization
+C5 PASS ≠ production readiness
+PostgreSQL + SQLite ≠ full substrate neutrality
+hash chain ≠ complete authenticity
+logical ERASED ≠ physical deletion
+public repository ≠ open-source license
 ```
 
 ## Read next
 
-- [`docs/QUICKSTART.md`](docs/QUICKSTART.md)
-- [`docs/GLOSSARY.md`](docs/GLOSSARY.md)
-- [`project-state.json`](project-state.json)
-- [`STATUS.md`](STATUS.md)
-- [`AGENTS.md`](AGENTS.md)
-- [`evidence/c5/README.md`](evidence/c5/README.md)
-- [`docs/ai/C5_IMPLEMENTATION_RECORD.md`](docs/ai/C5_IMPLEMENTATION_RECORD.md)
-- [`docs/research/POST_C5_RESEARCH_BACKLOG.md`](docs/research/POST_C5_RESEARCH_BACKLOG.md)
-- [`docs/CONFORMANCE_MODEL.md`](docs/CONFORMANCE_MODEL.md)
+- [`STATUS.md`](STATUS.md) — authoritative human current-state surface
+- [`project-state.json`](project-state.json) — authoritative committed machine status
+- [`ROADMAP.md`](ROADMAP.md) — active gate sequence
+- [`docs/QUICKSTART.md`](docs/QUICKSTART.md) — setup and tests
+- [`docs/GLOSSARY.md`](docs/GLOSSARY.md) — terminology and non-equivalences
+- [`AGENTS.md`](AGENTS.md) — mandatory repository instructions
+- [`docs/ai/CURRENT_STATE.md`](docs/ai/CURRENT_STATE.md) — AI continuity checkpoint
+- [`docs/ai/KNOWN_RISKS.md`](docs/ai/KNOWN_RISKS.md) — active and closed risks
+- [`evidence/c5/README.md`](evidence/c5/README.md) — retained evidence identities
+- [`docs/CONFORMANCE_MODEL.md`](docs/CONFORMANCE_MODEL.md) — conformance levels and proof boundaries
+- [`docs/research/POST_C5_RESEARCH_BACKLOG.md`](docs/research/POST_C5_RESEARCH_BACKLOG.md) — proposed research only
+
+Historical status and review chronology remains available in Git history and version-bound implementation/evidence records.

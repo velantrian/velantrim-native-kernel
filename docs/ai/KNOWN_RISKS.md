@@ -1,38 +1,25 @@
 # ⚠️ Native Kernel Known Risks and Required Proof
 
-**Snapshot:** 2026-08-08
-**Verified ADR-0023 runtime checkpoint:** `675aa4b398a2fc0181dc71d38904a2d33a09f5f8`
-**Repository status:** `RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY`
+```yaml
+document_role: ACTIVE_RISKS
+status_as_of: 2026-08-09
+authoritative_machine_source: ../../project-state.json
+repository_status: RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY
+```
 
-C5 closes none of the production, live-data, compliance, physical-deletion, provider-IAM, multi-region, historical-recovery or ecosystem-authority risks.
+This page lists current risks and explicitly closed historical findings. A closed code defect may still leave version-bound historical evidence or a broader unresolved threat model.
 
-## P0 — Historical SQLite Event verification was incomplete
+## Risk-state vocabulary
 
-The 2026-08-07 SQLite verifier did not bind `contract`, `recorded_at`, nested `payload`, or the exact envelope key set to stored Event columns. A canonical re-hashed malformed envelope could therefore pass SQLite verification while PostgreSQL rejected several of the same mismatches.
+```text
+OPEN                 unresolved technical, governance or evidence risk
+MITIGATED            bounded control exists; residual risk remains
+CLOSED               exact finding corrected and repository-verified
+HISTORICAL_BOUNDARY  retained evidence remains valid only for its original version/scope
+PROPOSED             research or decision work, not runtime protection
+```
 
-Post-merge review found one residual type-confusion path: Python considers booleans equal to corresponding integers, so structural equality could accept a re-hashed envelope with `true` where the canonical payload stored `1`.
-
-**State:** `FOLLOW-UP IN DRAFT PR #72 / REPOSITORY CI PENDING / HISTORICAL EVIDENCE VERSION-BOUND`. The correction compares each committed Event field by canonical JSON bytes in SQLite and PostgreSQL. Exact repository CI remains required. Earlier evidence is not erased or retroactively repaired.
-
-## P0 — Evidence bundle contract and verifier identity drift
-
-The ADR-0023 manifest published `evidence_purpose` and `sqlite_integrity` under `nk-evidence-bundle/1`, but the v1 JSON Schema did not declare them. The repository verifier also accepted arbitrary positive P5/C3 and C4 associated run IDs.
-
-**State:** `FOLLOW-UP IN DRAFT PR #72 / REPOSITORY CI PENDING`. The v1 contract is extended compatibly for the optional revalidation fields, while the verifier binds both ADR-0023 checkpoint roles to exact commit and P5/C3/C4/C5 run identities. This verifies repository-declared identity; it is not an external signature or independent custody proof.
-
-## P1 — SQLite builder workflow path trigger gap
-
-A change limited to `tools/sqlite/build_safe_sqlite.sh` did not trigger P5/C3, C4 or C5 although all three workflows execute it.
-
-**State:** `FOLLOW-UP IN DRAFT PR #72 / REPOSITORY CI PENDING`. Both pull-request and `main` push filters now include `tools/sqlite/**` in every dependent workflow.
-
-## P0 — Historical SQLite 3.45.1 is in the WAL-reset bug range
-
-SQLite upstream documents a rare corruption race for WAL databases using multiple connections with concurrent write/checkpoint activity in versions 3.7.0 through 3.51.2. All retained C5 jobs used SQLite 3.45.1.
-
-**State:** `MITIGATED IN CURRENT PROFILE / HISTORICAL EVIDENCE VERSION-BOUND`. The profile fails closed below linked SQLite 3.51.3, CI pins and hash-checks the official source archive, and declared/runtime mismatch is rejected. Both safe-runtime checkpoints are repository-captured. Known backports are not implicitly allowlisted; historical artifacts remain immutable and explicitly version-bound.
-
-## P0 — Bounded rehearsal may be mistaken for production readiness
+## P0 — Production overclaim
 
 ```text
 ephemeral CI + synthetic data + 18 scenarios
@@ -41,18 +28,22 @@ ephemeral CI + synthetic data + 18 scenarios
 ≠ sustained operations
 ```
 
-**State:** `OPEN / PRIMARY C5 COMMUNICATION RISK`.
+**State:** `OPEN / PRIMARY COMMUNICATION AND GOVERNANCE RISK`.
 
-## P0 — C5 may be mistaken for assertion promotion
+C5 establishes a bounded synthetic operational rehearsal only. Production authorization remains `false`.
+
+## P0 — Semantic assertion overclaim
 
 ```text
 kernel_runtime_conformance: C4
-operational_validation: C5_BOUNDED_REHEARSAL
-assertion map: 45 / 10 / 17 / 0
-NK-EPI: 0 / 8 SUPPORTED
+operational_validation:     C5_BOUNDED_REHEARSAL
+assertion map:              45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED / 0 FAILED
+NK-EPI:                     0 SUPPORTED / 0 PARTIAL / 8 UNSUPPORTED / 0 FAILED
 ```
 
-Operational evidence does not turn partial or unsupported assertions into supported ones.
+**State:** `OPEN`.
+
+Operational success cannot promote unsupported or partial semantic assertions. In particular, `NK-EPI-004 — Unknown ≠ False` is not executable support yet.
 
 ## P0 — Historical and clean lineages may be collapsed
 
@@ -62,31 +53,80 @@ clean P1–P5 + C4 + C5
 ≠ original 44-test evidence
 ```
 
-Issue #1 remains open and independent. `NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GLOBALLY_LOST`.
+**State:** `OPEN / GOVERNANCE BOUNDARY`.
 
-## P0 — Research may be mistaken for authorization
+Issue #1 remains independent. `NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GLOBALLY_LOST`.
 
-`docs/research/POST_C5_RESEARCH_BACKLOG.md` contains proposed work only. NK-EPI, admission, signed Receipts, erasure changes, cross-language profiles and ecosystem adapters require separate decisions and evidence.
+## P0 — Reducer referential semantics are incomplete
 
-## P0 — Synthetic privacy checks may be mistaken for privacy compliance
+Reducer v1 permits histories whose LINK, UTILIZED, SUPERSEDED or ERASED references do not satisfy the proposed stricter rules in Issue #74 / ADR-0024.
 
-Canaries were absent from inspected artifacts. This does not prove real personal-data handling, data-subject rights, retention, breach response, provider logs or jurisdictional compliance.
+**State:** `OPEN / CONTRACT DECISION REQUIRED`.
 
-## P0 — Logical export may be mistaken for disaster recovery
+Reducer v1 must not be changed in place. Any stricter behavior requires a separately versioned reducer, fixtures, migration assessment and evidence.
 
-The backup preserves exact synthetic Event bytes for one instance and supports quarantined import/replay. It is not physical PostgreSQL backup, WAL restore, provider snapshot, point-in-time recovery, cross-region restore or restore-under-load proof.
+## P0 — Event/history commitment is not complete authenticity
+
+The current hash chain and exact Event verification are integrity signals. The portable semantic commitment boundary, history-head model, fork/truncation/rollback model, external witness model and authenticity claims remain incomplete.
+
+**State:** `OPEN`.
+
+```text
+hash chain ≠ complete authenticity
+signature over incomplete commitment ≠ complete integrity
+```
 
 ## P0 — Physical deletion remains absent
 
-No physical or cryptographic deletion is executed across databases, backups, logs, artifacts, providers or keys. All C5 Receipts deny this proof.
+No complete physical or cryptographic deletion is executed and verified across databases, backups, replicas, logs, exports, caches, evidence artifacts, external providers or keys.
 
-## P0 — Operational equivalence remains absent
+**State:** `OPEN`.
 
-PostgreSQL and SQLite pass the same bounded scenarios, but concurrency, durability, replication, failover, administration, filesystem and managed-provider behavior remain different.
+Logical `ERASED`, restriction and a bounded Receipt must not be represented as global physical deletion.
 
-## P1 — Durable evidence is repository-resident but not independent custody
+## P0 — License and contribution rights are unresolved
 
-Sixteen exact ZIPs across the historical and ADR-0023 identities are preserved and verified under `evidence/c5/`. This closes the immediate Actions-retention loss, but does not provide:
+The repository is public but has no operator-approved open-source or source-available regime.
+
+**State:** `OPEN / ISSUE #18 / OPERATOR DECISION REQUIRED`.
+
+```text
+publicly readable source ≠ permission to copy, modify or redistribute
+```
+
+External collaboration, package publication, CLA/DCO policy, patent terms and contribution acceptance remain blocked pending a decision.
+
+## P0 — Research may be mistaken for authorization
+
+The post-C5 backlog includes NK-EPI, Temporal, Admission, independent profiles, signed Receipts, deletion, ecosystem adapters and future substrates.
+
+**State:** `OPEN / GOVERNANCE BOUNDARY`.
+
+Research prose does not create Canon, accepted contracts, runtime behavior, evidence or production authority.
+
+## P1 — Operational equivalence remains absent
+
+PostgreSQL and SQLite pass the same bounded semantic scenarios, but concurrency, durability, replication, failover, administration, filesystem and managed-provider behavior differ.
+
+**State:** `OPEN`.
+
+C3 is bounded semantic/behavioural comparison, not full operational equivalence.
+
+## P1 — Independent implementation evidence remains absent
+
+Current PostgreSQL and SQLite profiles share a Python semantic lineage. This is stronger than a single storage profile but weaker than a fully independent language/runtime implementation.
+
+**State:** `OPEN`.
+
+A future independent implementation must own its encoder, Event parser/verifier, reducer, state codec and fixture runner and pass declared equivalence profiles without using Python as a hidden oracle.
+
+## P1 — Durable evidence lacks independent custody
+
+Sixteen exact ZIPs across the historical and ADR-0023 identities are repository-resident and hash-verified.
+
+**State:** `MITIGATED / RESIDUAL RISK OPEN`.
+
+Still absent:
 
 - independent third-party custody;
 - signed timestamping;
@@ -94,24 +134,83 @@ Sixteen exact ZIPs across the historical and ADR-0023 identities are preserved a
 - reviewer quorum;
 - disaster recovery for the Git repository itself.
 
-## P1 — Threshold representativeness
+## P1 — Synthetic privacy checks are not privacy compliance
 
-The current p95 limit is 5000 ms and workload is 24 Events per profile. Passing it is not a capacity, scale, SLO or cost claim.
+Canaries were absent from inspected synthetic artifacts.
 
-## P1 — Environment scope
+**State:** `OPEN`.
 
-Current preserved C5 evidence is Ubuntu 24.04, Python 3.11/3.12, PostgreSQL 16/18, historical runner SQLite 3.45.1 and current linked SQLite 3.51.3. Other OS, architecture, provider, filesystem and runtime combinations are untested.
+This does not prove real personal-data handling, data-subject rights, retention, provider logs, breach response or jurisdictional compliance.
 
-SQLite 3.45.1 is an evidence-bound historical environment, not a recommended future minimum. ADR-0023 sets linked SQLite 3.51.3 as the WAL floor; the replacement exact evidence cycle is captured under a separate identity.
+## P1 — Logical export is not disaster recovery
 
-## P1 — Machine-readable state can drift
+The bounded export/import path preserves exact synthetic Event bytes and quarantined replay for one instance.
 
-`project-state.json` reduces ambiguity but is still a snapshot. Live issue state, default branch and HEAD can change. Validators therefore preserve verification method, observed time and ancestor-check semantics rather than claiming self-updating truth.
+**State:** `OPEN`.
 
-## P1 — Plan governance
+It is not physical PostgreSQL backup, WAL recovery, provider snapshot, point-in-time recovery, cross-region restore or restore-under-load proof.
 
-The C5 plan is repository-local and approved by ADR-0021. There is no signed registry, independent reviewer quorum, revocation system or external audit.
+## P1 — Scale and environment scope are narrow
+
+Current operational workloads are small, and preserved evidence covers Ubuntu 24.04, Python 3.11/3.12, PostgreSQL 16/18 and the declared SQLite versions.
+
+**State:** `OPEN`.
+
+Passing current thresholds is not a capacity, SLO, cost, architecture or broad portability claim.
+
+## P1 — Current-state surfaces can drift
+
+GitHub refs, issue states, Actions and Notion can change after a committed snapshot.
+
+**State:** `MITIGATED BY PR #80 / HUMAN AND NOTION RECONCILIATION IN PROGRESS`.
+
+`nk-project-state/2` now separates checkpoint roles and declares the expected relation to HEAD. It does not make committed metadata self-updating. Live state still requires GitHub verification, and Notion requires a separate sync record.
+
+## Closed historical findings
+
+### Exact Event type comparison gap
+
+Python boolean/integer equality could previously allow a re-hashed envelope with `true` where canonical payload stored `1`.
+
+**State:** `CLOSED BY PR #72 / EXACT PR AND MAIN CI PASS / HISTORICAL EVIDENCE VERSION-BOUND`.
+
+The correction compares committed Event fields by canonical JSON bytes in both PostgreSQL and SQLite. Earlier artifacts remain evidence only of their producing versions.
+
+### Evidence schema and associated-run identity drift
+
+ADR-0023 evidence fields were not fully represented in the v1 schema, and associated P5/C3/C4 run identities were insufficiently constrained.
+
+**State:** `CLOSED BY PR #72 / EXACT PR AND MAIN CI PASS`.
+
+This establishes repository-declared identity binding, not external signatures or independent custody.
+
+### SQLite builder workflow trigger gap
+
+A change limited to `tools/sqlite/build_safe_sqlite.sh` did not trigger every dependent profile workflow.
+
+**State:** `CLOSED BY PR #72 / EXACT PR AND MAIN CI PASS`.
+
+### Historical SQLite WAL-reset exposure
+
+Historical C5 evidence used SQLite `3.45.1`, which lies below the current safe WAL floor.
+
+**State:** `MITIGATED IN CURRENT PROFILE / HISTORICAL EVIDENCE VERSION-BOUND`.
+
+The current profile fails closed below linked SQLite `3.51.3`; safe-version evidence has its own immutable identity. Historical bytes are not rewritten.
 
 ## Update rule
 
-Always record exact plan identity, SHA, run, artifact bytes, limitations, verification method and next gate. Never convert one bounded PASS, retained archive or research note into production, truth, compliance, deletion or ecosystem-authority claims.
+For every risk transition record:
+
+- exact contract or decision;
+- exact SHA and workflow runs;
+- affected evidence identity;
+- residual risk;
+- proof boundary;
+- whether operator approval is required.
+
+Never convert a bounded PASS, retained archive, closed bug or research proposal into production, truth, compliance, deletion, full neutrality or ecosystem-authority claims.
+
+## Historical snapshot
+
+The pre-reconciliation risk chronology remains available at [publication checkpoint `626f34e…`](https://github.com/velantrian/velantrim-native-kernel/blob/626f34e6328b455258f2dd5fcf2145ec4db64a60/docs/ai/KNOWN_RISKS.md).

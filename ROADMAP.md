@@ -1,64 +1,65 @@
 # Roadmap
 
-Velantrim Native Kernel now maintains three independent tracks. They may progress at different speeds, but their statuses and evidence must never be collapsed.
+```yaml
+document_role: ACTIVE_ROADMAP
+status_as_of: 2026-08-09
+authoritative_machine_source: project-state.json
+repository_status: RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY
+```
+
+Velantrim Native Kernel maintains three independent tracks. Their statuses, evidence and authority must never be collapsed.
 
 ```text
 H — Historical Recovery
-authentic v0.1.2.1 → original 44 tests → controlled import, if recovered
-
 C — Clean Implementation
-accepted contracts → P1–P5 → C3 → C4 → C5 → future bounded evidence
-
 R — Long-Horizon Research
-hypothesis → explicit contract → experiments → evidence → decision → possible implementation
 ```
+
+## Governing sequence
+
+```text
+Architecture Canon
+→ versioned abstract contract
+→ failure and threat model
+→ explicit decision
+→ runtime implementation
+→ positive and negative fixtures
+→ cross-profile comparison
+→ exact evidence
+→ status update
+→ Notion synchronization
+```
+
+Runtime must not define new semantics before the contract. Evidence must not be relabelled after the fact. Maturity does not rise automatically because more tests passed.
 
 ## Track H — Historical Recovery
 
 **Status:** `BLOCKED / ACTIVE EVIDENCE-RECOVERY / INDEPENDENT`
 
-Purpose: identify the authentic source archive or original location for the externally reported `v0.1.2.1` checkpoint and original 44-test suite.
-
-Current facts:
-
-- authentic source bytes and original tests are not found in accessible sources;
-- operator-controlled devices, backups and inaccessible archives remain outside the completed sweep;
-- `NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GLOBALLY_LOST`;
-- no clean implementation artifact may be relabelled as recovered history.
-
-Allowed:
-
-- search and document locations;
-- preserve candidates read-only;
-- hash and verify exact bytes;
-- record an operator provenance decision when sufficient evidence exists.
-
-Prohibited:
-
-- approximation labelled `v0.1.2.1`;
-- new tests labelled as the original 44;
-- inherited historical claims without provenance.
-
-Possible outcomes:
+Purpose: recover the authentic `v0.1.2.1` source and original 44-test suite from permitted sources.
 
 ```text
-authentic source recovered
-→ controlled historical import under separate evidence
-
-declared exhaustive search + operator decision
-→ LOST / NON-REPRODUCIBLE EXTERNAL CHECKPOINT
-
-neither condition met
-→ remain NOT_FOUND_IN_ACCESSIBLE_SOURCES
+NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GLOBALLY_LOST
+clean reconstruction ≠ authentic historical recovery
 ```
 
-Track H does not block Track C.
+If a candidate appears:
+
+```text
+preserve original container
+→ hash before extraction
+→ isolated inspection
+→ UNVERIFIED_CANDIDATE manifest
+→ byte verification
+→ provenance review
+→ operator decision
+```
+
+Track H does not block Track C. No reconstructed runtime may be called authentic `v0.1.2.1` without provenance evidence.
 
 ## Track C — Clean Implementation
 
 **Status:** `ACTIVE / PARTIAL / NOT PRODUCTION-READY`
-
-The clean lineage was accepted by ADR-0015 and is independent of historical recovery.
 
 ```text
 P1 semantic core                         MERGED / REPOSITORY-TESTED
@@ -67,83 +68,252 @@ P3 replay / projections / Receipts       MERGED / REPOSITORY-INTEGRATION-TESTED
 P4 PostgreSQL assertion conformance      MERGED / PARTIAL / C2
 P5 SQLite + cross-profile comparison     MERGED / PARTIAL / C2 + C3
 C4 offline shadow evaluation             MERGED / PARTIAL
-C5 bounded operational rehearsal         MERGED / PARTIAL
+C5 bounded operational rehearsal         MERGED / PARTIAL / SYNTHETIC
 ```
-
-Current evidence:
 
 ```text
 kernel_runtime_conformance: C4
-operational_validation: C5_BOUNDED_REHEARSAL
-assertion map: 45 / 10 / 17 / 0
-NK-EPI: 0 / 8 SUPPORTED
+operational_validation:     C5_BOUNDED_REHEARSAL
+assertion map:              45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED / 0 FAILED
+NK-EPI:                     0 SUPPORTED / 0 PARTIAL / 8 UNSUPPORTED / 0 FAILED
+production_authorized:      false
 ```
 
-### C5 preservation checkpoint
+## Active phase sequence
 
-Exact implementation-main and final-main ZIP artifacts are retained under `evidence/c5/2026-08-07/`.
+### Phase 0 — Truth-Surface Reconciliation
 
-### Next clean-lineage work
+#### 0A — Machine-readable truth
 
-Potential work must be separately scoped:
+**State:** `MERGED AS PR #80 / POST-MERGE VALIDATION REQUIRED`.
 
-1. decide versioned reducer referential semantics under Issue #74 / ADR-0024 before changing dangling, erased, self-reference or cycle behavior;
-2. first executable NK-EPI vertical slice;
-3. admission-boundary evidence;
-4. evidence automation for future runs;
-5. deletion evidence without physical-erasure overclaim;
-6. independent cross-language conformance reader.
+Delivered:
 
-Reducer v1 remains the interpretation contract for existing evidence until a separately accepted and implemented compatibility/migration decision exists. Operational work may continue, but it cannot alone raise semantic conformance or authorize C6.
+- `nk-project-state/2`;
+- non-self-referential checkpoint roles;
+- registry↔project-state consistency;
+- per-family implementation, fixture and evidence status;
+- preserved fail-closed evidence and SQLite integrity guards.
 
-## Track R — Long-Horizon Research
+#### 0B — Human-readable truth
 
-**Status:** `PROPOSED / BOUNDED / NO AUTOMATIC PROMOTION`
+**State:** `IN PROGRESS`.
 
-Track R contains ideas that are useful to preserve but are not yet accepted runtime commitments. Current backlog: [`docs/research/POST_C5_RESEARCH_BACKLOG.md`](docs/research/POST_C5_RESEARCH_BACKLOG.md).
+Scope:
 
-Research areas include:
+- separate current state, history, proposal, known gap and next authorized gate;
+- remove stale PR/CI wording;
+- replace ambiguous `0 / 8 SUPPORTED` notation with exact NK-EPI counts;
+- correct profile and roadmap drift;
+- preserve historical snapshots through immutable links and Git history.
 
-- `NK-EPI-004 — unknown ≠ false`;
-- explicit epistemic admission boundary;
-- evidence-bearing erasure states;
-- independent language/runtime profiles;
-- signed Receipts;
-- licensing and contribution governance;
-- controlled Titan/Crystal/Mentaury adapters;
-- neuromorphic, photonic, analog, probabilistic and other future substrates;
-- bounded bio-inspired and Curiosity research.
+#### 0C — Issues and Notion
 
-Hard boundaries:
+**State:** `PENDING AFTER 0B MERGE`.
 
-- research vocabulary does not become Canon automatically;
-- graph, relevance, salience, utility, repetition and model output are not truth;
-- Rust, Python, SQL, LLMs, vectors and hardware remain profile choices;
-- no research note authorizes runtime, production or ecosystem wiring;
-- every promotion follows the rule below.
+Scope:
+
+- reconcile Issues #14–#17 without automatic closure;
+- record completed scope, evidence, remaining work, next gate and non-goals;
+- create a compact Notion current-state dashboard;
+- separate current pages from historical reports and proposals;
+- record exact GitHub publication and synchronization checkpoints.
+
+## Phase 0.5 — License and Publication Decision
+
+**State:** `OPEN / ISSUE #18 / OPERATOR DECISION REQUIRED`.
+
+The operator must choose the rights regime for code, documentation, diagrams, datasets, contributions, patents, trademarks, recovered historical source and package publication.
+
+AI agents may prepare options but must not choose or imply a license.
+
+## Phase 1 — ADR-0024 Final Decision
+
+**State:** `PROPOSED / APPROVAL PENDING / RUNTIME NOT STARTED`.
+
+The operator must decide:
+
+```text
+ACCEPT
+ACCEPT_WITH_CHANGES
+REVISE
+REJECT
+```
+
+Reducer v1 remains immutable and authoritative for existing histories and evidence. Any stricter referential behavior belongs to reducer v2 with stable failure codes and explicit migration boundaries.
+
+## Phase 1.25 — Semantic Abstract Machine and Equivalence
+
+**State:** `PROPOSED`.
+
+Define the Native Kernel Semantic Abstract Machine (`NK-SAM`) and named equivalence profiles:
+
+- byte;
+- structural;
+- state;
+- observational;
+- trace;
+- epistemic;
+- authority;
+- Receipt;
+- probabilistic.
+
+Separate semantic identity from the reference encoding profile. No implementation may claim generic “equivalence” without naming the profile and allowed differences.
+
+## Phase 1.5 — Event and History Commitment
+
+**State:** `PROPOSED / REQUIRED BEFORE REDUCER-V2 HISTORIES`.
+
+Separate:
+
+```text
+portable semantic history commitment
+≠ operational/profile receipt
+```
+
+Classify every Event field as semantically committed, operationally committed, derived or uncommitted metadata. Define history-head, mutation, reorder, truncation, fork, rollback and version-substitution fixtures before considering signatures or external witnesses.
+
+## Phase 2 — Reducer v2
+
+**State:** `BLOCKED BY PHASES 0.5, 1, 1.25 AND 1.5`.
+
+Bounded sequence:
+
+1. reducer registry and immutable v1 reader;
+2. reducer v2 semantic core;
+3. stable failure codes and negative fixtures;
+4. instance/history-level version binding;
+5. migration assessment without silent rewrite;
+6. PostgreSQL and SQLite integration;
+7. new evidence identity.
+
+No in-place reinterpretation of reducer-v1 histories is allowed.
+
+## Phase 3 — Independent Conformance Foundation
+
+**State:** `PROPOSED`.
+
+Choose Rust or Go through an operator/engineering decision. The first independent scope should own:
+
+- canonical identity vectors;
+- Event parsing and commitment verification;
+- reducer-v1 reader;
+- reducer v2;
+- semantic state comparison.
+
+It must not invoke Python as a hidden oracle.
+
+## Phase 4 — Executable NK-EPI-004
+
+**State:** `PROPOSED / 0 OF 8 NK-EPI ASSERTIONS SUPPORTED`.
+
+First vertical slice:
+
+```text
+Unknown ≠ False
+```
+
+Required path:
+
+```text
+representation
+→ admission boundary
+→ Event
+→ reducer
+→ state
+→ projection
+→ retrieval
+→ query result
+→ Receipt
+```
+
+Negative fixtures must reject silent conversion of missing, unanswered, unavailable, unresolved or unevaluated states into `FALSE`.
+
+## Phase 5 — Temporal v0.1
+
+**State:** `PROPOSED`.
+
+Initial scope:
+
+- valid time;
+- recorded time;
+- write order;
+- explicit interval encoding;
+- identity-impact decision;
+- bounded as-of queries.
+
+Do not silently interpret “valid at T” as objectively true at T.
+
+## Phase 6 — Admission v0.1
+
+**State:** `PROPOSED`.
+
+Admission must be a replayable decision with explicit policy, authority, actor, scope, evidence references, reason codes and known limits.
+
+```text
+admitted for a role and scope ≠ objectively true
+```
+
+## Phase 7 — Independent Implementation Extension
+
+**State:** `PROPOSED`.
+
+Extend independent support to NK-EPI, Temporal, Admission verification and cross-language evidence. Two storage profiles sharing one semantic implementation are not full substrate-neutrality proof.
+
+## Phase 8 — Operational Deletion
+
+**State:** `PROPOSED / PHYSICAL DELETION NOT ESTABLISHED`.
+
+Inventory actual locations, execution methods, verification, retries, retention and restore behavior. Resolve the conflict between immutable audit evidence and privacy/deletion obligations before making stronger claims.
+
+## Phase 9 — Performance Evidence
+
+**State:** `PROPOSED`.
+
+Establish reproducible correctness, nightly and controlled-scale workloads before optimization. Every optimization must preserve semantic state, state digest, failure codes, Receipt semantics and the declared equivalence profile.
+
+## Phase 10 — Deployment-Specific Governance and Maturity
+
+**State:** `UNDEFINED / NOT AUTHORIZED`.
+
+No normative C6–C8 ladder is accepted. Production readiness must be defined per deployment profile, data class, users, exposure, threat model, operations, recovery, deletion, privacy and independent review.
+
+## Current authorized work
+
+```text
+complete Phase 0B
+→ complete Phase 0C
+→ prepare Phase 0.5 options
+→ prepare Phase 1 decision package
+→ define Phase 1.25
+→ define Phase 1.5
+```
+
+Not authorized inside the current slice:
+
+- reducer-v2 runtime;
+- executable NK-EPI;
+- Temporal runtime;
+- full Admission;
+- operational deletion;
+- full Rust/Go implementation;
+- Titan, Crystal or Mentaury integration;
+- distributed multi-writer architecture;
+- C6 or production promotion.
 
 ## Promotion rule
 
 ```text
 research hypothesis
-→ explicit contract
-→ reproducible code and tests
-→ failure cases
+→ explicit versioned contract
+→ failure and threat model
+→ reproducible implementation and tests
+→ negative fixtures
 → exact evidence
 → decision record
-→ bounded implementation proposal
-→ threat model / deletion / rollback where applicable
 → operator approval
 ```
 
-## C6 gate
+## Historical roadmap
 
-C6 is not authorized. It may be discussed only after:
-
-- durable C5 evidence remains verifiable;
-- GitHub and Notion current-state surfaces agree;
-- `project-state.json` is validated in CI;
-- at least one NK-EPI assertion has executable support;
-- admission and overclaim boundaries are tested;
-- operational environment risks are explicitly addressed;
-- a separate ADR and operator GO exist.
+The pre-reconciliation roadmap remains available at [publication checkpoint `626f34e…`](https://github.com/velantrian/velantrim-native-kernel/blob/626f34e6328b455258f2dd5fcf2145ec4db64a60/ROADMAP.md). It is historical context, not the active sequence.
