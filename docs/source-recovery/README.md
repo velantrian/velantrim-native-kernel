@@ -81,6 +81,7 @@ These tools verify byte consistency. They do not prove historical authenticity.
 ## Records
 
 - [`2026-07-26-accessible-sources-sweep.md`](./2026-07-26-accessible-sources-sweep.md) — connected GitHub, Notion, ChatGPT Library, and conversation-file sweep.
+- [`2026-08-09-bootstrap-branch-resweep.md`](./2026-08-09-bootstrap-branch-resweep.md) — full lineage and tree inspection of the retained `bootstrap/research-kernel-v0.1.2.1` docs branch, plus GitHub and Notion resweep.
 
 ## Decision outcomes
 
