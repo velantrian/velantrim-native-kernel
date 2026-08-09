@@ -18,15 +18,10 @@ SPEC.loader.exec_module(module)
 
 class ArchitectureFreezeTests(unittest.TestCase):
     def setUp(self) -> None:
-        self.state = json.loads(
-            (ROOT / "project-state.json").read_text(encoding="utf-8")
-        )
+        self.state = json.loads((ROOT / "project-state.json").read_text(encoding="utf-8"))
 
     def validate(self, state: dict | None = None) -> None:
-        module.validate(
-            copy.deepcopy(self.state) if state is None else state,
-            repo=ROOT,
-        )
+        module.validate(copy.deepcopy(self.state) if state is None else state, repo=ROOT)
 
     def test_repository_freeze_passes(self) -> None:
         self.validate()
@@ -34,115 +29,97 @@ class ArchitectureFreezeTests(unittest.TestCase):
     def test_refoundation_object_is_required(self) -> None:
         state = copy.deepcopy(self.state)
         del state["tracks"]["long_horizon_research"]["architecture_refoundation"]
-        with self.assertRaisesRegex(
-            module.ArchitectureFreezeError,
-            "architecture_refoundation object required",
-        ):
+        with self.assertRaisesRegex(module.ArchitectureFreezeError, "architecture_refoundation object required"):
             self.validate(state)
 
     def test_runtime_freeze_cannot_be_disabled(self) -> None:
         state = copy.deepcopy(self.state)
-        state["tracks"]["long_horizon_research"]["architecture_refoundation"][
-            "runtime_expansion_frozen"
-        ] = False
-        with self.assertRaisesRegex(
-            module.ArchitectureFreezeError,
-            "freeze must remain enabled",
-        ):
+        state["tracks"]["long_horizon_research"]["architecture_refoundation"]["runtime_expansion_frozen"] = False
+        with self.assertRaisesRegex(module.ArchitectureFreezeError, "freeze must remain enabled"):
             self.validate(state)
 
     def test_semantic_runtime_expansion_cannot_be_authorized(self) -> None:
         state = copy.deepcopy(self.state)
-        state["tracks"]["clean_implementation"][
-            "semantic_runtime_expansion_authorized"
-        ] = True
-        with self.assertRaisesRegex(
-            module.ArchitectureFreezeError,
-            "not authorized",
-        ):
+        state["tracks"]["clean_implementation"]["semantic_runtime_expansion_authorized"] = True
+        with self.assertRaisesRegex(module.ArchitectureFreezeError, "not authorized"):
             self.validate(state)
 
     def test_reference_laboratory_role_cannot_be_promoted(self) -> None:
         state = copy.deepcopy(self.state)
         state["tracks"]["clean_implementation"]["architecture_role"] = "CANON"
-        with self.assertRaisesRegex(
-            module.ArchitectureFreezeError,
-            "bounded reference laboratory",
-        ):
+        with self.assertRaisesRegex(module.ArchitectureFreezeError, "bounded reference laboratory"):
             self.validate(state)
 
     def test_blueprint_deliverables_are_exact(self) -> None:
         state = copy.deepcopy(self.state)
-        state["tracks"]["long_horizon_research"]["architecture_refoundation"][
-            "deliverables"
-        ].pop()
-        with self.assertRaisesRegex(
-            module.ArchitectureFreezeError,
-            "deliverable inventory",
-        ):
+        state["tracks"]["long_horizon_research"]["architecture_refoundation"]["deliverables"].pop()
+        with self.assertRaisesRegex(module.ArchitectureFreezeError, "deliverable inventory"):
             self.validate(state)
 
     def test_completion_retains_separate_operator_review(self) -> None:
         state = copy.deepcopy(self.state)
-        state["tracks"]["long_horizon_research"]["architecture_refoundation"][
-            "completion_requires_operator_review"
-        ] = False
-        with self.assertRaisesRegex(
-            module.ArchitectureFreezeError,
-            "separate operator review",
-        ):
+        state["tracks"]["long_horizon_research"]["architecture_refoundation"]["completion_requires_operator_review"] = False
+        with self.assertRaisesRegex(module.ArchitectureFreezeError, "separate operator review"):
             self.validate(state)
 
     def test_completed_deliverable_inventory_is_exact(self) -> None:
         state = copy.deepcopy(self.state)
-        state["tracks"]["long_horizon_research"]["architecture_refoundation"][
-            "completed_deliverables"
-        ] = []
-        with self.assertRaisesRegex(
-            module.ArchitectureFreezeError,
-            "completed blueprint deliverable inventory drift",
-        ):
-            self.validate(state)
-
-    def test_completed_deliverable_must_be_a_declared_deliverable(self) -> None:
-        state = copy.deepcopy(self.state)
-        refoundation = state["tracks"]["long_horizon_research"][
-            "architecture_refoundation"
+        state["tracks"]["long_horizon_research"]["architecture_refoundation"]["completed_deliverables"] = [
+            "A1_KERNEL_PURPOSE_AND_NON_GOALS"
         ]
-        refoundation["completed_deliverables"] = ["NOT_A_REAL_DELIVERABLE"]
-        with self.assertRaisesRegex(
-            module.ArchitectureFreezeError,
-            "completed blueprint deliverable inventory drift",
-        ):
+        with self.assertRaisesRegex(module.ArchitectureFreezeError, "completed blueprint deliverable inventory drift"):
             self.validate(state)
 
-    def test_next_content_slice_must_match_expected_value(self) -> None:
+    def test_completed_deliverable_must_be_declared(self) -> None:
         state = copy.deepcopy(self.state)
-        state["tracks"]["long_horizon_research"]["architecture_refoundation"][
-            "next_content_slice"
-        ] = "A1_KERNEL_PURPOSE_AND_NON_GOALS"
-        with self.assertRaisesRegex(
-            module.ArchitectureFreezeError,
-            "next blueprint content slice drift",
-        ):
+        state["tracks"]["long_horizon_research"]["architecture_refoundation"]["completed_deliverables"] = [
+            "A1_KERNEL_PURPOSE_AND_NON_GOALS",
+            "NOT_A_REAL_DELIVERABLE",
+        ]
+        with self.assertRaisesRegex(module.ArchitectureFreezeError, "completed blueprint deliverable inventory drift"):
             self.validate(state)
 
-    def test_completed_deliverable_document_must_exist(self) -> None:
+    def test_next_content_slice_must_be_a3(self) -> None:
         state = copy.deepcopy(self.state)
-        module.COMPLETED_DELIVERABLE_DOCS["A1_KERNEL_PURPOSE_AND_NON_GOALS"] = (
+        state["tracks"]["long_horizon_research"]["architecture_refoundation"]["next_content_slice"] = (
+            "A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY"
+        )
+        with self.assertRaisesRegex(module.ArchitectureFreezeError, "next blueprint content slice drift"):
+            self.validate(state)
+
+    def test_next_content_slice_cannot_be_completed(self) -> None:
+        state = copy.deepcopy(self.state)
+        refoundation = state["tracks"]["long_horizon_research"]["architecture_refoundation"]
+        refoundation["completed_deliverables"] = [
+            "A1_KERNEL_PURPOSE_AND_NON_GOALS",
+            "A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY",
+            "A3_ABSTRACT_NATIVE_KERNEL_MACHINE",
+        ]
+        module.EXPECTED_COMPLETED_DELIVERABLES.append("A3_ABSTRACT_NATIVE_KERNEL_MACHINE")
+        try:
+            with self.assertRaisesRegex(module.ArchitectureFreezeError, "must not already be marked completed"):
+                self.validate(state)
+        finally:
+            module.EXPECTED_COMPLETED_DELIVERABLES.pop()
+
+    def test_each_completed_deliverable_document_must_exist(self) -> None:
+        original = module.COMPLETED_DELIVERABLE_DOCS["A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY"]
+        module.COMPLETED_DELIVERABLE_DOCS["A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY"] = (
             "docs/DOES_NOT_EXIST.md",
         )
         try:
-            with self.assertRaisesRegex(
-                module.ArchitectureFreezeError,
-                "missing completed deliverable document",
-            ):
-                self.validate(state)
+            with self.assertRaisesRegex(module.ArchitectureFreezeError, "missing completed deliverable document"):
+                self.validate()
         finally:
-            module.COMPLETED_DELIVERABLE_DOCS["A1_KERNEL_PURPOSE_AND_NON_GOALS"] = (
-                "docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.md",
-                "docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md",
-            )
+            module.COMPLETED_DELIVERABLE_DOCS["A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY"] = original
+
+    def test_completed_deliverable_requires_document_mapping(self) -> None:
+        original = module.COMPLETED_DELIVERABLE_DOCS.pop("A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY")
+        try:
+            with self.assertRaisesRegex(module.ArchitectureFreezeError, "missing completed deliverable document mapping"):
+                self.validate()
+        finally:
+            module.COMPLETED_DELIVERABLE_DOCS["A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY"] = original
 
     def test_issue_88_must_remain_open_and_verified(self) -> None:
         state = copy.deepcopy(self.state)
