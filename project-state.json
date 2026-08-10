@@ -1,7 +1,7 @@
 {
   "protocol": "nk-project-state/2",
-  "snapshot_id": "native-kernel/state/2026-08-09-adr0025-blueprint-first",
-  "observed_at": "2026-08-09T15:40:30Z",
+  "snapshot_id": "native-kernel/state/2026-08-10-a4-semantic-laws-draft",
+  "observed_at": "2026-08-10T08:35:03Z",
   "repository": {
     "full_name": "velantrian/velantrim-native-kernel",
     "visibility": "PUBLIC",
@@ -87,11 +87,12 @@
           "A10_OPEN_QUESTIONS_AND_FALSIFICATION"
         ],
         "completion_requires_operator_review": true,
-        "next_content_slice": "A4_SEMANTIC_LAWS_AND_INVARIANTS",
+        "next_content_slice": "A5_IDENTITY_TIME_AND_CHANGE",
         "completed_deliverables": [
           "A1_KERNEL_PURPOSE_AND_NON_GOALS",
           "A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY",
-          "A3_ABSTRACT_NATIVE_KERNEL_MACHINE"
+          "A3_ABSTRACT_NATIVE_KERNEL_MACHINE",
+          "A4_SEMANTIC_LAWS_AND_INVARIANTS"
         ]
       },
       "runtime_freeze_exceptions": [
@@ -269,6 +270,7 @@
     "A later Notion synchronization checkpoint does not rewrite or replace the earlier publication checkpoint.",
     "Architecture Re-foundation documentation is not runtime implementation evidence.",
     "Blueprint-first does not reject modern technologies; it classifies them as replaceable research instruments.",
-    "A future-facing blueprint does not prove compatibility with arbitrary future substrates."
+    "A future-facing blueprint does not prove compatibility with arbitrary future substrates.",
+    "A4 semantic laws are drafted and provisional; their count and content remain subject to independent and integrated A1-A10 review."
   ]
 }
