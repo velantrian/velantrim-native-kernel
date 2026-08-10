@@ -36,18 +36,9 @@ EXPECTED_PROMOTION_REQUIREMENTS = [
     "operator approval",
 ]
 EXPECTED_REFOUNDATION_FIELDS = {
-    "decision",
-    "issue",
-    "operator_approval",
-    "status",
-    "runtime_expansion_frozen",
-    "existing_reference_runtime_role",
-    "plan_en",
-    "plan_ru",
-    "deliverables",
-    "completion_requires_operator_review",
-    "completed_deliverables",
-    "next_content_slice",
+    "decision", "issue", "operator_approval", "status", "runtime_expansion_frozen",
+    "existing_reference_runtime_role", "plan_en", "plan_ru", "deliverables",
+    "completion_requires_operator_review", "completed_deliverables", "next_content_slice",
 }
 EXPECTED_COMPLETED_DELIVERABLES = [
     "A1_KERNEL_PURPOSE_AND_NON_GOALS",
@@ -57,37 +48,18 @@ EXPECTED_COMPLETED_DELIVERABLES = [
     "A5_IDENTITY_TIME_AND_CHANGE",
     "A6_KNOWLEDGE_LIFECYCLE",
     "A7_CONFLICT_UNCERTAINTY_AND_REVISION",
+    "A8_SUBSTRATE_INDEPENDENCE_CONTRACT",
 ]
-EXPECTED_NEXT_CONTENT_SLICE = "A8_SUBSTRATE_INDEPENDENCE_CONTRACT"
+EXPECTED_NEXT_CONTENT_SLICE = "A9_REFERENCE_LABORATORY_BOUNDARY"
 COMPLETED_DELIVERABLE_DOCS = {
-    "A1_KERNEL_PURPOSE_AND_NON_GOALS": (
-        "docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.md",
-        "docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md",
-    ),
-    "A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY": (
-        "docs/A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md",
-        "docs/A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md",
-    ),
-    "A3_ABSTRACT_NATIVE_KERNEL_MACHINE": (
-        "docs/A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md",
-        "docs/A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md",
-    ),
-    "A4_SEMANTIC_LAWS_AND_INVARIANTS": (
-        "docs/A4_SEMANTIC_LAWS_AND_INVARIANTS.md",
-        "docs/A4_SEMANTIC_LAWS_AND_INVARIANTS.ru.md",
-    ),
-    "A5_IDENTITY_TIME_AND_CHANGE": (
-        "docs/A5_IDENTITY_TIME_AND_CHANGE.md",
-        "docs/A5_IDENTITY_TIME_AND_CHANGE.ru.md",
-    ),
-    "A6_KNOWLEDGE_LIFECYCLE": (
-        "docs/A6_KNOWLEDGE_LIFECYCLE.md",
-        "docs/A6_KNOWLEDGE_LIFECYCLE.ru.md",
-    ),
-    "A7_CONFLICT_UNCERTAINTY_AND_REVISION": (
-        "docs/A7_CONFLICT_UNCERTAINTY_AND_REVISION.md",
-        "docs/A7_CONFLICT_UNCERTAINTY_AND_REVISION.ru.md",
-    ),
+    "A1_KERNEL_PURPOSE_AND_NON_GOALS": ("docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.md", "docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md"),
+    "A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY": ("docs/A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md", "docs/A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md"),
+    "A3_ABSTRACT_NATIVE_KERNEL_MACHINE": ("docs/A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md", "docs/A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md"),
+    "A4_SEMANTIC_LAWS_AND_INVARIANTS": ("docs/A4_SEMANTIC_LAWS_AND_INVARIANTS.md", "docs/A4_SEMANTIC_LAWS_AND_INVARIANTS.ru.md"),
+    "A5_IDENTITY_TIME_AND_CHANGE": ("docs/A5_IDENTITY_TIME_AND_CHANGE.md", "docs/A5_IDENTITY_TIME_AND_CHANGE.ru.md"),
+    "A6_KNOWLEDGE_LIFECYCLE": ("docs/A6_KNOWLEDGE_LIFECYCLE.md", "docs/A6_KNOWLEDGE_LIFECYCLE.ru.md"),
+    "A7_CONFLICT_UNCERTAINTY_AND_REVISION": ("docs/A7_CONFLICT_UNCERTAINTY_AND_REVISION.md", "docs/A7_CONFLICT_UNCERTAINTY_AND_REVISION.ru.md"),
+    "A8_SUBSTRATE_INDEPENDENCE_CONTRACT": ("docs/A8_SUBSTRATE_INDEPENDENCE_CONTRACT.md", "docs/A8_SUBSTRATE_INDEPENDENCE_CONTRACT.ru.md"),
 }
 
 
@@ -111,75 +83,46 @@ def _load(path: Path) -> dict[str, Any]:
 
 def validate(state: Mapping[str, Any], *, repo: Path) -> None:
     _require(state.get("protocol") == "nk-project-state/2", "unsupported project-state protocol")
-
     status = state.get("status")
     _require(isinstance(status, Mapping), "status object required")
     _require(status.get("production_authorized") is False, "ADR-0025 cannot coexist with production authorization")
-
     tracks = state.get("tracks")
     _require(isinstance(tracks, Mapping), "tracks object required")
-
     clean = tracks.get("clean_implementation")
     _require(isinstance(clean, Mapping), "clean implementation track required")
     _require(clean.get("architecture_role") == "BOUNDED_REFERENCE_LABORATORY", "clean implementation must remain a bounded reference laboratory")
     _require(clean.get("semantic_runtime_expansion_authorized") is False, "semantic/runtime expansion is not authorized")
     _require(clean.get("maintenance_allowed") is True, "bounded maintenance allowance must remain explicit")
-
     research = tracks.get("long_horizon_research")
     _require(isinstance(research, Mapping), "long-horizon research track required")
     _require(research.get("id") == "R", "research track id must be R")
-    _require(
-        research.get("status") == "ACTIVE / ARCHITECTURE RE-FOUNDATION / NO AUTOMATIC PROMOTION",
-        "architecture re-foundation status drift",
-    )
+    _require(research.get("status") == "ACTIVE / ARCHITECTURE RE-FOUNDATION / NO AUTOMATIC PROMOTION", "architecture re-foundation status drift")
     _require(research.get("runtime_authorized") is False, "research track must not authorize runtime")
-
     refoundation = research.get("architecture_refoundation")
     _require(isinstance(refoundation, Mapping), "ADR-0025 architecture_refoundation object required")
     _require(set(refoundation) == EXPECTED_REFOUNDATION_FIELDS, "architecture_refoundation field inventory drift")
-    _require(
-        (
-            refoundation.get("decision"),
-            refoundation.get("issue"),
-            refoundation.get("operator_approval"),
-            refoundation.get("status"),
-        ) == ("ADR-0025", 88, "APPROVED", "ACTIVE / BLUEPRINT-FIRST"),
-        "ADR-0025 identity, issue, approval or phase drift",
-    )
+    _require((refoundation.get("decision"), refoundation.get("issue"), refoundation.get("operator_approval"), refoundation.get("status")) == ("ADR-0025", 88, "APPROVED", "ACTIVE / BLUEPRINT-FIRST"), "ADR-0025 identity, issue, approval or phase drift")
     _require(refoundation.get("runtime_expansion_frozen") is True, "runtime expansion freeze must remain enabled")
-    _require(
-        refoundation.get("existing_reference_runtime_role") == "BOUNDED_REFERENCE_LABORATORY",
-        "existing runtime role drift",
-    )
-    _require(
-        refoundation.get("plan_en") == "docs/ARCHITECTURE_REFOUNDATION.md"
-        and refoundation.get("plan_ru") == "docs/ARCHITECTURE_REFOUNDATION.ru.md",
-        "architecture blueprint plan identity drift",
-    )
+    _require(refoundation.get("existing_reference_runtime_role") == "BOUNDED_REFERENCE_LABORATORY", "existing runtime role drift")
+    _require(refoundation.get("plan_en") == "docs/ARCHITECTURE_REFOUNDATION.md" and refoundation.get("plan_ru") == "docs/ARCHITECTURE_REFOUNDATION.ru.md", "architecture blueprint plan identity drift")
     _require(refoundation.get("deliverables") == EXPECTED_DELIVERABLES, "A1-A10 blueprint deliverable inventory drift")
     _require(refoundation.get("completion_requires_operator_review") is True, "blueprint completion must retain separate operator review")
-
     completed = refoundation.get("completed_deliverables")
     _require(completed == EXPECTED_COMPLETED_DELIVERABLES, "completed blueprint deliverable inventory drift")
     _require(all(item in EXPECTED_DELIVERABLES for item in completed), "completed deliverable is not a declared blueprint deliverable")
     _require(len(completed) == len(set(completed)), "completed deliverable inventory must not contain duplicates")
-
     _require(refoundation.get("next_content_slice") == EXPECTED_NEXT_CONTENT_SLICE, "next blueprint content slice drift")
     _require(EXPECTED_NEXT_CONTENT_SLICE not in completed, "next content slice must not already be marked completed")
-
     for plan_field in ("plan_en", "plan_ru"):
         plan = repo / str(refoundation[plan_field])
         _require(plan.is_file(), f"missing architecture blueprint plan: {plan}")
-
     for deliverable in completed:
         docs = COMPLETED_DELIVERABLE_DOCS.get(deliverable)
         _require(docs is not None, f"missing completed deliverable document mapping: {deliverable}")
         for doc_path in docs:
             _require((repo / doc_path).is_file(), f"missing completed deliverable document: {doc_path}")
-
     _require(research.get("runtime_freeze_exceptions") == EXPECTED_FREEZE_EXCEPTIONS, "runtime freeze exception inventory drift")
     _require(research.get("canonical_promotion_requires") == EXPECTED_PROMOTION_REQUIREMENTS, "canonical promotion requirement inventory drift")
-
     issues = state.get("issues")
     _require(isinstance(issues, Mapping), "issue snapshots required")
     issue = issues.get("88")
@@ -188,13 +131,7 @@ def validate(state: Mapping[str, Any], *, repo: Path) -> None:
     _require("Architecture Re-foundation" in str(issue.get("meaning", "")), "Issue #88 meaning drift")
     verification = issue.get("verification")
     _require(isinstance(verification, Mapping), "Issue #88 verification required")
-    _require(
-        verification.get("status") == "VERIFIED"
-        and verification.get("method") == "GITHUB_API"
-        and verification.get("source") == "issue/88",
-        "Issue #88 verification drift",
-    )
-
+    _require(verification.get("status") == "VERIFIED" and verification.get("method") == "GITHUB_API" and verification.get("source") == "issue/88", "Issue #88 verification drift")
     non_claims = " ".join(str(item).lower() for item in state.get("non_claims", []))
     for phrase in (
         "architecture re-foundation documentation is not runtime implementation evidence",
@@ -208,7 +145,6 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("state", nargs="?", type=Path, default=Path("project-state.json"))
     parser.add_argument("--repo", type=Path, default=Path.cwd())
     args = parser.parse_args(argv)
-
     repo = args.repo.resolve()
     state_path = args.state if args.state.is_absolute() else repo / args.state
     try:
@@ -216,12 +152,7 @@ def main(argv: list[str] | None = None) -> int:
     except ArchitectureFreezeError as exc:
         print(f"Architecture freeze validation failed: {exc}", file=sys.stderr)
         return 1
-
-    print(
-        "Architecture freeze validation passed; "
-        "decision=ADR-0025; issue=88; deliverables=A1-A10; "
-        "completed=A1,A2,A3,A4,A5,A6,A7; next=A8; runtime_expansion_frozen=true"
-    )
+    print("Architecture freeze validation passed; decision=ADR-0025; issue=88; deliverables=A1-A10; completed=A1,A2,A3,A4,A5,A6,A7,A8; next=A9; runtime_expansion_frozen=true")
     return 0
 
 

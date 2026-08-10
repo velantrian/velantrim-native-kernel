@@ -75,22 +75,21 @@ class ArchitectureFreezeTests(unittest.TestCase):
 
     def test_completed_deliverable_must_be_a_declared_deliverable(self) -> None:
         state = copy.deepcopy(self.state)
-        refoundation = state["tracks"]["long_horizon_research"]["architecture_refoundation"]
-        refoundation["completed_deliverables"] = ["NOT_A_REAL_DELIVERABLE"]
+        state["tracks"]["long_horizon_research"]["architecture_refoundation"]["completed_deliverables"] = ["NOT_A_REAL_DELIVERABLE"]
         with self.assertRaisesRegex(module.ArchitectureFreezeError, "completed blueprint deliverable inventory drift"):
             self.validate(state)
 
     def test_next_content_slice_must_match_expected_value(self) -> None:
         state = copy.deepcopy(self.state)
-        state["tracks"]["long_horizon_research"]["architecture_refoundation"]["next_content_slice"] = "A5_IDENTITY_TIME_AND_CHANGE"
+        state["tracks"]["long_horizon_research"]["architecture_refoundation"]["next_content_slice"] = "A8_SUBSTRATE_INDEPENDENCE_CONTRACT"
         with self.assertRaisesRegex(module.ArchitectureFreezeError, "next blueprint content slice drift"):
             self.validate(state)
 
     def test_next_content_slice_must_not_be_completed(self) -> None:
         state = copy.deepcopy(self.state)
         refoundation = state["tracks"]["long_horizon_research"]["architecture_refoundation"]
-        refoundation["completed_deliverables"].append("A8_SUBSTRATE_INDEPENDENCE_CONTRACT")
-        module.EXPECTED_COMPLETED_DELIVERABLES.append("A8_SUBSTRATE_INDEPENDENCE_CONTRACT")
+        refoundation["completed_deliverables"].append("A9_REFERENCE_LABORATORY_BOUNDARY")
+        module.EXPECTED_COMPLETED_DELIVERABLES.append("A9_REFERENCE_LABORATORY_BOUNDARY")
         try:
             with self.assertRaisesRegex(module.ArchitectureFreezeError, "must not already be marked completed"):
                 self.validate(state)
@@ -98,21 +97,21 @@ class ArchitectureFreezeTests(unittest.TestCase):
             module.EXPECTED_COMPLETED_DELIVERABLES.pop()
 
     def test_completed_deliverable_document_must_exist(self) -> None:
-        original = module.COMPLETED_DELIVERABLE_DOCS["A7_CONFLICT_UNCERTAINTY_AND_REVISION"]
-        module.COMPLETED_DELIVERABLE_DOCS["A7_CONFLICT_UNCERTAINTY_AND_REVISION"] = ("docs/DOES_NOT_EXIST.md",)
+        original = module.COMPLETED_DELIVERABLE_DOCS["A8_SUBSTRATE_INDEPENDENCE_CONTRACT"]
+        module.COMPLETED_DELIVERABLE_DOCS["A8_SUBSTRATE_INDEPENDENCE_CONTRACT"] = ("docs/DOES_NOT_EXIST.md",)
         try:
             with self.assertRaisesRegex(module.ArchitectureFreezeError, "missing completed deliverable document"):
                 self.validate()
         finally:
-            module.COMPLETED_DELIVERABLE_DOCS["A7_CONFLICT_UNCERTAINTY_AND_REVISION"] = original
+            module.COMPLETED_DELIVERABLE_DOCS["A8_SUBSTRATE_INDEPENDENCE_CONTRACT"] = original
 
     def test_completed_deliverable_document_mapping_must_exist(self) -> None:
-        original = module.COMPLETED_DELIVERABLE_DOCS.pop("A7_CONFLICT_UNCERTAINTY_AND_REVISION")
+        original = module.COMPLETED_DELIVERABLE_DOCS.pop("A8_SUBSTRATE_INDEPENDENCE_CONTRACT")
         try:
             with self.assertRaisesRegex(module.ArchitectureFreezeError, "missing completed deliverable document mapping"):
                 self.validate()
         finally:
-            module.COMPLETED_DELIVERABLE_DOCS["A7_CONFLICT_UNCERTAINTY_AND_REVISION"] = original
+            module.COMPLETED_DELIVERABLE_DOCS["A8_SUBSTRATE_INDEPENDENCE_CONTRACT"] = original
 
     def test_issue_88_must_remain_open_and_verified(self) -> None:
         state = copy.deepcopy(self.state)

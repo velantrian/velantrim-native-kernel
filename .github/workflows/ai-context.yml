@@ -29,6 +29,7 @@ on:
       - "tests/test_a5_identity_time_change.py"
       - "tests/test_a6_knowledge_lifecycle.py"
       - "tests/test_a7_conflict_uncertainty_revision.py"
+      - "tests/test_a8_substrate_independence_contract.py"
       - "tests/test_ai_context_validator.py"
       - "tests/test_architecture_freeze.py"
       - "tests/test_bilingual_parity_validator.py"
@@ -65,6 +66,7 @@ on:
       - "tests/test_a5_identity_time_change.py"
       - "tests/test_a6_knowledge_lifecycle.py"
       - "tests/test_a7_conflict_uncertainty_revision.py"
+      - "tests/test_a8_substrate_independence_contract.py"
       - "tests/test_ai_context_validator.py"
       - "tests/test_architecture_freeze.py"
       - "tests/test_bilingual_parity_validator.py"
@@ -110,6 +112,7 @@ jobs:
             tests/test_a5_identity_time_change.py \
             tests/test_a6_knowledge_lifecycle.py \
             tests/test_a7_conflict_uncertainty_revision.py \
+            tests/test_a8_substrate_independence_contract.py \
             tests/test_ai_context_validator.py \
             tests/test_architecture_freeze.py \
             tests/test_bilingual_parity_validator.py \
@@ -124,6 +127,7 @@ jobs:
           python -m unittest discover -s tests -p 'test_a5_identity_time_change.py' -v
           python -m unittest discover -s tests -p 'test_a6_knowledge_lifecycle.py' -v
           python -m unittest discover -s tests -p 'test_a7_conflict_uncertainty_revision.py' -v
+          python -m unittest discover -s tests -p 'test_a8_substrate_independence_contract.py' -v
           python -m unittest discover -s tests -p 'test_ai_context_validator.py' -v
           python -m unittest discover -s tests -p 'test_architecture_freeze.py' -v
           python -m unittest discover -s tests -p 'test_bilingual_parity_validator.py' -v
