@@ -59,7 +59,7 @@ not architectural authority
 not the final Native Kernel definition
 ```
 
-The blueprint content A1–A7 is `DRAFTED / PROVISIONAL` and remains pending independent plus integrated A1–A10 review. The next bounded content slice is `A8 — Substrate-independence Contract`.
+The blueprint content A1–A8 is `DRAFTED / PROVISIONAL` and remains pending independent plus integrated A1–A10 review. The next bounded content slice is `A9 — Reference Laboratory Boundary`.
 
 Required sequence:
 
@@ -71,8 +71,8 @@ A1 Purpose and Non-goals                         DRAFTED / PROVISIONAL
 → A5 Identity / Time / Change                   DRAFTED / PROVISIONAL
 → A6 Knowledge Lifecycle                        DRAFTED / PROVISIONAL
 → A7 Conflict / Uncertainty / Revision          DRAFTED / PROVISIONAL
-→ A8 Substrate-independence Contract            NEXT BOUNDED SLICE
-→ A9 Reference Laboratory Boundary
+→ A8 Substrate-independence Contract            DRAFTED / PROVISIONAL
+→ A9 Reference Laboratory Boundary              NEXT BOUNDED SLICE
 → A10 Open Questions / Falsification
 → integrated blueprint review
 → separate operator decision before runtime expansion
@@ -87,48 +87,48 @@ Drafted content:
 - [A5 EN](../A5_IDENTITY_TIME_AND_CHANGE.md) / [RU](../A5_IDENTITY_TIME_AND_CHANGE.ru.md)
 - [A6 EN](../A6_KNOWLEDGE_LIFECYCLE.md) / [RU](../A6_KNOWLEDGE_LIFECYCLE.ru.md)
 - [A7 EN](../A7_CONFLICT_UNCERTAINTY_AND_REVISION.md) / [RU](../A7_CONFLICT_UNCERTAINTY_AND_REVISION.ru.md)
+- [A8 EN](../A8_SUBSTRATE_INDEPENDENCE_CONTRACT.md) / [RU](../A8_SUBSTRATE_INDEPENDENCE_CONTRACT.ru.md)
 
-## A7 candidate truth
+## A8 candidate truth
 
-`nk-conflict-uncertainty-revision/A7-draft-1` is a provisional meaning-level model. It does not implement conflict runtime or select a universal inference/resolution technique.
+`nk-substrate-independence/A8-draft-1` is a provisional meaning-level conformance model. It does not implement a new runtime profile or prove universal portability.
 
-Three axes remain independent:
-
-```text
-tension kind
-≠ assessment status
-≠ resolution status
-```
-
-Assessment states are `CANDIDATE`, `ESTABLISHED`, `NOT_A_CONFLICT`, `UNRESOLVED_ASSESSMENT`; resolution states are `UNRESOLVED`, `DEFERRED`, `RESOLVED_FOR_SCOPE`, `REOPENED`.
-
-The draft tension taxonomy includes technical and semantic cases: `DUPLICATE_DELIVERY`, `WRITE_VERSION_RACE`, `DIVERGENT_HISTORY`, `SEMANTIC_CONTRADICTION`, `TEMPORAL_MISMATCH`, `SCOPE_MISMATCH`, `PROVENANCE_CONFLICT`, `MEASUREMENT_DISAGREEMENT`, `AUTHORITY_CONFLICT`, `POLICY_CONFLICT`, `EPISTEMIC_DISAGREEMENT`, `PROJECTION_DRIFT`, `UNCLASSIFIED_TENSION`.
-
-Strict `SEMANTIC_CONTRADICTION` requires materially sufficient alignment of proposition/semantic identity, interpretation, Context/scope, temporal scope, modality/quantification, assumptions, referent/identity relation, assessment Authority, and known uncertainty. Otherwise candidate/unresolved assessment or a more specific mismatch is preserved.
-
-A7 defines typed meaning-level patterns:
+Its preservation states are:
 
 ```text
-UNCERTAINTY_POSITION(...)
-TENSION_POSITION(...)
-EPISTEMIC_REVISION(...)
+PRESERVED
+PARTIAL
+UNSUPPORTED
+INDETERMINATE
+LOSSY
 ```
 
-These are not mandatory stored objects or runtime APIs. Uncertainty remains typed by Evidence/provenance/Context/time/identity/interpretation/Authority/capability/dependency/measurement gaps; A7 defines no universal scalar or combination algebra.
+Its ten preservation obligations (`A8-P01`…`A8-P10`) require materially applicable ontology distinctions, transition outcomes, A4 laws, typed identity, temporal/order meaning, lifecycle/history, conflict/uncertainty/revision, Context/Provenance/Source/Authority, bounded accountability, and explicit capability/loss declarations to survive mapping or have loss declared.
 
-A7 distinguishes detection Authority/method from resolution, epistemic-assessment, operational-disposition, and architecture/governance Authority. `RESOLVED_FOR_SCOPE` identifies purpose, Authority/policy/basis, remaining uncertainty, temporal scope, and reversibility/reopening conditions; it is not objective truth.
+Equivalence remains multidimensional:
 
-A7 preserves the ability to remain `UNRESOLVED` or `DEFERRED`, retain plurality, prefer a position for scope, revise explicitly, supersede for scope, or reopen a prior resolution. Revision preserves A5 lineage; reopening preserves prior resolution history.
+```text
+PHYSICAL_IDENTITY
+REPRESENTATION_EQUIVALENCE
+SEMANTIC_OBLIGATION_EQUIVALENCE
+BEHAVIORAL_CONFORMANCE_FOR_SCOPE
+LINEAGE_CONTINUITY_EQUIVALENCE
+```
 
-A7 leaves A6's nine lifecycle phases unchanged. `IN_TENSION` may remain open indefinitely. Scoped resolution without semantic revision does not automatically become `REVISED_OR_SUPERSEDED`; actual revision/supersession must preserve A5 predecessor/successor lineage.
+Physical identity is neither necessary nor sufficient for semantic equivalence. Same final output does not establish full semantic equivalence.
 
-Existing boundaries remain unchanged:
+A8 does not require a global clock or total causal order; materially relevant temporal/order relations may be represented by partial orders, intervals, uncertain bounds, counters, phases or other declared equivalents. Implementation/write order cannot silently become world or causal order.
 
-- accepted `NK-CFL` is refined semantically but gains no executable support claim;
-- ADR-0003 remains `PROPOSED / NOT_STARTED`;
-- conflict Event verbs remain unauthorized;
-- Issue #74 / ADR-0024 remains `PROPOSED / PENDING_OPERATOR`; A7 does not decide one/multi-successor topology, self-supersession, cycles, or reducer-v2 migration;
-- Issue #14/#15/#16/#17, Issue #18 and Track H remain open/independent as before.
+A8 preserves A7 states by meaning rather than storage enum. A profile unable to distinguish unresolved/unknown from false is lossy for the relevant obligation and cannot claim full conformance for that scope.
+
+Scoped conformance outcomes are `FULL_CONFORMANCE_FOR_SCOPE`, `BOUNDED_CONFORMANCE`, `NON_CONFORMANT_FOR_SCOPE`, and `INDETERMINATE_CONFORMANCE`.
+
+```text
+substrate-independent specification
+≠ universal portability proof
+```
+
+A9 owns detailed P1–C5 mapping. No existing SQL/Event/reducer mechanism is promoted into Canon by A8, and no existing accepted/versioned contract is silently rewritten.
 
 ## Runtime freeze boundary
 
@@ -138,13 +138,13 @@ Not authorized: reducer v2, new semantic/conflict Event verbs, new databases/lan
 
 ## Current known gaps
 
-- A1–A7 are drafted/provisional, not independently or integratively approved;
-- A8–A10 remain incomplete;
-- A5 identity criteria remain domain-scoped and some valid-time identity effects are explicitly unresolved;
-- Issue #74 / ADR-0024 separately retains unresolved Supersession topology and reducer-v2 questions; A7 did not absorb them;
+- A1–A8 are drafted/provisional, not independently or integratively approved;
+- A9–A10 remain incomplete;
+- A8 conformance classes and preservation obligations remain provisional and require integrated review/falsification;
+- no arbitrary future substrate support is demonstrated;
+- detailed current-laboratory mapping remains A9 work;
+- Issue #74 / ADR-0024 remains separately unresolved and operator-controlled;
 - A7 uncertainty combination remains method/profile-specific rather than a universal algebra;
-- A7 authority-conflict escalation, formal-logic families, reopening/finality policy, and executable `NK-CFL` fixtures remain open questions;
-- cross-substrate semantic equivalence/conformance thresholds remain A8 work;
 - current PostgreSQL/SQLite profiles share Python semantic lineage;
 - NK-EPI executable support remains absent;
 - physical/cryptographic deletion and production operations remain absent.
