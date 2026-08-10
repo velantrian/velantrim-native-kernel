@@ -19,7 +19,7 @@ active_architecture_decision: ADR-0025
 active_architecture_issue: 88
 ```
 
-> This page contains current repository truth only. Historical implementation and review chronology remains available through linked records and Git history.
+> This page contains current branch/repository truth and must not predict its own future merge SHA. GitHub live refs remain authoritative for `main`, PR head, Actions, reviews, and merge state.
 
 ## Current boundary
 
@@ -52,9 +52,9 @@ Architecture Re-foundation: ACTIVE / BLUEPRINT-FIRST
 No new semantic/runtime expansion before blueprint gate completion.
 ```
 
-ADR-0025 is `ACCEPTED / DOCUMENTED / PARTIAL / OPERATOR APPROVED`.
+ADR-0025 remains `ACCEPTED / DOCUMENTED / PARTIAL / OPERATOR APPROVED`.
 
-The existing P1–C5 clean implementation is preserved as a:
+The existing P1–C5 clean implementation remains a:
 
 ```text
 BOUNDED REFERENCE LABORATORY
@@ -62,18 +62,7 @@ not architectural authority
 not the final Native Kernel definition
 ```
 
-Plan and drafted content:
-
-- [Architecture Re-foundation — English](../ARCHITECTURE_REFOUNDATION.md)
-- [Переоснование архитектуры — Русский](../ARCHITECTURE_REFOUNDATION.ru.md)
-- [ADR-0025](../adr/0025-blueprint-before-runtime-expansion.md)
-- [Issue #88](https://github.com/velantrian/velantrim-native-kernel/issues/88)
-- [A1 — Kernel Purpose and Non-goals — English](../A1_KERNEL_PURPOSE_AND_NON_GOALS.md)
-- [A1 — Purpose и Non-goals Kernel — Русский](../A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md)
-- [A2 — Knowledge and Memory Ontology — English](../A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md)
-- [A2 — Онтология знания и памяти — Русский](../A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md)
-- [A3 — Abstract Native Kernel Machine — English](../A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md)
-- [A3 — Абстрактная машина Native Kernel — Русский](../A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md)
+The blueprint content A1–A4 is `DRAFTED / PROVISIONAL` and remains pending independent review plus integrated review with A5–A10. The next bounded content slice is `A5 — Identity, Time, and Change`.
 
 Required sequence:
 
@@ -81,8 +70,8 @@ Required sequence:
 A1 Purpose and Non-goals                         DRAFTED / PROVISIONAL
 → A2 Knowledge and Memory Ontology              DRAFTED / PROVISIONAL
 → A3 Abstract Native Kernel Machine             DRAFTED / PROVISIONAL
-→ A4 Semantic Laws and Invariants               NEXT BOUNDED SLICE
-→ A5 Identity / Time / Change
+→ A4 Semantic Laws and Invariants               DRAFTED / PROVISIONAL
+→ A5 Identity / Time / Change                   NEXT BOUNDED SLICE
 → A6 Knowledge Lifecycle
 → A7 Conflict / Uncertainty / Revision
 → A8 Substrate-independence Contract
@@ -92,11 +81,38 @@ A1 Purpose and Non-goals                         DRAFTED / PROVISIONAL
 → separate operator decision before runtime expansion
 ```
 
-The blueprint content A1–A3 is `DRAFTED / PROVISIONAL` and remains pending independent review plus integrated review with A4–A10. The next bounded content slice is `A4 — Semantic Laws and Invariants`.
+Drafted content:
 
-A2 provisionally distinguishes Signal, Observation, Record, Proposition, Claim, Interpretation, Hypothesis, Belief, Knowledge, Memory, Evidence, Source, Provenance, Context, Relation, State, Change, Event, Conflict, Contradiction, Uncertainty, Revision, Supersession, Authority, and Receipt without copying current Python classes, SQL schemas, or Event-sourced laboratory mechanics into Canon.
+- [A1 — Kernel Purpose and Non-goals — English](../A1_KERNEL_PURPOSE_AND_NON_GOALS.md) / [Русский](../A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md)
+- [A2 — Knowledge and Memory Ontology — English](../A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md) / [Русский](../A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md)
+- [A3 — Abstract Native Kernel Machine — English](../A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md) / [Русский](../A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md)
+- [A4 — Semantic Laws and Invariants — English](../A4_SEMANTIC_LAWS_AND_INVARIANTS.md) / [Русский](../A4_SEMANTIC_LAWS_AND_INVARIANTS.ru.md)
 
-A3 provisionally defines a scoped obligation-and-transition machine with thirteen logical configuration facets and thirteen transition families. It preserves abstract machine ≠ runtime implementation, transition ≠ Event envelope, transition relation ≠ reducer, history visibility ≠ mandatory Event sourcing, admission ≠ truth, and profile conformance ≠ production authorization.
+A4 uses the first GitHub-resident candidate identity `nk-semantic-laws/A4-draft-1` and currently contains 28 deduplicated candidate laws. Each has a statement, rationale, counterexample/falsifier, failure mode, observable obligation, and exception/open uncertainty. The law count is provisional, not a target to preserve at all costs.
+
+The earlier Notion-only claim that A4 had already been merged through PR #95 under `nk-semantic-laws/0.1-draft` remains invalid historical synchronization data. PR #95 was the A3 integrity reconciliation. This A4 candidate does not reuse that false law-set identity.
+
+A4 preserves, among other boundaries:
+
+```text
+representation ≠ represented reality
+Claim / admission / availability ≠ objective truth
+Source or repetition ≠ Evidence by itself
+Unknown / missing / unsupported / failed ≠ False
+semantic identity ≠ storage identity
+write order ≠ represented-world order
+Revision ≠ silent overwrite
+Supersession ≠ deletion ≠ falsity
+Conflict detection ≠ conflict resolution
+derived view ≠ universal State
+retrieval / utility / recency ≠ epistemic validity
+Receipt / accountability ≠ correctness or truth
+history visibility ≠ mandatory Event sourcing
+deterministic output ≠ true output
+profile conformance ≠ production authorization
+```
+
+These are draft semantic obligations, not executable NK-EPI support, runtime behaviour, or production evidence.
 
 ## Runtime freeze boundary
 
@@ -158,9 +174,7 @@ publication checkpoint
 Notion synchronized descendant checkpoint
 ```
 
-The publication checkpoint remains `10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c`. The latest repository-committed Notion synchronization checkpoint remains `70acd0da61fee19131947aa56125833adb156ced` from PR #86. This repository state does not predict its own future corrective merge SHA or claim that a future post-merge Notion reconciliation already occurred.
-
-A descendant commit does not invalidate earlier evidence, but it also does not broaden that evidence or rewrite an earlier publication identity.
+The publication checkpoint remains `10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c`. The latest repository-committed Notion synchronization checkpoint remains `70acd0da61fee19131947aa56125833adb156ced` from PR #86. A later post-merge Notion reconciliation may be newer than this committed checkpoint; the repository must not predict its own future synchronization identity.
 
 ## Existing runtime boundary
 
@@ -183,17 +197,16 @@ The current SQLite WAL floor remains linked SQLite `3.51.3`. Historical SQLite `
 | Issue #18 — license/publication terms | `PENDING_OPERATOR / selected_option: null` | no license change; external contributions and package publication remain unauthorized |
 | Issue #74 / ADR-0024 — reducer referential semantics | `PROPOSED / PENDING_OPERATOR / selected_option: null` | reducer v1 remains immutable; reducer-v2 remains unauthorized |
 
-Architecture Re-foundation can proceed without deciding either one. Issue #18 still gates open publication/collaboration terms. ADR-0024 still gates reducer-v2 if that path is reopened after blueprint review.
+Architecture Re-foundation can proceed without deciding either one. A4 does not decide either one.
 
 ## Current known gaps
 
-- `A1`, `A2`, and `A3` are drafted/provisional and remain pending independent plus integrated blueprint review;
-- A2 primitive/derived/open classifications are hypotheses, not final Canon;
-- A3 is a provisional abstract-machine proposal, not final Canon or runtime evidence;
-- semantic laws remain the next bounded architecture slice and are not yet a reconciled formal A4 set;
-- identity, time, change, lifecycle, conflict, uncertainty, and revision models remain partial;
+- `A1`–`A4` are drafted/provisional and remain pending independent plus integrated blueprint review;
+- A2 primitive/derived/open classifications remain hypotheses, not final Canon;
+- A3 remains a provisional abstract-machine proposal, not final Canon or runtime evidence;
+- A4 law identity/count/content remain provisional and subject to integrated reconciliation;
+- identity, time, change, lifecycle, conflict-resolution, uncertainty/revision algorithms, and substrate-independence contracts remain incomplete;
 - substrate-independence obligations and falsification criteria remain incomplete;
-- Glossary and older architecture prose still contain laboratory-shaped compact definitions that require later integrated reconciliation, not silent rewriting in A2/A3;
 - reducer v1 has known referential gaps, but runtime work is frozen;
 - current PostgreSQL and SQLite profiles share Python semantic lineage;
 - NK-EPI assertions have no executable support;
