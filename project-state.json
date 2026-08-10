@@ -1,7 +1,7 @@
 {
   "protocol": "nk-project-state/2",
-  "snapshot_id": "native-kernel/state/2026-08-10-a8-substrate-independence-draft",
-  "observed_at": "2026-08-10T15:49:00Z",
+  "snapshot_id": "native-kernel/state/2026-08-10-a9-reference-laboratory-boundary-draft",
+  "observed_at": "2026-08-10T20:36:15Z",
   "repository": {
     "full_name": "velantrian/velantrim-native-kernel",
     "visibility": "PUBLIC",
@@ -87,7 +87,7 @@
           "A10_OPEN_QUESTIONS_AND_FALSIFICATION"
         ],
         "completion_requires_operator_review": true,
-        "next_content_slice": "A9_REFERENCE_LABORATORY_BOUNDARY",
+        "next_content_slice": "A10_OPEN_QUESTIONS_AND_FALSIFICATION",
         "completed_deliverables": [
           "A1_KERNEL_PURPOSE_AND_NON_GOALS",
           "A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY",
@@ -96,7 +96,8 @@
           "A5_IDENTITY_TIME_AND_CHANGE",
           "A6_KNOWLEDGE_LIFECYCLE",
           "A7_CONFLICT_UNCERTAINTY_AND_REVISION",
-          "A8_SUBSTRATE_INDEPENDENCE_CONTRACT"
+          "A8_SUBSTRATE_INDEPENDENCE_CONTRACT",
+          "A9_REFERENCE_LABORATORY_BOUNDARY"
         ]
       },
       "runtime_freeze_exceptions": [
@@ -135,10 +136,10 @@
     "15": {"state": "OPEN", "meaning": "Append, idempotency, ordering and replay have a partial clean runtime; portable history commitment and broader threat cases remain open.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-09T11:31:28Z", "source": "issue/15"}},
     "16": {"state": "OPEN", "meaning": "Deletion and restriction have a semantic state machine; execution across actual locations and physical or cryptographic deletion remain open.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-09T11:31:28Z", "source": "issue/16"}},
     "17": {"state": "OPEN", "meaning": "Fixtures, runners and evidence exist through C5; NK-EPI, Temporal, reducer-v2 and independent-language conformance remain open.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-09T11:31:28Z", "source": "issue/17"}},
-    "18": {"state": "OPEN", "meaning": "License and publication terms remain PENDING_OPERATOR; no license, contribution regime or package publication is authorized.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-10T15:49:00Z", "source": "issue/18"}},
+    "18": {"state": "OPEN", "meaning": "License and publication terms remain PENDING_OPERATOR; no license, contribution regime or package publication is authorized.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-10T20:36:15Z", "source": "issue/18"}},
     "64": {"state": "CLOSED", "state_reason": "COMPLETED", "meaning": "C5 bounded operational rehearsal implementation issue is complete.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-09T11:31:28Z", "source": "issue/64"}},
-    "74": {"state": "OPEN", "meaning": "ADR-0024 remains PROPOSED / PENDING_OPERATOR; reducer v1 is immutable and reducer-v2 runtime is not authorized.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-10T15:49:00Z", "source": "issue/74"}},
-    "88": {"state": "OPEN", "meaning": "Architecture Re-foundation is active under ADR-0025; A1-A8 are drafted/provisional and A9 is next; integrated review remains required before new semantic/runtime expansion.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-10T15:49:00Z", "source": "issue/88"}}
+    "74": {"state": "OPEN", "meaning": "ADR-0024 remains PROPOSED / PENDING_OPERATOR; reducer v1 is immutable and reducer-v2 runtime is not authorized.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-10T20:36:15Z", "source": "issue/74"}},
+    "88": {"state": "OPEN", "meaning": "Architecture Re-foundation is active under ADR-0025; A1-A9 are drafted/provisional and A10 is next; integrated review remains required before new semantic/runtime expansion.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-10T20:36:15Z", "source": "issue/88"}}
   },
   "evidence": {
     "c5_bundle": {"protocol": "nk-evidence-bundle/1", "path": "evidence/c5/2026-08-07/manifest.json", "status": "CAPTURED_REPOSITORY_RESIDENT", "checkpoint_count": 2, "artifact_count": 8, "original_archives_preserved": true, "source_retention_expiry": "2026-09-06"},
@@ -165,6 +166,7 @@
     "A5 identity/time/change is drafted and provisional; it does not supersede accepted encoding/Event/deletion contracts, prove cross-substrate identity, or authorize runtime expansion.",
     "A6 knowledge lifecycle is drafted and provisional; it does not authorize new Event verbs, decide reducer-v2 topology, expand deletion execution scope, or authorize runtime expansion.",
     "A7 conflict/uncertainty/revision is drafted and provisional; it does not accept ADR-0003, authorize conflict Event verbs, select a universal winner or uncertainty algorithm, decide ADR-0024 topology, or authorize runtime expansion.",
-    "A8 substrate-independence is drafted and provisional; it defines scoped preservation, loss and conformance claims but does not prove universal portability, implement a future substrate, grade P1-C5, or authorize runtime expansion."
+    "A8 substrate-independence is drafted and provisional; it defines scoped preservation, loss and conformance claims but does not prove universal portability, implement a future substrate, grade P1-C5, or authorize runtime expansion.",
+    "A9 reference-laboratory boundary is drafted and provisional; it classifies P1-C5 mechanisms as bounded evidence, profile-specific realizations, partial coverage, falsification instruments, laboratory-only constraints or non-architecture evidence without rewriting accepted contracts, proving independent-substrate conformance, or authorizing runtime expansion."
   ]
 }

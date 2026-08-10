@@ -53,59 +53,54 @@ Drafted provisional deliverables:
 5. [A5 — Identity, Time, and Change](docs/A5_IDENTITY_TIME_AND_CHANGE.md) · [RU](docs/A5_IDENTITY_TIME_AND_CHANGE.ru.md);
 6. [A6 — Knowledge Lifecycle](docs/A6_KNOWLEDGE_LIFECYCLE.md) · [RU](docs/A6_KNOWLEDGE_LIFECYCLE.ru.md);
 7. [A7 — Conflict, Uncertainty, and Revision](docs/A7_CONFLICT_UNCERTAINTY_AND_REVISION.md) · [RU](docs/A7_CONFLICT_UNCERTAINTY_AND_REVISION.ru.md);
-8. [A8 — Substrate-Independence Contract](docs/A8_SUBSTRATE_INDEPENDENCE_CONTRACT.md) · [RU](docs/A8_SUBSTRATE_INDEPENDENCE_CONTRACT.ru.md).
+8. [A8 — Substrate-Independence Contract](docs/A8_SUBSTRATE_INDEPENDENCE_CONTRACT.md) · [RU](docs/A8_SUBSTRATE_INDEPENDENCE_CONTRACT.ru.md);
+9. [A9 — Reference Laboratory Boundary](docs/A9_REFERENCE_LABORATORY_BOUNDARY.md) · [RU](docs/A9_REFERENCE_LABORATORY_BOUNDARY.ru.md).
 
 Current progress:
 
 ```text
 ADR-0025 decision: ACCEPTED / OPERATOR APPROVED
 blueprint plan: PRESENT
-blueprint content: A1-A8 DRAFTED / PROVISIONAL; A9-A10 INCOMPLETE
-next content slice: A9 — REFERENCE LABORATORY BOUNDARY
+blueprint content: A1-A9 DRAFTED / PROVISIONAL; A10 INCOMPLETE
+next content slice: A10 — OPEN QUESTIONS AND FALSIFICATION
 runtime expansion: FROZEN
 ```
 
-A1–A8 are still pending independent review and integrated A1–A10 review. Drafting a slice is not Canon promotion.
+A1–A9 are still pending independent review and integrated A1–A10 review. Drafting a slice is not Canon promotion.
 
-### A8 candidate model
+### A9 candidate model
 
-A8 introduces provisional `nk-substrate-independence/A8-draft-1`. It defines substrate independence as preservation of meaning-level obligations through declared mappings rather than physical sameness.
+A9 introduces provisional `nk-reference-laboratory-boundary/A9-draft-1`. It classifies current P1–C5 mechanisms against A1–A8 while preserving the implementation/evidence lineage and preventing implementation capture of Canon.
 
-A profile maps architecture obligations through:
-
-```text
-SUBSTRATE_MAPPING(
-  profile,
-  architecture_obligation,
-  realization_or_equivalent,
-  preservation_state,
-  context_and_scope,
-  observable_check,
-  declared_loss_or_none,
-  uncertainty,
-  authority_for_claim
-)
-```
-
-The mapping distinguishes `PRESERVED`, `PARTIAL`, `UNSUPPORTED`, `INDETERMINATE`, and `LOSSY`. These are A8 mapping states, not assertion-map arithmetic. A known inability to preserve a required distinction must weaken or fail the conformance claim rather than silently approximate it.
-
-A8 defines ten preservation obligations (`A8-P01`…`A8-P10`) spanning A2 ontology distinctions, A3 transition semantics, A4 laws, A5 identity/time/order, A6 lifecycle/history, A7 conflict/uncertainty/revision, Context/Provenance/Authority, accountability, and explicit capability/loss declarations.
-
-A8 keeps distinct:
+A9 role labels are:
 
 ```text
-PHYSICAL_IDENTITY
-REPRESENTATION_EQUIVALENCE
-SEMANTIC_OBLIGATION_EQUIVALENCE
-BEHAVIORAL_CONFORMANCE_FOR_SCOPE
-LINEAGE_CONTINUITY_EQUIVALENCE
+ARCHITECTURE_PRESERVING_EVIDENCE
+PROFILE_SPECIFIC_REALIZATION
+PARTIAL_ARCHITECTURE_COVERAGE
+FALSIFICATION_INSTRUMENT
+LABORATORY_ONLY_CONSTRAINT
+NOT_ARCHITECTURE_EVIDENCE
 ```
 
-Physical identity is neither necessary nor sufficient for semantic equivalence. Same bytes/output do not prove semantic equivalence, and different bytes/IDs/storage layouts do not by themselves prove non-equivalence.
+A mechanism can carry more than one role. PostgreSQL, SQLite, Python, current Event vocabulary, reducer v1, exact byte encodings, sequence counters, hash chains and CI mechanisms remain valid where their accepted profile contracts require them, but their existence does not make them universal architecture requirements.
 
-A8 does not require a global clock, total order, SQL, JSON, Event sourcing, reducer, Python, hashes, digital bytes, one uncertainty scalar, or one processor model. A substrate may use a partial order or other time representation as long as materially required temporal/causal relations are preserved and implementation order is not promoted to world order.
+P5/C3 provides real but narrow evidence that selected meaning-level behavior survives a PostgreSQL↔SQLite storage-profile change inside a shared Python/conventional-digital lineage. It does not establish independent-language, independent-computation-model or arbitrary-substrate equivalence. Exact imported-history bytes remain a valid laboratory constraint where explicitly required; at architecture level A8 still controls: different bytes may preserve meaning, and equal bytes alone do not prove semantic equivalence.
 
-A8 defines scoped conformance outcomes `FULL_CONFORMANCE_FOR_SCOPE`, `BOUNDED_CONFORMANCE`, `NON_CONFORMANT_FOR_SCOPE`, and `INDETERMINATE_CONFORMANCE`. It explicitly rejects universal future-substrate portability claims. A9, not A8, owns the detailed mapping and grading of P1–C5 against the blueprint.
+C4 and C5 are predominantly falsification/bounded-evidence instruments. C5 remains synthetic and ephemeral, not production security, privacy, HA, compliance, independent custody or universal conformance evidence.
+
+A9 preservation rule:
+
+```text
+profile-specific
+→ label correctly
+→ preserve reproducibility
+→ keep evidence lineage
+→ prevent silent Canon promotion
+≠ delete or rewrite automatically
+```
+
+A10, not A9, owns the remaining open questions and falsification criteria.
 
 ## Required non-equivalences
 
@@ -145,18 +140,20 @@ profile conformance ≠ production authorization
 substrate-independent specification ≠ universal portability proof
 physical identity ≠ semantic equivalence
 same output ≠ full semantic equivalence
+existing mechanism ≠ architecture requirement
+useful evidence ≠ universal substrate proof
 ```
 
 ## Independent tracks and decisions
 
 | Boundary | State | Effect |
 |---|---|---|
-| Track H historical recovery | `BLOCKED / ACTIVE EVIDENCE-RECOVERY` | operator-controlled source admission; A8 does not alter it |
+| Track H historical recovery | `BLOCKED / ACTIVE EVIDENCE-RECOVERY` | operator-controlled source admission; A9 does not alter it |
 | Issue #18 license/publication | `PENDING_OPERATOR / selected_option: null` | no license change; external contribution/publication regime remains unauthorized |
 | Issue #74 / ADR-0024 | `PROPOSED / PENDING_OPERATOR / selected_option: null` | reducer v1 remains immutable; reducer-v2 remains unauthorized |
-| ADR-0003 semantic conflicts | `PROPOSED / NOT_STARTED` | A7/A8 preserve semantic boundaries but do not accept the ADR or authorize Event vocabulary |
+| ADR-0003 semantic conflicts | `PROPOSED / NOT_STARTED` | A7–A9 preserve semantic boundaries but do not accept the ADR or authorize Event vocabulary |
 
-Issue #14, #15, #16 and #17 retain their existing accepted/versioned contract or conformance scopes and remaining work. A8 does not close or silently redefine them.
+Issue #14, #15, #16 and #17 retain their existing accepted/versioned contract or conformance scopes and remaining work. A9 does not close or silently redefine them.
 
 ## Runtime freeze
 
@@ -173,17 +170,16 @@ evidence/c5/2026-08-07/manifest.json
 evidence/c5/2026-08-08-adr0023/manifest.json
 ```
 
-A8 documentation does not create new runtime evidence, change assertion arithmetic, promote NK-EPI, prove arbitrary future-substrate support, or establish a production-ready neuromorphic/analog/quantum implementation.
+A9 documentation does not create new runtime evidence, change assertion arithmetic, promote NK-EPI, prove arbitrary future-substrate support, or establish production readiness.
 
 ## Explicit non-claims
 
 ```text
 Architecture Re-foundation ≠ completed blueprint
-A1-A8 DRAFTED ≠ independent approval ≠ integrated blueprint approval ≠ Canon promotion
-A8 substrate-independence ≠ universal portability proof
-A8 conformance model ≠ proof that every substrate can conform
-A8 model ≠ grading of current P1-C5 laboratory
-A8 model ≠ future-substrate implementation evidence
+A1-A9 drafted ≠ independent approval or integrated blueprint approval
+A9 classification ≠ acceptance of current mechanisms as universal Canon
+PostgreSQL↔SQLite C3 ≠ independent-language equivalence ≠ arbitrary-substrate portability proof
+profile-specific ≠ delete/rewrite automatically
 C5 PASS ≠ production readiness
 public repository ≠ open-source license
 ```

@@ -64,12 +64,7 @@ class ArchitectureFreezeTests(unittest.TestCase):
 
     def test_completed_deliverable_inventory_is_exact(self) -> None:
         state = copy.deepcopy(self.state)
-        state["tracks"]["long_horizon_research"]["architecture_refoundation"]["completed_deliverables"] = [
-            "A1_KERNEL_PURPOSE_AND_NON_GOALS",
-            "A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY",
-            "A3_ABSTRACT_NATIVE_KERNEL_MACHINE",
-            "A4_SEMANTIC_LAWS_AND_INVARIANTS",
-        ]
+        state["tracks"]["long_horizon_research"]["architecture_refoundation"]["completed_deliverables"] = module.EXPECTED_COMPLETED_DELIVERABLES[:-1]
         with self.assertRaisesRegex(module.ArchitectureFreezeError, "completed blueprint deliverable inventory drift"):
             self.validate(state)
 
@@ -81,15 +76,15 @@ class ArchitectureFreezeTests(unittest.TestCase):
 
     def test_next_content_slice_must_match_expected_value(self) -> None:
         state = copy.deepcopy(self.state)
-        state["tracks"]["long_horizon_research"]["architecture_refoundation"]["next_content_slice"] = "A8_SUBSTRATE_INDEPENDENCE_CONTRACT"
+        state["tracks"]["long_horizon_research"]["architecture_refoundation"]["next_content_slice"] = "A9_REFERENCE_LABORATORY_BOUNDARY"
         with self.assertRaisesRegex(module.ArchitectureFreezeError, "next blueprint content slice drift"):
             self.validate(state)
 
     def test_next_content_slice_must_not_be_completed(self) -> None:
         state = copy.deepcopy(self.state)
         refoundation = state["tracks"]["long_horizon_research"]["architecture_refoundation"]
-        refoundation["completed_deliverables"].append("A9_REFERENCE_LABORATORY_BOUNDARY")
-        module.EXPECTED_COMPLETED_DELIVERABLES.append("A9_REFERENCE_LABORATORY_BOUNDARY")
+        refoundation["completed_deliverables"].append("A10_OPEN_QUESTIONS_AND_FALSIFICATION")
+        module.EXPECTED_COMPLETED_DELIVERABLES.append("A10_OPEN_QUESTIONS_AND_FALSIFICATION")
         try:
             with self.assertRaisesRegex(module.ArchitectureFreezeError, "must not already be marked completed"):
                 self.validate(state)
@@ -97,28 +92,27 @@ class ArchitectureFreezeTests(unittest.TestCase):
             module.EXPECTED_COMPLETED_DELIVERABLES.pop()
 
     def test_completed_deliverable_document_must_exist(self) -> None:
-        original = module.COMPLETED_DELIVERABLE_DOCS["A8_SUBSTRATE_INDEPENDENCE_CONTRACT"]
-        module.COMPLETED_DELIVERABLE_DOCS["A8_SUBSTRATE_INDEPENDENCE_CONTRACT"] = ("docs/DOES_NOT_EXIST.md",)
+        original = module.COMPLETED_DELIVERABLE_DOCS["A9_REFERENCE_LABORATORY_BOUNDARY"]
+        module.COMPLETED_DELIVERABLE_DOCS["A9_REFERENCE_LABORATORY_BOUNDARY"] = ("docs/DOES_NOT_EXIST.md",)
         try:
             with self.assertRaisesRegex(module.ArchitectureFreezeError, "missing completed deliverable document"):
                 self.validate()
         finally:
-            module.COMPLETED_DELIVERABLE_DOCS["A8_SUBSTRATE_INDEPENDENCE_CONTRACT"] = original
+            module.COMPLETED_DELIVERABLE_DOCS["A9_REFERENCE_LABORATORY_BOUNDARY"] = original
 
     def test_completed_deliverable_document_mapping_must_exist(self) -> None:
-        original = module.COMPLETED_DELIVERABLE_DOCS.pop("A8_SUBSTRATE_INDEPENDENCE_CONTRACT")
+        original = module.COMPLETED_DELIVERABLE_DOCS.pop("A9_REFERENCE_LABORATORY_BOUNDARY")
         try:
             with self.assertRaisesRegex(module.ArchitectureFreezeError, "missing completed deliverable document mapping"):
                 self.validate()
         finally:
-            module.COMPLETED_DELIVERABLE_DOCS["A8_SUBSTRATE_INDEPENDENCE_CONTRACT"] = original
+            module.COMPLETED_DELIVERABLE_DOCS["A9_REFERENCE_LABORATORY_BOUNDARY"] = original
 
     def test_issue_88_must_remain_open_and_verified(self) -> None:
         state = copy.deepcopy(self.state)
         state["issues"]["88"]["state"] = "CLOSED"
         with self.assertRaisesRegex(module.ArchitectureFreezeError, "must remain open"):
             self.validate(state)
-
         state = copy.deepcopy(self.state)
         state["issues"]["88"]["verification"]["method"] = "SUMMARY"
         with self.assertRaisesRegex(module.ArchitectureFreezeError, "verification drift"):

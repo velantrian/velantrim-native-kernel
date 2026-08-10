@@ -20,10 +20,10 @@ This directory is the mandatory continuity surface for AI agents, auditors, and 
 14. [`../A6_KNOWLEDGE_LIFECYCLE.md`](../A6_KNOWLEDGE_LIFECYCLE.md) / [`RU`](../A6_KNOWLEDGE_LIFECYCLE.ru.md)
 15. [`../A7_CONFLICT_UNCERTAINTY_AND_REVISION.md`](../A7_CONFLICT_UNCERTAINTY_AND_REVISION.md) / [`RU`](../A7_CONFLICT_UNCERTAINTY_AND_REVISION.ru.md)
 16. [`../A8_SUBSTRATE_INDEPENDENCE_CONTRACT.md`](../A8_SUBSTRATE_INDEPENDENCE_CONTRACT.md) / [`RU`](../A8_SUBSTRATE_INDEPENDENCE_CONTRACT.ru.md)
-17. [`ISSUE_RECONCILIATION.md`](ISSUE_RECONCILIATION.md)
-18. [`NOTION_HANDOFF.md`](NOTION_HANDOFF.md)
-19. affected Canon/contracts/ADRs/source/tests/workflows/evidence
-20. current GitHub and Notion state
+17. [`../A9_REFERENCE_LABORATORY_BOUNDARY.md`](../A9_REFERENCE_LABORATORY_BOUNDARY.md) / [`RU`](../A9_REFERENCE_LABORATORY_BOUNDARY.ru.md)
+18. [`ISSUE_RECONCILIATION.md`](ISSUE_RECONCILIATION.md)
+19. [`NOTION_HANDOFF.md`](NOTION_HANDOFF.md)
+20. affected Canon/contracts/ADRs/source/tests/workflows/evidence and current GitHub/Notion state
 
 Do not begin with random code search or historical handoffs before resolving current truth.
 
@@ -31,7 +31,7 @@ Do not begin with random code search or historical handoffs before resolving cur
 
 ```text
 RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY
-clean_runtime_support:       PARTIAL
+clean_runtime_support:      PARTIAL
 kernel_runtime_conformance: C4
 operational_validation:     C5_BOUNDED_REHEARSAL
 production_authorized:      false
@@ -46,40 +46,30 @@ ADR-0025: ACCEPTED / OPERATOR APPROVED
 Architecture Re-foundation: ACTIVE / BLUEPRINT-FIRST
 runtime expansion: FROZEN
 P1–C5 role: BOUNDED REFERENCE LABORATORY
-blueprint content: A1-A8 DRAFTED / PROVISIONAL
-next content slice: A9 — Reference Laboratory Boundary
+blueprint content: A1-A9 DRAFTED / PROVISIONAL
+next content slice: A10 — Open Questions and Falsification
 ```
 
-A1–A8 are drafted provisional architecture slices, not independent approval, integrated Canon, runtime evidence, or production authorization. The current candidate progression must remain exact; changing completed content away from exact A1+A2+A3+A4+A5+A6+A7+A8 must fail continuity validation.
+A1–A9 are drafted provisional architecture slices, not independent approval, integrated Canon, runtime evidence, or production authorization. The current candidate progression must remain exact; changing completed content away from exact A1+A2+A3+A4+A5+A6+A7+A8+A9 must fail continuity validation.
 
-## A8 continuity boundary
+## A9 continuity boundary
 
-A8 candidate model: `nk-substrate-independence/A8-draft-1`.
+A9 candidate model: `nk-reference-laboratory-boundary/A9-draft-1`.
 
 ```text
-substrate-independent specification ≠ universal portability proof
-physical identity ≠ semantic equivalence
-same output ≠ full semantic equivalence
-Architecture ≠ implementation
-reference laboratory ≠ Canon
-Unknown ≠ False
-Unsupported ≠ False
-write order ≠ causal/world order
-Revision ≠ overwrite
-profile conformance ≠ production authorization
+existing mechanism ≠ architecture requirement
+useful evidence ≠ universal portability proof
+profile-specific realization ≠ architectural defect
+PostgreSQL ↔ SQLite C3 ≠ independent-language equivalence
+C5 bounded rehearsal ≠ production readiness
+repository-resident evidence ≠ independent custody
 ```
 
-A8 uses meaning-level `SUBSTRATE_MAPPING(...)` claims with preservation states `PRESERVED`, `PARTIAL`, `UNSUPPORTED`, `INDETERMINATE`, and `LOSSY`. These are not assertion-map statuses and do not promote any runtime evidence.
+A9 role vocabulary is `ARCHITECTURE_PRESERVING_EVIDENCE`, `PROFILE_SPECIFIC_REALIZATION`, `PARTIAL_ARCHITECTURE_COVERAGE`, `FALSIFICATION_INSTRUMENT`, `LABORATORY_ONLY_CONSTRAINT`, and `NOT_ARCHITECTURE_EVIDENCE`.
 
-The ten preservation obligations `A8-P01`…`A8-P10` cover A2 ontology distinctions, A3 transition outcomes, A4 laws, A5 identity/time/order, A6 lifecycle/history, A7 conflict/uncertainty/revision, Context/Provenance/Source/Authority, bounded accountability, and explicit capability/loss declarations.
+P5/C3 supplies narrow storage-profile evidence inside a shared Python/conventional-digital lineage. It does not prove independent-computation-model or arbitrary-substrate equivalence. Current Event/reducer/hash/sequence/byte mechanisms remain valid laboratory mechanisms where versioned contracts require them, but A8 meaning preservation remains the architecture-level authority.
 
-A8 distinguishes `PHYSICAL_IDENTITY`, `REPRESENTATION_EQUIVALENCE`, `SEMANTIC_OBLIGATION_EQUIVALENCE`, `BEHAVIORAL_CONFORMANCE_FOR_SCOPE`, and `LINEAGE_CONTINUITY_EQUIVALENCE`. Physical identity is neither necessary nor sufficient for semantic equivalence.
-
-A8 allows representation, storage, language, hardware, synchronization, time/uncertainty representation and execution model to vary if required meaning survives. It does not universalize SQL, JSON, Event sourcing, reducers, SHA-256, global clocks/order, Python, LLMs, embeddings, silicon, network or cloud.
-
-Scoped outcomes are `FULL_CONFORMANCE_FOR_SCOPE`, `BOUNDED_CONFORMANCE`, `NON_CONFORMANT_FOR_SCOPE`, and `INDETERMINATE_CONFORMANCE`. A profile that cannot preserve a materially required distinction must declare degradation rather than silently approximate and claim full equivalence.
-
-A8 does not grade P1–C5. That is A9. It does not claim an implemented neuromorphic/analog/quantum/future profile or prove compatibility with arbitrary future substrates.
+P4/C4/C5 are useful falsification/measurement surfaces. A9 does not delete profile-specific code: label it, preserve reproducibility/evidence lineage, and prevent silent Canon promotion.
 
 ## Active sequence
 
@@ -92,8 +82,8 @@ A1 Purpose and Non-goals                         DRAFTED / PROVISIONAL
 → A6 Knowledge Lifecycle                        DRAFTED / PROVISIONAL
 → A7 Conflict / Uncertainty / Revision          DRAFTED / PROVISIONAL
 → A8 Substrate-independence Contract            DRAFTED / PROVISIONAL
-→ A9 Reference Laboratory Boundary              NEXT BOUNDED SLICE
-→ A10 Open Questions / Falsification
+→ A9 Reference Laboratory Boundary              DRAFTED / PROVISIONAL
+→ A10 Open Questions and Falsification           NEXT BOUNDED SLICE
 → integrated blueprint review
 → separate operator decision before runtime expansion
 ```
@@ -105,11 +95,9 @@ No new semantic/runtime expansion before blueprint gate completion.
 ```text
 Issue #18: PENDING_OPERATOR — no license/publication selection
 Issue #74 / ADR-0024: PROPOSED / PENDING_OPERATOR — reducer v1 immutable; reducer-v2 unauthorized
-ADR-0003: PROPOSED / NOT_STARTED — no proposed runtime/Event lifecycle accepted
+ADR-0003: PROPOSED / NOT_STARTED
 Track H source admission: operator-controlled
 ```
-
-Architecture research does not silently decide these boundaries. Issue #14/#15/#16/#17 retain their existing versioned contract/conformance and remaining evidence scopes.
 
 ## Track boundary
 
@@ -119,76 +107,26 @@ C clean implementation: PRESERVED / PARTIAL / bounded reference laboratory
 R architecture re-foundation: ACTIVE / blueprint-first / no automatic promotion
 ```
 
-```text
-NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GLOBALLY_LOST
-reference laboratory ≠ final architecture
-blueprint documentation ≠ runtime evidence
-C5 bounded rehearsal ≠ production readiness
-```
-
 ## Checkpoint roles
 
 ```text
 publication checkpoint:
   10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c
-
 manifest source / Notion synchronized descendant:
   70acd0da61fee19131947aa56125833adb156ced
 ```
 
 The later Notion synchronization checkpoint does not rewrite or replace the earlier publication checkpoint. Live HEAD comes from Git/GitHub; committed state does not predict its own future merge or Notion synchronization identity.
 
-## Truth surfaces
-
-```text
-CURRENT STATE
-  ../../STATUS.md
-  ../../project-state.json
-  CURRENT_STATE.md
-
-ACTIVE ROADMAP
-  ../../ROADMAP.md
-  ../ARCHITECTURE_REFOUNDATION.md
-  ../ARCHITECTURE_REFOUNDATION.ru.md
-
-DRAFTED BLUEPRINT CONTENT
-  ../A1_KERNEL_PURPOSE_AND_NON_GOALS.md
-  ../A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md
-  ../A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md
-  ../A4_SEMANTIC_LAWS_AND_INVARIANTS.md
-  ../A5_IDENTITY_TIME_AND_CHANGE.md
-  ../A6_KNOWLEDGE_LIFECYCLE.md
-  ../A7_CONFLICT_UNCERTAINTY_AND_REVISION.md
-  ../A8_SUBSTRATE_INDEPENDENCE_CONTRACT.md
-  plus Russian counterparts
-```
-
-Historical records, proposals and Notion do not override current GitHub truth.
-
-## Source-of-truth order
-
-1. exact code/tests/contracts/artifact bytes;
-2. exact-SHA CI and live GitHub refs/issues/reviews;
-3. `project-state.json`, `STATUS.md`, `CURRENT_STATE.md`;
-4. accepted ADRs/versioned contracts;
-5. active blueprint plan and drafted research deliverables;
-6. implementation/reconciliation history;
-7. Notion and chats.
-
 ## Automated guards
 
 ```bash
-python tools/evidence/verify_bundle.py evidence/c5/2026-08-07/manifest.json
-python tools/evidence/verify_bundle.py evidence/c5/2026-08-08-adr0023/manifest.json
 python tools/ai_context/validate_project_state.py --repo .
 python tools/ai_context/validate_architecture_freeze.py --repo .
-python tools/ai_context/validate_reconciliation.py --repo .
 python tools/ai_context/validate_context.py --repo .
 python tools/docs/validate_bilingual_parity.py --repo .
-python -m unittest discover -s tests -p 'test_a5_identity_time_change.py' -v
-python -m unittest discover -s tests -p 'test_a6_knowledge_lifecycle.py' -v
-python -m unittest discover -s tests -p 'test_a7_conflict_uncertainty_revision.py' -v
 python -m unittest discover -s tests -p 'test_a8_substrate_independence_contract.py' -v
+python -m unittest discover -s tests -p 'test_a9_reference_laboratory_boundary.py' -v
 ```
 
-A8 drafting does not change runtime, evidence identities, assertion arithmetic, NK-EPI, maturity, or production status.
+A9 drafting does not change runtime, evidence identities, assertion arithmetic, NK-EPI, maturity, or production status.

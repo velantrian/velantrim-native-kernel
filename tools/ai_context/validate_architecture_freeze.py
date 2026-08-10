@@ -40,26 +40,11 @@ EXPECTED_REFOUNDATION_FIELDS = {
     "existing_reference_runtime_role", "plan_en", "plan_ru", "deliverables",
     "completion_requires_operator_review", "completed_deliverables", "next_content_slice",
 }
-EXPECTED_COMPLETED_DELIVERABLES = [
-    "A1_KERNEL_PURPOSE_AND_NON_GOALS",
-    "A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY",
-    "A3_ABSTRACT_NATIVE_KERNEL_MACHINE",
-    "A4_SEMANTIC_LAWS_AND_INVARIANTS",
-    "A5_IDENTITY_TIME_AND_CHANGE",
-    "A6_KNOWLEDGE_LIFECYCLE",
-    "A7_CONFLICT_UNCERTAINTY_AND_REVISION",
-    "A8_SUBSTRATE_INDEPENDENCE_CONTRACT",
-]
-EXPECTED_NEXT_CONTENT_SLICE = "A9_REFERENCE_LABORATORY_BOUNDARY"
+EXPECTED_COMPLETED_DELIVERABLES = EXPECTED_DELIVERABLES[:9]
+EXPECTED_NEXT_CONTENT_SLICE = "A10_OPEN_QUESTIONS_AND_FALSIFICATION"
 COMPLETED_DELIVERABLE_DOCS = {
-    "A1_KERNEL_PURPOSE_AND_NON_GOALS": ("docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.md", "docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md"),
-    "A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY": ("docs/A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md", "docs/A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md"),
-    "A3_ABSTRACT_NATIVE_KERNEL_MACHINE": ("docs/A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md", "docs/A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md"),
-    "A4_SEMANTIC_LAWS_AND_INVARIANTS": ("docs/A4_SEMANTIC_LAWS_AND_INVARIANTS.md", "docs/A4_SEMANTIC_LAWS_AND_INVARIANTS.ru.md"),
-    "A5_IDENTITY_TIME_AND_CHANGE": ("docs/A5_IDENTITY_TIME_AND_CHANGE.md", "docs/A5_IDENTITY_TIME_AND_CHANGE.ru.md"),
-    "A6_KNOWLEDGE_LIFECYCLE": ("docs/A6_KNOWLEDGE_LIFECYCLE.md", "docs/A6_KNOWLEDGE_LIFECYCLE.ru.md"),
-    "A7_CONFLICT_UNCERTAINTY_AND_REVISION": ("docs/A7_CONFLICT_UNCERTAINTY_AND_REVISION.md", "docs/A7_CONFLICT_UNCERTAINTY_AND_REVISION.ru.md"),
-    "A8_SUBSTRATE_INDEPENDENCE_CONTRACT": ("docs/A8_SUBSTRATE_INDEPENDENCE_CONTRACT.md", "docs/A8_SUBSTRATE_INDEPENDENCE_CONTRACT.ru.md"),
+    item: (f"docs/{item}.md", f"docs/{item}.ru.md")
+    for item in EXPECTED_COMPLETED_DELIVERABLES
 }
 
 
@@ -114,8 +99,7 @@ def validate(state: Mapping[str, Any], *, repo: Path) -> None:
     _require(refoundation.get("next_content_slice") == EXPECTED_NEXT_CONTENT_SLICE, "next blueprint content slice drift")
     _require(EXPECTED_NEXT_CONTENT_SLICE not in completed, "next content slice must not already be marked completed")
     for plan_field in ("plan_en", "plan_ru"):
-        plan = repo / str(refoundation[plan_field])
-        _require(plan.is_file(), f"missing architecture blueprint plan: {plan}")
+        _require((repo / str(refoundation[plan_field])).is_file(), f"missing architecture blueprint plan: {refoundation[plan_field]}")
     for deliverable in completed:
         docs = COMPLETED_DELIVERABLE_DOCS.get(deliverable)
         _require(docs is not None, f"missing completed deliverable document mapping: {deliverable}")
@@ -136,6 +120,7 @@ def validate(state: Mapping[str, Any], *, repo: Path) -> None:
     for phrase in (
         "architecture re-foundation documentation is not runtime implementation evidence",
         "future-facing blueprint does not prove compatibility with arbitrary future substrates",
+        "a9 reference-laboratory boundary is drafted and provisional",
     ):
         _require(phrase in non_claims, f"missing architecture boundary: {phrase}")
 
@@ -152,7 +137,7 @@ def main(argv: list[str] | None = None) -> int:
     except ArchitectureFreezeError as exc:
         print(f"Architecture freeze validation failed: {exc}", file=sys.stderr)
         return 1
-    print("Architecture freeze validation passed; decision=ADR-0025; issue=88; deliverables=A1-A10; completed=A1,A2,A3,A4,A5,A6,A7,A8; next=A9; runtime_expansion_frozen=true")
+    print("Architecture freeze validation passed; decision=ADR-0025; issue=88; deliverables=A1-A10; completed=A1,A2,A3,A4,A5,A6,A7,A8,A9; next=A10; runtime_expansion_frozen=true")
     return 0
 
 
