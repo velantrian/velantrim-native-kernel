@@ -19,11 +19,10 @@ active_architecture_issue: 88
 architecture_phase: ARCHITECTURE_REFOUNDATION_BLUEPRINT_FIRST
 ```
 
-> **Repository status:** `RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY`
->
+> **Repository status:** `RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY`  
 > **Active research phase:** `ARCHITECTURE RE-FOUNDATION / BLUEPRINT-FIRST / RUNTIME EXPANSION FROZEN`.
 
-A checkpoint is not automatically the live branch head. Live `main` must be resolved from GitHub or the checked-out Git ref. A later documentation or metadata commit does not silently broaden the proof scope of an earlier runtime, evidence, publication, or Notion checkpoint.
+Committed checkpoints are role-bearing historical references, not automatic live HEAD. Resolve live `main` through GitHub or the checked-out Git ref. Later documentation does not broaden earlier runtime/evidence proof.
 
 ## Current implementation boundary
 
@@ -37,58 +36,53 @@ assertion map: 45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED / 0 FAILED
 NK-EPI:        0 SUPPORTED / 0 PARTIAL / 8 UNSUPPORTED / 0 FAILED
 ```
 
-P1–P5, C4, and C5 remain merged in the clean lineage and remain a **BOUNDED REFERENCE LABORATORY**. They are not the final definition of Native Kernel and may not expand semantic/runtime scope before the blueprint completion gate.
+P1–P5, C4 and C5 remain a **BOUNDED REFERENCE LABORATORY**. They are preserved, useful and testable, but are not the final Native Kernel architecture and may not expand semantic/runtime scope before the blueprint gate.
 
 ## Active Architecture Re-foundation
 
-ADR-0025 records the operator-approved priority:
-
-```text
-complete the architecture blueprint
-before further semantic/runtime expansion
-```
-
+Decision: [ADR-0025](docs/adr/0025-blueprint-before-runtime-expansion.md).  
 Plan: [English](docs/ARCHITECTURE_REFOUNDATION.md) · [Русский](docs/ARCHITECTURE_REFOUNDATION.ru.md).  
 Tracking: [Issue #88](https://github.com/velantrian/velantrim-native-kernel/issues/88).
 
-Required deliverables:
+Drafted provisional deliverables:
 
-1. Kernel purpose and non-goals — `DRAFTED / PROVISIONAL`: [English](docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.md) · [Русский](docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md);
-2. knowledge and memory ontology — `DRAFTED / PROVISIONAL`: [English](docs/A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md) · [Русский](docs/A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md);
-3. abstract Native Kernel machine — `DRAFTED / PROVISIONAL`: [English](docs/A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md) · [Русский](docs/A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md);
-4. semantic laws and invariants — `DRAFTED / PROVISIONAL`: [English](docs/A4_SEMANTIC_LAWS_AND_INVARIANTS.md) · [Русский](docs/A4_SEMANTIC_LAWS_AND_INVARIANTS.ru.md);
-5. identity, time, and change model — `NEXT BOUNDED SLICE`;
-6. knowledge lifecycle;
-7. conflict, uncertainty, and revision model;
-8. substrate-independence contract;
-9. reference-laboratory boundary;
-10. open questions and falsification criteria.
+1. [A1 — Kernel Purpose and Non-goals](docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.md) · [RU](docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md);
+2. [A2 — Knowledge and Memory Ontology](docs/A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md) · [RU](docs/A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md);
+3. [A3 — Abstract Native Kernel Machine](docs/A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md) · [RU](docs/A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md);
+4. [A4 — Semantic Laws and Invariants](docs/A4_SEMANTIC_LAWS_AND_INVARIANTS.md) · [RU](docs/A4_SEMANTIC_LAWS_AND_INVARIANTS.ru.md);
+5. [A5 — Identity, Time, and Change](docs/A5_IDENTITY_TIME_AND_CHANGE.md) · [RU](docs/A5_IDENTITY_TIME_AND_CHANGE.ru.md).
 
 Current progress:
 
 ```text
 ADR-0025 decision: ACCEPTED / OPERATOR APPROVED
 blueprint plan: PRESENT
-blueprint content: A1-A4 DRAFTED / PROVISIONAL; A5-A10 INCOMPLETE
-next content slice: A5 — IDENTITY / TIME / CHANGE
+blueprint content: A1-A5 DRAFTED / PROVISIONAL; A6-A10 INCOMPLETE
+next content slice: A6 — KNOWLEDGE LIFECYCLE
 runtime expansion: FROZEN
 ```
 
-A2 defines a provisional technology-/substrate-neutral distinction set for Signal, Observation, Record, Proposition, Claim, Interpretation, Hypothesis, Belief, Knowledge, Memory, Evidence, Source, Provenance, Context, Relation, State, Change, Event, Conflict, Contradiction, Uncertainty, Revision, Supersession, Authority, and Receipt. It rejects automatic promotion of current Python classes, SQL schemas, reducer output, or Event sourcing into Canon.
+A1–A5 are still pending independent review and integrated A1–A10 review. Drafting a slice is not Canon promotion.
 
-A3 proposes a provisional scoped obligation-and-transition machine with thirteen logical configuration facets, thirteen transition families, explicit preconditions/postconditions, failure outcomes, Authority boundaries, ordering/concurrency rules, and contrasting manual, analog/neuromorphic, and digital laboratory mappings. It does not make transition synonymous with Event, State synonymous with reducer output, or conformance synonymous with production authorization.
+### A5 candidate model
 
-A4 drafts `nk-semantic-laws/A4-draft-1`: 28 deduplicated, provisional semantic laws across representation/epistemics, Context/Provenance/Authority, identity/memory/time/change, Relation/Conflict/Uncertainty, derived views/selection/accountability, and substrate/conformance. Each law records a rationale, counterexample/falsifier, failure mode, observable obligation, and exception/open uncertainty. The count and content remain provisional and may change during independent and integrated review. The previously erroneous Notion-only `nk-semantic-laws/0.1-draft` identity is not reused.
+A5 introduces provisional `nk-identity-time-change/A5-draft-1`. Identity is a typed/scoped relation, not one universal identifier. The draft distinguishes:
 
-Maintenance remains allowed for integrity, security, reproducibility, provenance, evidence preservation, truth-surface repair, historical recovery, and isolated blueprint-falsification experiments with no runtime promotion.
+```text
+REFERENT_IDENTITY
+SEMANTIC_CONTENT_IDENTITY
+CLAIM_POSITION_IDENTITY
+RECORD_IDENTITY
+LINEAGE_CONTINUITY_IDENTITY
+OCCURRENCE_IDENTITY
+SUBSTRATE_LOCAL_IDENTITY
+```
 
-## Three independent tracks
+It also distinguishes occurrence/valid/Observation/assertion/Record/decision/effective/write-commit time and separates occurrence, causal, lineage, decision, local-write and synchronization ordering. `SAME`, `DISTINCT`, `CONTINUATION_OF`, `VERSION_OF`, `ALIAS_OF`, `MIGRATED_FROM`, and `UNRESOLVED` are scoped outcomes, not universal metaphysical verdicts.
 
-| Track | Scope | Current state |
-|---|---|---|
-| `H` — Historical Recovery | authentic `v0.1.2.1` and original 44-test suite | `BLOCKED / ACTIVE EVIDENCE-RECOVERY`; not found in accessible sources |
-| `C` — Clean Reference Implementation | P1–P5, C4, C5 | `PRESERVED / PARTIAL / BOUNDED REFERENCE LABORATORY` |
-| `R` — Architecture Re-foundation | blueprint A1–A10 and long-horizon research | `ACTIVE / BLUEPRINT-FIRST / NO AUTOMATIC RUNTIME PROMOTION` |
+A5 reconciles but does not supersede existing accepted contracts. `nk-id/1.0` remains a versioned reference encoding contract; UTF-8/NFC/JSON/SHA-256 and identity-bearing `asserted_at` are not promoted by A5 into the only substrate-neutral identity realization. `global_seq`/`stream_seq` remain reference-laboratory ordering mechanisms rather than universal occurrence or causal order. Existing deletion states remain a bounded profile mechanism rather than universal lifecycle Canon.
+
+## Required non-equivalences
 
 ```text
 NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GLOBALLY_LOST
@@ -112,97 +106,53 @@ transition ≠ Event envelope
 transition relation ≠ reducer
 history visibility ≠ mandatory Event sourcing
 admission ≠ truth
+semantic identity ≠ storage identity
+equal bytes/hash/text ≠ universal semantic identity
+write order ≠ represented-world or causal order
+Revision ≠ silent overwrite
+Supersession ≠ deletion or falsity
+restriction ≠ logical erase ≠ physical deletion ≠ cryptographic erasure ≠ forgetting
+Receipt/accountability ≠ correctness or truth
 profile conformance ≠ production authorization
 ```
 
-A4 additionally makes explicit that semantic identity is not storage identity, write order is not automatically represented-world order, Revision is not silent overwrite, Supersession is not deletion/falsity, derived views do not become universal State, Receipt/accountability does not prove correctness, and cross-profile equivalence must be named rather than assumed.
-
-## Checkpoint roles
-
-| Role | Checkpoint | Meaning |
-|---|---|---|
-| Machine truth reconciliation | `d9eee591de308a689ace940c2efe58c9e8a137f2` | PR #80 introduced `nk-project-state/2` and checkpoint-role guards. |
-| Human truth reconciliation | `07549a0cd952b4e06b61ef24d21b2dcdbc9f861d` | PR #81 separated current truth from history and proposals. |
-| Issues and Notion reconciliation record | `cdf559a3a32decd538e4cab3dd7fb591fc6e9322` | PR #82 recorded reconciled foundational issues and Notion structure. |
-| Publication checkpoint | `10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c` | PR #83 published pending operator decision packages. |
-| Runtime | `675aa4b398a2fc0181dc71d38904a2d33a09f5f8` | ADR-0023 safe SQLite/Event runtime checkpoint. |
-| Runtime integrity follow-up | `a1cdc6d8f36d67f40f065641809bc6da463c10a4` | PR #72 closed post-merge integrity findings. |
-| Evidence producing | `296981ae84ad5bdab5dabbec9b7b9ebb43af63d7` | C5 implementation evidence lineage. |
-| Manifest source / Notion synchronized descendant | `70acd0da61fee19131947aa56125833adb156ced` | PR #86 was merged, validated, synchronized, and read back before the current machine snapshot. |
-
-The publication and Notion synchronization checkpoints are intentionally different roles. This candidate does not rewrite runtime or evidence identities and does not predict its own future merge or Notion synchronization SHA.
-
-## Independent pending decisions
+## Independent tracks and decisions
 
 | Boundary | State | Effect |
 |---|---|---|
-| License/publication — Issue #18 | `PENDING_OPERATOR / selected_option: null` | no license change; external contributions and package publication remain unauthorized |
-| Reducer semantics — Issue #74 / ADR-0024 | `PROPOSED / PENDING_OPERATOR / selected_option: null` | reducer v1 remains immutable; reducer-v2 runtime remains unauthorized |
+| Track H historical recovery | `BLOCKED / ACTIVE EVIDENCE-RECOVERY` | operator-controlled source admission; A5 does not alter it |
+| Issue #18 license/publication | `PENDING_OPERATOR / selected_option: null` | no license change; external contribution/publication regime remains unauthorized |
+| Issue #74 / ADR-0024 | `PROPOSED / PENDING_OPERATOR / selected_option: null` | reducer v1 remains immutable; reducer-v2 remains unauthorized |
 
-These decisions do not block blueprint research. Issue #18 still blocks an open contribution/publication regime. ADR-0024 still blocks reducer-v2 work.
+Issue #14, #15 and #16 retain their existing accepted/versioned contract and remaining-evidence scopes. A5 does not close or silently redefine them.
 
 ## Runtime freeze
 
-Not authorized until a separate post-blueprint operator decision:
+Allowed under ADR-0025: architecture research, integrity/security/reproducibility/provenance fixes, evidence preservation, truth-surface/validator repairs, historical recovery, and isolated blueprint-falsification experiments without promotion.
 
-- reducer-v2 runtime or new semantic Event verbs;
-- executable NK-EPI;
-- Temporal runtime;
-- full Admission lifecycle;
-- operational deletion;
-- new database or independent-language profiles;
-- LLM/vector/Titan/Crystal/Mentaury integration;
-- production promotion.
+Not authorized: reducer-v2 runtime, new semantic Event verbs, executable NK-EPI, Temporal runtime, full Admission lifecycle, operational deletion expansion, new databases/language profiles/model adapters/ecosystem integrations, maturity promotion, or production authorization.
 
-## Durable evidence
+## Evidence boundary
 
-Repository-resident evidence remains immutable under its original identities:
+Repository evidence remains version-bound under its original identities:
 
 ```text
 evidence/c5/2026-08-07/manifest.json
 evidence/c5/2026-08-08-adr0023/manifest.json
 ```
 
-The retained archives prove only their declared environments, inputs, runs, and bounded outputs. Blueprint-first governance and A4 documentation do not expand their proof boundary.
+A5 documentation does not create new runtime evidence, change assertion arithmetic, or prove arbitrary future-substrate support.
 
 ## Explicit non-claims
 
 ```text
-Architecture Re-foundation
-≠ completed blueprint
-≠ runtime implementation
-≠ future substrate support
-
-A1-A4 DRAFTED
-≠ independent approval
-≠ integrated blueprint approval
-≠ Canon promotion
-
-28 candidate A4 laws
-≠ eternal/final law count
-≠ executable NK-EPI support
-≠ runtime conformance promotion
-
-C5 PASS
-≠ production readiness
-≠ live-user-traffic validation
-≠ full substrate neutrality
-≠ independent language equivalence
-≠ complete Event authenticity
-≠ physical or cryptographic deletion
-≠ compliance certification
-≠ authority or truth promotion
-≠ NK-EPI advancement
-≠ recovered v0.1.2.1
+Architecture Re-foundation ≠ completed blueprint
+A1-A5 DRAFTED ≠ independent approval ≠ integrated blueprint approval ≠ Canon promotion
+A5 model ≠ accepted universal identity theory
+A5 model ≠ replacement of nk-id/1.0 / nk-event/1.0 / nk-deletion/1.0
+A5 model ≠ executable Temporal runtime
+C5 PASS ≠ production readiness
+public repository ≠ open-source license
 ```
 
-## Historical record
-
-Earlier chronology remains inspectable in Git history and version-bound records:
-
-- [`docs/ai/C5_IMPLEMENTATION_RECORD.md`](docs/ai/C5_IMPLEMENTATION_RECORD.md)
-- [`docs/adr/0023-harden-sqlite-wal-and-event-integrity.md`](docs/adr/0023-harden-sqlite-wal-and-event-integrity.md)
-- [`evidence/c5/README.md`](evidence/c5/README.md)
-- [`docs/adr/0025-blueprint-before-runtime-expansion.md`](docs/adr/0025-blueprint-before-runtime-expansion.md)
-
-Historical reports remain evidence of their exact checkpoints. They are not the authoritative active roadmap.
+Historical implementation records, accepted ADRs, immutable evidence manifests and Git history remain inspectable but do not override this current blueprint state.
