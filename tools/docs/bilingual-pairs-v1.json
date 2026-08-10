@@ -6,13 +6,7 @@
       "english": "README.md",
       "russian": "README.ru.md",
       "selectors": ["(./README.md)", "(./README.ru.md)"],
-      "shared_literals": [
-        "RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY",
-        "45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED",
-        "0 SUPPORTED / 0 PARTIAL / 8 UNSUPPORTED / 0 FAILED",
-        "C5_BOUNDED_REHEARSAL",
-        "production_authorized:      false"
-      ],
+      "shared_literals": ["RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY", "45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED", "0 SUPPORTED / 0 PARTIAL / 8 UNSUPPORTED / 0 FAILED", "C5_BOUNDED_REHEARSAL", "production_authorized:      false"],
       "english_literals": ["Human quickstart", "Current evidence"],
       "russian_literals": ["Быстрый старт для человека", "Текущая карта evidence"],
       "compare_heading_levels": true,
@@ -125,6 +119,17 @@
       "shared_literals": ["A8_SUBSTRATE_INDEPENDENCE_CONTRACT", "nk-substrate-independence/A8-draft-1", "next_content_slice: A9_REFERENCE_LABORATORY_BOUNDARY", "ADR-0025", "Issue #88", "SUBSTRATE_MAPPING(", "A8-P01", "A8-P10", "PRESERVED", "LOSSY", "FULL_CONFORMANCE_FOR_SCOPE", "INDETERMINATE_CONFORMANCE", "SEMANTIC_OBLIGATION_EQUIVALENCE", "physical identity", "universal portability proof"],
       "english_literals": ["Definition of substrate independence", "Cross-substrate equivalence criteria"],
       "russian_literals": ["Определение substrate independence", "Cross-substrate equivalence criteria"],
+      "compare_heading_levels": true,
+      "require_single_h1": true
+    },
+    {
+      "pair_id": "a9-reference-laboratory-boundary",
+      "english": "docs/A9_REFERENCE_LABORATORY_BOUNDARY.md",
+      "russian": "docs/A9_REFERENCE_LABORATORY_BOUNDARY.ru.md",
+      "selectors": [],
+      "shared_literals": ["A9", "nk-reference-laboratory-boundary/A9-draft-1", "A10_OPEN_QUESTIONS_AND_FALSIFICATION", "ADR-0025", "Issue #88", "ARCHITECTURE_PRESERVING_EVIDENCE", "PROFILE_SPECIFIC_REALIZATION", "PARTIAL_ARCHITECTURE_COVERAGE", "FALSIFICATION_INSTRUMENT", "LABORATORY_ONLY_CONSTRAINT", "NOT_ARCHITECTURE_EVIDENCE", "PostgreSQL ↔ SQLite C3", "independent-language equivalence", "arbitrary-substrate portability proof"],
+      "english_literals": ["Mechanism classification matrix", "First-draft completion test"],
+      "russian_literals": ["Матрица классификации механизмов", "First-draft completion test"],
       "compare_heading_levels": true,
       "require_single_h1": true
     },
