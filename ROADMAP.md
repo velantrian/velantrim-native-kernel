@@ -56,9 +56,10 @@ Drafted provisional content:
 - `A5 — Identity, Time, and Change`: [English](docs/A5_IDENTITY_TIME_AND_CHANGE.md) · [Русский](docs/A5_IDENTITY_TIME_AND_CHANGE.ru.md);
 - `A6 — Knowledge Lifecycle`: [English](docs/A6_KNOWLEDGE_LIFECYCLE.md) · [Русский](docs/A6_KNOWLEDGE_LIFECYCLE.ru.md);
 - `A7 — Conflict, Uncertainty, and Revision`: [English](docs/A7_CONFLICT_UNCERTAINTY_AND_REVISION.md) · [Русский](docs/A7_CONFLICT_UNCERTAINTY_AND_REVISION.ru.md);
-- `A8 — Substrate-Independence Contract`: [English](docs/A8_SUBSTRATE_INDEPENDENCE_CONTRACT.md) · [Русский](docs/A8_SUBSTRATE_INDEPENDENCE_CONTRACT.ru.md).
+- `A8 — Substrate-Independence Contract`: [English](docs/A8_SUBSTRATE_INDEPENDENCE_CONTRACT.md) · [Русский](docs/A8_SUBSTRATE_INDEPENDENCE_CONTRACT.ru.md);
+- `A9 — Reference Laboratory Boundary`: [English](docs/A9_REFERENCE_LABORATORY_BOUNDARY.md) · [Русский](docs/A9_REFERENCE_LABORATORY_BOUNDARY.ru.md).
 
-A1–A8 remain pending independent review and integrated blueprint review with A9–A10. The next bounded content slice is `A9 — Reference Laboratory Boundary`.
+A1–A9 remain pending independent review and integrated blueprint review with A10. The next bounded content slice is `A10 — Open Questions and Falsification`.
 
 ```text
 A1 Purpose and Non-goals                         DRAFTED / PROVISIONAL
@@ -69,29 +70,44 @@ A1 Purpose and Non-goals                         DRAFTED / PROVISIONAL
 → A6 Knowledge Lifecycle                        DRAFTED / PROVISIONAL
 → A7 Conflict / Uncertainty / Revision          DRAFTED / PROVISIONAL
 → A8 Substrate-independence Contract            DRAFTED / PROVISIONAL
-→ A9 Reference Laboratory Boundary              NEXT BOUNDED SLICE
-→ A10 Open Questions / Falsification
+→ A9 Reference Laboratory Boundary              DRAFTED / PROVISIONAL
+→ A10 Open Questions and Falsification           NEXT BOUNDED SLICE
 → integrated blueprint review
 → operator decision on reopening runtime work
 ```
 
-### A8 contribution
+### A9 contribution
 
-A8 candidate `nk-substrate-independence/A8-draft-1` defines the cross-substrate preservation contract for A1–A7. It does not require physical, representational, serialization, database, instruction, timing, or hardware sameness.
+A9 candidate `nk-reference-laboratory-boundary/A9-draft-1` classifies the existing P1–C5 implementation lineage against A1–A8 without promoting laboratory mechanisms into universal Canon.
 
-It introduces `SUBSTRATE_MAPPING(...)` with `PRESERVED`, `PARTIAL`, `UNSUPPORTED`, `INDETERMINATE`, and `LOSSY` preservation states. A profile unable to preserve a materially required distinction must declare the limitation and weaken or fail its conformance claim; it must not silently approximate and claim full equivalence.
+It uses six scoped role labels: `ARCHITECTURE_PRESERVING_EVIDENCE`, `PROFILE_SPECIFIC_REALIZATION`, `PARTIAL_ARCHITECTURE_COVERAGE`, `FALSIFICATION_INSTRUMENT`, `LABORATORY_ONLY_CONSTRAINT`, and `NOT_ARCHITECTURE_EVIDENCE`. A mechanism may carry multiple roles.
 
-Ten preservation obligations (`A8-P01`…`A8-P10`) cover ontology distinctions, abstract-transition outcomes, semantic laws, typed identity, temporal/order meaning, lifecycle/history, conflict/uncertainty/revision, Context/Provenance/Source/Authority, bounded accountability, and capability/loss declarations.
+Key result: P5/C3 is genuine but narrow architecture-preserving evidence for a storage-profile change. PostgreSQL and SQLite differ in SQL/layout/locking/topology while selected supported semantic outcomes remain stable. However both profiles share Python, conventional digital execution, the semantic core/reducer model, current Event vocabulary/encodings, related harnesses and repository custody. Therefore:
 
-A8 distinguishes physical identity, representation equivalence, semantic-obligation equivalence, behavioral conformance for scope, and lineage-continuity equivalence. Physical identity is neither necessary nor sufficient for semantic equivalence. Same output is likewise insufficient for full semantic equivalence.
+```text
+PostgreSQL ↔ SQLite C3
+= useful cross-profile evidence
+≠ independent-language equivalence
+≠ independent-computation-model equivalence
+≠ arbitrary-substrate portability proof
+```
 
-A8 permits different memory carriers, layouts, languages, data structures, indexing, persistence, synchronization, parallelism, distribution, time representation, uncertainty representation, and processor models if required meaning remains preserved. It explicitly does not require SQL, JSON, SHA-256, Event sourcing, reducers, global sequence numbers, synchronized wall clocks, LLMs, embeddings, Python, network, cloud, or silicon.
+Current Event/reducer/sequence/hash/Receipt/CI mechanisms remain binding where their accepted versioned laboratory contracts require them, but they are not automatically substrate-neutral requirements. Exact imported Event bytes may be a valid laboratory constraint while A8 still permits different representations to count as semantically equivalent when meaning is preserved.
 
-A8 defines `FULL_CONFORMANCE_FOR_SCOPE`, `BOUNDED_CONFORMANCE`, `NON_CONFORMANT_FOR_SCOPE`, and `INDETERMINATE_CONFORMANCE`. It rejects universal future-substrate portability claims and leaves detailed P1–C5 grading to A9.
+P4, C4 and C5 are especially useful as measurement/falsification instruments. C5 remains bounded synthetic operational rehearsal, not production readiness, live-data safety, independent custody, compliance, HA or universal conformance evidence.
 
-### A7 contribution
+A9 preserves profile-specific mechanisms rather than deleting them:
 
-A7 candidate `nk-conflict-uncertainty-revision/A7-draft-1` remains the provisional conflict/uncertainty/revision layer beneath A8. Its assessment/resolution states are preserved by meaning, not mandatory storage enums. A8 does not weaken `Conflict ≠ Contradiction`, `Detection ≠ Resolution`, `Resolution-for-scope ≠ Objective Truth`, or the ability to remain unresolved.
+```text
+profile-specific
+→ label correctly
+→ preserve reproducibility
+→ keep evidence lineage
+→ prevent silent Canon promotion
+≠ delete or rewrite automatically
+```
+
+A10 owns unresolved questions and explicit falsification criteria before integrated review.
 
 ## Runtime freeze
 
@@ -142,11 +158,11 @@ production_authorized:      false
 
 ### Reducer referential semantics — Issue #74 / ADR-0024
 
-`PROPOSED / PENDING_OPERATOR / RUNTIME NOT AUTHORIZED`. Reducer v1 remains immutable; A8 does not decide successor topology, reducer-v2 semantics, cycles, self-supersession, or migration.
+`PROPOSED / PENDING_OPERATOR / RUNTIME NOT AUTHORIZED`. Reducer v1 remains immutable; A9 does not decide successor topology, reducer-v2 semantics, cycles, self-supersession, or migration.
 
 ### Semantic-conflict ADR — ADR-0003
 
-`PROPOSED / NOT_STARTED`. A7/A8 preserve compatible blueprint semantics but do not promote its proposed conflict Event vocabulary.
+`PROPOSED / NOT_STARTED`. A7–A9 preserve compatible blueprint semantics but do not promote its proposed conflict Event vocabulary.
 
 ## Downstream contract work
 
@@ -178,24 +194,15 @@ The phase is complete only when:
 ## Explicit non-claims
 
 ```text
-A1-A8 drafted ≠ independent approval or integrated blueprint approval
+A1-A9 drafted ≠ independent approval or integrated blueprint approval
+A9 classification ≠ current mechanisms are universal Canon
+PostgreSQL + SQLite C3 ≠ independent-language equivalence ≠ arbitrary-substrate portability proof
+profile-specific ≠ architectural defect ≠ automatic deletion
 A8 substrate-independence ≠ universal portability proof
-A8 conformance model ≠ proof every present/future substrate can conform
-A8 conformance model ≠ P1-C5 grading
-A8 draft ≠ production authorization
 blueprint documentation ≠ implementation evidence
 reference laboratory ≠ final architecture
-future-facing design ≠ demonstrated future substrate support
-physical identity ≠ semantic equivalence
-same output ≠ full semantic equivalence
-semantic identity ≠ storage identity
 write order ≠ semantic precedence
-Conflict detection ≠ conflict resolution
-resolution-for-scope ≠ objective truth
-Revision ≠ silent overwrite
-Supersession ≠ deletion or falsity
 C5 PASS ≠ production readiness
-PostgreSQL + SQLite ≠ full substrate neutrality
 public repository ≠ open-source license
 ```
 
