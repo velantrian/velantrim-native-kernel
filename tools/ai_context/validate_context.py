@@ -30,6 +30,8 @@ REQUIRED_PATHS = (
     "docs/A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md",
     "docs/A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md",
     "docs/A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md",
+    "docs/A4_SEMANTIC_LAWS_AND_INVARIANTS.md",
+    "docs/A4_SEMANTIC_LAWS_AND_INVARIANTS.ru.md",
     "docs/adr/0025-blueprint-before-runtime-expansion.md",
     "docs/ai/README.md",
     "docs/ai/CURRENT_STATE.md",
@@ -63,6 +65,8 @@ LINK_SCAN_PATHS = (
     "docs/A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md",
     "docs/A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md",
     "docs/A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md",
+    "docs/A4_SEMANTIC_LAWS_AND_INVARIANTS.md",
+    "docs/A4_SEMANTIC_LAWS_AND_INVARIANTS.ru.md",
     "docs/adr/0025-blueprint-before-runtime-expansion.md",
     "docs/ai/README.md",
     "docs/ai/CURRENT_STATE.md",
@@ -101,14 +105,15 @@ REQUIRED_STATUS_MARKERS = (
     "Architecture Re-foundation: ACTIVE / BLUEPRINT-FIRST",
     "No new semantic/runtime expansion before blueprint gate completion.",
     "BOUNDED REFERENCE LABORATORY",
-    "blueprint content A1–A3 is `DRAFTED / PROVISIONAL`",
-    "next bounded content slice is `A4 — Semantic Laws and Invariants`",
+    "blueprint content A1–A4 is `DRAFTED / PROVISIONAL`",
+    "next bounded content slice is `A5 — Identity, Time, and Change`",
 )
 FORBIDDEN_STATUS_MARKERS = (
     "Notion remains synchronized only through the recorded publication checkpoint",
     "Next work is limited to explicit operator decisions",
     "next bounded content slice is `A2 — Knowledge and Memory Ontology`",
     "next bounded content slice is `A3 — Abstract Native Kernel Machine`",
+    "next bounded content slice is `A4 — Semantic Laws and Invariants`",
 )
 
 # Explicit fail-closed transition markers. These are deliberately simple string
@@ -118,30 +123,30 @@ FORBIDDEN_STATUS_MARKERS = (
 # an implicit interpretation problem.
 BLUEPRINT_PROGRESS_SURFACES = {
     "STATUS.md": (
-        "blueprint content: A1-A3 DRAFTED / PROVISIONAL; A4-A10 INCOMPLETE",
-        "next content slice: A4 — SEMANTIC LAWS AND INVARIANTS",
+        "blueprint content: A1-A4 DRAFTED / PROVISIONAL; A5-A10 INCOMPLETE",
+        "next content slice: A5 — IDENTITY / TIME / CHANGE",
     ),
     "docs/ai/README.md": (
-        "blueprint content: A1-A3 DRAFTED / PROVISIONAL",
-        "next content slice: A4 — Semantic Laws and Invariants",
-        "changing completed content away from exact A1+A2+A3",
+        "blueprint content: A1-A4 DRAFTED / PROVISIONAL",
+        "next content slice: A5 — Identity / Time / Change",
+        "changing completed content away from exact A1+A2+A3+A4",
     ),
     "ROADMAP.md": (
-        "A1–A3 remain pending independent review and integrated blueprint review with A4–A10.",
-        "The next bounded content slice is `A4 — Semantic Laws and Invariants`.",
-        "A1-A3 drafted ≠ independent approval or integrated blueprint approval",
+        "A1–A4 remain pending independent review and integrated blueprint review with A5–A10.",
+        "The next bounded content slice is `A5 — Identity / Time / Change`.",
+        "A1-A4 drafted ≠ independent approval or integrated blueprint approval",
     ),
     "docs/ARCHITECTURE_REFOUNDATION.md": (
-        "Blueprint content: A1-A3 DRAFTED / PROVISIONAL; A4-A10 NOT YET COMPLETE",
-        "Next bounded slice: A4 SEMANTIC LAWS AND INVARIANTS",
-        "→ A3 Abstract Machine                           DRAFTED / PROVISIONAL",
-        "→ A4 Semantic Laws                              NEXT BOUNDED SLICE",
+        "Blueprint content: A1-A4 DRAFTED / PROVISIONAL; A5-A10 NOT YET COMPLETE",
+        "Next bounded slice: A5 IDENTITY / TIME / CHANGE",
+        "→ A4 Semantic Laws                              DRAFTED / PROVISIONAL",
+        "→ A5 Identity / Time / Change                   NEXT BOUNDED SLICE",
     ),
     "docs/ARCHITECTURE_REFOUNDATION.ru.md": (
-        "Blueprint content: A1-A3 DRAFTED / PROVISIONAL; A4-A10 NOT YET COMPLETE",
-        "Next bounded slice: A4 SEMANTIC LAWS AND INVARIANTS",
-        "→ A3 Abstract Machine                           DRAFTED / PROVISIONAL",
-        "→ A4 Semantic Laws                              NEXT BOUNDED SLICE",
+        "Blueprint content: A1-A4 DRAFTED / PROVISIONAL; A5-A10 NOT YET COMPLETE",
+        "Next bounded slice: A5 IDENTITY / TIME / CHANGE",
+        "→ A4 Semantic Laws                              DRAFTED / PROVISIONAL",
+        "→ A5 Identity / Time / Change                   NEXT BOUNDED SLICE",
     ),
 }
 FORBIDDEN_BLUEPRINT_PROGRESS_MARKERS = (
@@ -151,6 +156,12 @@ FORBIDDEN_BLUEPRINT_PROGRESS_MARKERS = (
     "→ A3 Abstract Machine                           NEXT BOUNDED SLICE",
     "Blueprint content: A1-A2 DRAFTED / PROVISIONAL; A3-A10 NOT YET COMPLETE",
     "Next bounded slice: A3 ABSTRACT NATIVE KERNEL MACHINE",
+    "blueprint content: A1-A3 DRAFTED / PROVISIONAL",
+    "next content slice: A4 — Semantic Laws and Invariants",
+    "A4 Semantic Laws and Invariants               NEXT BOUNDED SLICE",
+    "→ A4 Semantic Laws                              NEXT BOUNDED SLICE",
+    "Blueprint content: A1-A3 DRAFTED / PROVISIONAL; A4-A10 NOT YET COMPLETE",
+    "Next bounded slice: A4 SEMANTIC LAWS AND INVARIANTS",
 )
 
 

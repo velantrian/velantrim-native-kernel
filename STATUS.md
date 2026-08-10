@@ -2,7 +2,7 @@
 
 ```yaml
 document_role: CURRENT_STATE
-status_as_of: 2026-08-09
+status_as_of: 2026-08-10
 authoritative_machine_source: project-state.json (nk-project-state/2)
 live_head_source: GitHub API or checked-out Git ref
 machine_truth_reconciliation_merge: d9eee591de308a689ace940c2efe58c9e8a137f2
@@ -37,7 +37,7 @@ assertion map: 45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED / 0 FAILED
 NK-EPI:        0 SUPPORTED / 0 PARTIAL / 8 UNSUPPORTED / 0 FAILED
 ```
 
-P1–P5, C4, and C5 remain merged in the clean lineage. They are explicitly classified as a **bounded reference laboratory**. They are not the final definition of Native Kernel and may not expand semantic/runtime scope before the blueprint completion gate.
+P1–P5, C4, and C5 remain merged in the clean lineage and remain a **BOUNDED REFERENCE LABORATORY**. They are not the final definition of Native Kernel and may not expand semantic/runtime scope before the blueprint completion gate.
 
 ## Active Architecture Re-foundation
 
@@ -56,8 +56,8 @@ Required deliverables:
 1. Kernel purpose and non-goals — `DRAFTED / PROVISIONAL`: [English](docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.md) · [Русский](docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md);
 2. knowledge and memory ontology — `DRAFTED / PROVISIONAL`: [English](docs/A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md) · [Русский](docs/A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md);
 3. abstract Native Kernel machine — `DRAFTED / PROVISIONAL`: [English](docs/A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md) · [Русский](docs/A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md);
-4. semantic laws and invariants — `NEXT BOUNDED SLICE`;
-5. identity, time, and change model;
+4. semantic laws and invariants — `DRAFTED / PROVISIONAL`: [English](docs/A4_SEMANTIC_LAWS_AND_INVARIANTS.md) · [Русский](docs/A4_SEMANTIC_LAWS_AND_INVARIANTS.ru.md);
+5. identity, time, and change model — `NEXT BOUNDED SLICE`;
 6. knowledge lifecycle;
 7. conflict, uncertainty, and revision model;
 8. substrate-independence contract;
@@ -69,14 +69,16 @@ Current progress:
 ```text
 ADR-0025 decision: ACCEPTED / OPERATOR APPROVED
 blueprint plan: PRESENT
-blueprint content: A1-A3 DRAFTED / PROVISIONAL; A4-A10 INCOMPLETE
-next content slice: A4 — SEMANTIC LAWS AND INVARIANTS
+blueprint content: A1-A4 DRAFTED / PROVISIONAL; A5-A10 INCOMPLETE
+next content slice: A5 — IDENTITY / TIME / CHANGE
 runtime expansion: FROZEN
 ```
 
 A2 defines a provisional technology-/substrate-neutral distinction set for Signal, Observation, Record, Proposition, Claim, Interpretation, Hypothesis, Belief, Knowledge, Memory, Evidence, Source, Provenance, Context, Relation, State, Change, Event, Conflict, Contradiction, Uncertainty, Revision, Supersession, Authority, and Receipt. It rejects automatic promotion of current Python classes, SQL schemas, reducer output, or Event sourcing into Canon.
 
 A3 proposes a provisional scoped obligation-and-transition machine with thirteen logical configuration facets, thirteen transition families, explicit preconditions/postconditions, failure outcomes, Authority boundaries, ordering/concurrency rules, and contrasting manual, analog/neuromorphic, and digital laboratory mappings. It does not make transition synonymous with Event, State synonymous with reducer output, or conformance synonymous with production authorization.
+
+A4 drafts `nk-semantic-laws/A4-draft-1`: 28 deduplicated, provisional semantic laws across representation/epistemics, Context/Provenance/Authority, identity/memory/time/change, Relation/Conflict/Uncertainty, derived views/selection/accountability, and substrate/conformance. Each law records a rationale, counterexample/falsifier, failure mode, observable obligation, and exception/open uncertainty. The count and content remain provisional and may change during independent and integrated review. The previously erroneous Notion-only `nk-semantic-laws/0.1-draft` identity is not reused.
 
 Maintenance remains allowed for integrity, security, reproducibility, provenance, evidence preservation, truth-surface repair, historical recovery, and isolated blueprint-falsification experiments with no runtime promotion.
 
@@ -113,6 +115,8 @@ admission ≠ truth
 profile conformance ≠ production authorization
 ```
 
+A4 additionally makes explicit that semantic identity is not storage identity, write order is not automatically represented-world order, Revision is not silent overwrite, Supersession is not deletion/falsity, derived views do not become universal State, Receipt/accountability does not prove correctness, and cross-profile equivalence must be named rather than assumed.
+
 ## Checkpoint roles
 
 | Role | Checkpoint | Meaning |
@@ -135,7 +139,7 @@ The publication and Notion synchronization checkpoints are intentionally differe
 | License/publication — Issue #18 | `PENDING_OPERATOR / selected_option: null` | no license change; external contributions and package publication remain unauthorized |
 | Reducer semantics — Issue #74 / ADR-0024 | `PROPOSED / PENDING_OPERATOR / selected_option: null` | reducer v1 remains immutable; reducer-v2 runtime remains unauthorized |
 
-These decisions do not block ontology and blueprint research. Issue #18 still blocks an open contribution/publication regime. ADR-0024 still blocks reducer-v2 work.
+These decisions do not block blueprint research. Issue #18 still blocks an open contribution/publication regime. ADR-0024 still blocks reducer-v2 work.
 
 ## Runtime freeze
 
@@ -159,7 +163,7 @@ evidence/c5/2026-08-07/manifest.json
 evidence/c5/2026-08-08-adr0023/manifest.json
 ```
 
-The retained archives prove only their declared environments, inputs, runs, and bounded outputs. Blueprint-first governance does not expand their proof boundary.
+The retained archives prove only their declared environments, inputs, runs, and bounded outputs. Blueprint-first governance and A4 documentation do not expand their proof boundary.
 
 ## Explicit non-claims
 
@@ -169,10 +173,15 @@ Architecture Re-foundation
 ≠ runtime implementation
 ≠ future substrate support
 
-A1-A3 DRAFTED
+A1-A4 DRAFTED
 ≠ independent approval
 ≠ integrated blueprint approval
 ≠ Canon promotion
+
+28 candidate A4 laws
+≠ eternal/final law count
+≠ executable NK-EPI support
+≠ runtime conformance promotion
 
 C5 PASS
 ≠ production readiness

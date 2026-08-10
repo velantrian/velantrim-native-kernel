@@ -100,6 +100,7 @@ class ArchitectureFreezeTests(unittest.TestCase):
         ] = [
             "A1_KERNEL_PURPOSE_AND_NON_GOALS",
             "A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY",
+            "A3_ABSTRACT_NATIVE_KERNEL_MACHINE",
         ]
         with self.assertRaisesRegex(
             module.ArchitectureFreezeError,
@@ -123,7 +124,7 @@ class ArchitectureFreezeTests(unittest.TestCase):
         state = copy.deepcopy(self.state)
         state["tracks"]["long_horizon_research"]["architecture_refoundation"][
             "next_content_slice"
-        ] = "A3_ABSTRACT_NATIVE_KERNEL_MACHINE"
+        ] = "A4_SEMANTIC_LAWS_AND_INVARIANTS"
         with self.assertRaisesRegex(
             module.ArchitectureFreezeError,
             "next blueprint content slice drift",
@@ -136,10 +137,10 @@ class ArchitectureFreezeTests(unittest.TestCase):
             "architecture_refoundation"
         ]
         refoundation["completed_deliverables"].append(
-            "A4_SEMANTIC_LAWS_AND_INVARIANTS"
+            "A5_IDENTITY_TIME_AND_CHANGE"
         )
         module.EXPECTED_COMPLETED_DELIVERABLES.append(
-            "A4_SEMANTIC_LAWS_AND_INVARIANTS"
+            "A5_IDENTITY_TIME_AND_CHANGE"
         )
         try:
             with self.assertRaisesRegex(
@@ -152,9 +153,9 @@ class ArchitectureFreezeTests(unittest.TestCase):
 
     def test_completed_deliverable_document_must_exist(self) -> None:
         original = module.COMPLETED_DELIVERABLE_DOCS[
-            "A3_ABSTRACT_NATIVE_KERNEL_MACHINE"
+            "A4_SEMANTIC_LAWS_AND_INVARIANTS"
         ]
-        module.COMPLETED_DELIVERABLE_DOCS["A3_ABSTRACT_NATIVE_KERNEL_MACHINE"] = (
+        module.COMPLETED_DELIVERABLE_DOCS["A4_SEMANTIC_LAWS_AND_INVARIANTS"] = (
             "docs/DOES_NOT_EXIST.md",
         )
         try:
@@ -165,12 +166,12 @@ class ArchitectureFreezeTests(unittest.TestCase):
                 self.validate()
         finally:
             module.COMPLETED_DELIVERABLE_DOCS[
-                "A3_ABSTRACT_NATIVE_KERNEL_MACHINE"
+                "A4_SEMANTIC_LAWS_AND_INVARIANTS"
             ] = original
 
     def test_completed_deliverable_document_mapping_must_exist(self) -> None:
         original = module.COMPLETED_DELIVERABLE_DOCS.pop(
-            "A3_ABSTRACT_NATIVE_KERNEL_MACHINE"
+            "A4_SEMANTIC_LAWS_AND_INVARIANTS"
         )
         try:
             with self.assertRaisesRegex(
@@ -180,7 +181,7 @@ class ArchitectureFreezeTests(unittest.TestCase):
                 self.validate()
         finally:
             module.COMPLETED_DELIVERABLE_DOCS[
-                "A3_ABSTRACT_NATIVE_KERNEL_MACHINE"
+                "A4_SEMANTIC_LAWS_AND_INVARIANTS"
             ] = original
 
     def test_issue_88_must_remain_open_and_verified(self) -> None:
