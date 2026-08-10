@@ -40,6 +40,7 @@ C clean implementation: PRESERVED / PARTIAL / BOUNDED REFERENCE LABORATORY
 R architecture re-foundation: ACTIVE / BLUEPRINT-FIRST
 blueprint content: A1-A10 DRAFTED / PROVISIONAL
 integrated review: COMPLETED / PROVISIONAL / OPERATOR_DECISION_PENDING
+completed review gate identity: INTEGRATED_A1_A10_REVIEW
 next gate: OPERATOR_POST_BLUEPRINT_DECISION
 kernel runtime: C4
 operational validation: C5_BOUNDED_REHEARSAL
