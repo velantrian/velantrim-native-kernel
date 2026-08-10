@@ -36,91 +36,74 @@ It does not own a new reducer, Event vocabulary, database, language port, LLM/ve
 ## 3. Required deliverables
 
 ### A1 — Kernel Purpose and Non-goals
-
-**Status:** `DRAFTED / PROVISIONAL` — [EN](./A1_KERNEL_PURPOSE_AND_NON_GOALS.md) / [RU](./A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md). Defines the Kernel problem, durable qualities, non-goals and ecosystem boundaries.
+**Status:** `DRAFTED / PROVISIONAL` — [EN](./A1_KERNEL_PURPOSE_AND_NON_GOALS.md) / [RU](./A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md).
 
 ### A2 — Knowledge and Memory Ontology
-
-**Status:** `DRAFTED / PROVISIONAL` — [EN](./A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md) / [RU](./A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md). Defines technology-neutral semantic distinctions without turning current storage/runtime representations into Canon.
+**Status:** `DRAFTED / PROVISIONAL` — [EN](./A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md) / [RU](./A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md).
 
 ### A3 — Abstract Native Kernel Machine
-
-**Status:** `DRAFTED / PROVISIONAL` — [EN](./A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md) / [RU](./A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md). Defines provisional meaning-level configuration facets, transition families, failure/indeterminacy handling, Authority boundaries, order/concurrency and contrasting substrate mappings. `transition ≠ Event envelope`; `State ≠ reducer output` universally.
+**Status:** `DRAFTED / PROVISIONAL` — [EN](./A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md) / [RU](./A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md).
 
 ### A4 — Semantic Laws and Invariants
-
-**Status:** `DRAFTED / PROVISIONAL` — [EN](./A4_SEMANTIC_LAWS_AND_INVARIANTS.md) / [RU](./A4_SEMANTIC_LAWS_AND_INVARIANTS.ru.md). Candidate `nk-semantic-laws/A4-draft-1` contains 28 provisional laws protecting representation/epistemic boundaries, Context/Provenance/Authority, identity/time/change, conflict/uncertainty, views/accountability and substrate/conformance distinctions.
+**Status:** `DRAFTED / PROVISIONAL` — [EN](./A4_SEMANTIC_LAWS_AND_INVARIANTS.md) / [RU](./A4_SEMANTIC_LAWS_AND_INVARIANTS.ru.md). Candidate `nk-semantic-laws/A4-draft-1` contains 28 provisional laws.
 
 ### A5 — Identity, Time, and Change Model
-
-**Status:** `DRAFTED / PROVISIONAL` — [EN](./A5_IDENTITY_TIME_AND_CHANGE.md) / [RU](./A5_IDENTITY_TIME_AND_CHANGE.ru.md). Candidate `nk-identity-time-change/A5-draft-1` makes identity a typed/scoped relation, separates semantic from substrate-local identity, distinguishes material temporal/order relations, and requires explicit lineage/loss across migration and revision.
+**Status:** `DRAFTED / PROVISIONAL` — [EN](./A5_IDENTITY_TIME_AND_CHANGE.md) / [RU](./A5_IDENTITY_TIME_AND_CHANGE.ru.md). Candidate `nk-identity-time-change/A5-draft-1`.
 
 ### A6 — Knowledge Lifecycle
-
-**Status:** `DRAFTED / PROVISIONAL` — [EN](./A6_KNOWLEDGE_LIFECYCLE.md) / [RU](./A6_KNOWLEDGE_LIFECYCLE.ru.md). Candidate `nk-knowledge-lifecycle/A6-draft-1` models lifecycle as a non-linear graph of meaning-level positions and transitions rather than one storage-state pipeline; Event sourcing is not universalized.
+**Status:** `DRAFTED / PROVISIONAL` — [EN](./A6_KNOWLEDGE_LIFECYCLE.md) / [RU](./A6_KNOWLEDGE_LIFECYCLE.ru.md). Candidate `nk-knowledge-lifecycle/A6-draft-1`.
 
 ### A7 — Conflict, Uncertainty, and Revision Model
-
-**Status:** `DRAFTED / PROVISIONAL` — [EN](./A7_CONFLICT_UNCERTAINTY_AND_REVISION.md) / [RU](./A7_CONFLICT_UNCERTAINTY_AND_REVISION.ru.md). Candidate `nk-conflict-uncertainty-revision/A7-draft-1` keeps tension kind, assessment status and resolution status independent; preserves typed uncertainty, unresolved plurality, scoped resolution, revision lineage and reopening without selecting a universal winner algorithm.
+**Status:** `DRAFTED / PROVISIONAL` — [EN](./A7_CONFLICT_UNCERTAINTY_AND_REVISION.md) / [RU](./A7_CONFLICT_UNCERTAINTY_AND_REVISION.ru.md). Candidate `nk-conflict-uncertainty-revision/A7-draft-1`.
 
 ### A8 — Substrate-independence Contract
-
-**Status:** `DRAFTED / PROVISIONAL` — [EN](./A8_SUBSTRATE_INDEPENDENCE_CONTRACT.md) / [RU](./A8_SUBSTRATE_INDEPENDENCE_CONTRACT.ru.md). Pending independent review and integrated A1–A10 review.
-
-A8 introduces candidate model `nk-substrate-independence/A8-draft-1` and answers what radically different implementations must preserve to remain comparable as Native Kernel implementations.
-
-Its provisional mapping relation is:
-
-```text
-SUBSTRATE_MAPPING(
-  profile,
-  architecture_obligation,
-  realization_or_equivalent,
-  preservation_state,
-  context_and_scope,
-  observable_check,
-  declared_loss_or_none,
-  uncertainty,
-  authority_for_claim
-)
-```
-
-Preservation states are `PRESERVED`, `PARTIAL`, `UNSUPPORTED`, `INDETERMINATE`, and `LOSSY`. They are mapping states, not assertion-map arithmetic. Known inability to preserve a materially required distinction must weaken or fail a conformance claim rather than be silently approximated.
-
-A8 defines ten provisional preservation obligations (`A8-P01`…`A8-P10`) covering A2 ontology distinctions, A3 transition semantics, A4 laws, A5 identity/time/order, A6 lifecycle/history, A7 conflict/uncertainty/revision, Context/Provenance/Source/Authority, bounded accountability, and explicit capability/loss declarations.
-
-It distinguishes:
-
-```text
-PHYSICAL_IDENTITY
-REPRESENTATION_EQUIVALENCE
-SEMANTIC_OBLIGATION_EQUIVALENCE
-BEHAVIORAL_CONFORMANCE_FOR_SCOPE
-LINEAGE_CONTINUITY_EQUIVALENCE
-```
-
-Physical identity is neither necessary nor sufficient for semantic equivalence. Equal bytes/hashes/output do not by themselves prove semantic equivalence, while different IDs/encodings/carriers do not by themselves prove non-equivalence.
-
-A8 permits different physical memory, layouts, languages, data structures, persistence, synchronization, parallelism, time representation, uncertainty representation and hardware where required meaning survives. It does not require SQL, JSON, SHA-256, Event sourcing, reducers, global sequence numbers, synchronized wall clocks, LLMs, embeddings, Python, network, cloud, silicon, RAM, or one processor model.
-
-Scoped conformance outcomes are `FULL_CONFORMANCE_FOR_SCOPE`, `BOUNDED_CONFORMANCE`, `NON_CONFORMANT_FOR_SCOPE`, and `INDETERMINATE_CONFORMANCE`.
-
-```text
-substrate-independent specification
-≠ universal portability proof
-```
-
-A8 makes no claim that a neuromorphic, analog, quantum, or arbitrary future implementation already exists or conforms. Detailed grading of P1–C5 is deliberately deferred to A9.
-
-**First-draft completion test:** satisfied for bounded drafting scope: given two radically different implementations, a reviewer can identify which meaning obligations must be preserved, separate representation/physical equality from semantic equivalence, identify explicit degradation, and scope a conformance claim without referring to PostgreSQL schemas, Python classes, JSON bytes, Event sourcing, or one processor model. Final acceptance still requires independent and integrated review.
+**Status:** `DRAFTED / PROVISIONAL` — [EN](./A8_SUBSTRATE_INDEPENDENCE_CONTRACT.md) / [RU](./A8_SUBSTRATE_INDEPENDENCE_CONTRACT.ru.md). Candidate `nk-substrate-independence/A8-draft-1` defines preservation of meaning-level obligations rather than physical sameness. `substrate-independent specification ≠ universal portability proof`.
 
 ### A9 — Reference Laboratory Boundary
 
-**Status:** `NEXT BOUNDED SLICE`.
+**Status:** `DRAFTED / PROVISIONAL` — [EN](./A9_REFERENCE_LABORATORY_BOUNDARY.md) / [RU](./A9_REFERENCE_LABORATORY_BOUNDARY.ru.md). Candidate `nk-reference-laboratory-boundary/A9-draft-1`.
 
-Classify **Python + PostgreSQL + SQLite** P1–C5 mechanisms against A1–A8: what is architecture-preserving evidence, what is partial, what is profile-specific, what is a falsification instrument, and what is not an architecture requirement. No removal/rewrite occurs merely because a mechanism is profile-specific.
+A9 classifies P1–C5 mechanisms against A1–A8 with six scoped roles:
+
+```text
+ARCHITECTURE_PRESERVING_EVIDENCE
+PROFILE_SPECIFIC_REALIZATION
+PARTIAL_ARCHITECTURE_COVERAGE
+FALSIFICATION_INSTRUMENT
+LABORATORY_ONLY_CONSTRAINT
+NOT_ARCHITECTURE_EVIDENCE
+```
+
+A mechanism may have multiple roles. Current Python/PostgreSQL/SQLite/Event/reducer/Receipt/hash/sequence/CI mechanisms remain valid within accepted versioned laboratory contracts without becoming universal Canon.
+
+P5/C3 is real but narrow evidence for replaceable storage-profile realization inside a shared Python/conventional-digital lineage:
+
+```text
+PostgreSQL ↔ SQLite C3
+= useful cross-profile evidence
+≠ independent-language equivalence
+≠ independent-computation-model equivalence
+≠ arbitrary-substrate portability proof
+```
+
+A9 also establishes the preservation rule:
+
+```text
+profile-specific
+→ label correctly
+→ preserve reproducibility
+→ keep evidence lineage
+→ prevent silent Canon promotion
+≠ delete or rewrite automatically
+```
+
+P4/C4/C5 remain useful measurement/falsification instruments; C5 remains synthetic bounded operational evidence, not production or independent-custody evidence.
+
+**First-draft completion test:** satisfied for the principal P1–C5 mechanisms. A reviewer can identify the A1–A8 obligation exercised, A9 role, actual proof boundary, non-proof boundary, and whether replacement of the mechanism would necessarily alter Native Kernel meaning. Final acceptance still requires independent review, A10, integrated review and a separate operator decision.
 
 ### A10 — Open Questions and Falsification Criteria
+
+**Status:** `NEXT BOUNDED SLICE`.
 
 Record unresolved architecture questions and evidence that would weaken/refute major hypotheses, including cross-substrate equivalence limits, minimum history/accountability equivalents, analog/neuromorphic continuity, forgetting without forbidden retention, and unresolved conformance boundaries.
 
@@ -135,8 +118,8 @@ A1 Purpose and Non-goals                         DRAFTED / PROVISIONAL
 → A6 Knowledge Lifecycle                        DRAFTED / PROVISIONAL
 → A7 Conflict / Uncertainty / Revision          DRAFTED / PROVISIONAL
 → A8 Substrate-independence Contract            DRAFTED / PROVISIONAL
-→ A9 Reference Laboratory Boundary              NEXT BOUNDED SLICE
-→ A10 Open Questions / Falsification
+→ A9 Reference Laboratory Boundary              DRAFTED / PROVISIONAL
+→ A10 Open Questions and Falsification           NEXT BOUNDED SLICE
 → integrated blueprint review
 → separate operator decision before runtime expansion
 ```
@@ -157,11 +140,10 @@ Not authorized without a separate operator decision: new semantic runtime featur
 
 ## 7. Relationship to existing contracts and pending decisions
 
-A8 does not change ADR statuses or historical evidence. Issue #14/#15/#16/#17 retain their existing scopes. Issue #18 remains operator-controlled for license/publication. Issue #74 / ADR-0024 remains `PROPOSED / PENDING_OPERATOR`; reducer v1 stays immutable and reducer-v2 unauthorized. ADR-0003 remains `PROPOSED / NOT_STARTED`. Track H source admission remains operator-controlled.
+A9 does not change ADR statuses or historical evidence. Issue #14/#15/#16/#17 retain their existing scopes. Issue #18 remains operator-controlled for license/publication. Issue #74 / ADR-0024 remains `PROPOSED / PENDING_OPERATOR`; reducer v1 stays immutable and reducer-v2 unauthorized. ADR-0003 remains `PROPOSED / NOT_STARTED`. Track H source admission remains operator-controlled.
 
 ```text
-A1-A8 blueprint obligations
-→ A9 reference-laboratory classification
+A1-A9 blueprint obligations/classification
 → A10 open questions / falsification
 → integrated review
 → existing contracts reconciled within declared scope
@@ -177,11 +159,11 @@ The blueprint is not complete merely because documents exist. Blueprint completi
 ```text
 Architecture Re-foundation decision: established by ADR-0025
 Blueprint plan: this document
-Blueprint content: A1-A8 DRAFTED / PROVISIONAL; A9-A10 NOT YET COMPLETE
-Next bounded slice: A9 REFERENCE LABORATORY BOUNDARY
+Blueprint content: A1-A9 DRAFTED / PROVISIONAL; A10 NOT YET COMPLETE
+Next bounded slice: A10 OPEN QUESTIONS AND FALSIFICATION
 Runtime expansion: FROZEN
 Existing P1–C5 laboratory: PRESERVED / BOUNDED
 Production authorization: false
 ```
 
-A1–A8 drafting does not establish independent approval, integrated Canon, runtime implementation, arbitrary future-substrate support, or production readiness.
+A1–A9 drafting does not establish independent approval, integrated Canon, runtime implementation, arbitrary future-substrate support, or production readiness.
