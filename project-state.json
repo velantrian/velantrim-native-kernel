@@ -1,7 +1,7 @@
 {
   "protocol": "nk-project-state/2",
   "snapshot_id": "native-kernel/state/2026-08-10-a6-knowledge-lifecycle-draft",
-  "observed_at": "2026-08-10T14:05:00Z",
+  "observed_at": "2026-08-10T13:23:20Z",
   "repository": {
     "full_name": "velantrian/velantrim-native-kernel",
     "visibility": "PUBLIC",
