@@ -42,7 +42,7 @@ public repository ≠ open-source license
 
 No AI agent may select the license or accept ADR-0024 for the operator.
 
-The later Notion synchronization checkpoint does not rewrite or replace the earlier publication checkpoint.
+The later Notion synchronization checkpoint does not rewrite or replace the earlier publication checkpoint. The repository-committed Notion synchronization checkpoint remains `70acd0da61fee19131947aa56125833adb156ced` from PR #86.
 
 ## Active architecture priority
 
