@@ -57,9 +57,10 @@ Drafted provisional content:
 - `A6 — Knowledge Lifecycle`: [English](docs/A6_KNOWLEDGE_LIFECYCLE.md) · [Русский](docs/A6_KNOWLEDGE_LIFECYCLE.ru.md);
 - `A7 — Conflict, Uncertainty, and Revision`: [English](docs/A7_CONFLICT_UNCERTAINTY_AND_REVISION.md) · [Русский](docs/A7_CONFLICT_UNCERTAINTY_AND_REVISION.ru.md);
 - `A8 — Substrate-Independence Contract`: [English](docs/A8_SUBSTRATE_INDEPENDENCE_CONTRACT.md) · [Русский](docs/A8_SUBSTRATE_INDEPENDENCE_CONTRACT.ru.md);
-- `A9 — Reference Laboratory Boundary`: [English](docs/A9_REFERENCE_LABORATORY_BOUNDARY.md) · [Русский](docs/A9_REFERENCE_LABORATORY_BOUNDARY.ru.md).
+- `A9 — Reference Laboratory Boundary`: [English](docs/A9_REFERENCE_LABORATORY_BOUNDARY.md) · [Русский](docs/A9_REFERENCE_LABORATORY_BOUNDARY.ru.md);
+- `A10 — Open Questions and Falsification`: [English](docs/A10_OPEN_QUESTIONS_AND_FALSIFICATION.md) · [Русский](docs/A10_OPEN_QUESTIONS_AND_FALSIFICATION.ru.md).
 
-A1–A9 remain pending independent review and integrated blueprint review with A10. The next bounded content slice is `A10 — Open Questions and Falsification`.
+A1–A10 remain pending independent review and integrated blueprint review. The next bounded gate is `INTEGRATED_A1_A10_REVIEW`.
 
 ```text
 A1 Purpose and Non-goals                         DRAFTED / PROVISIONAL
@@ -71,43 +72,22 @@ A1 Purpose and Non-goals                         DRAFTED / PROVISIONAL
 → A7 Conflict / Uncertainty / Revision          DRAFTED / PROVISIONAL
 → A8 Substrate-independence Contract            DRAFTED / PROVISIONAL
 → A9 Reference Laboratory Boundary              DRAFTED / PROVISIONAL
-→ A10 Open Questions and Falsification           NEXT BOUNDED SLICE
-→ integrated blueprint review
+→ A10 Open Questions and Falsification           DRAFTED / PROVISIONAL
+→ integrated A1-A10 review                     NEXT GATE
 → operator decision on reopening runtime work
 ```
 
-### A9 contribution
+### A10 contribution
 
-A9 candidate `nk-reference-laboratory-boundary/A9-draft-1` classifies the existing P1–C5 implementation lineage against A1–A8 without promoting laboratory mechanisms into universal Canon.
+A10 candidate `nk-open-questions-falsification/A10-draft-1` converts the remaining uncertainty into a falsifiable research boundary instead of silently treating unknowns as success.
 
-It uses six scoped role labels: `ARCHITECTURE_PRESERVING_EVIDENCE`, `PROFILE_SPECIFIC_REALIZATION`, `PARTIAL_ARCHITECTURE_COVERAGE`, `FALSIFICATION_INSTRUMENT`, `LABORATORY_ONLY_CONSTRAINT`, and `NOT_ARCHITECTURE_EVIDENCE`. A mechanism may carry multiple roles.
+It defines five research outcomes — `SUPPORTED_FOR_SCOPE`, `WEAKENED`, `REFUTED`, `INDETERMINATE`, `NOT_TESTED` — with the explicit rule `NOT_TESTED ≠ SUPPORTED`.
 
-Key result: P5/C3 is genuine but narrow architecture-preserving evidence for a storage-profile change. PostgreSQL and SQLite differ in SQL/layout/locking/topology while selected supported semantic outcomes remain stable. However both profiles share Python, conventional digital execution, the semantic core/reducer model, current Event vocabulary/encodings, related harnesses and repository custody. Therefore:
+A10 records twelve major provisional hypotheses with weakening/refutation conditions and eighteen open questions covering minimum explicit history, reconstruction without exact replay, lossy identity, independent-language evidence, analog/neuromorphic continuity, probabilistic conformance, forgetting and physical deletion observability, bounded memory, causal order without global sequence, decentralized Authority, derived-state boundaries, semantic-equivalence observables, contract reclassification, non-classical computation, self-modification and evidence independence.
 
-```text
-PostgreSQL ↔ SQLite C3
-= useful cross-profile evidence
-≠ independent-language equivalence
-≠ independent-computation-model equivalence
-≠ arbitrary-substrate portability proof
-```
+Contrasting thought experiments cover eventless archives, distributed neuromorphic memory, lossy bounded-memory agents, probabilistic realizations and independent-language digital profiles. These are falsification aids, not implementation commitments.
 
-Current Event/reducer/sequence/hash/Receipt/CI mechanisms remain binding where their accepted versioned laboratory contracts require them, but they are not automatically substrate-neutral requirements. Exact imported Event bytes may be a valid laboratory constraint while A8 still permits different representations to count as semantically equivalent when meaning is preserved.
-
-P4, C4 and C5 are especially useful as measurement/falsification instruments. C5 remains bounded synthetic operational rehearsal, not production readiness, live-data safety, independent custody, compliance, HA or universal conformance evidence.
-
-A9 preserves profile-specific mechanisms rather than deleting them:
-
-```text
-profile-specific
-→ label correctly
-→ preserve reproducibility
-→ keep evidence lineage
-→ prevent silent Canon promotion
-≠ delete or rewrite automatically
-```
-
-A10 owns unresolved questions and explicit falsification criteria before integrated review.
+A10 also defines explicit stop conditions: contradictions across A1–A9, non-falsifiable tests, reproducible counterexamples inside claimed scope, or runtime work needed only to make an architecture claim appear true require reopening assumptions rather than silent promotion.
 
 ## Runtime freeze
 
@@ -158,19 +138,19 @@ production_authorized:      false
 
 ### Reducer referential semantics — Issue #74 / ADR-0024
 
-`PROPOSED / PENDING_OPERATOR / RUNTIME NOT AUTHORIZED`. Reducer v1 remains immutable; A9 does not decide successor topology, reducer-v2 semantics, cycles, self-supersession, or migration.
+`PROPOSED / PENDING_OPERATOR / RUNTIME NOT AUTHORIZED`. Reducer v1 remains immutable; A10 does not decide successor topology, reducer-v2 semantics, cycles, self-supersession, or migration.
 
 ### Semantic-conflict ADR — ADR-0003
 
-`PROPOSED / NOT_STARTED`. A7–A9 preserve compatible blueprint semantics but do not promote its proposed conflict Event vocabulary.
+`PROPOSED / NOT_STARTED`. A7–A10 preserve compatible blueprint semantics but do not promote its proposed conflict Event vocabulary.
 
 ## Downstream contract work
 
-Existing accepted/versioned contracts remain historical and usable within their scope. Later integrated review must reconcile them under the completed blueprint rather than silently promote current mechanisms.
+Existing accepted/versioned contracts remain historical and usable within their scope. Integrated review must reconcile them under the drafted blueprint rather than silently promote current mechanisms.
 
 ```text
-complete A1–A10 blueprint
-→ integrated review
+A1–A10 drafted blueprint
+→ integrated A1-A10 review
 → reconcile accepted contract families
 → define named semantic/substrate equivalence if warranted
 → decide portable history commitment if required
@@ -180,28 +160,25 @@ complete A1–A10 blueprint
 
 ## Blueprint completion gate
 
-The phase is complete only when:
-- all ten deliverables are present and linked;
-- terminology is reconciled;
+The draft inventory now contains all ten deliverables. The architecture phase is still not accepted until:
+- terminology is reconciled across A1–A10;
 - contradictions/unknowns remain explicit;
-- implementation-specific assumptions are labelled;
-- falsification criteria are recorded;
+- implementation-specific assumptions remain labelled;
+- falsification criteria cover major hypotheses;
 - existing contracts/runtime are mapped without automatic authority;
-- contrasting substrate thought experiments exist;
-- critical review is recorded;
+- contrasting substrate thought experiments are reviewed;
+- critical integrated review is recorded;
 - operator separately approves the next phase.
 
 ## Explicit non-claims
 
 ```text
-A1-A9 drafted ≠ independent approval or integrated blueprint approval
-A9 classification ≠ current mechanisms are universal Canon
+A1-A10 drafted ≠ independent approval or integrated blueprint approval
+A10 falsification inventory ≠ proof of its hypotheses
 PostgreSQL + SQLite C3 ≠ independent-language equivalence ≠ arbitrary-substrate portability proof
-profile-specific ≠ architectural defect ≠ automatic deletion
 A8 substrate-independence ≠ universal portability proof
 blueprint documentation ≠ implementation evidence
 reference laboratory ≠ final architecture
-write order ≠ semantic precedence
 C5 PASS ≠ production readiness
 public repository ≠ open-source license
 ```
