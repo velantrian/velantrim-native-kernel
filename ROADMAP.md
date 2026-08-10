@@ -26,8 +26,13 @@ Their status, evidence, and authority must never be collapsed.
 Architecture purpose and ontology
 → abstract Kernel machine
 → semantic laws and invariants
-→ versioned abstract contracts
-→ failure and threat models
+→ identity / time / change model
+→ knowledge lifecycle
+→ conflict / uncertainty / revision model
+→ substrate-independence contract
+→ reference-laboratory boundary
+→ falsification/open questions
+→ integrated blueprint review
 → explicit decisions
 → replaceable implementation profiles
 → positive and negative fixtures
@@ -51,16 +56,17 @@ Drafted provisional content:
 
 - `A1 — Kernel Purpose and Non-goals`: [English](docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.md) · [Русский](docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md);
 - `A2 — Knowledge and Memory Ontology`: [English](docs/A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md) · [Русский](docs/A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md);
-- `A3 — Abstract Native Kernel Machine`: [English](docs/A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md) · [Русский](docs/A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md).
+- `A3 — Abstract Native Kernel Machine`: [English](docs/A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md) · [Русский](docs/A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md);
+- `A4 — Semantic Laws and Invariants`: [English](docs/A4_SEMANTIC_LAWS_AND_INVARIANTS.md) · [Русский](docs/A4_SEMANTIC_LAWS_AND_INVARIANTS.ru.md).
 
-A1–A3 remain pending independent review and integrated blueprint review with A4–A10. The next bounded content slice is `A4 — Semantic Laws and Invariants`.
+A1–A4 remain pending independent review and integrated blueprint review with A5–A10. The next bounded content slice is `A5 — Identity / Time / Change`.
 
 ```text
 A1 Purpose and Non-goals                         DRAFTED / PROVISIONAL
 → A2 Knowledge and Memory Ontology              DRAFTED / PROVISIONAL
 → A3 Abstract Native Kernel Machine             DRAFTED / PROVISIONAL
-→ A4 Semantic Laws and Invariants               NEXT BOUNDED SLICE
-→ A5 Identity / Time / Change
+→ A4 Semantic Laws and Invariants               DRAFTED / PROVISIONAL
+→ A5 Identity / Time / Change                   NEXT BOUNDED SLICE
 → A6 Knowledge Lifecycle
 → A7 Conflict / Uncertainty / Revision
 → A8 Substrate-independence Contract
@@ -70,9 +76,11 @@ A1 Purpose and Non-goals                         DRAFTED / PROVISIONAL
 → operator decision on reopening runtime work
 ```
 
-A2 provides a provisional stratified role ontology, compares linear, Event-centred, relation-first, and stratified alternatives, and records explicit falsification criteria. It does not make its classifications Canon and does not bind the architecture to Python classes, SQL schemas, Event sourcing, LLMs, embeddings, JSON, or current processors.
+A2 provides a provisional technology-/substrate-neutral ontology and does not make Python classes, SQL schemas, Event sourcing, LLMs, embeddings, JSON, or current processors Canon.
 
 A3 provides a provisional scoped obligation-and-transition machine with explicit failure, Authority, order/concurrency, reproducibility and substrate-mapping boundaries. It does not equate transition with Event, abstract machine with runtime implementation, State with reducer output, or profile conformance with production authorization.
+
+A4 provides `nk-semantic-laws/A4-draft-1`, a first GitHub-resident draft of 28 deduplicated candidate laws. The count is provisional, not a target. Each law has a rationale, counterexample/falsifier, failure mode, observable obligation, and exception/open uncertainty. The set constrains silent semantic collapse across representation/epistemics, Context/Provenance/Authority, identity/memory/time/change, Relations/Conflict/Uncertainty, derived views/selection/accountability, and substrate/conformance. It does not reuse the previously erroneous Notion-only `nk-semantic-laws/0.1-draft` identity.
 
 ### Runtime freeze
 
@@ -139,6 +147,7 @@ The clean implementation may receive maintenance and integrity fixes under ADR-0
 0C Issues and publication              COMPLETE / PR #82 + PR #83
 0D Notion descendant synchronization   COMPLETE / PR #86
 0E checkpoint-role validator repair    COMPLETE / PR #87
+A3 integrity reconciliation            COMPLETE / PR #95
 ```
 
 Live `main` is resolved through GitHub or a checked-out ref. Committed checkpoint records remain non-self-referential.
@@ -195,7 +204,8 @@ The phase is complete only when:
 ## Explicit non-claims
 
 ```text
-A1-A3 drafted ≠ independent approval or integrated blueprint approval
+A1-A4 drafted ≠ independent approval or integrated blueprint approval
+28 A4 candidate laws ≠ final law count or executable support
 blueprint documentation ≠ implementation evidence
 reference laboratory ≠ final architecture
 future-facing design ≠ future substrate support
@@ -216,6 +226,11 @@ transition ≠ Event envelope
 transition relation ≠ reducer
 history visibility ≠ mandatory Event sourcing
 admission ≠ truth
+semantic identity ≠ storage identity
+write order ≠ represented-world order
+Revision ≠ silent overwrite
+Supersession ≠ deletion or falsity
+Receipt/accountability ≠ correctness or truth
 profile conformance ≠ production authorization
 C5 PASS ≠ production readiness
 PostgreSQL + SQLite ≠ full substrate neutrality
