@@ -70,7 +70,7 @@ on:
       - "tests/test_a6_knowledge_lifecycle.py"
       - "tests/test_a7_conflict_uncertainty_revision.py"
       - "tests/test_a8_substrate_independence_contract.py"
-      - "tests/test_a9_reference_laboratory_BOUNDARY.py"
+      - "tests/test_a9_reference_laboratory_boundary.py"
       - "tests/test_a10_open_questions_falsification.py"
       - "tests/test_integrated_a1_a10_review.py"
       - "tests/test_ai_context_validator.py"
