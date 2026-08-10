@@ -32,6 +32,8 @@ REQUIRED_PATHS = (
     "docs/A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md",
     "docs/A4_SEMANTIC_LAWS_AND_INVARIANTS.md",
     "docs/A4_SEMANTIC_LAWS_AND_INVARIANTS.ru.md",
+    "docs/A5_IDENTITY_TIME_AND_CHANGE.md",
+    "docs/A5_IDENTITY_TIME_AND_CHANGE.ru.md",
     "docs/adr/0025-blueprint-before-runtime-expansion.md",
     "docs/ai/README.md",
     "docs/ai/CURRENT_STATE.md",
@@ -67,6 +69,8 @@ LINK_SCAN_PATHS = (
     "docs/A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md",
     "docs/A4_SEMANTIC_LAWS_AND_INVARIANTS.md",
     "docs/A4_SEMANTIC_LAWS_AND_INVARIANTS.ru.md",
+    "docs/A5_IDENTITY_TIME_AND_CHANGE.md",
+    "docs/A5_IDENTITY_TIME_AND_CHANGE.ru.md",
     "docs/adr/0025-blueprint-before-runtime-expansion.md",
     "docs/ai/README.md",
     "docs/ai/CURRENT_STATE.md",
@@ -105,8 +109,8 @@ REQUIRED_STATUS_MARKERS = (
     "Architecture Re-foundation: ACTIVE / BLUEPRINT-FIRST",
     "No new semantic/runtime expansion before blueprint gate completion.",
     "BOUNDED REFERENCE LABORATORY",
-    "blueprint content A1–A4 is `DRAFTED / PROVISIONAL`",
-    "next bounded content slice is `A5 — Identity, Time, and Change`",
+    "blueprint content A1–A5 is `DRAFTED / PROVISIONAL`",
+    "next bounded content slice is `A6 — Knowledge Lifecycle`",
 )
 FORBIDDEN_STATUS_MARKERS = (
     "Notion remains synchronized only through the recorded publication checkpoint",
@@ -114,39 +118,36 @@ FORBIDDEN_STATUS_MARKERS = (
     "next bounded content slice is `A2 — Knowledge and Memory Ontology`",
     "next bounded content slice is `A3 — Abstract Native Kernel Machine`",
     "next bounded content slice is `A4 — Semantic Laws and Invariants`",
+    "next bounded content slice is `A5 — Identity, Time, and Change`",
 )
 
-# Explicit fail-closed transition markers. These are deliberately simple string
-# obligations rather than semantic parsing: when a later A-block advances the
-# machine state, the same PR must update every listed current-truth surface and
-# this declaration. A stale transition therefore fails CI instead of becoming
-# an implicit interpretation problem.
+# Fail closed when machine progress and current human/AI surfaces diverge.
 BLUEPRINT_PROGRESS_SURFACES = {
     "STATUS.md": (
-        "blueprint content: A1-A4 DRAFTED / PROVISIONAL; A5-A10 INCOMPLETE",
-        "next content slice: A5 — IDENTITY / TIME / CHANGE",
+        "blueprint content: A1-A5 DRAFTED / PROVISIONAL; A6-A10 INCOMPLETE",
+        "next content slice: A6 — KNOWLEDGE LIFECYCLE",
     ),
     "docs/ai/README.md": (
-        "blueprint content: A1-A4 DRAFTED / PROVISIONAL",
-        "next content slice: A5 — Identity / Time / Change",
-        "changing completed content away from exact A1+A2+A3+A4",
+        "blueprint content: A1-A5 DRAFTED / PROVISIONAL",
+        "next content slice: A6 — Knowledge Lifecycle",
+        "changing completed content away from exact A1+A2+A3+A4+A5",
     ),
     "ROADMAP.md": (
-        "A1–A4 remain pending independent review and integrated blueprint review with A5–A10.",
-        "The next bounded content slice is `A5 — Identity / Time / Change`.",
-        "A1-A4 drafted ≠ independent approval or integrated blueprint approval",
+        "A1–A5 remain pending independent review and integrated blueprint review with A6–A10.",
+        "The next bounded content slice is `A6 — Knowledge Lifecycle`.",
+        "A1-A5 drafted ≠ independent approval or integrated blueprint approval",
     ),
     "docs/ARCHITECTURE_REFOUNDATION.md": (
-        "Blueprint content: A1-A4 DRAFTED / PROVISIONAL; A5-A10 NOT YET COMPLETE",
-        "Next bounded slice: A5 IDENTITY / TIME / CHANGE",
-        "→ A4 Semantic Laws                              DRAFTED / PROVISIONAL",
-        "→ A5 Identity / Time / Change                   NEXT BOUNDED SLICE",
+        "Blueprint content: A1-A5 DRAFTED / PROVISIONAL; A6-A10 NOT YET COMPLETE",
+        "Next bounded slice: A6 KNOWLEDGE LIFECYCLE",
+        "→ A5 Identity / Time / Change                   DRAFTED / PROVISIONAL",
+        "→ A6 Knowledge Lifecycle                       NEXT BOUNDED SLICE",
     ),
     "docs/ARCHITECTURE_REFOUNDATION.ru.md": (
-        "Blueprint content: A1-A4 DRAFTED / PROVISIONAL; A5-A10 NOT YET COMPLETE",
-        "Next bounded slice: A5 IDENTITY / TIME / CHANGE",
-        "→ A4 Semantic Laws                              DRAFTED / PROVISIONAL",
-        "→ A5 Identity / Time / Change                   NEXT BOUNDED SLICE",
+        "Blueprint content: A1-A5 DRAFTED / PROVISIONAL; A6-A10 NOT YET COMPLETE",
+        "Next bounded slice: A6 KNOWLEDGE LIFECYCLE",
+        "→ A5 Identity / Time / Change                   DRAFTED / PROVISIONAL",
+        "→ A6 Knowledge Lifecycle                       NEXT BOUNDED SLICE",
     ),
 }
 FORBIDDEN_BLUEPRINT_PROGRESS_MARKERS = (
@@ -162,6 +163,12 @@ FORBIDDEN_BLUEPRINT_PROGRESS_MARKERS = (
     "→ A4 Semantic Laws                              NEXT BOUNDED SLICE",
     "Blueprint content: A1-A3 DRAFTED / PROVISIONAL; A4-A10 NOT YET COMPLETE",
     "Next bounded slice: A4 SEMANTIC LAWS AND INVARIANTS",
+    "blueprint content: A1-A4 DRAFTED / PROVISIONAL",
+    "next content slice: A5 — Identity / Time / Change",
+    "A5 Identity / Time / Change                   NEXT BOUNDED SLICE",
+    "→ A5 Identity / Time / Change                   NEXT BOUNDED SLICE",
+    "Blueprint content: A1-A4 DRAFTED / PROVISIONAL; A5-A10 NOT YET COMPLETE",
+    "Next bounded slice: A5 IDENTITY / TIME / CHANGE",
 )
 
 
@@ -191,9 +198,7 @@ def validate_required_paths(repo: Path) -> list[Finding]:
     ]
 
 
-def _normalize_link_target(
-    source: Path, raw_target: str, repo: Path
-) -> Path | None:
+def _normalize_link_target(source: Path, raw_target: str, repo: Path) -> Path | None:
     target = raw_target.strip()
     if not target or target.startswith("#"):
         return None
@@ -223,9 +228,7 @@ def validate_links(repo: Path) -> list[Finding]:
         source = repo / rel
         if not source.is_file():
             continue
-        for match in MARKDOWN_LINK_RE.finditer(
-            source.read_text(encoding="utf-8")
-        ):
+        for match in MARKDOWN_LINK_RE.finditer(source.read_text(encoding="utf-8")):
             raw = match.group(1)
             candidate = _normalize_link_target(source, raw, repo)
             if candidate is None:
@@ -233,9 +236,7 @@ def validate_links(repo: Path) -> list[Finding]:
             try:
                 candidate.relative_to(repo_resolved)
             except ValueError:
-                findings.append(
-                    Finding(rel, f"relative link escapes repository: {raw}")
-                )
+                findings.append(Finding(rel, f"relative link escapes repository: {raw}"))
                 continue
             if not candidate.exists():
                 findings.append(Finding(rel, f"broken relative link: {raw}"))
@@ -251,20 +252,10 @@ def validate_blueprint_progress_surfaces(repo: Path) -> list[Finding]:
         text = path.read_text(encoding="utf-8")
         for marker in required_markers:
             if marker not in text:
-                findings.append(
-                    Finding(
-                        rel,
-                        f"required blueprint-progress marker is missing: {marker}",
-                    )
-                )
+                findings.append(Finding(rel, f"required blueprint-progress marker is missing: {marker}"))
         for marker in FORBIDDEN_BLUEPRINT_PROGRESS_MARKERS:
             if marker in text:
-                findings.append(
-                    Finding(
-                        rel,
-                        f"forbidden stale blueprint-progress marker is present: {marker}",
-                    )
-                )
+                findings.append(Finding(rel, f"forbidden stale blueprint-progress marker is present: {marker}"))
     return findings
 
 
@@ -272,61 +263,32 @@ def read_checkpoint(repo: Path) -> tuple[str | None, list[Finding]]:
     rel = "docs/ai/CURRENT_STATE.md"
     path = repo / rel
     if not path.is_file():
-        return None, [
-            Finding(rel, "cannot read checkpoint because file is missing")
-        ]
+        return None, [Finding(rel, "cannot read checkpoint because file is missing")]
     text = path.read_text(encoding="utf-8")
     findings: list[Finding] = []
     match = CHECKPOINT_RE.search(text)
     if not match:
-        findings.append(
-            Finding(
-                rel,
-                "missing exact 40-character machine truth reconciliation checkpoint",
-            )
-        )
+        findings.append(Finding(rel, "missing exact 40-character machine truth reconciliation checkpoint"))
         return None, findings
     for marker in REQUIRED_STATUS_MARKERS:
         if marker not in text:
-            findings.append(
-                Finding(rel, f"required current-state marker is missing: {marker}")
-            )
+            findings.append(Finding(rel, f"required current-state marker is missing: {marker}"))
     for marker in FORBIDDEN_STATUS_MARKERS:
         if marker in text:
-            findings.append(
-                Finding(rel, f"forbidden legacy current-state marker is present: {marker}")
-            )
+            findings.append(Finding(rel, f"forbidden legacy current-state marker is present: {marker}"))
     return match.group(1), findings
 
 
-def validate_checkpoint(
-    repo: Path, checkpoint: str | None
-) -> list[Finding]:
+def validate_checkpoint(repo: Path, checkpoint: str | None) -> list[Finding]:
     if checkpoint is None or not (repo / ".git").exists():
         return []
-    if (
-        _run_git(repo, "cat-file", "-e", f"{checkpoint}^{{commit}}").returncode
-        != 0
-    ):
-        return [
-            Finding(
-                "docs/ai/CURRENT_STATE.md",
-                f"checkpoint commit does not exist: {checkpoint}",
-            )
-        ]
+    if _run_git(repo, "cat-file", "-e", f"{checkpoint}^{{commit}}").returncode != 0:
+        return [Finding("docs/ai/CURRENT_STATE.md", f"checkpoint commit does not exist: {checkpoint}")]
     head = _run_git(repo, "rev-parse", "HEAD")
     if head.returncode != 0:
         return [Finding(".git", "cannot resolve HEAD")]
-    if (
-        _run_git(repo, "merge-base", "--is-ancestor", checkpoint, "HEAD").returncode
-        != 0
-    ):
-        return [
-            Finding(
-                "docs/ai/CURRENT_STATE.md",
-                f"checkpoint {checkpoint} is not an ancestor of HEAD {head.stdout.strip()}",
-            )
-        ]
+    if _run_git(repo, "merge-base", "--is-ancestor", checkpoint, "HEAD").returncode != 0:
+        return [Finding("docs/ai/CURRENT_STATE.md", f"checkpoint {checkpoint} is not an ancestor of HEAD {head.stdout.strip()}")]
     return []
 
 
@@ -356,10 +318,7 @@ def main(argv: list[str] | None = None) -> int:
         return 1
     checkpoint, _ = read_checkpoint(repo)
     head = _run_git(repo, "rev-parse", "HEAD").stdout.strip()
-    print(
-        "AI context validation passed; "
-        f"machine_truth_reconciliation_merge={checkpoint}; head={head}"
-    )
+    print("AI context validation passed; " f"machine_truth_reconciliation_merge={checkpoint}; head={head}")
     return 0
 
 
