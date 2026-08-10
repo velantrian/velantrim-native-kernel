@@ -83,7 +83,7 @@ accepted current mechanism
 ```text
 A1-A10 drafted ≠ independent approval
 integrated review complete ≠ operator acceptance
-integrated review complete ≠ runtime thaw
+Integrated review complete ≠ runtime thaw
 integrated review complete ≠ arbitrary-substrate proof
 C5 PASS ≠ production readiness
 public repository ≠ open-source license
