@@ -51,39 +51,44 @@ Drafted provisional deliverables:
 3. [A3 — Abstract Native Kernel Machine](docs/A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md) · [RU](docs/A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md);
 4. [A4 — Semantic Laws and Invariants](docs/A4_SEMANTIC_LAWS_AND_INVARIANTS.md) · [RU](docs/A4_SEMANTIC_LAWS_AND_INVARIANTS.ru.md);
 5. [A5 — Identity, Time, and Change](docs/A5_IDENTITY_TIME_AND_CHANGE.md) · [RU](docs/A5_IDENTITY_TIME_AND_CHANGE.ru.md);
-6. [A6 — Knowledge Lifecycle](docs/A6_KNOWLEDGE_LIFECYCLE.md) · [RU](docs/A6_KNOWLEDGE_LIFECYCLE.ru.md).
+6. [A6 — Knowledge Lifecycle](docs/A6_KNOWLEDGE_LIFECYCLE.md) · [RU](docs/A6_KNOWLEDGE_LIFECYCLE.ru.md);
+7. [A7 — Conflict, Uncertainty, and Revision](docs/A7_CONFLICT_UNCERTAINTY_AND_REVISION.md) · [RU](docs/A7_CONFLICT_UNCERTAINTY_AND_REVISION.ru.md).
 
 Current progress:
 
 ```text
 ADR-0025 decision: ACCEPTED / OPERATOR APPROVED
 blueprint plan: PRESENT
-blueprint content: A1-A6 DRAFTED / PROVISIONAL; A7-A10 INCOMPLETE
-next content slice: A7 — CONFLICT, UNCERTAINTY, AND REVISION
+blueprint content: A1-A7 DRAFTED / PROVISIONAL; A8-A10 INCOMPLETE
+next content slice: A8 — SUBSTRATE-INDEPENDENCE CONTRACT
 runtime expansion: FROZEN
 ```
 
-A1–A6 are still pending independent review and integrated A1–A10 review. Drafting a slice is not Canon promotion.
+A1–A7 are still pending independent review and integrated A1–A10 review. Drafting a slice is not Canon promotion.
 
-### A6 candidate model
+### A7 candidate model
 
-A6 introduces provisional `nk-knowledge-lifecycle/A6-draft-1`. The knowledge lifecycle is a labeled directed graph of recurring, reviewable configurations, not a linear pipeline:
+A7 introduces provisional `nk-conflict-uncertainty-revision/A7-draft-1` and refines the accepted `NK-CFL` semantic boundary without accepting proposed ADR-0003 or changing runtime.
+
+It keeps three axes independent:
 
 ```text
-ENCOUNTERED
-RETAINED
-POSITIONED
-EPISTEMICALLY_WEIGHED
-RELATIONALLY_INTEGRATED
-IN_TENSION
-REVISED_OR_SUPERSEDED
-DISPOSED
-ACCOUNTED
+tension kind
+≠ assessment status
+≠ resolution status
 ```
 
-Each phase maps to one or more of A3's thirteen transition families, and lifecycle authority must trace to an explicit transition with a named Authority or method — never to storage presence, retrieval rank, repetition, model confidence, recency, or usefulness alone. A6 also names three closure kinds (`LOGICALLY_ERASED`, `PHYSICALLY_OR_CRYPTOGRAPHICALLY_ERASED`, `FORGOTTEN_OR_LOST`) that resolve erasure/forgetting distinctions A5 named but deferred.
+Assessment status distinguishes `CANDIDATE`, `ESTABLISHED`, `NOT_A_CONFLICT`, and `UNRESOLVED_ASSESSMENT`. Resolution status distinguishes `UNRESOLVED`, `DEFERRED`, `RESOLVED_FOR_SCOPE`, and `REOPENED`. Resolution-for-scope is an accountable scoped decision, not a truth oracle.
 
-A6 reconciles but does not supersede existing accepted contracts or decide pending ones. It maps `ADMIT`/`LINK`/`UTILIZED`/`SUPERSEDED`/`ERASED` onto lifecycle phases only illustratively; it does not authorize new Event verbs, does not decide `Issue #74 / ADR-0024` reducer-v2 topology, and does not expand `Issue #16`'s deletion-execution scope.
+A7 defines a provisional taxonomy covering technical and semantic tensions including duplicate delivery, write-version race, divergent history, semantic contradiction, temporal/scope mismatch, provenance conflict, measurement disagreement, Authority/policy conflict, epistemic disagreement, projection drift, and unclassified tension. Strict contradiction requires materially adequate alignment of interpretation, Context/scope, time, modality, assumptions, identity, Authority, and known uncertainty.
+
+Uncertainty is represented as typed positions such as Evidence, provenance, Context, temporal, identity, interpretation, Authority, capability, dependency, or measurement gaps. A7 explicitly rejects one mandatory confidence scalar or universal uncertainty-combination algebra. A probability, interval, qualitative judgment, physical distribution, or model score can only be a declared profile-specific representation with explicit meaning and dependencies.
+
+A7 permits `UNRESOLVED` and long-lived plurality. It distinguishes detection Authority from resolution, epistemic-assessment, operational-disposition, and architecture/governance Authority. It supports scoped resolution, revision, Supersession, deferral, and reopening while preserving A5 lineage and A6 lifecycle history.
+
+A7 does not change A6's phase inventory. `IN_TENSION` remains the lifecycle position for unresolved tension; a scoped resolution without semantic revision need not enter `REVISED_OR_SUPERSEDED`, while actual revision/supersession must preserve A5 predecessor/successor lineage.
+
+A7 also does not decide Issue #74 / ADR-0024 successor topology, self-supersession, cycles, reducer-v2 dispatch/migration, or create `CONFLICT_OPENED` / `CONFLICT_RESOLVED` Event verbs.
 
 ## Required non-equivalences
 
@@ -100,6 +105,14 @@ Belief ≠ Knowledge
 Memory ≠ merely a stored Record
 retrieval relevance ≠ epistemic validity
 Conflict ≠ necessarily Contradiction
+candidate tension ≠ established tension
+established tension ≠ resolved tension
+detection ≠ resolution
+resolution-for-scope ≠ objective truth
+uncertainty ≠ one universal confidence scalar
+confidence score ≠ Evidence
+newer ≠ more correct
+majority ≠ truth
 Unknown ≠ False
 Event usage in P1-C5 ≠ Event as universal primitive
 State ≠ necessarily reducer output
@@ -126,17 +139,18 @@ one Event ≠ one lifecycle transition
 
 | Boundary | State | Effect |
 |---|---|---|
-| Track H historical recovery | `BLOCKED / ACTIVE EVIDENCE-RECOVERY` | operator-controlled source admission; A6 does not alter it |
+| Track H historical recovery | `BLOCKED / ACTIVE EVIDENCE-RECOVERY` | operator-controlled source admission; A7 does not alter it |
 | Issue #18 license/publication | `PENDING_OPERATOR / selected_option: null` | no license change; external contribution/publication regime remains unauthorized |
 | Issue #74 / ADR-0024 | `PROPOSED / PENDING_OPERATOR / selected_option: null` | reducer v1 remains immutable; reducer-v2 remains unauthorized |
+| ADR-0003 semantic conflicts | `PROPOSED / NOT_STARTED` | A7 refines compatible semantic concepts but does not accept the ADR or its proposed Event lifecycle |
 
-Issue #14, #15 and #16 retain their existing accepted/versioned contract and remaining-evidence scopes. A6 does not close or silently redefine them.
+Issue #14, #15, #16 and #17 retain their existing accepted/versioned contract or conformance scopes and remaining work. A7 does not close or silently redefine them.
 
 ## Runtime freeze
 
 Allowed under ADR-0025: architecture research, integrity/security/reproducibility/provenance fixes, evidence preservation, truth-surface/validator repairs, historical recovery, and isolated blueprint-falsification experiments without promotion.
 
-Not authorized: reducer-v2 runtime, new semantic Event verbs, executable NK-EPI, Temporal runtime, full Admission lifecycle, operational deletion expansion, new databases/language profiles/model adapters/ecosystem integrations, maturity promotion, or production authorization.
+Not authorized: reducer-v2 runtime, new semantic/conflict Event verbs, executable NK-EPI, Temporal runtime, full Admission lifecycle, operational deletion expansion, new databases/language profiles/model adapters/ecosystem integrations, maturity promotion, or production authorization.
 
 ## Evidence boundary
 
@@ -147,16 +161,18 @@ evidence/c5/2026-08-07/manifest.json
 evidence/c5/2026-08-08-adr0023/manifest.json
 ```
 
-A6 documentation does not create new runtime evidence, change assertion arithmetic, or prove arbitrary future-substrate support.
+A7 documentation does not create new runtime evidence, change assertion arithmetic, promote `NK-CFL` executable support, or prove arbitrary future-substrate support.
 
 ## Explicit non-claims
 
 ```text
 Architecture Re-foundation ≠ completed blueprint
-A1-A6 DRAFTED ≠ independent approval ≠ integrated blueprint approval ≠ Canon promotion
-A6 model ≠ accepted universal lifecycle theory
-A6 model ≠ replacement of nk-id/1.0 / nk-event/1.0 / nk-deletion/1.0
-A6 model ≠ executable Temporal runtime
+A1-A7 DRAFTED ≠ independent approval ≠ integrated blueprint approval ≠ Canon promotion
+A7 model ≠ universal truth/conflict engine
+A7 model ≠ acceptance of ADR-0003
+A7 model ≠ conflict Event runtime
+A7 model ≠ universal probability/confidence algebra
+A7 model ≠ reducer-v2 / ADR-0024 decision
 C5 PASS ≠ production readiness
 public repository ≠ open-source license
 ```
