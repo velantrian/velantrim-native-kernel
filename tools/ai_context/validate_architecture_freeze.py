@@ -53,8 +53,9 @@ EXPECTED_COMPLETED_DELIVERABLES = [
     "A1_KERNEL_PURPOSE_AND_NON_GOALS",
     "A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY",
     "A3_ABSTRACT_NATIVE_KERNEL_MACHINE",
+    "A4_SEMANTIC_LAWS_AND_INVARIANTS",
 ]
-EXPECTED_NEXT_CONTENT_SLICE = "A4_SEMANTIC_LAWS_AND_INVARIANTS"
+EXPECTED_NEXT_CONTENT_SLICE = "A5_IDENTITY_TIME_AND_CHANGE"
 COMPLETED_DELIVERABLE_DOCS = {
     "A1_KERNEL_PURPOSE_AND_NON_GOALS": (
         "docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.md",
@@ -67,6 +68,10 @@ COMPLETED_DELIVERABLE_DOCS = {
     "A3_ABSTRACT_NATIVE_KERNEL_MACHINE": (
         "docs/A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md",
         "docs/A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md",
+    ),
+    "A4_SEMANTIC_LAWS_AND_INVARIANTS": (
+        "docs/A4_SEMANTIC_LAWS_AND_INVARIANTS.md",
+        "docs/A4_SEMANTIC_LAWS_AND_INVARIANTS.ru.md",
     ),
 }
 
@@ -275,7 +280,7 @@ def main(argv: list[str] | None = None) -> int:
     print(
         "Architecture freeze validation passed; "
         "decision=ADR-0025; issue=88; deliverables=A1-A10; "
-        "completed=A1,A2,A3; next=A4; runtime_expansion_frozen=true"
+        "completed=A1,A2,A3,A4; next=A5; runtime_expansion_frozen=true"
     )
     return 0
 
