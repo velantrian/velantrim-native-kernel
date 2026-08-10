@@ -6,9 +6,9 @@
 > **Decision:** [`ADR-0025`](./adr/0025-blueprint-before-runtime-expansion.md)  
 > **Issue:** [#88](https://github.com/velantrian/velantrim-native-kernel/issues/88)
 
-## 1. Purpose
+## 1. Why this phase exists
 
-Native Kernel studies a technology-neutral architecture for meaning, memory, knowledge, provenance, uncertainty, change and accountability. The existing Python/PostgreSQL/SQLite lineage is retained as a bounded reference laboratory rather than promoted into Canon because it exists first.
+Native Kernel studies a technology-neutral architecture for meaning, memory, knowledge, provenance, uncertainty, change and accountability. The existing **Python + PostgreSQL + SQLite** lineage is retained as a bounded reference laboratory rather than promoted into Canon because it exists first.
 
 ```text
 A1 purpose / non-goals
@@ -27,7 +27,7 @@ A1 purpose / non-goals
 
 ## 2. Draft inventory
 
-All ten required blueprint slices exist and remain `DRAFTED / PROVISIONAL`:
+All ten required blueprint slices exist and remain `DRAFTED / PROVISIONAL`. A10 retains model identity `nk-open-questions-falsification/A10-draft-1`.
 
 1. [A1](./A1_KERNEL_PURPOSE_AND_NON_GOALS.md) / [RU](./A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md)
 2. [A2](./A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md) / [RU](./A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md)
@@ -46,7 +46,8 @@ The first integrated review is now recorded as:
 
 - [Integrated A1–A10 Review](./INTEGRATED_A1_A10_REVIEW.md)
 - [Russian review](./INTEGRATED_A1_A10_REVIEW.ru.md)
-- identity: `nk-integrated-blueprint-review/A1-A10-review-1`
+- completed gate identity: `INTEGRATED_A1_A10_REVIEW`
+- review identity: `nk-integrated-blueprint-review/A1-A10-review-1`
 - state: `COMPLETED / PROVISIONAL / OPERATOR_DECISION_PENDING`
 
 The review explicitly reconciles seven cross-slice findings rather than silently rewriting draft history. Key current provisional interpretations include:
@@ -97,4 +98,6 @@ Production authorization: false
 Independent architectural validation: NOT ESTABLISHED
 ```
 
-`OPERATOR_POST_BLUEPRINT_DECISION` is a decision gate, not A11 and not runtime permission. The integrated review does not choose the next phase.
+## 8. Blueprint completion gate
+
+The draft inventory and first integrated review are complete as provisional architecture work. Acceptance is still not automatic: `OPERATOR_POST_BLUEPRINT_DECISION` is the next gate, not A11 and not runtime permission. The integrated review does not choose the next phase.
