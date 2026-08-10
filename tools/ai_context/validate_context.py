@@ -42,7 +42,9 @@ CHECKPOINT_RE = re.compile(r"^machine_truth_reconciliation_merge:\s*([0-9a-f]{40
 MARKDOWN_LINK_RE = re.compile(r"(?<!\!)\[[^\]]+\]\(([^)]+)\)")
 IGNORED_SCHEMES = {"http", "https", "mailto", "tel", "data"}
 
-CURRENT_MARKERS = (
+# These compatibility names are intentionally retained because the unit-test
+# suite imports them as part of the validator's tested interface.
+REQUIRED_STATUS_MARKERS = (
     "RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY",
     "authoritative_machine_source: ../../project-state.json",
     "machine_protocol: nk-project-state/2",
@@ -58,8 +60,15 @@ CURRENT_MARKERS = (
     "integrated review: COMPLETED / PROVISIONAL / OPERATOR_DECISION_PENDING",
     "next bounded gate is `OPERATOR_POST_BLUEPRINT_DECISION`",
 )
+CURRENT_MARKERS = REQUIRED_STATUS_MARKERS
 
-SURFACE_MARKERS = {
+FORBIDDEN_STATUS_MARKERS = (
+    "next bounded gate is `INTEGRATED_A1_A10_REVIEW`",
+    "next bounded content slice is `A10 — Open Questions and Falsification`",
+    "Next work is limited to explicit operator decisions",
+)
+
+BLUEPRINT_PROGRESS_SURFACES = {
     "STATUS.md": (
         "blueprint content: A1-A10 DRAFTED / PROVISIONAL",
         "integrated review: COMPLETED / PROVISIONAL / OPERATOR_DECISION_PENDING",
@@ -89,18 +98,21 @@ SURFACE_MARKERS = {
         "OPERATOR_POST_BLUEPRINT_DECISION",
     ),
 }
+SURFACE_MARKERS = BLUEPRINT_PROGRESS_SURFACES
 
-FORBIDDEN_PROGRESS = (
+FORBIDDEN_BLUEPRINT_PROGRESS_MARKERS = (
     "next content slice: INTEGRATED_A1_A10_REVIEW",
     "Next bounded gate: INTEGRATED_A1_A10_REVIEW",
     "→ integrated A1-A10 review                     NEXT GATE",
 )
+FORBIDDEN_PROGRESS = FORBIDDEN_BLUEPRINT_PROGRESS_MARKERS
 
 
 @dataclass(frozen=True)
 class Finding:
     path: str
     message: str
+
     def render(self) -> str:
         return f"{self.path}: {self.message}"
 
@@ -154,9 +166,9 @@ def validate_links(repo: Path) -> list[Finding]:
     return findings
 
 
-def validate_surfaces(repo: Path) -> list[Finding]:
+def validate_blueprint_progress_surfaces(repo: Path) -> list[Finding]:
     findings: list[Finding] = []
-    for rel, markers in SURFACE_MARKERS.items():
+    for rel, markers in BLUEPRINT_PROGRESS_SURFACES.items():
         path = repo / rel
         if not path.is_file():
             continue
@@ -164,10 +176,14 @@ def validate_surfaces(repo: Path) -> list[Finding]:
         for marker in markers:
             if marker not in text:
                 findings.append(Finding(rel, f"required blueprint-progress marker is missing: {marker}"))
-        for stale in FORBIDDEN_PROGRESS:
+        for stale in FORBIDDEN_BLUEPRINT_PROGRESS_MARKERS:
             if stale in text:
                 findings.append(Finding(rel, f"forbidden stale blueprint-progress marker is present: {stale}"))
     return findings
+
+
+def validate_surfaces(repo: Path) -> list[Finding]:
+    return validate_blueprint_progress_surfaces(repo)
 
 
 def read_checkpoint(repo: Path) -> tuple[str | None, list[Finding]]:
@@ -181,9 +197,12 @@ def read_checkpoint(repo: Path) -> tuple[str | None, list[Finding]]:
     if not match:
         findings.append(Finding(rel, "missing exact 40-character machine truth reconciliation checkpoint"))
         return None, findings
-    for marker in CURRENT_MARKERS:
+    for marker in REQUIRED_STATUS_MARKERS:
         if marker not in text:
             findings.append(Finding(rel, f"required current-state marker is missing: {marker}"))
+    for marker in FORBIDDEN_STATUS_MARKERS:
+        if marker in text:
+            findings.append(Finding(rel, f"forbidden legacy current-state marker is present: {marker}"))
     return match.group(1), findings
 
 
@@ -198,7 +217,7 @@ def validate_checkpoint(repo: Path, checkpoint: str | None) -> list[Finding]:
 def validate(repo: Path) -> list[Finding]:
     findings = validate_required_paths(repo)
     findings.extend(validate_links(repo))
-    findings.extend(validate_surfaces(repo))
+    findings.extend(validate_blueprint_progress_surfaces(repo))
     checkpoint, extra = read_checkpoint(repo)
     findings.extend(extra)
     findings.extend(validate_checkpoint(repo, checkpoint))
