@@ -24,13 +24,15 @@
 | [`A6_KNOWLEDGE_LIFECYCLE.ru.md`](./A6_KNOWLEDGE_LIFECYCLE.ru.md) | Russian A6 |
 | [`A7_CONFLICT_UNCERTAINTY_AND_REVISION.md`](./A7_CONFLICT_UNCERTAINTY_AND_REVISION.md) | A7 drafted / provisional |
 | [`A7_CONFLICT_UNCERTAINTY_AND_REVISION.ru.md`](./A7_CONFLICT_UNCERTAINTY_AND_REVISION.ru.md) | Russian A7 |
+| [`A8_SUBSTRATE_INDEPENDENCE_CONTRACT.md`](./A8_SUBSTRATE_INDEPENDENCE_CONTRACT.md) | A8 drafted / provisional |
+| [`A8_SUBSTRATE_INDEPENDENCE_CONTRACT.ru.md`](./A8_SUBSTRATE_INDEPENDENCE_CONTRACT.ru.md) | Russian A8 |
 | [`../AGENTS.md`](../AGENTS.md) | mandatory repository instructions |
 | [`ai/CURRENT_STATE.md`](./ai/CURRENT_STATE.md) | compact AI continuity state |
 | [`ai/KNOWN_RISKS.md`](./ai/KNOWN_RISKS.md) | active risks |
 | [`adr/README.md`](./adr/README.md) | accepted/proposed decisions |
 | [`../evidence/c5/README.md`](../evidence/c5/README.md) | immutable evidence boundaries |
 | [`QUICKSTART.md`](./QUICKSTART.md) | reference-laboratory setup/tests |
-| [`GLOSSARY.md`](./GLOSSARY.md) | onboarding terminology; provisional A2–A7 blueprint distinctions take precedence during integrated review |
+| [`GLOSSARY.md`](./GLOSSARY.md) | onboarding terminology; provisional A2–A8 blueprint distinctions take precedence during integrated review |
 
 ## Reading order
 
@@ -38,7 +40,7 @@
 STATUS + project-state
 → active ROADMAP
 → Architecture Re-foundation plan
-→ A1–A7 provisional blueprint deliverables
+→ A1–A8 provisional blueprint deliverables
 → relevant Canon and ADRs
 → only then reference runtime, tests and evidence
 ```
@@ -50,8 +52,8 @@ H historical recovery: OPEN / BLOCKED / independent
 C clean implementation: PRESERVED / PARTIAL / BOUNDED REFERENCE LABORATORY
 R architecture re-foundation: ACTIVE / BLUEPRINT-FIRST
 
-blueprint content: A1-A7 DRAFTED / PROVISIONAL
-next content slice: A8 SUBSTRATE-INDEPENDENCE CONTRACT
+blueprint content: A1-A8 DRAFTED / PROVISIONAL
+next content slice: A9 REFERENCE LABORATORY BOUNDARY
 kernel runtime: C4
 operational validation: C5_BOUNDED_REHEARSAL
 assertions: 45 / 10 / 17 / 0
@@ -59,7 +61,7 @@ NK-EPI: 0 SUPPORTED / 0 PARTIAL / 8 UNSUPPORTED / 0 FAILED
 production: NOT AUTHORIZED
 ```
 
-A4 law-set candidate is `nk-semantic-laws/A4-draft-1` with 28 provisional laws. A5 candidate is `nk-identity-time-change/A5-draft-1`, defining typed/scoped identity, named temporal/order relations and explicit change effects without requiring one physical encoding. A6 candidate is `nk-knowledge-lifecycle/A6-draft-1`, modeling the knowledge lifecycle as a labeled directed graph of nine recurring phases. A7 candidate is `nk-conflict-uncertainty-revision/A7-draft-1`, separating tension kind, assessment status, resolution status, typed uncertainty, Authority, scoped resolution/reopening and explicit revision without a universal winner algorithm or confidence scalar.
+A4 law-set candidate is `nk-semantic-laws/A4-draft-1` with 28 provisional laws. A5 candidate is `nk-identity-time-change/A5-draft-1`. A6 candidate is `nk-knowledge-lifecycle/A6-draft-1`. A7 candidate is `nk-conflict-uncertainty-revision/A7-draft-1`. A8 candidate is `nk-substrate-independence/A8-draft-1`, defining explicit preservation/loss mappings, multidimensional equivalence, scoped conformance and the boundary `substrate-independent specification ≠ universal portability proof`.
 
 ## Active sequence
 
@@ -71,8 +73,8 @@ A1 Purpose and Non-goals                         DRAFTED / PROVISIONAL
 → A5 Identity / Time / Change                   DRAFTED / PROVISIONAL
 → A6 Knowledge Lifecycle                        DRAFTED / PROVISIONAL
 → A7 Conflict / Uncertainty / Revision          DRAFTED / PROVISIONAL
-→ A8 Substrate-independence Contract            NEXT BOUNDED SLICE
-→ A9 Reference Laboratory Boundary
+→ A8 Substrate-independence Contract            DRAFTED / PROVISIONAL
+→ A9 Reference Laboratory Boundary              NEXT BOUNDED SLICE
 → A10 Open Questions / Falsification
 → integrated blueprint review
 → separate operator decision before runtime expansion
@@ -85,6 +87,8 @@ ADR-0025 preserves the current implementation as a bounded laboratory and freeze
 ```text
 reference laboratory ≠ final architecture
 blueprint documentation ≠ implementation evidence
+Architecture ≠ implementation
+representation ≠ represented reality
 Observation ≠ Claim
 Claim ≠ Truth
 Evidence ≠ Source
@@ -92,35 +96,28 @@ Repetition ≠ Evidence
 Belief ≠ Knowledge
 Memory ≠ merely a stored Record
 retrieval relevance ≠ epistemic validity
-Conflict ≠ necessarily Contradiction
-candidate tension ≠ established tension
-established tension ≠ resolved tension
-detection ≠ resolution
-resolution-for-scope ≠ objective truth
-uncertainty ≠ one universal confidence scalar
-confidence score ≠ Evidence
 Unknown ≠ False
-Event usage in P1-C5 ≠ Event as universal primitive
-State ≠ necessarily reducer output
-Knowledge ≠ LLM / embeddings / SQL / JSON / specific processor
-abstract machine ≠ runtime implementation
-transition ≠ Event envelope
-history visibility ≠ mandatory Event sourcing
+Unsupported ≠ False
+Conflict ≠ necessarily Contradiction
+Detection ≠ Resolution
+Resolution-for-scope ≠ Objective Truth
+Uncertainty ≠ one universal confidence scalar
+confidence score ≠ Evidence
 semantic identity ≠ storage identity
 equal bytes/hash/text ≠ universal semantic identity
-write order ≠ represented-world or causal order
-Revision ≠ silent overwrite
+write order ≠ occurrence order ≠ observation order ≠ causal order ≠ semantic precedence
+Revision ≠ overwrite
 Supersession ≠ deletion or falsity
 restriction ≠ logical erasure ≠ physical deletion ≠ cryptographic erasure ≠ forgetting
-Receipt/accountability ≠ correctness or truth
+transition ≠ Event envelope
+transition relation ≠ reducer
+history visibility ≠ mandatory Event sourcing
 profile conformance ≠ production authorization
+physical identity ≠ semantic equivalence
+same output ≠ full semantic equivalence
+substrate-independent specification ≠ universal portability proof
 C5 PASS ≠ production readiness
-logical ERASED ≠ physical deletion
 public repository ≠ open-source license
-future-facing design ≠ demonstrated future substrate support
-lifecycle phase ≠ storage status column
-closure ≠ deletion of history
-one Event ≠ one lifecycle transition
 ```
 
 Current technologies remain replaceable research instruments, not Architecture Canon.
