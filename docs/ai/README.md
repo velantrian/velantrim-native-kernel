@@ -141,7 +141,7 @@ C5 bounded rehearsal ≠ production readiness
 publication checkpoint:
   10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c
 
-manifest source / repository-committed Notion checkpoint:
+manifest source / Notion synchronized descendant:
   70acd0da61fee19131947aa56125833adb156ced
 ```
 
