@@ -20,9 +20,9 @@ architecture_phase: ARCHITECTURE_REFOUNDATION_BLUEPRINT_FIRST
 ```
 
 > **Repository status:** `RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY`  
-> **Active research phase:** `ARCHITECTURE RE-FOUNDATION / BLUEPRINT-FIRST / RUNTIME EXPANSION FROZEN`.
+> **Architecture state:** `A1-A10 DRAFTED / PROVISIONAL · INTEGRATED REVIEW COMPLETE / PROVISIONAL · OPERATOR DECISION PENDING`.
 
-Committed checkpoints are role-bearing historical references, not automatic live HEAD. Resolve live `main` through GitHub or the checked-out Git ref. Later documentation does not broaden earlier runtime/evidence proof.
+Committed checkpoint SHAs above remain historical role identities, not automatic live HEAD. Resolve live `main` through GitHub/Git.
 
 ## Current implementation boundary
 
@@ -31,80 +31,50 @@ clean_runtime_support:      PARTIAL
 kernel_runtime_conformance: C4
 operational_validation:     C5_BOUNDED_REHEARSAL
 production_authorized:      false
-
 assertion map: 45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED / 0 FAILED
 NK-EPI:        0 SUPPORTED / 0 PARTIAL / 8 UNSUPPORTED / 0 FAILED
+runtime expansion: FROZEN
+P1-C5 role: BOUNDED_REFERENCE_LABORATORY
 ```
 
-P1–P5, C4 and C5 remain a **BOUNDED REFERENCE LABORATORY**. They are preserved, useful and testable, but are not the final Native Kernel architecture and may not expand semantic/runtime scope before the blueprint gate.
-
-## Active Architecture Re-foundation
+## Architecture Re-foundation
 
 Decision: [ADR-0025](docs/adr/0025-blueprint-before-runtime-expansion.md).  
 Plan: [English](docs/ARCHITECTURE_REFOUNDATION.md) · [Русский](docs/ARCHITECTURE_REFOUNDATION.ru.md).  
+Integrated review: [English](docs/INTEGRATED_A1_A10_REVIEW.md) · [Русский](docs/INTEGRATED_A1_A10_REVIEW.ru.md).  
 Tracking: [Issue #88](https://github.com/velantrian/velantrim-native-kernel/issues/88).
 
-Drafted provisional deliverables:
-
-1. [A1 — Kernel Purpose and Non-goals](docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.md) · [RU](docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md);
-2. [A2 — Knowledge and Memory Ontology](docs/A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md) · [RU](docs/A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md);
-3. [A3 — Abstract Native Kernel Machine](docs/A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md) · [RU](docs/A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md);
-4. [A4 — Semantic Laws and Invariants](docs/A4_SEMANTIC_LAWS_AND_INVARIANTS.md) · [RU](docs/A4_SEMANTIC_LAWS_AND_INVARIANTS.ru.md);
-5. [A5 — Identity, Time, and Change](docs/A5_IDENTITY_TIME_AND_CHANGE.md) · [RU](docs/A5_IDENTITY_TIME_AND_CHANGE.ru.md);
-6. [A6 — Knowledge Lifecycle](docs/A6_KNOWLEDGE_LIFECYCLE.md) · [RU](docs/A6_KNOWLEDGE_LIFECYCLE.ru.md);
-7. [A7 — Conflict, Uncertainty, and Revision](docs/A7_CONFLICT_UNCERTAINTY_AND_REVISION.md) · [RU](docs/A7_CONFLICT_UNCERTAINTY_AND_REVISION.ru.md);
-8. [A8 — Substrate-Independence Contract](docs/A8_SUBSTRATE_INDEPENDENCE_CONTRACT.md) · [RU](docs/A8_SUBSTRATE_INDEPENDENCE_CONTRACT.ru.md);
-9. [A9 — Reference Laboratory Boundary](docs/A9_REFERENCE_LABORATORY_BOUNDARY.md) · [RU](docs/A9_REFERENCE_LABORATORY_BOUNDARY.ru.md);
-10. [A10 — Open Questions and Falsification](docs/A10_OPEN_QUESTIONS_AND_FALSIFICATION.md) · [RU](docs/A10_OPEN_QUESTIONS_AND_FALSIFICATION.ru.md).
-
-Current progress:
-
 ```text
-ADR-0025 decision: ACCEPTED / OPERATOR APPROVED
-blueprint plan: PRESENT
 blueprint content: A1-A10 DRAFTED / PROVISIONAL
-next content slice: INTEGRATED_A1_A10_REVIEW
+integrated review: COMPLETED / PROVISIONAL / OPERATOR_DECISION_PENDING
+next content slice: OPERATOR_POST_BLUEPRINT_DECISION
 runtime expansion: FROZEN
 ```
 
-A1–A10 are still pending independent review and integrated A1–A10 review. Drafting every slice is not Canon promotion.
+The integrated review identity is `nk-integrated-blueprint-review/A1-A10-review-1`. It found and explicitly reconciles seven cross-slice findings without rewriting historical first-draft wording silently.
 
-### A10 candidate model
+### Integrated reconciliation highlights
 
-A10 introduces provisional `nk-open-questions-falsification/A10-draft-1`. It records major unproved hypotheses and requires explicit falsifiers, scopes, observables, independence classes, loss declarations and outcomes.
+- physical deletion and cryptographic erasure are separate meanings: `PHYSICALLY_ERASED ≠ CRYPTOGRAPHICALLY_ERASED`;
+- the current integrated closure taxonomy is `LOGICALLY_ERASED / PHYSICALLY_ERASED / CRYPTOGRAPHICALLY_ERASED / FORGOTTEN_OR_LOST`;
+- `FORGOTTEN_OR_LOST` needs a scoped observation/assessment basis, not a deliberate erasure method;
+- A1 “confidence attached” is interpreted as uncertainty + epistemic position, not a mandatory confidence scalar;
+- A10 has exactly five review outcomes: `SUPPORTED_FOR_SCOPE / WEAKENED / REFUTED / INDETERMINATE / NOT_TESTED`;
+- `Conflict ≠ necessarily Contradiction` remains preserved;
+- A6 lifecycle phases are positions an item may occupy, not a mandatory pipeline.
 
-A10 research outcomes are:
-
-```text
-SUPPORTED_FOR_SCOPE
-WEAKENED
-REFUTED
-INDETERMINATE
-NOT_TESTED
-```
-
-`NOT_TESTED ≠ SUPPORTED`. These outcomes do not replace P4 assertion states or A8 conformance states.
-
-A10 explicitly preserves open questions around minimum non-event-sourced history/accountability, reconstruction without exact replay, lossy identity continuity, independent-language evidence, analog/neuromorphic persistence, probabilistic conformance, forgetting/physical deletion, bounded memory, decentralized Authority, quantum/non-classical computation and evidence independence.
-
-It also defines stop conditions: a reproducible falsifier inside the claimed scope, incompatible terminology across blueprint documents, a conformance test with no possible failure condition, or runtime work needed only to make an architecture claim look true must reopen earlier assumptions rather than be silently explained away.
+After these explicit reconciliation decisions, this review pass found **no known blocking internal semantic contradiction across A1-A10**. That is a provisional repository review conclusion, not independent validation.
 
 ## Required non-equivalences
 
 ```text
 NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GLOBALLY_LOST
-historical recovery ≠ clean implementation
 reference laboratory ≠ final architecture
 blueprint documentation ≠ runtime evidence
-Architecture ≠ implementation
 representation ≠ represented reality
 Observation ≠ Claim
 Claim ≠ Truth
 Evidence ≠ Source
-Repetition ≠ Evidence
-Belief ≠ Knowledge
-Memory ≠ merely a stored Record
-retrieval relevance ≠ epistemic validity
 Unknown ≠ False
 Unsupported ≠ False
 Conflict ≠ necessarily Contradiction
@@ -112,63 +82,27 @@ Detection ≠ Resolution
 Resolution-for-scope ≠ Objective Truth
 Uncertainty ≠ one universal confidence scalar
 confidence score ≠ Evidence
-newer ≠ more correct
-majority ≠ truth
 semantic identity ≠ storage identity
-equal bytes/hash/text ≠ universal semantic identity
-write order ≠ occurrence order ≠ observation order ≠ causal order ≠ semantic precedence
+write order ≠ occurrence order ≠ causal order ≠ semantic precedence
 Revision ≠ overwrite
 Supersession ≠ deletion or falsity
 restriction ≠ logical erase ≠ physical deletion ≠ cryptographic erasure ≠ forgetting
+PHYSICALLY_ERASED ≠ CRYPTOGRAPHICALLY_ERASED
 transition ≠ Event envelope
-transition relation ≠ reducer
 history visibility ≠ mandatory Event sourcing
 profile conformance ≠ production authorization
 substrate-independent specification ≠ universal portability proof
-physical identity ≠ semantic equivalence
-same output ≠ full semantic equivalence
 existing mechanism ≠ architecture requirement
-useful evidence ≠ universal substrate proof
 NOT_TESTED ≠ SUPPORTED
 ```
 
-## Independent tracks and decisions
+## Independent pending decisions
 
-| Boundary | State | Effect |
-|---|---|---|
-| Track H historical recovery | `BLOCKED / ACTIVE EVIDENCE-RECOVERY` | operator-controlled source admission; A10 does not alter it |
-| Issue #18 license/publication | `PENDING_OPERATOR / selected_option: null` | no license change; external contribution/publication regime remains unauthorized |
-| Issue #74 / ADR-0024 | `PROPOSED / PENDING_OPERATOR / selected_option: null` | reducer v1 remains immutable; reducer-v2 remains unauthorized |
-| ADR-0003 semantic conflicts | `PROPOSED / NOT_STARTED` | A7–A10 preserve semantic boundaries but do not accept the ADR or authorize Event vocabulary |
+- Issue #18 license/publication: `PENDING_OPERATOR`; no selection made.
+- Issue #74 / ADR-0024: `PROPOSED / PENDING_OPERATOR`; reducer-v2 unauthorized.
+- ADR-0003: `PROPOSED / NOT_STARTED`.
+- Track H source admission remains operator-controlled.
 
-Issue #14, #15, #16 and #17 retain their existing accepted/versioned contract or conformance scopes and remaining work. A10 does not close or silently redefine them.
+## Hard stop
 
-## Runtime freeze
-
-Allowed under ADR-0025: architecture research, integrity/security/reproducibility/provenance fixes, evidence preservation, truth-surface/validator repairs, historical recovery, and isolated blueprint-falsification experiments without promotion.
-
-Not authorized: reducer-v2 runtime, new semantic/conflict Event verbs, executable NK-EPI, Temporal runtime, full Admission lifecycle, operational deletion expansion, new databases/language profiles/model adapters/ecosystem integrations, maturity promotion, or production authorization.
-
-## Evidence boundary
-
-Repository evidence remains version-bound under its original identities:
-
-```text
-evidence/c5/2026-08-07/manifest.json
-evidence/c5/2026-08-08-adr0023/manifest.json
-```
-
-A10 documentation does not create new runtime evidence, change assertion arithmetic, promote NK-EPI, prove arbitrary future-substrate support, or establish production readiness.
-
-## Explicit non-claims
-
-```text
-Architecture Re-foundation ≠ accepted integrated blueprint
-A1-A10 drafted ≠ independent approval or integrated blueprint approval
-A10 falsification inventory ≠ proof that its hypotheses are true
-PostgreSQL↔SQLite C3 ≠ independent-language equivalence ≠ arbitrary-substrate portability proof
-C5 PASS ≠ production readiness
-public repository ≠ open-source license
-```
-
-Historical implementation records, accepted ADRs, immutable evidence manifests and Git history remain inspectable but do not override this current blueprint state.
+`OPERATOR_POST_BLUEPRINT_DECISION` is a decision gate, not A11 and not runtime permission. Integrated review completion does **not** establish independent review, operator acceptance, Canon promotion, arbitrary-substrate support, runtime authorization or production readiness.
