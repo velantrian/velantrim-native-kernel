@@ -19,10 +19,11 @@ This directory is the mandatory continuity surface for AI agents, auditors, and 
 13. [`../A5_IDENTITY_TIME_AND_CHANGE.md`](../A5_IDENTITY_TIME_AND_CHANGE.md) / [`RU`](../A5_IDENTITY_TIME_AND_CHANGE.ru.md)
 14. [`../A6_KNOWLEDGE_LIFECYCLE.md`](../A6_KNOWLEDGE_LIFECYCLE.md) / [`RU`](../A6_KNOWLEDGE_LIFECYCLE.ru.md)
 15. [`../A7_CONFLICT_UNCERTAINTY_AND_REVISION.md`](../A7_CONFLICT_UNCERTAINTY_AND_REVISION.md) / [`RU`](../A7_CONFLICT_UNCERTAINTY_AND_REVISION.ru.md)
-16. [`ISSUE_RECONCILIATION.md`](ISSUE_RECONCILIATION.md)
-17. [`NOTION_HANDOFF.md`](NOTION_HANDOFF.md)
-18. affected Canon/contracts/ADRs/source/tests/workflows/evidence
-19. current GitHub and Notion state
+16. [`../A8_SUBSTRATE_INDEPENDENCE_CONTRACT.md`](../A8_SUBSTRATE_INDEPENDENCE_CONTRACT.md) / [`RU`](../A8_SUBSTRATE_INDEPENDENCE_CONTRACT.ru.md)
+17. [`ISSUE_RECONCILIATION.md`](ISSUE_RECONCILIATION.md)
+18. [`NOTION_HANDOFF.md`](NOTION_HANDOFF.md)
+19. affected Canon/contracts/ADRs/source/tests/workflows/evidence
+20. current GitHub and Notion state
 
 Do not begin with random code search or historical handoffs before resolving current truth.
 
@@ -45,50 +46,40 @@ ADR-0025: ACCEPTED / OPERATOR APPROVED
 Architecture Re-foundation: ACTIVE / BLUEPRINT-FIRST
 runtime expansion: FROZEN
 P1–C5 role: BOUNDED REFERENCE LABORATORY
-blueprint content: A1-A7 DRAFTED / PROVISIONAL
-next content slice: A8 — Substrate-independence Contract
+blueprint content: A1-A8 DRAFTED / PROVISIONAL
+next content slice: A9 — Reference Laboratory Boundary
 ```
 
-A1–A7 are drafted provisional architecture slices, not independent approval, integrated Canon, runtime evidence, or production authorization. The current candidate progression must remain exact; changing completed content away from exact A1+A2+A3+A4+A5+A6+A7 must fail continuity validation.
+A1–A8 are drafted provisional architecture slices, not independent approval, integrated Canon, runtime evidence, or production authorization. The current candidate progression must remain exact; changing completed content away from exact A1+A2+A3+A4+A5+A6+A7+A8 must fail continuity validation.
 
-## A7 continuity boundary
+## A8 continuity boundary
 
-A7 candidate model: `nk-conflict-uncertainty-revision/A7-draft-1`.
+A8 candidate model: `nk-substrate-independence/A8-draft-1`.
 
 ```text
-Conflict ≠ necessarily Contradiction
-candidate tension ≠ established tension
-established tension ≠ resolved tension
-detection ≠ resolution
-resolution-for-scope ≠ objective truth
-uncertainty ≠ one universal confidence scalar
-confidence score ≠ Evidence
-newer ≠ more correct
-majority ≠ truth
-write order ≠ semantic precedence
+substrate-independent specification ≠ universal portability proof
+physical identity ≠ semantic equivalence
+same output ≠ full semantic equivalence
+Architecture ≠ implementation
+reference laboratory ≠ Canon
 Unknown ≠ False
-Revision ≠ silent overwrite
+Unsupported ≠ False
+write order ≠ causal/world order
+Revision ≠ overwrite
+profile conformance ≠ production authorization
 ```
 
-A7 has three independent axes:
+A8 uses meaning-level `SUBSTRATE_MAPPING(...)` claims with preservation states `PRESERVED`, `PARTIAL`, `UNSUPPORTED`, `INDETERMINATE`, and `LOSSY`. These are not assertion-map statuses and do not promote any runtime evidence.
 
-```text
-tension kind
-≠ assessment status: CANDIDATE / ESTABLISHED / NOT_A_CONFLICT / UNRESOLVED_ASSESSMENT
-≠ resolution status: UNRESOLVED / DEFERRED / RESOLVED_FOR_SCOPE / REOPENED
-```
+The ten preservation obligations `A8-P01`…`A8-P10` cover A2 ontology distinctions, A3 transition outcomes, A4 laws, A5 identity/time/order, A6 lifecycle/history, A7 conflict/uncertainty/revision, Context/Provenance/Source/Authority, bounded accountability, and explicit capability/loss declarations.
 
-The provisional taxonomy distinguishes technical and semantic tensions: `DUPLICATE_DELIVERY`, `WRITE_VERSION_RACE`, `DIVERGENT_HISTORY`, `SEMANTIC_CONTRADICTION`, `TEMPORAL_MISMATCH`, `SCOPE_MISMATCH`, `PROVENANCE_CONFLICT`, `MEASUREMENT_DISAGREEMENT`, `AUTHORITY_CONFLICT`, `POLICY_CONFLICT`, `EPISTEMIC_DISAGREEMENT`, `PROJECTION_DRIFT`, and `UNCLASSIFIED_TENSION`.
+A8 distinguishes `PHYSICAL_IDENTITY`, `REPRESENTATION_EQUIVALENCE`, `SEMANTIC_OBLIGATION_EQUIVALENCE`, `BEHAVIORAL_CONFORMANCE_FOR_SCOPE`, and `LINEAGE_CONTINUITY_EQUIVALENCE`. Physical identity is neither necessary nor sufficient for semantic equivalence.
 
-A7 uses meaning-level `UNCERTAINTY_POSITION`, `TENSION_POSITION`, and `EPISTEMIC_REVISION` patterns. They are not required physical objects, Event verbs, reducers, rows, graph nodes, or numeric confidence fields.
+A8 allows representation, storage, language, hardware, synchronization, time/uncertainty representation and execution model to vary if required meaning survives. It does not universalize SQL, JSON, Event sourcing, reducers, SHA-256, global clocks/order, Python, LLMs, embeddings, silicon, network or cloud.
 
-Uncertainty may be typed as Evidence/provenance/Context/temporal/identity/interpretation/Authority/capability/dependency/measurement gaps. There is no universal uncertainty-combination algebra. Copied Evidence does not become independent Evidence; missing Evidence is not negative Evidence.
+Scoped outcomes are `FULL_CONFORMANCE_FOR_SCOPE`, `BOUNDED_CONFORMANCE`, `NON_CONFORMANT_FOR_SCOPE`, and `INDETERMINATE_CONFORMANCE`. A profile that cannot preserve a materially required distinction must declare degradation rather than silently approximate and claim full equivalence.
 
-A7 permits long-lived `UNRESOLVED`, explicit `DEFERRED`, scoped `RESOLVED_FOR_SCOPE`, and `REOPENED` history. It distinguishes detection Authority/method from resolution Authority, epistemic-assessment Authority, operational-disposition Authority, and architecture/governance Authority.
-
-A7 refines accepted `NK-CFL` but does not accept proposed ADR-0003. `CONFLICT_OPENED`, `CONFLICT_REVIEWED`, `CONFLICT_RESOLVED`, and `CONFLICT_REOPENED` remain unauthorized Event verbs. Issue #74 / ADR-0024 remains `PROPOSED / PENDING_OPERATOR`; A7 does not decide Supersession topology or reducer-v2 migration.
-
-A7 leaves A6's nine lifecycle phases unchanged. `IN_TENSION` can remain unresolved indefinitely; scoped resolution without semantic revision need not imply `REVISED_OR_SUPERSEDED`; actual revision/supersession must preserve A5 lineage.
+A8 does not grade P1–C5. That is A9. It does not claim an implemented neuromorphic/analog/quantum/future profile or prove compatibility with arbitrary future substrates.
 
 ## Active sequence
 
@@ -100,8 +91,8 @@ A1 Purpose and Non-goals                         DRAFTED / PROVISIONAL
 → A5 Identity / Time / Change                   DRAFTED / PROVISIONAL
 → A6 Knowledge Lifecycle                        DRAFTED / PROVISIONAL
 → A7 Conflict / Uncertainty / Revision          DRAFTED / PROVISIONAL
-→ A8 Substrate-independence Contract            NEXT BOUNDED SLICE
-→ A9 Reference Laboratory Boundary
+→ A8 Substrate-independence Contract            DRAFTED / PROVISIONAL
+→ A9 Reference Laboratory Boundary              NEXT BOUNDED SLICE
 → A10 Open Questions / Falsification
 → integrated blueprint review
 → separate operator decision before runtime expansion
@@ -114,7 +105,7 @@ No new semantic/runtime expansion before blueprint gate completion.
 ```text
 Issue #18: PENDING_OPERATOR — no license/publication selection
 Issue #74 / ADR-0024: PROPOSED / PENDING_OPERATOR — reducer v1 immutable; reducer-v2 unauthorized
-ADR-0003: PROPOSED / NOT_STARTED — A7 does not accept its proposed runtime/Event lifecycle
+ADR-0003: PROPOSED / NOT_STARTED — no proposed runtime/Event lifecycle accepted
 Track H source admission: operator-controlled
 ```
 
@@ -168,6 +159,7 @@ DRAFTED BLUEPRINT CONTENT
   ../A5_IDENTITY_TIME_AND_CHANGE.md
   ../A6_KNOWLEDGE_LIFECYCLE.md
   ../A7_CONFLICT_UNCERTAINTY_AND_REVISION.md
+  ../A8_SUBSTRATE_INDEPENDENCE_CONTRACT.md
   plus Russian counterparts
 ```
 
@@ -196,6 +188,7 @@ python tools/docs/validate_bilingual_parity.py --repo .
 python -m unittest discover -s tests -p 'test_a5_identity_time_change.py' -v
 python -m unittest discover -s tests -p 'test_a6_knowledge_lifecycle.py' -v
 python -m unittest discover -s tests -p 'test_a7_conflict_uncertainty_revision.py' -v
+python -m unittest discover -s tests -p 'test_a8_substrate_independence_contract.py' -v
 ```
 
-A7 drafting does not change runtime, evidence identities, assertion arithmetic, NK-EPI, maturity, or production status.
+A8 drafting does not change runtime, evidence identities, assertion arithmetic, NK-EPI, maturity, or production status.
