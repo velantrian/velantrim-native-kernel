@@ -52,7 +52,7 @@ No new semantic/runtime expansion before blueprint gate completion.
 BOUNDED REFERENCE LABORATORY
 ```
 
-The blueprint content A1–A9 is `DRAFTED / PROVISIONAL` and remains pending independent plus integrated A1–A10 review. The next bounded content slice is `A10 — Open Questions and Falsification`.
+The blueprint content A1–A10 is `DRAFTED / PROVISIONAL` and remains pending independent plus integrated A1–A10 review. The next bounded gate is `INTEGRATED_A1_A10_REVIEW`.
 
 Required sequence:
 
@@ -66,41 +66,32 @@ A1 Purpose and Non-goals                         DRAFTED / PROVISIONAL
 → A7 Conflict / Uncertainty / Revision          DRAFTED / PROVISIONAL
 → A8 Substrate-independence Contract            DRAFTED / PROVISIONAL
 → A9 Reference Laboratory Boundary              DRAFTED / PROVISIONAL
-→ A10 Open Questions and Falsification           NEXT BOUNDED SLICE
-→ integrated blueprint review
+→ A10 Open Questions and Falsification           DRAFTED / PROVISIONAL
+→ integrated A1-A10 review                     NEXT GATE
 → separate operator decision before runtime expansion
 ```
 
-Drafted A9: [EN](../A9_REFERENCE_LABORATORY_BOUNDARY.md) / [RU](../A9_REFERENCE_LABORATORY_BOUNDARY.ru.md).
+Drafted A10: [EN](../A10_OPEN_QUESTIONS_AND_FALSIFICATION.md) / [RU](../A10_OPEN_QUESTIONS_AND_FALSIFICATION.ru.md).
 
-## A9 candidate truth
+## A10 candidate truth
 
-`nk-reference-laboratory-boundary/A9-draft-1` classifies current P1–C5 mechanisms rather than changing them.
-
-```text
-ARCHITECTURE_PRESERVING_EVIDENCE
-PROFILE_SPECIFIC_REALIZATION
-PARTIAL_ARCHITECTURE_COVERAGE
-FALSIFICATION_INSTRUMENT
-LABORATORY_ONLY_CONSTRAINT
-NOT_ARCHITECTURE_EVIDENCE
-```
-
-Key bounded finding:
+`nk-open-questions-falsification/A10-draft-1` makes the remaining uncertainty explicit and falsifiable rather than promoting unknowns.
 
 ```text
-PostgreSQL ↔ SQLite C3
-= useful cross-profile evidence
-≠ independent-language equivalence
-≠ independent-computation-model equivalence
-≠ arbitrary-substrate portability proof
+SUPPORTED_FOR_SCOPE
+WEAKENED
+REFUTED
+INDETERMINATE
+NOT_TESTED
 ```
 
-The two profiles share Python, conventional digital execution, semantic-core/reducer assumptions, current Event/encoding conventions, related test harnesses and repository custody. Current exact-byte requirements remain valid only where versioned laboratory contracts explicitly require them. A8 remains architecture authority: different bytes may preserve meaning, and equal bytes alone do not prove semantic equivalence.
+`NOT_TESTED ≠ SUPPORTED`. These are A10 research outcomes, not P4 assertion-map replacements and not A8 conformance states.
 
-P4/C4/C5 remain valuable measurement/falsification instruments. C5 remains synthetic bounded operational rehearsal, not production security/privacy/HA/compliance/independent custody evidence.
+A10 records twelve major hypotheses and eighteen open questions. The high-risk unresolved boundaries include minimum explicit history without Event sourcing, reconstruction without exact replay, lossy identity continuity, independent-language evidence thresholds, analog/neuromorphic continuity, probabilistic conformance, forgetting/physical deletion observability, bounded-memory auditability, causal order without global sequence, decentralized Authority, non-classical computation, self-modifying realizations and evidence independence.
 
-Profile-specific code is preserved rather than deleted merely for being profile-specific: label correctly, preserve reproducibility and evidence lineage, prevent silent Canon promotion.
+A10 thought experiments are falsification aids only: eventless archives, distributed neuromorphic memory, lossy bounded-memory agents, probabilistic realizations and independent-language digital profiles. They are not implementation commitments.
+
+A10 stop conditions require reopening assumptions when a reproducible falsifier refutes a scoped hypothesis, blueprint terminology conflicts materially, a conformance test has no possible failure condition, or runtime work is needed merely to make an architecture claim appear true.
 
 ## Runtime freeze boundary
 
@@ -110,14 +101,15 @@ Not authorized: reducer v2, new semantic/conflict Event verbs, new databases/lan
 
 ## Current known gaps
 
-- A1–A9 are drafted/provisional, not independently or integratively approved;
-- A10 remains incomplete;
+- A1–A10 are drafted/provisional, not independently or integratively approved;
+- integrated A1–A10 review remains incomplete;
 - P5/C3 is not independent-language or arbitrary-substrate evidence;
 - no arbitrary future substrate support is demonstrated;
 - Issue #74 / ADR-0024 remains separately unresolved and operator-controlled;
 - current PostgreSQL/SQLite profiles share Python semantic lineage;
 - NK-EPI executable support remains absent;
-- physical/cryptographic deletion and production operations remain absent.
+- physical/cryptographic deletion and production operations remain absent;
+- A10-H01–H10 remain unproved across independent computation models.
 
 ## Machine-readable state
 

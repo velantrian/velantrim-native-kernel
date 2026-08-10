@@ -99,13 +99,17 @@ profile-specific
 
 P4/C4/C5 остаются полезными measurement/falsification instruments; C5 остаётся synthetic bounded operational evidence, а не production или independent-custody evidence.
 
-**First-draft completion test:** выполнен для principal P1–C5 mechanisms. Reviewer может определить A1–A8 obligation, A9 role, actual proof boundary, non-proof boundary и понять, обязана ли замена mechanism изменить meaning Native Kernel. Final acceptance требует independent review, A10, integrated review и separate operator decision.
+**First-draft completion test:** выполнен для principal P1–C5 mechanisms. Reviewer может определить A1–A8 obligation, A9 role, actual proof boundary, non-proof boundary и понять, обязана ли замена mechanism изменить meaning Native Kernel.
 
 ### A10 — Open Questions и Falsification Criteria
 
-**Status:** `NEXT BOUNDED SLICE`.
+**Status:** `DRAFTED / PROVISIONAL` — [RU](./A10_OPEN_QUESTIONS_AND_FALSIFICATION.ru.md) / [EN](./A10_OPEN_QUESTIONS_AND_FALSIFICATION.md). Candidate `nk-open-questions-falsification/A10-draft-1`.
 
-Зафиксировать unresolved architecture questions и evidence, способное weaken/refute major hypotheses, включая limits cross-substrate equivalence, minimum history/accountability equivalents, analog/neuromorphic continuity, forgetting без forbidden retention и unresolved conformance boundaries.
+A10 фиксирует major unproved hypotheses, falsifiers, weakening conditions, open questions, evidence-independence dimensions, contrasting substrate thought experiments и stop conditions. Он различает `SUPPORTED_FOR_SCOPE`, `WEAKENED`, `REFUTED`, `INDETERMINATE`, `NOT_TESTED`; это research outcomes, а не замена P4/A8 states.
+
+A10 явно включает minimum non-event-sourced history/accountability, reconstruction без exact replay, lossy identity continuity, independent-language evidence thresholds, analog/neuromorphic persistence, probabilistic conformance, forgetting/physical-deletion observability, bounded-memory auditability, decentralized Authority, non-classical computation и evidence independence.
+
+**First-draft completion test:** выполнен как falsification/open-question inventory. Гипотезы этим не доказаны. Final acceptance всё ещё требует integrated A1–A10 review и отдельного operator decision.
 
 ## 4. Последовательность работы
 
@@ -119,12 +123,12 @@ A1 Purpose and Non-goals                         DRAFTED / PROVISIONAL
 → A7 Conflict / Uncertainty / Revision          DRAFTED / PROVISIONAL
 → A8 Substrate-independence Contract            DRAFTED / PROVISIONAL
 → A9 Reference Laboratory Boundary              DRAFTED / PROVISIONAL
-→ A10 Open Questions and Falsification           NEXT BOUNDED SLICE
-→ integrated blueprint review
+→ A10 Open Questions and Falsification           DRAFTED / PROVISIONAL
+→ integrated A1-A10 review                     NEXT GATE
 → separate operator decision before runtime expansion
 ```
 
-Later slices могут refine earlier drafts только явно; они не могут silently redefine их.
+Later review может refine earlier drafts только явно; он не может silently redefine их.
 
 ## 5. Research method
 
@@ -140,30 +144,31 @@ Sources, papers, existing systems и AI analysis являются inputs и не
 
 ## 7. Связь с existing contracts и pending decisions
 
-A9 не меняет ADR statuses или historical evidence. Issue #14/#15/#16/#17 сохраняют existing scopes. Issue #18 остаётся operator-controlled для license/publication. Issue #74 / ADR-0024 остаётся `PROPOSED / PENDING_OPERATOR`; reducer v1 immutable, reducer-v2 unauthorized. ADR-0003 остаётся `PROPOSED / NOT_STARTED`. Track H source admission остаётся operator-controlled.
+A10 не меняет ADR statuses или historical evidence. Issue #14/#15/#16/#17 сохраняют existing scopes. Issue #18 остаётся operator-controlled для license/publication. Issue #74 / ADR-0024 остаётся `PROPOSED / PENDING_OPERATOR`; reducer v1 immutable, reducer-v2 unauthorized. ADR-0003 остаётся `PROPOSED / NOT_STARTED`. Track H source admission остаётся operator-controlled.
 
 ```text
-A1-A9 blueprint obligations/classification
-→ A10 open questions / falsification
-→ integrated review
+A1-A10 drafted blueprint
+→ integrated A1-A10 review
 → existing contracts reconciled within declared scope
+→ separate operator decision
 ≠ silent retroactive rewrite
+≠ automatic runtime thaw
 ```
 
 ## 8. Gate завершения blueprint
 
-Blueprint не завершён только из-за наличия документов. Gate завершения blueprint требует всех A1–A10 deliverables, terminology reconciliation, explicit contradictions/unknowns, labelled implementation assumptions, falsification criteria, existing-contract mapping, contrasting substrate thought experiments, critical review, integrated review и separate operator decision для next phase.
+Blueprint не завершён только из-за наличия документов. Draft inventory теперь содержит все A1–A10 deliverables, но blueprint acceptance по-прежнему требует terminology reconciliation, explicit contradictions/unknowns, labelled implementation assumptions, falsification coverage, existing-contract mapping, contrasting substrate thought experiments, critical integrated review и separate operator decision для любой next phase.
 
 ## 9. Текущий прогресс
 
 ```text
 Architecture Re-foundation decision: established by ADR-0025
 Blueprint plan: this document
-Blueprint content: A1-A9 DRAFTED / PROVISIONAL; A10 NOT YET COMPLETE
-Next bounded slice: A10 OPEN QUESTIONS AND FALSIFICATION
+Blueprint content: A1-A10 DRAFTED / PROVISIONAL
+Next bounded gate: INTEGRATED_A1_A10_REVIEW
 Runtime expansion: FROZEN
 Existing P1–C5 laboratory: PRESERVED / BOUNDED
 Production authorization: false
 ```
 
-Drafting A1–A9 не устанавливает independent approval, integrated Canon, runtime implementation, arbitrary future-substrate support или production readiness.
+Drafting A1–A10 не устанавливает independent approval, integrated Canon, runtime implementation, arbitrary future-substrate support или production readiness.

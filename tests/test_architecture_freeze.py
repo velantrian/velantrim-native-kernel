@@ -68,45 +68,30 @@ class ArchitectureFreezeTests(unittest.TestCase):
         with self.assertRaisesRegex(module.ArchitectureFreezeError, "completed blueprint deliverable inventory drift"):
             self.validate(state)
 
-    def test_completed_deliverable_must_be_a_declared_deliverable(self) -> None:
+    def test_integrated_review_gate_is_exact(self) -> None:
         state = copy.deepcopy(self.state)
-        state["tracks"]["long_horizon_research"]["architecture_refoundation"]["completed_deliverables"] = ["NOT_A_REAL_DELIVERABLE"]
-        with self.assertRaisesRegex(module.ArchitectureFreezeError, "completed blueprint deliverable inventory drift"):
-            self.validate(state)
-
-    def test_next_content_slice_must_match_expected_value(self) -> None:
-        state = copy.deepcopy(self.state)
-        state["tracks"]["long_horizon_research"]["architecture_refoundation"]["next_content_slice"] = "A9_REFERENCE_LABORATORY_BOUNDARY"
+        state["tracks"]["long_horizon_research"]["architecture_refoundation"]["next_content_slice"] = "A10_OPEN_QUESTIONS_AND_FALSIFICATION"
         with self.assertRaisesRegex(module.ArchitectureFreezeError, "next blueprint content slice drift"):
             self.validate(state)
 
-    def test_next_content_slice_must_not_be_completed(self) -> None:
+    def test_integrated_review_gate_is_not_a_deliverable(self) -> None:
         state = copy.deepcopy(self.state)
-        refoundation = state["tracks"]["long_horizon_research"]["architecture_refoundation"]
-        refoundation["completed_deliverables"].append("A10_OPEN_QUESTIONS_AND_FALSIFICATION")
-        module.EXPECTED_COMPLETED_DELIVERABLES.append("A10_OPEN_QUESTIONS_AND_FALSIFICATION")
+        state["tracks"]["long_horizon_research"]["architecture_refoundation"]["completed_deliverables"].append("INTEGRATED_A1_A10_REVIEW")
+        module.EXPECTED_COMPLETED_DELIVERABLES.append("INTEGRATED_A1_A10_REVIEW")
         try:
-            with self.assertRaisesRegex(module.ArchitectureFreezeError, "must not already be marked completed"):
+            with self.assertRaisesRegex(module.ArchitectureFreezeError, "must not be treated as a completed A1-A10 deliverable"):
                 self.validate(state)
         finally:
             module.EXPECTED_COMPLETED_DELIVERABLES.pop()
 
-    def test_completed_deliverable_document_must_exist(self) -> None:
-        original = module.COMPLETED_DELIVERABLE_DOCS["A9_REFERENCE_LABORATORY_BOUNDARY"]
-        module.COMPLETED_DELIVERABLE_DOCS["A9_REFERENCE_LABORATORY_BOUNDARY"] = ("docs/DOES_NOT_EXIST.md",)
+    def test_a10_document_must_exist(self) -> None:
+        original = module.COMPLETED_DELIVERABLE_DOCS["A10_OPEN_QUESTIONS_AND_FALSIFICATION"]
+        module.COMPLETED_DELIVERABLE_DOCS["A10_OPEN_QUESTIONS_AND_FALSIFICATION"] = ("docs/DOES_NOT_EXIST.md",)
         try:
             with self.assertRaisesRegex(module.ArchitectureFreezeError, "missing completed deliverable document"):
                 self.validate()
         finally:
-            module.COMPLETED_DELIVERABLE_DOCS["A9_REFERENCE_LABORATORY_BOUNDARY"] = original
-
-    def test_completed_deliverable_document_mapping_must_exist(self) -> None:
-        original = module.COMPLETED_DELIVERABLE_DOCS.pop("A9_REFERENCE_LABORATORY_BOUNDARY")
-        try:
-            with self.assertRaisesRegex(module.ArchitectureFreezeError, "missing completed deliverable document mapping"):
-                self.validate()
-        finally:
-            module.COMPLETED_DELIVERABLE_DOCS["A9_REFERENCE_LABORATORY_BOUNDARY"] = original
+            module.COMPLETED_DELIVERABLE_DOCS["A10_OPEN_QUESTIONS_AND_FALSIFICATION"] = original
 
     def test_issue_88_must_remain_open_and_verified(self) -> None:
         state = copy.deepcopy(self.state)
@@ -116,6 +101,12 @@ class ArchitectureFreezeTests(unittest.TestCase):
         state = copy.deepcopy(self.state)
         state["issues"]["88"]["verification"]["method"] = "SUMMARY"
         with self.assertRaisesRegex(module.ArchitectureFreezeError, "verification drift"):
+            self.validate(state)
+
+    def test_issue_88_must_retain_integrated_review_gate(self) -> None:
+        state = copy.deepcopy(self.state)
+        state["issues"]["88"]["meaning"] = "Architecture Re-foundation is active."
+        with self.assertRaisesRegex(module.ArchitectureFreezeError, "integrated-review gate"):
             self.validate(state)
 
 

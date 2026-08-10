@@ -104,23 +104,11 @@ class A9ReferenceLaboratoryBoundaryTests(unittest.TestCase):
             ):
                 self.assertIn(literal, markdown)
 
-    def test_project_state_advances_only_to_a10(self) -> None:
+    def test_project_state_preserves_a9_after_a10(self) -> None:
         refoundation = self.state["tracks"]["long_horizon_research"]["architecture_refoundation"]
-        self.assertEqual("A10_OPEN_QUESTIONS_AND_FALSIFICATION", refoundation["next_content_slice"])
-        self.assertEqual(
-            [
-                "A1_KERNEL_PURPOSE_AND_NON_GOALS",
-                "A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY",
-                "A3_ABSTRACT_NATIVE_KERNEL_MACHINE",
-                "A4_SEMANTIC_LAWS_AND_INVARIANTS",
-                "A5_IDENTITY_TIME_AND_CHANGE",
-                "A6_KNOWLEDGE_LIFECYCLE",
-                "A7_CONFLICT_UNCERTAINTY_AND_REVISION",
-                "A8_SUBSTRATE_INDEPENDENCE_CONTRACT",
-                "A9_REFERENCE_LABORATORY_BOUNDARY",
-            ],
-            refoundation["completed_deliverables"],
-        )
+        self.assertIn("A9_REFERENCE_LABORATORY_BOUNDARY", refoundation["completed_deliverables"])
+        self.assertIn("A10_OPEN_QUESTIONS_AND_FALSIFICATION", refoundation["completed_deliverables"])
+        self.assertEqual("INTEGRATED_A1_A10_REVIEW", refoundation["next_content_slice"])
         self.assertTrue(refoundation["runtime_expansion_frozen"])
         self.assertEqual("BOUNDED_REFERENCE_LABORATORY", self.state["tracks"]["clean_implementation"]["architecture_role"])
         self.assertFalse(self.state["status"]["production_authorized"])

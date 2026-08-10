@@ -40,8 +40,8 @@ EXPECTED_REFOUNDATION_FIELDS = {
     "existing_reference_runtime_role", "plan_en", "plan_ru", "deliverables",
     "completion_requires_operator_review", "completed_deliverables", "next_content_slice",
 }
-EXPECTED_COMPLETED_DELIVERABLES = EXPECTED_DELIVERABLES[:9]
-EXPECTED_NEXT_CONTENT_SLICE = "A10_OPEN_QUESTIONS_AND_FALSIFICATION"
+EXPECTED_COMPLETED_DELIVERABLES = EXPECTED_DELIVERABLES[:]
+EXPECTED_NEXT_CONTENT_SLICE = "INTEGRATED_A1_A10_REVIEW"
 COMPLETED_DELIVERABLE_DOCS = {
     item: (f"docs/{item}.md", f"docs/{item}.ru.md")
     for item in EXPECTED_COMPLETED_DELIVERABLES
@@ -94,10 +94,10 @@ def validate(state: Mapping[str, Any], *, repo: Path) -> None:
     _require(refoundation.get("completion_requires_operator_review") is True, "blueprint completion must retain separate operator review")
     completed = refoundation.get("completed_deliverables")
     _require(completed == EXPECTED_COMPLETED_DELIVERABLES, "completed blueprint deliverable inventory drift")
+    _require(EXPECTED_NEXT_CONTENT_SLICE not in completed, "integrated review gate must not be treated as a completed A1-A10 deliverable")
     _require(all(item in EXPECTED_DELIVERABLES for item in completed), "completed deliverable is not a declared blueprint deliverable")
     _require(len(completed) == len(set(completed)), "completed deliverable inventory must not contain duplicates")
     _require(refoundation.get("next_content_slice") == EXPECTED_NEXT_CONTENT_SLICE, "next blueprint content slice drift")
-    _require(EXPECTED_NEXT_CONTENT_SLICE not in completed, "next content slice must not already be marked completed")
     for plan_field in ("plan_en", "plan_ru"):
         _require((repo / str(refoundation[plan_field])).is_file(), f"missing architecture blueprint plan: {refoundation[plan_field]}")
     for deliverable in completed:
@@ -113,6 +113,7 @@ def validate(state: Mapping[str, Any], *, repo: Path) -> None:
     _require(isinstance(issue, Mapping), "Issue #88 snapshot required")
     _require(issue.get("state") == "OPEN", "Issue #88 must remain open")
     _require("Architecture Re-foundation" in str(issue.get("meaning", "")), "Issue #88 meaning drift")
+    _require("integrated A1-A10 review" in str(issue.get("meaning", "")), "Issue #88 must retain integrated-review gate")
     verification = issue.get("verification")
     _require(isinstance(verification, Mapping), "Issue #88 verification required")
     _require(verification.get("status") == "VERIFIED" and verification.get("method") == "GITHUB_API" and verification.get("source") == "issue/88", "Issue #88 verification drift")
@@ -121,6 +122,7 @@ def validate(state: Mapping[str, Any], *, repo: Path) -> None:
         "architecture re-foundation documentation is not runtime implementation evidence",
         "future-facing blueprint does not prove compatibility with arbitrary future substrates",
         "a9 reference-laboratory boundary is drafted and provisional",
+        "a10 open-questions/falsification is drafted and provisional",
     ):
         _require(phrase in non_claims, f"missing architecture boundary: {phrase}")
 
@@ -137,7 +139,7 @@ def main(argv: list[str] | None = None) -> int:
     except ArchitectureFreezeError as exc:
         print(f"Architecture freeze validation failed: {exc}", file=sys.stderr)
         return 1
-    print("Architecture freeze validation passed; decision=ADR-0025; issue=88; deliverables=A1-A10; completed=A1,A2,A3,A4,A5,A6,A7,A8,A9; next=A10; runtime_expansion_frozen=true")
+    print("Architecture freeze validation passed; decision=ADR-0025; issue=88; deliverables=A1-A10; completed=A1,A2,A3,A4,A5,A6,A7,A8,A9,A10; next=INTEGRATED_A1_A10_REVIEW; runtime_expansion_frozen=true")
     return 0
 
 
