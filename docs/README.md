@@ -20,13 +20,15 @@
 | [`A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md`](./A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md) | Russian blueprint deliverable A2 |
 | [`A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md`](./A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md) | blueprint deliverable A3 (drafted / provisional) |
 | [`A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md`](./A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md) | Russian blueprint deliverable A3 |
+| [`A4_SEMANTIC_LAWS_AND_INVARIANTS.md`](./A4_SEMANTIC_LAWS_AND_INVARIANTS.md) | blueprint deliverable A4 (drafted / provisional) |
+| [`A4_SEMANTIC_LAWS_AND_INVARIANTS.ru.md`](./A4_SEMANTIC_LAWS_AND_INVARIANTS.ru.md) | Russian blueprint deliverable A4 |
 | [`../AGENTS.md`](../AGENTS.md) | mandatory repository instructions |
 | [`ai/CURRENT_STATE.md`](./ai/CURRENT_STATE.md) | compact AI continuity state |
 | [`ai/KNOWN_RISKS.md`](./ai/KNOWN_RISKS.md) | active risks |
 | [`adr/README.md`](./adr/README.md) | accepted and proposed decisions |
 | [`../evidence/c5/README.md`](../evidence/c5/README.md) | immutable evidence boundaries |
 | [`QUICKSTART.md`](./QUICKSTART.md) | reference-laboratory setup and tests |
-| [`GLOSSARY.md`](./GLOSSARY.md) | onboarding terminology; provisional A2/A3 distinctions take precedence for blueprint review |
+| [`GLOSSARY.md`](./GLOSSARY.md) | onboarding terminology; provisional A2–A4 distinctions take precedence for blueprint review |
 
 ## Reading order
 
@@ -34,7 +36,7 @@
 STATUS and project-state
 → active ROADMAP
 → Architecture Re-foundation plan
-→ A1, A2, and A3 provisional blueprint deliverables
+→ A1, A2, A3, and A4 provisional blueprint deliverables
 → relevant Canon and ADRs
 → only then reference runtime, tests, and evidence
 ```
@@ -48,8 +50,8 @@ H historical recovery: OPEN / BLOCKED / independent
 C clean implementation: PRESERVED / PARTIAL / BOUNDED REFERENCE LABORATORY
 R architecture re-foundation: ACTIVE / BLUEPRINT-FIRST
 
-blueprint content: A1-A3 DRAFTED / PROVISIONAL
-next content slice: A4 SEMANTIC LAWS AND INVARIANTS
+blueprint content: A1-A4 DRAFTED / PROVISIONAL
+next content slice: A5 IDENTITY / TIME / CHANGE
 kernel runtime: C4
 operational validation: C5_BOUNDED_REHEARSAL
 assertions: 45 / 10 / 17 / 0
@@ -57,14 +59,16 @@ NK-EPI: 0 SUPPORTED / 0 PARTIAL / 8 UNSUPPORTED / 0 FAILED
 production: NOT AUTHORIZED
 ```
 
+A4 law-set candidate: `nk-semantic-laws/A4-draft-1`, currently 28 provisional candidate laws. The count is reviewable and does not imply executable support.
+
 ## Active sequence
 
 ```text
 A1 Purpose and Non-goals                         DRAFTED / PROVISIONAL
 → A2 Knowledge and Memory Ontology              DRAFTED / PROVISIONAL
 → A3 Abstract Native Kernel Machine             DRAFTED / PROVISIONAL
-→ A4 Semantic Laws and Invariants               NEXT BOUNDED SLICE
-→ A5 Identity / Time / Change
+→ A4 Semantic Laws and Invariants               DRAFTED / PROVISIONAL
+→ A5 Identity / Time / Change                   NEXT BOUNDED SLICE
 → A6 Knowledge Lifecycle
 → A7 Conflict / Uncertainty / Revision
 → A8 Substrate-independence Contract
@@ -100,6 +104,11 @@ transition ≠ Event envelope
 transition relation ≠ reducer
 history visibility ≠ mandatory Event sourcing
 admission ≠ truth
+semantic identity ≠ storage identity
+write order ≠ represented-world order
+Revision ≠ silent overwrite
+Supersession ≠ deletion or falsity
+Receipt/accountability ≠ correctness or truth
 profile conformance ≠ production authorization
 C5 PASS ≠ production readiness
 logical ERASED ≠ physical deletion
