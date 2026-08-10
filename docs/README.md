@@ -22,14 +22,15 @@
 | [`A7_CONFLICT_UNCERTAINTY_AND_REVISION.md`](./A7_CONFLICT_UNCERTAINTY_AND_REVISION.md) | A7 drafted / provisional |
 | [`A8_SUBSTRATE_INDEPENDENCE_CONTRACT.md`](./A8_SUBSTRATE_INDEPENDENCE_CONTRACT.md) | A8 drafted / provisional |
 | [`A9_REFERENCE_LABORATORY_BOUNDARY.md`](./A9_REFERENCE_LABORATORY_BOUNDARY.md) | A9 drafted / provisional |
-| [`A9_REFERENCE_LABORATORY_BOUNDARY.ru.md`](./A9_REFERENCE_LABORATORY_BOUNDARY.ru.md) | Russian A9 |
+| [`A10_OPEN_QUESTIONS_AND_FALSIFICATION.md`](./A10_OPEN_QUESTIONS_AND_FALSIFICATION.md) | A10 drafted / provisional |
+| [`A10_OPEN_QUESTIONS_AND_FALSIFICATION.ru.md`](./A10_OPEN_QUESTIONS_AND_FALSIFICATION.ru.md) | Russian A10 |
 | [`../AGENTS.md`](../AGENTS.md) | mandatory repository instructions |
 | [`ai/CURRENT_STATE.md`](./ai/CURRENT_STATE.md) | compact AI continuity state |
 | [`ai/KNOWN_RISKS.md`](./ai/KNOWN_RISKS.md) | active risks |
 | [`adr/README.md`](./adr/README.md) | accepted/proposed decisions |
 | [`../evidence/c5/README.md`](../evidence/c5/README.md) | immutable evidence boundaries |
 | [`QUICKSTART.md`](./QUICKSTART.md) | reference-laboratory setup/tests |
-| [`GLOSSARY.md`](./GLOSSARY.md) | onboarding terminology; provisional A2–A9 distinctions take precedence during integrated review |
+| [`GLOSSARY.md`](./GLOSSARY.md) | onboarding terminology; provisional A2–A10 distinctions take precedence during integrated review |
 
 ## Reading order
 
@@ -37,7 +38,8 @@
 STATUS + project-state
 → active ROADMAP
 → Architecture Re-foundation plan
-→ A1–A9 provisional blueprint deliverables
+→ A1–A10 provisional blueprint deliverables
+→ integrated A1–A10 review when present
 → relevant Canon and ADRs
 → only then reference runtime, tests and evidence
 ```
@@ -49,8 +51,8 @@ H historical recovery: OPEN / BLOCKED / independent
 C clean implementation: PRESERVED / PARTIAL / BOUNDED REFERENCE LABORATORY
 R architecture re-foundation: ACTIVE / BLUEPRINT-FIRST
 
-blueprint content: A1-A9 DRAFTED / PROVISIONAL
-next content slice: A10 OPEN QUESTIONS AND FALSIFICATION
+blueprint content: A1-A10 DRAFTED / PROVISIONAL
+next gate: INTEGRATED_A1_A10_REVIEW
 kernel runtime: C4
 operational validation: C5_BOUNDED_REHEARSAL
 assertions: 45 / 10 / 17 / 0
@@ -58,7 +60,7 @@ NK-EPI: 0 SUPPORTED / 0 PARTIAL / 8 UNSUPPORTED / 0 FAILED
 production: NOT AUTHORIZED
 ```
 
-A9 candidate is `nk-reference-laboratory-boundary/A9-draft-1`. It classifies current P1–C5 mechanisms as bounded architecture-preserving evidence, profile-specific realizations, partial coverage, falsification instruments, laboratory-only constraints, or non-architecture evidence. P5/C3 remains useful but narrow storage-profile evidence: PostgreSQL↔SQLite does not establish independent-language or arbitrary-substrate equivalence.
+A10 candidate is `nk-open-questions-falsification/A10-draft-1`. It records major unproved hypotheses, explicit falsifiers/weakening conditions, eighteen open questions, contrasting substrate thought experiments and stop conditions. `NOT_TESTED ≠ SUPPORTED`.
 
 ## Active sequence
 
@@ -72,8 +74,8 @@ A1 Purpose and Non-goals                         DRAFTED / PROVISIONAL
 → A7 Conflict / Uncertainty / Revision          DRAFTED / PROVISIONAL
 → A8 Substrate-independence Contract            DRAFTED / PROVISIONAL
 → A9 Reference Laboratory Boundary              DRAFTED / PROVISIONAL
-→ A10 Open Questions and Falsification           NEXT BOUNDED SLICE
-→ integrated blueprint review
+→ A10 Open Questions and Falsification           DRAFTED / PROVISIONAL
+→ integrated A1-A10 review                     NEXT GATE
 → separate operator decision before runtime expansion
 ```
 
@@ -85,11 +87,10 @@ ADR-0025 preserves the current implementation as a bounded laboratory and freeze
 reference laboratory ≠ final architecture
 blueprint documentation ≠ implementation evidence
 existing mechanism ≠ architecture requirement
-profile-specific realization ≠ architectural defect
 PostgreSQL ↔ SQLite C3 ≠ arbitrary-substrate portability proof
-physical identity ≠ semantic equivalence
-same output ≠ full semantic equivalence
 substrate-independent specification ≠ universal portability proof
+NOT_TESTED ≠ SUPPORTED
+A1-A10 drafted ≠ integrated blueprint approval
 C5 PASS ≠ production readiness
 public repository ≠ open-source license
 ```
