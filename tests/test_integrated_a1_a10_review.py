@@ -48,9 +48,10 @@ class IntegratedA1A10ReviewTests(unittest.TestCase):
             self.assertIn("A10-H11", markdown)
 
     def test_review_does_not_claim_independence_or_runtime_authority(self) -> None:
+        self.assertIn("not independent validation", EN.lower())
+        self.assertIn("не является independent validation", RU.lower())
         for markdown in (EN, RU):
             self.assertIn("NOT ESTABLISHED", markdown)
-            self.assertIn("not independent validation", markdown.lower())
             self.assertIn("runtime", markdown.lower())
             self.assertIn("operator", markdown.lower())
 
