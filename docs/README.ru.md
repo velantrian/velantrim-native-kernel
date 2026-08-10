@@ -20,13 +20,15 @@
 | [`A4_SEMANTIC_LAWS_AND_INVARIANTS.ru.md`](./A4_SEMANTIC_LAWS_AND_INVARIANTS.ru.md) | A4 drafted / provisional |
 | [`A5_IDENTITY_TIME_AND_CHANGE.ru.md`](./A5_IDENTITY_TIME_AND_CHANGE.ru.md) | A5 drafted / provisional |
 | [`A5_IDENTITY_TIME_AND_CHANGE.md`](./A5_IDENTITY_TIME_AND_CHANGE.md) | English A5 |
+| [`A6_KNOWLEDGE_LIFECYCLE.ru.md`](./A6_KNOWLEDGE_LIFECYCLE.ru.md) | A6 drafted / provisional |
+| [`A6_KNOWLEDGE_LIFECYCLE.md`](./A6_KNOWLEDGE_LIFECYCLE.md) | English A6 |
 | [`../AGENTS.md`](../AGENTS.md) | обязательные repository instructions |
 | [`ai/CURRENT_STATE.md`](./ai/CURRENT_STATE.md) | compact AI continuity state |
 | [`ai/KNOWN_RISKS.md`](./ai/KNOWN_RISKS.md) | active risks |
 | [`adr/README.md`](./adr/README.md) | accepted/proposed decisions |
 | [`../evidence/c5/README.md`](../evidence/c5/README.md) | immutable evidence boundaries |
 | [`QUICKSTART.ru.md`](./QUICKSTART.ru.md) | setup/tests reference laboratory |
-| [`GLOSSARY.ru.md`](./GLOSSARY.ru.md) | onboarding terminology; provisional A2–A5 blueprint distinctions имеют приоритет during integrated review |
+| [`GLOSSARY.ru.md`](./GLOSSARY.ru.md) | onboarding terminology; provisional A2–A6 blueprint distinctions имеют приоритет during integrated review |
 
 ## Порядок чтения
 
@@ -34,7 +36,7 @@
 STATUS + project-state
 → active ROADMAP
 → Architecture Re-foundation plan
-→ provisional blueprint deliverables A1–A5
+→ provisional blueprint deliverables A1–A6
 → relevant Canon и ADRs
 → только затем reference runtime, tests и evidence
 ```
@@ -46,8 +48,8 @@ H historical recovery: OPEN / BLOCKED / independent
 C clean implementation: PRESERVED / PARTIAL / BOUNDED REFERENCE LABORATORY
 R architecture re-foundation: ACTIVE / BLUEPRINT-FIRST
 
-blueprint content: A1-A5 DRAFTED / PROVISIONAL
-next content slice: A6 KNOWLEDGE LIFECYCLE
+blueprint content: A1-A6 DRAFTED / PROVISIONAL
+next content slice: A7 CONFLICT, UNCERTAINTY, AND REVISION
 kernel runtime: C4
 operational validation: C5_BOUNDED_REHEARSAL
 assertions: 45 / 10 / 17 / 0
@@ -55,7 +57,7 @@ NK-EPI: 0 SUPPORTED / 0 PARTIAL / 8 UNSUPPORTED / 0 FAILED
 production: NOT AUTHORIZED
 ```
 
-A4 law-set candidate — `nk-semantic-laws/A4-draft-1` с 28 provisional laws. A5 candidate — `nk-identity-time-change/A5-draft-1`, defining typed/scoped identity, named temporal/order relations и explicit change effects без требования одного physical encoding.
+A4 law-set candidate — `nk-semantic-laws/A4-draft-1` с 28 provisional laws. A5 candidate — `nk-identity-time-change/A5-draft-1`, defining typed/scoped identity, named temporal/order relations и explicit change effects без требования одного physical encoding. A6 candidate — `nk-knowledge-lifecycle/A6-draft-1`, моделирующий knowledge lifecycle как labeled directed graph девяти повторяющихся phases, отображённых на transition families A3, без сворачивания в единый linear pipeline.
 
 ## Активная последовательность
 
@@ -65,8 +67,8 @@ A1 Purpose and Non-goals                         DRAFTED / PROVISIONAL
 → A3 Abstract Native Kernel Machine             DRAFTED / PROVISIONAL
 → A4 Semantic Laws and Invariants               DRAFTED / PROVISIONAL
 → A5 Identity / Time / Change                   DRAFTED / PROVISIONAL
-→ A6 Knowledge Lifecycle                        NEXT BOUNDED SLICE
-→ A7 Conflict / Uncertainty / Revision
+→ A6 Knowledge Lifecycle                        DRAFTED / PROVISIONAL
+→ A7 Conflict / Uncertainty / Revision          NEXT BOUNDED SLICE
 → A8 Substrate-independence Contract
 → A9 Reference Laboratory Boundary
 → A10 Open Questions / Falsification
@@ -108,6 +110,9 @@ C5 PASS ≠ production readiness
 logical ERASED ≠ physical deletion
 public repository ≠ open-source license
 future-facing design ≠ demonstrated future substrate support
+lifecycle phase ≠ storage status column
+closure ≠ deletion of history
+one Event ≠ one lifecycle transition
 ```
 
 Current technologies остаются заменяемыми research instruments, а не Architecture Canon.

@@ -77,13 +77,35 @@ A5 reconciles existing accepted/versioned contracts, а не silently supersede 
 
 ### A6 — Knowledge Lifecycle
 
-**Status:** `NEXT BOUNDED SLICE`.
+**Status:** `DRAFTED / PROVISIONAL` — [RU](./A6_KNOWLEDGE_LIFECYCLE.ru.md) / [EN](./A6_KNOWLEDGE_LIFECYCLE.md). Ожидает independent review и integrated A1–A10 review.
 
-Смоделировать lifecycle от encounter/registration через possible interpretation, support, admission/use, contest, revision, restriction и historical retention/forgetting. Lifecycle Authority не может возникать только из storage presence, retrieval rank, repetition, model confidence, recency или usefulness.
+A6 вводит candidate model `nk-knowledge-lifecycle/A6-draft-1`. Knowledge lifecycle — labeled directed graph повторяющихся, reviewable конфигураций, а не linear pipeline. Определяет девять phases:
+
+```text
+ENCOUNTERED
+RETAINED
+POSITIONED
+EPISTEMICALLY_WEIGHED
+RELATIONALLY_INTEGRATED
+IN_TENSION
+REVISED_OR_SUPERSEDED
+DISPOSED
+ACCOUNTED
+```
+
+каждая отображается на одну или несколько из тринадцати transition families A3, плюс typed `LIFECYCLE_TRANSITION` relation, переиспользующий A3 outcome vocabulary вместо изобретения новых терминов. `DERIVE_BOUNDED_VIEW` и `SELECT_FOR_USE` — phase-referencing, not phase-changing.
+
+A6 отделяет `LIFECYCLE_TRANSITION_ORDER` от `OCCURRENCE_ORDER`, `CAUSAL_DEPENDENCY_ORDER` и `LOCAL_WRITE_COMMIT_ORDER`, и расширяет восемь dispositions A3 тремя closure kinds — `LOGICALLY_ERASED`, `PHYSICALLY_OR_CRYPTOGRAPHICALLY_ERASED`, `FORGOTTEN_OR_LOST` — разрешающими erasure/forgetting distinctions, которые A5 назвал, но отложил.
+
+A6 reconciles existing accepted/versioned contracts, а не silently supersede их. Mapping `ADMIT`/`LINK`/`UTILIZED`/`SUPERSEDED`/`ERASED` на lifecycle phases явно illustrative и non-canonical; он не авторизует новые Event verbs, не решает вопрос `Issue #74 / ADR-0024` и не расширяет deletion-execution scope `Issue #16`.
+
+**First-draft completion test:** выполнен для bounded drafting scope: reader может назвать phase, transition family и legitimizing Authority или method перемещения knowledge item без предположения linear pipeline или единой storage schema. Final acceptance всё ещё требует independent и integrated review.
 
 ### A7 — Conflict, Uncertainty и Revision Model
 
-Определить candidate vs established Conflict, Contradiction vs scope mismatch, unresolved plurality, uncertainty/provenance gaps, resolution Authority, reversibility, belief revision и возможность оставаться undecided. A7 может refine revision policy, но обязан сохранять A4/A5 history и identity distinctions.
+**Status:** `NEXT BOUNDED SLICE`.
+
+Определить candidate vs established Conflict, Contradiction vs scope mismatch, unresolved plurality, uncertainty/provenance gaps, resolution Authority, reversibility, belief revision и возможность оставаться undecided. A7 может refine revision policy, но обязан сохранять A4/A5/A6 history и identity/lifecycle distinctions.
 
 ### A8 — Substrate-independence Contract
 
@@ -105,8 +127,8 @@ A1 Purpose and Non-goals                         DRAFTED / PROVISIONAL
 → A3 Abstract Machine                           DRAFTED / PROVISIONAL
 → A4 Semantic Laws                              DRAFTED / PROVISIONAL
 → A5 Identity / Time / Change                   DRAFTED / PROVISIONAL
-→ A6 Knowledge Lifecycle                       NEXT BOUNDED SLICE
-→ A7 Conflict / Uncertainty / Revision
+→ A6 Knowledge Lifecycle                        DRAFTED / PROVISIONAL
+→ A7 Conflict / Uncertainty / Revision          NEXT BOUNDED SLICE
 → A8 Substrate Independence
 → A9 Reference Laboratory Boundary
 → A10 Open Questions / Falsification
@@ -130,10 +152,10 @@ Sources, papers, existing systems и AI analysis являются inputs и не
 
 ## 7. Связь с existing contracts и pending decisions
 
-A5 не меняет ADR statuses или historical evidence. Issue #14/#15/#16 остаются open в своих remaining evidence/portability scopes. Issue #18 остаётся operator-controlled для license/publication. Issue #74 / ADR-0024 остаётся `PROPOSED / PENDING_OPERATOR`; reducer v1 immutable, reducer-v2 unauthorized. Track H source admission остаётся operator-controlled.
+A6 не меняет ADR statuses или historical evidence. Issue #14/#15/#16 остаются open в своих remaining evidence/portability scopes. Issue #18 остаётся operator-controlled для license/publication. Issue #74 / ADR-0024 остаётся `PROPOSED / PENDING_OPERATOR`; reducer v1 immutable, reducer-v2 unauthorized. Track H source admission остаётся operator-controlled.
 
 ```text
-A5 semantic model
+A5/A6 semantic and lifecycle models
 → later versioned mapping/equivalence work
 → existing contracts preserved within declared scope
 ≠ silent retroactive rewrite
@@ -148,11 +170,11 @@ Blueprint не завершён только из-за наличия докум
 ```text
 Architecture Re-foundation decision: established by ADR-0025
 Blueprint plan: this document
-Blueprint content: A1-A5 DRAFTED / PROVISIONAL; A6-A10 NOT YET COMPLETE
-Next bounded slice: A6 KNOWLEDGE LIFECYCLE
+Blueprint content: A1-A6 DRAFTED / PROVISIONAL; A7-A10 NOT YET COMPLETE
+Next bounded slice: A7 CONFLICT, UNCERTAINTY, AND REVISION
 Runtime expansion: FROZEN
 Existing P1–C5 laboratory: PRESERVED / BOUNDED
 Production authorization: false
 ```
 
-Drafting A1–A5 не устанавливает independent approval, integrated Canon, runtime implementation, arbitrary future-substrate support или production readiness.
+Drafting A1–A6 не устанавливает independent approval, integrated Canon, runtime implementation, arbitrary future-substrate support или production readiness.

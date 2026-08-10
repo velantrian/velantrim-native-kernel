@@ -17,10 +17,11 @@ This directory is the mandatory continuity surface for AI agents, auditors, and 
 11. [`../A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md`](../A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md) / [`RU`](../A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md)
 12. [`../A4_SEMANTIC_LAWS_AND_INVARIANTS.md`](../A4_SEMANTIC_LAWS_AND_INVARIANTS.md) / [`RU`](../A4_SEMANTIC_LAWS_AND_INVARIANTS.ru.md)
 13. [`../A5_IDENTITY_TIME_AND_CHANGE.md`](../A5_IDENTITY_TIME_AND_CHANGE.md) / [`RU`](../A5_IDENTITY_TIME_AND_CHANGE.ru.md)
-14. [`ISSUE_RECONCILIATION.md`](ISSUE_RECONCILIATION.md)
-15. [`NOTION_HANDOFF.md`](NOTION_HANDOFF.md)
-16. affected Canon/contracts/ADRs/source/tests/workflows/evidence
-17. current GitHub and Notion state
+14. [`../A6_KNOWLEDGE_LIFECYCLE.md`](../A6_KNOWLEDGE_LIFECYCLE.md) / [`RU`](../A6_KNOWLEDGE_LIFECYCLE.ru.md)
+15. [`ISSUE_RECONCILIATION.md`](ISSUE_RECONCILIATION.md)
+16. [`NOTION_HANDOFF.md`](NOTION_HANDOFF.md)
+17. affected Canon/contracts/ADRs/source/tests/workflows/evidence
+18. current GitHub and Notion state
 
 Do not begin with random code search or historical handoffs before resolving current truth.
 
@@ -43,53 +44,52 @@ ADR-0025: ACCEPTED / OPERATOR APPROVED
 Architecture Re-foundation: ACTIVE / BLUEPRINT-FIRST
 runtime expansion: FROZEN
 P1–C5 role: BOUNDED REFERENCE LABORATORY
-blueprint content: A1-A5 DRAFTED / PROVISIONAL
-next content slice: A6 — Knowledge Lifecycle
+blueprint content: A1-A6 DRAFTED / PROVISIONAL
+next content slice: A7 — Conflict, Uncertainty, and Revision
 ```
 
-A1–A5 are drafted provisional architecture slices, not independent approval, integrated Canon, runtime evidence, or production authorization. The current candidate progression must remain exact; changing completed content away from exact A1+A2+A3+A4+A5 must fail continuity validation.
+A1–A6 are drafted provisional architecture slices, not independent approval, integrated Canon, runtime evidence, or production authorization. The current candidate progression must remain exact; changing completed content away from exact A1+A2+A3+A4+A5+A6 must fail continuity validation.
 
-## A5 continuity boundary
+## A6 continuity boundary
 
-A5 candidate model: `nk-identity-time-change/A5-draft-1`.
+A6 candidate model: `nk-knowledge-lifecycle/A6-draft-1`.
 
 ```text
-identity is typed + scoped
-same content ≠ same Claim ≠ same Record ≠ same occurrence
-semantic identity ≠ substrate-local identity
-equal bytes/hash/text ≠ universal semantic identity
-occurrence/valid/Observation/assertion/Record/decision/effective/write time remain distinguishable
-write/commit order ≠ occurrence order ≠ causal order
-Revision ≠ silent overwrite
-Supersession ≠ deletion or falsity
-restriction ≠ logical erasure ≠ physical deletion ≠ crypto-erasure ≠ forgetting
+lifecycle is a labeled directed graph, not a linear pipeline
+lifecycle phase ≠ storage status column
+closure ≠ deletion of history
+one Event ≠ one lifecycle transition
+lifecycle order ≠ occurrence order ≠ causal order ≠ write-commit order
+lifecycle authority ≠ storage presence, retrieval rank, repetition, model confidence, recency, or usefulness
 ```
 
-Identity kinds currently drafted:
+Lifecycle phases currently drafted:
 
 ```text
-REFERENT_IDENTITY
-SEMANTIC_CONTENT_IDENTITY
-CLAIM_POSITION_IDENTITY
-RECORD_IDENTITY
-LINEAGE_CONTINUITY_IDENTITY
-OCCURRENCE_IDENTITY
-SUBSTRATE_LOCAL_IDENTITY
+ENCOUNTERED
+RETAINED
+POSITIONED
+EPISTEMICALLY_WEIGHED
+RELATIONALLY_INTEGRATED
+IN_TENSION
+REVISED_OR_SUPERSEDED
+DISPOSED
+ACCOUNTED
 ```
 
-Possible scoped results include `SAME`, `DISTINCT`, `CONTINUATION_OF`, `VERSION_OF`, `ALIAS_OF`, `MIGRATED_FROM`, and `UNRESOLVED`.
+Each phase maps to one or more of A3's thirteen transition families; `DERIVE_BOUNDED_VIEW` and `SELECT_FOR_USE` are phase-referencing, not phase-changing. A6 also names three closure kinds extending A3's eight dispositions: `LOGICALLY_ERASED`, `PHYSICALLY_OR_CRYPTOGRAPHICALLY_ERASED`, `FORGOTTEN_OR_LOST`.
 
 The draft deliberately reconciles rather than silently supersedes existing accepted/versioned contracts:
 
 ```text
-A5 meaning-level identity/time model
+A6 meaning-level lifecycle model
         ↓
-versioned encoding/profile mappings
+illustrative, non-canonical P1–C5 Event-to-phase mapping
         ↓
-existing nk-id/1.0 as one current mapping
+existing ADMIT/LINK/UTILIZED/SUPERSEDED/ERASED as one current profile realization
 ```
 
-`nk-id/1.0` UTF-8/NFC/JSON/SHA-256 details remain a current versioned reference contract, not the only universal substrate realization. `global_seq`/`stream_seq` remain reference-laboratory ordering. Existing deletion-state enums remain bounded profile mechanisms.
+`global_seq`/`stream_seq` remain reference-laboratory ordering mechanisms, not `LIFECYCLE_TRANSITION_ORDER` itself. The illustrative P1–C5 mapping authorizes no new Event verbs and decides no `Issue #74 / ADR-0024` question.
 
 ## Active sequence
 
@@ -99,8 +99,8 @@ A1 Purpose and Non-goals                         DRAFTED / PROVISIONAL
 → A3 Abstract Native Kernel Machine             DRAFTED / PROVISIONAL
 → A4 Semantic Laws and Invariants               DRAFTED / PROVISIONAL
 → A5 Identity / Time / Change                   DRAFTED / PROVISIONAL
-→ A6 Knowledge Lifecycle                        NEXT BOUNDED SLICE
-→ A7 Conflict / Uncertainty / Revision
+→ A6 Knowledge Lifecycle                        DRAFTED / PROVISIONAL
+→ A7 Conflict / Uncertainty / Revision          NEXT BOUNDED SLICE
 → A8 Substrate-independence Contract
 → A9 Reference Laboratory Boundary
 → A10 Open Questions / Falsification
@@ -166,6 +166,7 @@ DRAFTED BLUEPRINT CONTENT
   ../A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md
   ../A4_SEMANTIC_LAWS_AND_INVARIANTS.md
   ../A5_IDENTITY_TIME_AND_CHANGE.md
+  ../A6_KNOWLEDGE_LIFECYCLE.md
   plus Russian counterparts
 ```
 
@@ -192,6 +193,7 @@ python tools/ai_context/validate_reconciliation.py --repo .
 python tools/ai_context/validate_context.py --repo .
 python tools/docs/validate_bilingual_parity.py --repo .
 python -m unittest discover -s tests -p 'test_a5_identity_time_change.py' -v
+python -m unittest discover -s tests -p 'test_a6_knowledge_lifecycle.py' -v
 ```
 
-A5 drafting does not change runtime, evidence identities, assertion arithmetic, NK-EPI, maturity, or production status.
+A6 drafting does not change runtime, evidence identities, assertion arithmetic, NK-EPI, maturity, or production status.

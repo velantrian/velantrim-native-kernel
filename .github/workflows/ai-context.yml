@@ -27,6 +27,7 @@ on:
       - "tools/profiles/validate_c5_manifest.py"
       - "tests/test_a4_semantic_laws.py"
       - "tests/test_a5_identity_time_change.py"
+      - "tests/test_a6_knowledge_lifecycle.py"
       - "tests/test_ai_context_validator.py"
       - "tests/test_architecture_freeze.py"
       - "tests/test_bilingual_parity_validator.py"
@@ -61,6 +62,7 @@ on:
       - "tools/profiles/validate_c5_manifest.py"
       - "tests/test_a4_semantic_laws.py"
       - "tests/test_a5_identity_time_change.py"
+      - "tests/test_a6_knowledge_lifecycle.py"
       - "tests/test_ai_context_validator.py"
       - "tests/test_architecture_freeze.py"
       - "tests/test_bilingual_parity_validator.py"
@@ -104,6 +106,7 @@ jobs:
             tools/profiles/validate_c5_manifest.py \
             tests/test_a4_semantic_laws.py \
             tests/test_a5_identity_time_change.py \
+            tests/test_a6_knowledge_lifecycle.py \
             tests/test_ai_context_validator.py \
             tests/test_architecture_freeze.py \
             tests/test_bilingual_parity_validator.py \
@@ -116,6 +119,7 @@ jobs:
         run: |
           python -m unittest discover -s tests -p 'test_a4_semantic_laws.py' -v
           python -m unittest discover -s tests -p 'test_a5_identity_time_change.py' -v
+          python -m unittest discover -s tests -p 'test_a6_knowledge_lifecycle.py' -v
           python -m unittest discover -s tests -p 'test_ai_context_validator.py' -v
           python -m unittest discover -s tests -p 'test_architecture_freeze.py' -v
           python -m unittest discover -s tests -p 'test_bilingual_parity_validator.py' -v
