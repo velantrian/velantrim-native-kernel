@@ -73,10 +73,13 @@ RESOLUTION_MODES = (
 
 
 def _table_first_column(markdown: str, section_heading: str) -> tuple[str, ...]:
+    heading_level = len(section_heading) - len(section_heading.lstrip("#"))
     section = markdown.split(section_heading, 1)[1]
-    section = section.split("\n## ", 1)[0]
     values: list[str] = []
     for line in section.splitlines():
+        heading = re.match(r"^(#{1,6})\s", line)
+        if heading and len(heading.group(1)) <= heading_level:
+            break
         match = re.match(r"^\| `([^`]+)` \|", line)
         if match:
             values.append(match.group(1))
