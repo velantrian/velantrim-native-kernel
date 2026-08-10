@@ -94,10 +94,10 @@ def validate(state: Mapping[str, Any], *, repo: Path) -> None:
     _require(refoundation.get("completion_requires_operator_review") is True, "blueprint completion must retain separate operator review")
     completed = refoundation.get("completed_deliverables")
     _require(completed == EXPECTED_COMPLETED_DELIVERABLES, "completed blueprint deliverable inventory drift")
+    _require(EXPECTED_NEXT_CONTENT_SLICE not in completed, "integrated review gate must not be treated as a completed A1-A10 deliverable")
     _require(all(item in EXPECTED_DELIVERABLES for item in completed), "completed deliverable is not a declared blueprint deliverable")
     _require(len(completed) == len(set(completed)), "completed deliverable inventory must not contain duplicates")
     _require(refoundation.get("next_content_slice") == EXPECTED_NEXT_CONTENT_SLICE, "next blueprint content slice drift")
-    _require(EXPECTED_NEXT_CONTENT_SLICE not in completed, "integrated review gate must not be treated as a completed A1-A10 deliverable")
     for plan_field in ("plan_en", "plan_ru"):
         _require((repo / str(refoundation[plan_field])).is_file(), f"missing architecture blueprint plan: {refoundation[plan_field]}")
     for deliverable in completed:
