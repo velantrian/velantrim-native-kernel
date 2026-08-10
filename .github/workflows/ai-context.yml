@@ -32,6 +32,7 @@ on:
       - "tests/test_a8_substrate_independence_contract.py"
       - "tests/test_a9_reference_laboratory_boundary.py"
       - "tests/test_a10_open_questions_falsification.py"
+      - "tests/test_integrated_a1_a10_review.py"
       - "tests/test_ai_context_validator.py"
       - "tests/test_architecture_freeze.py"
       - "tests/test_bilingual_parity_validator.py"
@@ -69,8 +70,9 @@ on:
       - "tests/test_a6_knowledge_lifecycle.py"
       - "tests/test_a7_conflict_uncertainty_revision.py"
       - "tests/test_a8_substrate_independence_contract.py"
-      - "tests/test_a9_reference_laboratory_boundary.py"
+      - "tests/test_a9_reference_laboratory_BOUNDARY.py"
       - "tests/test_a10_open_questions_falsification.py"
+      - "tests/test_integrated_a1_a10_review.py"
       - "tests/test_ai_context_validator.py"
       - "tests/test_architecture_freeze.py"
       - "tests/test_bilingual_parity_validator.py"
@@ -119,6 +121,7 @@ jobs:
             tests/test_a8_substrate_independence_contract.py \
             tests/test_a9_reference_laboratory_boundary.py \
             tests/test_a10_open_questions_falsification.py \
+            tests/test_integrated_a1_a10_review.py \
             tests/test_ai_context_validator.py \
             tests/test_architecture_freeze.py \
             tests/test_bilingual_parity_validator.py \
@@ -136,6 +139,7 @@ jobs:
           python -m unittest discover -s tests -p 'test_a8_substrate_independence_contract.py' -v
           python -m unittest discover -s tests -p 'test_a9_reference_laboratory_boundary.py' -v
           python -m unittest discover -s tests -p 'test_a10_open_questions_falsification.py' -v
+          python -m unittest discover -s tests -p 'test_integrated_a1_a10_review.py' -v
           python -m unittest discover -s tests -p 'test_ai_context_validator.py' -v
           python -m unittest discover -s tests -p 'test_architecture_freeze.py' -v
           python -m unittest discover -s tests -p 'test_bilingual_parity_validator.py' -v
