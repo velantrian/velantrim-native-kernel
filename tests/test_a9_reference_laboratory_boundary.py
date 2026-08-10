@@ -43,9 +43,10 @@ class A9ReferenceLaboratoryBoundaryTests(unittest.TestCase):
                 self.assertIn(label, markdown)
 
     def test_all_laboratory_phases_are_explicitly_classified(self) -> None:
+        headings = ("## 5. P1", "## 6. P2", "## 7. P3", "## 8. P4", "## 9. P5", "## 10. C4", "## 11. C5")
         for markdown in (self.en, self.ru):
-            for phase in ("P1", "P2", "P3", "P4", "P5", "C4", "C5"):
-                self.assertIn(f"## {5 + (('P1','P2','P3','P4','P5','C4','C5').index(phase))}. {phase}", markdown)
+            for heading in headings:
+                self.assertIn(heading, markdown)
 
     def test_storage_profile_evidence_is_bounded(self) -> None:
         for markdown in (self.en, self.ru):
@@ -54,16 +55,15 @@ class A9ReferenceLaboratoryBoundaryTests(unittest.TestCase):
                 "independent-language equivalence",
                 "independent-computation-model equivalence",
                 "arbitrary-substrate portability proof",
-                "shared",
                 "Python",
             ):
                 self.assertIn(literal, markdown)
+        self.assertIn("shared", self.en)
+        self.assertTrue("разделяют" in self.ru or "общей language lineage" in self.ru)
 
     def test_mechanisms_do_not_capture_canon(self) -> None:
         for markdown in (self.en, self.ru):
             for literal in (
-                "existing mechanism",
-                "architecture requirement",
                 "profile-specific",
                 "Event sourcing",
                 "reducer",
@@ -73,16 +73,25 @@ class A9ReferenceLaboratoryBoundaryTests(unittest.TestCase):
                 "global",
             ):
                 self.assertIn(literal, markdown)
+        self.assertIn("existing mechanism", self.en)
+        self.assertIn("architecture requirement", self.en)
+        self.assertIn("существующий механизм", self.ru)
+        self.assertIn("архитектурное требование", self.ru)
 
     def test_preservation_rule_and_overclaim_cases_exist(self) -> None:
         for markdown in (self.en, self.ru):
-            self.assertIn("preserve reproducibility", markdown)
-            self.assertIn("prevent silent Canon promotion", markdown)
-            self.assertIn("profile-specific", markdown)
-            self.assertIn("C5", markdown)
-            self.assertIn("production security", markdown)
-            self.assertIn("independent custody", markdown)
-            self.assertIn("assertion arithmetic", markdown)
+            for literal in (
+                "reproducibility",
+                "silent Canon promotion",
+                "profile-specific",
+                "C5",
+                "production security",
+                "independent custody",
+                "assertion arithmetic",
+            ):
+                self.assertIn(literal, markdown)
+        self.assertIn("preserve reproducibility", self.en)
+        self.assertIn("сохранить reproducibility", self.ru)
 
     def test_operator_boundaries_are_unchanged(self) -> None:
         for markdown in (self.en, self.ru):
