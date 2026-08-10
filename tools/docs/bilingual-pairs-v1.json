@@ -166,6 +166,35 @@
       "require_single_h1": true
     },
     {
+      "pair_id": "a4-semantic-laws-and-invariants",
+      "english": "docs/A4_SEMANTIC_LAWS_AND_INVARIANTS.md",
+      "russian": "docs/A4_SEMANTIC_LAWS_AND_INVARIANTS.ru.md",
+      "selectors": [
+        "(./A4_SEMANTIC_LAWS_AND_INVARIANTS.md)",
+        "(./A4_SEMANTIC_LAWS_AND_INVARIANTS.ru.md)"
+      ],
+      "shared_literals": [
+        "A4_SEMANTIC_LAWS_AND_INVARIANTS",
+        "nk-semantic-laws/A4-draft-1",
+        "law_count: 28",
+        "next_content_slice: A5_IDENTITY_TIME_AND_CHANGE",
+        "ADR-0025",
+        "Issue #88",
+        "history visibility ≠ mandatory Event sourcing",
+        "profile conformance ≠ production authorization"
+      ],
+      "english_literals": [
+        "Law qualification test",
+        "Cross-law consequences"
+      ],
+      "russian_literals": [
+        "Тест допуска закона",
+        "Cross-law consequences"
+      ],
+      "compare_heading_levels": true,
+      "require_single_h1": true
+    },
+    {
       "pair_id": "human-quickstart",
       "english": "docs/QUICKSTART.md",
       "russian": "docs/QUICKSTART.ru.md",
