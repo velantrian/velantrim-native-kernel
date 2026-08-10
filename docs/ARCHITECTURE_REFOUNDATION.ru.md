@@ -103,13 +103,35 @@ A6 reconciles existing accepted/versioned contracts, а не silently supersede 
 
 ### A7 — Conflict, Uncertainty и Revision Model
 
-**Status:** `NEXT BOUNDED SLICE`.
+**Status:** `DRAFTED / PROVISIONAL` — [RU](./A7_CONFLICT_UNCERTAINTY_AND_REVISION.ru.md) / [EN](./A7_CONFLICT_UNCERTAINTY_AND_REVISION.md). Ожидает independent review и integrated A1–A10 review.
 
-Определить candidate vs established Conflict, Contradiction vs scope mismatch, unresolved plurality, uncertainty/provenance gaps, resolution Authority, reversibility, belief revision и возможность оставаться undecided. A7 может refine revision policy, но обязан сохранять A4/A5/A6 history и identity/lifecycle distinctions.
+A7 вводит candidate model `nk-conflict-uncertainty-revision/A7-draft-1`. Он уточняет accepted semantic boundary `NK-CFL`, не принимая proposed ADR-0003 и не добавляя conflict runtime.
+
+Модель сохраняет независимыми:
+
+```text
+tension kind
+≠ assessment status
+≠ resolution status
+```
+
+Assessment status различает `CANDIDATE`, `ESTABLISHED`, `NOT_A_CONFLICT`, `UNRESOLVED_ASSESSMENT`. Resolution status различает `UNRESOLVED`, `DEFERRED`, `RESOLVED_FOR_SCOPE`, `REOPENED`. Scoped resolution — accountable decision, не objective truth.
+
+Provisional taxonomy охватывает duplicate delivery, write-version race, divergent history, semantic contradiction, temporal/scope mismatch, provenance conflict, measurement disagreement, Authority/policy conflict, epistemic disagreement, projection drift и unclassified tension. Strict contradiction требует materially adequate alignment interpretation, Context/scope, time, modality/quantification, assumptions, identity, assessment Authority и known uncertainty.
+
+A7 определяет meaning-level patterns `UNCERTAINTY_POSITION`, `TENSION_POSITION`, `EPISTEMIC_REVISION`. Uncertainty остаётся typed и не принуждается к одному global confidence scalar; universal uncertainty-combination algebra не выбирается. Detection Authority/method отделяется от resolution, epistemic-assessment, operational-disposition и architecture/governance Authority.
+
+A7 явно допускает unresolved plurality, deferral, scoped preference, explicit revision, Supersession-for-scope, no-authorized-resolution и reopening. Он сохраняет A5 lineage и не меняет A6 phase inventory. `IN_TENSION` может оставаться open indefinitely; `RESOLVED_FOR_SCOPE` не означает автоматически `REVISED_OR_SUPERSEDED`.
+
+A7 не принимает ADR-0003, не разрешает `CONFLICT_OPENED`/`CONFLICT_RESOLVED` Event verbs и не решает Issue #74 / ADR-0024 one/multi-successor topology, self-supersession, cycles или reducer-v2 migration.
+
+**First-draft completion test:** выполнен для bounded drafting scope: reviewer может указать participants, tension kind, assessment status, alignment basis, uncertainty/provenance gaps, resolution status, Authority/policy/basis, resulting revision/non-revision effect и reopening conditions без обязательного winner algorithm, confidence scalar, Event vocabulary или physical substrate. Final acceptance всё ещё требует independent и integrated review.
 
 ### A8 — Substrate-independence Contract
 
-Определить, что future profiles обязаны preserve/translate: semantic identity, Change/history visibility, Provenance, temporal meaning, uncertainty/conflict visibility, Authority/admission boundaries, bounded accountability, migration и explicit loss. Present Event-sourcing assumptions должны быть labelled как mechanisms, если их necessity не доказана.
+**Status:** `NEXT BOUNDED SLICE`.
+
+Определить, что future profiles обязаны preserve/translate: semantic identity, Change/history visibility, Provenance, temporal meaning, uncertainty/conflict visibility, Authority/admission boundaries, bounded accountability, migration и explicit loss. A8 должен превратить meaning-level obligations A1–A7 в substrate-independent conformance/equivalence requirements, не принимая current Event sourcing, SQL, Python или digital serialization за universal necessities.
 
 ### A9 — Граница Reference Laboratory
 
@@ -128,8 +150,8 @@ A1 Purpose and Non-goals                         DRAFTED / PROVISIONAL
 → A4 Semantic Laws                              DRAFTED / PROVISIONAL
 → A5 Identity / Time / Change                   DRAFTED / PROVISIONAL
 → A6 Knowledge Lifecycle                        DRAFTED / PROVISIONAL
-→ A7 Conflict / Uncertainty / Revision          NEXT BOUNDED SLICE
-→ A8 Substrate Independence
+→ A7 Conflict / Uncertainty / Revision          DRAFTED / PROVISIONAL
+→ A8 Substrate-independence Contract            NEXT BOUNDED SLICE
 → A9 Reference Laboratory Boundary
 → A10 Open Questions / Falsification
 → integrated blueprint review
@@ -152,11 +174,11 @@ Sources, papers, existing systems и AI analysis являются inputs и не
 
 ## 7. Связь с existing contracts и pending decisions
 
-A6 не меняет ADR statuses или historical evidence. Issue #14/#15/#16 остаются open в своих remaining evidence/portability scopes. Issue #18 остаётся operator-controlled для license/publication. Issue #74 / ADR-0024 остаётся `PROPOSED / PENDING_OPERATOR`; reducer v1 immutable, reducer-v2 unauthorized. Track H source admission остаётся operator-controlled.
+A7 не меняет ADR statuses или historical evidence. Issue #14/#15/#16/#17 сохраняют existing scopes. Issue #18 остаётся operator-controlled для license/publication. Issue #74 / ADR-0024 остаётся `PROPOSED / PENDING_OPERATOR`; reducer v1 immutable, reducer-v2 unauthorized. ADR-0003 остаётся `PROPOSED / NOT_STARTED`. Track H source admission остаётся operator-controlled.
 
 ```text
-A5/A6 semantic and lifecycle models
-→ later versioned mapping/equivalence work
+A5/A6/A7 semantic, lifecycle, conflict and revision models
+→ later A8 versioned mapping/equivalence work
 → existing contracts preserved within declared scope
 ≠ silent retroactive rewrite
 ```
@@ -170,11 +192,11 @@ Blueprint не завершён только из-за наличия докум
 ```text
 Architecture Re-foundation decision: established by ADR-0025
 Blueprint plan: this document
-Blueprint content: A1-A6 DRAFTED / PROVISIONAL; A7-A10 NOT YET COMPLETE
-Next bounded slice: A7 CONFLICT, UNCERTAINTY, AND REVISION
+Blueprint content: A1-A7 DRAFTED / PROVISIONAL; A8-A10 NOT YET COMPLETE
+Next bounded slice: A8 SUBSTRATE-INDEPENDENCE CONTRACT
 Runtime expansion: FROZEN
 Existing P1–C5 laboratory: PRESERVED / BOUNDED
 Production authorization: false
 ```
 
-Drafting A1–A6 не устанавливает independent approval, integrated Canon, runtime implementation, arbitrary future-substrate support или production readiness.
+Drafting A1–A7 не устанавливает independent approval, integrated Canon, runtime implementation, arbitrary future-substrate support или production readiness.
