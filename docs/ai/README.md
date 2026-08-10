@@ -15,10 +15,11 @@ This directory is the mandatory continuity surface for AI agents, auditors, and 
 9. [`../A1_KERNEL_PURPOSE_AND_NON_GOALS.md`](../A1_KERNEL_PURPOSE_AND_NON_GOALS.md) and [`../A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md`](../A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md)
 10. [`../A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md`](../A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md) and [`../A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md`](../A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md)
 11. [`../A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md`](../A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md) and [`../A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md`](../A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md)
-12. [`ISSUE_RECONCILIATION.md`](ISSUE_RECONCILIATION.md)
-13. [`NOTION_HANDOFF.md`](NOTION_HANDOFF.md)
-14. affected Canon, contracts, ADRs, source, tests, workflows, and evidence
-15. current GitHub and Notion state
+12. [`../A4_SEMANTIC_LAWS_AND_INVARIANTS.md`](../A4_SEMANTIC_LAWS_AND_INVARIANTS.md) and [`../A4_SEMANTIC_LAWS_AND_INVARIANTS.ru.md`](../A4_SEMANTIC_LAWS_AND_INVARIANTS.ru.md)
+13. [`ISSUE_RECONCILIATION.md`](ISSUE_RECONCILIATION.md)
+14. [`NOTION_HANDOFF.md`](NOTION_HANDOFF.md)
+15. affected Canon, contracts, ADRs, source, tests, workflows, and evidence
+16. current GitHub and Notion state
 
 Do not read every historical handoff before identifying the current task. Do not begin with random code search.
 
@@ -41,8 +42,8 @@ ADR-0025: ACCEPTED / OPERATOR APPROVED
 Architecture Re-foundation: ACTIVE / BLUEPRINT-FIRST
 runtime expansion: FROZEN
 P1–C5 role: BOUNDED REFERENCE LABORATORY
-blueprint content: A1-A3 DRAFTED / PROVISIONAL
-next content slice: A4 — Semantic Laws and Invariants
+blueprint content: A1-A4 DRAFTED / PROVISIONAL
+next content slice: A5 — Identity / Time / Change
 ```
 
 The full plan and drafted content are maintained in:
@@ -55,11 +56,13 @@ The full plan and drafted content are maintained in:
 - [`../A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md`](../A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md)
 - [`../A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md`](../A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md)
 - [`../A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md`](../A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md)
+- [`../A4_SEMANTIC_LAWS_AND_INVARIANTS.md`](../A4_SEMANTIC_LAWS_AND_INVARIANTS.md)
+- [`../A4_SEMANTIC_LAWS_AND_INVARIANTS.ru.md`](../A4_SEMANTIC_LAWS_AND_INVARIANTS.ru.md)
 - [`../adr/0025-blueprint-before-runtime-expansion.md`](../adr/0025-blueprint-before-runtime-expansion.md)
 
-A1, A2, and A3 are drafted, provisional architecture slices. They are not independently approved, not integrated Canon, and remain subject to revision during A4–A10 and integrated review.
+A1, A2, A3, and A4 are drafted, provisional architecture slices. They are not independently approved, not integrated Canon, and remain subject to revision during A5–A10 and integrated review.
 
-A2 records a provisional technology-/substrate-neutral ontology and preserves at least these distinctions:
+A2 preserves at least:
 
 ```text
 Observation ≠ Claim
@@ -76,7 +79,7 @@ State ≠ necessarily reducer output
 Knowledge ≠ LLM / embeddings / SQL / JSON / specific processor
 ```
 
-A3 records a provisional scoped obligation-and-transition machine and preserves at least these distinctions:
+A3 preserves at least:
 
 ```text
 abstract machine ≠ runtime implementation
@@ -88,9 +91,13 @@ deterministic output ≠ true output
 profile conformance ≠ production authorization
 ```
 
+A4 drafts the first GitHub-resident semantic-law set as `nk-semantic-laws/A4-draft-1`, currently 28 candidate laws. The count is provisional. Each law has a statement, rationale, counterexample/falsifier, failure mode, observable obligation, and exception/open uncertainty. The earlier false Notion-only identity `nk-semantic-laws/0.1-draft` is not reused.
+
+A4 additionally protects meaning across representation and substrate change, including semantic identity versus storage identity, Context/provenance/Authority scope, temporal distinctions, accountable revision and Supersession, Conflict versus resolution, derived views versus history, selection versus epistemic validity, bounded accountability versus correctness, and named equivalence versus assumed sameness.
+
 No new semantic/runtime expansion is authorized before blueprint review. Existing code and evidence remain preserved and may receive bounded maintenance, integrity, reproducibility, provenance, and validator fixes.
 
-The machine-readable freeze is enforced fail closed by [`../../tools/ai_context/validate_architecture_freeze.py`](../../tools/ai_context/validate_architecture_freeze.py) in AI-context CI. Removing ADR-0025 state, disabling the freeze, authorizing semantic/runtime expansion, losing A1–A10, changing completed content away from exact A1+A2+A3, or bypassing separate operator review must fail validation.
+The machine-readable freeze is enforced fail closed by [`../../tools/ai_context/validate_architecture_freeze.py`](../../tools/ai_context/validate_architecture_freeze.py) in AI-context CI. Removing ADR-0025 state, disabling the freeze, authorizing semantic/runtime expansion, losing A1–A10, changing completed content away from exact A1+A2+A3+A4, or bypassing separate operator review must fail validation.
 
 ## Track boundary
 
@@ -131,8 +138,8 @@ Live HEAD must be resolved through Git or GitHub. A descendant commit does not s
 A1 Purpose and Non-goals                         DRAFTED / PROVISIONAL
 → A2 Knowledge and Memory Ontology              DRAFTED / PROVISIONAL
 → A3 Abstract Native Kernel Machine             DRAFTED / PROVISIONAL
-→ A4 Semantic Laws and Invariants               NEXT BOUNDED SLICE
-→ A5 Identity / Time / Change
+→ A4 Semantic Laws and Invariants               DRAFTED / PROVISIONAL
+→ A5 Identity / Time / Change                   NEXT BOUNDED SLICE
 → A6 Knowledge Lifecycle
 → A7 Conflict / Uncertainty / Revision
 → A8 Substrate-independence Contract
@@ -188,6 +195,8 @@ DRAFTED BLUEPRINT CONTENT
   ../A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md
   ../A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md
   ../A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md
+  ../A4_SEMANTIC_LAWS_AND_INVARIANTS.md
+  ../A4_SEMANTIC_LAWS_AND_INVARIANTS.ru.md
 
 ACTIVE RISKS
   KNOWN_RISKS.md
@@ -226,7 +235,7 @@ Evidence roots:
 ../../evidence/c5/2026-08-08-adr0023/manifest.json
 ```
 
-These archives are version-bound. ADR-0025 and A1–A3 do not expand their proof boundary.
+These archives are version-bound. ADR-0025 and A1–A4 do not expand their proof boundary.
 
 ## Source-of-truth order
 
@@ -248,7 +257,7 @@ python tools/ai_context/validate_architecture_freeze.py --repo .
 python tools/ai_context/validate_reconciliation.py --repo .
 python tools/ai_context/validate_context.py --repo .
 python tools/docs/validate_bilingual_parity.py --repo .
-python -m unittest tests.test_a3_abstract_machine tests.test_architecture_freeze tests.test_ai_context_validator
+python -m unittest tests.test_a4_semantic_laws tests.test_a3_abstract_machine tests.test_architecture_freeze tests.test_ai_context_validator
 ```
 
 ## Historical records
