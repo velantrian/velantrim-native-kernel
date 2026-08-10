@@ -27,7 +27,7 @@ Committed checkpoints are role-bearing historical references, not automatic live
 ## Current implementation boundary
 
 ```text
-clean_runtime_support:       PARTIAL
+clean_runtime_support:      PARTIAL
 kernel_runtime_conformance: C4
 operational_validation:     C5_BOUNDED_REHEARSAL
 production_authorized:      false
@@ -52,43 +52,60 @@ Drafted provisional deliverables:
 4. [A4 — Semantic Laws and Invariants](docs/A4_SEMANTIC_LAWS_AND_INVARIANTS.md) · [RU](docs/A4_SEMANTIC_LAWS_AND_INVARIANTS.ru.md);
 5. [A5 — Identity, Time, and Change](docs/A5_IDENTITY_TIME_AND_CHANGE.md) · [RU](docs/A5_IDENTITY_TIME_AND_CHANGE.ru.md);
 6. [A6 — Knowledge Lifecycle](docs/A6_KNOWLEDGE_LIFECYCLE.md) · [RU](docs/A6_KNOWLEDGE_LIFECYCLE.ru.md);
-7. [A7 — Conflict, Uncertainty, and Revision](docs/A7_CONFLICT_UNCERTAINTY_AND_REVISION.md) · [RU](docs/A7_CONFLICT_UNCERTAINTY_AND_REVISION.ru.md).
+7. [A7 — Conflict, Uncertainty, and Revision](docs/A7_CONFLICT_UNCERTAINTY_AND_REVISION.md) · [RU](docs/A7_CONFLICT_UNCERTAINTY_AND_REVISION.ru.md);
+8. [A8 — Substrate-Independence Contract](docs/A8_SUBSTRATE_INDEPENDENCE_CONTRACT.md) · [RU](docs/A8_SUBSTRATE_INDEPENDENCE_CONTRACT.ru.md).
 
 Current progress:
 
 ```text
 ADR-0025 decision: ACCEPTED / OPERATOR APPROVED
 blueprint plan: PRESENT
-blueprint content: A1-A7 DRAFTED / PROVISIONAL; A8-A10 INCOMPLETE
-next content slice: A8 — SUBSTRATE-INDEPENDENCE CONTRACT
+blueprint content: A1-A8 DRAFTED / PROVISIONAL; A9-A10 INCOMPLETE
+next content slice: A9 — REFERENCE LABORATORY BOUNDARY
 runtime expansion: FROZEN
 ```
 
-A1–A7 are still pending independent review and integrated A1–A10 review. Drafting a slice is not Canon promotion.
+A1–A8 are still pending independent review and integrated A1–A10 review. Drafting a slice is not Canon promotion.
 
-### A7 candidate model
+### A8 candidate model
 
-A7 introduces provisional `nk-conflict-uncertainty-revision/A7-draft-1` and refines the accepted `NK-CFL` semantic boundary without accepting proposed ADR-0003 or changing runtime.
+A8 introduces provisional `nk-substrate-independence/A8-draft-1`. It defines substrate independence as preservation of meaning-level obligations through declared mappings rather than physical sameness.
 
-It keeps three axes independent:
+A profile maps architecture obligations through:
 
 ```text
-tension kind
-≠ assessment status
-≠ resolution status
+SUBSTRATE_MAPPING(
+  profile,
+  architecture_obligation,
+  realization_or_equivalent,
+  preservation_state,
+  context_and_scope,
+  observable_check,
+  declared_loss_or_none,
+  uncertainty,
+  authority_for_claim
+)
 ```
 
-Assessment status distinguishes `CANDIDATE`, `ESTABLISHED`, `NOT_A_CONFLICT`, and `UNRESOLVED_ASSESSMENT`. Resolution status distinguishes `UNRESOLVED`, `DEFERRED`, `RESOLVED_FOR_SCOPE`, and `REOPENED`. Resolution-for-scope is an accountable scoped decision, not a truth oracle.
+The mapping distinguishes `PRESERVED`, `PARTIAL`, `UNSUPPORTED`, `INDETERMINATE`, and `LOSSY`. These are A8 mapping states, not assertion-map arithmetic. A known inability to preserve a required distinction must weaken or fail the conformance claim rather than silently approximate it.
 
-A7 defines a provisional taxonomy covering technical and semantic tensions including duplicate delivery, write-version race, divergent history, semantic contradiction, temporal/scope mismatch, provenance conflict, measurement disagreement, Authority/policy conflict, epistemic disagreement, projection drift, and unclassified tension. Strict contradiction requires materially adequate alignment of interpretation, Context/scope, time, modality, assumptions, identity, Authority, and known uncertainty.
+A8 defines ten preservation obligations (`A8-P01`…`A8-P10`) spanning A2 ontology distinctions, A3 transition semantics, A4 laws, A5 identity/time/order, A6 lifecycle/history, A7 conflict/uncertainty/revision, Context/Provenance/Authority, accountability, and explicit capability/loss declarations.
 
-Uncertainty is represented as typed positions such as Evidence, provenance, Context, temporal, identity, interpretation, Authority, capability, dependency, or measurement gaps. A7 explicitly rejects one mandatory confidence scalar or universal uncertainty-combination algebra. A probability, interval, qualitative judgment, physical distribution, or model score can only be a declared profile-specific representation with explicit meaning and dependencies.
+A8 keeps distinct:
 
-A7 permits `UNRESOLVED` and long-lived plurality. It distinguishes detection Authority from resolution, epistemic-assessment, operational-disposition, and architecture/governance Authority. It supports scoped resolution, revision, Supersession, deferral, and reopening while preserving A5 lineage and A6 lifecycle history.
+```text
+PHYSICAL_IDENTITY
+REPRESENTATION_EQUIVALENCE
+SEMANTIC_OBLIGATION_EQUIVALENCE
+BEHAVIORAL_CONFORMANCE_FOR_SCOPE
+LINEAGE_CONTINUITY_EQUIVALENCE
+```
 
-A7 does not change A6's phase inventory. `IN_TENSION` remains the lifecycle position for unresolved tension; a scoped resolution without semantic revision need not enter `REVISED_OR_SUPERSEDED`, while actual revision/supersession must preserve A5 predecessor/successor lineage.
+Physical identity is neither necessary nor sufficient for semantic equivalence. Same bytes/output do not prove semantic equivalence, and different bytes/IDs/storage layouts do not by themselves prove non-equivalence.
 
-A7 also does not decide Issue #74 / ADR-0024 successor topology, self-supersession, cycles, reducer-v2 dispatch/migration, or create `CONFLICT_OPENED` / `CONFLICT_RESOLVED` Event verbs.
+A8 does not require a global clock, total order, SQL, JSON, Event sourcing, reducer, Python, hashes, digital bytes, one uncertainty scalar, or one processor model. A substrate may use a partial order or other time representation as long as materially required temporal/causal relations are preserved and implementation order is not promoted to world order.
+
+A8 defines scoped conformance outcomes `FULL_CONFORMANCE_FOR_SCOPE`, `BOUNDED_CONFORMANCE`, `NON_CONFORMANT_FOR_SCOPE`, and `INDETERMINATE_CONFORMANCE`. It explicitly rejects universal future-substrate portability claims. A9, not A8, owns the detailed mapping and grading of P1–C5 against the blueprint.
 
 ## Required non-equivalences
 
@@ -97,6 +114,8 @@ NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GLOBALLY_LOST
 historical recovery ≠ clean implementation
 reference laboratory ≠ final architecture
 blueprint documentation ≠ runtime evidence
+Architecture ≠ implementation
+representation ≠ represented reality
 Observation ≠ Claim
 Claim ≠ Truth
 Evidence ≠ Source
@@ -104,47 +123,40 @@ Repetition ≠ Evidence
 Belief ≠ Knowledge
 Memory ≠ merely a stored Record
 retrieval relevance ≠ epistemic validity
+Unknown ≠ False
+Unsupported ≠ False
 Conflict ≠ necessarily Contradiction
-candidate tension ≠ established tension
-established tension ≠ resolved tension
-detection ≠ resolution
-resolution-for-scope ≠ objective truth
-uncertainty ≠ one universal confidence scalar
+Detection ≠ Resolution
+Resolution-for-scope ≠ Objective Truth
+Uncertainty ≠ one universal confidence scalar
 confidence score ≠ Evidence
 newer ≠ more correct
 majority ≠ truth
-Unknown ≠ False
-Event usage in P1-C5 ≠ Event as universal primitive
-State ≠ necessarily reducer output
-Knowledge ≠ LLM / embeddings / SQL / JSON / specific processor
-abstract machine ≠ runtime implementation
+semantic identity ≠ storage identity
+equal bytes/hash/text ≠ universal semantic identity
+write order ≠ occurrence order ≠ observation order ≠ causal order ≠ semantic precedence
+Revision ≠ overwrite
+Supersession ≠ deletion or falsity
+restriction ≠ logical erase ≠ physical deletion ≠ cryptographic erasure ≠ forgetting
 transition ≠ Event envelope
 transition relation ≠ reducer
 history visibility ≠ mandatory Event sourcing
-admission ≠ truth
-semantic identity ≠ storage identity
-equal bytes/hash/text ≠ universal semantic identity
-write order ≠ represented-world or causal order
-Revision ≠ silent overwrite
-Supersession ≠ deletion or falsity
-restriction ≠ logical erase ≠ physical deletion ≠ cryptographic erasure ≠ forgetting
-Receipt/accountability ≠ correctness or truth
 profile conformance ≠ production authorization
-lifecycle phase ≠ storage status column
-closure ≠ deletion of history
-one Event ≠ one lifecycle transition
+substrate-independent specification ≠ universal portability proof
+physical identity ≠ semantic equivalence
+same output ≠ full semantic equivalence
 ```
 
 ## Independent tracks and decisions
 
 | Boundary | State | Effect |
 |---|---|---|
-| Track H historical recovery | `BLOCKED / ACTIVE EVIDENCE-RECOVERY` | operator-controlled source admission; A7 does not alter it |
+| Track H historical recovery | `BLOCKED / ACTIVE EVIDENCE-RECOVERY` | operator-controlled source admission; A8 does not alter it |
 | Issue #18 license/publication | `PENDING_OPERATOR / selected_option: null` | no license change; external contribution/publication regime remains unauthorized |
 | Issue #74 / ADR-0024 | `PROPOSED / PENDING_OPERATOR / selected_option: null` | reducer v1 remains immutable; reducer-v2 remains unauthorized |
-| ADR-0003 semantic conflicts | `PROPOSED / NOT_STARTED` | A7 refines compatible semantic concepts but does not accept the ADR or its proposed Event lifecycle |
+| ADR-0003 semantic conflicts | `PROPOSED / NOT_STARTED` | A7/A8 preserve semantic boundaries but do not accept the ADR or authorize Event vocabulary |
 
-Issue #14, #15, #16 and #17 retain their existing accepted/versioned contract or conformance scopes and remaining work. A7 does not close or silently redefine them.
+Issue #14, #15, #16 and #17 retain their existing accepted/versioned contract or conformance scopes and remaining work. A8 does not close or silently redefine them.
 
 ## Runtime freeze
 
@@ -161,18 +173,17 @@ evidence/c5/2026-08-07/manifest.json
 evidence/c5/2026-08-08-adr0023/manifest.json
 ```
 
-A7 documentation does not create new runtime evidence, change assertion arithmetic, promote `NK-CFL` executable support, or prove arbitrary future-substrate support.
+A8 documentation does not create new runtime evidence, change assertion arithmetic, promote NK-EPI, prove arbitrary future-substrate support, or establish a production-ready neuromorphic/analog/quantum implementation.
 
 ## Explicit non-claims
 
 ```text
 Architecture Re-foundation ≠ completed blueprint
-A1-A7 DRAFTED ≠ independent approval ≠ integrated blueprint approval ≠ Canon promotion
-A7 model ≠ universal truth/conflict engine
-A7 model ≠ acceptance of ADR-0003
-A7 model ≠ conflict Event runtime
-A7 model ≠ universal probability/confidence algebra
-A7 model ≠ reducer-v2 / ADR-0024 decision
+A1-A8 DRAFTED ≠ independent approval ≠ integrated blueprint approval ≠ Canon promotion
+A8 substrate-independence ≠ universal portability proof
+A8 conformance model ≠ proof that every substrate can conform
+A8 model ≠ grading of current P1-C5 laboratory
+A8 model ≠ future-substrate implementation evidence
 C5 PASS ≠ production readiness
 public repository ≠ open-source license
 ```
