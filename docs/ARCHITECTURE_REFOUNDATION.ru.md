@@ -6,9 +6,9 @@
 > **Decision:** [`ADR-0025`](./adr/0025-blueprint-before-runtime-expansion.md)  
 > **Issue:** [#88](https://github.com/velantrian/velantrim-native-kernel/issues/88)
 
-## 1. Назначение
+## 1. Зачем нужна эта фаза
 
-Native Kernel исследует technology-neutral architecture для meaning, memory, knowledge, provenance, uncertainty, change и accountability. Существующая линия Python/PostgreSQL/SQLite сохраняется как bounded reference laboratory, а не становится Canon только потому, что появилась первой.
+Native Kernel исследует technology-neutral architecture для meaning, memory, knowledge, provenance, uncertainty, change и accountability. Существующая линия **Python + PostgreSQL + SQLite** сохраняется как bounded reference laboratory, а не становится Canon только потому, что появилась первой.
 
 ```text
 A1 purpose / non-goals
@@ -27,7 +27,7 @@ A1 purpose / non-goals
 
 ## 2. Draft inventory
 
-Все десять required blueprint slices существуют и остаются `DRAFTED / PROVISIONAL`:
+Все десять required blueprint slices существуют и остаются `DRAFTED / PROVISIONAL`. A10 сохраняет model identity `nk-open-questions-falsification/A10-draft-1`.
 
 1. [A1 RU](./A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md) / [EN](./A1_KERNEL_PURPOSE_AND_NON_GOALS.md)
 2. [A2 RU](./A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md) / [EN](./A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md)
@@ -46,7 +46,8 @@ A1 purpose / non-goals
 
 - [Integrated A1–A10 Review RU](./INTEGRATED_A1_A10_REVIEW.ru.md)
 - [English review](./INTEGRATED_A1_A10_REVIEW.md)
-- identity: `nk-integrated-blueprint-review/A1-A10-review-1`
+- completed gate identity: `INTEGRATED_A1_A10_REVIEW`
+- review identity: `nk-integrated-blueprint-review/A1-A10-review-1`
 - state: `COMPLETED / PROVISIONAL / OPERATOR_DECISION_PENDING`
 
 Review явно reconciles семь cross-slice findings вместо silent rewrite draft history. Ключевые current provisional interpretations:
@@ -64,7 +65,7 @@ A6 lifecycle positions ≠ mandatory pipeline stages
 
 ## 4. Граница Reference Laboratory
 
-P1–C5 остаётся `BOUNDED_REFERENCE_LABORATORY`. Python, PostgreSQL, SQLite, SQL, JSON, SHA-256, current Event/reducer/Receipt/sequence mechanisms, CI и evidence packaging остаются profile/laboratory mechanisms, если отдельное architecture decision не установит иное.
+P1–C5 остаётся `BOUNDED_REFERENCE_LABORATORY`. Python, PostgreSQL, SQLite, SQL, JSON, SHA-256, current Event/reducer/Receipt/sequence mechanisms, CI и evidence packaging остаются profile/laboratory mechanisms, если separate architecture decision не установит иное.
 
 ```text
 useful implementation evidence ≠ architecture requirement
@@ -97,4 +98,6 @@ Production authorization: false
 Independent architectural validation: NOT ESTABLISHED
 ```
 
-`OPERATOR_POST_BLUEPRINT_DECISION` — decision gate, а не A11 и не runtime permission. Integrated review не выбирает следующую фазу.
+## 8. Gate завершения blueprint
+
+Draft inventory и первый integrated review complete как provisional architecture work. Acceptance всё ещё не automatic: `OPERATOR_POST_BLUEPRINT_DECISION` — следующий gate, а не A11 и не runtime permission. Integrated review не выбирает следующую фазу.
