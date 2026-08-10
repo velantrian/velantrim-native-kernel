@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Fail closed when ADR-0025's architecture runtime freeze drifts."""
+"""Fail closed when ADR-0025's architecture runtime freeze or post-blueprint gate drifts."""
 from __future__ import annotations
 
 import argparse
@@ -41,7 +41,11 @@ EXPECTED_REFOUNDATION_FIELDS = {
     "completion_requires_operator_review", "completed_deliverables", "next_content_slice",
 }
 EXPECTED_COMPLETED_DELIVERABLES = EXPECTED_DELIVERABLES[:]
-EXPECTED_NEXT_CONTENT_SLICE = "INTEGRATED_A1_A10_REVIEW"
+EXPECTED_NEXT_CONTENT_SLICE = "OPERATOR_POST_BLUEPRINT_DECISION"
+INTEGRATED_REVIEW_DOCS = (
+    "docs/INTEGRATED_A1_A10_REVIEW.md",
+    "docs/INTEGRATED_A1_A10_REVIEW.ru.md",
+)
 COMPLETED_DELIVERABLE_DOCS = {
     item: (f"docs/{item}.md", f"docs/{item}.ru.md")
     for item in EXPECTED_COMPLETED_DELIVERABLES
@@ -49,7 +53,7 @@ COMPLETED_DELIVERABLE_DOCS = {
 
 
 class ArchitectureFreezeError(RuntimeError):
-    """Raised when machine state can silently reopen runtime expansion."""
+    pass
 
 
 def _require(condition: bool, message: str) -> None:
@@ -71,6 +75,7 @@ def validate(state: Mapping[str, Any], *, repo: Path) -> None:
     status = state.get("status")
     _require(isinstance(status, Mapping), "status object required")
     _require(status.get("production_authorized") is False, "ADR-0025 cannot coexist with production authorization")
+
     tracks = state.get("tracks")
     _require(isinstance(tracks, Mapping), "tracks object required")
     clean = tracks.get("clean_implementation")
@@ -78,11 +83,13 @@ def validate(state: Mapping[str, Any], *, repo: Path) -> None:
     _require(clean.get("architecture_role") == "BOUNDED_REFERENCE_LABORATORY", "clean implementation must remain a bounded reference laboratory")
     _require(clean.get("semantic_runtime_expansion_authorized") is False, "semantic/runtime expansion is not authorized")
     _require(clean.get("maintenance_allowed") is True, "bounded maintenance allowance must remain explicit")
+
     research = tracks.get("long_horizon_research")
     _require(isinstance(research, Mapping), "long-horizon research track required")
     _require(research.get("id") == "R", "research track id must be R")
     _require(research.get("status") == "ACTIVE / ARCHITECTURE RE-FOUNDATION / NO AUTOMATIC PROMOTION", "architecture re-foundation status drift")
     _require(research.get("runtime_authorized") is False, "research track must not authorize runtime")
+
     refoundation = research.get("architecture_refoundation")
     _require(isinstance(refoundation, Mapping), "ADR-0025 architecture_refoundation object required")
     _require(set(refoundation) == EXPECTED_REFOUNDATION_FIELDS, "architecture_refoundation field inventory drift")
@@ -92,12 +99,15 @@ def validate(state: Mapping[str, Any], *, repo: Path) -> None:
     _require(refoundation.get("plan_en") == "docs/ARCHITECTURE_REFOUNDATION.md" and refoundation.get("plan_ru") == "docs/ARCHITECTURE_REFOUNDATION.ru.md", "architecture blueprint plan identity drift")
     _require(refoundation.get("deliverables") == EXPECTED_DELIVERABLES, "A1-A10 blueprint deliverable inventory drift")
     _require(refoundation.get("completion_requires_operator_review") is True, "blueprint completion must retain separate operator review")
+
     completed = refoundation.get("completed_deliverables")
     _require(completed == EXPECTED_COMPLETED_DELIVERABLES, "completed blueprint deliverable inventory drift")
-    _require(EXPECTED_NEXT_CONTENT_SLICE not in completed, "integrated review gate must not be treated as a completed A1-A10 deliverable")
+    _require(EXPECTED_NEXT_CONTENT_SLICE not in completed, "operator gate must not be treated as an A1-A10 deliverable")
+    _require("INTEGRATED_A1_A10_REVIEW" not in completed, "integrated review must not be treated as an A1-A10 deliverable")
     _require(all(item in EXPECTED_DELIVERABLES for item in completed), "completed deliverable is not a declared blueprint deliverable")
     _require(len(completed) == len(set(completed)), "completed deliverable inventory must not contain duplicates")
-    _require(refoundation.get("next_content_slice") == EXPECTED_NEXT_CONTENT_SLICE, "next blueprint content slice drift")
+    _require(refoundation.get("next_content_slice") == EXPECTED_NEXT_CONTENT_SLICE, "next blueprint gate drift")
+
     for plan_field in ("plan_en", "plan_ru"):
         _require((repo / str(refoundation[plan_field])).is_file(), f"missing architecture blueprint plan: {refoundation[plan_field]}")
     for deliverable in completed:
@@ -105,24 +115,32 @@ def validate(state: Mapping[str, Any], *, repo: Path) -> None:
         _require(docs is not None, f"missing completed deliverable document mapping: {deliverable}")
         for doc_path in docs:
             _require((repo / doc_path).is_file(), f"missing completed deliverable document: {doc_path}")
+    for review_doc in INTEGRATED_REVIEW_DOCS:
+        _require((repo / review_doc).is_file(), f"missing integrated review document: {review_doc}")
+
     _require(research.get("runtime_freeze_exceptions") == EXPECTED_FREEZE_EXCEPTIONS, "runtime freeze exception inventory drift")
     _require(research.get("canonical_promotion_requires") == EXPECTED_PROMOTION_REQUIREMENTS, "canonical promotion requirement inventory drift")
+
     issues = state.get("issues")
     _require(isinstance(issues, Mapping), "issue snapshots required")
     issue = issues.get("88")
     _require(isinstance(issue, Mapping), "Issue #88 snapshot required")
     _require(issue.get("state") == "OPEN", "Issue #88 must remain open")
-    _require("Architecture Re-foundation" in str(issue.get("meaning", "")), "Issue #88 meaning drift")
-    _require("integrated A1-A10 review" in str(issue.get("meaning", "")), "Issue #88 must retain integrated-review gate")
+    meaning = str(issue.get("meaning", ""))
+    _require("Architecture Re-foundation" in meaning, "Issue #88 meaning drift")
+    _require("integrated A1-A10 review are complete/provisional" in meaning, "Issue #88 must record integrated review completion")
+    _require("OPERATOR_POST_BLUEPRINT_DECISION" in meaning, "Issue #88 must retain operator post-blueprint gate")
     verification = issue.get("verification")
     _require(isinstance(verification, Mapping), "Issue #88 verification required")
     _require(verification.get("status") == "VERIFIED" and verification.get("method") == "GITHUB_API" and verification.get("source") == "issue/88", "Issue #88 verification drift")
+
     non_claims = " ".join(str(item).lower() for item in state.get("non_claims", []))
     for phrase in (
         "architecture re-foundation documentation is not runtime implementation evidence",
         "future-facing blueprint does not prove compatibility with arbitrary future substrates",
-        "a9 reference-laboratory boundary is drafted and provisional",
-        "a10 open-questions/falsification is drafted and provisional",
+        "integrated a1-a10 review completion is not independent validation",
+        "operator acceptance",
+        "runtime authorization",
     ):
         _require(phrase in non_claims, f"missing architecture boundary: {phrase}")
 
@@ -139,7 +157,7 @@ def main(argv: list[str] | None = None) -> int:
     except ArchitectureFreezeError as exc:
         print(f"Architecture freeze validation failed: {exc}", file=sys.stderr)
         return 1
-    print("Architecture freeze validation passed; decision=ADR-0025; issue=88; deliverables=A1-A10; completed=A1,A2,A3,A4,A5,A6,A7,A8,A9,A10; next=INTEGRATED_A1_A10_REVIEW; runtime_expansion_frozen=true")
+    print("Architecture freeze validation passed; A1-A10 drafted/provisional; integrated_review=complete/provisional; next=OPERATOR_POST_BLUEPRINT_DECISION; runtime_expansion_frozen=true")
     return 0
 
 
