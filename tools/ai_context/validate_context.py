@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate Native Kernel's compact AI context pack and blueprint truth surfaces."""
+"""Validate Native Kernel AI continuity and post-blueprint truth surfaces."""
 from __future__ import annotations
 
 import argparse
@@ -17,6 +17,7 @@ REQUIRED_PATHS = (
     "contracts/evidence-bundle-v1.schema.json", "evidence/c5/README.md",
     "evidence/c5/2026-08-07/manifest.json", "evidence/c5/2026-08-08-adr0023/manifest.json",
     "docs/ARCHITECTURE_REFOUNDATION.md", "docs/ARCHITECTURE_REFOUNDATION.ru.md",
+    "docs/INTEGRATED_A1_A10_REVIEW.md", "docs/INTEGRATED_A1_A10_REVIEW.ru.md",
     "docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.md", "docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md",
     "docs/A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md", "docs/A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md",
     "docs/A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md", "docs/A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md",
@@ -29,11 +30,8 @@ REQUIRED_PATHS = (
     "docs/A10_OPEN_QUESTIONS_AND_FALSIFICATION.md", "docs/A10_OPEN_QUESTIONS_AND_FALSIFICATION.ru.md",
     "docs/adr/0025-blueprint-before-runtime-expansion.md",
     "docs/ai/README.md", "docs/ai/CURRENT_STATE.md", "docs/ai/COMPONENT_MAP.md",
-    "docs/ai/KNOWN_RISKS.md", "docs/ai/WORK_LOG.md", "docs/ai/P4_IMPLEMENTATION_RECORD.md",
-    "docs/ai/P5_IMPLEMENTATION_RECORD.md", "docs/ai/C4_IMPLEMENTATION_RECORD.md",
-    "docs/ai/C5_IMPLEMENTATION_RECORD.md", "docs/ai/AUDIT_PLAYBOOK.md",
-    "docs/ai/DOCUMENTATION_SYNC_PROTOCOL.md", "docs/ai/NOTION_HANDOFF.md",
-    "docs/research/POST_C5_RESEARCH_BACKLOG.md",
+    "docs/ai/KNOWN_RISKS.md", "docs/ai/WORK_LOG.md", "docs/ai/ISSUE_RECONCILIATION.md",
+    "docs/ai/NOTION_HANDOFF.md",
 )
 
 LINK_SCAN_PATHS = REQUIRED_PATHS + (
@@ -44,7 +42,7 @@ CHECKPOINT_RE = re.compile(r"^machine_truth_reconciliation_merge:\s*([0-9a-f]{40
 MARKDOWN_LINK_RE = re.compile(r"(?<!\!)\[[^\]]+\]\(([^)]+)\)")
 IGNORED_SCHEMES = {"http", "https", "mailto", "tel", "data"}
 
-REQUIRED_STATUS_MARKERS = (
+CURRENT_MARKERS = (
     "RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY",
     "authoritative_machine_source: ../../project-state.json",
     "machine_protocol: nk-project-state/2",
@@ -56,61 +54,46 @@ REQUIRED_STATUS_MARKERS = (
     "No AI agent may select the license or accept ADR-0024",
     "The later Notion synchronization checkpoint does not rewrite or replace the earlier publication checkpoint.",
     "Architecture Re-foundation: ACTIVE / BLUEPRINT-FIRST",
-    "No new semantic/runtime expansion before blueprint gate completion.",
-    "BOUNDED REFERENCE LABORATORY",
     "blueprint content A1–A10 is `DRAFTED / PROVISIONAL`",
-    "next bounded gate is `INTEGRATED_A1_A10_REVIEW`",
-)
-FORBIDDEN_STATUS_MARKERS = (
-    "Notion remains synchronized only through the recorded publication checkpoint",
-    "Next work is limited to explicit operator decisions",
-    "next bounded content slice is `A2 — Knowledge and Memory Ontology`",
-    "next bounded content slice is `A3 — Abstract Native Kernel Machine`",
-    "next bounded content slice is `A4 — Semantic Laws and Invariants`",
-    "next bounded content slice is `A5 — Identity, Time, and Change`",
-    "next bounded content slice is `A6 — Knowledge Lifecycle`",
-    "next bounded content slice is `A7 — Conflict, Uncertainty, and Revision`",
-    "next bounded content slice is `A8 — Substrate-independence Contract`",
-    "next bounded content slice is `A9 — Reference Laboratory Boundary`",
-    "next bounded content slice is `A10 — Open Questions and Falsification`",
+    "integrated review: COMPLETED / PROVISIONAL / OPERATOR_DECISION_PENDING",
+    "next bounded gate is `OPERATOR_POST_BLUEPRINT_DECISION`",
 )
 
-BLUEPRINT_PROGRESS_SURFACES = {
+SURFACE_MARKERS = {
     "STATUS.md": (
         "blueprint content: A1-A10 DRAFTED / PROVISIONAL",
-        "next content slice: INTEGRATED_A1_A10_REVIEW",
-        "A1-A10 drafted ≠ independent approval or integrated blueprint approval",
+        "integrated review: COMPLETED / PROVISIONAL / OPERATOR_DECISION_PENDING",
+        "next content slice: OPERATOR_POST_BLUEPRINT_DECISION",
+    ),
+    "ROADMAP.md": (
+        "integrated A1-A10 review                 COMPLETE / PROVISIONAL",
+        "OPERATOR_POST_BLUEPRINT_DECISION          NEXT GATE",
+        "Integrated review complete ≠ runtime thaw",
+    ),
+    "docs/ARCHITECTURE_REFOUNDATION.md": (
+        "Integrated review: COMPLETED / PROVISIONAL / OPERATOR_DECISION_PENDING",
+        "Next bounded gate: OPERATOR_POST_BLUEPRINT_DECISION",
+    ),
+    "docs/ARCHITECTURE_REFOUNDATION.ru.md": (
+        "Integrated review: COMPLETED / PROVISIONAL / OPERATOR_DECISION_PENDING",
+        "Next bounded gate: OPERATOR_POST_BLUEPRINT_DECISION",
     ),
     "docs/ai/README.md": (
         "blueprint content: A1-A10 DRAFTED / PROVISIONAL",
-        "next content slice: INTEGRATED_A1_A10_REVIEW",
-        "changing completed content away from exact A1+A2+A3+A4+A5+A6+A7+A8+A9+A10",
+        "next content slice: OPERATOR_POST_BLUEPRINT_DECISION",
+        "OPERATOR_POST_BLUEPRINT_DECISION ≠ A11",
     ),
-    "ROADMAP.md": (
-        "A1–A10 remain pending independent review and integrated blueprint review.",
-        "The next bounded gate is `INTEGRATED_A1_A10_REVIEW`.",
-        "A1-A10 drafted ≠ independent approval or integrated blueprint approval",
-    ),
-    "docs/ARCHITECTURE_REFOUNDATION.md": (
-        "Blueprint content: A1-A10 DRAFTED / PROVISIONAL",
-        "Next bounded gate: INTEGRATED_A1_A10_REVIEW",
-        "→ A10 Open Questions and Falsification           DRAFTED / PROVISIONAL",
-        "→ integrated A1-A10 review                     NEXT GATE",
-    ),
-    "docs/ARCHITECTURE_REFOUNDATION.ru.md": (
-        "Blueprint content: A1-A10 DRAFTED / PROVISIONAL",
-        "Next bounded gate: INTEGRATED_A1_A10_REVIEW",
-        "→ A10 Open Questions and Falsification           DRAFTED / PROVISIONAL",
-        "→ integrated A1-A10 review                     NEXT GATE",
+    "docs/INTEGRATED_A1_A10_REVIEW.md": (
+        "nk-integrated-blueprint-review/A1-A10-review-1",
+        "no known blocking internal semantic contradiction remains",
+        "OPERATOR_POST_BLUEPRINT_DECISION",
     ),
 }
 
-FORBIDDEN_BLUEPRINT_PROGRESS_MARKERS = (
-    "blueprint content: A1-A8 DRAFTED / PROVISIONAL", "next content slice: A9 — Reference Laboratory Boundary",
-    "blueprint content: A1-A9 DRAFTED / PROVISIONAL", "next content slice: A10 — Open Questions and Falsification",
-    "Blueprint content: A1-A9 DRAFTED / PROVISIONAL; A10 NOT YET COMPLETE",
-    "Next bounded slice: A10 OPEN QUESTIONS AND FALSIFICATION",
-    "→ A10 Open Questions and Falsification           NEXT BOUNDED SLICE",
+FORBIDDEN_PROGRESS = (
+    "next content slice: INTEGRATED_A1_A10_REVIEW",
+    "Next bounded gate: INTEGRATED_A1_A10_REVIEW",
+    "→ integrated A1-A10 review                     NEXT GATE",
 )
 
 
@@ -118,7 +101,6 @@ FORBIDDEN_BLUEPRINT_PROGRESS_MARKERS = (
 class Finding:
     path: str
     message: str
-
     def render(self) -> str:
         return f"{self.path}: {self.message}"
 
@@ -172,19 +154,19 @@ def validate_links(repo: Path) -> list[Finding]:
     return findings
 
 
-def validate_blueprint_progress_surfaces(repo: Path) -> list[Finding]:
+def validate_surfaces(repo: Path) -> list[Finding]:
     findings: list[Finding] = []
-    for rel, required in BLUEPRINT_PROGRESS_SURFACES.items():
+    for rel, markers in SURFACE_MARKERS.items():
         path = repo / rel
         if not path.is_file():
             continue
         text = path.read_text(encoding="utf-8")
-        for marker in required:
+        for marker in markers:
             if marker not in text:
                 findings.append(Finding(rel, f"required blueprint-progress marker is missing: {marker}"))
-        for marker in FORBIDDEN_BLUEPRINT_PROGRESS_MARKERS:
-            if marker in text:
-                findings.append(Finding(rel, f"forbidden stale blueprint-progress marker is present: {marker}"))
+        for stale in FORBIDDEN_PROGRESS:
+            if stale in text:
+                findings.append(Finding(rel, f"forbidden stale blueprint-progress marker is present: {stale}"))
     return findings
 
 
@@ -199,12 +181,9 @@ def read_checkpoint(repo: Path) -> tuple[str | None, list[Finding]]:
     if not match:
         findings.append(Finding(rel, "missing exact 40-character machine truth reconciliation checkpoint"))
         return None, findings
-    for marker in REQUIRED_STATUS_MARKERS:
+    for marker in CURRENT_MARKERS:
         if marker not in text:
             findings.append(Finding(rel, f"required current-state marker is missing: {marker}"))
-    for marker in FORBIDDEN_STATUS_MARKERS:
-        if marker in text:
-            findings.append(Finding(rel, f"forbidden legacy current-state marker is present: {marker}"))
     return match.group(1), findings
 
 
@@ -219,9 +198,9 @@ def validate_checkpoint(repo: Path, checkpoint: str | None) -> list[Finding]:
 def validate(repo: Path) -> list[Finding]:
     findings = validate_required_paths(repo)
     findings.extend(validate_links(repo))
-    findings.extend(validate_blueprint_progress_surfaces(repo))
-    checkpoint, checkpoint_findings = read_checkpoint(repo)
-    findings.extend(checkpoint_findings)
+    findings.extend(validate_surfaces(repo))
+    checkpoint, extra = read_checkpoint(repo)
+    findings.extend(extra)
     findings.extend(validate_checkpoint(repo, checkpoint))
     return findings
 
@@ -239,7 +218,7 @@ def main(argv: list[str] | None = None) -> int:
         for finding in findings:
             print(finding.render(), file=sys.stderr)
         return 1
-    print("AI context validation passed; blueprint=A1-A10 drafted/provisional; next=INTEGRATED_A1_A10_REVIEW; runtime_expansion_frozen=true")
+    print("AI context validation passed; A1-A10 drafted/provisional; integrated_review=complete/provisional; next=OPERATOR_POST_BLUEPRINT_DECISION; runtime_expansion_frozen=true")
     return 0
 
 
