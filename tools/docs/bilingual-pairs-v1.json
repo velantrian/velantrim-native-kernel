@@ -179,6 +179,33 @@
       "require_single_h1": true
     },
     {
+      "pair_id": "a7-conflict-uncertainty-revision",
+      "english": "docs/A7_CONFLICT_UNCERTAINTY_AND_REVISION.md",
+      "russian": "docs/A7_CONFLICT_UNCERTAINTY_AND_REVISION.ru.md",
+      "selectors": ["(./A7_CONFLICT_UNCERTAINTY_AND_REVISION.md)", "(./A7_CONFLICT_UNCERTAINTY_AND_REVISION.ru.md)"],
+      "shared_literals": [
+        "A7_CONFLICT_UNCERTAINTY_AND_REVISION",
+        "nk-conflict-uncertainty-revision/A7-draft-1",
+        "next_content_slice: A8_SUBSTRATE_INDEPENDENCE_CONTRACT",
+        "ADR-0025",
+        "Issue #88",
+        "CANDIDATE",
+        "ESTABLISHED",
+        "UNRESOLVED_ASSESSMENT",
+        "RESOLVED_FOR_SCOPE",
+        "SEMANTIC_CONTRADICTION",
+        "UNCERTAINTY_POSITION(",
+        "TENSION_POSITION(",
+        "EPISTEMIC_REVISION(",
+        "NK-CFL-001",
+        "NK-CFL-008"
+      ],
+      "english_literals": ["Tension taxonomy", "Resolution modes without a universal winner algorithm"],
+      "russian_literals": ["Таксономия напряжений", "Режимы решения без универсального winner algorithm"],
+      "compare_heading_levels": true,
+      "require_single_h1": true
+    },
+    {
       "pair_id": "human-quickstart",
       "english": "docs/QUICKSTART.md",
       "russian": "docs/QUICKSTART.ru.md",
