@@ -52,15 +52,9 @@ experiments and evidence
 
 **Status:** `DRAFTED / PROVISIONAL` — see [`A1_KERNEL_PURPOSE_AND_NON_GOALS.md`](./A1_KERNEL_PURPOSE_AND_NON_GOALS.md) / [`A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md`](./A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md). Pending independent review and integrated blueprint review with `A2`–`A10`.
 
-Define:
+Define the problem Native Kernel studies, the durable qualities it seeks to preserve, what `Kernel` means here, what belongs outside it, and boundaries with Titan, Crystal, Mentaury, operating systems, databases, and model runtimes.
 
-- the problem Native Kernel exists to study;
-- the durable qualities it seeks to preserve;
-- what the word `Kernel` means here;
-- what belongs outside the Kernel;
-- boundaries with Titan, Crystal, Mentaury, operating systems, databases, and model runtimes.
-
-**Completion test:** a reader can distinguish the architecture from a product, database, framework, cognitive system, and storage engine without referring to current source code.
+**Completion test:** satisfied for first-draft scope: a reader can distinguish the architecture from a product, database, framework, cognitive system, and storage engine without referring to current source code. Final acceptance still requires independent and integrated review.
 
 ### A2 — Knowledge and Memory Ontology
 
@@ -69,48 +63,17 @@ Define:
 The drafted inventory distinguishes:
 
 ```text
-Signal
-Observation
-Record
-Proposition
-Claim
-Interpretation
-Hypothesis
-Belief
-Knowledge
-Memory
-Evidence
-Source
-Provenance
-Context
-Relation
-State
-Change
-Event
-Conflict
-Contradiction
-Uncertainty
-Revision
-Supersession
-Authority
-Receipt
+Signal · Observation · Record · Proposition · Claim · Interpretation
+Hypothesis · Belief · Knowledge · Memory · Evidence · Source · Provenance
+Context · Relation · State · Change · Event · Conflict · Contradiction
+Uncertainty · Revision · Supersession · Authority · Receipt
 ```
 
-For every concept A2 records:
+For every concept A2 records a working definition, non-definition, neighbouring distinctions, allowed relations, identity/lifecycle notes, minimum semantic obligations, unresolved questions, falsification/counterexample, and provisional primitive/derived/open classification.
 
-- a working architectural definition;
-- what it is not;
-- neighbouring distinctions;
-- allowed relations;
-- identity and lifecycle notes;
-- minimum semantic obligations;
-- unresolved questions;
-- falsification or counterexample;
-- provisional classification as `CANDIDATE_PRIMITIVE`, `DERIVED_CONCEPT`, or `OPEN_QUESTION`.
+A2 rejects current Python fields, SQL rows, JSON, graph nodes, embeddings, LLM operations, or Event-sourced laboratory mechanics as the definition of those concepts.
 
-A2 compares a linear pipeline, Event-centred ontology, relation-first model, and stratified role ontology. It uses the stratified organization only as a drafting aid, not Canon. Event and State remain open primitive questions; Knowledge and Memory do not require an LLM, embeddings, SQL, JSON, digital bytes, or a specific processor.
-
-**Completion test:** satisfied for first-draft scope: no core term is defined only through Python fields, SQL rows, JSON, graph nodes, embeddings, an LLM operation, or current Event-sourced laboratory mechanics. Final acceptance still requires independent and integrated review.
+**Completion test:** satisfied for first-draft scope; final acceptance still requires independent and integrated review.
 
 ### A3 — Abstract Native Kernel Machine
 
@@ -130,47 +93,66 @@ deterministic output ≠ true output
 profile conformance ≠ production authorization
 ```
 
-**Completion test:** satisfied for first-draft scope: materially different manual, analog/neuromorphic, and digital mappings can express the provisional machine without importing SQL/Python semantics into Canon. Final acceptance still requires independent and integrated review.
+**Completion test:** satisfied for first-draft scope: materially different manual, adaptive/analog, and conventional digital mappings can express the provisional machine without importing SQL/Python semantics into Canon. Final acceptance still requires independent and integrated review.
 
 ### A4 — Semantic Laws and Invariants
 
-**Status:** `NEXT BOUNDED SLICE`.
+**Status:** `DRAFTED / PROVISIONAL` — see [`A4_SEMANTIC_LAWS_AND_INVARIANTS.md`](./A4_SEMANTIC_LAWS_AND_INVARIANTS.md) / [`A4_SEMANTIC_LAWS_AND_INVARIANTS.ru.md`](./A4_SEMANTIC_LAWS_AND_INVARIANTS.ru.md). Pending independent review and integrated blueprint review with A1–A3 and A5–A10.
 
-Create a numbered, versioned law set.
+A4 creates the first GitHub-resident numbered/versioned law-set candidate:
 
-Candidate laws include:
+```text
+law_set: nk-semantic-laws/A4-draft-1
+law_count: 28
+```
 
-- representation is not represented reality;
-- a Record is not the occurrence it describes;
-- Observation is not Claim;
-- Claim is not Truth;
-- Evidence is not Source;
-- repetition is not Evidence;
-- Belief is not Knowledge;
-- Memory is not merely a stored Record;
-- retrieval relevance is not epistemic validity;
-- Conflict is not necessarily Contradiction;
-- unknown is not false;
-- Event use in P1–C5 does not make Event a universal primitive;
-- State is not necessarily reducer output;
-- storage presence is not admission;
-- admission is not objective truth;
-- recency is not correctness;
-- utility is not epistemic validity;
-- conflict detection is not conflict resolution;
-- derived state cannot silently rewrite history;
-- optimization cannot silently change meaning;
-- implementation equivalence must be named rather than assumed.
+The 28 laws are the current deduplicated result of reconciling A1 durable qualities, A2 non-equivalences, A3 transition obligations, existing NK-EPI documentation targets, and the A4 plan. The count is provisional and may change during review; it is not a target to preserve for its own sake.
 
-For every law provide:
+The laws are organized around:
 
+- representation and epistemic boundaries;
+- Context, Provenance, and Authority;
+- identity, Memory, time, and Change;
+- Relations, Conflict, and Uncertainty;
+- derived views, selection, and accountability;
+- substrate, reproducibility, and conformance.
+
+Every law provides:
+
+- a statement;
 - rationale;
-- counterexample;
+- counterexample/falsifier;
 - failure mode;
 - observable obligation;
-- known exceptions or open uncertainty.
+- exception/open uncertainty.
+
+A4 explicitly preserves, among other rules:
+
+```text
+representation ≠ represented reality
+Claim / admission / availability ≠ objective truth
+Source or repetition ≠ Evidence by itself
+Unknown / missing / unsupported / failed ≠ False
+semantic identity ≠ storage identity
+write order ≠ represented-world order
+Revision ≠ silent overwrite
+Supersession ≠ deletion or falsity
+Conflict detection ≠ conflict resolution
+derived view ≠ universal State
+retrieval / utility / recency ≠ epistemic validity
+Receipt/accountability ≠ correctness or truth
+history visibility ≠ mandatory Event sourcing
+determinism/reproducibility ≠ truth or physical identity
+profile conformance ≠ production authorization
+```
+
+The previously erroneous Notion-only identity `nk-semantic-laws/0.1-draft` is not reused and never represented an authoritative GitHub A4 law set.
+
+**Completion test:** satisfied for first-draft scope: the law set is numbered, versioned, substrate-neutral, falsifiable at the obligation level, maps back to A2/A3, includes contrasting substrate thought experiments, and leaves detailed identity/time/lifecycle/conflict/conformance mechanisms to A5–A8. Final acceptance still requires independent and integrated review.
 
 ### A5 — Identity, Time, and Change Model
+
+**Status:** `NEXT BOUNDED SLICE`.
 
 Define without committing to a physical encoding:
 
@@ -183,10 +165,12 @@ Define without committing to a physical encoding:
 - Observation time;
 - valid time;
 - Record time;
-- write/causal order;
+- write/causal/partial order;
 - correction, Revision, Supersession, restriction, erasure, and forgetting.
 
-**Completion test:** the model explains which changes preserve identity, create a new version, create a new entity, or remain undecided.
+A5 must refine A4 without silently weakening it. In particular, it must explain which changes preserve identity, create a new version, create a new entity, or remain undecided, and how temporal/order relations remain named instead of collapsing into implementation write order.
+
+**Completion test:** the model explains which changes preserve identity, create a new version, create a new entity, or remain undecided without requiring one physical encoding.
 
 ### A6 — Knowledge Lifecycle
 
@@ -213,35 +197,13 @@ No lifecycle state may obtain authority solely from storage, retrieval rank, rep
 
 ### A7 — Conflict, Uncertainty, and Revision Model
 
-Define:
-
-- candidate versus established Conflict;
-- Contradiction versus scope mismatch;
-- unresolved plurality;
-- Uncertainty types;
-- missing Evidence and Provenance gaps;
-- resolution Authority;
-- reversible versus irreversible decisions;
-- Belief Revision without rewriting history;
-- how the system may remain undecided.
+Define candidate versus established Conflict, Contradiction versus scope mismatch, unresolved plurality, Uncertainty types, Evidence/Provenance gaps, resolution Authority, reversible/irreversible decisions, Belief Revision without rewriting history, and how the system may remain undecided.
 
 ### A8 — Substrate-independence Contract
 
-Define what a future implementation must preserve or explicitly translate.
+Define what a future implementation must preserve or explicitly translate, including semantic identity, history/Change visibility, Provenance, temporal meaning, Uncertainty/Conflict visibility, reconstruction or accepted functional equivalent, Authority/admission boundaries, bounded explanations/Receipts, migration, and loss disclosure.
 
-The contract must classify obligations such as:
-
-- semantic identity;
-- history and Change visibility;
-- Provenance;
-- temporal meaning;
-- Uncertainty and Conflict visibility;
-- replay/reconstruction or an accepted functional equivalent;
-- Authority and admission boundaries;
-- bounded explanations/Receipts;
-- migration and loss disclosure.
-
-It must also identify architecture assumptions that may be artifacts of present Event-sourcing practice.
+It must identify assumptions that are artifacts of present Event-sourcing practice rather than permanent architecture.
 
 ### A9 — Reference Laboratory Boundary
 
@@ -253,26 +215,17 @@ Python + PostgreSQL + SQLite
 ≠ final architecture
 ```
 
-For every major module determine later whether it is:
-
-- a valid example of an abstract contract;
-- a temporary experiment;
-- an implementation-specific mechanism;
-- a falsification tool;
-- legacy evidence that should remain readable but not guide the blueprint;
-- a candidate for removal or replacement after blueprint review.
+For every major module determine later whether it is a valid example of an abstract contract, temporary experiment, implementation-specific mechanism, falsification tool, legacy evidence that remains readable but does not guide the blueprint, or candidate for later replacement/removal.
 
 No deletion or rewrite occurs in this phase merely because reclassification is possible.
 
 ### A10 — Open Questions and Falsification Criteria
 
-Record questions that the project does not yet answer.
-
-Examples:
+Record questions the project does not yet answer, such as:
 
 - Is append-only history a Canon requirement or one implementation of explicit Change?
 - Can identity exist without stable serialized bytes?
-- What is the minimum notion of replay on analog or neuromorphic substrates?
+- What is the minimum notion of reconstruction/replay on analog or neuromorphic substrates?
 - Which forms of Uncertainty can be compared across profiles?
 - Can forgetting be represented without permanent retention of forbidden content?
 - What constitutes the same semantic State across probabilistic systems?
@@ -285,8 +238,8 @@ Each major architectural hypothesis must include evidence that would weaken or r
 A1 Purpose and Non-goals                         DRAFTED / PROVISIONAL
 → A2 Ontology                                   DRAFTED / PROVISIONAL
 → A3 Abstract Machine                           DRAFTED / PROVISIONAL
-→ A4 Semantic Laws                              NEXT BOUNDED SLICE
-→ A5 Identity / Time / Change
+→ A4 Semantic Laws                              DRAFTED / PROVISIONAL
+→ A5 Identity / Time / Change                   NEXT BOUNDED SLICE
 → A6 Knowledge Lifecycle
 → A7 Conflict / Uncertainty / Revision
 → A8 Substrate Independence
@@ -345,7 +298,7 @@ License selection remains required before an open contribution/publication regim
 ADR-0024 remains required before any reducer-v2 path resumes.
 ```
 
-Neither pending decision blocks ontology and blueprint research. Neither is silently decided by this plan or A1–A3.
+Neither pending decision blocks blueprint research. Neither is silently decided by this plan or A1–A4.
 
 ## 8. Blueprint completion gate
 
@@ -368,8 +321,8 @@ Completion requires:
 ```text
 Architecture Re-foundation decision: established by ADR-0025
 Blueprint plan: this document
-Blueprint content: A1-A3 DRAFTED / PROVISIONAL; A4-A10 NOT YET COMPLETE
-Next bounded slice: A4 SEMANTIC LAWS AND INVARIANTS
+Blueprint content: A1-A4 DRAFTED / PROVISIONAL; A5-A10 NOT YET COMPLETE
+Next bounded slice: A5 IDENTITY / TIME / CHANGE
 Runtime expansion: FROZEN
 Existing P1–C5 laboratory: PRESERVED / BOUNDED
 Production authorization: false
