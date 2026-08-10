@@ -64,7 +64,7 @@ Define:
 
 ### A2 — Knowledge and Memory Ontology
 
-**Status:** `DRAFTED / PROVISIONAL` — see [`A2_KERNEL_PURPOSE_AND_NON_GOALS.md`](./A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md) / [`A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md`](./A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md). Pending independent review and integrated blueprint review with A1 and A3–A10.
+**Status:** `DRAFTED / PROVISIONAL` — see [`A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md`](./A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md) / [`A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md`](./A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md). Pending independent review and integrated blueprint review with A1 and A3–A10.
 
 The drafted inventory distinguishes:
 
