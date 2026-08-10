@@ -89,8 +89,8 @@ class ArchitectureFreezeTests(unittest.TestCase):
     def test_next_content_slice_must_not_be_completed(self) -> None:
         state = copy.deepcopy(self.state)
         refoundation = state["tracks"]["long_horizon_research"]["architecture_refoundation"]
-        refoundation["completed_deliverables"].append("A6_KNOWLEDGE_LIFECYCLE")
-        module.EXPECTED_COMPLETED_DELIVERABLES.append("A6_KNOWLEDGE_LIFECYCLE")
+        refoundation["completed_deliverables"].append("A7_CONFLICT_UNCERTAINTY_AND_REVISION")
+        module.EXPECTED_COMPLETED_DELIVERABLES.append("A7_CONFLICT_UNCERTAINTY_AND_REVISION")
         try:
             with self.assertRaisesRegex(module.ArchitectureFreezeError, "must not already be marked completed"):
                 self.validate(state)

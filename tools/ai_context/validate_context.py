@@ -34,6 +34,8 @@ REQUIRED_PATHS = (
     "docs/A4_SEMANTIC_LAWS_AND_INVARIANTS.ru.md",
     "docs/A5_IDENTITY_TIME_AND_CHANGE.md",
     "docs/A5_IDENTITY_TIME_AND_CHANGE.ru.md",
+    "docs/A6_KNOWLEDGE_LIFECYCLE.md",
+    "docs/A6_KNOWLEDGE_LIFECYCLE.ru.md",
     "docs/adr/0025-blueprint-before-runtime-expansion.md",
     "docs/ai/README.md",
     "docs/ai/CURRENT_STATE.md",
@@ -71,6 +73,8 @@ LINK_SCAN_PATHS = (
     "docs/A4_SEMANTIC_LAWS_AND_INVARIANTS.ru.md",
     "docs/A5_IDENTITY_TIME_AND_CHANGE.md",
     "docs/A5_IDENTITY_TIME_AND_CHANGE.ru.md",
+    "docs/A6_KNOWLEDGE_LIFECYCLE.md",
+    "docs/A6_KNOWLEDGE_LIFECYCLE.ru.md",
     "docs/adr/0025-blueprint-before-runtime-expansion.md",
     "docs/ai/README.md",
     "docs/ai/CURRENT_STATE.md",
@@ -109,8 +113,8 @@ REQUIRED_STATUS_MARKERS = (
     "Architecture Re-foundation: ACTIVE / BLUEPRINT-FIRST",
     "No new semantic/runtime expansion before blueprint gate completion.",
     "BOUNDED REFERENCE LABORATORY",
-    "blueprint content A1–A5 is `DRAFTED / PROVISIONAL`",
-    "next bounded content slice is `A6 — Knowledge Lifecycle`",
+    "blueprint content A1–A6 is `DRAFTED / PROVISIONAL`",
+    "next bounded content slice is `A7 — Conflict, Uncertainty, and Revision`",
 )
 FORBIDDEN_STATUS_MARKERS = (
     "Notion remains synchronized only through the recorded publication checkpoint",
@@ -119,35 +123,36 @@ FORBIDDEN_STATUS_MARKERS = (
     "next bounded content slice is `A3 — Abstract Native Kernel Machine`",
     "next bounded content slice is `A4 — Semantic Laws and Invariants`",
     "next bounded content slice is `A5 — Identity, Time, and Change`",
+    "next bounded content slice is `A6 — Knowledge Lifecycle`",
 )
 
 # Fail closed when machine progress and current human/AI surfaces diverge.
 BLUEPRINT_PROGRESS_SURFACES = {
     "STATUS.md": (
-        "blueprint content: A1-A5 DRAFTED / PROVISIONAL; A6-A10 INCOMPLETE",
-        "next content slice: A6 — KNOWLEDGE LIFECYCLE",
+        "blueprint content: A1-A6 DRAFTED / PROVISIONAL; A7-A10 INCOMPLETE",
+        "next content slice: A7 — CONFLICT, UNCERTAINTY, AND REVISION",
     ),
     "docs/ai/README.md": (
-        "blueprint content: A1-A5 DRAFTED / PROVISIONAL",
-        "next content slice: A6 — Knowledge Lifecycle",
-        "changing completed content away from exact A1+A2+A3+A4+A5",
+        "blueprint content: A1-A6 DRAFTED / PROVISIONAL",
+        "next content slice: A7 — Conflict, Uncertainty, and Revision",
+        "changing completed content away from exact A1+A2+A3+A4+A5+A6",
     ),
     "ROADMAP.md": (
-        "A1–A5 remain pending independent review and integrated blueprint review with A6–A10.",
-        "The next bounded content slice is `A6 — Knowledge Lifecycle`.",
-        "A1-A5 drafted ≠ independent approval or integrated blueprint approval",
+        "A1–A6 remain pending independent review and integrated blueprint review with A7–A10.",
+        "The next bounded content slice is `A7 — Conflict, Uncertainty, and Revision`.",
+        "A1-A6 drafted ≠ independent approval or integrated blueprint approval",
     ),
     "docs/ARCHITECTURE_REFOUNDATION.md": (
-        "Blueprint content: A1-A5 DRAFTED / PROVISIONAL; A6-A10 NOT YET COMPLETE",
-        "Next bounded slice: A6 KNOWLEDGE LIFECYCLE",
-        "→ A5 Identity / Time / Change                   DRAFTED / PROVISIONAL",
-        "→ A6 Knowledge Lifecycle                       NEXT BOUNDED SLICE",
+        "Blueprint content: A1-A6 DRAFTED / PROVISIONAL; A7-A10 NOT YET COMPLETE",
+        "Next bounded slice: A7 CONFLICT, UNCERTAINTY, AND REVISION",
+        "→ A6 Knowledge Lifecycle                        DRAFTED / PROVISIONAL",
+        "→ A7 Conflict / Uncertainty / Revision          NEXT BOUNDED SLICE",
     ),
     "docs/ARCHITECTURE_REFOUNDATION.ru.md": (
-        "Blueprint content: A1-A5 DRAFTED / PROVISIONAL; A6-A10 NOT YET COMPLETE",
-        "Next bounded slice: A6 KNOWLEDGE LIFECYCLE",
-        "→ A5 Identity / Time / Change                   DRAFTED / PROVISIONAL",
-        "→ A6 Knowledge Lifecycle                       NEXT BOUNDED SLICE",
+        "Blueprint content: A1-A6 DRAFTED / PROVISIONAL; A7-A10 NOT YET COMPLETE",
+        "Next bounded slice: A7 CONFLICT, UNCERTAINTY, AND REVISION",
+        "→ A6 Knowledge Lifecycle                        DRAFTED / PROVISIONAL",
+        "→ A7 Conflict / Uncertainty / Revision          NEXT BOUNDED SLICE",
     ),
 }
 FORBIDDEN_BLUEPRINT_PROGRESS_MARKERS = (
@@ -169,6 +174,12 @@ FORBIDDEN_BLUEPRINT_PROGRESS_MARKERS = (
     "→ A5 Identity / Time / Change                   NEXT BOUNDED SLICE",
     "Blueprint content: A1-A4 DRAFTED / PROVISIONAL; A5-A10 NOT YET COMPLETE",
     "Next bounded slice: A5 IDENTITY / TIME / CHANGE",
+    "blueprint content: A1-A5 DRAFTED / PROVISIONAL",
+    "next content slice: A6 — Knowledge Lifecycle",
+    "A6 Knowledge Lifecycle                        NEXT BOUNDED SLICE",
+    "→ A6 Knowledge Lifecycle                       NEXT BOUNDED SLICE",
+    "Blueprint content: A1-A5 DRAFTED / PROVISIONAL; A6-A10 NOT YET COMPLETE",
+    "Next bounded slice: A6 KNOWLEDGE LIFECYCLE",
 )
 
 

@@ -1,7 +1,7 @@
 {
   "protocol": "nk-project-state/2",
-  "snapshot_id": "native-kernel/state/2026-08-10-a5-identity-time-change-draft",
-  "observed_at": "2026-08-10T10:18:08Z",
+  "snapshot_id": "native-kernel/state/2026-08-10-a6-knowledge-lifecycle-draft",
+  "observed_at": "2026-08-10T14:05:00Z",
   "repository": {
     "full_name": "velantrian/velantrim-native-kernel",
     "visibility": "PUBLIC",
@@ -87,13 +87,14 @@
           "A10_OPEN_QUESTIONS_AND_FALSIFICATION"
         ],
         "completion_requires_operator_review": true,
-        "next_content_slice": "A6_KNOWLEDGE_LIFECYCLE",
+        "next_content_slice": "A7_CONFLICT_UNCERTAINTY_AND_REVISION",
         "completed_deliverables": [
           "A1_KERNEL_PURPOSE_AND_NON_GOALS",
           "A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY",
           "A3_ABSTRACT_NATIVE_KERNEL_MACHINE",
           "A4_SEMANTIC_LAWS_AND_INVARIANTS",
-          "A5_IDENTITY_TIME_AND_CHANGE"
+          "A5_IDENTITY_TIME_AND_CHANGE",
+          "A6_KNOWLEDGE_LIFECYCLE"
         ]
       },
       "runtime_freeze_exceptions": [
@@ -223,6 +224,7 @@
     "Blueprint-first does not reject modern technologies; it classifies them as replaceable research instruments.",
     "A future-facing blueprint does not prove compatibility with arbitrary future substrates.",
     "A4 semantic laws are drafted and provisional; their count and content remain subject to independent and integrated A1-A10 review.",
-    "A5 identity/time/change is drafted and provisional; it does not supersede accepted encoding/Event/deletion contracts, prove cross-substrate identity, or authorize runtime expansion."
+    "A5 identity/time/change is drafted and provisional; it does not supersede accepted encoding/Event/deletion contracts, prove cross-substrate identity, or authorize runtime expansion.",
+    "A6 knowledge lifecycle is drafted and provisional; it does not authorize new Event verbs, decide reducer-v2 topology, expand deletion execution scope, or authorize runtime expansion."
   ]
 }
