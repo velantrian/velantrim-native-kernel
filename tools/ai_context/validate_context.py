@@ -36,6 +36,8 @@ REQUIRED_PATHS = (
     "docs/A5_IDENTITY_TIME_AND_CHANGE.ru.md",
     "docs/A6_KNOWLEDGE_LIFECYCLE.md",
     "docs/A6_KNOWLEDGE_LIFECYCLE.ru.md",
+    "docs/A7_CONFLICT_UNCERTAINTY_AND_REVISION.md",
+    "docs/A7_CONFLICT_UNCERTAINTY_AND_REVISION.ru.md",
     "docs/adr/0025-blueprint-before-runtime-expansion.md",
     "docs/ai/README.md",
     "docs/ai/CURRENT_STATE.md",
@@ -75,6 +77,8 @@ LINK_SCAN_PATHS = (
     "docs/A5_IDENTITY_TIME_AND_CHANGE.ru.md",
     "docs/A6_KNOWLEDGE_LIFECYCLE.md",
     "docs/A6_KNOWLEDGE_LIFECYCLE.ru.md",
+    "docs/A7_CONFLICT_UNCERTAINTY_AND_REVISION.md",
+    "docs/A7_CONFLICT_UNCERTAINTY_AND_REVISION.ru.md",
     "docs/adr/0025-blueprint-before-runtime-expansion.md",
     "docs/ai/README.md",
     "docs/ai/CURRENT_STATE.md",
@@ -113,8 +117,8 @@ REQUIRED_STATUS_MARKERS = (
     "Architecture Re-foundation: ACTIVE / BLUEPRINT-FIRST",
     "No new semantic/runtime expansion before blueprint gate completion.",
     "BOUNDED REFERENCE LABORATORY",
-    "blueprint content A1–A6 is `DRAFTED / PROVISIONAL`",
-    "next bounded content slice is `A7 — Conflict, Uncertainty, and Revision`",
+    "blueprint content A1–A7 is `DRAFTED / PROVISIONAL`",
+    "next bounded content slice is `A8 — Substrate-independence Contract`",
 )
 FORBIDDEN_STATUS_MARKERS = (
     "Notion remains synchronized only through the recorded publication checkpoint",
@@ -124,35 +128,36 @@ FORBIDDEN_STATUS_MARKERS = (
     "next bounded content slice is `A4 — Semantic Laws and Invariants`",
     "next bounded content slice is `A5 — Identity, Time, and Change`",
     "next bounded content slice is `A6 — Knowledge Lifecycle`",
+    "next bounded content slice is `A7 — Conflict, Uncertainty, and Revision`",
 )
 
 # Fail closed when machine progress and current human/AI surfaces diverge.
 BLUEPRINT_PROGRESS_SURFACES = {
     "STATUS.md": (
-        "blueprint content: A1-A6 DRAFTED / PROVISIONAL; A7-A10 INCOMPLETE",
-        "next content slice: A7 — CONFLICT, UNCERTAINTY, AND REVISION",
+        "blueprint content: A1-A7 DRAFTED / PROVISIONAL; A8-A10 INCOMPLETE",
+        "next content slice: A8 — SUBSTRATE-INDEPENDENCE CONTRACT",
     ),
     "docs/ai/README.md": (
-        "blueprint content: A1-A6 DRAFTED / PROVISIONAL",
-        "next content slice: A7 — Conflict, Uncertainty, and Revision",
-        "changing completed content away from exact A1+A2+A3+A4+A5+A6",
+        "blueprint content: A1-A7 DRAFTED / PROVISIONAL",
+        "next content slice: A8 — Substrate-independence Contract",
+        "changing completed content away from exact A1+A2+A3+A4+A5+A6+A7",
     ),
     "ROADMAP.md": (
-        "A1–A6 remain pending independent review and integrated blueprint review with A7–A10.",
-        "The next bounded content slice is `A7 — Conflict, Uncertainty, and Revision`.",
-        "A1-A6 drafted ≠ independent approval or integrated blueprint approval",
+        "A1–A7 remain pending independent review and integrated blueprint review with A8–A10.",
+        "The next bounded content slice is `A8 — Substrate-independence Contract`.",
+        "A1-A7 drafted ≠ independent approval or integrated blueprint approval",
     ),
     "docs/ARCHITECTURE_REFOUNDATION.md": (
-        "Blueprint content: A1-A6 DRAFTED / PROVISIONAL; A7-A10 NOT YET COMPLETE",
-        "Next bounded slice: A7 CONFLICT, UNCERTAINTY, AND REVISION",
-        "→ A6 Knowledge Lifecycle                        DRAFTED / PROVISIONAL",
-        "→ A7 Conflict / Uncertainty / Revision          NEXT BOUNDED SLICE",
+        "Blueprint content: A1-A7 DRAFTED / PROVISIONAL; A8-A10 NOT YET COMPLETE",
+        "Next bounded slice: A8 SUBSTRATE-INDEPENDENCE CONTRACT",
+        "→ A7 Conflict / Uncertainty / Revision          DRAFTED / PROVISIONAL",
+        "→ A8 Substrate-independence Contract            NEXT BOUNDED SLICE",
     ),
     "docs/ARCHITECTURE_REFOUNDATION.ru.md": (
-        "Blueprint content: A1-A6 DRAFTED / PROVISIONAL; A7-A10 NOT YET COMPLETE",
-        "Next bounded slice: A7 CONFLICT, UNCERTAINTY, AND REVISION",
-        "→ A6 Knowledge Lifecycle                        DRAFTED / PROVISIONAL",
-        "→ A7 Conflict / Uncertainty / Revision          NEXT BOUNDED SLICE",
+        "Blueprint content: A1-A7 DRAFTED / PROVISIONAL; A8-A10 NOT YET COMPLETE",
+        "Next bounded slice: A8 SUBSTRATE-INDEPENDENCE CONTRACT",
+        "→ A7 Conflict / Uncertainty / Revision          DRAFTED / PROVISIONAL",
+        "→ A8 Substrate-independence Contract            NEXT BOUNDED SLICE",
     ),
 }
 FORBIDDEN_BLUEPRINT_PROGRESS_MARKERS = (
@@ -180,6 +185,12 @@ FORBIDDEN_BLUEPRINT_PROGRESS_MARKERS = (
     "→ A6 Knowledge Lifecycle                       NEXT BOUNDED SLICE",
     "Blueprint content: A1-A5 DRAFTED / PROVISIONAL; A6-A10 NOT YET COMPLETE",
     "Next bounded slice: A6 KNOWLEDGE LIFECYCLE",
+    "blueprint content: A1-A6 DRAFTED / PROVISIONAL",
+    "next content slice: A7 — Conflict, Uncertainty, and Revision",
+    "A7 Conflict / Uncertainty / Revision          NEXT BOUNDED SLICE",
+    "→ A7 Conflict / Uncertainty / Revision          NEXT BOUNDED SLICE",
+    "Blueprint content: A1-A6 DRAFTED / PROVISIONAL; A7-A10 NOT YET COMPLETE",
+    "Next bounded slice: A7 CONFLICT, UNCERTAINTY, AND REVISION",
 )
 
 

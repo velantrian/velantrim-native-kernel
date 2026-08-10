@@ -18,10 +18,11 @@ This directory is the mandatory continuity surface for AI agents, auditors, and 
 12. [`../A4_SEMANTIC_LAWS_AND_INVARIANTS.md`](../A4_SEMANTIC_LAWS_AND_INVARIANTS.md) / [`RU`](../A4_SEMANTIC_LAWS_AND_INVARIANTS.ru.md)
 13. [`../A5_IDENTITY_TIME_AND_CHANGE.md`](../A5_IDENTITY_TIME_AND_CHANGE.md) / [`RU`](../A5_IDENTITY_TIME_AND_CHANGE.ru.md)
 14. [`../A6_KNOWLEDGE_LIFECYCLE.md`](../A6_KNOWLEDGE_LIFECYCLE.md) / [`RU`](../A6_KNOWLEDGE_LIFECYCLE.ru.md)
-15. [`ISSUE_RECONCILIATION.md`](ISSUE_RECONCILIATION.md)
-16. [`NOTION_HANDOFF.md`](NOTION_HANDOFF.md)
-17. affected Canon/contracts/ADRs/source/tests/workflows/evidence
-18. current GitHub and Notion state
+15. [`../A7_CONFLICT_UNCERTAINTY_AND_REVISION.md`](../A7_CONFLICT_UNCERTAINTY_AND_REVISION.md) / [`RU`](../A7_CONFLICT_UNCERTAINTY_AND_REVISION.ru.md)
+16. [`ISSUE_RECONCILIATION.md`](ISSUE_RECONCILIATION.md)
+17. [`NOTION_HANDOFF.md`](NOTION_HANDOFF.md)
+18. affected Canon/contracts/ADRs/source/tests/workflows/evidence
+19. current GitHub and Notion state
 
 Do not begin with random code search or historical handoffs before resolving current truth.
 
@@ -44,52 +45,50 @@ ADR-0025: ACCEPTED / OPERATOR APPROVED
 Architecture Re-foundation: ACTIVE / BLUEPRINT-FIRST
 runtime expansion: FROZEN
 P1–C5 role: BOUNDED REFERENCE LABORATORY
-blueprint content: A1-A6 DRAFTED / PROVISIONAL
-next content slice: A7 — Conflict, Uncertainty, and Revision
+blueprint content: A1-A7 DRAFTED / PROVISIONAL
+next content slice: A8 — Substrate-independence Contract
 ```
 
-A1–A6 are drafted provisional architecture slices, not independent approval, integrated Canon, runtime evidence, or production authorization. The current candidate progression must remain exact; changing completed content away from exact A1+A2+A3+A4+A5+A6 must fail continuity validation.
+A1–A7 are drafted provisional architecture slices, not independent approval, integrated Canon, runtime evidence, or production authorization. The current candidate progression must remain exact; changing completed content away from exact A1+A2+A3+A4+A5+A6+A7 must fail continuity validation.
 
-## A6 continuity boundary
+## A7 continuity boundary
 
-A6 candidate model: `nk-knowledge-lifecycle/A6-draft-1`.
+A7 candidate model: `nk-conflict-uncertainty-revision/A7-draft-1`.
 
 ```text
-lifecycle is a labeled directed graph, not a linear pipeline
-lifecycle phase ≠ storage status column
-closure ≠ deletion of history
-one Event ≠ one lifecycle transition
-lifecycle order ≠ occurrence order ≠ causal order ≠ write-commit order
-lifecycle authority ≠ storage presence, retrieval rank, repetition, model confidence, recency, or usefulness
+Conflict ≠ necessarily Contradiction
+candidate tension ≠ established tension
+established tension ≠ resolved tension
+detection ≠ resolution
+resolution-for-scope ≠ objective truth
+uncertainty ≠ one universal confidence scalar
+confidence score ≠ Evidence
+newer ≠ more correct
+majority ≠ truth
+write order ≠ semantic precedence
+Unknown ≠ False
+Revision ≠ silent overwrite
 ```
 
-Lifecycle phases currently drafted:
+A7 has three independent axes:
 
 ```text
-ENCOUNTERED
-RETAINED
-POSITIONED
-EPISTEMICALLY_WEIGHED
-RELATIONALLY_INTEGRATED
-IN_TENSION
-REVISED_OR_SUPERSEDED
-DISPOSED
-ACCOUNTED
+tension kind
+≠ assessment status: CANDIDATE / ESTABLISHED / NOT_A_CONFLICT / UNRESOLVED_ASSESSMENT
+≠ resolution status: UNRESOLVED / DEFERRED / RESOLVED_FOR_SCOPE / REOPENED
 ```
 
-Each phase maps to one or more of A3's thirteen transition families; `DERIVE_BOUNDED_VIEW` and `SELECT_FOR_USE` are phase-referencing, not phase-changing. A6 also names three closure kinds extending A3's eight dispositions: `LOGICALLY_ERASED`, `PHYSICALLY_OR_CRYPTOGRAPHICALLY_ERASED`, `FORGOTTEN_OR_LOST`.
+The provisional taxonomy distinguishes technical and semantic tensions: `DUPLICATE_DELIVERY`, `WRITE_VERSION_RACE`, `DIVERGENT_HISTORY`, `SEMANTIC_CONTRADICTION`, `TEMPORAL_MISMATCH`, `SCOPE_MISMATCH`, `PROVENANCE_CONFLICT`, `MEASUREMENT_DISAGREEMENT`, `AUTHORITY_CONFLICT`, `POLICY_CONFLICT`, `EPISTEMIC_DISAGREEMENT`, `PROJECTION_DRIFT`, and `UNCLASSIFIED_TENSION`.
 
-The draft deliberately reconciles rather than silently supersedes existing accepted/versioned contracts:
+A7 uses meaning-level `UNCERTAINTY_POSITION`, `TENSION_POSITION`, and `EPISTEMIC_REVISION` patterns. They are not required physical objects, Event verbs, reducers, rows, graph nodes, or numeric confidence fields.
 
-```text
-A6 meaning-level lifecycle model
-        ↓
-illustrative, non-canonical P1–C5 Event-to-phase mapping
-        ↓
-existing ADMIT/LINK/UTILIZED/SUPERSEDED/ERASED as one current profile realization
-```
+Uncertainty may be typed as Evidence/provenance/Context/temporal/identity/interpretation/Authority/capability/dependency/measurement gaps. There is no universal uncertainty-combination algebra. Copied Evidence does not become independent Evidence; missing Evidence is not negative Evidence.
 
-`global_seq`/`stream_seq` remain reference-laboratory ordering mechanisms, not `LIFECYCLE_TRANSITION_ORDER` itself. The illustrative P1–C5 mapping authorizes no new Event verbs and decides no `Issue #74 / ADR-0024` question.
+A7 permits long-lived `UNRESOLVED`, explicit `DEFERRED`, scoped `RESOLVED_FOR_SCOPE`, and `REOPENED` history. It distinguishes detection Authority/method from resolution Authority, epistemic-assessment Authority, operational-disposition Authority, and architecture/governance Authority.
+
+A7 refines accepted `NK-CFL` but does not accept proposed ADR-0003. `CONFLICT_OPENED`, `CONFLICT_REVIEWED`, `CONFLICT_RESOLVED`, and `CONFLICT_REOPENED` remain unauthorized Event verbs. Issue #74 / ADR-0024 remains `PROPOSED / PENDING_OPERATOR`; A7 does not decide Supersession topology or reducer-v2 migration.
+
+A7 leaves A6's nine lifecycle phases unchanged. `IN_TENSION` can remain unresolved indefinitely; scoped resolution without semantic revision need not imply `REVISED_OR_SUPERSEDED`; actual revision/supersession must preserve A5 lineage.
 
 ## Active sequence
 
@@ -100,8 +99,8 @@ A1 Purpose and Non-goals                         DRAFTED / PROVISIONAL
 → A4 Semantic Laws and Invariants               DRAFTED / PROVISIONAL
 → A5 Identity / Time / Change                   DRAFTED / PROVISIONAL
 → A6 Knowledge Lifecycle                        DRAFTED / PROVISIONAL
-→ A7 Conflict / Uncertainty / Revision          NEXT BOUNDED SLICE
-→ A8 Substrate-independence Contract
+→ A7 Conflict / Uncertainty / Revision          DRAFTED / PROVISIONAL
+→ A8 Substrate-independence Contract            NEXT BOUNDED SLICE
 → A9 Reference Laboratory Boundary
 → A10 Open Questions / Falsification
 → integrated blueprint review
@@ -115,10 +114,11 @@ No new semantic/runtime expansion before blueprint gate completion.
 ```text
 Issue #18: PENDING_OPERATOR — no license/publication selection
 Issue #74 / ADR-0024: PROPOSED / PENDING_OPERATOR — reducer v1 immutable; reducer-v2 unauthorized
+ADR-0003: PROPOSED / NOT_STARTED — A7 does not accept its proposed runtime/Event lifecycle
 Track H source admission: operator-controlled
 ```
 
-Architecture research does not silently decide these boundaries. Issue #14/#15/#16 retain their existing versioned contract and remaining evidence scopes.
+Architecture research does not silently decide these boundaries. Issue #14/#15/#16/#17 retain their existing versioned contract/conformance and remaining evidence scopes.
 
 ## Track boundary
 
@@ -167,6 +167,7 @@ DRAFTED BLUEPRINT CONTENT
   ../A4_SEMANTIC_LAWS_AND_INVARIANTS.md
   ../A5_IDENTITY_TIME_AND_CHANGE.md
   ../A6_KNOWLEDGE_LIFECYCLE.md
+  ../A7_CONFLICT_UNCERTAINTY_AND_REVISION.md
   plus Russian counterparts
 ```
 
@@ -194,6 +195,7 @@ python tools/ai_context/validate_context.py --repo .
 python tools/docs/validate_bilingual_parity.py --repo .
 python -m unittest discover -s tests -p 'test_a5_identity_time_change.py' -v
 python -m unittest discover -s tests -p 'test_a6_knowledge_lifecycle.py' -v
+python -m unittest discover -s tests -p 'test_a7_conflict_uncertainty_revision.py' -v
 ```
 
-A6 drafting does not change runtime, evidence identities, assertion arithmetic, NK-EPI, maturity, or production status.
+A7 drafting does not change runtime, evidence identities, assertion arithmetic, NK-EPI, maturity, or production status.

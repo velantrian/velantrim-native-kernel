@@ -89,8 +89,8 @@ class ArchitectureFreezeTests(unittest.TestCase):
     def test_next_content_slice_must_not_be_completed(self) -> None:
         state = copy.deepcopy(self.state)
         refoundation = state["tracks"]["long_horizon_research"]["architecture_refoundation"]
-        refoundation["completed_deliverables"].append("A7_CONFLICT_UNCERTAINTY_AND_REVISION")
-        module.EXPECTED_COMPLETED_DELIVERABLES.append("A7_CONFLICT_UNCERTAINTY_AND_REVISION")
+        refoundation["completed_deliverables"].append("A8_SUBSTRATE_INDEPENDENCE_CONTRACT")
+        module.EXPECTED_COMPLETED_DELIVERABLES.append("A8_SUBSTRATE_INDEPENDENCE_CONTRACT")
         try:
             with self.assertRaisesRegex(module.ArchitectureFreezeError, "must not already be marked completed"):
                 self.validate(state)
@@ -98,21 +98,21 @@ class ArchitectureFreezeTests(unittest.TestCase):
             module.EXPECTED_COMPLETED_DELIVERABLES.pop()
 
     def test_completed_deliverable_document_must_exist(self) -> None:
-        original = module.COMPLETED_DELIVERABLE_DOCS["A5_IDENTITY_TIME_AND_CHANGE"]
-        module.COMPLETED_DELIVERABLE_DOCS["A5_IDENTITY_TIME_AND_CHANGE"] = ("docs/DOES_NOT_EXIST.md",)
+        original = module.COMPLETED_DELIVERABLE_DOCS["A7_CONFLICT_UNCERTAINTY_AND_REVISION"]
+        module.COMPLETED_DELIVERABLE_DOCS["A7_CONFLICT_UNCERTAINTY_AND_REVISION"] = ("docs/DOES_NOT_EXIST.md",)
         try:
             with self.assertRaisesRegex(module.ArchitectureFreezeError, "missing completed deliverable document"):
                 self.validate()
         finally:
-            module.COMPLETED_DELIVERABLE_DOCS["A5_IDENTITY_TIME_AND_CHANGE"] = original
+            module.COMPLETED_DELIVERABLE_DOCS["A7_CONFLICT_UNCERTAINTY_AND_REVISION"] = original
 
     def test_completed_deliverable_document_mapping_must_exist(self) -> None:
-        original = module.COMPLETED_DELIVERABLE_DOCS.pop("A5_IDENTITY_TIME_AND_CHANGE")
+        original = module.COMPLETED_DELIVERABLE_DOCS.pop("A7_CONFLICT_UNCERTAINTY_AND_REVISION")
         try:
             with self.assertRaisesRegex(module.ArchitectureFreezeError, "missing completed deliverable document mapping"):
                 self.validate()
         finally:
-            module.COMPLETED_DELIVERABLE_DOCS["A5_IDENTITY_TIME_AND_CHANGE"] = original
+            module.COMPLETED_DELIVERABLE_DOCS["A7_CONFLICT_UNCERTAINTY_AND_REVISION"] = original
 
     def test_issue_88_must_remain_open_and_verified(self) -> None:
         state = copy.deepcopy(self.state)
