@@ -23,7 +23,7 @@ class A10OpenQuestionsFalsificationTests(unittest.TestCase):
         cls.registry = json.loads(REGISTRY_PATH.read_text(encoding="utf-8"))
         cls.workflow = WORKFLOW_PATH.read_text(encoding="utf-8")
 
-    def test_documents_define_model_and_integrated_review_next(self) -> None:
+    def test_documents_preserve_a10_first_draft_identity(self) -> None:
         for markdown in (self.en, self.ru):
             self.assertIn("nk-open-questions-falsification/A10-draft-1", markdown)
             self.assertIn("DRAFTED / PROVISIONAL", markdown)
@@ -79,7 +79,7 @@ class A10OpenQuestionsFalsificationTests(unittest.TestCase):
             self.assertIn("45/10/17/0", markdown)
             self.assertIn("0/0/8/0", markdown)
 
-    def test_project_state_marks_all_a1_a10_drafted_and_review_next(self) -> None:
+    def test_machine_state_preserves_a10_and_moves_to_operator_gate(self) -> None:
         refoundation = self.state["tracks"]["long_horizon_research"]["architecture_refoundation"]
         expected = [
             "A1_KERNEL_PURPOSE_AND_NON_GOALS",
@@ -94,7 +94,7 @@ class A10OpenQuestionsFalsificationTests(unittest.TestCase):
             "A10_OPEN_QUESTIONS_AND_FALSIFICATION",
         ]
         self.assertEqual(expected, refoundation["completed_deliverables"])
-        self.assertEqual("INTEGRATED_A1_A10_REVIEW", refoundation["next_content_slice"])
+        self.assertEqual("OPERATOR_POST_BLUEPRINT_DECISION", refoundation["next_content_slice"])
         self.assertTrue(refoundation["runtime_expansion_frozen"])
         self.assertEqual("BOUNDED_REFERENCE_LABORATORY", self.state["tracks"]["clean_implementation"]["architecture_role"])
         self.assertFalse(self.state["status"]["production_authorized"])
