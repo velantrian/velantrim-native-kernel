@@ -99,13 +99,17 @@ profile-specific
 
 P4/C4/C5 remain useful measurement/falsification instruments; C5 remains synthetic bounded operational evidence, not production or independent-custody evidence.
 
-**First-draft completion test:** satisfied for the principal P1–C5 mechanisms. A reviewer can identify the A1–A8 obligation exercised, A9 role, actual proof boundary, non-proof boundary, and whether replacement of the mechanism would necessarily alter Native Kernel meaning. Final acceptance still requires independent review, A10, integrated review and a separate operator decision.
+**First-draft completion test:** satisfied for the principal P1–C5 mechanisms. A reviewer can identify the A1–A8 obligation exercised, A9 role, actual proof boundary, non-proof boundary, and whether replacement of the mechanism would necessarily alter Native Kernel meaning.
 
 ### A10 — Open Questions and Falsification Criteria
 
-**Status:** `NEXT BOUNDED SLICE`.
+**Status:** `DRAFTED / PROVISIONAL` — [EN](./A10_OPEN_QUESTIONS_AND_FALSIFICATION.md) / [RU](./A10_OPEN_QUESTIONS_AND_FALSIFICATION.ru.md). Candidate `nk-open-questions-falsification/A10-draft-1`.
 
-Record unresolved architecture questions and evidence that would weaken/refute major hypotheses, including cross-substrate equivalence limits, minimum history/accountability equivalents, analog/neuromorphic continuity, forgetting without forbidden retention, and unresolved conformance boundaries.
+A10 records major unproved hypotheses, falsifiers, weakening conditions, open questions, evidence-independence dimensions, contrasting substrate thought experiments and stop conditions. It distinguishes `SUPPORTED_FOR_SCOPE`, `WEAKENED`, `REFUTED`, `INDETERMINATE`, and `NOT_TESTED`; these are research outcomes rather than replacements for P4 or A8 states.
+
+A10 explicitly covers minimum non-event-sourced history/accountability, reconstruction without exact replay, lossy identity continuity, independent-language evidence thresholds, analog/neuromorphic persistence, probabilistic conformance, forgetting/physical-deletion observability, bounded-memory auditability, decentralized Authority, non-classical computation and evidence independence.
+
+**First-draft completion test:** satisfied as a falsification/open-question inventory. It does not prove the hypotheses. Final acceptance still requires integrated A1–A10 review and a separate operator decision.
 
 ## 4. Work sequence
 
@@ -119,12 +123,12 @@ A1 Purpose and Non-goals                         DRAFTED / PROVISIONAL
 → A7 Conflict / Uncertainty / Revision          DRAFTED / PROVISIONAL
 → A8 Substrate-independence Contract            DRAFTED / PROVISIONAL
 → A9 Reference Laboratory Boundary              DRAFTED / PROVISIONAL
-→ A10 Open Questions and Falsification           NEXT BOUNDED SLICE
-→ integrated blueprint review
+→ A10 Open Questions and Falsification           DRAFTED / PROVISIONAL
+→ integrated A1-A10 review                     NEXT GATE
 → separate operator decision before runtime expansion
 ```
 
-Later slices may refine earlier drafts only explicitly; they may not silently redefine them.
+Later review may refine earlier drafts only explicitly; it may not silently redefine them.
 
 ## 5. Research method
 
@@ -140,30 +144,31 @@ Not authorized without a separate operator decision: new semantic runtime featur
 
 ## 7. Relationship to existing contracts and pending decisions
 
-A9 does not change ADR statuses or historical evidence. Issue #14/#15/#16/#17 retain their existing scopes. Issue #18 remains operator-controlled for license/publication. Issue #74 / ADR-0024 remains `PROPOSED / PENDING_OPERATOR`; reducer v1 stays immutable and reducer-v2 unauthorized. ADR-0003 remains `PROPOSED / NOT_STARTED`. Track H source admission remains operator-controlled.
+A10 does not change ADR statuses or historical evidence. Issue #14/#15/#16/#17 retain their existing scopes. Issue #18 remains operator-controlled for license/publication. Issue #74 / ADR-0024 remains `PROPOSED / PENDING_OPERATOR`; reducer v1 stays immutable and reducer-v2 unauthorized. ADR-0003 remains `PROPOSED / NOT_STARTED`. Track H source admission remains operator-controlled.
 
 ```text
-A1-A9 blueprint obligations/classification
-→ A10 open questions / falsification
-→ integrated review
+A1-A10 drafted blueprint
+→ integrated A1-A10 review
 → existing contracts reconciled within declared scope
+→ separate operator decision
 ≠ silent retroactive rewrite
+≠ automatic runtime thaw
 ```
 
 ## 8. Blueprint completion gate
 
-The blueprint is not complete merely because documents exist. Blueprint completion gate requires all A1–A10 deliverables, terminology reconciliation, explicit contradictions/unknowns, labelled implementation assumptions, falsification criteria, existing-contract mapping, contrasting substrate thought experiments, critical review, integrated review and a separate operator decision for any next phase.
+The blueprint is not complete merely because documents exist. Draft inventory completion now has all A1–A10 deliverables, but blueprint acceptance still requires terminology reconciliation, explicit contradictions/unknowns, labelled implementation assumptions, falsification coverage, existing-contract mapping, contrasting substrate thought experiments, critical integrated review and a separate operator decision for any next phase.
 
 ## 9. Current progress
 
 ```text
 Architecture Re-foundation decision: established by ADR-0025
 Blueprint plan: this document
-Blueprint content: A1-A9 DRAFTED / PROVISIONAL; A10 NOT YET COMPLETE
-Next bounded slice: A10 OPEN QUESTIONS AND FALSIFICATION
+Blueprint content: A1-A10 DRAFTED / PROVISIONAL
+Next bounded gate: INTEGRATED_A1_A10_REVIEW
 Runtime expansion: FROZEN
 Existing P1–C5 laboratory: PRESERVED / BOUNDED
 Production authorization: false
 ```
 
-A1–A9 drafting does not establish independent approval, integrated Canon, runtime implementation, arbitrary future-substrate support, or production readiness.
+A1–A10 drafting does not establish independent approval, integrated Canon, runtime implementation, arbitrary future-substrate support, or production readiness.
