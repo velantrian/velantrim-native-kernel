@@ -104,11 +104,11 @@ class A9ReferenceLaboratoryBoundaryTests(unittest.TestCase):
             ):
                 self.assertIn(literal, markdown)
 
-    def test_project_state_preserves_a9_after_a10(self) -> None:
+    def test_project_state_preserves_a9_after_integrated_review(self) -> None:
         refoundation = self.state["tracks"]["long_horizon_research"]["architecture_refoundation"]
         self.assertIn("A9_REFERENCE_LABORATORY_BOUNDARY", refoundation["completed_deliverables"])
         self.assertIn("A10_OPEN_QUESTIONS_AND_FALSIFICATION", refoundation["completed_deliverables"])
-        self.assertEqual("INTEGRATED_A1_A10_REVIEW", refoundation["next_content_slice"])
+        self.assertEqual("OPERATOR_POST_BLUEPRINT_DECISION", refoundation["next_content_slice"])
         self.assertTrue(refoundation["runtime_expansion_frozen"])
         self.assertEqual("BOUNDED_REFERENCE_LABORATORY", self.state["tracks"]["clean_implementation"]["architecture_role"])
         self.assertFalse(self.state["status"]["production_authorized"])

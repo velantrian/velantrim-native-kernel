@@ -4,171 +4,100 @@
 
 > **State:** `ACTIVE / BLUEPRINT-FIRST / RUNTIME EXPANSION FROZEN`  
 > **Decision:** [`ADR-0025`](./adr/0025-blueprint-before-runtime-expansion.md)  
-> **Issue:** [#88](https://github.com/velantrian/velantrim-native-kernel/issues/88)  
-> **Граница evidence:** только architecture research/governance; без runtime, evidence, maturity или production promotion
+> **Issue:** [#88](https://github.com/velantrian/velantrim-native-kernel/issues/88)
 
 ## 1. Зачем нужна эта фаза
 
-Native Kernel должен сохранять meaning, memory, knowledge, provenance, uncertainty, Change и accountability независимо от одного current technology stack. Существующая линия **Python + PostgreSQL + SQLite** сохраняется как bounded reference laboratory, но не становится permanent Canon только потому, что появилась первой.
+Native Kernel исследует technology-neutral architecture для meaning, memory, knowledge, provenance, uncertainty, change и accountability. Существующая линия **Python + PostgreSQL + SQLite** сохраняется как bounded reference laboratory, а не становится Canon только потому, что появилась первой.
 
 ```text
-meaning / ontology / laws
-        ↓
-abstract Kernel machine
-        ↓
-identity / time / lifecycle / conflict models
-        ↓
-substrate-independence contract
-        ↓
-reference-laboratory boundary
-        ↓
-open questions / falsification
-        ↓
-integrated review + separate operator decision
-```
-
-## 2. Граница фазы
-
-Этой фазе принадлежат ontology, semantic laws, abstract-machine obligations, identity/time/change, lifecycle, conflict/uncertainty/revision, substrate-independent obligations, mapping reference profiles, explicit unknowns и falsification criteria.
-
-Ей не принадлежат new reducer, Event vocabulary, database, language port, LLM/vector adapter, product integration, performance-driven semantic change, production deployment или proof, что arbitrary future substrates уже conform.
-
-## 3. Обязательные deliverables
-
-### A1 — Purpose и Non-goals Kernel
-**Status:** `DRAFTED / PROVISIONAL` — [RU](./A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md) / [EN](./A1_KERNEL_PURPOSE_AND_NON_GOALS.md).
-
-### A2 — Knowledge and Memory Ontology
-**Status:** `DRAFTED / PROVISIONAL` — [RU](./A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md) / [EN](./A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md).
-
-### A3 — Абстрактная машина Native Kernel
-**Status:** `DRAFTED / PROVISIONAL` — [RU](./A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md) / [EN](./A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md).
-
-### A4 — Semantic Laws and Invariants
-**Status:** `DRAFTED / PROVISIONAL` — [RU](./A4_SEMANTIC_LAWS_AND_INVARIANTS.ru.md) / [EN](./A4_SEMANTIC_LAWS_AND_INVARIANTS.md). Candidate `nk-semantic-laws/A4-draft-1` содержит 28 provisional laws.
-
-### A5 — Модель Identity, Time и Change
-**Status:** `DRAFTED / PROVISIONAL` — [RU](./A5_IDENTITY_TIME_AND_CHANGE.ru.md) / [EN](./A5_IDENTITY_TIME_AND_CHANGE.md). Candidate `nk-identity-time-change/A5-draft-1`.
-
-### A6 — Knowledge Lifecycle
-**Status:** `DRAFTED / PROVISIONAL` — [RU](./A6_KNOWLEDGE_LIFECYCLE.ru.md) / [EN](./A6_KNOWLEDGE_LIFECYCLE.md). Candidate `nk-knowledge-lifecycle/A6-draft-1`.
-
-### A7 — Conflict, Uncertainty и Revision Model
-**Status:** `DRAFTED / PROVISIONAL` — [RU](./A7_CONFLICT_UNCERTAINTY_AND_REVISION.ru.md) / [EN](./A7_CONFLICT_UNCERTAINTY_AND_REVISION.md). Candidate `nk-conflict-uncertainty-revision/A7-draft-1`.
-
-### A8 — Substrate-independence Contract
-**Status:** `DRAFTED / PROVISIONAL` — [RU](./A8_SUBSTRATE_INDEPENDENCE_CONTRACT.ru.md) / [EN](./A8_SUBSTRATE_INDEPENDENCE_CONTRACT.md). Candidate `nk-substrate-independence/A8-draft-1` определяет сохранение meaning-level obligations, а не physical sameness. `substrate-independent specification ≠ universal portability proof`.
-
-### A9 — Граница Reference Laboratory
-
-**Status:** `DRAFTED / PROVISIONAL` — [RU](./A9_REFERENCE_LABORATORY_BOUNDARY.ru.md) / [EN](./A9_REFERENCE_LABORATORY_BOUNDARY.md). Candidate `nk-reference-laboratory-boundary/A9-draft-1`.
-
-A9 классифицирует P1–C5 mechanisms относительно A1–A8 через шесть scoped roles:
-
-```text
-ARCHITECTURE_PRESERVING_EVIDENCE
-PROFILE_SPECIFIC_REALIZATION
-PARTIAL_ARCHITECTURE_COVERAGE
-FALSIFICATION_INSTRUMENT
-LABORATORY_ONLY_CONSTRAINT
-NOT_ARCHITECTURE_EVIDENCE
-```
-
-Один mechanism может иметь несколько roles. Current Python/PostgreSQL/SQLite/Event/reducer/Receipt/hash/sequence/CI mechanisms сохраняют validity внутри accepted versioned laboratory contracts, не становясь universal Canon.
-
-P5/C3 — реальное, но узкое evidence replaceable storage-profile realization внутри общей Python/conventional-digital lineage:
-
-```text
-PostgreSQL ↔ SQLite C3
-= useful cross-profile evidence
-≠ independent-language equivalence
-≠ independent-computation-model equivalence
-≠ arbitrary-substrate portability proof
-```
-
-A9 также устанавливает preservation rule:
-
-```text
-profile-specific
-→ label correctly
-→ preserve reproducibility
-→ keep evidence lineage
-→ prevent silent Canon promotion
-≠ delete or rewrite automatically
-```
-
-P4/C4/C5 остаются полезными measurement/falsification instruments; C5 остаётся synthetic bounded operational evidence, а не production или independent-custody evidence.
-
-**First-draft completion test:** выполнен для principal P1–C5 mechanisms. Reviewer может определить A1–A8 obligation, A9 role, actual proof boundary, non-proof boundary и понять, обязана ли замена mechanism изменить meaning Native Kernel.
-
-### A10 — Open Questions и Falsification Criteria
-
-**Status:** `DRAFTED / PROVISIONAL` — [RU](./A10_OPEN_QUESTIONS_AND_FALSIFICATION.ru.md) / [EN](./A10_OPEN_QUESTIONS_AND_FALSIFICATION.md). Candidate `nk-open-questions-falsification/A10-draft-1`.
-
-A10 фиксирует major unproved hypotheses, falsifiers, weakening conditions, open questions, evidence-independence dimensions, contrasting substrate thought experiments и stop conditions. Он различает `SUPPORTED_FOR_SCOPE`, `WEAKENED`, `REFUTED`, `INDETERMINATE`, `NOT_TESTED`; это research outcomes, а не замена P4/A8 states.
-
-A10 явно включает minimum non-event-sourced history/accountability, reconstruction без exact replay, lossy identity continuity, independent-language evidence thresholds, analog/neuromorphic persistence, probabilistic conformance, forgetting/physical-deletion observability, bounded-memory auditability, decentralized Authority, non-classical computation и evidence independence.
-
-**First-draft completion test:** выполнен как falsification/open-question inventory. Гипотезы этим не доказаны. Final acceptance всё ещё требует integrated A1–A10 review и отдельного operator decision.
-
-## 4. Последовательность работы
-
-```text
-A1 Purpose and Non-goals                         DRAFTED / PROVISIONAL
-→ A2 Ontology                                   DRAFTED / PROVISIONAL
-→ A3 Abstract Machine                           DRAFTED / PROVISIONAL
-→ A4 Semantic Laws                              DRAFTED / PROVISIONAL
-→ A5 Identity / Time / Change                   DRAFTED / PROVISIONAL
-→ A6 Knowledge Lifecycle                        DRAFTED / PROVISIONAL
-→ A7 Conflict / Uncertainty / Revision          DRAFTED / PROVISIONAL
-→ A8 Substrate-independence Contract            DRAFTED / PROVISIONAL
-→ A9 Reference Laboratory Boundary              DRAFTED / PROVISIONAL
-→ A10 Open Questions and Falsification           DRAFTED / PROVISIONAL
-→ integrated A1-A10 review                     NEXT GATE
-→ separate operator decision before runtime expansion
-```
-
-Later review может refine earlier drafts только явно; он не может silently redefine их.
-
-## 5. Research method
-
-Каждый deliverable должен содержать definitions, non-equivalences, candidate formal model, counterexamples/failure cases, unresolved questions, mapping к existing contracts/runtime, contrasting substrate mappings, review status и evidence boundary.
-
-Sources, papers, existing systems и AI analysis являются inputs и не становятся Canon автоматически.
-
-## 6. Runtime freeze policy
-
-Разрешены architecture research; integrity/security/reproducibility/provenance repair; evidence preservation; current-truth/validator repair; historical recovery; isolated falsification experiments без runtime promotion.
-
-Не разрешены без separate operator decision: new semantic runtime features, reducer v2, new Event vocabulary, new databases/language profiles/model adapters/ecosystem integrations, executable NK-EPI/Temporal/full Admission, operational deletion expansion, maturity promotion или production authorization.
-
-## 7. Связь с existing contracts и pending decisions
-
-A10 не меняет ADR statuses или historical evidence. Issue #14/#15/#16/#17 сохраняют existing scopes. Issue #18 остаётся operator-controlled для license/publication. Issue #74 / ADR-0024 остаётся `PROPOSED / PENDING_OPERATOR`; reducer v1 immutable, reducer-v2 unauthorized. ADR-0003 остаётся `PROPOSED / NOT_STARTED`. Track H source admission остаётся operator-controlled.
-
-```text
-A1-A10 drafted blueprint
+A1 purpose / non-goals
+→ A2 ontology
+→ A3 abstract machine
+→ A4 semantic laws
+→ A5 identity / time / change
+→ A6 lifecycle
+→ A7 conflict / uncertainty / revision
+→ A8 substrate-independence
+→ A9 reference-laboratory boundary
+→ A10 open questions / falsification
 → integrated A1-A10 review
-→ existing contracts reconciled within declared scope
-→ separate operator decision
-≠ silent retroactive rewrite
-≠ automatic runtime thaw
+→ operator post-blueprint decision
+```
+
+## 2. Draft inventory
+
+Все десять required blueprint slices существуют и остаются `DRAFTED / PROVISIONAL`. A10 сохраняет model identity `nk-open-questions-falsification/A10-draft-1`.
+
+1. [A1 RU](./A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md) / [EN](./A1_KERNEL_PURPOSE_AND_NON_GOALS.md)
+2. [A2 RU](./A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md) / [EN](./A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md)
+3. [A3 RU](./A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md) / [EN](./A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md)
+4. [A4 RU](./A4_SEMANTIC_LAWS_AND_INVARIANTS.ru.md) / [EN](./A4_SEMANTIC_LAWS_AND_INVARIANTS.md)
+5. [A5 RU](./A5_IDENTITY_TIME_AND_CHANGE.ru.md) / [EN](./A5_IDENTITY_TIME_AND_CHANGE.md)
+6. [A6 RU](./A6_KNOWLEDGE_LIFECYCLE.ru.md) / [EN](./A6_KNOWLEDGE_LIFECYCLE.md)
+7. [A7 RU](./A7_CONFLICT_UNCERTAINTY_AND_REVISION.ru.md) / [EN](./A7_CONFLICT_UNCERTAINTY_AND_REVISION.md)
+8. [A8 RU](./A8_SUBSTRATE_INDEPENDENCE_CONTRACT.ru.md) / [EN](./A8_SUBSTRATE_INDEPENDENCE_CONTRACT.md)
+9. [A9 RU](./A9_REFERENCE_LABORATORY_BOUNDARY.ru.md) / [EN](./A9_REFERENCE_LABORATORY_BOUNDARY.md)
+10. [A10 RU](./A10_OPEN_QUESTIONS_AND_FALSIFICATION.ru.md) / [EN](./A10_OPEN_QUESTIONS_AND_FALSIFICATION.md)
+
+## 3. Integrated review
+
+Первый integrated review записан как:
+
+- [Integrated A1–A10 Review RU](./INTEGRATED_A1_A10_REVIEW.ru.md)
+- [English review](./INTEGRATED_A1_A10_REVIEW.md)
+- completed gate identity: `INTEGRATED_A1_A10_REVIEW`
+- review identity: `nk-integrated-blueprint-review/A1-A10-review-1`
+- state: `COMPLETED / PROVISIONAL / OPERATOR_DECISION_PENDING`
+
+Review явно reconciles семь cross-slice findings вместо silent rewrite draft history. Ключевые current provisional interpretations:
+
+```text
+PHYSICALLY_ERASED ≠ CRYPTOGRAPHICALLY_ERASED
+FORGOTTEN_OR_LOST не требует deliberate erasure method
+A1 confidence wording → uncertainty + epistemic position
+A10 outcome protocol = ровно пять declared outcomes
+Conflict ≠ necessarily Contradiction
+A6 lifecycle positions ≠ mandatory pipeline stages
+```
+
+После этих explicit reconciliation decisions review не нашёл remaining known blocking internal semantic contradiction в этом pass. Это не independent validation.
+
+## 4. Граница Reference Laboratory
+
+P1–C5 остаётся `BOUNDED_REFERENCE_LABORATORY`. Python, PostgreSQL, SQLite, SQL, JSON, SHA-256, current Event/reducer/Receipt/sequence mechanisms, CI и evidence packaging остаются profile/laboratory mechanisms, если separate architecture decision не установит иное.
+
+```text
+useful implementation evidence ≠ architecture requirement
+PostgreSQL ↔ SQLite C3 ≠ independent-language equivalence
+substrate-independent specification ≠ universal portability proof
+```
+
+## 5. Runtime freeze
+
+При freeze разрешены architecture research; integrity/security/reproducibility/provenance fixes; evidence preservation; truth/validator repair; historical recovery; isolated falsification experiments без runtime promotion.
+
+Автоматически не разрешены reducer-v2, new semantic Event verbs, new databases/language profiles/model adapters/integrations, executable NK-EPI/Temporal/full Admission, deletion execution expansion, maturity или production promotion.
+
+## 6. Pending operator-controlled decisions
+
+- Issue #18 license/publication: unchanged / operator-controlled.
+- Issue #74 / ADR-0024: `PROPOSED / PENDING_OPERATOR`; reducer-v2 unauthorized.
+- ADR-0003: `PROPOSED / NOT_STARTED`.
+- Track H source admission: operator-controlled.
+
+## 7. Current progress
+
+```text
+Blueprint content: A1-A10 DRAFTED / PROVISIONAL
+Integrated review: COMPLETED / PROVISIONAL / OPERATOR_DECISION_PENDING
+Next bounded gate: OPERATOR_POST_BLUEPRINT_DECISION
+Runtime expansion: FROZEN
+Existing P1–C5 laboratory: PRESERVED / BOUNDED
+Production authorization: false
+Independent architectural validation: NOT ESTABLISHED
 ```
 
 ## 8. Gate завершения blueprint
 
-Blueprint не завершён только из-за наличия документов. Draft inventory теперь содержит все A1–A10 deliverables, но blueprint acceptance по-прежнему требует terminology reconciliation, explicit contradictions/unknowns, labelled implementation assumptions, falsification coverage, existing-contract mapping, contrasting substrate thought experiments, critical integrated review и separate operator decision для любой next phase.
-
-## 9. Текущий прогресс
-
-```text
-Architecture Re-foundation decision: established by ADR-0025
-Blueprint plan: this document
-Blueprint content: A1-A10 DRAFTED / PROVISIONAL
-Next bounded gate: INTEGRATED_A1_A10_REVIEW
-Runtime expansion: FROZEN
-Existing P1–C5 laboratory: PRESERVED / BOUNDED
-Production authorization: false
-```
-
-Drafting A1–A10 не устанавливает independent approval, integrated Canon, runtime implementation, arbitrary future-substrate support или production readiness.
+Draft inventory и первый integrated review complete как provisional architecture work. Acceptance всё ещё не automatic: `OPERATOR_POST_BLUEPRINT_DECISION` — следующий gate, а не A11 и не runtime permission. Integrated review не выбирает следующую фазу.

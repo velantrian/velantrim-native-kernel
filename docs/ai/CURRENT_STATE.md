@@ -31,6 +31,8 @@ operational_validation:     C5_BOUNDED_REHEARSAL
 production_authorized:      false
 assertion map: 45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED / 0 FAILED
 NK-EPI:        0 SUPPORTED / 0 PARTIAL / 8 UNSUPPORTED / 0 FAILED
+runtime expansion: FROZEN
+P1-C5: BOUNDED REFERENCE LABORATORY
 ```
 
 ```text
@@ -41,84 +43,55 @@ public repository ≠ open-source license
 ```
 
 No AI agent may select the license or accept ADR-0024 for the operator.
+The later Notion synchronization checkpoint does not rewrite or replace the earlier publication checkpoint. The repository-committed Notion synchronization checkpoint remains `70acd0da61fee19131947aa56125833adb156ced`.
 
-The later Notion synchronization checkpoint does not rewrite or replace the earlier publication checkpoint. The repository-committed Notion synchronization checkpoint remains `70acd0da61fee19131947aa56125833adb156ced` from PR #86.
-
-## Active architecture priority
+## Architecture state
 
 ```text
 Architecture Re-foundation: ACTIVE / BLUEPRINT-FIRST
-No new semantic/runtime expansion before blueprint gate completion.
+No new semantic/runtime expansion before a separate operator decision.
 BOUNDED REFERENCE LABORATORY
+blueprint content A1–A10 is `DRAFTED / PROVISIONAL`
+integrated review: COMPLETED / PROVISIONAL / OPERATOR_DECISION_PENDING
+next bounded gate is `OPERATOR_POST_BLUEPRINT_DECISION`
 ```
 
-The blueprint content A1–A10 is `DRAFTED / PROVISIONAL` and remains pending independent plus integrated A1–A10 review. The next bounded gate is `INTEGRATED_A1_A10_REVIEW`.
+Integrated review: [EN](../INTEGRATED_A1_A10_REVIEW.md) / [RU](../INTEGRATED_A1_A10_REVIEW.ru.md).  
+Identity: `nk-integrated-blueprint-review/A1-A10-review-1`.
 
-Required sequence:
+The review explicitly reconciles seven cross-slice findings. Current integrated semantics include four distinct closure meanings:
 
 ```text
-A1 Purpose and Non-goals                         DRAFTED / PROVISIONAL
-→ A2 Knowledge and Memory Ontology              DRAFTED / PROVISIONAL
-→ A3 Abstract Native Kernel Machine             DRAFTED / PROVISIONAL
-→ A4 Semantic Laws and Invariants               DRAFTED / PROVISIONAL
-→ A5 Identity / Time / Change                   DRAFTED / PROVISIONAL
-→ A6 Knowledge Lifecycle                        DRAFTED / PROVISIONAL
-→ A7 Conflict / Uncertainty / Revision          DRAFTED / PROVISIONAL
-→ A8 Substrate-independence Contract            DRAFTED / PROVISIONAL
-→ A9 Reference Laboratory Boundary              DRAFTED / PROVISIONAL
-→ A10 Open Questions and Falsification           DRAFTED / PROVISIONAL
-→ integrated A1-A10 review                     NEXT GATE
-→ separate operator decision before runtime expansion
+LOGICALLY_ERASED
+PHYSICALLY_ERASED
+CRYPTOGRAPHICALLY_ERASED
+FORGOTTEN_OR_LOST
 ```
 
-Drafted A10: [EN](../A10_OPEN_QUESTIONS_AND_FALSIFICATION.md) / [RU](../A10_OPEN_QUESTIONS_AND_FALSIFICATION.ru.md).
+`PHYSICALLY_ERASED ≠ CRYPTOGRAPHICALLY_ERASED`. `FORGOTTEN_OR_LOST` requires a scoped observation/assessment basis but not a deliberate erasure method. A1 “confidence attached” is interpreted through A7 as uncertainty + epistemic position, not a mandatory scalar. A10’s review outcome protocol has exactly five states: `SUPPORTED_FOR_SCOPE / WEAKENED / REFUTED / INDETERMINATE / NOT_TESTED`.
 
-## A10 candidate truth
+After these explicit reconciliations, this review pass found no known blocking internal semantic contradiction across A1–A10. Independent architectural validation remains **NOT ESTABLISHED**.
 
-`nk-open-questions-falsification/A10-draft-1` makes the remaining uncertainty explicit and falsifiable rather than promoting unknowns.
+## Runtime/operator boundary
+
+Not authorized automatically: reducer v2, new semantic/conflict Event verbs, new database/language/model/integration profiles, executable NK-EPI/Temporal/full Admission, operational deletion expansion, maturity promotion or production authorization.
 
 ```text
-SUPPORTED_FOR_SCOPE
-WEAKENED
-REFUTED
-INDETERMINATE
-NOT_TESTED
+Issue #18: PENDING_OPERATOR
+Issue #74 / ADR-0024: PROPOSED / PENDING_OPERATOR
+ADR-0003: PROPOSED / NOT_STARTED
+Track H source admission: operator-controlled
 ```
-
-`NOT_TESTED ≠ SUPPORTED`. These are A10 research outcomes, not P4 assertion-map replacements and not A8 conformance states.
-
-A10 records twelve major hypotheses and eighteen open questions. The high-risk unresolved boundaries include minimum explicit history without Event sourcing, reconstruction without exact replay, lossy identity continuity, independent-language evidence thresholds, analog/neuromorphic continuity, probabilistic conformance, forgetting/physical deletion observability, bounded-memory auditability, causal order without global sequence, decentralized Authority, non-classical computation, self-modifying realizations and evidence independence.
-
-A10 thought experiments are falsification aids only: eventless archives, distributed neuromorphic memory, lossy bounded-memory agents, probabilistic realizations and independent-language digital profiles. They are not implementation commitments.
-
-A10 stop conditions require reopening assumptions when a reproducible falsifier refutes a scoped hypothesis, blueprint terminology conflicts materially, a conformance test has no possible failure condition, or runtime work is needed merely to make an architecture claim appear true.
-
-## Runtime freeze boundary
-
-Allowed: architecture/ontology research; integrity/security/reproducibility/provenance fixes; evidence preservation; truth-surface/validator repair; historical recovery; isolated falsification experiments without promotion.
-
-Not authorized: reducer v2, new semantic/conflict Event verbs, new databases/language profiles/LLM-vector adapters/ecosystem integrations, executable NK-EPI or Temporal runtime, full Admission lifecycle, operational deletion expansion, maturity promotion, production promotion.
 
 ## Current known gaps
 
-- A1–A10 are drafted/provisional, not independently or integratively approved;
-- integrated A1–A10 review remains incomplete;
+- independent architectural review is not established;
 - P5/C3 is not independent-language or arbitrary-substrate evidence;
-- no arbitrary future substrate support is demonstrated;
-- Issue #74 / ADR-0024 remains separately unresolved and operator-controlled;
-- current PostgreSQL/SQLite profiles share Python semantic lineage;
-- NK-EPI executable support remains absent;
-- physical/cryptographic deletion and production operations remain absent;
-- A10-H01–H10 remain unproved across independent computation models.
+- no arbitrary future-substrate support is demonstrated;
+- A10 major hypotheses remain unproved across independent computation models;
+- physical/cryptographic erasure execution and production operations remain absent;
+- the operator has not selected a post-blueprint phase.
 
-## Machine-readable state
+## Hard stop
 
-```text
-../../project-state.json
-../../contracts/project-state-v2.schema.json
-../../tools/ai_context/validate_project_state.py
-../../tools/ai_context/validate_architecture_freeze.py
-../../tools/ai_context/validate_context.py
-```
-
-GitHub remains authoritative for technical live state. Notion is synchronized only after confirmed authoritative merges and read-back; a later Notion state can be newer than the repository-committed non-self-referential checkpoint.
+`OPERATOR_POST_BLUEPRINT_DECISION` is a decision gate, not A11 and not runtime permission. Integrated review completion does not equal operator acceptance, Canon promotion, runtime authorization, arbitrary-substrate proof or production readiness.

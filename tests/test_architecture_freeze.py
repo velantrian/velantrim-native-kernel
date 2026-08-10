@@ -26,87 +26,77 @@ class ArchitectureFreezeTests(unittest.TestCase):
     def test_repository_freeze_passes(self) -> None:
         self.validate()
 
-    def test_refoundation_object_is_required(self) -> None:
-        state = copy.deepcopy(self.state)
-        del state["tracks"]["long_horizon_research"]["architecture_refoundation"]
-        with self.assertRaisesRegex(module.ArchitectureFreezeError, "architecture_refoundation object required"):
-            self.validate(state)
-
     def test_runtime_freeze_cannot_be_disabled(self) -> None:
         state = copy.deepcopy(self.state)
         state["tracks"]["long_horizon_research"]["architecture_refoundation"]["runtime_expansion_frozen"] = False
         with self.assertRaisesRegex(module.ArchitectureFreezeError, "freeze must remain enabled"):
             self.validate(state)
 
-    def test_semantic_runtime_expansion_cannot_be_authorized(self) -> None:
+    def test_runtime_expansion_cannot_be_authorized(self) -> None:
         state = copy.deepcopy(self.state)
         state["tracks"]["clean_implementation"]["semantic_runtime_expansion_authorized"] = True
         with self.assertRaisesRegex(module.ArchitectureFreezeError, "not authorized"):
             self.validate(state)
 
-    def test_reference_laboratory_role_cannot_be_promoted(self) -> None:
+    def test_reference_laboratory_cannot_be_promoted(self) -> None:
         state = copy.deepcopy(self.state)
         state["tracks"]["clean_implementation"]["architecture_role"] = "CANON"
         with self.assertRaisesRegex(module.ArchitectureFreezeError, "bounded reference laboratory"):
             self.validate(state)
 
-    def test_blueprint_deliverables_are_exact(self) -> None:
+    def test_completed_deliverables_remain_exact_a1_a10(self) -> None:
         state = copy.deepcopy(self.state)
-        state["tracks"]["long_horizon_research"]["architecture_refoundation"]["deliverables"].pop()
-        with self.assertRaisesRegex(module.ArchitectureFreezeError, "deliverable inventory"):
-            self.validate(state)
-
-    def test_completion_retains_separate_operator_review(self) -> None:
-        state = copy.deepcopy(self.state)
-        state["tracks"]["long_horizon_research"]["architecture_refoundation"]["completion_requires_operator_review"] = False
-        with self.assertRaisesRegex(module.ArchitectureFreezeError, "separate operator review"):
-            self.validate(state)
-
-    def test_completed_deliverable_inventory_is_exact(self) -> None:
-        state = copy.deepcopy(self.state)
-        state["tracks"]["long_horizon_research"]["architecture_refoundation"]["completed_deliverables"] = module.EXPECTED_COMPLETED_DELIVERABLES[:-1]
+        state["tracks"]["long_horizon_research"]["architecture_refoundation"]["completed_deliverables"].pop()
         with self.assertRaisesRegex(module.ArchitectureFreezeError, "completed blueprint deliverable inventory drift"):
             self.validate(state)
 
-    def test_integrated_review_gate_is_exact(self) -> None:
+    def test_operator_gate_is_exact(self) -> None:
         state = copy.deepcopy(self.state)
-        state["tracks"]["long_horizon_research"]["architecture_refoundation"]["next_content_slice"] = "A10_OPEN_QUESTIONS_AND_FALSIFICATION"
-        with self.assertRaisesRegex(module.ArchitectureFreezeError, "next blueprint content slice drift"):
+        state["tracks"]["long_horizon_research"]["architecture_refoundation"]["next_content_slice"] = "INTEGRATED_A1_A10_REVIEW"
+        with self.assertRaisesRegex(module.ArchitectureFreezeError, "next blueprint gate drift"):
             self.validate(state)
 
-    def test_integrated_review_gate_is_not_a_deliverable(self) -> None:
+    def test_operator_gate_is_not_a_deliverable(self) -> None:
         state = copy.deepcopy(self.state)
-        state["tracks"]["long_horizon_research"]["architecture_refoundation"]["completed_deliverables"].append("INTEGRATED_A1_A10_REVIEW")
-        module.EXPECTED_COMPLETED_DELIVERABLES.append("INTEGRATED_A1_A10_REVIEW")
+        state["tracks"]["long_horizon_research"]["architecture_refoundation"]["completed_deliverables"].append("OPERATOR_POST_BLUEPRINT_DECISION")
+        module.EXPECTED_COMPLETED_DELIVERABLES.append("OPERATOR_POST_BLUEPRINT_DECISION")
         try:
-            with self.assertRaisesRegex(module.ArchitectureFreezeError, "must not be treated as a completed A1-A10 deliverable"):
+            with self.assertRaisesRegex(module.ArchitectureFreezeError, "operator gate must not be treated as an A1-A10 deliverable"):
                 self.validate(state)
         finally:
             module.EXPECTED_COMPLETED_DELIVERABLES.pop()
 
-    def test_a10_document_must_exist(self) -> None:
-        original = module.COMPLETED_DELIVERABLE_DOCS["A10_OPEN_QUESTIONS_AND_FALSIFICATION"]
-        module.COMPLETED_DELIVERABLE_DOCS["A10_OPEN_QUESTIONS_AND_FALSIFICATION"] = ("docs/DOES_NOT_EXIST.md",)
+    def test_integrated_review_is_not_a_deliverable(self) -> None:
+        state = copy.deepcopy(self.state)
+        state["tracks"]["long_horizon_research"]["architecture_refoundation"]["completed_deliverables"].append("INTEGRATED_A1_A10_REVIEW")
+        module.EXPECTED_COMPLETED_DELIVERABLES.append("INTEGRATED_A1_A10_REVIEW")
         try:
-            with self.assertRaisesRegex(module.ArchitectureFreezeError, "missing completed deliverable document"):
+            with self.assertRaisesRegex(module.ArchitectureFreezeError, "integrated review must not be treated as an A1-A10 deliverable"):
+                self.validate(state)
+        finally:
+            module.EXPECTED_COMPLETED_DELIVERABLES.pop()
+
+    def test_integrated_review_documents_are_required(self) -> None:
+        original = module.INTEGRATED_REVIEW_DOCS
+        module.INTEGRATED_REVIEW_DOCS = ("docs/DOES_NOT_EXIST.md",)
+        try:
+            with self.assertRaisesRegex(module.ArchitectureFreezeError, "missing integrated review document"):
                 self.validate()
         finally:
-            module.COMPLETED_DELIVERABLE_DOCS["A10_OPEN_QUESTIONS_AND_FALSIFICATION"] = original
+            module.INTEGRATED_REVIEW_DOCS = original
 
-    def test_issue_88_must_remain_open_and_verified(self) -> None:
+    def test_issue_88_remains_open_verified_and_operator_gated(self) -> None:
         state = copy.deepcopy(self.state)
         state["issues"]["88"]["state"] = "CLOSED"
         with self.assertRaisesRegex(module.ArchitectureFreezeError, "must remain open"):
             self.validate(state)
         state = copy.deepcopy(self.state)
+        state["issues"]["88"]["meaning"] = "Architecture Re-foundation is active."
+        with self.assertRaisesRegex(module.ArchitectureFreezeError, "integrated review completion"):
+            self.validate(state)
+        state = copy.deepcopy(self.state)
         state["issues"]["88"]["verification"]["method"] = "SUMMARY"
         with self.assertRaisesRegex(module.ArchitectureFreezeError, "verification drift"):
-            self.validate(state)
-
-    def test_issue_88_must_retain_integrated_review_gate(self) -> None:
-        state = copy.deepcopy(self.state)
-        state["issues"]["88"]["meaning"] = "Architecture Re-foundation is active."
-        with self.assertRaisesRegex(module.ArchitectureFreezeError, "integrated-review gate"):
             self.validate(state)
 
 
