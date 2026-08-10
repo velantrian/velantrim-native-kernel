@@ -114,41 +114,27 @@ A2 сравнивает linear pipeline, Event-centred ontology, relation-first 
 
 ### A3 — Абстрактная машина Native Kernel
 
-**Статус:** `NEXT BOUNDED SLICE`.
+**Статус:** `DRAFTED / PROVISIONAL` — см. [`A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md`](./A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md) / [`A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md`](./A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md). Ожидает independent review и integrated blueprint review вместе с A1–A2 и A4–A10.
 
-Определить minimal technology-independent machine, способную выразить declared architecture.
+A3 определяет provisional scoped obligation-and-transition machine, а не переносит текущую Event/reducer laboratory в Canon. Она фиксирует тринадцать logical configuration facets и тринадцать transition families, explicit preconditions/postconditions, failure и indeterminacy outcomes, Authority boundaries, order/concurrency requirements, determinism/reproducibility limits, bounded accountability и contrasting substrate mappings.
 
-Candidate stages:
+Она сохраняет как минимум:
 
 ```text
-encounter
-→ capture
-→ identify
-→ bind provenance
-→ classify semantic role
-→ admit or quarantine
-→ relate
-→ detect conflict
-→ revise
-→ derive state
-→ select context
-→ emit bounded explanation/Receipt
+abstract machine ≠ runtime implementation
+transition ≠ Event envelope
+transition relation ≠ reducer
+history visibility ≠ mandatory Event sourcing
+admission ≠ truth
+deterministic output ≠ true output
+profile conformance ≠ production authorization
 ```
 
-Final model может reject/reorganize эти stages. Она должна использовать A2 concepts, не превращая A2 navigation groups в mandatory pipeline stages.
-
-Обязательные результаты:
-
-- inventory abstract states;
-- transition relations;
-- preconditions и postconditions;
-- failure states;
-- границы deterministic, reproducible и non-deterministic behaviour;
-- Authority boundaries.
-
-**Критерий завершения:** минимум два materially different hypothetical substrates map to machine без переноса SQL/Python semantics в Canon.
+**Критерий завершения:** выполнен для first-draft scope: materially different manual, analog/neuromorphic и digital mappings могут выразить provisional machine без переноса SQL/Python semantics в Canon. Final acceptance всё ещё требует independent/integrated review.
 
 ### A4 — Семантические законы и инварианты
+
+**Статус:** `NEXT BOUNDED SLICE`.
 
 Создать numbered, versioned law set.
 
@@ -298,8 +284,8 @@ Python + PostgreSQL + SQLite
 ```text
 A1 Purpose и Non-goals                           DRAFTED / PROVISIONAL
 → A2 Ontology                                   DRAFTED / PROVISIONAL
-→ A3 Abstract Machine                           NEXT BOUNDED SLICE
-→ A4 Semantic Laws
+→ A3 Abstract Machine                           DRAFTED / PROVISIONAL
+→ A4 Semantic Laws                              NEXT BOUNDED SLICE
 → A5 Identity / Time / Change
 → A6 Knowledge Lifecycle
 → A7 Conflict / Uncertainty / Revision
@@ -359,7 +345,7 @@ License selection требуется до open contribution/publication regime.
 ADR-0024 требуется до возобновления reducer-v2 path.
 ```
 
-Ни одно pending decision не блокирует ontology/blueprint research. Ни plan, ни A2 не принимают их silently.
+Ни одно pending decision не блокирует ontology/blueprint research. Ни plan, ни A1–A3 не принимают их silently.
 
 ## 8. Gate завершения blueprint
 
@@ -382,8 +368,8 @@ Completion требует:
 ```text
 Architecture Re-foundation decision: established by ADR-0025
 Blueprint plan: этот документ
-Blueprint content: A1-A2 DRAFTED / PROVISIONAL; A3-A10 NOT YET COMPLETE
-Next bounded slice: A3 ABSTRACT NATIVE KERNEL MACHINE
+Blueprint content: A1-A3 DRAFTED / PROVISIONAL; A4-A10 NOT YET COMPLETE
+Next bounded slice: A4 SEMANTIC LAWS AND INVARIANTS
 Runtime expansion: FROZEN
 Existing P1–C5 laboratory: PRESERVED / BOUNDED
 Production authorization: false

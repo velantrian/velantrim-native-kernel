@@ -111,6 +111,48 @@ FORBIDDEN_STATUS_MARKERS = (
     "next bounded content slice is `A3 — Abstract Native Kernel Machine`",
 )
 
+# Explicit fail-closed transition markers. These are deliberately simple string
+# obligations rather than semantic parsing: when a later A-block advances the
+# machine state, the same PR must update every listed current-truth surface and
+# this declaration. A stale transition therefore fails CI instead of becoming
+# an implicit interpretation problem.
+BLUEPRINT_PROGRESS_SURFACES = {
+    "STATUS.md": (
+        "blueprint content: A1-A3 DRAFTED / PROVISIONAL; A4-A10 INCOMPLETE",
+        "next content slice: A4 — SEMANTIC LAWS AND INVARIANTS",
+    ),
+    "docs/ai/README.md": (
+        "blueprint content: A1-A3 DRAFTED / PROVISIONAL",
+        "next content slice: A4 — Semantic Laws and Invariants",
+        "changing completed content away from exact A1+A2+A3",
+    ),
+    "ROADMAP.md": (
+        "A1–A3 remain pending independent review and integrated blueprint review with A4–A10.",
+        "The next bounded content slice is `A4 — Semantic Laws and Invariants`.",
+        "A1-A3 drafted ≠ independent approval or integrated blueprint approval",
+    ),
+    "docs/ARCHITECTURE_REFOUNDATION.md": (
+        "Blueprint content: A1-A3 DRAFTED / PROVISIONAL; A4-A10 NOT YET COMPLETE",
+        "Next bounded slice: A4 SEMANTIC LAWS AND INVARIANTS",
+        "→ A3 Abstract Machine                           DRAFTED / PROVISIONAL",
+        "→ A4 Semantic Laws                              NEXT BOUNDED SLICE",
+    ),
+    "docs/ARCHITECTURE_REFOUNDATION.ru.md": (
+        "Blueprint content: A1-A3 DRAFTED / PROVISIONAL; A4-A10 NOT YET COMPLETE",
+        "Next bounded slice: A4 SEMANTIC LAWS AND INVARIANTS",
+        "→ A3 Abstract Machine                           DRAFTED / PROVISIONAL",
+        "→ A4 Semantic Laws                              NEXT BOUNDED SLICE",
+    ),
+}
+FORBIDDEN_BLUEPRINT_PROGRESS_MARKERS = (
+    "blueprint content: A1-A2 DRAFTED / PROVISIONAL",
+    "next content slice: A3 — Abstract Native Kernel Machine",
+    "A3 Abstract Native Kernel Machine             NEXT BOUNDED SLICE",
+    "→ A3 Abstract Machine                           NEXT BOUNDED SLICE",
+    "Blueprint content: A1-A2 DRAFTED / PROVISIONAL; A3-A10 NOT YET COMPLETE",
+    "Next bounded slice: A3 ABSTRACT NATIVE KERNEL MACHINE",
+)
+
 
 @dataclass(frozen=True)
 class Finding:
@@ -189,6 +231,32 @@ def validate_links(repo: Path) -> list[Finding]:
     return findings
 
 
+def validate_blueprint_progress_surfaces(repo: Path) -> list[Finding]:
+    findings: list[Finding] = []
+    for rel, required_markers in BLUEPRINT_PROGRESS_SURFACES.items():
+        path = repo / rel
+        if not path.is_file():
+            continue
+        text = path.read_text(encoding="utf-8")
+        for marker in required_markers:
+            if marker not in text:
+                findings.append(
+                    Finding(
+                        rel,
+                        f"required blueprint-progress marker is missing: {marker}",
+                    )
+                )
+        for marker in FORBIDDEN_BLUEPRINT_PROGRESS_MARKERS:
+            if marker in text:
+                findings.append(
+                    Finding(
+                        rel,
+                        f"forbidden stale blueprint-progress marker is present: {marker}",
+                    )
+                )
+    return findings
+
+
 def read_checkpoint(repo: Path) -> tuple[str | None, list[Finding]]:
     rel = "docs/ai/CURRENT_STATE.md"
     path = repo / rel
@@ -254,6 +322,7 @@ def validate_checkpoint(
 def validate(repo: Path) -> list[Finding]:
     findings = validate_required_paths(repo)
     findings.extend(validate_links(repo))
+    findings.extend(validate_blueprint_progress_surfaces(repo))
     checkpoint, more = read_checkpoint(repo)
     findings.extend(more)
     findings.extend(validate_checkpoint(repo, checkpoint))

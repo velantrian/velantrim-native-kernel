@@ -114,41 +114,27 @@ A2 compares a linear pipeline, Event-centred ontology, relation-first model, and
 
 ### A3 — Abstract Native Kernel Machine
 
-**Status:** `NEXT BOUNDED SLICE`.
+**Status:** `DRAFTED / PROVISIONAL` — see [`A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md`](./A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md) / [`A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md`](./A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md). Pending independent review and integrated blueprint review with A1–A2 and A4–A10.
 
-Define the smallest technology-independent machine capable of representing the declared architecture.
+A3 defines a provisional scoped obligation-and-transition machine rather than promoting the current Event/reducer laboratory into Canon. It records thirteen logical configuration facets and thirteen transition families, explicit preconditions/postconditions, failure and indeterminacy outcomes, Authority boundaries, order/concurrency requirements, determinism/reproducibility limits, bounded accountability, and contrasting substrate mappings.
 
-Candidate stages:
+It preserves at least:
 
 ```text
-encounter
-→ capture
-→ identify
-→ bind provenance
-→ classify semantic role
-→ admit or quarantine
-→ relate
-→ detect conflict
-→ revise
-→ derive state
-→ select context
-→ emit bounded explanation/Receipt
+abstract machine ≠ runtime implementation
+transition ≠ Event envelope
+transition relation ≠ reducer
+history visibility ≠ mandatory Event sourcing
+admission ≠ truth
+deterministic output ≠ true output
+profile conformance ≠ production authorization
 ```
 
-The final model may reject or reorganize these stages. It must use A2 concepts without turning the A2 navigation groups into mandatory pipeline stages.
-
-Required outputs:
-
-- abstract state inventory;
-- transition relations;
-- preconditions and postconditions;
-- failure states;
-- deterministic, reproducible, and non-deterministic boundaries;
-- authority boundaries.
-
-**Completion test:** at least two materially different hypothetical substrates can map to the machine without importing SQL/Python semantics into the Canon.
+**Completion test:** satisfied for first-draft scope: materially different manual, analog/neuromorphic, and digital mappings can express the provisional machine without importing SQL/Python semantics into Canon. Final acceptance still requires independent and integrated review.
 
 ### A4 — Semantic Laws and Invariants
+
+**Status:** `NEXT BOUNDED SLICE`.
 
 Create a numbered, versioned law set.
 
@@ -298,8 +284,8 @@ Each major architectural hypothesis must include evidence that would weaken or r
 ```text
 A1 Purpose and Non-goals                         DRAFTED / PROVISIONAL
 → A2 Ontology                                   DRAFTED / PROVISIONAL
-→ A3 Abstract Machine                           NEXT BOUNDED SLICE
-→ A4 Semantic Laws
+→ A3 Abstract Machine                           DRAFTED / PROVISIONAL
+→ A4 Semantic Laws                              NEXT BOUNDED SLICE
 → A5 Identity / Time / Change
 → A6 Knowledge Lifecycle
 → A7 Conflict / Uncertainty / Revision
@@ -359,7 +345,7 @@ License selection remains required before an open contribution/publication regim
 ADR-0024 remains required before any reducer-v2 path resumes.
 ```
 
-Neither pending decision blocks ontology and blueprint research. Neither is silently decided by this plan or A2.
+Neither pending decision blocks ontology and blueprint research. Neither is silently decided by this plan or A1–A3.
 
 ## 8. Blueprint completion gate
 
@@ -382,8 +368,8 @@ Completion requires:
 ```text
 Architecture Re-foundation decision: established by ADR-0025
 Blueprint plan: this document
-Blueprint content: A1-A2 DRAFTED / PROVISIONAL; A3-A10 NOT YET COMPLETE
-Next bounded slice: A3 ABSTRACT NATIVE KERNEL MACHINE
+Blueprint content: A1-A3 DRAFTED / PROVISIONAL; A4-A10 NOT YET COMPLETE
+Next bounded slice: A4 SEMANTIC LAWS AND INVARIANTS
 Runtime expansion: FROZEN
 Existing P1–C5 laboratory: PRESERVED / BOUNDED
 Production authorization: false

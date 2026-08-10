@@ -77,12 +77,35 @@ class AIContextValidatorTests(unittest.TestCase):
             + append,
         )
 
+    def _write_blueprint_progress_surface(
+        self,
+        rel: str,
+        *,
+        omit: str | None = None,
+        append: str = "",
+    ) -> None:
+        markers = list(validator.BLUEPRINT_PROGRESS_SURFACES[rel])
+        if omit:
+            markers.remove(omit)
+        self._write(
+            rel,
+            "# Blueprint progress\n\n"
+            + "\n".join(markers)
+            + "\n"
+            + append,
+        )
+
+    def _write_blueprint_progress_surfaces(self) -> None:
+        for rel in validator.BLUEPRINT_PROGRESS_SURFACES:
+            self._write_blueprint_progress_surface(rel)
+
     def _write_required_files(self, checkpoint: str) -> None:
         for rel in validator.REQUIRED_PATHS:
             self._write(rel)
         for rel in validator.LINK_SCAN_PATHS:
             if not (self.repo / rel).exists():
                 self._write(rel)
+        self._write_blueprint_progress_surfaces()
         self._write_current_state(checkpoint)
 
     def test_valid_context(self):
@@ -196,6 +219,7 @@ class AIContextValidatorTests(unittest.TestCase):
                         for finding in validator.validate(self.repo)
                     )
                 )
+                self._write_current_state(self.initial_sha)
 
     def test_each_forbidden_legacy_marker_is_rejected(self):
         for legacy in validator.FORBIDDEN_STATUS_MARKERS:
@@ -212,6 +236,42 @@ class AIContextValidatorTests(unittest.TestCase):
                         for finding in validator.validate(self.repo)
                     )
                 )
+                self._write_current_state(self.initial_sha)
+
+    def test_each_blueprint_progress_surface_is_required(self):
+        for rel, markers in validator.BLUEPRINT_PROGRESS_SURFACES.items():
+            for marker in markers:
+                with self.subTest(path=rel, marker=marker):
+                    self._write_blueprint_progress_surface(rel, omit=marker)
+                    self.assertTrue(
+                        any(
+                            finding.path == rel
+                            and "required blueprint-progress marker"
+                            in finding.message
+                            and marker in finding.message
+                            for finding in validator.validate(self.repo)
+                        )
+                    )
+                    self._write_blueprint_progress_surface(rel)
+
+    def test_each_forbidden_blueprint_progress_marker_is_rejected(self):
+        rel = "docs/ai/README.md"
+        for legacy in validator.FORBIDDEN_BLUEPRINT_PROGRESS_MARKERS:
+            with self.subTest(marker=legacy):
+                self._write_blueprint_progress_surface(
+                    rel,
+                    append=legacy + "\n",
+                )
+                self.assertTrue(
+                    any(
+                        finding.path == rel
+                        and "forbidden stale blueprint-progress marker"
+                        in finding.message
+                        and legacy in finding.message
+                        for finding in validator.validate(self.repo)
+                    )
+                )
+                self._write_blueprint_progress_surface(rel)
 
 
 if __name__ == "__main__":
