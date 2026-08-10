@@ -2,7 +2,7 @@
 
 ```yaml
 document_role: ACTIVE_ROADMAP
-status_as_of: 2026-08-09
+status_as_of: 2026-08-10
 authoritative_machine_source: project-state.json
 repository_status: RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY
 publication_checkpoint: 10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c
@@ -50,15 +50,16 @@ Issue: [#88](https://github.com/velantrian/velantrim-native-kernel/issues/88).
 Drafted provisional content:
 
 - `A1 — Kernel Purpose and Non-goals`: [English](docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.md) · [Русский](docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md);
-- `A2 — Knowledge and Memory Ontology`: [English](docs/A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md) · [Русский](docs/A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md).
+- `A2 — Knowledge and Memory Ontology`: [English](docs/A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md) · [Русский](docs/A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md);
+- `A3 — Abstract Native Kernel Machine`: [English](docs/A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md) · [Русский](docs/A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md).
 
-Both remain pending independent review and integrated blueprint review with A3–A10. The next bounded content slice is `A3 — Abstract Native Kernel Machine`.
+A1–A3 remain pending independent review and integrated blueprint review with A4–A10. The next bounded content slice is `A4 — Semantic Laws and Invariants`.
 
 ```text
 A1 Purpose and Non-goals                         DRAFTED / PROVISIONAL
 → A2 Knowledge and Memory Ontology              DRAFTED / PROVISIONAL
-→ A3 Abstract Native Kernel Machine             NEXT BOUNDED SLICE
-→ A4 Semantic Laws and Invariants
+→ A3 Abstract Native Kernel Machine             DRAFTED / PROVISIONAL
+→ A4 Semantic Laws and Invariants               NEXT BOUNDED SLICE
 → A5 Identity / Time / Change
 → A6 Knowledge Lifecycle
 → A7 Conflict / Uncertainty / Revision
@@ -70,6 +71,8 @@ A1 Purpose and Non-goals                         DRAFTED / PROVISIONAL
 ```
 
 A2 provides a provisional stratified role ontology, compares linear, Event-centred, relation-first, and stratified alternatives, and records explicit falsification criteria. It does not make its classifications Canon and does not bind the architecture to Python classes, SQL schemas, Event sourcing, LLMs, embeddings, JSON, or current processors.
+
+A3 provides a provisional scoped obligation-and-transition machine with explicit failure, Authority, order/concurrency, reproducibility and substrate-mapping boundaries. It does not equate transition with Event, abstract machine with runtime implementation, State with reducer output, or profile conformance with production authorization.
 
 ### Runtime freeze
 
@@ -192,7 +195,7 @@ The phase is complete only when:
 ## Explicit non-claims
 
 ```text
-A1-A2 drafted ≠ independent approval or integrated blueprint approval
+A1-A3 drafted ≠ independent approval or integrated blueprint approval
 blueprint documentation ≠ implementation evidence
 reference laboratory ≠ final architecture
 future-facing design ≠ future substrate support
@@ -208,6 +211,12 @@ Unknown ≠ False
 Event usage in P1-C5 ≠ Event as universal primitive
 State ≠ necessarily reducer output
 Knowledge ≠ LLM / embeddings / SQL / JSON / specific processor
+abstract machine ≠ runtime implementation
+transition ≠ Event envelope
+transition relation ≠ reducer
+history visibility ≠ mandatory Event sourcing
+admission ≠ truth
+profile conformance ≠ production authorization
 C5 PASS ≠ production readiness
 PostgreSQL + SQLite ≠ full substrate neutrality
 public repository ≠ open-source license
