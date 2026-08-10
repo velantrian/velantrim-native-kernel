@@ -59,7 +59,7 @@ not architectural authority
 not the final Native Kernel definition
 ```
 
-The blueprint content A1–A6 is `DRAFTED / PROVISIONAL` and remains pending independent plus integrated A1–A10 review. The next bounded content slice is `A7 — Conflict, Uncertainty, and Revision`.
+The blueprint content A1–A7 is `DRAFTED / PROVISIONAL` and remains pending independent plus integrated A1–A10 review. The next bounded content slice is `A8 — Substrate-independence Contract`.
 
 Required sequence:
 
@@ -70,8 +70,8 @@ A1 Purpose and Non-goals                         DRAFTED / PROVISIONAL
 → A4 Semantic Laws and Invariants               DRAFTED / PROVISIONAL
 → A5 Identity / Time / Change                   DRAFTED / PROVISIONAL
 → A6 Knowledge Lifecycle                        DRAFTED / PROVISIONAL
-→ A7 Conflict / Uncertainty / Revision          NEXT BOUNDED SLICE
-→ A8 Substrate-independence Contract
+→ A7 Conflict / Uncertainty / Revision          DRAFTED / PROVISIONAL
+→ A8 Substrate-independence Contract            NEXT BOUNDED SLICE
 → A9 Reference Laboratory Boundary
 → A10 Open Questions / Falsification
 → integrated blueprint review
@@ -86,46 +86,65 @@ Drafted content:
 - [A4 EN](../A4_SEMANTIC_LAWS_AND_INVARIANTS.md) / [RU](../A4_SEMANTIC_LAWS_AND_INVARIANTS.ru.md)
 - [A5 EN](../A5_IDENTITY_TIME_AND_CHANGE.md) / [RU](../A5_IDENTITY_TIME_AND_CHANGE.ru.md)
 - [A6 EN](../A6_KNOWLEDGE_LIFECYCLE.md) / [RU](../A6_KNOWLEDGE_LIFECYCLE.ru.md)
+- [A7 EN](../A7_CONFLICT_UNCERTAINTY_AND_REVISION.md) / [RU](../A7_CONFLICT_UNCERTAINTY_AND_REVISION.ru.md)
 
-## A6 candidate truth
+## A7 candidate truth
 
-`nk-knowledge-lifecycle/A6-draft-1` is a provisional meaning-level model. It defines the knowledge lifecycle as a labeled directed graph of nine recurring phases rather than a linear pipeline:
+`nk-conflict-uncertainty-revision/A7-draft-1` is a provisional meaning-level model. It does not implement conflict runtime or select a universal inference/resolution technique.
 
-```text
-ENCOUNTERED / RETAINED / POSITIONED / EPISTEMICALLY_WEIGHED / RELATIONALLY_INTEGRATED / IN_TENSION / REVISED_OR_SUPERSEDED / DISPOSED / ACCOUNTED
-```
-
-Each phase maps to one or more of A3's thirteen transition families; `DERIVE_BOUNDED_VIEW` and `SELECT_FOR_USE` are phase-referencing, not phase-changing. A typed `LIFECYCLE_TRANSITION` relation reuses A3's outcome vocabulary (`APPLIED`/`NO_CHANGE`/`QUARANTINED`/`REJECTED`/`PARTIAL`/`UNKNOWN`/`UNSUPPORTED`/`FAILED`) rather than inventing new terms.
-
-A6 also separates:
+Three axes remain independent:
 
 ```text
-LIFECYCLE_TRANSITION_ORDER ≠ OCCURRENCE_ORDER ≠ CAUSAL_DEPENDENCY_ORDER ≠ LOCAL_WRITE_COMMIT_ORDER
+tension kind
+≠ assessment status
+≠ resolution status
 ```
 
-and extends A3's eight dispositions with three closure kinds — `LOGICALLY_ERASED`, `PHYSICALLY_OR_CRYPTOGRAPHICALLY_ERASED`, `FORGOTTEN_OR_LOST` — resolving the erasure/forgetting distinctions A5 named but deferred.
+Assessment states are `CANDIDATE`, `ESTABLISHED`, `NOT_A_CONFLICT`, `UNRESOLVED_ASSESSMENT`; resolution states are `UNRESOLVED`, `DEFERRED`, `RESOLVED_FOR_SCOPE`, `REOPENED`.
 
-Existing contracts are preserved rather than silently rewritten:
+The draft tension taxonomy includes technical and semantic cases: `DUPLICATE_DELIVERY`, `WRITE_VERSION_RACE`, `DIVERGENT_HISTORY`, `SEMANTIC_CONTRADICTION`, `TEMPORAL_MISMATCH`, `SCOPE_MISMATCH`, `PROVENANCE_CONFLICT`, `MEASUREMENT_DISAGREEMENT`, `AUTHORITY_CONFLICT`, `POLICY_CONFLICT`, `EPISTEMIC_DISAGREEMENT`, `PROJECTION_DRIFT`, `UNCLASSIFIED_TENSION`.
 
-- the illustrative P1–C5 Event-to-phase mapping (`ADMIT`/`LINK`/`UTILIZED`/`SUPERSEDED`/`ERASED`) is non-canonical and authorizes no new Event verbs;
-- `global_seq` / `stream_seq` remain reference-laboratory ordering mechanisms, not `LIFECYCLE_TRANSITION_ORDER` itself;
-- Issue #14/#15/#16 retain their remaining contract/evidence scope;
-- Issue #74 / ADR-0024, Issue #18 and Track H operator-controlled decisions remain untouched.
+Strict `SEMANTIC_CONTRADICTION` requires materially sufficient alignment of proposition/semantic identity, interpretation, Context/scope, temporal scope, modality/quantification, assumptions, referent/identity relation, assessment Authority, and known uncertainty. Otherwise candidate/unresolved assessment or a more specific mismatch is preserved.
+
+A7 defines typed meaning-level patterns:
+
+```text
+UNCERTAINTY_POSITION(...)
+TENSION_POSITION(...)
+EPISTEMIC_REVISION(...)
+```
+
+These are not mandatory stored objects or runtime APIs. Uncertainty remains typed by Evidence/provenance/Context/time/identity/interpretation/Authority/capability/dependency/measurement gaps; A7 defines no universal scalar or combination algebra.
+
+A7 distinguishes detection Authority/method from resolution, epistemic-assessment, operational-disposition, and architecture/governance Authority. `RESOLVED_FOR_SCOPE` identifies purpose, Authority/policy/basis, remaining uncertainty, temporal scope, and reversibility/reopening conditions; it is not objective truth.
+
+A7 preserves the ability to remain `UNRESOLVED` or `DEFERRED`, retain plurality, prefer a position for scope, revise explicitly, supersede for scope, or reopen a prior resolution. Revision preserves A5 lineage; reopening preserves prior resolution history.
+
+A7 leaves A6's nine lifecycle phases unchanged. `IN_TENSION` may remain open indefinitely. Scoped resolution without semantic revision does not automatically become `REVISED_OR_SUPERSEDED`; actual revision/supersession must preserve A5 predecessor/successor lineage.
+
+Existing boundaries remain unchanged:
+
+- accepted `NK-CFL` is refined semantically but gains no executable support claim;
+- ADR-0003 remains `PROPOSED / NOT_STARTED`;
+- conflict Event verbs remain unauthorized;
+- Issue #74 / ADR-0024 remains `PROPOSED / PENDING_OPERATOR`; A7 does not decide one/multi-successor topology, self-supersession, cycles, or reducer-v2 migration;
+- Issue #14/#15/#16/#17, Issue #18 and Track H remain open/independent as before.
 
 ## Runtime freeze boundary
 
 Allowed: architecture/ontology research; integrity/security/reproducibility/provenance fixes; evidence preservation; truth-surface/validator repair; historical recovery; isolated falsification experiments without promotion.
 
-Not authorized: reducer v2, new semantic Event verbs, new databases/language profiles/LLM-vector adapters/ecosystem integrations, executable NK-EPI or Temporal runtime, full Admission lifecycle, operational deletion expansion, maturity promotion, production promotion.
+Not authorized: reducer v2, new semantic/conflict Event verbs, new databases/language profiles/LLM-vector adapters/ecosystem integrations, executable NK-EPI or Temporal runtime, full Admission lifecycle, operational deletion expansion, maturity promotion, production promotion.
 
 ## Current known gaps
 
-- A1–A6 are drafted/provisional, not independently or integratively approved;
-- A7–A10 remain incomplete;
+- A1–A7 are drafted/provisional, not independently or integratively approved;
+- A8–A10 remain incomplete;
 - A5 identity criteria remain domain-scoped and some valid-time identity effects are explicitly unresolved;
-- A6 lifecycle closure kinds remain pending A7's conflict-resolution model for successor/cycle rules;
-- cross-substrate equivalence thresholds remain A8 work;
-- conflict-resolution and belief-revision algorithms remain A7 work;
+- Issue #74 / ADR-0024 separately retains unresolved Supersession topology and reducer-v2 questions; A7 did not absorb them;
+- A7 uncertainty combination remains method/profile-specific rather than a universal algebra;
+- A7 authority-conflict escalation, formal-logic families, reopening/finality policy, and executable `NK-CFL` fixtures remain open questions;
+- cross-substrate semantic equivalence/conformance thresholds remain A8 work;
 - current PostgreSQL/SQLite profiles share Python semantic lineage;
 - NK-EPI executable support remains absent;
 - physical/cryptographic deletion and production operations remain absent.
