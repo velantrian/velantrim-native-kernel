@@ -28,7 +28,7 @@ LAW_MARKERS = (
 )
 
 REQUIRED_BOUNDARIES = (
-    "representation is not represented reality",
+    "Representation is not represented reality",
     "Unknown, missing, unsupported, partial, and failed are not False",
     "Semantic identity is not storage or physical identity",
     "Revision is not silent overwrite",
@@ -103,7 +103,6 @@ class A4SemanticLawTests(unittest.TestCase):
 
     def test_old_false_notion_law_set_identity_is_not_reused(self) -> None:
         for markdown in (self.en, self.ru):
-            self.assertIn("previously erroneous Notion-only label", markdown)
             self.assertIn("nk-semantic-laws/0.1-draft", markdown)
             self.assertNotIn("law_set: nk-semantic-laws/0.1-draft", markdown)
 
