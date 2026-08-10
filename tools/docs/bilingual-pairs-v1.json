@@ -156,6 +156,29 @@
       "require_single_h1": true
     },
     {
+      "pair_id": "a6-knowledge-lifecycle",
+      "english": "docs/A6_KNOWLEDGE_LIFECYCLE.md",
+      "russian": "docs/A6_KNOWLEDGE_LIFECYCLE.ru.md",
+      "selectors": ["(./A6_KNOWLEDGE_LIFECYCLE.md)", "(./A6_KNOWLEDGE_LIFECYCLE.ru.md)"],
+      "shared_literals": [
+        "A6_KNOWLEDGE_LIFECYCLE",
+        "nk-knowledge-lifecycle/A6-draft-1",
+        "next_content_slice: A7_CONFLICT_UNCERTAINTY_AND_REVISION",
+        "ADR-0025",
+        "Issue #88",
+        "ENCOUNTERED",
+        "EPISTEMICALLY_WEIGHED",
+        "REVISED_OR_SUPERSEDED",
+        "LOGICALLY_ERASED",
+        "LIFECYCLE_TRANSITION_ORDER",
+        "nk-p1-reducer/1"
+      ],
+      "english_literals": ["Typed lifecycle transition relation", "Falsification criteria and open questions"],
+      "russian_literals": ["Typed lifecycle transition relation", "Falsification criteria и open questions"],
+      "compare_heading_levels": true,
+      "require_single_h1": true
+    },
+    {
       "pair_id": "human-quickstart",
       "english": "docs/QUICKSTART.md",
       "russian": "docs/QUICKSTART.ru.md",
