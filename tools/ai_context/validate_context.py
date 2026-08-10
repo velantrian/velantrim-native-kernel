@@ -26,6 +26,7 @@ REQUIRED_PATHS = (
     "docs/A7_CONFLICT_UNCERTAINTY_AND_REVISION.md", "docs/A7_CONFLICT_UNCERTAINTY_AND_REVISION.ru.md",
     "docs/A8_SUBSTRATE_INDEPENDENCE_CONTRACT.md", "docs/A8_SUBSTRATE_INDEPENDENCE_CONTRACT.ru.md",
     "docs/A9_REFERENCE_LABORATORY_BOUNDARY.md", "docs/A9_REFERENCE_LABORATORY_BOUNDARY.ru.md",
+    "docs/A10_OPEN_QUESTIONS_AND_FALSIFICATION.md", "docs/A10_OPEN_QUESTIONS_AND_FALSIFICATION.ru.md",
     "docs/adr/0025-blueprint-before-runtime-expansion.md",
     "docs/ai/README.md", "docs/ai/CURRENT_STATE.md", "docs/ai/COMPONENT_MAP.md",
     "docs/ai/KNOWN_RISKS.md", "docs/ai/WORK_LOG.md", "docs/ai/P4_IMPLEMENTATION_RECORD.md",
@@ -57,8 +58,8 @@ REQUIRED_STATUS_MARKERS = (
     "Architecture Re-foundation: ACTIVE / BLUEPRINT-FIRST",
     "No new semantic/runtime expansion before blueprint gate completion.",
     "BOUNDED REFERENCE LABORATORY",
-    "blueprint content A1–A9 is `DRAFTED / PROVISIONAL`",
-    "next bounded content slice is `A10 — Open Questions and Falsification`",
+    "blueprint content A1–A10 is `DRAFTED / PROVISIONAL`",
+    "next bounded gate is `INTEGRATED_A1_A10_REVIEW`",
 )
 FORBIDDEN_STATUS_MARKERS = (
     "Notion remains synchronized only through the recorded publication checkpoint",
@@ -71,48 +72,45 @@ FORBIDDEN_STATUS_MARKERS = (
     "next bounded content slice is `A7 — Conflict, Uncertainty, and Revision`",
     "next bounded content slice is `A8 — Substrate-independence Contract`",
     "next bounded content slice is `A9 — Reference Laboratory Boundary`",
+    "next bounded content slice is `A10 — Open Questions and Falsification`",
 )
 
 BLUEPRINT_PROGRESS_SURFACES = {
     "STATUS.md": (
-        "blueprint content: A1-A9 DRAFTED / PROVISIONAL; A10 INCOMPLETE",
-        "next content slice: A10 — OPEN QUESTIONS AND FALSIFICATION",
+        "blueprint content: A1-A10 DRAFTED / PROVISIONAL",
+        "next content slice: INTEGRATED_A1_A10_REVIEW",
+        "A1-A10 drafted ≠ independent approval or integrated blueprint approval",
     ),
     "docs/ai/README.md": (
-        "blueprint content: A1-A9 DRAFTED / PROVISIONAL",
-        "next content slice: A10 — Open Questions and Falsification",
-        "changing completed content away from exact A1+A2+A3+A4+A5+A6+A7+A8+A9",
+        "blueprint content: A1-A10 DRAFTED / PROVISIONAL",
+        "next content slice: INTEGRATED_A1_A10_REVIEW",
+        "changing completed content away from exact A1+A2+A3+A4+A5+A6+A7+A8+A9+A10",
     ),
     "ROADMAP.md": (
-        "A1–A9 remain pending independent review and integrated blueprint review with A10.",
-        "The next bounded content slice is `A10 — Open Questions and Falsification`.",
-        "A1-A9 drafted ≠ independent approval or integrated blueprint approval",
+        "A1–A10 remain pending independent review and integrated blueprint review.",
+        "The next bounded gate is `INTEGRATED_A1_A10_REVIEW`.",
+        "A1-A10 drafted ≠ independent approval or integrated blueprint approval",
     ),
     "docs/ARCHITECTURE_REFOUNDATION.md": (
-        "Blueprint content: A1-A9 DRAFTED / PROVISIONAL; A10 NOT YET COMPLETE",
-        "Next bounded slice: A10 OPEN QUESTIONS AND FALSIFICATION",
-        "→ A9 Reference Laboratory Boundary              DRAFTED / PROVISIONAL",
-        "→ A10 Open Questions and Falsification           NEXT BOUNDED SLICE",
+        "Blueprint content: A1-A10 DRAFTED / PROVISIONAL",
+        "Next bounded gate: INTEGRATED_A1_A10_REVIEW",
+        "→ A10 Open Questions and Falsification           DRAFTED / PROVISIONAL",
+        "→ integrated A1-A10 review                     NEXT GATE",
     ),
     "docs/ARCHITECTURE_REFOUNDATION.ru.md": (
-        "Blueprint content: A1-A9 DRAFTED / PROVISIONAL; A10 NOT YET COMPLETE",
-        "Next bounded slice: A10 OPEN QUESTIONS AND FALSIFICATION",
-        "→ A9 Reference Laboratory Boundary              DRAFTED / PROVISIONAL",
-        "→ A10 Open Questions and Falsification           NEXT BOUNDED SLICE",
+        "Blueprint content: A1-A10 DRAFTED / PROVISIONAL",
+        "Next bounded gate: INTEGRATED_A1_A10_REVIEW",
+        "→ A10 Open Questions and Falsification           DRAFTED / PROVISIONAL",
+        "→ integrated A1-A10 review                     NEXT GATE",
     ),
 }
 
 FORBIDDEN_BLUEPRINT_PROGRESS_MARKERS = (
-    "blueprint content: A1-A2 DRAFTED / PROVISIONAL", "next content slice: A3 — Abstract Native Kernel Machine",
-    "blueprint content: A1-A3 DRAFTED / PROVISIONAL", "next content slice: A4 — Semantic Laws and Invariants",
-    "blueprint content: A1-A4 DRAFTED / PROVISIONAL", "next content slice: A5 — Identity / Time / Change",
-    "blueprint content: A1-A5 DRAFTED / PROVISIONAL", "next content slice: A6 — Knowledge Lifecycle",
-    "blueprint content: A1-A6 DRAFTED / PROVISIONAL", "next content slice: A7 — Conflict, Uncertainty, and Revision",
-    "blueprint content: A1-A7 DRAFTED / PROVISIONAL", "next content slice: A8 — Substrate-independence Contract",
     "blueprint content: A1-A8 DRAFTED / PROVISIONAL", "next content slice: A9 — Reference Laboratory Boundary",
-    "Blueprint content: A1-A8 DRAFTED / PROVISIONAL; A9-A10 NOT YET COMPLETE",
-    "Next bounded slice: A9 REFERENCE LABORATORY BOUNDARY",
-    "→ A9 Reference Laboratory Boundary              NEXT BOUNDED SLICE",
+    "blueprint content: A1-A9 DRAFTED / PROVISIONAL", "next content slice: A10 — Open Questions and Falsification",
+    "Blueprint content: A1-A9 DRAFTED / PROVISIONAL; A10 NOT YET COMPLETE",
+    "Next bounded slice: A10 OPEN QUESTIONS AND FALSIFICATION",
+    "→ A10 Open Questions and Falsification           NEXT BOUNDED SLICE",
 )
 
 
@@ -241,7 +239,7 @@ def main(argv: list[str] | None = None) -> int:
         for finding in findings:
             print(finding.render(), file=sys.stderr)
         return 1
-    print("AI context validation passed; blueprint=A1-A9 drafted/provisional; next=A10; runtime_expansion_frozen=true")
+    print("AI context validation passed; blueprint=A1-A10 drafted/provisional; next=INTEGRATED_A1_A10_REVIEW; runtime_expansion_frozen=true")
     return 0
 
 
