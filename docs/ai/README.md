@@ -21,9 +21,10 @@ This directory is the mandatory continuity surface for AI agents, auditors, and 
 15. [`../A7_CONFLICT_UNCERTAINTY_AND_REVISION.md`](../A7_CONFLICT_UNCERTAINTY_AND_REVISION.md) / [`RU`](../A7_CONFLICT_UNCERTAINTY_AND_REVISION.ru.md)
 16. [`../A8_SUBSTRATE_INDEPENDENCE_CONTRACT.md`](../A8_SUBSTRATE_INDEPENDENCE_CONTRACT.md) / [`RU`](../A8_SUBSTRATE_INDEPENDENCE_CONTRACT.ru.md)
 17. [`../A9_REFERENCE_LABORATORY_BOUNDARY.md`](../A9_REFERENCE_LABORATORY_BOUNDARY.md) / [`RU`](../A9_REFERENCE_LABORATORY_BOUNDARY.ru.md)
-18. [`ISSUE_RECONCILIATION.md`](ISSUE_RECONCILIATION.md)
-19. [`NOTION_HANDOFF.md`](NOTION_HANDOFF.md)
-20. affected Canon/contracts/ADRs/source/tests/workflows/evidence and current GitHub/Notion state
+18. [`../A10_OPEN_QUESTIONS_AND_FALSIFICATION.md`](../A10_OPEN_QUESTIONS_AND_FALSIFICATION.md) / [`RU`](../A10_OPEN_QUESTIONS_AND_FALSIFICATION.ru.md)
+19. [`ISSUE_RECONCILIATION.md`](ISSUE_RECONCILIATION.md)
+20. [`NOTION_HANDOFF.md`](NOTION_HANDOFF.md)
+21. affected Canon/contracts/ADRs/source/tests/workflows/evidence and current GitHub/Notion state
 
 Do not begin with random code search or historical handoffs before resolving current truth.
 
@@ -46,30 +47,30 @@ ADR-0025: ACCEPTED / OPERATOR APPROVED
 Architecture Re-foundation: ACTIVE / BLUEPRINT-FIRST
 runtime expansion: FROZEN
 P1–C5 role: BOUNDED REFERENCE LABORATORY
-blueprint content: A1-A9 DRAFTED / PROVISIONAL
-next content slice: A10 — Open Questions and Falsification
+blueprint content: A1-A10 DRAFTED / PROVISIONAL
+next content slice: INTEGRATED_A1_A10_REVIEW
 ```
 
-A1–A9 are drafted provisional architecture slices, not independent approval, integrated Canon, runtime evidence, or production authorization. The current candidate progression must remain exact; changing completed content away from exact A1+A2+A3+A4+A5+A6+A7+A8+A9 must fail continuity validation.
+A1–A10 are drafted provisional architecture slices, not independent approval, integrated Canon, runtime evidence, or production authorization. The current candidate progression must remain exact; changing completed content away from exact A1+A2+A3+A4+A5+A6+A7+A8+A9+A10 must fail continuity validation.
 
-## A9 continuity boundary
+## A10 continuity boundary
 
-A9 candidate model: `nk-reference-laboratory-boundary/A9-draft-1`.
+A10 candidate model: `nk-open-questions-falsification/A10-draft-1`.
 
 ```text
-existing mechanism ≠ architecture requirement
-useful evidence ≠ universal portability proof
-profile-specific realization ≠ architectural defect
-PostgreSQL ↔ SQLite C3 ≠ independent-language equivalence
-C5 bounded rehearsal ≠ production readiness
-repository-resident evidence ≠ independent custody
+NOT_TESTED ≠ SUPPORTED
+absence of a falsifier ≠ proof
+same output ≠ full semantic equivalence
+logical deletion ≠ physical erasure
+independent-language implementation ≠ arbitrary-substrate proof
+A1-A10 drafted ≠ integrated blueprint approval
 ```
 
-A9 role vocabulary is `ARCHITECTURE_PRESERVING_EVIDENCE`, `PROFILE_SPECIFIC_REALIZATION`, `PARTIAL_ARCHITECTURE_COVERAGE`, `FALSIFICATION_INSTRUMENT`, `LABORATORY_ONLY_CONSTRAINT`, and `NOT_ARCHITECTURE_EVIDENCE`.
+A10 outcomes are `SUPPORTED_FOR_SCOPE`, `WEAKENED`, `REFUTED`, `INDETERMINATE`, `NOT_TESTED`.
 
-P5/C3 supplies narrow storage-profile evidence inside a shared Python/conventional-digital lineage. It does not prove independent-computation-model or arbitrary-substrate equivalence. Current Event/reducer/hash/sequence/byte mechanisms remain valid laboratory mechanisms where versioned contracts require them, but A8 meaning preservation remains the architecture-level authority.
+A qualifying falsification record declares hypothesis, scope, preserved obligation, observable, counterexample condition, Authority/provenance, independence class, loss declaration, outcome and reproduction path. A test that cannot fail is not a qualifying A10 falsification test.
 
-P4/C4/C5 are useful falsification/measurement surfaces. A9 does not delete profile-specific code: label it, preserve reproducibility/evidence lineage, and prevent silent Canon promotion.
+The open-question registry includes minimum non-event-sourced history/accountability, reconstruction without exact replay, lossy identity, independent-language evidence, analog/neuromorphic continuity, probabilistic conformance, forgetting/physical deletion, bounded-memory auditability, causal order without global sequence, decentralized Authority, non-classical computation, self-modification and evidence independence.
 
 ## Active sequence
 
@@ -83,8 +84,8 @@ A1 Purpose and Non-goals                         DRAFTED / PROVISIONAL
 → A7 Conflict / Uncertainty / Revision          DRAFTED / PROVISIONAL
 → A8 Substrate-independence Contract            DRAFTED / PROVISIONAL
 → A9 Reference Laboratory Boundary              DRAFTED / PROVISIONAL
-→ A10 Open Questions and Falsification           NEXT BOUNDED SLICE
-→ integrated blueprint review
+→ A10 Open Questions and Falsification           DRAFTED / PROVISIONAL
+→ integrated A1-A10 review                     NEXT GATE
 → separate operator decision before runtime expansion
 ```
 
@@ -125,8 +126,8 @@ python tools/ai_context/validate_project_state.py --repo .
 python tools/ai_context/validate_architecture_freeze.py --repo .
 python tools/ai_context/validate_context.py --repo .
 python tools/docs/validate_bilingual_parity.py --repo .
-python -m unittest discover -s tests -p 'test_a8_substrate_independence_contract.py' -v
 python -m unittest discover -s tests -p 'test_a9_reference_laboratory_boundary.py' -v
+python -m unittest discover -s tests -p 'test_a10_open_questions_falsification.py' -v
 ```
 
-A9 drafting does not change runtime, evidence identities, assertion arithmetic, NK-EPI, maturity, or production status.
+A10 drafting does not change runtime, evidence identities, assertion arithmetic, NK-EPI, maturity, or production status.
