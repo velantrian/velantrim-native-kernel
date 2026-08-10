@@ -50,37 +50,40 @@ Drafted provisional deliverables:
 2. [A2 — Knowledge and Memory Ontology](docs/A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md) · [RU](docs/A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md);
 3. [A3 — Abstract Native Kernel Machine](docs/A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md) · [RU](docs/A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md);
 4. [A4 — Semantic Laws and Invariants](docs/A4_SEMANTIC_LAWS_AND_INVARIANTS.md) · [RU](docs/A4_SEMANTIC_LAWS_AND_INVARIANTS.ru.md);
-5. [A5 — Identity, Time, and Change](docs/A5_IDENTITY_TIME_AND_CHANGE.md) · [RU](docs/A5_IDENTITY_TIME_AND_CHANGE.ru.md).
+5. [A5 — Identity, Time, and Change](docs/A5_IDENTITY_TIME_AND_CHANGE.md) · [RU](docs/A5_IDENTITY_TIME_AND_CHANGE.ru.md);
+6. [A6 — Knowledge Lifecycle](docs/A6_KNOWLEDGE_LIFECYCLE.md) · [RU](docs/A6_KNOWLEDGE_LIFECYCLE.ru.md).
 
 Current progress:
 
 ```text
 ADR-0025 decision: ACCEPTED / OPERATOR APPROVED
 blueprint plan: PRESENT
-blueprint content: A1-A5 DRAFTED / PROVISIONAL; A6-A10 INCOMPLETE
-next content slice: A6 — KNOWLEDGE LIFECYCLE
+blueprint content: A1-A6 DRAFTED / PROVISIONAL; A7-A10 INCOMPLETE
+next content slice: A7 — CONFLICT, UNCERTAINTY, AND REVISION
 runtime expansion: FROZEN
 ```
 
-A1–A5 are still pending independent review and integrated A1–A10 review. Drafting a slice is not Canon promotion.
+A1–A6 are still pending independent review and integrated A1–A10 review. Drafting a slice is not Canon promotion.
 
-### A5 candidate model
+### A6 candidate model
 
-A5 introduces provisional `nk-identity-time-change/A5-draft-1`. Identity is a typed/scoped relation, not one universal identifier. The draft distinguishes:
+A6 introduces provisional `nk-knowledge-lifecycle/A6-draft-1`. The knowledge lifecycle is a labeled directed graph of recurring, reviewable configurations, not a linear pipeline:
 
 ```text
-REFERENT_IDENTITY
-SEMANTIC_CONTENT_IDENTITY
-CLAIM_POSITION_IDENTITY
-RECORD_IDENTITY
-LINEAGE_CONTINUITY_IDENTITY
-OCCURRENCE_IDENTITY
-SUBSTRATE_LOCAL_IDENTITY
+ENCOUNTERED
+RETAINED
+POSITIONED
+EPISTEMICALLY_WEIGHED
+RELATIONALLY_INTEGRATED
+IN_TENSION
+REVISED_OR_SUPERSEDED
+DISPOSED
+ACCOUNTED
 ```
 
-It also distinguishes occurrence/valid/Observation/assertion/Record/decision/effective/write-commit time and separates occurrence, causal, lineage, decision, local-write and synchronization ordering. `SAME`, `DISTINCT`, `CONTINUATION_OF`, `VERSION_OF`, `ALIAS_OF`, `MIGRATED_FROM`, and `UNRESOLVED` are scoped outcomes, not universal metaphysical verdicts.
+Each phase maps to one or more of A3's thirteen transition families, and lifecycle authority must trace to an explicit transition with a named Authority or method — never to storage presence, retrieval rank, repetition, model confidence, recency, or usefulness alone. A6 also names three closure kinds (`LOGICALLY_ERASED`, `PHYSICALLY_OR_CRYPTOGRAPHICALLY_ERASED`, `FORGOTTEN_OR_LOST`) that resolve erasure/forgetting distinctions A5 named but deferred.
 
-A5 reconciles but does not supersede existing accepted contracts. `nk-id/1.0` remains a versioned reference encoding contract; UTF-8/NFC/JSON/SHA-256 and identity-bearing `asserted_at` are not promoted by A5 into the only substrate-neutral identity realization. `global_seq`/`stream_seq` remain reference-laboratory ordering mechanisms rather than universal occurrence or causal order. Existing deletion states remain a bounded profile mechanism rather than universal lifecycle Canon.
+A6 reconciles but does not supersede existing accepted contracts or decide pending ones. It maps `ADMIT`/`LINK`/`UTILIZED`/`SUPERSEDED`/`ERASED` onto lifecycle phases only illustratively; it does not authorize new Event verbs, does not decide `Issue #74 / ADR-0024` reducer-v2 topology, and does not expand `Issue #16`'s deletion-execution scope.
 
 ## Required non-equivalences
 
@@ -114,17 +117,20 @@ Supersession ≠ deletion or falsity
 restriction ≠ logical erase ≠ physical deletion ≠ cryptographic erasure ≠ forgetting
 Receipt/accountability ≠ correctness or truth
 profile conformance ≠ production authorization
+lifecycle phase ≠ storage status column
+closure ≠ deletion of history
+one Event ≠ one lifecycle transition
 ```
 
 ## Independent tracks and decisions
 
 | Boundary | State | Effect |
 |---|---|---|
-| Track H historical recovery | `BLOCKED / ACTIVE EVIDENCE-RECOVERY` | operator-controlled source admission; A5 does not alter it |
+| Track H historical recovery | `BLOCKED / ACTIVE EVIDENCE-RECOVERY` | operator-controlled source admission; A6 does not alter it |
 | Issue #18 license/publication | `PENDING_OPERATOR / selected_option: null` | no license change; external contribution/publication regime remains unauthorized |
 | Issue #74 / ADR-0024 | `PROPOSED / PENDING_OPERATOR / selected_option: null` | reducer v1 remains immutable; reducer-v2 remains unauthorized |
 
-Issue #14, #15 and #16 retain their existing accepted/versioned contract and remaining-evidence scopes. A5 does not close or silently redefine them.
+Issue #14, #15 and #16 retain their existing accepted/versioned contract and remaining-evidence scopes. A6 does not close or silently redefine them.
 
 ## Runtime freeze
 
@@ -141,16 +147,16 @@ evidence/c5/2026-08-07/manifest.json
 evidence/c5/2026-08-08-adr0023/manifest.json
 ```
 
-A5 documentation does not create new runtime evidence, change assertion arithmetic, or prove arbitrary future-substrate support.
+A6 documentation does not create new runtime evidence, change assertion arithmetic, or prove arbitrary future-substrate support.
 
 ## Explicit non-claims
 
 ```text
 Architecture Re-foundation ≠ completed blueprint
-A1-A5 DRAFTED ≠ independent approval ≠ integrated blueprint approval ≠ Canon promotion
-A5 model ≠ accepted universal identity theory
-A5 model ≠ replacement of nk-id/1.0 / nk-event/1.0 / nk-deletion/1.0
-A5 model ≠ executable Temporal runtime
+A1-A6 DRAFTED ≠ independent approval ≠ integrated blueprint approval ≠ Canon promotion
+A6 model ≠ accepted universal lifecycle theory
+A6 model ≠ replacement of nk-id/1.0 / nk-event/1.0 / nk-deletion/1.0
+A6 model ≠ executable Temporal runtime
 C5 PASS ≠ production readiness
 public repository ≠ open-source license
 ```

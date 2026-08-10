@@ -53,9 +53,10 @@ Drafted provisional content:
 - `A2 — Knowledge and Memory Ontology`: [English](docs/A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md) · [Русский](docs/A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md);
 - `A3 — Abstract Native Kernel Machine`: [English](docs/A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md) · [Русский](docs/A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md);
 - `A4 — Semantic Laws and Invariants`: [English](docs/A4_SEMANTIC_LAWS_AND_INVARIANTS.md) · [Русский](docs/A4_SEMANTIC_LAWS_AND_INVARIANTS.ru.md);
-- `A5 — Identity, Time, and Change`: [English](docs/A5_IDENTITY_TIME_AND_CHANGE.md) · [Русский](docs/A5_IDENTITY_TIME_AND_CHANGE.ru.md).
+- `A5 — Identity, Time, and Change`: [English](docs/A5_IDENTITY_TIME_AND_CHANGE.md) · [Русский](docs/A5_IDENTITY_TIME_AND_CHANGE.ru.md);
+- `A6 — Knowledge Lifecycle`: [English](docs/A6_KNOWLEDGE_LIFECYCLE.md) · [Русский](docs/A6_KNOWLEDGE_LIFECYCLE.ru.md).
 
-A1–A5 remain pending independent review and integrated blueprint review with A6–A10. The next bounded content slice is `A6 — Knowledge Lifecycle`.
+A1–A6 remain pending independent review and integrated blueprint review with A7–A10. The next bounded content slice is `A7 — Conflict, Uncertainty, and Revision`.
 
 ```text
 A1 Purpose and Non-goals                         DRAFTED / PROVISIONAL
@@ -63,8 +64,8 @@ A1 Purpose and Non-goals                         DRAFTED / PROVISIONAL
 → A3 Abstract Native Kernel Machine             DRAFTED / PROVISIONAL
 → A4 Semantic Laws and Invariants               DRAFTED / PROVISIONAL
 → A5 Identity / Time / Change                   DRAFTED / PROVISIONAL
-→ A6 Knowledge Lifecycle                        NEXT BOUNDED SLICE
-→ A7 Conflict / Uncertainty / Revision
+→ A6 Knowledge Lifecycle                        DRAFTED / PROVISIONAL
+→ A7 Conflict / Uncertainty / Revision           NEXT BOUNDED SLICE
 → A8 Substrate-independence Contract
 → A9 Reference Laboratory Boundary
 → A10 Open Questions / Falsification
@@ -72,15 +73,14 @@ A1 Purpose and Non-goals                         DRAFTED / PROVISIONAL
 → operator decision on reopening runtime work
 ```
 
-### A5 contribution
+### A6 contribution
 
-A5 candidate `nk-identity-time-change/A5-draft-1` treats identity as a typed/scoped relation rather than one universal identifier. It distinguishes referent, semantic-content, Claim-position, Record, lineage-continuity, occurrence and substrate-local identity; preserves `UNRESOLVED` identity; separates multiple temporal dimensions and ordering relations; and classifies correction, Revision, Supersession, restriction, erasure and forgetting without collapsing them.
+A6 candidate `nk-knowledge-lifecycle/A6-draft-1` models the knowledge lifecycle as a labeled directed graph of nine recurring phases (`ENCOUNTERED`, `RETAINED`, `POSITIONED`, `EPISTEMICALLY_WEIGHED`, `RELATIONALLY_INTEGRATED`, `IN_TENSION`, `REVISED_OR_SUPERSEDED`, `DISPOSED`, `ACCOUNTED`) rather than a linear pipeline, each mapped to one or more of A3's thirteen transition families. It defines a typed `LIFECYCLE_TRANSITION` relation reusing A3's outcome vocabulary; separates `LIFECYCLE_TRANSITION_ORDER` from occurrence/causal/write-commit order; and extends A3's eight dispositions with three closure kinds resolving the erasure/forgetting distinctions A5 deferred.
 
-A5 explicitly reconciles existing contracts without silently superseding them:
+A6 explicitly reconciles existing contracts without silently superseding them:
 
-- `nk-id/1.0` remains a versioned current reference encoding; JSON/NFC/SHA-256 is not universalized;
-- `global_seq` / `stream_seq` remain reference-laboratory write/order mechanisms, not occurrence/causal Canon;
-- the current deletion state machine remains a bounded profile mechanism;
+- the illustrative P1–C5 Event-to-phase mapping (`ADMIT`/`LINK`/`UTILIZED`/`SUPERSEDED`/`ERASED`) is non-canonical and authorizes no new Event verbs;
+- `global_seq` / `stream_seq` remain reference-laboratory ordering mechanisms, not `LIFECYCLE_TRANSITION_ORDER` itself;
 - Issue #14/#15/#16 retain their established scopes;
 - Issue #74 / ADR-0024 and Issue #18 remain untouched/operator-controlled.
 
@@ -133,7 +133,7 @@ production_authorized:      false
 
 ### Reducer referential semantics — Issue #74 / ADR-0024
 
-`PROPOSED / PENDING_OPERATOR / RUNTIME NOT AUTHORIZED`. Reducer v1 remains immutable; A5 does not decide successor topology or reducer-v2 semantics.
+`PROPOSED / PENDING_OPERATOR / RUNTIME NOT AUTHORIZED`. Reducer v1 remains immutable; A6 does not decide successor topology, reducer-v2 semantics, or `REVISED_OR_SUPERSEDED` successor/cycle rules.
 
 ## Downstream contract work
 
@@ -165,10 +165,10 @@ The phase is complete only when:
 ## Explicit non-claims
 
 ```text
-A1-A5 drafted ≠ independent approval or integrated blueprint approval
-A5 draft ≠ accepted universal identity/time theory
-A5 draft ≠ runtime Temporal implementation
-A5 draft ≠ supersession of nk-id/1.0, nk-event/1.0, or nk-deletion/1.0
+A1-A6 drafted ≠ independent approval or integrated blueprint approval
+A6 draft ≠ accepted universal lifecycle theory
+A6 draft ≠ runtime Temporal implementation
+A6 draft ≠ supersession of nk-id/1.0, nk-event/1.0, or nk-deletion/1.0
 blueprint documentation ≠ implementation evidence
 reference laboratory ≠ final architecture
 future-facing design ≠ demonstrated future substrate support
