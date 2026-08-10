@@ -230,9 +230,13 @@ def validate(repo: Path) -> list[Finding]:
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("repo", nargs="?", type=Path, default=Path.cwd())
+    parser.add_argument("repo_path", nargs="?", type=Path, default=None)
+    parser.add_argument("--repo", dest="repo_flag", type=Path, default=None)
     args = parser.parse_args(argv)
-    findings = validate(args.repo.resolve())
+    if args.repo_path is not None and args.repo_flag is not None:
+        parser.error("repository may be supplied either positionally or with --repo, not both")
+    repo = (args.repo_flag or args.repo_path or Path.cwd()).resolve()
+    findings = validate(repo)
     if findings:
         for finding in findings:
             print(finding.render(), file=sys.stderr)
