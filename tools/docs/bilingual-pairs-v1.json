@@ -5,10 +5,7 @@
       "pair_id": "root-readme",
       "english": "README.md",
       "russian": "README.ru.md",
-      "selectors": [
-        "(./README.md)",
-        "(./README.ru.md)"
-      ],
+      "selectors": ["(./README.md)", "(./README.ru.md)"],
       "shared_literals": [
         "RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY",
         "45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED",
@@ -16,14 +13,8 @@
         "C5_BOUNDED_REHEARSAL",
         "production_authorized:      false"
       ],
-      "english_literals": [
-        "Human quickstart",
-        "Current evidence"
-      ],
-      "russian_literals": [
-        "Быстрый старт для человека",
-        "Текущая карта evidence"
-      ],
+      "english_literals": ["Human quickstart", "Current evidence"],
+      "russian_literals": ["Быстрый старт для человека", "Текущая карта evidence"],
       "compare_heading_levels": true,
       "require_single_h1": true
     },
@@ -31,24 +22,15 @@
       "pair_id": "docs-index",
       "english": "docs/README.md",
       "russian": "docs/README.ru.md",
-      "selectors": [
-        "(./README.md)",
-        "(./README.ru.md)"
-      ],
+      "selectors": ["(./README.md)", "(./README.ru.md)"],
       "shared_literals": [
         "C5_BOUNDED_REHEARSAL",
         "45 / 10 / 17 / 0",
         "NK-EPI: 0 SUPPORTED / 0 PARTIAL / 8 UNSUPPORTED / 0 FAILED",
         "production: NOT AUTHORIZED"
       ],
-      "english_literals": [
-        "Start here",
-        "Reading order"
-      ],
-      "russian_literals": [
-        "Начать здесь",
-        "Порядок чтения"
-      ],
+      "english_literals": ["Start here", "Reading order"],
+      "russian_literals": ["Начать здесь", "Порядок чтения"],
       "compare_heading_levels": true,
       "require_single_h1": true
     },
@@ -56,10 +38,7 @@
       "pair_id": "architecture-refoundation",
       "english": "docs/ARCHITECTURE_REFOUNDATION.md",
       "russian": "docs/ARCHITECTURE_REFOUNDATION.ru.md",
-      "selectors": [
-        "(./ARCHITECTURE_REFOUNDATION.md)",
-        "(./ARCHITECTURE_REFOUNDATION.ru.md)"
-      ],
+      "selectors": ["(./ARCHITECTURE_REFOUNDATION.md)", "(./ARCHITECTURE_REFOUNDATION.ru.md)"],
       "shared_literals": [
         "ACTIVE / BLUEPRINT-FIRST / RUNTIME EXPANSION FROZEN",
         "ADR-0025",
@@ -68,14 +47,8 @@
         "Python + PostgreSQL + SQLite",
         "Production authorization: false"
       ],
-      "english_literals": [
-        "Why this phase exists",
-        "Blueprint completion gate"
-      ],
-      "russian_literals": [
-        "Зачем нужна эта фаза",
-        "Gate завершения blueprint"
-      ],
+      "english_literals": ["Why this phase exists", "Blueprint completion gate"],
+      "russian_literals": ["Зачем нужна эта фаза", "Gate завершения blueprint"],
       "compare_heading_levels": true,
       "require_single_h1": true
     },
@@ -83,10 +56,7 @@
       "pair_id": "a1-kernel-purpose-and-non-goals",
       "english": "docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.md",
       "russian": "docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md",
-      "selectors": [
-        "(./A1_KERNEL_PURPOSE_AND_NON_GOALS.md)",
-        "(./A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md)"
-      ],
+      "selectors": ["(./A1_KERNEL_PURPOSE_AND_NON_GOALS.md)", "(./A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md)"],
       "shared_literals": [
         "A1_KERNEL_PURPOSE_AND_NON_GOALS",
         "next_content_slice: A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY",
@@ -94,14 +64,8 @@
         "Issue #88",
         "(`P1`–`C5`)"
       ],
-      "english_literals": [
-        "The problem Native Kernel studies",
-        "Durable qualities the Kernel must preserve"
-      ],
-      "russian_literals": [
-        "Проблема, которую изучает Native Kernel",
-        "Долговечные свойства, которые обязан сохранять Kernel"
-      ],
+      "english_literals": ["The problem Native Kernel studies", "Durable qualities the Kernel must preserve"],
+      "russian_literals": ["Проблема, которую изучает Native Kernel", "Долговечные свойства, которые обязан сохранять Kernel"],
       "compare_heading_levels": true,
       "require_single_h1": true
     },
@@ -109,10 +73,7 @@
       "pair_id": "a2-knowledge-and-memory-ontology",
       "english": "docs/A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md",
       "russian": "docs/A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md",
-      "selectors": [
-        "(./A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md)",
-        "(./A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md)"
-      ],
+      "selectors": ["(./A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md)", "(./A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md)"],
       "shared_literals": [
         "A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY",
         "next_content_slice: A3_ABSTRACT_NATIVE_KERNEL_MACHINE",
@@ -124,14 +85,8 @@
         "State ≠ necessarily reducer output",
         "Knowledge ≠ LLM / embeddings / SQL / JSON / specific processor"
       ],
-      "english_literals": [
-        "Alternative ontology structures considered",
-        "Required non-equivalences"
-      ],
-      "russian_literals": [
-        "Рассмотренные альтернативные структуры ontology",
-        "Обязательные non-equivalences"
-      ],
+      "english_literals": ["Alternative ontology structures considered", "Required non-equivalences"],
+      "russian_literals": ["Рассмотренные альтернативные структуры ontology", "Обязательные non-equivalences"],
       "compare_heading_levels": true,
       "require_single_h1": true
     },
@@ -139,10 +94,7 @@
       "pair_id": "a3-abstract-native-kernel-machine",
       "english": "docs/A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md",
       "russian": "docs/A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md",
-      "selectors": [
-        "(./A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md)",
-        "(./A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md)"
-      ],
+      "selectors": ["(./A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md)", "(./A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md)"],
       "shared_literals": [
         "A3_ABSTRACT_NATIVE_KERNEL_MACHINE",
         "next_content_slice: A4_SEMANTIC_LAWS_AND_INVARIANTS",
@@ -154,14 +106,8 @@
         "admission ≠ truth",
         "profile conformance ≠ production authorization"
       ],
-      "english_literals": [
-        "Alternative machine structures considered",
-        "Authority boundaries"
-      ],
-      "russian_literals": [
-        "Рассмотренные структуры machine",
-        "Границы Authority"
-      ],
+      "english_literals": ["Alternative machine structures considered", "Authority boundaries"],
+      "russian_literals": ["Рассмотренные структуры machine", "Границы Authority"],
       "compare_heading_levels": true,
       "require_single_h1": true
     },
@@ -169,10 +115,7 @@
       "pair_id": "a4-semantic-laws-and-invariants",
       "english": "docs/A4_SEMANTIC_LAWS_AND_INVARIANTS.md",
       "russian": "docs/A4_SEMANTIC_LAWS_AND_INVARIANTS.ru.md",
-      "selectors": [
-        "(./A4_SEMANTIC_LAWS_AND_INVARIANTS.md)",
-        "(./A4_SEMANTIC_LAWS_AND_INVARIANTS.ru.md)"
-      ],
+      "selectors": ["(./A4_SEMANTIC_LAWS_AND_INVARIANTS.md)", "(./A4_SEMANTIC_LAWS_AND_INVARIANTS.ru.md)"],
       "shared_literals": [
         "A4_SEMANTIC_LAWS_AND_INVARIANTS",
         "nk-semantic-laws/A4-draft-1",
@@ -183,14 +126,32 @@
         "history visibility ≠ mandatory Event sourcing",
         "profile conformance ≠ production authorization"
       ],
-      "english_literals": [
-        "Law qualification test",
-        "Cross-law consequences"
+      "english_literals": ["Law qualification test", "Cross-law consequences"],
+      "russian_literals": ["Тест допуска закона", "Cross-law consequences"],
+      "compare_heading_levels": true,
+      "require_single_h1": true
+    },
+    {
+      "pair_id": "a5-identity-time-and-change",
+      "english": "docs/A5_IDENTITY_TIME_AND_CHANGE.md",
+      "russian": "docs/A5_IDENTITY_TIME_AND_CHANGE.ru.md",
+      "selectors": ["(./A5_IDENTITY_TIME_AND_CHANGE.md)", "(./A5_IDENTITY_TIME_AND_CHANGE.ru.md)"],
+      "shared_literals": [
+        "A5_IDENTITY_TIME_AND_CHANGE",
+        "nk-identity-time-change/A5-draft-1",
+        "next_content_slice: A6_KNOWLEDGE_LIFECYCLE",
+        "ADR-0025",
+        "Issue #88",
+        "REFERENT_IDENTITY",
+        "LINEAGE_CONTINUITY_IDENTITY",
+        "OCCURRENCE_TIME",
+        "WRITE_COMMIT_TIME",
+        "CAUSAL_DEPENDENCY_ORDER",
+        "UNRESOLVED",
+        "nk-id/1.0"
       ],
-      "russian_literals": [
-        "Тест допуска закона",
-        "Cross-law consequences"
-      ],
+      "english_literals": ["Typed identity relation", "Falsification criteria and open questions"],
+      "russian_literals": ["Typed identity relation", "Falsification criteria и open questions"],
       "compare_heading_levels": true,
       "require_single_h1": true
     },
@@ -198,10 +159,7 @@
       "pair_id": "human-quickstart",
       "english": "docs/QUICKSTART.md",
       "russian": "docs/QUICKSTART.ru.md",
-      "selectors": [
-        "(./QUICKSTART.md)",
-        "(./QUICKSTART.ru.md)"
-      ],
+      "selectors": ["(./QUICKSTART.md)", "(./QUICKSTART.ru.md)"],
       "shared_literals": [
         "SQLite 3.51.3",
         "NK_TEST_POSTGRES_DSN",
@@ -209,14 +167,8 @@
         "test_postgresql_profile_integration.py",
         "test_p5_cross_profile_integration.py"
       ],
-      "english_literals": [
-        "Why the system SQLite may be rejected",
-        "Interpret results carefully"
-      ],
-      "russian_literals": [
-        "Почему системный SQLite может быть отклонён",
-        "Результаты нужно трактовать строго"
-      ],
+      "english_literals": ["Why the system SQLite may be rejected", "Interpret results carefully"],
+      "russian_literals": ["Почему системный SQLite может быть отклонён", "Результаты нужно трактовать строго"],
       "compare_heading_levels": true,
       "require_single_h1": true
     },
@@ -224,10 +176,7 @@
       "pair_id": "glossary",
       "english": "docs/GLOSSARY.md",
       "russian": "docs/GLOSSARY.ru.md",
-      "selectors": [
-        "(./GLOSSARY.md)",
-        "(./GLOSSARY.ru.md)"
-      ],
+      "selectors": ["(./GLOSSARY.md)", "(./GLOSSARY.ru.md)"],
       "shared_literals": [
         "0/8 SUPPORTED",
         "Public repository",
@@ -235,14 +184,8 @@
         "Accepted ADR",
         "implemented runtime"
       ],
-      "english_literals": [
-        "Non-equivalences to preserve",
-        "Claim              ≠ truth"
-      ],
-      "russian_literals": [
-        "Неэквивалентности, которые нужно сохранять",
-        "Claim               ≠ truth"
-      ],
+      "english_literals": ["Non-equivalences to preserve", "Claim              ≠ truth"],
+      "russian_literals": ["Неэквивалентности, которые нужно сохранять", "Claim               ≠ truth"],
       "compare_heading_levels": true,
       "require_single_h1": true
     },
@@ -250,10 +193,7 @@
       "pair_id": "storage-execution-profiles",
       "english": "docs/STORAGE_AND_EXECUTION_PROFILES.md",
       "russian": "docs/STORAGE_AND_EXECUTION_PROFILES.ru.md",
-      "selectors": [
-        "(./STORAGE_AND_EXECUTION_PROFILES.md)",
-        "(./STORAGE_AND_EXECUTION_PROFILES.ru.md)"
-      ],
+      "selectors": ["(./STORAGE_AND_EXECUTION_PROFILES.md)", "(./STORAGE_AND_EXECUTION_PROFILES.ru.md)"],
       "shared_literals": [
         "native-kernel/postgresql-reference@0.4-p4",
         "clean/postgresql-reference/0.1",
@@ -264,14 +204,8 @@
         "operational equivalence",
         "production readiness"
       ],
-      "english_literals": [
-        "Compute and storage are independent axes",
-        "A model choice must not silently select the authoritative database."
-      ],
-      "russian_literals": [
-        "Compute и storage — независимые оси",
-        "Выбор модели, процессора или способа вычисления не должен незаметно выбирать authoritative database."
-      ],
+      "english_literals": ["Compute and storage are independent axes", "A model choice must not silently select the authoritative database."],
+      "russian_literals": ["Compute и storage — независимые оси", "Выбор модели, процессора или способа вычисления не должен незаметно выбирать authoritative database."],
       "compare_heading_levels": false,
       "require_single_h1": true
     }

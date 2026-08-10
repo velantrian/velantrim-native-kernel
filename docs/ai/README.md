@@ -12,16 +12,17 @@ This directory is the mandatory continuity surface for AI agents, auditors, and 
 6. [`KNOWN_RISKS.md`](KNOWN_RISKS.md)
 7. [`../../ROADMAP.md`](../../ROADMAP.md)
 8. [`../ARCHITECTURE_REFOUNDATION.md`](../ARCHITECTURE_REFOUNDATION.md)
-9. [`../A1_KERNEL_PURPOSE_AND_NON_GOALS.md`](../A1_KERNEL_PURPOSE_AND_NON_GOALS.md) and [`../A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md`](../A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md)
-10. [`../A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md`](../A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md) and [`../A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md`](../A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md)
-11. [`../A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md`](../A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md) and [`../A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md`](../A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md)
-12. [`../A4_SEMANTIC_LAWS_AND_INVARIANTS.md`](../A4_SEMANTIC_LAWS_AND_INVARIANTS.md) and [`../A4_SEMANTIC_LAWS_AND_INVARIANTS.ru.md`](../A4_SEMANTIC_LAWS_AND_INVARIANTS.ru.md)
-13. [`ISSUE_RECONCILIATION.md`](ISSUE_RECONCILIATION.md)
-14. [`NOTION_HANDOFF.md`](NOTION_HANDOFF.md)
-15. affected Canon, contracts, ADRs, source, tests, workflows, and evidence
-16. current GitHub and Notion state
+9. [`../A1_KERNEL_PURPOSE_AND_NON_GOALS.md`](../A1_KERNEL_PURPOSE_AND_NON_GOALS.md) / [`RU`](../A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md)
+10. [`../A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md`](../A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md) / [`RU`](../A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md)
+11. [`../A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md`](../A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md) / [`RU`](../A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md)
+12. [`../A4_SEMANTIC_LAWS_AND_INVARIANTS.md`](../A4_SEMANTIC_LAWS_AND_INVARIANTS.md) / [`RU`](../A4_SEMANTIC_LAWS_AND_INVARIANTS.ru.md)
+13. [`../A5_IDENTITY_TIME_AND_CHANGE.md`](../A5_IDENTITY_TIME_AND_CHANGE.md) / [`RU`](../A5_IDENTITY_TIME_AND_CHANGE.ru.md)
+14. [`ISSUE_RECONCILIATION.md`](ISSUE_RECONCILIATION.md)
+15. [`NOTION_HANDOFF.md`](NOTION_HANDOFF.md)
+16. affected Canon/contracts/ADRs/source/tests/workflows/evidence
+17. current GitHub and Notion state
 
-Do not read every historical handoff before identifying the current task. Do not begin with random code search.
+Do not begin with random code search or historical handoffs before resolving current truth.
 
 ## Current boundary
 
@@ -42,62 +43,82 @@ ADR-0025: ACCEPTED / OPERATOR APPROVED
 Architecture Re-foundation: ACTIVE / BLUEPRINT-FIRST
 runtime expansion: FROZEN
 P1–C5 role: BOUNDED REFERENCE LABORATORY
-blueprint content: A1-A4 DRAFTED / PROVISIONAL
-next content slice: A5 — Identity / Time / Change
+blueprint content: A1-A5 DRAFTED / PROVISIONAL
+next content slice: A6 — Knowledge Lifecycle
 ```
 
-The full plan and drafted content are maintained in:
+A1–A5 are drafted provisional architecture slices, not independent approval, integrated Canon, runtime evidence, or production authorization. The current candidate progression must remain exact; changing completed content away from exact A1+A2+A3+A4+A5 must fail continuity validation.
 
-- [`../ARCHITECTURE_REFOUNDATION.md`](../ARCHITECTURE_REFOUNDATION.md)
-- [`../ARCHITECTURE_REFOUNDATION.ru.md`](../ARCHITECTURE_REFOUNDATION.ru.md)
-- [`../A1_KERNEL_PURPOSE_AND_NON_GOALS.md`](../A1_KERNEL_PURPOSE_AND_NON_GOALS.md)
-- [`../A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md`](../A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md)
-- [`../A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md`](../A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md)
-- [`../A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md`](../A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md)
-- [`../A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md`](../A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md)
-- [`../A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md`](../A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md)
-- [`../A4_SEMANTIC_LAWS_AND_INVARIANTS.md`](../A4_SEMANTIC_LAWS_AND_INVARIANTS.md)
-- [`../A4_SEMANTIC_LAWS_AND_INVARIANTS.ru.md`](../A4_SEMANTIC_LAWS_AND_INVARIANTS.ru.md)
-- [`../adr/0025-blueprint-before-runtime-expansion.md`](../adr/0025-blueprint-before-runtime-expansion.md)
+## A5 continuity boundary
 
-A1, A2, A3, and A4 are drafted, provisional architecture slices. They are not independently approved, not integrated Canon, and remain subject to revision during A5–A10 and integrated review.
-
-A2 preserves at least:
+A5 candidate model: `nk-identity-time-change/A5-draft-1`.
 
 ```text
-Observation ≠ Claim
-Claim ≠ Truth
-Evidence ≠ Source
-Repetition ≠ Evidence
-Belief ≠ Knowledge
-Memory ≠ merely a stored Record
-retrieval relevance ≠ epistemic validity
-Conflict ≠ necessarily Contradiction
-Unknown ≠ False
-Event usage in P1-C5 ≠ Event as universal primitive
-State ≠ necessarily reducer output
-Knowledge ≠ LLM / embeddings / SQL / JSON / specific processor
+identity is typed + scoped
+same content ≠ same Claim ≠ same Record ≠ same occurrence
+semantic identity ≠ substrate-local identity
+equal bytes/hash/text ≠ universal semantic identity
+occurrence/valid/Observation/assertion/Record/decision/effective/write time remain distinguishable
+write/commit order ≠ occurrence order ≠ causal order
+Revision ≠ silent overwrite
+Supersession ≠ deletion or falsity
+restriction ≠ logical erasure ≠ physical deletion ≠ crypto-erasure ≠ forgetting
 ```
 
-A3 preserves at least:
+Identity kinds currently drafted:
 
 ```text
-abstract machine ≠ runtime implementation
-transition ≠ Event envelope
-transition relation ≠ reducer
-history visibility ≠ mandatory Event sourcing
-admission ≠ truth
-deterministic output ≠ true output
-profile conformance ≠ production authorization
+REFERENT_IDENTITY
+SEMANTIC_CONTENT_IDENTITY
+CLAIM_POSITION_IDENTITY
+RECORD_IDENTITY
+LINEAGE_CONTINUITY_IDENTITY
+OCCURRENCE_IDENTITY
+SUBSTRATE_LOCAL_IDENTITY
 ```
 
-A4 drafts the first GitHub-resident semantic-law set as `nk-semantic-laws/A4-draft-1`, currently 28 candidate laws. The count is provisional. Each law has a statement, rationale, counterexample/falsifier, failure mode, observable obligation, and exception/open uncertainty. The earlier false Notion-only identity `nk-semantic-laws/0.1-draft` is not reused.
+Possible scoped results include `SAME`, `DISTINCT`, `CONTINUATION_OF`, `VERSION_OF`, `ALIAS_OF`, `MIGRATED_FROM`, and `UNRESOLVED`.
 
-A4 additionally protects meaning across representation and substrate change, including semantic identity versus storage identity, Context/provenance/Authority scope, temporal distinctions, accountable revision and Supersession, Conflict versus resolution, derived views versus history, selection versus epistemic validity, bounded accountability versus correctness, and named equivalence versus assumed sameness.
+The draft deliberately reconciles rather than silently supersedes existing accepted/versioned contracts:
 
-No new semantic/runtime expansion is authorized before blueprint review. Existing code and evidence remain preserved and may receive bounded maintenance, integrity, reproducibility, provenance, and validator fixes.
+```text
+A5 meaning-level identity/time model
+        ↓
+versioned encoding/profile mappings
+        ↓
+existing nk-id/1.0 as one current mapping
+```
 
-The machine-readable freeze is enforced fail closed by [`../../tools/ai_context/validate_architecture_freeze.py`](../../tools/ai_context/validate_architecture_freeze.py) in AI-context CI. Removing ADR-0025 state, disabling the freeze, authorizing semantic/runtime expansion, losing A1–A10, changing completed content away from exact A1+A2+A3+A4, or bypassing separate operator review must fail validation.
+`nk-id/1.0` UTF-8/NFC/JSON/SHA-256 details remain a current versioned reference contract, not the only universal substrate realization. `global_seq`/`stream_seq` remain reference-laboratory ordering. Existing deletion-state enums remain bounded profile mechanisms.
+
+## Active sequence
+
+```text
+A1 Purpose and Non-goals                         DRAFTED / PROVISIONAL
+→ A2 Knowledge and Memory Ontology              DRAFTED / PROVISIONAL
+→ A3 Abstract Native Kernel Machine             DRAFTED / PROVISIONAL
+→ A4 Semantic Laws and Invariants               DRAFTED / PROVISIONAL
+→ A5 Identity / Time / Change                   DRAFTED / PROVISIONAL
+→ A6 Knowledge Lifecycle                        NEXT BOUNDED SLICE
+→ A7 Conflict / Uncertainty / Revision
+→ A8 Substrate-independence Contract
+→ A9 Reference Laboratory Boundary
+→ A10 Open Questions / Falsification
+→ integrated blueprint review
+→ separate operator decision before runtime expansion
+```
+
+## Runtime and operator boundaries
+
+No new semantic/runtime expansion before blueprint gate completion.
+
+```text
+Issue #18: PENDING_OPERATOR — no license/publication selection
+Issue #74 / ADR-0024: PROPOSED / PENDING_OPERATOR — reducer v1 immutable; reducer-v2 unauthorized
+Track H source admission: operator-controlled
+```
+
+Architecture research does not silently decide these boundaries. Issue #14/#15/#16 retain their existing versioned contract and remaining evidence scopes.
 
 ## Track boundary
 
@@ -109,10 +130,8 @@ R architecture re-foundation: ACTIVE / blueprint-first / no automatic promotion
 
 ```text
 NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GLOBALLY_LOST
-historical recovery ≠ clean implementation
 reference laboratory ≠ final architecture
 blueprint documentation ≠ runtime evidence
-C2 ≠ C3 ≠ C4 ≠ C5
 C5 bounded rehearsal ≠ production readiness
 ```
 
@@ -121,59 +140,12 @@ C5 bounded rehearsal ≠ production readiness
 ```text
 publication checkpoint:
   10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c
-  PR #83 decision-package publication identity
 
 manifest source / Notion synchronized descendant:
   70acd0da61fee19131947aa56125833adb156ced
-  PR #86 merged, validated, synchronized, and read back
 ```
 
-The later Notion checkpoint does not rewrite or replace the publication checkpoint. A committed state file references only already completed ancestors; it does not predict its own future merge SHA.
-
-Live HEAD must be resolved through Git or GitHub. A descendant commit does not silently broaden earlier runtime, evidence, publication, or Notion proof.
-
-## Active sequence
-
-```text
-A1 Purpose and Non-goals                         DRAFTED / PROVISIONAL
-→ A2 Knowledge and Memory Ontology              DRAFTED / PROVISIONAL
-→ A3 Abstract Native Kernel Machine             DRAFTED / PROVISIONAL
-→ A4 Semantic Laws and Invariants               DRAFTED / PROVISIONAL
-→ A5 Identity / Time / Change                   NEXT BOUNDED SLICE
-→ A6 Knowledge Lifecycle
-→ A7 Conflict / Uncertainty / Revision
-→ A8 Substrate-independence Contract
-→ A9 Reference Laboratory Boundary
-→ A10 Open Questions / Falsification
-→ integrated blueprint review
-→ separate operator decision before runtime expansion
-```
-
-Only after that review may downstream contract/runtime sequencing be reopened:
-
-```text
-reconcile contract families
-→ NK-SAM and named equivalence
-→ Event/history commitment if required by the integrated blueprint
-→ ADR-0024 outcome if reducer work resumes
-→ only then any reducer-v2 runtime
-```
-
-## Independent pending decisions
-
-```text
-Issue #18:
-  license/publication PENDING_OPERATOR
-  external contributions NOT ACCEPTED
-  package publication NOT AUTHORIZED
-
-Issue #74 / ADR-0024:
-  PROPOSED / PENDING_OPERATOR
-  reducer v1 IMMUTABLE
-  reducer-v2 NOT AUTHORIZED
-```
-
-Architecture research does not silently decide either issue.
+The later Notion synchronization checkpoint does not rewrite or replace the earlier publication checkpoint. Live HEAD comes from Git/GitHub; committed state does not predict its own future merge or Notion synchronization identity.
 
 ## Truth surfaces
 
@@ -190,62 +162,24 @@ ACTIVE ROADMAP
 
 DRAFTED BLUEPRINT CONTENT
   ../A1_KERNEL_PURPOSE_AND_NON_GOALS.md
-  ../A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md
   ../A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md
-  ../A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md
   ../A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md
-  ../A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md
   ../A4_SEMANTIC_LAWS_AND_INVARIANTS.md
-  ../A4_SEMANTIC_LAWS_AND_INVARIANTS.ru.md
-
-ACTIVE RISKS
-  KNOWN_RISKS.md
-
-RECONCILIATION RECORDS
-  ISSUE_RECONCILIATION.md
-  NOTION_HANDOFF.md
-
-HISTORICAL RECORD
-  implementation records
-  accepted ADRs
-  immutable evidence manifests
-  Git history
-
-PROPOSAL
-  proposed ADRs
-  research backlog
+  ../A5_IDENTITY_TIME_AND_CHANGE.md
+  plus Russian counterparts
 ```
 
-Historical chronology and proposals are not authoritative current state.
-
-## Evidence route
-
-```text
-C5 plan and ADR-0021
-→ implementation and final checkpoints
-→ repository-resident exact ZIPs
-→ strict bundle manifests and verifier
-→ ADR-0023 safe-version additive identity
-```
-
-Evidence roots:
-
-```text
-../../evidence/c5/2026-08-07/manifest.json
-../../evidence/c5/2026-08-08-adr0023/manifest.json
-```
-
-These archives are version-bound. ADR-0025 and A1–A4 do not expand their proof boundary.
+Historical records, proposals and Notion do not override current GitHub truth.
 
 ## Source-of-truth order
 
-1. exact code, tests, contracts, and retained artifact bytes;
-2. exact-SHA CI jobs/logs and GitHub live refs, issues, and reviews;
-3. `project-state.json`, `STATUS.md`, and `CURRENT_STATE.md`;
-4. accepted ADRs and versioned contracts;
+1. exact code/tests/contracts/artifact bytes;
+2. exact-SHA CI and live GitHub refs/issues/reviews;
+3. `project-state.json`, `STATUS.md`, `CURRENT_STATE.md`;
+4. accepted ADRs/versioned contracts;
 5. active blueprint plan and drafted research deliverables;
-6. implementation and reconciliation records, work log, and PR/issue history;
-7. Notion and historical chats.
+6. implementation/reconciliation history;
+7. Notion and chats.
 
 ## Automated guards
 
@@ -257,18 +191,7 @@ python tools/ai_context/validate_architecture_freeze.py --repo .
 python tools/ai_context/validate_reconciliation.py --repo .
 python tools/ai_context/validate_context.py --repo .
 python tools/docs/validate_bilingual_parity.py --repo .
-python -m unittest tests.test_a4_semantic_laws tests.test_a3_abstract_machine tests.test_architecture_freeze tests.test_ai_context_validator
+python -m unittest discover -s tests -p 'test_a5_identity_time_change.py' -v
 ```
 
-## Historical records
-
-Read only when relevant:
-
-- [`P4_IMPLEMENTATION_RECORD.md`](P4_IMPLEMENTATION_RECORD.md)
-- [`P5_IMPLEMENTATION_RECORD.md`](P5_IMPLEMENTATION_RECORD.md)
-- [`C4_IMPLEMENTATION_RECORD.md`](C4_IMPLEMENTATION_RECORD.md)
-- [`C5_IMPLEMENTATION_RECORD.md`](C5_IMPLEMENTATION_RECORD.md)
-- [`WORK_LOG.md`](WORK_LOG.md)
-- [`AUDIT_PLAYBOOK.md`](AUDIT_PLAYBOOK.md)
-
-Historical records preserve provenance; they do not override current state.
+A5 drafting does not change runtime, evidence identities, assertion arithmetic, NK-EPI, maturity, or production status.

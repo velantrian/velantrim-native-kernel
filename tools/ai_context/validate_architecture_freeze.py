@@ -54,8 +54,9 @@ EXPECTED_COMPLETED_DELIVERABLES = [
     "A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY",
     "A3_ABSTRACT_NATIVE_KERNEL_MACHINE",
     "A4_SEMANTIC_LAWS_AND_INVARIANTS",
+    "A5_IDENTITY_TIME_AND_CHANGE",
 ]
-EXPECTED_NEXT_CONTENT_SLICE = "A5_IDENTITY_TIME_AND_CHANGE"
+EXPECTED_NEXT_CONTENT_SLICE = "A6_KNOWLEDGE_LIFECYCLE"
 COMPLETED_DELIVERABLE_DOCS = {
     "A1_KERNEL_PURPOSE_AND_NON_GOALS": (
         "docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.md",
@@ -72,6 +73,10 @@ COMPLETED_DELIVERABLE_DOCS = {
     "A4_SEMANTIC_LAWS_AND_INVARIANTS": (
         "docs/A4_SEMANTIC_LAWS_AND_INVARIANTS.md",
         "docs/A4_SEMANTIC_LAWS_AND_INVARIANTS.ru.md",
+    ),
+    "A5_IDENTITY_TIME_AND_CHANGE": (
+        "docs/A5_IDENTITY_TIME_AND_CHANGE.md",
+        "docs/A5_IDENTITY_TIME_AND_CHANGE.ru.md",
     ),
 }
 
@@ -95,114 +100,62 @@ def _load(path: Path) -> dict[str, Any]:
 
 
 def validate(state: Mapping[str, Any], *, repo: Path) -> None:
-    _require(
-        state.get("protocol") == "nk-project-state/2",
-        "unsupported project-state protocol",
-    )
+    _require(state.get("protocol") == "nk-project-state/2", "unsupported project-state protocol")
 
     status = state.get("status")
     _require(isinstance(status, Mapping), "status object required")
-    _require(
-        status.get("production_authorized") is False,
-        "ADR-0025 cannot coexist with production authorization",
-    )
+    _require(status.get("production_authorized") is False, "ADR-0025 cannot coexist with production authorization")
 
     tracks = state.get("tracks")
     _require(isinstance(tracks, Mapping), "tracks object required")
 
     clean = tracks.get("clean_implementation")
     _require(isinstance(clean, Mapping), "clean implementation track required")
-    _require(
-        clean.get("architecture_role") == "BOUNDED_REFERENCE_LABORATORY",
-        "clean implementation must remain a bounded reference laboratory",
-    )
-    _require(
-        clean.get("semantic_runtime_expansion_authorized") is False,
-        "semantic/runtime expansion is not authorized",
-    )
-    _require(
-        clean.get("maintenance_allowed") is True,
-        "bounded maintenance allowance must remain explicit",
-    )
+    _require(clean.get("architecture_role") == "BOUNDED_REFERENCE_LABORATORY", "clean implementation must remain a bounded reference laboratory")
+    _require(clean.get("semantic_runtime_expansion_authorized") is False, "semantic/runtime expansion is not authorized")
+    _require(clean.get("maintenance_allowed") is True, "bounded maintenance allowance must remain explicit")
 
     research = tracks.get("long_horizon_research")
     _require(isinstance(research, Mapping), "long-horizon research track required")
     _require(research.get("id") == "R", "research track id must be R")
     _require(
-        research.get("status")
-        == "ACTIVE / ARCHITECTURE RE-FOUNDATION / NO AUTOMATIC PROMOTION",
+        research.get("status") == "ACTIVE / ARCHITECTURE RE-FOUNDATION / NO AUTOMATIC PROMOTION",
         "architecture re-foundation status drift",
     )
-    _require(
-        research.get("runtime_authorized") is False,
-        "research track must not authorize runtime",
-    )
+    _require(research.get("runtime_authorized") is False, "research track must not authorize runtime")
 
     refoundation = research.get("architecture_refoundation")
-    _require(
-        isinstance(refoundation, Mapping),
-        "ADR-0025 architecture_refoundation object required",
-    )
-    _require(
-        set(refoundation) == EXPECTED_REFOUNDATION_FIELDS,
-        "architecture_refoundation field inventory drift",
-    )
+    _require(isinstance(refoundation, Mapping), "ADR-0025 architecture_refoundation object required")
+    _require(set(refoundation) == EXPECTED_REFOUNDATION_FIELDS, "architecture_refoundation field inventory drift")
     _require(
         (
             refoundation.get("decision"),
             refoundation.get("issue"),
             refoundation.get("operator_approval"),
             refoundation.get("status"),
-        )
-        == ("ADR-0025", 88, "APPROVED", "ACTIVE / BLUEPRINT-FIRST"),
+        ) == ("ADR-0025", 88, "APPROVED", "ACTIVE / BLUEPRINT-FIRST"),
         "ADR-0025 identity, issue, approval or phase drift",
     )
+    _require(refoundation.get("runtime_expansion_frozen") is True, "runtime expansion freeze must remain enabled")
     _require(
-        refoundation.get("runtime_expansion_frozen") is True,
-        "runtime expansion freeze must remain enabled",
-    )
-    _require(
-        refoundation.get("existing_reference_runtime_role")
-        == "BOUNDED_REFERENCE_LABORATORY",
+        refoundation.get("existing_reference_runtime_role") == "BOUNDED_REFERENCE_LABORATORY",
         "existing runtime role drift",
     )
     _require(
         refoundation.get("plan_en") == "docs/ARCHITECTURE_REFOUNDATION.md"
-        and refoundation.get("plan_ru")
-        == "docs/ARCHITECTURE_REFOUNDATION.ru.md",
+        and refoundation.get("plan_ru") == "docs/ARCHITECTURE_REFOUNDATION.ru.md",
         "architecture blueprint plan identity drift",
     )
-    _require(
-        refoundation.get("deliverables") == EXPECTED_DELIVERABLES,
-        "A1-A10 blueprint deliverable inventory drift",
-    )
-    _require(
-        refoundation.get("completion_requires_operator_review") is True,
-        "blueprint completion must retain separate operator review",
-    )
+    _require(refoundation.get("deliverables") == EXPECTED_DELIVERABLES, "A1-A10 blueprint deliverable inventory drift")
+    _require(refoundation.get("completion_requires_operator_review") is True, "blueprint completion must retain separate operator review")
 
     completed = refoundation.get("completed_deliverables")
-    _require(
-        completed == EXPECTED_COMPLETED_DELIVERABLES,
-        "completed blueprint deliverable inventory drift",
-    )
-    _require(
-        all(item in EXPECTED_DELIVERABLES for item in completed),
-        "completed deliverable is not a declared blueprint deliverable",
-    )
-    _require(
-        len(completed) == len(set(completed)),
-        "completed deliverable inventory must not contain duplicates",
-    )
+    _require(completed == EXPECTED_COMPLETED_DELIVERABLES, "completed blueprint deliverable inventory drift")
+    _require(all(item in EXPECTED_DELIVERABLES for item in completed), "completed deliverable is not a declared blueprint deliverable")
+    _require(len(completed) == len(set(completed)), "completed deliverable inventory must not contain duplicates")
 
-    _require(
-        refoundation.get("next_content_slice") == EXPECTED_NEXT_CONTENT_SLICE,
-        "next blueprint content slice drift",
-    )
-    _require(
-        EXPECTED_NEXT_CONTENT_SLICE not in completed,
-        "next content slice must not already be marked completed",
-    )
+    _require(refoundation.get("next_content_slice") == EXPECTED_NEXT_CONTENT_SLICE, "next blueprint content slice drift")
+    _require(EXPECTED_NEXT_CONTENT_SLICE not in completed, "next content slice must not already be marked completed")
 
     for plan_field in ("plan_en", "plan_ru"):
         plan = repo / str(refoundation[plan_field])
@@ -210,35 +163,19 @@ def validate(state: Mapping[str, Any], *, repo: Path) -> None:
 
     for deliverable in completed:
         docs = COMPLETED_DELIVERABLE_DOCS.get(deliverable)
-        _require(
-            docs is not None,
-            f"missing completed deliverable document mapping: {deliverable}",
-        )
+        _require(docs is not None, f"missing completed deliverable document mapping: {deliverable}")
         for doc_path in docs:
-            _require(
-                (repo / doc_path).is_file(),
-                f"missing completed deliverable document: {doc_path}",
-            )
+            _require((repo / doc_path).is_file(), f"missing completed deliverable document: {doc_path}")
 
-    _require(
-        research.get("runtime_freeze_exceptions") == EXPECTED_FREEZE_EXCEPTIONS,
-        "runtime freeze exception inventory drift",
-    )
-    _require(
-        research.get("canonical_promotion_requires")
-        == EXPECTED_PROMOTION_REQUIREMENTS,
-        "canonical promotion requirement inventory drift",
-    )
+    _require(research.get("runtime_freeze_exceptions") == EXPECTED_FREEZE_EXCEPTIONS, "runtime freeze exception inventory drift")
+    _require(research.get("canonical_promotion_requires") == EXPECTED_PROMOTION_REQUIREMENTS, "canonical promotion requirement inventory drift")
 
     issues = state.get("issues")
     _require(isinstance(issues, Mapping), "issue snapshots required")
     issue = issues.get("88")
     _require(isinstance(issue, Mapping), "Issue #88 snapshot required")
     _require(issue.get("state") == "OPEN", "Issue #88 must remain open")
-    _require(
-        "Architecture Re-foundation" in str(issue.get("meaning", "")),
-        "Issue #88 meaning drift",
-    )
+    _require("Architecture Re-foundation" in str(issue.get("meaning", "")), "Issue #88 meaning drift")
     verification = issue.get("verification")
     _require(isinstance(verification, Mapping), "Issue #88 verification required")
     _require(
@@ -248,9 +185,7 @@ def validate(state: Mapping[str, Any], *, repo: Path) -> None:
         "Issue #88 verification drift",
     )
 
-    non_claims = " ".join(
-        str(item).lower() for item in state.get("non_claims", [])
-    )
+    non_claims = " ".join(str(item).lower() for item in state.get("non_claims", []))
     for phrase in (
         "architecture re-foundation documentation is not runtime implementation evidence",
         "future-facing blueprint does not prove compatibility with arbitrary future substrates",
@@ -260,12 +195,7 @@ def validate(state: Mapping[str, Any], *, repo: Path) -> None:
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument(
-        "state",
-        nargs="?",
-        type=Path,
-        default=Path("project-state.json"),
-    )
+    parser.add_argument("state", nargs="?", type=Path, default=Path("project-state.json"))
     parser.add_argument("--repo", type=Path, default=Path.cwd())
     args = parser.parse_args(argv)
 
@@ -280,7 +210,7 @@ def main(argv: list[str] | None = None) -> int:
     print(
         "Architecture freeze validation passed; "
         "decision=ADR-0025; issue=88; deliverables=A1-A10; "
-        "completed=A1,A2,A3,A4; next=A5; runtime_expansion_frozen=true"
+        "completed=A1,A2,A3,A4,A5; next=A6; runtime_expansion_frozen=true"
     )
     return 0
 

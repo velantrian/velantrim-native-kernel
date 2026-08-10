@@ -18,31 +18,26 @@ C — Clean Reference Implementation
 R — Architecture Re-foundation and Long-Horizon Research
 ```
 
-Their status, evidence, and authority must never be collapsed.
+Their status, evidence and authority must never be collapsed.
 
 ## Governing sequence
 
 ```text
-Architecture purpose and ontology
+purpose/ontology
 → abstract Kernel machine
-→ semantic laws and invariants
-→ identity / time / change model
+→ semantic laws
+→ identity / time / change
 → knowledge lifecycle
-→ conflict / uncertainty / revision model
-→ substrate-independence contract
+→ conflict / uncertainty / revision
+→ substrate-independence
 → reference-laboratory boundary
-→ falsification/open questions
+→ open questions / falsification
 → integrated blueprint review
-→ explicit decisions
-→ replaceable implementation profiles
-→ positive and negative fixtures
-→ cross-profile comparison
-→ exact evidence
-→ status update
-→ Notion synchronization
+→ separate operator decision
+→ only then possible runtime sequencing
 ```
 
-Runtime must not define new semantics before the blueprint and contract. Evidence must not be relabelled after the fact. Maturity does not rise automatically because more tests passed.
+Runtime must not define new semantics before the blueprint/contract. Evidence must not be relabelled after the fact. More tests do not automatically increase maturity.
 
 ## Active priority — Architecture Re-foundation
 
@@ -57,17 +52,18 @@ Drafted provisional content:
 - `A1 — Kernel Purpose and Non-goals`: [English](docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.md) · [Русский](docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md);
 - `A2 — Knowledge and Memory Ontology`: [English](docs/A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md) · [Русский](docs/A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md);
 - `A3 — Abstract Native Kernel Machine`: [English](docs/A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md) · [Русский](docs/A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md);
-- `A4 — Semantic Laws and Invariants`: [English](docs/A4_SEMANTIC_LAWS_AND_INVARIANTS.md) · [Русский](docs/A4_SEMANTIC_LAWS_AND_INVARIANTS.ru.md).
+- `A4 — Semantic Laws and Invariants`: [English](docs/A4_SEMANTIC_LAWS_AND_INVARIANTS.md) · [Русский](docs/A4_SEMANTIC_LAWS_AND_INVARIANTS.ru.md);
+- `A5 — Identity, Time, and Change`: [English](docs/A5_IDENTITY_TIME_AND_CHANGE.md) · [Русский](docs/A5_IDENTITY_TIME_AND_CHANGE.ru.md).
 
-A1–A4 remain pending independent review and integrated blueprint review with A5–A10. The next bounded content slice is `A5 — Identity / Time / Change`.
+A1–A5 remain pending independent review and integrated blueprint review with A6–A10. The next bounded content slice is `A6 — Knowledge Lifecycle`.
 
 ```text
 A1 Purpose and Non-goals                         DRAFTED / PROVISIONAL
 → A2 Knowledge and Memory Ontology              DRAFTED / PROVISIONAL
 → A3 Abstract Native Kernel Machine             DRAFTED / PROVISIONAL
 → A4 Semantic Laws and Invariants               DRAFTED / PROVISIONAL
-→ A5 Identity / Time / Change                   NEXT BOUNDED SLICE
-→ A6 Knowledge Lifecycle
+→ A5 Identity / Time / Change                   DRAFTED / PROVISIONAL
+→ A6 Knowledge Lifecycle                        NEXT BOUNDED SLICE
 → A7 Conflict / Uncertainty / Revision
 → A8 Substrate-independence Contract
 → A9 Reference Laboratory Boundary
@@ -76,60 +72,52 @@ A1 Purpose and Non-goals                         DRAFTED / PROVISIONAL
 → operator decision on reopening runtime work
 ```
 
-A2 provides a provisional technology-/substrate-neutral ontology and does not make Python classes, SQL schemas, Event sourcing, LLMs, embeddings, JSON, or current processors Canon.
+### A5 contribution
 
-A3 provides a provisional scoped obligation-and-transition machine with explicit failure, Authority, order/concurrency, reproducibility and substrate-mapping boundaries. It does not equate transition with Event, abstract machine with runtime implementation, State with reducer output, or profile conformance with production authorization.
+A5 candidate `nk-identity-time-change/A5-draft-1` treats identity as a typed/scoped relation rather than one universal identifier. It distinguishes referent, semantic-content, Claim-position, Record, lineage-continuity, occurrence and substrate-local identity; preserves `UNRESOLVED` identity; separates multiple temporal dimensions and ordering relations; and classifies correction, Revision, Supersession, restriction, erasure and forgetting without collapsing them.
 
-A4 provides `nk-semantic-laws/A4-draft-1`, a first GitHub-resident draft of 28 deduplicated candidate laws. The count is provisional, not a target. Each law has a rationale, counterexample/falsifier, failure mode, observable obligation, and exception/open uncertainty. The set constrains silent semantic collapse across representation/epistemics, Context/Provenance/Authority, identity/memory/time/change, Relations/Conflict/Uncertainty, derived views/selection/accountability, and substrate/conformance. It does not reuse the previously erroneous Notion-only `nk-semantic-laws/0.1-draft` identity.
+A5 explicitly reconciles existing contracts without silently superseding them:
 
-### Runtime freeze
+- `nk-id/1.0` remains a versioned current reference encoding; JSON/NFC/SHA-256 is not universalized;
+- `global_seq` / `stream_seq` remain reference-laboratory write/order mechanisms, not occurrence/causal Canon;
+- the current deletion state machine remains a bounded profile mechanism;
+- Issue #14/#15/#16 retain their established scopes;
+- Issue #74 / ADR-0024 and Issue #18 remain untouched/operator-controlled.
 
-The existing P1–C5 lineage is preserved as a bounded reference laboratory. It is not the final definition of Native Kernel.
+## Runtime freeze
 
 Allowed during the freeze:
-
 - architecture and ontology research;
-- integrity, security, reproducibility, and provenance fixes;
+- integrity/security/reproducibility/provenance fixes;
 - evidence preservation;
-- validator and current-truth repairs;
+- validator/current-truth repairs;
 - historical recovery;
-- isolated experiments that test or falsify a blueprint assumption without runtime promotion.
+- isolated falsification experiments with no runtime promotion.
 
 Not authorized without a separate explicit operator decision:
-
-- reducer v2;
-- new semantic Event verbs;
-- new databases, language ports, model adapters, or ecosystem integrations;
-- executable NK-EPI, Temporal, full Admission, or operational deletion;
+- reducer v2 or new semantic Event verbs;
+- new databases/language ports/model adapters/ecosystem integrations;
+- executable NK-EPI, Temporal, full Admission, or operational deletion expansion;
 - performance-driven semantic changes;
-- maturity or production promotion.
+- maturity/production promotion.
 
 ## Track H — Historical Recovery
 
 **Status:** `BLOCKED / ACTIVE EVIDENCE-RECOVERY / INDEPENDENT`.
-
-Purpose: recover authentic `v0.1.2.1` source and the original 44-test suite from permitted sources.
 
 ```text
 NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GLOBALLY_LOST
 clean reconstruction ≠ authentic historical recovery
 ```
 
-A candidate must be preserved read-only, hashed before extraction, inspected in isolation, recorded as `UNVERIFIED_CANDIDATE`, reviewed for provenance, and accepted only by an explicit operator decision.
+Operator-controlled local sources and source-admission decisions remain outside this bounded architecture work.
 
 ## Track C — Clean Reference Implementation
 
 **Status:** `PRESERVED / ACTIVE FOR MAINTENANCE / PARTIAL / NOT PRODUCTION-READY`.
 
 ```text
-P1 semantic core                         MERGED / REPOSITORY-TESTED
-P2 PostgreSQL append                     MERGED / REPOSITORY-INTEGRATION-TESTED
-P3 replay / projections / Receipts       MERGED / REPOSITORY-INTEGRATION-TESTED
-P4 PostgreSQL assertion conformance      MERGED / PARTIAL / C2
-P5 SQLite + cross-profile comparison     MERGED / PARTIAL / C2 + C3
-C4 offline shadow evaluation             MERGED / PARTIAL
-C5 bounded operational rehearsal         MERGED / PARTIAL / SYNTHETIC
-
+P1–P5 + C4 + C5: preserved bounded reference laboratory
 kernel_runtime_conformance: C4
 operational_validation:     C5_BOUNDED_REHEARSAL
 assertion map:              45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED / 0 FAILED
@@ -137,101 +125,58 @@ NK-EPI:                     0 SUPPORTED / 0 PARTIAL / 8 UNSUPPORTED / 0 FAILED
 production_authorized:      false
 ```
 
-The clean implementation may receive maintenance and integrity fixes under ADR-0025. It may not expand semantic scope while the blueprint gate remains open.
-
-## Completed reconciliation phases
-
-```text
-0A machine-readable truth              COMPLETE / PR #80
-0B human-readable truth                COMPLETE / PR #81
-0C Issues and publication              COMPLETE / PR #82 + PR #83
-0D Notion descendant synchronization   COMPLETE / PR #86
-0E checkpoint-role validator repair    COMPLETE / PR #87
-A3 integrity reconciliation            COMPLETE / PR #95
-```
-
-Live `main` is resolved through GitHub or a checked-out ref. Committed checkpoint records remain non-self-referential.
-
 ## Independent pending decisions
 
 ### License and publication — Issue #18
 
-**State:** `PACKAGE PREPARED / PENDING_OPERATOR / selected_option: null`.
-
-Until explicit selection:
-
-```text
-license change: NO
-external contributions: NOT ACCEPTED
-package publication: NOT AUTHORIZED
-```
-
-This decision does not block architecture research. It blocks an open contribution/publication regime.
+`PENDING_OPERATOR / selected_option: null`. No license change, open contribution regime or package publication is authorized.
 
 ### Reducer referential semantics — Issue #74 / ADR-0024
 
-**State:** `PROPOSED / PENDING_OPERATOR / RUNTIME NOT AUTHORIZED`.
-
-Reducer v1 remains immutable. ADR-0024 is required only before a reducer-v2 path is reopened; Architecture Re-foundation does not accept, reject, or bypass it.
+`PROPOSED / PENDING_OPERATOR / RUNTIME NOT AUTHORIZED`. Reducer v1 remains immutable; A5 does not decide successor topology or reducer-v2 semantics.
 
 ## Downstream contract work
 
-NK-SAM, named equivalence profiles, and Event/history commitment remain required. Their final forms must derive from the integrated blueprint rather than from current Python/SQL convenience.
+Existing accepted/versioned contracts remain historical and usable within their scope. Later integrated review must reconcile them under the completed blueprint rather than silently promote current mechanisms.
 
 ```text
-complete blueprint
+complete A1–A10 blueprint
+→ integrated review
 → reconcile accepted contract families
-→ define NK-SAM and named equivalence
-→ define portable Event/history commitment if the blueprint requires it
-→ decide ADR-0024 outcome when reducer work resumes
-→ only then any reducer-v2 runtime
+→ define named semantic/substrate equivalence if warranted
+→ decide portable history commitment if required
+→ resolve ADR-0024 only if reducer work resumes
+→ separate operator decision before runtime expansion
 ```
 
 ## Blueprint completion gate
 
 The phase is complete only when:
-
 - all ten deliverables are present and linked;
 - terminology is reconciled;
-- contradictions and unknowns remain explicit;
+- contradictions/unknowns remain explicit;
 - implementation-specific assumptions are labelled;
 - falsification criteria are recorded;
-- existing contracts and runtime are mapped without automatic authority;
-- at least two contrasting substrate thought experiments are documented;
+- existing contracts/runtime are mapped without automatic authority;
+- contrasting substrate thought experiments exist;
 - critical review is recorded;
-- the operator approves the next phase separately.
+- operator separately approves the next phase.
 
 ## Explicit non-claims
 
 ```text
-A1-A4 drafted ≠ independent approval or integrated blueprint approval
-28 A4 candidate laws ≠ final law count or executable support
+A1-A5 drafted ≠ independent approval or integrated blueprint approval
+A5 draft ≠ accepted universal identity/time theory
+A5 draft ≠ runtime Temporal implementation
+A5 draft ≠ supersession of nk-id/1.0, nk-event/1.0, or nk-deletion/1.0
 blueprint documentation ≠ implementation evidence
 reference laboratory ≠ final architecture
-future-facing design ≠ future substrate support
-Observation ≠ Claim
-Claim ≠ Truth
-Evidence ≠ Source
-Repetition ≠ Evidence
-Belief ≠ Knowledge
-Memory ≠ merely a stored Record
-retrieval relevance ≠ epistemic validity
-Conflict ≠ necessarily Contradiction
-Unknown ≠ False
-Event usage in P1-C5 ≠ Event as universal primitive
-State ≠ necessarily reducer output
-Knowledge ≠ LLM / embeddings / SQL / JSON / specific processor
-abstract machine ≠ runtime implementation
-transition ≠ Event envelope
-transition relation ≠ reducer
-history visibility ≠ mandatory Event sourcing
-admission ≠ truth
+future-facing design ≠ demonstrated future substrate support
 semantic identity ≠ storage identity
-write order ≠ represented-world order
+equal bytes/hash/text ≠ universal semantic identity
+write order ≠ represented-world or causal order
 Revision ≠ silent overwrite
 Supersession ≠ deletion or falsity
-Receipt/accountability ≠ correctness or truth
-profile conformance ≠ production authorization
 C5 PASS ≠ production readiness
 PostgreSQL + SQLite ≠ full substrate neutrality
 public repository ≠ open-source license
@@ -241,7 +186,7 @@ public repository ≠ open-source license
 
 ```text
 research question
-→ ontology and semantic law
+→ ontology / semantic law
 → abstract machine / contract
 → failure and falsification cases
 → explicit decision
@@ -250,4 +195,4 @@ research question
 → separate promotion decision
 ```
 
-The pre-refoundation roadmap remains available through Git history. It is historical context, not the active sequence.
+The pre-refoundation roadmap remains in Git history as historical context, not active authority.

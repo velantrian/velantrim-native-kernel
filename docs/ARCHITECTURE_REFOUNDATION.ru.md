@@ -5,20 +5,20 @@
 > **State:** `ACTIVE / BLUEPRINT-FIRST / RUNTIME EXPANSION FROZEN`  
 > **Decision:** [`ADR-0025`](./adr/0025-blueprint-before-runtime-expansion.md)  
 > **Issue:** [#88](https://github.com/velantrian/velantrim-native-kernel/issues/88)  
-> **Граница evidence:** только architecture research и governance; без runtime или maturity promotion
+> **Граница evidence:** только architecture research/governance; без runtime, evidence, maturity или production promotion
 
 ## 1. Зачем нужна эта фаза
 
-Native Kernel задуман как technology-neutral архитектура для memory, knowledge, meaning, provenance, uncertainty, conflict, revision и explanation.
-
-Существующие Python, PostgreSQL, SQLite, CI и evidence сохраняются как bounded laboratory. Они не должны становиться определением Kernel только потому, что появились первыми.
+Native Kernel должен сохранять meaning, memory, knowledge, provenance, uncertainty, Change и accountability независимо от одного current technology stack. Существующая линия **Python + PostgreSQL + SQLite** сохраняется как bounded reference laboratory, но не становится permanent Canon только потому, что появилась первой.
 
 ```text
-meaning and invariants
+meaning / ontology / laws
         ↓
 abstract Kernel machine
         ↓
-versioned contracts
+identity / time / lifecycle / conflict models
+        ↓
+substrate-independence contract
         ↓
 replaceable profiles
         ↓
@@ -27,210 +27,75 @@ experiments and evidence
 
 ## 2. Граница фазы
 
-### Этой фазе принадлежат
+Этой фазе принадлежат ontology, semantic laws, abstract-machine obligations, identity/time/change, lifecycle, conflict/uncertainty/revision, substrate-independent obligations, mapping reference profiles, explicit unknowns и falsification criteria.
 
-- ontology;
-- semantic laws;
-- abstract state и transition models;
-- boundaries identity, time, provenance, uncertainty и conflict;
-- substrate-independent obligations;
-- mapping rules между Canon и implementation profiles;
-- explicit unknowns и falsification criteria.
-
-### Этой фазе не принадлежат
-
-- новая reducer implementation;
-- новый database или programming-language profile;
-- product integration;
-- performance tuning;
-- production deployment;
-- proof того, что arbitrary future substrates уже conform.
+Ей не принадлежат new reducer, Event vocabulary, database, language port, LLM/vector adapter, product integration, performance-driven semantic change, production deployment или proof, что arbitrary future substrates уже conform.
 
 ## 3. Обязательные deliverables
 
 ### A1 — Purpose и Non-goals Kernel
 
-**Status:** `DRAFTED / PROVISIONAL` — см. [`A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md`](./A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md) / [`A1_KERNEL_PURPOSE_AND_NON_GOALS.md`](./A1_KERNEL_PURPOSE_AND_NON_GOALS.md). Ожидает independent review и integrated blueprint review вместе с `A2`–`A10`.
-
-A1 определяет проблему Native Kernel, durable qualities, значение `Kernel`, внешние границы и отношения с Titan, Crystal, Mentaury, operating systems, databases и model runtimes.
-
-**Completion test:** выполнен для first-draft scope: читатель отличает architecture от product, database, framework, cognitive system и storage engine без обращения к текущему source code. Final acceptance всё ещё требует independent и integrated review.
+**Status:** `DRAFTED / PROVISIONAL` — [RU](./A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md) / [EN](./A1_KERNEL_PURPOSE_AND_NON_GOALS.md). Определяет Kernel problem, durable qualities, non-goals и ecosystem boundaries.
 
 ### A2 — Knowledge and Memory Ontology
 
-**Status:** `DRAFTED / PROVISIONAL` — см. [`A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md`](./A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md) / [`A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md`](./A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md). Ожидает independent review и integrated blueprint review вместе с A1 и A3–A10.
-
-Drafted inventory различает:
-
-```text
-Signal · Observation · Record · Proposition · Claim · Interpretation
-Hypothesis · Belief · Knowledge · Memory · Evidence · Source · Provenance
-Context · Relation · State · Change · Event · Conflict · Contradiction
-Uncertainty · Revision · Supersession · Authority · Receipt
-```
-
-Для каждого concept A2 фиксирует working definition, non-definition, neighbouring distinctions, allowed relations, identity/lifecycle notes, minimum semantic obligations, unresolved questions, falsification/counterexample и provisional primitive/derived/open classification.
-
-A2 отвергает current Python fields, SQL rows, JSON, graph nodes, embeddings, LLM operations или Event-sourced laboratory mechanics как определения этих concepts.
-
-**Completion test:** выполнен для first-draft scope; final acceptance всё ещё требует independent и integrated review.
+**Status:** `DRAFTED / PROVISIONAL` — [RU](./A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md) / [EN](./A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md). Различает Signal, Observation, Record, Proposition, Claim, Interpretation, Hypothesis, Belief, Knowledge, Memory, Evidence, Source, Provenance, Context, Relation, State, Change, Event, Conflict, Contradiction, Uncertainty, Revision, Supersession, Authority и Receipt без превращения current storage/runtime representations в Canon.
 
 ### A3 — Абстрактная машина Native Kernel
 
-**Status:** `DRAFTED / PROVISIONAL` — см. [`A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md`](./A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md) / [`A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md`](./A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md). Ожидает independent review и integrated blueprint review вместе с A1–A2 и A4–A10.
+**Status:** `DRAFTED / PROVISIONAL` — [RU](./A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md) / [EN](./A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md). Определяет provisional meaning-level configuration facets, transition families, failure/indeterminacy handling, Authority boundaries, order/concurrency и contrasting substrate mappings. `transition ≠ Event envelope`; `State ≠ reducer output` universally.
 
-A3 определяет provisional scoped obligation-and-transition machine, а не переносит current Event/reducer laboratory в Canon. Она фиксирует 13 logical configuration facets и 13 transition families, explicit preconditions/postconditions, failure/indeterminacy outcomes, Authority boundaries, order/concurrency requirements, determinism/reproducibility limits, bounded accountability и contrasting substrate mappings.
+### A4 — Semantic Laws and Invariants
 
-Она сохраняет как минимум:
-
-```text
-abstract machine ≠ runtime implementation
-transition ≠ Event envelope
-transition relation ≠ reducer
-history visibility ≠ mandatory Event sourcing
-admission ≠ truth
-deterministic output ≠ true output
-profile conformance ≠ production authorization
-```
-
-**Completion test:** выполнен для first-draft scope: materially different manual, adaptive/analog и conventional digital mappings выражают provisional machine без переноса SQL/Python semantics в Canon. Final acceptance всё ещё требует independent и integrated review.
-
-### A4 — Семантические законы и инварианты
-
-**Status:** `DRAFTED / PROVISIONAL` — см. [`A4_SEMANTIC_LAWS_AND_INVARIANTS.ru.md`](./A4_SEMANTIC_LAWS_AND_INVARIANTS.ru.md) / [`A4_SEMANTIC_LAWS_AND_INVARIANTS.md`](./A4_SEMANTIC_LAWS_AND_INVARIANTS.md). Ожидает independent review и integrated blueprint review вместе с A1–A3 и A5–A10.
-
-A4 создаёт первый GitHub-resident numbered/versioned law-set candidate:
-
-```text
-law_set: nk-semantic-laws/A4-draft-1
-law_count: 28
-```
-
-28 laws — текущий deduplicated result reconciliation A1 durable qualities, A2 non-equivalences, A3 transition obligations, существующих documentation targets NK-EPI и A4 plan. Count provisional и может измениться во время review; это не число, которое требуется сохранять само по себе.
-
-Laws организованы вокруг:
-
-- representation и epistemic boundaries;
-- Context, Provenance и Authority;
-- identity, Memory, time и Change;
-- Relations, Conflict и Uncertainty;
-- derived views, selection и accountability;
-- substrate, reproducibility и conformance.
-
-Каждый law содержит:
-
-- statement;
-- rationale;
-- counterexample/falsifier;
-- failure mode;
-- observable obligation;
-- exception/open uncertainty.
-
-A4 явно сохраняет, среди прочего:
-
-```text
-representation ≠ represented reality
-Claim / admission / availability ≠ objective truth
-Source or repetition ≠ Evidence by itself
-Unknown / missing / unsupported / failed ≠ False
-semantic identity ≠ storage identity
-write order ≠ represented-world order
-Revision ≠ silent overwrite
-Supersession ≠ deletion or falsity
-Conflict detection ≠ conflict resolution
-derived view ≠ universal State
-retrieval / utility / recency ≠ epistemic validity
-Receipt/accountability ≠ correctness or truth
-history visibility ≠ mandatory Event sourcing
-determinism/reproducibility ≠ truth or physical identity
-profile conformance ≠ production authorization
-```
-
-Ранее ошибочный Notion-only identity `nk-semantic-laws/0.1-draft` не переиспользуется и никогда не был authoritative GitHub A4 law set.
-
-**Completion test:** выполнен для first-draft scope: law set numbered, versioned, substrate-neutral и falsifiable на уровне obligations, maps back к A2/A3, содержит contrasting substrate thought experiments и оставляет detailed identity/time/lifecycle/conflict/conformance mechanisms для A5–A8. Final acceptance всё ещё требует independent и integrated review.
+**Status:** `DRAFTED / PROVISIONAL` — [RU](./A4_SEMANTIC_LAWS_AND_INVARIANTS.ru.md) / [EN](./A4_SEMANTIC_LAWS_AND_INVARIANTS.md). Current law-set candidate `nk-semantic-laws/A4-draft-1` содержит 28 provisional/reviewable laws, защищающих representation/epistemic boundaries, Context/Provenance/Authority, identity/time/change, conflict/uncertainty, views/accountability и substrate/conformance distinctions.
 
 ### A5 — Модель Identity, Time и Change
 
-**Status:** `NEXT BOUNDED SLICE`.
+**Status:** `DRAFTED / PROVISIONAL` — [RU](./A5_IDENTITY_TIME_AND_CHANGE.ru.md) / [EN](./A5_IDENTITY_TIME_AND_CHANGE.md). Ожидает independent review и integrated A1–A10 review.
 
-Определить без привязки к physical encoding:
-
-- semantic identity;
-- Record identity;
-- content identity;
-- lineage identity;
-- aliasing и migration;
-- occurrence time;
-- Observation time;
-- valid time;
-- Record time;
-- write/causal/partial order;
-- correction, Revision, Supersession, restriction, erasure и forgetting.
-
-A5 должен refine A4, не ослабляя его молча. В частности, он должен объяснить, какие changes preserve identity, create new version, create new entity или remain undecided, и как temporal/order relations остаются named, не схлопываясь в implementation write order.
-
-**Completion test:** model объясняет, какие changes preserve identity, create new version, create new entity или remain undecided без требования одного physical encoding.
-
-### A6 — Lifecycle знания
-
-Смоделировать lifecycle от raw encounter до possible use, revision, restriction и historical retention.
-
-Lifecycle должен сохранять distinctions:
+A5 вводит candidate model `nk-identity-time-change/A5-draft-1`. Identity — typed/scoped relation, а не один universal identifier. Draft различает:
 
 ```text
-captured
-observed
-interpreted
-hypothesized
-supported
-contested
-admitted
-rejected
-unknown
-superseded
-restricted
-erased/forgotten
+REFERENT_IDENTITY
+SEMANTIC_CONTENT_IDENTITY
+CLAIM_POSITION_IDENTITY
+RECORD_IDENTITY
+LINEAGE_CONTINUITY_IDENTITY
+OCCURRENCE_IDENTITY
+SUBSTRATE_LOCAL_IDENTITY
 ```
 
-Ни одно lifecycle state не получает Authority только из storage, retrieval rank, repetition, model confidence или usefulness.
+Candidate scoped outcomes: `SAME`, `DISTINCT`, `CONTINUATION_OF`, `VERSION_OF`, `ALIAS_OF`, `MIGRATED_FROM`, `UNRESOLVED`.
 
-### A7 — Модель Conflict, Uncertainty и Revision
+A5 также различает `OCCURRENCE_TIME`, `VALID_TIME`, `OBSERVATION_TIME`, `ASSERTION_TIME`, `RECORD_TIME`, `DECISION_TIME`, `EFFECTIVE_TIME`, `WRITE_COMMIT_TIME`; и отделяет occurrence, observation, causal/dependency, lineage, authority-decision, local-write и migration/synchronization order.
 
-Определить candidate versus established Conflict, Contradiction versus scope mismatch, unresolved plurality, Uncertainty types, Evidence/Provenance gaps, resolution Authority, reversible/irreversible decisions, Belief Revision без rewriting history и возможность system оставаться undecided.
+Draft классифицирует storage relocation, re-encoding, copying, translation, correction, reinterpretation, Revision, Supersession, restriction, logical erasure, physical/cryptographic erasure, forgetting/loss и represented-world change без предположения одного identity effect для всех kinds.
 
-### A8 — Контракт substrate independence
+A5 reconciles existing accepted/versioned contracts, а не silently supersede их. `nk-id/1.0` остаётся current versioned reference encoding contract; UTF-8/NFC/JSON/SHA-256 и `asserted_at` не становятся единственным substrate-independent identity mechanism. `global_seq`/`stream_seq` остаются reference-laboratory ordering realization. Deletion state machine остаётся bounded profile mechanism.
 
-Определить, что future implementation обязана preserve или explicitly translate, включая semantic identity, history/Change visibility, Provenance, temporal meaning, Uncertainty/Conflict visibility, reconstruction или accepted functional equivalent, Authority/admission boundaries, bounded explanations/Receipts, migration и loss disclosure.
+**First-draft completion test:** выполнен для bounded drafting scope: reader может назвать identity relation, temporal/order relation и semantic effect Change без требования одного physical encoding. Final acceptance всё ещё требует independent и integrated review.
 
-Контракт должен выявить assumptions, являющиеся artifacts current Event-sourcing practice, а не permanent architecture.
+### A6 — Knowledge Lifecycle
+
+**Status:** `NEXT BOUNDED SLICE`.
+
+Смоделировать lifecycle от encounter/registration через possible interpretation, support, admission/use, contest, revision, restriction и historical retention/forgetting. Lifecycle Authority не может возникать только из storage presence, retrieval rank, repetition, model confidence, recency или usefulness.
+
+### A7 — Conflict, Uncertainty и Revision Model
+
+Определить candidate vs established Conflict, Contradiction vs scope mismatch, unresolved plurality, uncertainty/provenance gaps, resolution Authority, reversibility, belief revision и возможность оставаться undecided. A7 может refine revision policy, но обязан сохранять A4/A5 history и identity distinctions.
+
+### A8 — Substrate-independence Contract
+
+Определить, что future profiles обязаны preserve/translate: semantic identity, Change/history visibility, Provenance, temporal meaning, uncertainty/conflict visibility, Authority/admission boundaries, bounded accountability, migration и explicit loss. Present Event-sourcing assumptions должны быть labelled как mechanisms, если их necessity не доказана.
 
 ### A9 — Граница Reference Laboratory
 
-Классифицировать текущую implementation:
-
-```text
-Python + PostgreSQL + SQLite
-= bounded reference laboratory
-≠ final architecture
-```
-
-Для каждого major module позднее определить: valid example abstract contract, temporary experiment, implementation-specific mechanism, falsification tool, legacy evidence, которое остаётся readable, но не направляет blueprint, либо candidate на later replacement/removal.
-
-На этой фазе ничего не удаляется и не переписывается только потому, что reclassification возможна.
+Классифицировать **Python + PostgreSQL + SQLite** P1–C5 mechanisms как examples, experiments, profile-specific choices, falsification tools или legacy evidence. Ничего не удаляется/переписывается только из-за profile-specific classification.
 
 ### A10 — Open Questions и Falsification Criteria
 
-Зафиксировать вопросы, на которые project пока не отвечает, например:
-
-- является ли append-only history Canon requirement или одним implementation explicit Change;
-- может ли identity существовать без stable serialized bytes;
-- каков minimum reconstruction/replay на analog или neuromorphic substrates;
-- какие формы Uncertainty сравнимы across profiles;
-- можно ли represent forgetting без permanent retention forbidden content;
-- что означает same semantic State across probabilistic systems.
-
-Каждая major architectural hypothesis должна включать evidence, которое способно её weaken или refute.
+Зафиксировать unresolved architecture questions и evidence, которое способно weaken/refute major hypotheses: identity без stable serialized bytes, minimum history/reconstruction equivalents, analog/neuromorphic continuity, forgetting без forbidden retention и semantic equivalence across probabilistic substrates.
 
 ## 4. Последовательность работы
 
@@ -239,91 +104,55 @@ A1 Purpose and Non-goals                         DRAFTED / PROVISIONAL
 → A2 Ontology                                   DRAFTED / PROVISIONAL
 → A3 Abstract Machine                           DRAFTED / PROVISIONAL
 → A4 Semantic Laws                              DRAFTED / PROVISIONAL
-→ A5 Identity / Time / Change                   NEXT BOUNDED SLICE
-→ A6 Knowledge Lifecycle
+→ A5 Identity / Time / Change                   DRAFTED / PROVISIONAL
+→ A6 Knowledge Lifecycle                       NEXT BOUNDED SLICE
 → A7 Conflict / Uncertainty / Revision
 → A8 Substrate Independence
 → A9 Reference Laboratory Boundary
 → A10 Open Questions / Falsification
 → integrated blueprint review
-→ operator decision on reopening runtime work
+→ separate operator decision before runtime expansion
 ```
 
-Документы могут iterate, но later layers не могут молча redefine earlier ones.
+Later slices могут refine earlier drafts только явно; они не могут silently redefine их.
 
 ## 5. Research method
 
-Каждый deliverable должен содержать:
+Каждый deliverable должен содержать definitions, non-equivalences, candidate formal model, counterexamples/failure cases, unresolved questions, mapping к existing contracts/runtime, contrasting substrate mappings, review status и evidence boundary.
 
-1. definitions;
-2. explicit non-equivalences;
-3. candidate formal model;
-4. counterexamples;
-5. failure cases;
-6. unresolved questions;
-7. relationship to existing contracts и runtime;
-8. substrate mapping examples;
-9. review status;
-10. evidence boundary.
+Sources, papers, existing systems и AI analysis являются inputs и не становятся Canon автоматически.
 
-Sources, papers, existing systems и AI analyses являются inputs. Они не становятся Canon автоматически.
+## 6. Runtime freeze policy
 
-## 6. Policy runtime freeze
+Разрешены architecture research; integrity/security/reproducibility/provenance repair; evidence preservation; current-truth/validator repair; historical recovery; isolated falsification experiments без runtime promotion.
 
-Разрешены:
+Не разрешены без separate operator decision: new semantic runtime features, reducer v2, new Event vocabulary, new databases/language profiles/model adapters/ecosystem integrations, executable NK-EPI/Temporal/full Admission, operational deletion expansion, maturity promotion или production authorization.
 
-- critical integrity и security fixes;
-- reproducibility и provenance corrections;
-- evidence preservation;
-- validator и current-truth repair;
-- historical recovery;
-- isolated architecture experiments без runtime promotion.
+## 7. Связь с existing contracts и pending decisions
 
-Не разрешены без separate explicit operator decision:
-
-- new semantic features;
-- reducer v2;
-- new Event vocabulary;
-- new databases, language ports, model adapters или ecosystem integrations;
-- performance optimization, меняющая semantic behaviour;
-- new evidence или maturity labels как proof unfinished blueprint.
-
-## 7. Связь с pending decisions
-
-Issue #18 и ADR-0024 остаются pending.
+A5 не меняет ADR statuses или historical evidence. Issue #14/#15/#16 остаются open в своих remaining evidence/portability scopes. Issue #18 остаётся operator-controlled для license/publication. Issue #74 / ADR-0024 остаётся `PROPOSED / PENDING_OPERATOR`; reducer v1 immutable, reducer-v2 unauthorized. Track H source admission остаётся operator-controlled.
 
 ```text
-Architecture Re-foundation can proceed now.
-License selection remains required before an open contribution/publication regime.
-ADR-0024 remains required before any reducer-v2 path resumes.
+A5 semantic model
+→ later versioned mapping/equivalence work
+→ existing contracts preserved within declared scope
+≠ silent retroactive rewrite
 ```
-
-Ни одно pending decision не блокирует blueprint research. Ни одно не решается молча этим plan или A1–A4.
 
 ## 8. Gate завершения blueprint
 
-Фаза не завершена только потому, что существуют десять документов.
-
-Completion требует:
-
-- всех десяти deliverables, присутствующих и linked;
-- reconciled terminology;
-- contradictions, listed rather than hidden;
-- labelled implementation-specific assumptions;
-- explicit open questions и falsification criteria;
-- documented mapping к existing accepted contracts;
-- минимум двух contrasting substrate thought experiments;
-- independent critical review или explicit record, что оно unavailable;
-- operator review и separate decision о next phase.
+Blueprint не завершён только из-за наличия документов. Gate завершения blueprint требует всех A1–A10 deliverables, terminology reconciliation, explicit contradictions/unknowns, labelled implementation assumptions, falsification criteria, existing-contract mapping, contrasting substrate thought experiments, critical review, integrated review и separate operator decision для next phase.
 
 ## 9. Текущий прогресс
 
 ```text
 Architecture Re-foundation decision: established by ADR-0025
 Blueprint plan: this document
-Blueprint content: A1-A4 DRAFTED / PROVISIONAL; A5-A10 NOT YET COMPLETE
-Next bounded slice: A5 IDENTITY / TIME / CHANGE
+Blueprint content: A1-A5 DRAFTED / PROVISIONAL; A6-A10 NOT YET COMPLETE
+Next bounded slice: A6 KNOWLEDGE LIFECYCLE
 Runtime expansion: FROZEN
 Existing P1–C5 laboratory: PRESERVED / BOUNDED
 Production authorization: false
 ```
+
+Drafting A1–A5 не устанавливает independent approval, integrated Canon, runtime implementation, arbitrary future-substrate support или production readiness.
