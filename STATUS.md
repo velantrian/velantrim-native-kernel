@@ -2,7 +2,7 @@
 
 ```yaml
 document_role: CURRENT_STATE
-status_as_of: 2026-08-10
+status_as_of: 2026-08-11
 authoritative_machine_source: project-state.json (nk-project-state/2)
 live_head_source: GitHub API or checked-out Git ref
 machine_truth_reconciliation_merge: d9eee591de308a689ace940c2efe58c9e8a137f2
@@ -14,13 +14,14 @@ runtime_integrity_checkpoint: a1cdc6d8f36d67f40f065641809bc6da463c10a4
 evidence_producing_checkpoint: 296981ae84ad5bdab5dabbec9b7b9ebb43af63d7
 manifest_generated_from: 70acd0da61fee19131947aa56125833adb156ced
 notion_synchronized_through: 70acd0da61fee19131947aa56125833adb156ced
-active_architecture_decision: ADR-0025
+blueprint_decision: ADR-0025
+post_blueprint_decision: ADR-0026
 active_architecture_issue: 88
-architecture_phase: ARCHITECTURE_REFOUNDATION_BLUEPRINT_FIRST
+architecture_phase: POST_BLUEPRINT_VALIDATION_INDEPENDENT_REVIEW_FIRST
 ```
 
 > **Repository status:** `RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY`  
-> **Architecture state:** `A1-A10 DRAFTED / PROVISIONAL · INTEGRATED REVIEW COMPLETE / PROVISIONAL · OPERATOR DECISION PENDING`.
+> **Architecture state:** `A1-A10 DRAFTED / PROVISIONAL · INTEGRATED REVIEW COMPLETE / PROVISIONAL · OPTION D APPROVED · INDEPENDENT REVIEW NOT ESTABLISHED`.
 
 Committed checkpoint SHAs above remain historical role identities, not automatic live HEAD. Resolve live `main` through GitHub/Git.
 
@@ -37,33 +38,39 @@ runtime expansion: FROZEN
 P1-C5 role: BOUNDED_REFERENCE_LABORATORY
 ```
 
-## Architecture Re-foundation
+## Architecture Re-foundation and validation
 
-Decision: [ADR-0025](docs/adr/0025-blueprint-before-runtime-expansion.md).  
+Blueprint decision: [ADR-0025](docs/adr/0025-blueprint-before-runtime-expansion.md).  
+Post-blueprint decision: [ADR-0026](docs/adr/0026-independent-challenge-before-bounded-cross-lineage-falsification.md).  
 Plan: [English](docs/ARCHITECTURE_REFOUNDATION.md) · [Русский](docs/ARCHITECTURE_REFOUNDATION.ru.md).  
 Integrated review: [English](docs/INTEGRATED_A1_A10_REVIEW.md) · [Русский](docs/INTEGRATED_A1_A10_REVIEW.ru.md).  
+Independent-review protocol: [English](docs/INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.md) · [Русский](docs/INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.ru.md).  
 Tracking: [Issue #88](https://github.com/velantrian/velantrim-native-kernel/issues/88).
 
 ```text
 blueprint content: A1-A10 DRAFTED / PROVISIONAL
-integrated review: COMPLETED / PROVISIONAL / OPERATOR_DECISION_PENDING
-next content slice: OPERATOR_POST_BLUEPRINT_DECISION
+integrated review: COMPLETED / PROVISIONAL
+operator post-blueprint decision: OPTION D / ADR-0026 / APPROVED
+next content gate: INDEPENDENT_ARCHITECTURE_REVIEW
+independent architectural validation: NOT ESTABLISHED
+BPV-1: BLOCKED_PENDING_INDEPENDENT_REVIEW_AND_RECONCILIATION
 runtime expansion: FROZEN
 ```
 
-The integrated review identity is `nk-integrated-blueprint-review/A1-A10-review-1`. It found and explicitly reconciles seven cross-slice findings without rewriting historical first-draft wording silently.
+The integrated review identity remains `nk-integrated-blueprint-review/A1-A10-review-1`. Its seven explicit reconciliations remain the current provisional interpretation where first-draft wording conflicts.
 
-### Integrated reconciliation highlights
+ADR-0026 does not convert that integrated review into independent validation. It authorizes a validation sequence:
 
-- physical deletion and cryptographic erasure are separate meanings: `PHYSICALLY_ERASED ≠ CRYPTOGRAPHICALLY_ERASED`;
-- the current integrated closure taxonomy is `LOGICALLY_ERASED / PHYSICALLY_ERASED / CRYPTOGRAPHICALLY_ERASED / FORGOTTEN_OR_LOST`;
-- `FORGOTTEN_OR_LOST` needs a scoped observation/assessment basis, not a deliberate erasure method;
-- A1 “confidence attached” is interpreted as uncertainty + epistemic position, not a mandatory confidence scalar;
-- A10 has exactly five review outcomes: `SUPPORTED_FOR_SCOPE / WEAKENED / REFUTED / INDETERMINATE / NOT_TESTED`;
-- `Conflict ≠ necessarily Contradiction` remains preserved;
-- A6 lifecycle phases are positions an item may occupy, not a mandatory pipeline.
+```text
+independent architecture challenge
+→ finding reconciliation
+→ one bounded cross-lineage falsification instrument (BPV-1)
+→ A10 outcome classification
+→ integrated re-review
+→ separate later operator Canon/runtime decision
+```
 
-After these explicit reconciliation decisions, this review pass found **no known blocking internal semantic contradiction across A1-A10**. That is a provisional repository review conclusion, not independent validation.
+BPV-1 is not admitted yet. A qualifying independent review and reconciliation must occur first.
 
 ## Required non-equivalences
 
@@ -71,6 +78,9 @@ After these explicit reconciliation decisions, this review pass found **no known
 NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GLOBALLY_LOST
 reference laboratory ≠ final architecture
 blueprint documentation ≠ runtime evidence
+operator approval ≠ independent validation
+independent review protocol ≠ completed independent review
+falsification instrument ≠ product runtime
 representation ≠ represented reality
 Observation ≠ Claim
 Claim ≠ Truth
@@ -105,4 +115,6 @@ NOT_TESTED ≠ SUPPORTED
 
 ## Hard stop
 
-`OPERATOR_POST_BLUEPRINT_DECISION` is a decision gate, not A11 and not runtime permission. Integrated review completion does **not** establish independent review, operator acceptance, Canon promotion, arbitrary-substrate support, runtime authorization or production readiness.
+ADR-0026 satisfies the historical `OPERATOR_POST_BLUEPRINT_DECISION` gate only by selecting the validation route. It does **not** authorize product-runtime thaw.
+
+The next gate is `INDEPENDENT_ARCHITECTURE_REVIEW`. It is not A11, not BPV-1 execution, and not Canon promotion. A1–A10 remains provisional; independent validation remains `NOT ESTABLISHED`; production authorization remains `false`.
