@@ -1,0 +1,72 @@
+name: BPV1 execution admission
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/bpv1-admission.yml"
+      - ".github/workflows/ai-context.yml"
+      - "docs/research/BPV1_EXECUTION_ADMISSION*"
+      - "docs/research/BPV1_PREREGISTRATION.json"
+      - "experiments/bpv1/BPV1-001/**"
+      - "tools/bpv1/**"
+      - "tools/docs/bpv1-admission-bilingual-pair-v1.json"
+      - "tests/test_bpv1_execution_admission.py"
+      - "project-state.json"
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/bpv1-admission.yml"
+      - ".github/workflows/ai-context.yml"
+      - "docs/research/BPV1_EXECUTION_ADMISSION*"
+      - "docs/research/BPV1_PREREGISTRATION.json"
+      - "experiments/bpv1/BPV1-001/**"
+      - "tools/bpv1/**"
+      - "tools/docs/bpv1-admission-bilingual-pair-v1.json"
+      - "tests/test_bpv1_execution_admission.py"
+      - "project-state.json"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  admission:
+    name: Python ${{ matrix.python-version }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+
+    steps:
+      - name: Check out exact commit with complete history
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Compile BPV-1 admission tooling
+        run: |
+          python -m compileall -q tools/bpv1 tests/test_bpv1_execution_admission.py
+
+      - name: Validate exact preregistered plan digest
+        run: |
+          test "$(python tools/bpv1/plan_digest.py --repo .)" = "7fe8174c604678c6b79d3fdeae83d7c5ab0d2fb15bfe343d41659d05d9496ad0"
+
+      - name: Self-test standalone oracle before subject exists
+        run: python -m unittest discover -s tests -p 'test_bpv1_execution_admission.py' -v
+
+      - name: Validate execution-admission package
+        run: python tools/bpv1/validate_execution_admission.py --repo .
+
+      - name: Audit bounded admission scope
+        run: python tools/bpv1/audit_admission_scope.py --repo . --head HEAD
+
+      - name: Validate admission EN/RU parity
+        run: python tools/docs/validate_bilingual_parity.py --repo . --config tools/docs/bpv1-admission-bilingual-pair-v1.json

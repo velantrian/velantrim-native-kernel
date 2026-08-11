@@ -1,0 +1,45 @@
+{
+  "protocol": "nk-bpv1-source-boundary/1",
+  "scenario_id": "BPV1-001-cross-lineage-bounded-accountability-v1",
+  "plan_merge": "a538d7f1e28858a88b9ee777ac7d6e05b85943db",
+  "plan_sha256": "7fe8174c604678c6b79d3fdeae83d7c5ab0d2fb15bfe343d41659d05d9496ad0",
+  "toolchain_file": "experiments/bpv1/BPV1-001/rust-toolchain.toml",
+  "rust_channel": "1.97.1",
+  "subject_root": "experiments/bpv1/BPV1-001/subject",
+  "subject_must_not_exist_before_admission_checkpoint": true,
+  "future_subject_allowed_paths": [
+    "experiments/bpv1/BPV1-001/subject/Cargo.toml",
+    "experiments/bpv1/BPV1-001/subject/Cargo.lock",
+    "experiments/bpv1/BPV1-001/subject/src/**",
+    "experiments/bpv1/BPV1-001/subject/tests/**"
+  ],
+  "future_subject_forbidden_dependencies_or_reuse": [
+    "native_kernel Python package",
+    "current Python domain classes",
+    "current Event envelope",
+    "current reducer implementation",
+    "current Receipt shape as semantic oracle",
+    "PostgreSQL profile",
+    "SQLite profile",
+    "current SQL schema",
+    "current ID-prefix scheme as semantic requirement"
+  ],
+  "product_integration_roots_forbidden_for_subject": [
+    "native_kernel/",
+    "contracts/",
+    "profiles/",
+    "migrations/",
+    "evidence/c5/",
+    "docs/adr/"
+  ],
+  "workspace_integration": "FORBIDDEN",
+  "package_publication": "FORBIDDEN",
+  "runtime_registration": "FORBIDDEN",
+  "product_profile_registration": "FORBIDDEN",
+  "network_service": "OUT_OF_SCOPE",
+  "composition_federation": "OUT_OF_SCOPE",
+  "independent_team": "NOT_ESTABLISHED",
+  "independent_custody": "NOT_ESTABLISHED",
+  "independent_computation_model": "NOT_ESTABLISHED / CONVENTIONAL_DIGITAL",
+  "language_role": "EXPERIMENTAL_INSTRUMENT_NOT_CANON"
+}
