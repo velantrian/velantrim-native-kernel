@@ -18,6 +18,7 @@ REQUIRED_PATHS = (
     "evidence/c5/2026-08-07/manifest.json", "evidence/c5/2026-08-08-adr0023/manifest.json",
     "docs/ARCHITECTURE_REFOUNDATION.md", "docs/ARCHITECTURE_REFOUNDATION.ru.md",
     "docs/INTEGRATED_A1_A10_REVIEW.md", "docs/INTEGRATED_A1_A10_REVIEW.ru.md",
+    "docs/INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.md", "docs/INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.ru.md",
     "docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.md", "docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md",
     "docs/A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md", "docs/A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md",
     "docs/A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md", "docs/A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md",
@@ -29,6 +30,7 @@ REQUIRED_PATHS = (
     "docs/A9_REFERENCE_LABORATORY_BOUNDARY.md", "docs/A9_REFERENCE_LABORATORY_BOUNDARY.ru.md",
     "docs/A10_OPEN_QUESTIONS_AND_FALSIFICATION.md", "docs/A10_OPEN_QUESTIONS_AND_FALSIFICATION.ru.md",
     "docs/adr/0025-blueprint-before-runtime-expansion.md",
+    "docs/adr/0026-independent-challenge-before-bounded-cross-lineage-falsification.md",
     "docs/ai/README.md", "docs/ai/CURRENT_STATE.md", "docs/ai/COMPONENT_MAP.md",
     "docs/ai/KNOWN_RISKS.md", "docs/ai/WORK_LOG.md", "docs/ai/ISSUE_RECONCILIATION.md",
     "docs/ai/NOTION_HANDOFF.md",
@@ -55,10 +57,13 @@ REQUIRED_STATUS_MARKERS = (
     "public repository ≠ open-source license",
     "No AI agent may select the license or accept ADR-0024",
     "The later Notion synchronization checkpoint does not rewrite or replace the earlier publication checkpoint.",
-    "Architecture Re-foundation: ACTIVE / BLUEPRINT-FIRST",
-    "blueprint content A1–A10 is `DRAFTED / PROVISIONAL`",
-    "integrated review: COMPLETED / PROVISIONAL / OPERATOR_DECISION_PENDING",
-    "next bounded gate is `OPERATOR_POST_BLUEPRINT_DECISION`",
+    "Architecture Re-foundation: `BLUEPRINT COMPLETE / PROVISIONAL / VALIDATION ACTIVE`",
+    "blueprint content A1–A10 is DRAFTED / PROVISIONAL",
+    "integrated review: COMPLETED / PROVISIONAL",
+    "operator post-blueprint choice: OPTION D / ADR-0026 / APPROVED",
+    "next bounded gate is INDEPENDENT_ARCHITECTURE_REVIEW",
+    "independent architectural validation: NOT ESTABLISHED",
+    "BPV-1: BLOCKED_PENDING_INDEPENDENT_REVIEW_AND_RECONCILIATION",
 )
 CURRENT_MARKERS = REQUIRED_STATUS_MARKERS
 
@@ -66,36 +71,48 @@ FORBIDDEN_STATUS_MARKERS = (
     "next bounded gate is `INTEGRATED_A1_A10_REVIEW`",
     "next bounded content slice is `A10 — Open Questions and Falsification`",
     "Next work is limited to explicit operator decisions",
+    "next bounded gate is `OPERATOR_POST_BLUEPRINT_DECISION`",
 )
 
 BLUEPRINT_PROGRESS_SURFACES = {
     "STATUS.md": (
         "blueprint content: A1-A10 DRAFTED / PROVISIONAL",
-        "integrated review: COMPLETED / PROVISIONAL / OPERATOR_DECISION_PENDING",
-        "next content slice: OPERATOR_POST_BLUEPRINT_DECISION",
+        "operator post-blueprint decision: OPTION D / ADR-0026 / APPROVED",
+        "next content gate: INDEPENDENT_ARCHITECTURE_REVIEW",
+        "BPV-1: BLOCKED_PENDING_INDEPENDENT_REVIEW_AND_RECONCILIATION",
     ),
     "ROADMAP.md": (
         "integrated A1-A10 review                 COMPLETE / PROVISIONAL",
-        "OPERATOR_POST_BLUEPRINT_DECISION          NEXT GATE",
-        "Integrated review complete ≠ runtime thaw",
+        "OPERATOR_POST_BLUEPRINT_DECISION         COMPLETE / OPTION D / ADR-0026",
+        "INDEPENDENT_ARCHITECTURE_REVIEW          NEXT GATE",
+        "BPV-1 CROSS-LINEAGE FALSIFICATION        BLOCKED BY REVIEW + RECONCILIATION",
     ),
     "docs/ARCHITECTURE_REFOUNDATION.md": (
-        "Integrated review: COMPLETED / PROVISIONAL / OPERATOR_DECISION_PENDING",
-        "Next bounded gate: OPERATOR_POST_BLUEPRINT_DECISION",
+        "Operator post-blueprint decision: OPTION D / ADR-0026 / APPROVED",
+        "Next bounded gate: INDEPENDENT_ARCHITECTURE_REVIEW",
+        "BPV-1: BLOCKED_PENDING_INDEPENDENT_REVIEW_AND_RECONCILIATION",
     ),
     "docs/ARCHITECTURE_REFOUNDATION.ru.md": (
-        "Integrated review: COMPLETED / PROVISIONAL / OPERATOR_DECISION_PENDING",
-        "Next bounded gate: OPERATOR_POST_BLUEPRINT_DECISION",
+        "Operator post-blueprint decision: OPTION D / ADR-0026 / APPROVED",
+        "Next bounded gate: INDEPENDENT_ARCHITECTURE_REVIEW",
+        "BPV-1: BLOCKED_PENDING_INDEPENDENT_REVIEW_AND_RECONCILIATION",
     ),
     "docs/ai/README.md": (
         "blueprint content: A1-A10 DRAFTED / PROVISIONAL",
-        "next content slice: OPERATOR_POST_BLUEPRINT_DECISION",
-        "OPERATOR_POST_BLUEPRINT_DECISION ≠ A11",
+        "next gate: INDEPENDENT_ARCHITECTURE_REVIEW",
+        "independent architectural validation: NOT ESTABLISHED",
+        "BPV-1: BLOCKED_PENDING_INDEPENDENT_REVIEW_AND_RECONCILIATION",
     ),
     "docs/INTEGRATED_A1_A10_REVIEW.md": (
         "nk-integrated-blueprint-review/A1-A10-review-1",
         "no known blocking internal semantic contradiction remains",
         "OPERATOR_POST_BLUEPRINT_DECISION",
+    ),
+    "docs/INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.md": (
+        "nk-independent-architecture-review/1",
+        "AUTHORIZED / REVIEW NOT YET ESTABLISHED",
+        "BLOCKED_PENDING_INDEPENDENT_REVIEW_AND_RECONCILIATION",
+        "BLOCKED_NO_QUALIFYING_REVIEWER",
     ),
 }
 SURFACE_MARKERS = BLUEPRINT_PROGRESS_SURFACES
@@ -104,6 +121,8 @@ FORBIDDEN_BLUEPRINT_PROGRESS_MARKERS = (
     "next content slice: INTEGRATED_A1_A10_REVIEW",
     "Next bounded gate: INTEGRATED_A1_A10_REVIEW",
     "→ integrated A1-A10 review                     NEXT GATE",
+    "next content slice: OPERATOR_POST_BLUEPRINT_DECISION",
+    "Next bounded gate: OPERATOR_POST_BLUEPRINT_DECISION",
 )
 FORBIDDEN_PROGRESS = FORBIDDEN_BLUEPRINT_PROGRESS_MARKERS
 
@@ -237,7 +256,7 @@ def main(argv: list[str] | None = None) -> int:
         for finding in findings:
             print(finding.render(), file=sys.stderr)
         return 1
-    print("AI context validation passed; A1-A10 drafted/provisional; integrated_review=complete/provisional; next=OPERATOR_POST_BLUEPRINT_DECISION; runtime_expansion_frozen=true")
+    print("AI context validation passed; A1-A10=provisional; Option D=approved; next=INDEPENDENT_ARCHITECTURE_REVIEW; BPV-1=blocked; runtime_expansion_frozen=true")
     return 0
 
 
