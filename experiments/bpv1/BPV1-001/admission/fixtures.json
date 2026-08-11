@@ -1,0 +1,134 @@
+{
+  "protocol": "nk-bpv1-fixtures/1",
+  "scenario_id": "BPV1-001-cross-lineage-bounded-accountability-v1",
+  "plan_merge": "a538d7f1e28858a88b9ee777ac7d6e05b85943db",
+  "plan_sha256": "15c830ed195762d571cf675900303dfbfb29bf01a5cde2aac814388319585a91",
+  "oracle_authority": "BPV1-ORACLE-001",
+  "observation_protocol": "nk-bpv1-observations/1",
+  "result_vocabulary": [
+    "SUPPORTED_FOR_SCOPE",
+    "WEAKENED",
+    "REFUTED",
+    "INDETERMINATE",
+    "NOT_TESTED"
+  ],
+  "missing_mandatory_observable_effect": "INDETERMINATE",
+  "mandatory_predicate_failure_effect": "REFUTED",
+  "aggregate_rule": "SUPPORTED_FOR_SCOPE only when every mandatory fixture and every global bound passes; any mandatory predicate failure is REFUTED; any missing mandatory observable is INDETERMINATE; no observations is NOT_TESTED.",
+  "fixtures": [
+    {
+      "fixture_id": "BPV1-FX01-UNKNOWN-NOT-FALSE",
+      "mandatory": true,
+      "checks": [
+        {"path": "epistemic_position", "op": "EQ", "expected": "UNKNOWN"},
+        {"path": "coerced_unknown_to_false", "op": "FALSE"}
+      ]
+    },
+    {
+      "fixture_id": "BPV1-FX02-ROLE-NONCONFLATION",
+      "mandatory": true,
+      "checks": [
+        {"path": "roles_distinguishable", "op": "TRUE"},
+        {"path": "authority_scope_explicit", "op": "TRUE"},
+        {"path": "material_role_collapse", "op": "FALSE"}
+      ]
+    },
+    {
+      "fixture_id": "BPV1-FX03-CONTEXT-BINDING",
+      "mandatory": true,
+      "checks": [
+        {"path": "context_distinction_preserved", "op": "TRUE"}
+      ]
+    },
+    {
+      "fixture_id": "BPV1-FX04-REVISION-SUPERSESSION",
+      "mandatory": true,
+      "checks": [
+        {"path": "retained_lineage_visible", "op": "TRUE"},
+        {"path": "silent_overwrite", "op": "FALSE"}
+      ]
+    },
+    {
+      "fixture_id": "BPV1-FX05-UNRESOLVED-PLURALITY",
+      "mandatory": true,
+      "checks": [
+        {"path": "unresolved_plurality_visible", "op": "TRUE"},
+        {"path": "unauthorized_winner_selected", "op": "FALSE"}
+      ]
+    },
+    {
+      "fixture_id": "BPV1-FX06-BOUNDED-COMPACTION",
+      "mandatory": true,
+      "checks": [
+        {"path": "compaction_only_outside_retention_scope", "op": "TRUE"},
+        {"path": "loss_witness_present", "op": "TRUE"},
+        {"path": "loss_witness_valid", "op": "TRUE"}
+      ]
+    },
+    {
+      "fixture_id": "BPV1-FX07-TRUNCATION-ROLLBACK",
+      "mandatory": true,
+      "checks": [
+        {"path": "rollback_or_truncation_surfaced", "op": "TRUE"},
+        {"path": "intact_accountability_claim_after_corruption", "op": "FALSE"}
+      ]
+    },
+    {
+      "fixture_id": "BPV1-FX08-FORGED-AUTHORITY",
+      "mandatory": true,
+      "checks": [
+        {"path": "forged_authority_accepted", "op": "FALSE"},
+        {"path": "unsupported_or_failure_exposed", "op": "TRUE"}
+      ]
+    },
+    {
+      "fixture_id": "BPV1-FX09-WITHHELD-COUNTEREVIDENCE",
+      "mandatory": true,
+      "checks": [
+        {"path": "withheld_counterevidence_scoped_uncertainty", "op": "TRUE"},
+        {"path": "fabricated_certainty", "op": "FALSE"}
+      ]
+    },
+    {
+      "fixture_id": "BPV1-FX10-DECLARED-LOSS-AND-UNSUPPORTED",
+      "mandatory": true,
+      "checks": [
+        {"path": "preservation_state", "op": "IN", "expected": ["LOSSY", "UNSUPPORTED", "INDETERMINATE"]},
+        {"path": "full_conformance_claimed", "op": "FALSE"}
+      ]
+    },
+    {
+      "fixture_id": "BPV1-FX11-NON-EVENT-HISTORY",
+      "mandatory": true,
+      "checks": [
+        {"path": "current_accountability_available", "op": "TRUE"},
+        {"path": "authoritative_per_operation_append_log", "op": "FALSE"},
+        {"path": "exact_replay_required", "op": "FALSE"}
+      ]
+    },
+    {
+      "fixture_id": "BPV1-FX12-HIDDEN-SEMANTIC-DIVERGENCE",
+      "mandatory": true,
+      "checks": [
+        {"path": "final_values_match", "op": "TRUE"},
+        {"path": "material_semantic_divergence_detected", "op": "TRUE"},
+        {"path": "full_conformance_claimed", "op": "FALSE"}
+      ]
+    }
+  ],
+  "global_checks": [
+    {"path": "workload.mutation_count", "op": "EQ", "expected": 512},
+    {"path": "workload.checkpoint_count", "op": "EQ", "expected": 3},
+    {"path": "workload.durable_bytes_at_512", "op": "LE", "expected": 262144},
+    {"path": "workload.retained_detailed_predecessors", "op": "LE", "expected": 64},
+    {"path": "workload.loss_witness_count", "op": "LE", "expected": 32},
+    {"path": "workload.growth_rule_passed", "op": "TRUE"},
+    {"path": "subject.authoritative_per_operation_append_log", "op": "FALSE"},
+    {"path": "subject.exact_replay_required", "op": "FALSE"},
+    {"path": "subject.imports_current_native_kernel", "op": "FALSE"},
+    {"path": "subject.reuses_current_event_envelope", "op": "FALSE"},
+    {"path": "subject.reuses_current_reducer", "op": "FALSE"},
+    {"path": "subject.reuses_current_receipt_shape_as_oracle", "op": "FALSE"},
+    {"path": "subject.uses_current_sql_profile", "op": "FALSE"}
+  ]
+}
