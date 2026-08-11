@@ -50,10 +50,10 @@ class ArchitectureFreezeTests(unittest.TestCase):
         with self.assertRaisesRegex(module.ArchitectureFreezeError, "completed blueprint deliverable inventory drift"):
             self.validate(state)
 
-    def test_operator_gate_is_exact(self) -> None:
+    def test_next_gate_is_independent_architecture_review(self) -> None:
         state = copy.deepcopy(self.state)
-        state["tracks"]["long_horizon_research"]["architecture_refoundation"]["next_content_slice"] = "INTEGRATED_A1_A10_REVIEW"
-        with self.assertRaisesRegex(module.ArchitectureFreezeError, "next blueprint gate drift"):
+        state["tracks"]["long_horizon_research"]["architecture_refoundation"]["next_content_slice"] = "BPV1"
+        with self.assertRaisesRegex(module.ArchitectureFreezeError, "next architecture validation gate drift"):
             self.validate(state)
 
     def test_operator_gate_is_not_a_deliverable(self) -> None:
@@ -62,6 +62,16 @@ class ArchitectureFreezeTests(unittest.TestCase):
         module.EXPECTED_COMPLETED_DELIVERABLES.append("OPERATOR_POST_BLUEPRINT_DECISION")
         try:
             with self.assertRaisesRegex(module.ArchitectureFreezeError, "operator gate must not be treated as an A1-A10 deliverable"):
+                self.validate(state)
+        finally:
+            module.EXPECTED_COMPLETED_DELIVERABLES.pop()
+
+    def test_independent_review_gate_is_not_a_deliverable(self) -> None:
+        state = copy.deepcopy(self.state)
+        state["tracks"]["long_horizon_research"]["architecture_refoundation"]["completed_deliverables"].append("INDEPENDENT_ARCHITECTURE_REVIEW")
+        module.EXPECTED_COMPLETED_DELIVERABLES.append("INDEPENDENT_ARCHITECTURE_REVIEW")
+        try:
+            with self.assertRaisesRegex(module.ArchitectureFreezeError, "independent review gate must not be treated as an A1-A10 deliverable"):
                 self.validate(state)
         finally:
             module.EXPECTED_COMPLETED_DELIVERABLES.pop()
@@ -85,14 +95,47 @@ class ArchitectureFreezeTests(unittest.TestCase):
         finally:
             module.INTEGRATED_REVIEW_DOCS = original
 
-    def test_issue_88_remains_open_verified_and_operator_gated(self) -> None:
+    def test_independent_review_protocol_documents_are_required(self) -> None:
+        original = module.INDEPENDENT_REVIEW_DOCS
+        module.INDEPENDENT_REVIEW_DOCS = ("docs/DOES_NOT_EXIST.md", "docs/ALSO_MISSING.md")
+        try:
+            with self.assertRaisesRegex(module.ArchitectureFreezeError, "independent review English document drift"):
+                self.validate()
+        finally:
+            module.INDEPENDENT_REVIEW_DOCS = original
+
+    def test_option_d_selection_cannot_drift(self) -> None:
+        state = copy.deepcopy(self.state)
+        state["tracks"]["long_horizon_research"]["post_blueprint_validation"]["selected_option"] = "C_RUNTIME_THAW"
+        with self.assertRaisesRegex(module.ArchitectureFreezeError, "Option D selection drift"):
+            self.validate(state)
+
+    def test_independent_review_cannot_be_self_certified(self) -> None:
+        state = copy.deepcopy(self.state)
+        state["tracks"]["long_horizon_research"]["post_blueprint_validation"]["independent_review_status"] = "QUALIFYING_REVIEW_COMPLETE"
+        with self.assertRaisesRegex(module.ArchitectureFreezeError, "must not be self-certified"):
+            self.validate(state)
+
+    def test_bpv1_cannot_be_unblocked_before_review_and_reconciliation(self) -> None:
+        state = copy.deepcopy(self.state)
+        state["tracks"]["long_horizon_research"]["post_blueprint_validation"]["bpv1_status"] = "AUTHORIZED"
+        with self.assertRaisesRegex(module.ArchitectureFreezeError, "BPV-1 must remain blocked"):
+            self.validate(state)
+
+    def test_option_d_cannot_thaw_product_runtime(self) -> None:
+        state = copy.deepcopy(self.state)
+        state["tracks"]["long_horizon_research"]["post_blueprint_validation"]["product_runtime_thaw"] = True
+        with self.assertRaisesRegex(module.ArchitectureFreezeError, "must not thaw product runtime"):
+            self.validate(state)
+
+    def test_issue_88_remains_open_verified_and_records_option_d(self) -> None:
         state = copy.deepcopy(self.state)
         state["issues"]["88"]["state"] = "CLOSED"
         with self.assertRaisesRegex(module.ArchitectureFreezeError, "must remain open"):
             self.validate(state)
         state = copy.deepcopy(self.state)
         state["issues"]["88"]["meaning"] = "Architecture Re-foundation is active."
-        with self.assertRaisesRegex(module.ArchitectureFreezeError, "integrated review completion"):
+        with self.assertRaisesRegex(module.ArchitectureFreezeError, "Option D selection"):
             self.validate(state)
         state = copy.deepcopy(self.state)
         state["issues"]["88"]["verification"]["method"] = "SUMMARY"
