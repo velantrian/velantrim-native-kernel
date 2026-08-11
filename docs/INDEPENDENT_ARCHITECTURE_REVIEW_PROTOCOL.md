@@ -44,7 +44,7 @@ Do not self-certify.
 
 ## 3. Required input packet
 
-The reviewer must be given the architecture truth surfaces, not only a handoff summary.
+The reviewer must be given the architecture truth surfaces, not only a handoff summary. The reviewer must read `AGENTS.md` and then follow the live mandatory orientation order declared there.
 
 Minimum packet:
 
@@ -52,17 +52,19 @@ Minimum packet:
 2. `README.md`
 3. `STATUS.md`
 4. `project-state.json`
-5. `ROADMAP.md`
-6. `docs/ARCHITECTURE_REFOUNDATION.md`
-7. A1–A10 English documents
-8. `docs/INTEGRATED_A1_A10_REVIEW.md`
-9. `docs/A8_SUBSTRATE_INDEPENDENCE_CONTRACT.md`
-10. `docs/A9_REFERENCE_LABORATORY_BOUNDARY.md`
-11. `docs/A10_OPEN_QUESTIONS_AND_FALSIFICATION.md`
-12. `docs/ai/KNOWN_RISKS.md`
-13. `docs/adr/0025-blueprint-before-runtime-expansion.md`
-14. `docs/adr/0026-independent-challenge-before-bounded-cross-lineage-falsification.md`
-15. enough P1–C5 contract/evidence context to detect implementation capture, without treating that implementation as normative authority.
+5. `docs/ai/README.md`
+6. `docs/ai/CURRENT_STATE.md`
+7. `docs/ai/KNOWN_RISKS.md`
+8. `ROADMAP.md`
+9. `docs/ARCHITECTURE_REFOUNDATION.md`
+10. A1–A10 English documents
+11. `docs/INTEGRATED_A1_A10_REVIEW.md`
+12. `docs/A8_SUBSTRATE_INDEPENDENCE_CONTRACT.md`
+13. `docs/A9_REFERENCE_LABORATORY_BOUNDARY.md`
+14. `docs/A10_OPEN_QUESTIONS_AND_FALSIFICATION.md`
+15. `docs/adr/0025-blueprint-before-runtime-expansion.md`
+16. `docs/adr/0026-independent-challenge-before-bounded-cross-lineage-falsification.md`
+17. enough P1–C5 contract/evidence context to detect implementation capture, without treating that implementation as normative authority.
 
 Russian translations may be supplied as a parallel reading surface but must not silently change semantic status.
 
@@ -153,7 +155,7 @@ Required fields:
 ```yaml
 finding_id: IAR-FNN
 severity: BLOCKING | MATERIAL | MODERATE | MINOR
-status: OPEN
+status: OPEN | RESOLVED
 affected_slices: [A1, ...]
 claim_or_obligation: <exact subject>
 finding: <what appears wrong or under-justified>
@@ -162,9 +164,10 @@ implementation_capture_risk: NONE | LOW | MEDIUM | HIGH
 falsifiability_impact: NONE | LOW | MEDIUM | HIGH
 recommended_disposition: REMOVE | WEAKEN | SPLIT | CLARIFY | TEST | RETAIN
 bpv1_dependency: BLOCKS | SHOULD_INFORM | NONE
+reconciliation_record: <required when status=RESOLVED>
 ```
 
-A finding is not closed merely because the current authors disagree. Reconciliation must state the rationale and evidence boundary.
+A finding is not closed merely because the current authors disagree. Reconciliation must state the rationale and evidence boundary. Assigning a recommended disposition is not the same as resolving a finding.
 
 ## 7. Severity rules
 
@@ -177,6 +180,8 @@ Examples:
 - a supposedly substrate-neutral obligation secretly requires the current Event/reducer model;
 - the proposed experiment cannot falsify the claim it is meant to test;
 - two core obligations are mutually incompatible for the declared scope.
+
+An unresolved `BLOCKING` finding **always blocks BPV-1**. While it remains `OPEN`, its `bpv1_dependency` must be `BLOCKS`. `TEST`, `RETAIN`, or any other recommended disposition alone cannot bypass this gate.
 
 ### `MATERIAL`
 
@@ -228,15 +233,20 @@ A qualifying review must produce:
 - list of blocking/material findings that must shape BPV-1;
 - explicit statement that product runtime remains frozen.
 
+`QUALIFYING_REVIEW_COMPLETE` means the review process completed under this protocol. It does **not** imply that its findings have been reconciled or that BPV-1 is admitted.
+
 ## 10. Reconciliation gate before BPV-1
 
 BPV-1 remains `BLOCKED_PENDING_INDEPENDENT_REVIEW_AND_RECONCILIATION` until:
 
 - the review is qualifying;
-- every `BLOCKING` finding has a disposition;
+- every `BLOCKING` finding has `status: RESOLVED` with a concrete reconciliation record;
+- every unresolved `BLOCKING` finding, if any exists, retains `bpv1_dependency: BLOCKS` and therefore keeps BPV-1 blocked;
 - every `MATERIAL` finding is either reconciled or explicitly carried into the experiment as a falsification dependency;
 - experiment success/failure criteria are written before implementation;
 - no current runtime component is silently promoted into the experiment's oracle.
+
+There is no exception that allows an open `BLOCKING` finding to be carried into BPV-1 as merely a test target. The blocker must first be resolved sufficiently to make the experiment non-self-confirming, architecture-coherent, and capable of distinguishing success from failure.
 
 ## 11. What completion proves
 
