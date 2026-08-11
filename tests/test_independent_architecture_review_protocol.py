@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import re
 import unittest
 from pathlib import Path
 
@@ -19,18 +20,36 @@ class IndependentArchitectureReviewProtocolTests(unittest.TestCase):
             self.assertIn("FROZEN", markdown)
             self.assertIn("BLOCKED_PENDING_INDEPENDENT_REVIEW_AND_RECONCILIATION", markdown)
 
-    def test_required_questions_are_present(self) -> None:
+    def test_required_question_headings_are_exactly_q1_through_q12(self) -> None:
         for markdown in (EN, RU):
-            for index in range(1, 13):
-                self.assertIn(f"Q{index}", markdown)
+            headings = re.findall(r"^### Q(\d+) —", markdown, flags=re.MULTILINE)
+            self.assertEqual([str(index) for index in range(1, 13)], headings)
+
+    def test_required_input_packet_includes_ai_orientation_surfaces(self) -> None:
+        for markdown in (EN, RU):
+            self.assertIn("`docs/ai/README.md`", markdown)
+            self.assertIn("`docs/ai/CURRENT_STATE.md`", markdown)
+            self.assertIn("`docs/ai/KNOWN_RISKS.md`", markdown)
 
     def test_finding_schema_and_severity_are_explicit(self) -> None:
         for markdown in (EN, RU):
             self.assertIn("IAR-F01", markdown)
+            self.assertIn("status: OPEN | RESOLVED", markdown)
+            self.assertIn("reconciliation_record:", markdown)
             for severity in ("BLOCKING", "MATERIAL", "MODERATE", "MINOR"):
                 self.assertIn(severity, markdown)
             for disposition in ("REMOVE", "WEAKEN", "SPLIT", "CLARIFY", "TEST", "RETAIN"):
                 self.assertIn(disposition, markdown)
+
+    def test_unresolved_blocking_finding_cannot_be_carried_into_bpv1(self) -> None:
+        for markdown in (EN, RU):
+            self.assertIn("bpv1_dependency: BLOCKS | SHOULD_INFORM | NONE", markdown)
+            self.assertIn("status: RESOLVED", markdown)
+            self.assertIn("bpv1_dependency: BLOCKS", markdown)
+        self.assertIn("An unresolved `BLOCKING` finding **always blocks BPV-1**", EN)
+        self.assertIn("There is no exception that allows an open `BLOCKING` finding", EN)
+        self.assertIn("Неразрешённый `BLOCKING` finding **всегда блокирует BPV-1**", RU)
+        self.assertIn("Нет исключения, позволяющего перенести open `BLOCKING` finding", RU)
 
     def test_review_process_cannot_be_confused_with_a10_outcomes(self) -> None:
         for markdown in (EN, RU):
