@@ -105,7 +105,7 @@ Issue #18, Issue #74/ADR-0024, ADR-0003 and Track H authority remain unchanged.
 ```text
 publication checkpoint:
   10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c
-historical manifest source / committed Notion descendant:
+manifest source / Notion synchronized descendant:
   70acd0da61fee19131947aa56125833adb156ced
 BPV-1 preregistration merge:
   a538d7f1e28858a88b9ee777ac7d6e05b85943db
