@@ -65,6 +65,9 @@
       "affected_slices": ["A1", "A2", "A3", "A4", "A6", "A7", "A8", "A10"],
       "claim_or_obligation": "FULL_CONFORMANCE_FOR_SCOPE and cross-substrate semantic equivalence",
       "finding": "A8 permits too much profile-local discretion over scope, applicability, equivalence predicates and observable sufficiency, allowing a failed obligation to be excluded or relabeled after results are known.",
+      "counterexample_or_reasoning": "A profile could claim a scope containing only boolean decisions, declare provenance and unresolved plurality inapplicable, and receive bounded conformance despite collapsing the distinctions the experiment was intended to challenge.",
+      "implementation_capture_risk": "HIGH",
+      "falsifiability_impact": "HIGH",
       "recommended_disposition": "CLARIFY",
       "bpv1_dependency": "BLOCKS",
       "source_review_comment_id": "PRRC_kwDOTgZ4oc7f6OdL"
@@ -76,6 +79,9 @@
       "affected_slices": ["A1", "A3", "A6", "A8", "A9", "A10"],
       "claim_or_obligation": "substrate-neutral abstract machine and genuinely cross-lineage BPV-1",
       "finding": "A3/A6 can reproduce the conceptual structure of the current Event/reducer laboratory even when Python and SQL are removed, so a language port could still be implementation capture in substance.",
+      "counterexample_or_reasoning": "A snapshot-and-witness system or procedural review system can preserve scoped claims, provenance, uncertainty and accountable changes without exposing nine lifecycle positions, a common transition-result algebra or an authoritative-versus-derived-state split.",
+      "implementation_capture_risk": "HIGH",
+      "falsifiability_impact": "HIGH",
       "recommended_disposition": "SPLIT",
       "bpv1_dependency": "BLOCKS",
       "source_review_comment_id": "PRRC_kwDOTgZ4oc7f6OdO"
@@ -87,6 +93,9 @@
       "affected_slices": ["A1", "A3", "A4", "A5", "A6", "A8", "A9", "A10"],
       "claim_or_obligation": "accountable revision, reconstructability and bounded-memory conformance",
       "finding": "The blueprint does not define the retention bound or sufficient-summary rule needed to distinguish conformant forgetting/compaction from forbidden silent overwrite.",
+      "counterexample_or_reasoning": "A finite system retaining a signed current snapshot, aggregate provenance and a loss witness may support accountable current decisions while being unable to reconstruct individual superseded positions; the pre-reconciliation blueprint could not determine whether that weakens reconstructability or satisfies bounded accountability.",
+      "implementation_capture_risk": "HIGH",
+      "falsifiability_impact": "HIGH",
       "recommended_disposition": "SPLIT",
       "bpv1_dependency": "BLOCKS",
       "source_review_comment_id": "PRRC_kwDOTgZ4oc7f6OdU"
@@ -98,6 +107,9 @@
       "affected_slices": ["A2", "A4", "A5", "A6", "A8", "A10"],
       "claim_or_obligation": "seven identity kinds and eight temporal dimensions",
       "finding": "The identity/time inventories risk turning useful analysis vocabularies into mandatory Canon for realizations that can preserve scoped behavior without durable record/claim-act identities or every temporal dimension.",
+      "counterexample_or_reasoning": "Two transient traces can preserve the same scoped response and causal dependency while offering no durable fact of whether they are the same Record or claim act.",
+      "implementation_capture_risk": "MEDIUM",
+      "falsifiability_impact": "MEDIUM",
       "recommended_disposition": "SPLIT",
       "bpv1_dependency": "SHOULD_INFORM",
       "source_review_comment_id": "PRRC_kwDOTgZ4oc7f6OdX"
@@ -109,6 +121,9 @@
       "affected_slices": ["A2", "A4", "A7", "A8", "A10"],
       "claim_or_obligation": "Source/Evidence/Provenance/Authority separation and Conflict/Contradiction classification",
       "finding": "Non-conflation is valuable, but conflict/contradiction and alignment boundaries are not operationalized strongly enough to prevent post-hoc reclassification of a failed case as scope mismatch or a different Authority decision.",
+      "counterexample_or_reasoning": "Identical propositions can be contradictory under a classical policy, jointly tolerable under a paraconsistent policy, or non-conflicting under different temporal scopes; without a preregistered rule the experiment could select among those outcomes after observing the case.",
+      "implementation_capture_risk": "MEDIUM",
+      "falsifiability_impact": "HIGH",
       "recommended_disposition": "CLARIFY",
       "bpv1_dependency": "BLOCKS",
       "source_review_comment_id": "PRRC_kwDOTgZ4oc7f6Oda"
@@ -120,6 +135,9 @@
       "affected_slices": ["A4", "A5", "A6", "A8", "A10", "integrated-review"],
       "claim_or_obligation": "logical, physical, cryptographic erasure, restriction and forgetting remain distinguishable",
       "finding": "The vocabulary is separable, but physical and cryptographic erasure require threat-scoped external evidence; a profile must not self-attest a stronger substrate condition through its own method.",
+      "counterexample_or_reasoning": "Destroying a local key while an escrow copy or plaintext export survives is a valid logical disposition but neither demonstrated cryptographic nor physical erasure.",
+      "implementation_capture_risk": "LOW",
+      "falsifiability_impact": "HIGH",
       "recommended_disposition": "SPLIT",
       "bpv1_dependency": "SHOULD_INFORM",
       "source_review_comment_id": "PRRC_kwDOTgZ4oc7f6Odv"
@@ -131,6 +149,9 @@
       "affected_slices": ["A8", "A10", "ADR-0026"],
       "claim_or_obligation": "BPV-1 must distinguish architectural failure from implementation failure",
       "finding": "Materiality, scope, equivalence and required-obligation judgments remain adjustable enough that BPV-1 could be redesigned or rescoped after a counterexample unless hard refutation observations are preregistered.",
+      "counterexample_or_reasoning": "A non-event realization preserving the minimum purpose must weaken over-strong A3/A6 catalogues rather than be rejected for not reproducing them; bounded compaction preserving current semantics plus a loss witness must weaken universal reconstructability if superseded detail is unavailable; matching final outputs with materially different provenance, uncertainty or Authority refutes full semantic equivalence; and opaque physical-erasure evidence remains INDETERMINATE.",
+      "implementation_capture_risk": "HIGH",
+      "falsifiability_impact": "HIGH",
       "recommended_disposition": "TEST",
       "bpv1_dependency": "BLOCKS",
       "source_review_comment_id": "PRRC_kwDOTgZ4oc7f6Od5"
@@ -142,6 +163,9 @@
       "affected_slices": ["A1", "A3", "A4", "A7", "A8", "A9", "A10", "ADR-0026"],
       "claim_or_obligation": "provenance, history visibility, bounded accountability and conformance under adversarial behavior",
       "finding": "No integrated architecture-level threat model names protected assets, trust roots, adversary capabilities or required behavior under forged provenance/Authority, fork, truncation, rollback, equivocation, colluding witnesses or a compromised conformance certifier.",
+      "counterexample_or_reasoning": "Two implementations can return identical scoped outcomes and internally consistent Receipts even though one lets a writer present different histories to different observers or silently truncate the predecessor that would expose a revision; without a negative oracle this can be mislabeled as an operational concern rather than loss of accountability.",
+      "implementation_capture_risk": "MEDIUM",
+      "falsifiability_impact": "HIGH",
       "recommended_disposition": "SPLIT",
       "bpv1_dependency": "BLOCKS",
       "source_review_comment_id": "PRRC_kwDOTgZ4oc7f6OeC"
@@ -153,6 +177,9 @@
       "affected_slices": ["A2", "A3", "A4", "A5", "A7", "A8", "A10"],
       "claim_or_obligation": "Context, Provenance and Authority remain inspectable and portable without circularity or unbounded metadata",
       "finding": "The blueprint lacks a finite grounding boundary, root-assumption model, cycle rule or stopping condition for contextual/provenance/Authority metadata, risking infinite regress or undeclared trusted roots.",
+      "counterexample_or_reasoning": "The provenance Claim for a migrated Record can require its own provenance Claim, whose interpretation and Authority require their own Context and delegation evidence; two otherwise equivalent profiles may stop that chain at different self-attested roots without exposing the difference.",
+      "implementation_capture_risk": "MEDIUM",
+      "falsifiability_impact": "HIGH",
       "recommended_disposition": "CLARIFY",
       "bpv1_dependency": "BLOCKS",
       "source_review_comment_id": "PRRC_kwDOTgZ4oc7f6OeG"
@@ -164,6 +191,9 @@
       "affected_slices": ["A3", "A5", "A7", "A8", "A10"],
       "claim_or_obligation": "distributed or decentralized realizations can preserve scoped semantics",
       "finding": "The blueprint does not define composition/reconciliation/projection between independently evolving scoped Kernel configurations, so local conformance does not yet imply meaningful composed or federated conformance.",
+      "counterexample_or_reasoning": "Two locally conformant replicas can independently assign different identity relations and Authorities to the same material, after which their union has no defined Kernel outcome: retained plurality, a new Conflict, separate Contexts and an invalid mapping all fit the unreconciled prose.",
+      "implementation_capture_risk": "MEDIUM",
+      "falsifiability_impact": "MEDIUM",
       "recommended_disposition": "TEST",
       "bpv1_dependency": "SHOULD_INFORM",
       "source_review_comment_id": "PRRC_kwDOTgZ4oc7f6OeL"
