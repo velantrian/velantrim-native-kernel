@@ -194,3 +194,7 @@ python tools/ai_context/validate_project_state.py --repo .
 python tools/ai_context/validate_architecture_freeze.py --repo .
 python tools/ai_context/validate_context.py --repo .
 ```
+
+> **Предупреждение SQLite profile:** P5/C3/C4/C5 fail closed, если Python-процесс связан с SQLite ниже `3.51.3`. Не трактуй отказ system SQLite как semantic failure. Перед этими profile checks собери/используй pinned safe SQLite library.
+
+Pinned-library setup, PostgreSQL DSN и полные команды P4/P5/C3/C4/C5 находятся в [`docs/QUICKSTART.ru.md`](docs/QUICKSTART.ru.md).
