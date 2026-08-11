@@ -165,7 +165,7 @@
   "notion": {
     "synchronization_required": true,
     "status": "SYNCED_THROUGH_DESCENDANT_CHECKPOINT",
-    "scope": "GitHub and Notion were directly synchronized and read back through the integrated A1-A10 review checkpoint. ADR-0026 post-blueprint validation requires a new post-merge Notion update; this committed state does not predict that future synchronization.",
+    "scope": "Publication checkpoint 10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c remains distinct from the previously synchronized/read-back descendant checkpoint 70acd0da61fee19131947aa56125833adb156ced. GitHub and Notion were directly synchronized through that descendant before ADR-0026. ADR-0026 post-blueprint validation requires a new post-merge Notion update; this committed state does not predict that future synchronization.",
     "authority_boundary": "Notion carries current orientation, rationale and history; GitHub remains sufficient and authoritative for technical state, live refs, contracts, tests, workflow results and evidence. A later post-merge Notion write may be newer than the latest repository-committed synchronization checkpoint until a subsequent non-self-referential manifest records it."
   },
   "non_claims": [
