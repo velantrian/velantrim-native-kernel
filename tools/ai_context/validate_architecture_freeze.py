@@ -60,12 +60,28 @@ INDEPENDENT_REVIEW_DOCS = (
 )
 IAR1_RESULT_JSON = "docs/reviews/IAR-1_RESULT.json"
 IAR1_RESULT_MD = "docs/reviews/IAR-1_RESULT.md"
+IAR1_RESULT_RU_MD = "docs/reviews/IAR-1_RESULT.ru.md"
 IAR1_RECONCILIATION_JSON = "docs/reviews/IAR-1_RECONCILIATION.json"
 IAR1_RECONCILIATION_MD = "docs/reviews/IAR-1_RECONCILIATION.md"
+IAR1_RECONCILIATION_RU_MD = "docs/reviews/IAR-1_RECONCILIATION.ru.md"
 EXPECTED_IAR1_BLOCKERS = [
     "IAR-F01", "IAR-F02", "IAR-F03", "IAR-F05", "IAR-F07", "IAR-F08", "IAR-F09",
 ]
 EXPECTED_IAR1_MATERIAL = ["IAR-F04", "IAR-F06", "IAR-F10"]
+EXPECTED_IAR1_SEVERITY = {
+    **{finding_id: "BLOCKING" for finding_id in EXPECTED_IAR1_BLOCKERS},
+    **{finding_id: "MATERIAL" for finding_id in EXPECTED_IAR1_MATERIAL},
+}
+EXPECTED_SOURCE_BPV1_DEPENDENCY = {
+    **{finding_id: "BLOCKS" for finding_id in EXPECTED_IAR1_BLOCKERS},
+    **{finding_id: "SHOULD_INFORM" for finding_id in EXPECTED_IAR1_MATERIAL},
+}
+EXPECTED_RECONCILED_BPV1_DEPENDENCY = {
+    **{finding_id: "RESOLVED_BEFORE_PLAN" for finding_id in EXPECTED_IAR1_BLOCKERS},
+    "IAR-F04": "INFORMS_PLAN",
+    "IAR-F06": "INFORMS_PLAN",
+    "IAR-F10": "INFORMS_FUTURE_COMPOSITION_SCOPE",
+}
 COMPLETED_DELIVERABLE_DOCS = {
     item: (f"docs/{item}.md", f"docs/{item}.ru.md")
     for item in EXPECTED_COMPLETED_DELIVERABLES
@@ -134,8 +150,27 @@ def _validate_snapshot_chronology(state: Mapping[str, Any]) -> None:
         )
 
 
+def _validate_source_finding(finding_id: str, item: Mapping[str, Any]) -> None:
+    _require(item.get("severity") == EXPECTED_IAR1_SEVERITY[finding_id], f"{finding_id} severity drift")
+    _require(item.get("status") == "OPEN", f"{finding_id} source review status must remain OPEN")
+    _require(item.get("bpv1_dependency") == EXPECTED_SOURCE_BPV1_DEPENDENCY[finding_id], f"{finding_id} source BPV-1 dependency drift")
+    for field in (
+        "affected_slices", "claim_or_obligation", "finding", "counterexample_or_reasoning",
+        "implementation_capture_risk", "falsifiability_impact", "recommended_disposition",
+        "source_review_comment_id",
+    ):
+        value = item.get(field)
+        _require(value not in (None, "", []), f"{finding_id} source finding field required: {field}")
+    _require(item.get("implementation_capture_risk") in {"LOW", "MEDIUM", "HIGH"}, f"{finding_id} implementation-capture risk drift")
+    _require(item.get("falsifiability_impact") in {"LOW", "MEDIUM", "HIGH"}, f"{finding_id} falsifiability impact drift")
+    _require(item.get("recommended_disposition") in {"REMOVE", "WEAKEN", "SPLIT", "CLARIFY", "TEST", "RETAIN"}, f"{finding_id} disposition drift")
+
+
 def _validate_iar1_records(repo: Path) -> None:
-    for path in (IAR1_RESULT_MD, IAR1_RESULT_JSON, IAR1_RECONCILIATION_MD, IAR1_RECONCILIATION_JSON):
+    for path in (
+        IAR1_RESULT_MD, IAR1_RESULT_RU_MD, IAR1_RESULT_JSON,
+        IAR1_RECONCILIATION_MD, IAR1_RECONCILIATION_RU_MD, IAR1_RECONCILIATION_JSON,
+    ):
         _require((repo / path).is_file(), f"missing IAR-1 review/reconciliation record: {path}")
 
     result = _load_json_record(repo / IAR1_RESULT_JSON, "IAR-1 result")
@@ -160,12 +195,9 @@ def _validate_iar1_records(repo: Path) -> None:
     findings = result.get("findings")
     _require(isinstance(findings, list) and len(findings) == 10, "IAR-1 findings register must contain ten entries")
     by_id = {item.get("finding_id"): item for item in findings if isinstance(item, Mapping)}
-    _require(set(by_id) == set(EXPECTED_IAR1_BLOCKERS + EXPECTED_IAR1_MATERIAL), "IAR-1 finding ids drift")
-    for finding_id in EXPECTED_IAR1_BLOCKERS:
-        item = by_id[finding_id]
-        _require(item.get("severity") == "BLOCKING", f"{finding_id} severity drift")
-        _require(item.get("status") == "OPEN", f"{finding_id} source review status must remain OPEN")
-        _require(item.get("bpv1_dependency") == "BLOCKS", f"{finding_id} must block BPV-1 before reconciliation")
+    _require(set(by_id) == set(EXPECTED_IAR1_SEVERITY), "IAR-1 finding ids drift")
+    for finding_id, item in by_id.items():
+        _validate_source_finding(finding_id, item)
 
     reconciliation = _load_json_record(repo / IAR1_RECONCILIATION_JSON, "IAR-1 reconciliation")
     _require(reconciliation.get("protocol") == "nk-independent-architecture-review-reconciliation/1", "IAR-1 reconciliation protocol drift")
@@ -184,10 +216,11 @@ def _validate_iar1_records(repo: Path) -> None:
     _require(isinstance(reconciled_findings, list) and len(reconciled_findings) == 10, "IAR-1 reconciliation must cover all findings")
     reconciled_by_id = {item.get("finding_id"): item for item in reconciled_findings if isinstance(item, Mapping)}
     _require(set(reconciled_by_id) == set(by_id), "IAR-1 reconciliation finding inventory drift")
-    for finding_id in EXPECTED_IAR1_BLOCKERS:
-        item = reconciled_by_id[finding_id]
+    for finding_id, item in reconciled_by_id.items():
+        _require(item.get("severity") == EXPECTED_IAR1_SEVERITY[finding_id], f"{finding_id} reconciliation severity drift")
         _require(item.get("status") == "RESOLVED", f"{finding_id} must be reconciled before BPV-1 planning")
         _require(bool(str(item.get("reconciliation_record", "")).strip()), f"{finding_id} reconciliation record required")
+        _require(item.get("bpv1_dependency") == EXPECTED_RECONCILED_BPV1_DEPENDENCY[finding_id], f"{finding_id} reconciliation BPV-1 dependency drift")
     preregistration = reconciliation.get("conformance_preregistration")
     _require(isinstance(preregistration, Mapping), "IAR-1 preregistration boundary required")
     _require(preregistration.get("required_before_execution") is True, "BPV-1 preregistration must precede execution")
