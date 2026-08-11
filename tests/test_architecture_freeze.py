@@ -182,7 +182,39 @@ class ArchitectureFreezeTests(unittest.TestCase):
 
         module._load_json_record = fake_load
         try:
-            with self.assertRaisesRegex(module.ArchitectureFreezeError, "must block BPV-1"):
+            with self.assertRaisesRegex(module.ArchitectureFreezeError, "source BPV-1 dependency drift"):
+                self.validate()
+        finally:
+            module._load_json_record = original
+
+    def test_source_finding_requires_protocol_evidence_fields(self) -> None:
+        original = module._load_json_record
+
+        def fake_load(path: Path, label: str):
+            value = original(path, label)
+            if label == "IAR-1 result":
+                value["findings"][0].pop("counterexample_or_reasoning")
+            return value
+
+        module._load_json_record = fake_load
+        try:
+            with self.assertRaisesRegex(module.ArchitectureFreezeError, "source finding field required"):
+                self.validate()
+        finally:
+            module._load_json_record = original
+
+    def test_material_source_severity_cannot_drift(self) -> None:
+        original = module._load_json_record
+
+        def fake_load(path: Path, label: str):
+            value = original(path, label)
+            if label == "IAR-1 result":
+                next(item for item in value["findings"] if item["finding_id"] == "IAR-F04")["severity"] = "MINOR"
+            return value
+
+        module._load_json_record = fake_load
+        try:
+            with self.assertRaisesRegex(module.ArchitectureFreezeError, "IAR-F04 severity drift"):
                 self.validate()
         finally:
             module._load_json_record = original
@@ -199,6 +231,54 @@ class ArchitectureFreezeTests(unittest.TestCase):
         module._load_json_record = fake_load
         try:
             with self.assertRaisesRegex(module.ArchitectureFreezeError, "must be reconciled"):
+                self.validate()
+        finally:
+            module._load_json_record = original
+
+    def test_material_reconciliation_cannot_reopen(self) -> None:
+        original = module._load_json_record
+
+        def fake_load(path: Path, label: str):
+            value = original(path, label)
+            if label == "IAR-1 reconciliation":
+                next(item for item in value["findings"] if item["finding_id"] == "IAR-F06")["status"] = "OPEN"
+            return value
+
+        module._load_json_record = fake_load
+        try:
+            with self.assertRaisesRegex(module.ArchitectureFreezeError, "IAR-F06 must be reconciled"):
+                self.validate()
+        finally:
+            module._load_json_record = original
+
+    def test_material_reconciliation_requires_record(self) -> None:
+        original = module._load_json_record
+
+        def fake_load(path: Path, label: str):
+            value = original(path, label)
+            if label == "IAR-1 reconciliation":
+                next(item for item in value["findings"] if item["finding_id"] == "IAR-F10")["reconciliation_record"] = ""
+            return value
+
+        module._load_json_record = fake_load
+        try:
+            with self.assertRaisesRegex(module.ArchitectureFreezeError, "IAR-F10 reconciliation record required"):
+                self.validate()
+        finally:
+            module._load_json_record = original
+
+    def test_material_reconciliation_dependency_cannot_drift(self) -> None:
+        original = module._load_json_record
+
+        def fake_load(path: Path, label: str):
+            value = original(path, label)
+            if label == "IAR-1 reconciliation":
+                next(item for item in value["findings"] if item["finding_id"] == "IAR-F10")["bpv1_dependency"] = "INFORMS_PLAN"
+            return value
+
+        module._load_json_record = fake_load
+        try:
+            with self.assertRaisesRegex(module.ArchitectureFreezeError, "IAR-F10 reconciliation BPV-1 dependency drift"):
                 self.validate()
         finally:
             module._load_json_record = original
