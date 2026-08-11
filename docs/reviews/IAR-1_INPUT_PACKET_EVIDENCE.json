@@ -1,0 +1,53 @@
+{
+  "protocol": "nk-independent-review-input-packet-evidence/1",
+  "review_id": "IAR-1",
+  "reviewed_commit": "2dd51723e30d5f3c5e86268365bf4cf7639b5e9a",
+  "review_request_commit": "925a33f33d1a252a71475d11d82edd2c53307dbb",
+  "review_request_document": "docs/reviews/IAR-1_CODEX_REVIEW_REQUEST.md",
+  "review_protocol_document": "docs/INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.md",
+  "normalization_scope": "MANDATORY_NAMED_FILES_ONLY",
+  "source_review_attestation": [
+    "AGENTS.md and mandatory orientation surfaces",
+    "A1-A10 provisional architecture documents",
+    "integrated A1-A10 reconciliation",
+    "ADR-0025",
+    "ADR-0026",
+    "nk-independent-architecture-review/1",
+    "P1-C5 contract/evidence/runtime context sufficient to test implementation capture"
+  ],
+  "normalized_exact_paths": [
+    "AGENTS.md",
+    "README.md",
+    "STATUS.md",
+    "project-state.json",
+    "docs/ai/README.md",
+    "docs/ai/CURRENT_STATE.md",
+    "docs/ai/KNOWN_RISKS.md",
+    "ROADMAP.md",
+    "docs/ARCHITECTURE_REFOUNDATION.md",
+    "docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.md",
+    "docs/A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md",
+    "docs/A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md",
+    "docs/A4_SEMANTIC_LAWS_AND_INVARIANTS.md",
+    "docs/A5_IDENTITY_TIME_AND_CHANGE.md",
+    "docs/A6_KNOWLEDGE_LIFECYCLE.md",
+    "docs/A7_CONFLICT_UNCERTAINTY_AND_REVISION.md",
+    "docs/A8_SUBSTRATE_INDEPENDENCE_CONTRACT.md",
+    "docs/A9_REFERENCE_LABORATORY_BOUNDARY.md",
+    "docs/A10_OPEN_QUESTIONS_AND_FALSIFICATION.md",
+    "docs/INTEGRATED_A1_A10_REVIEW.md",
+    "docs/adr/0025-blueprint-before-runtime-expansion.md",
+    "docs/adr/0026-independent-challenge-before-bounded-cross-lineage-falsification.md",
+    "docs/INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.md"
+  ],
+  "p1_c5_context_read_attestation": "P1-C5 contract/evidence/runtime context sufficient to test implementation capture",
+  "normalization_basis": "The exact named-file list is the duplicate-free expansion of the mandatory packet declared by the IAR-1 request and nk-independent-architecture-review/1. A1-A10 is expanded to ten concrete English paths; the request's repeated A8/A9/A10 emphasis does not duplicate those paths. The source review itself supplied category-level input_packet_read attestation rather than per-file access telemetry.",
+  "telemetry_boundary": "NO_PER_FILE_REVIEWER_ACCESS_TELEMETRY_AVAILABLE",
+  "qualification_interpretation": "The repository may claim that the exact mandatory named-file packet was supplied and that the reviewer attested to reading the corresponding categories. It must not claim independent per-file read telemetry that GitHub did not expose.",
+  "p1_c5_exact_file_telemetry": "NOT_AVAILABLE",
+  "limitations": [
+    "This normalization does not invent per-file reviewer telemetry.",
+    "The P1-C5 context requirement is semantic and was attested by the reviewer, but the exact set of P1-C5 files read is not recoverable from the review API and is therefore not fabricated.",
+    "Future qualifying reviews should record exact packet paths directly in their result when the review surface supports it."
+  ]
+}
