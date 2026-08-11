@@ -1,0 +1,48 @@
+{
+  "protocol": "nk-bpv1-run-metadata/1",
+  "scenario_id": "BPV1-001-cross-lineage-bounded-accountability-v1",
+  "plan_merge": "a538d7f1e28858a88b9ee777ac7d6e05b85943db",
+  "plan_sha256": "7fe8174c604678c6b79d3fdeae83d7c5ab0d2fb15bfe343d41659d05d9496ad0",
+  "execution_admission_package_merge": "6027eec73f11c4626be5553de7e79f827be2c81d",
+  "status_admission_checkpoint_merge": "e2deac859c2a56f29b88c54f1da440f3f04734dc",
+  "pre_subject_base_main": "e2deac859c2a56f29b88c54f1da440f3f04734dc",
+  "run_kind": "LOCAL_REFERENCE_RUN_PRE_CI",
+  "run_kind_note": "This bundle was generated locally before this PR's exact-head CI ran. .github/workflows/bpv1.yml independently rebuilds and re-runs the identical deterministic subject on the exact-head commit and re-evaluates it; that CI run is the authoritative, reproducible confirmation of this evidence, not this file's timestamp.",
+  "toolchain": {
+    "requested_channel": "1.97.1",
+    "rustc_version": "rustc 1.97.1 (8bab26f4f 2026-07-14)",
+    "cargo_version": "cargo 1.97.1 (c980f4866 2026-06-30)",
+    "toolchain_file": "experiments/bpv1/BPV1-001/rust-toolchain.toml"
+  },
+  "subject": {
+    "role": "EXPERIMENTAL_INSTRUMENT_NOT_CANON",
+    "language": "Rust",
+    "root": "experiments/bpv1/BPV1-001/subject",
+    "binary": "bpv1-001-subject",
+    "build_profile": "release",
+    "workspace_integration": "FORBIDDEN / NOT_PERFORMED",
+    "independent_team": "NOT_ESTABLISHED",
+    "independent_custody": "NOT_ESTABLISHED",
+    "independent_computation_model": "NOT_ESTABLISHED / CONVENTIONAL_DIGITAL"
+  },
+  "evaluator": {
+    "path": "tools/bpv1/evaluate.py",
+    "fixture_spec": "experiments/bpv1/BPV1-001/admission/fixtures.json",
+    "observation_protocol": "nk-bpv1-observations/1",
+    "evaluation_protocol": "nk-bpv1-evaluation/1"
+  },
+  "evidence_files": {
+    "observations": "experiments/bpv1/BPV1-001/results/observations.json",
+    "evaluation_report": "experiments/bpv1/BPV1-001/results/evaluation-report.json"
+  },
+  "reproducibility": {
+    "deterministic": true,
+    "determinism_basis": "The subject uses no wall-clock time, randomness, or unordered-iteration-dependent output; mutation order is a fixed scripted sequence over ordered Vec/VecDeque collections keyed by slot index.",
+    "reproduction_command": "cd experiments/bpv1/BPV1-001/subject && cargo run --release --quiet -- --output ../results/observations.json && cd ../../../.. && python3 tools/bpv1/evaluate.py experiments/bpv1/BPV1-001/results/observations.json --output experiments/bpv1/BPV1-001/results/evaluation-report.json"
+  },
+  "non_claims": [
+    "This run does not establish independent team, custody, or computation-model evidence.",
+    "This run does not authorize product runtime integration, Final Canon, or production.",
+    "SUPPORTED_FOR_SCOPE (if obtained) is scoped to BPV1-001 only and is not universal substrate-independence proof."
+  ]
+}

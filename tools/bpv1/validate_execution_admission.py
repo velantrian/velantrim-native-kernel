@@ -152,7 +152,10 @@ def validate(repo: Path) -> None:
     _require(boundary.get("workspace_integration") == "FORBIDDEN", "workspace integration must remain forbidden")
     _require(boundary.get("runtime_registration") == "FORBIDDEN", "runtime registration must remain forbidden")
     _require(boundary.get("product_profile_registration") == "FORBIDDEN", "product profile registration must remain forbidden")
-    _require(not (repo / SUBJECT_ROOT).exists(), "BPV1 subject source must not exist in execution-admission package")
+    # Subject existence itself is checked below against live authorization
+    # state, not unconditionally forbidden here: `subject_must_not_exist_before_admission_checkpoint`
+    # governs the admission-package phase, and a separate, later checkpoint
+    # may legitimately admit the BPV1-001 subject afterward.
 
     with toolchain_path.open("rb") as handle:
         toolchain = tomllib.load(handle)
@@ -199,6 +202,12 @@ def validate(repo: Path) -> None:
         _require(granted.get("subject_implementation_authorization") == "AUTHORIZED_FOR_BPV1-001_ONLY", "admission grant must be bounded to BPV1-001 only")
         _require(granted.get("subject_execution_authorization") == "AUTHORIZED_FOR_BPV1-001_ONLY", "admission grant must be bounded to BPV1-001 only")
         _require(granted.get("product_runtime_integration_authorized") is False, "admission grant cannot authorize product runtime integration")
+    subject_exists = (repo / SUBJECT_ROOT).exists()
+    if subject_exists:
+        _require(
+            validation.get("bpv1_status") == "ADMITTED_FOR_EXPERIMENT_ONLY",
+            "BPV1-001 subject source exists but execution has not been separately, authoritatively admitted",
+        )
     _require(validation.get("product_runtime_thaw") is False, "product runtime must remain frozen")
     _require(state.get("status", {}).get("production_authorized") is False, "production must remain unauthorized")
 
@@ -207,12 +216,14 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--repo", type=Path, default=Path("."))
     args = parser.parse_args()
+    repo = args.repo.resolve()
     try:
-        validate(args.repo)
+        validate(repo)
     except (AdmissionError, OSError, json.JSONDecodeError, tomllib.TOMLDecodeError) as exc:
         print(f"BPV1 execution admission validation FAILED: {exc}", file=sys.stderr)
         return 1
-    print("BPV1 execution admission package PASS; package=candidate; subject=absent; execution=not_admitted; runtime_expansion_frozen=true")
+    subject_state = "present" if (repo / SUBJECT_ROOT).exists() else "absent"
+    print(f"BPV1 execution admission package PASS; package=candidate; subject={subject_state}; runtime_expansion_frozen=true")
     return 0
 
 
