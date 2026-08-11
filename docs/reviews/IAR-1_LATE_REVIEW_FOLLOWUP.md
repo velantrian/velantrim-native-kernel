@@ -1,24 +1,56 @@
-# IAR-1 — Late Final Re-review Follow-up
+# IAR-1 Late Review Follow-up
 
-**Purpose:** preserve the post-merge chronology of the final Codex re-review of PR #107 and the bounded fixes required before D4 may begin.
+> **Record identity:** `nk-independent-architecture-review/IAR-1-late-followup-1`  
+> **Status:** `CORRECTIVE FOLLOW-UP ACTIVE`  
+> **Parent review:** `IAR-1`  
+> **Parent reconciliation:** `IAR-1-R1`  
+> **Parent merge:** `845f2c8e9322c5353f9d6b421e44d1da71b82f58`  
+> **Corrective PR:** `#108`  
+> **Runtime expansion:** `FROZEN`
 
-The final re-review request on PR #107 targeted exact head `3ca47783cf1b4bde46158bce5aa183ceed82d0f5`. It was accepted before merge but published its review submission only after PR #107 had already merged as `845f2c8e9322c5353f9d6b421e44d1da71b82f58`.
+## 1. Why this follow-up exists
 
-That late review produced four actionable findings:
+The final Codex reconciliation-quality re-review of PR #107 targeted exact PR head `3ca47783cf1b4bde46158bce5aa183ceed82d0f5` but published after PR #107 had already squash-merged. Four actionable findings were therefore handled in a separate bounded corrective PR rather than silently rewriting the merged review chronology.
 
-1. **P1 — stale workflow gate tests**: `test_a9_reference_laboratory_boundary.py`, `test_a10_open_questions_falsification.py`, and `test_integrated_a1_a10_review.py` still required the pre-IAR `INDEPENDENT_ARCHITECTURE_REVIEW / NOT_ESTABLISHED` machine state.
-2. **P2 — stale documentation indexes**: `docs/README.md`, `docs/README.ru.md`, and `docs/adr/README.md` still presented independent review as the current next gate.
-3. **P2 — insufficient independence evidence guard**: `validate_architecture_freeze.py` checked reviewer identity/flags but did not require substantive `independence_basis` or the recorded input packet before accepting `QUALIFYING_REVIEW_COMPLETE`.
-4. **P2 — incomplete preregistration-field guard**: the validator checked that preregistration existed but did not enforce the exact required field inventory, allowing fields such as `threat_model` or `oracle_authority` to disappear silently.
+PR #108 then received two additional P2 findings on its own first reviewed head. Those are part of the same corrective chronology and are not erased by later thread resolution.
 
-This follow-up fixes all four without changing runtime, contracts, profile semantics, evidence bytes, IAR-1 source findings, IAR-1-R1 substantive dispositions, or operator-controlled decisions.
+## 2. Late findings from PR #107 final re-review
 
-```text
-runtime_expansion: FROZEN
-BPV-1 execution: BLOCKED_PENDING_PREREGISTERED_PLAN
-next gate after this follow-up: BPV1_PLAN_AND_PREREGISTRATION
-product_runtime_thaw: NO
-production_authorized: false
-```
+1. stale A9/A10/integrated-review workflow tests could accept a pre-reconciliation validation status;
+2. current documentation indexes still described independent review as the next gate;
+3. the IAR-1 independence basis guard was too prose-dependent;
+4. the BPV-1 preregistration field inventory was not enforced exactly enough.
 
-The existence of this follow-up corrects the earlier synchronization statement that no further final review submission had appeared. Historical Notion/Issue text is preserved; a new corrective checkpoint must supersede it after this follow-up merges and passes post-merge validation.
+## 3. Additional findings from PR #108 review
+
+1. A9/A10/integrated-review slice tests needed an explicit assertion that `post_blueprint_validation.status` contains `RECONCILIATION_COMPLETE`;
+2. a generic padded `independence_basis` string could still satisfy the architecture-freeze validator unless repository-visible structured independence evidence was enforced by the validation gate.
+
+## 4. Corrective disposition
+
+The follow-up therefore:
+
+- preserves historical A9/A10/integrated-review document states while asserting the current machine gate;
+- requires the slice tests to verify `RECONCILIATION_COMPLETE` explicitly;
+- refreshes current documentation indexes to `IAR-1 complete / IAR-1-R1 complete / BPV1 plan next`;
+- preserves exact preregistration field inventory and fail-closed duplicate/missing-field checks;
+- records repository-visible IAR-1 reviewer-separation evidence in `docs/reviews/IAR-1_INDEPENDENCE_EVIDENCE.json`;
+- validates that evidence with `tools/ai_context/validate_iar1_independence_evidence.py` and its regression suite;
+- wires the independence-evidence validator/test into mandatory AI-context CI;
+- restores the historical reconciliation markers required by current-truth validation.
+
+## 5. Non-authorizations
+
+This corrective follow-up does **not** authorize:
+
+- BPV-1 implementation or execution;
+- product runtime thaw;
+- reducer v2;
+- new Event verbs;
+- a new database/language/product profile;
+- license selection;
+- Track H admission;
+- Final Canon;
+- maturity or production promotion.
+
+Current next gate remains `BPV1_PLAN_AND_PREREGISTRATION`, and runtime expansion remains `FROZEN`.
