@@ -1,0 +1,88 @@
+name: BPV1 subject falsification instrument
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/bpv1.yml"
+      - "experiments/bpv1/BPV1-001/subject/**"
+      - "experiments/bpv1/BPV1-001/results/**"
+      - "experiments/bpv1/BPV1-001/rust-toolchain.toml"
+      - "experiments/bpv1/BPV1-001/admission/**"
+      - "tools/bpv1/**"
+      - "tests/test_bpv1_subject.py"
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/bpv1.yml"
+      - "experiments/bpv1/BPV1-001/subject/**"
+      - "experiments/bpv1/BPV1-001/results/**"
+      - "experiments/bpv1/BPV1-001/rust-toolchain.toml"
+      - "experiments/bpv1/BPV1-001/admission/**"
+      - "tools/bpv1/**"
+      - "tests/test_bpv1_subject.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  subject:
+    name: Python ${{ matrix.python-version }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+
+    steps:
+      - name: Check out exact commit with complete history
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install pinned Rust toolchain (1.97.1)
+        run: rustup toolchain install 1.97.1 --profile minimal
+
+      - name: Audit bounded subject scope
+        run: python tools/bpv1/audit_scope.py --repo . --mode subject --base e2deac859c2a56f29b88c54f1da440f3f04734dc --head HEAD
+
+      - name: Validate exact preregistered plan digest
+        run: |
+          test "$(python tools/bpv1/plan_digest.py --repo .)" = "7fe8174c604678c6b79d3fdeae83d7c5ab0d2fb15bfe343d41659d05d9496ad0"
+
+      - name: Build subject with pinned toolchain
+        working-directory: experiments/bpv1/BPV1-001/subject
+        run: rustup run 1.97.1 cargo build --release --locked
+
+      - name: Run subject and regenerate observations
+        run: |
+          experiments/bpv1/BPV1-001/subject/target/release/bpv1-001-subject --output /tmp/bpv1-fresh-observations.json
+
+      - name: Evaluate fresh observations against the frozen oracle
+        run: |
+          python tools/bpv1/evaluate.py /tmp/bpv1-fresh-observations.json --output /tmp/bpv1-fresh-evaluation-report.json
+          python - <<'PY'
+          import json
+          report = json.load(open("/tmp/bpv1-fresh-evaluation-report.json"))
+          failing = [f for f in report["fixture_results"] if f["mandatory"] and f["status"] == "FAIL"]
+          assert not failing, f"mandatory fixture failure(s): {failing}"
+          assert report["outcome"] != "REFUTED", report["outcome"]
+          print(f"BPV1-001 outcome: {report['outcome']}")
+          PY
+
+      - name: Fresh observations match committed reference bundle exactly
+        run: |
+          diff <(python -m json.tool /tmp/bpv1-fresh-observations.json) <(python -m json.tool experiments/bpv1/BPV1-001/results/observations.json)
+
+      - name: Compile subject self-tests
+        run: python -m compileall -q tests/test_bpv1_subject.py
+
+      - name: Run subject self-tests
+        run: python -m unittest discover -s tests -p 'test_bpv1_subject.py' -v

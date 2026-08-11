@@ -1,0 +1,17 @@
+[package]
+name = "bpv1-001-subject"
+version = "0.1.0"
+edition = "2021"
+publish = false
+description = "BPV1-001 experimental falsification instrument. EXPERIMENTAL_INSTRUMENT_NOT_CANON. Not part of Native Kernel product runtime."
+
+[[bin]]
+name = "bpv1-001-subject"
+path = "src/main.rs"
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+[profile.release]
+panic = "abort"

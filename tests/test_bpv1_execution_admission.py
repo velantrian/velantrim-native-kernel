@@ -64,9 +64,13 @@ def passing_observations() -> dict:
 
 
 class BPV1ExecutionAdmissionTests(unittest.TestCase):
-    def test_repository_admission_package_validates_before_subject_exists(self) -> None:
+    def test_repository_admission_package_remains_valid_regardless_of_subject_existence(self) -> None:
         admission_validator.validate(ROOT)
-        self.assertFalse((ROOT / "experiments" / "bpv1" / "BPV1-001" / "subject").exists())
+        subject_root = ROOT / "experiments" / "bpv1" / "BPV1-001" / "subject"
+        if subject_root.exists():
+            state = json.loads((ROOT / "project-state.json").read_text(encoding="utf-8"))
+            validation = state["tracks"]["long_horizon_research"]["post_blueprint_validation"]
+            self.assertEqual("ADMITTED_FOR_EXPERIMENT_ONLY", validation.get("bpv1_status"))
 
     def test_frozen_plan_sha256_is_exact(self) -> None:
         digest = digest_tool.digest_file(ROOT / "docs" / "research" / "BPV1_PREREGISTRATION.json")
