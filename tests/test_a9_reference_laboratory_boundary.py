@@ -104,16 +104,16 @@ class A9ReferenceLaboratoryBoundaryTests(unittest.TestCase):
             ):
                 self.assertIn(literal, markdown)
 
-    def test_project_state_preserves_a9_after_option_d(self) -> None:
+    def test_project_state_preserves_a9_after_iar1_reconciliation(self) -> None:
         research = self.state["tracks"]["long_horizon_research"]
         refoundation = research["architecture_refoundation"]
         validation = research["post_blueprint_validation"]
         self.assertIn("A9_REFERENCE_LABORATORY_BOUNDARY", refoundation["completed_deliverables"])
         self.assertIn("A10_OPEN_QUESTIONS_AND_FALSIFICATION", refoundation["completed_deliverables"])
-        self.assertEqual("INDEPENDENT_ARCHITECTURE_REVIEW", refoundation["next_content_slice"])
+        self.assertEqual("BPV1_PLAN_AND_PREREGISTRATION", refoundation["next_content_slice"])
         self.assertEqual("ADR-0026", validation["decision"])
-        self.assertEqual("NOT_ESTABLISHED", validation["independent_review_status"])
-        self.assertEqual("BLOCKED_PENDING_INDEPENDENT_REVIEW_AND_RECONCILIATION", validation["bpv1_status"])
+        self.assertEqual("QUALIFYING_REVIEW_COMPLETE", validation["independent_review_status"])
+        self.assertEqual("BLOCKED_PENDING_PREREGISTERED_PLAN", validation["bpv1_status"])
         self.assertTrue(refoundation["runtime_expansion_frozen"])
         self.assertEqual("BOUNDED_REFERENCE_LABORATORY", self.state["tracks"]["clean_implementation"]["architecture_role"])
         self.assertFalse(self.state["status"]["production_authorized"])
