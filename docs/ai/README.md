@@ -15,8 +15,8 @@ This directory is the mandatory continuity surface for AI agents, auditors and m
 9. A1–A10 bilingual first-draft documents
 10. [`../INTEGRATED_A1_A10_REVIEW.md`](../INTEGRATED_A1_A10_REVIEW.md) / [`RU`](../INTEGRATED_A1_A10_REVIEW.ru.md)
 11. [`../INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.md`](../INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.md) / [`RU`](../INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.ru.md)
-12. [`../reviews/IAR-1_RESULT.md`](../reviews/IAR-1_RESULT.md) + [`JSON`](../reviews/IAR-1_RESULT.json)
-13. [`../reviews/IAR-1_RECONCILIATION.md`](../reviews/IAR-1_RECONCILIATION.md) + [`JSON`](../reviews/IAR-1_RECONCILIATION.json)
+12. [`../reviews/IAR-1_RESULT.md`](../reviews/IAR-1_RESULT.md) / [`RU`](../reviews/IAR-1_RESULT.ru.md) + [`JSON`](../reviews/IAR-1_RESULT.json)
+13. [`../reviews/IAR-1_RECONCILIATION.md`](../reviews/IAR-1_RECONCILIATION.md) / [`RU`](../reviews/IAR-1_RECONCILIATION.ru.md) + [`JSON`](../reviews/IAR-1_RECONCILIATION.json)
 14. [`../adr/0026-independent-challenge-before-bounded-cross-lineage-falsification.md`](../adr/0026-independent-challenge-before-bounded-cross-lineage-falsification.md)
 15. [`ISSUE_RECONCILIATION.md`](ISSUE_RECONCILIATION.md)
 16. [`NOTION_HANDOFF.md`](NOTION_HANDOFF.md)
