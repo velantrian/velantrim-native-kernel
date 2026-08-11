@@ -63,13 +63,7 @@ class A10OpenQuestionsFalsificationTests(unittest.TestCase):
 
     def test_thought_experiments_cover_distinct_substrate_classes(self) -> None:
         for markdown in (self.en, self.ru):
-            for literal in (
-                "Eventless state-transition archive",
-                "Distributed neuromorphic memory",
-                "Lossy bounded-memory agent",
-                "Probabilistic realization",
-                "Independent-language digital profile",
-            ):
+            for literal in ("Eventless state-transition archive", "Distributed neuromorphic memory", "Lossy bounded-memory agent", "Probabilistic realization", "Independent-language digital profile"):
                 self.assertIn(literal, markdown)
 
     def test_operator_and_runtime_boundaries_are_preserved(self) -> None:
@@ -79,7 +73,7 @@ class A10OpenQuestionsFalsificationTests(unittest.TestCase):
             self.assertIn("45/10/17/0", markdown)
             self.assertIn("0/0/8/0", markdown)
 
-    def test_machine_state_preserves_a10_and_advances_to_bpv1_plan(self) -> None:
+    def test_machine_state_preserves_a10_and_advances_to_execution_admission(self) -> None:
         research = self.state["tracks"]["long_horizon_research"]
         refoundation = research["architecture_refoundation"]
         validation = research["post_blueprint_validation"]
@@ -96,14 +90,13 @@ class A10OpenQuestionsFalsificationTests(unittest.TestCase):
             "A10_OPEN_QUESTIONS_AND_FALSIFICATION",
         ]
         self.assertEqual(expected, refoundation["completed_deliverables"])
-        self.assertEqual("BPV1_PLAN_AND_PREREGISTRATION", refoundation["next_content_slice"])
+        self.assertEqual("BPV1_EXECUTION_ADMISSION", refoundation["next_content_slice"])
         self.assertEqual("ADR-0026", validation["decision"])
         self.assertEqual("QUALIFYING_REVIEW_COMPLETE", validation["independent_review_status"])
-        self.assertEqual(
-            "AUTHORIZED / REVIEW_COMPLETE / RECONCILIATION_COMPLETE / BPV1_PLAN_NEXT",
-            validation["status"],
-        )
-        self.assertEqual("BLOCKED_PENDING_PREREGISTERED_PLAN", validation["bpv1_status"])
+        self.assertEqual("AUTHORIZED / REVIEW_COMPLETE / RECONCILIATION_COMPLETE / BPV1_PLAN_PREREGISTERED / EXECUTION_ADMISSION_NEXT", validation["status"])
+        self.assertEqual("BLOCKED_PENDING_EXECUTION_ADMISSION", validation["bpv1_status"])
+        self.assertEqual("a538d7f1e28858a88b9ee777ac7d6e05b85943db", validation["bpv1_plan"]["authoritative_plan_merge_sha"])
+        self.assertFalse(validation["bpv1_plan"]["execution_authorized"])
         self.assertTrue(refoundation["runtime_expansion_frozen"])
         self.assertEqual("BOUNDED_REFERENCE_LABORATORY", self.state["tracks"]["clean_implementation"]["architecture_role"])
         self.assertFalse(self.state["status"]["production_authorized"])
