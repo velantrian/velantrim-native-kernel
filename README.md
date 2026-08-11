@@ -194,3 +194,7 @@ python tools/ai_context/validate_project_state.py --repo .
 python tools/ai_context/validate_architecture_freeze.py --repo .
 python tools/ai_context/validate_context.py --repo .
 ```
+
+> **SQLite profile warning:** P5/C3/C4/C5 fail closed when the Python process is linked against SQLite older than `3.51.3`. Do not treat a system SQLite rejection as a semantic failure. Build/use the pinned safe SQLite library before running those profile checks.
+
+For the pinned-library setup, PostgreSQL DSN, and full P4/P5/C3/C4/C5 commands, use [`docs/QUICKSTART.md`](docs/QUICKSTART.md).
