@@ -50,7 +50,7 @@ IAR-1 reconciliation: [human](docs/reviews/IAR-1_RECONCILIATION.md) · [machine]
 Tracking: [Issue #88](https://github.com/velantrian/velantrim-native-kernel/issues/88).
 
 ```text
-blueprint content: A1-A10 DRAFTED / PROVISIONAL
+blueprint content: A1-A10 DRAFTED / PROVISIONAL / RECONCILED BY OVERLAY
 integrated review: COMPLETED / PROVISIONAL
 operator post-blueprint decision: OPTION D / ADR-0026 / APPROVED
 IAR-1: QUALIFYING_REVIEW_COMPLETE

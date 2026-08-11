@@ -23,6 +23,8 @@ This file must not predict its own future merge SHA. GitHub live refs remain aut
 
 Historical reconciliation binding: publication checkpoint `10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c`; manifest source / previously Notion-synchronized descendant `70acd0da61fee19131947aa56125833adb156ced`. The descendant synchronization identity does not rewrite or replace the publication checkpoint.
 
+The later Notion synchronization checkpoint does not rewrite or replace the earlier publication checkpoint.
+
 ## Current boundary
 
 ```text
