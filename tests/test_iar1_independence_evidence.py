@@ -48,7 +48,31 @@ class IAR1IndependenceEvidenceTests(unittest.TestCase):
         with self.assertRaisesRegex(module.IndependenceEvidenceError, "GitHub actor drift"):
             self.validate(record)
 
-    def test_separation_basis_must_bind_exact_actor_and_channel(self) -> None:
+    def test_exact_review_submission_id_cannot_drift(self) -> None:
+        record = copy.deepcopy(RECORD)
+        record["review_submission"]["id"] = 1
+        with self.assertRaisesRegex(module.IndependenceEvidenceError, "exact review submission identity drift"):
+            self.validate(record)
+
+    def test_exact_review_submission_actor_cannot_drift(self) -> None:
+        record = copy.deepcopy(RECORD)
+        record["review_submission"]["actor_login"] = "velantrian"
+        with self.assertRaisesRegex(module.IndependenceEvidenceError, "exact review submission identity drift|actor binding drift"):
+            self.validate(record)
+
+    def test_exact_review_submission_commit_cannot_drift(self) -> None:
+        record = copy.deepcopy(RECORD)
+        record["review_submission"]["commit_id"] = "0" * 40
+        with self.assertRaisesRegex(module.IndependenceEvidenceError, "exact review submission identity drift"):
+            self.validate(record)
+
+    def test_review_submission_digest_cannot_drift(self) -> None:
+        record = copy.deepcopy(RECORD)
+        record["review_submission_identity_sha256"] = "0" * 64
+        with self.assertRaisesRegex(module.IndependenceEvidenceError, "recorded review submission identity digest drift"):
+            self.validate(record)
+
+    def test_separation_basis_must_bind_exact_actor_submission_and_channel(self) -> None:
         record = copy.deepcopy(RECORD)
         record["separation_basis"] = "This is a long generic explanation. " * 12
         with self.assertRaisesRegex(module.IndependenceEvidenceError, "separation basis missing marker"):
