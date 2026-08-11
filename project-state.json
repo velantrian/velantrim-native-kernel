@@ -1,7 +1,7 @@
 {
   "protocol": "nk-project-state/2",
-  "snapshot_id": "native-kernel/state/2026-08-11-iar1-reconciled",
-  "observed_at": "2026-08-11T09:52:34Z",
+  "snapshot_id": "native-kernel/state/2026-08-11-bpv1-preregistered",
+  "observed_at": "2026-08-11T16:51:48Z",
   "repository": {
     "full_name": "velantrian/velantrim-native-kernel",
     "visibility": "PUBLIC",
@@ -15,7 +15,7 @@
     "evidence_producing_sha": "296981ae84ad5bdab5dabbec9b7b9ebb43af63d7",
     "publication_checkpoint_sha": "10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c",
     "notion_synchronized_through_sha": "70acd0da61fee19131947aa56125833adb156ced",
-    "checkpoint_semantics": "The publication checkpoint records the PR #83 decision-package publication identity. The manifest source and Notion synchronization checkpoint record the latest exact synchronization identity committed by this machine-state lineage. Live HEAD is resolved by Git or the GitHub API; no committed file attempts to contain the SHA of its own future merge. ADR-0025 established blueprint-first refoundation. ADR-0026 authorizes post-blueprint validation while keeping runtime and prior evidence/publication checkpoint identities unchanged. IAR-1 and IAR-1-R1 advance only the post-blueprint architecture-validation gate."
+    "checkpoint_semantics": "The publication checkpoint records the PR #83 decision-package publication identity. The manifest source and committed Notion synchronization checkpoint remain historical role identities. Live HEAD is resolved by Git or the GitHub API; no committed file attempts to contain the SHA of its own future merge. ADR-0025 established blueprint-first refoundation. ADR-0026 authorizes post-blueprint validation while keeping runtime and prior evidence/publication checkpoint identities unchanged. IAR-1 and IAR-1-R1 advanced the architecture-validation gate; PR #110 published the BPV-1 preregistration as an authoritative ancestor without authorizing execution."
   },
   "status": {
     "repository_status": "RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY",
@@ -87,7 +87,7 @@
           "A10_OPEN_QUESTIONS_AND_FALSIFICATION"
         ],
         "completion_requires_operator_review": true,
-        "next_content_slice": "BPV1_PLAN_AND_PREREGISTRATION",
+        "next_content_slice": "BPV1_EXECUTION_ADMISSION",
         "completed_deliverables": [
           "A1_KERNEL_PURPOSE_AND_NON_GOALS",
           "A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY",
@@ -106,13 +106,23 @@
         "issue": 88,
         "operator_approval": "APPROVED",
         "selected_option": "D_INDEPENDENT_CHALLENGE_THEN_BOUNDED_CROSS_LINEAGE_FALSIFICATION",
-        "status": "AUTHORIZED / REVIEW_COMPLETE / RECONCILIATION_COMPLETE / BPV1_PLAN_NEXT",
+        "status": "AUTHORIZED / REVIEW_COMPLETE / RECONCILIATION_COMPLETE / BPV1_PLAN_PREREGISTERED / EXECUTION_ADMISSION_NEXT",
         "independent_review_protocol": "nk-independent-architecture-review/1",
         "independent_review_document_en": "docs/INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.md",
         "independent_review_document_ru": "docs/INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.ru.md",
         "independent_review_status": "QUALIFYING_REVIEW_COMPLETE",
-        "bpv1_status": "BLOCKED_PENDING_PREREGISTERED_PLAN",
+        "bpv1_status": "BLOCKED_PENDING_EXECUTION_ADMISSION",
         "bpv1_role": "FALSIFICATION_INSTRUMENT_ONLY",
+        "bpv1_plan": {
+          "protocol": "nk-bpv1-preregistration/1",
+          "plan_id": "BPV1-001-cross-lineage-bounded-accountability-v1",
+          "path": "docs/research/BPV1_PREREGISTRATION.json",
+          "authoritative_plan_merge_sha": "a538d7f1e28858a88b9ee777ac7d6e05b85943db",
+          "status": "PREREGISTERED / EXECUTION_NOT_AUTHORIZED",
+          "execution_authorized": false,
+          "execution_admission_required": true,
+          "next_gate": "BPV1_EXECUTION_ADMISSION"
+        },
         "product_runtime_thaw": false,
         "automatic_canon_promotion": false,
         "automatic_runtime_promotion": false
@@ -156,7 +166,7 @@
     "18": {"state": "OPEN", "meaning": "License and publication terms remain PENDING_OPERATOR; no license, contribution regime or package publication is authorized.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-10T20:36:15Z", "source": "issue/18"}},
     "64": {"state": "CLOSED", "state_reason": "COMPLETED", "meaning": "C5 bounded operational rehearsal implementation issue is complete.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-09T11:31:28Z", "source": "issue/64"}},
     "74": {"state": "OPEN", "meaning": "ADR-0024 remains PROPOSED / PENDING_OPERATOR; reducer v1 is immutable and reducer-v2 runtime is not authorized.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-10T20:36:15Z", "source": "issue/74"}},
-    "88": {"state": "OPEN", "meaning": "Architecture Re-foundation A1-A10 and integrated review remain provisional; ADR-0026 Option D is active; IAR-1 is QUALIFYING_REVIEW_COMPLETE and IAR-1-R1 reconciliation resolves all blocking/material findings; next gate is BPV1_PLAN_AND_PREREGISTRATION; BPV-1 execution and runtime remain blocked/frozen.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-11T09:52:34Z", "source": "issue/88"}}
+    "88": {"state": "OPEN", "meaning": "Architecture Re-foundation A1-A10 and integrated review remain provisional; ADR-0026 Option D is active; IAR-1 is QUALIFYING_REVIEW_COMPLETE and IAR-1-R1 reconciliation resolves all blocking/material findings; BPV-1 plan BPV1-001-cross-lineage-bounded-accountability-v1 is preregistered at authoritative plan merge a538d7f1e28858a88b9ee777ac7d6e05b85943db; next gate is BPV1_EXECUTION_ADMISSION; BPV-1 execution remains BLOCKED_PENDING_EXECUTION_ADMISSION and runtime remains frozen.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-11T16:51:48Z", "source": "issue/88"}}
   },
   "evidence": {
     "c5_bundle": {"protocol": "nk-evidence-bundle/1", "path": "evidence/c5/2026-08-07/manifest.json", "status": "CAPTURED_REPOSITORY_RESIDENT", "checkpoint_count": 2, "artifact_count": 8, "original_archives_preserved": true, "source_retention_expiry": "2026-09-06"},
@@ -165,7 +175,7 @@
   "notion": {
     "synchronization_required": true,
     "status": "SYNCED_THROUGH_DESCENDANT_CHECKPOINT",
-    "scope": "The exact committed synchronization identity remains 70acd0da61fee19131947aa56125833adb156ced (PR #86 lineage) and remains distinct from publication checkpoint 10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c. This field does not claim that the exact committed checkpoint itself contains later IAR-1/IAR-1-R1 truth. Live Notion content must be verified directly and, after this validation PR merges, synchronized/read back again before being claimed as the current IAR-1 reconciliation checkpoint.",
+    "scope": "The exact committed synchronization identity remains 70acd0da61fee19131947aa56125833adb156ced (PR #86 lineage) and remains distinct from publication checkpoint 10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c. This committed field does not claim that the old checkpoint contains later BPV-1 preregistration truth. Live Notion content must be verified directly and synchronized/read back after this BPV-1 status-sync merge before D4 is claimed complete.",
     "authority_boundary": "Notion carries current orientation, rationale and history; GitHub remains sufficient and authoritative for technical state, live refs, contracts, tests, workflow results and evidence. A later post-merge Notion write may be newer than the latest repository-committed synchronization checkpoint until a subsequent non-self-referential manifest records it."
   },
   "non_claims": [
@@ -188,6 +198,7 @@
     "A10 open-questions/falsification is drafted and provisional; integrated review normalizes its outcome protocol without proving the hypotheses.",
     "Integrated A1-A10 review completion is not independent validation, operator acceptance, Canon promotion, runtime authorization, arbitrary-substrate proof, or production authorization.",
     "ADR-0026 operator approval authorizes a validation phase, not independent validation, BPV-1 success, Final Canon, runtime thaw, arbitrary-substrate proof, or production authorization.",
-    "IAR-1 qualifying review completion and IAR-1-R1 reconciliation do not prove the architecture correct, authorize BPV-1 execution, promote Final Canon, thaw product runtime, or establish universal substrate independence."
+    "IAR-1 qualifying review completion and IAR-1-R1 reconciliation do not prove the architecture correct, authorize BPV-1 execution, promote Final Canon, thaw product runtime, or establish universal substrate independence.",
+    "BPV-1 preregistration and an authoritative plan merge do not authorize experiment execution, product runtime, Final Canon, production, or universal substrate-independence claims."
   ]
 }
