@@ -63,8 +63,9 @@ open BLOCKING findings: 0
 open MATERIAL findings: 0
 BPV-1 plan: PREREGISTERED / EXECUTION_NOT_AUTHORIZED
 authoritative BPV-1 plan merge: a538d7f1e28858a88b9ee777ac7d6e05b85943db
-next bounded gate: BPV1_EXECUTION_ADMISSION
-BPV-1 execution: BLOCKED_PENDING_EXECUTION_ADMISSION
+BPV-1 execution-admission package merge: 6027eec73f11c4626be5553de7e79f827be2c81d
+next bounded gate: BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION
+BPV-1 execution: ADMITTED_FOR_EXPERIMENT_ONLY
 runtime expansion: FROZEN
 ```
 
@@ -99,20 +100,23 @@ It fixes one single-node, non-composed, conventional-digital cross-language inst
 
 Post-execution normative rescoping invalidates the run and requires a new scenario identity.
 
-## BPV1_EXECUTION_ADMISSION — current next gate
+## BPV1_EXECUTION_ADMISSION — complete
 
-No subject implementation/execution is admitted yet. A separate checkpoint must first bind:
+The separate execution-admission checkpoint is now authoritative. PR #112 merged the candidate package at `6027eec73f11c4626be5553de7e79f827be2c81d`, binding:
 
-- the authoritative preregistration and frozen digest;
+- the authoritative preregistration and frozen digest (corrected to `7fe8174c604678c6b79d3fdeae83d7c5ab0d2fb15bfe343d41659d05d9496ad0` after independent verification found the originally recorded digest did not match the unmodified preregistration file's actual bytes);
 - machine-readable fixtures/oracle package derived only from the plan;
 - standalone evaluator tests passing before subject execution;
 - pinned Rust toolchain and experimental source boundary;
 - static scope audit proving no product runtime/profile integration.
 
-The implementation under test cannot define expected semantic outcomes after execution begins.
+Admission authorizes only BPV1-001 subject implementation/execution. It is not A11, product runtime thaw, Final Canon or production authorization. The implementation under test cannot define expected semantic outcomes after execution begins.
 
 ```text
-BPV-1 execution: BLOCKED_PENDING_EXECUTION_ADMISSION
+BPV-1 execution: ADMITTED_FOR_EXPERIMENT_ONLY
+subject implementation: AUTHORIZED_FOR_BPV1-001_ONLY
+subject execution: AUTHORIZED_FOR_BPV1-001_ONLY
+product runtime integration: NOT AUTHORIZED
 runtime expansion: FROZEN
 product runtime thaw: NO
 production_authorized: false
@@ -153,7 +157,7 @@ Track H source admission: operator-controlled
 
 ## Current known gaps
 
-- execution-admission fixtures/evaluator/toolchain binding is not yet authoritative;
+- BPV1-001 subject implementation has not yet been written or executed;
 - no cross-lineage BPV-1 subject realization has been executed;
 - P5/C3 is not independent-language or arbitrary-substrate evidence;
 - no bounded-memory run has yet tested the refined accountability boundary;
@@ -164,4 +168,4 @@ Track H source admission: operator-controlled
 
 ## Hard stop
 
-The only current next gate is `BPV1_EXECUTION_ADMISSION`. It may admit only the bounded preregistered falsification instrument; it is not A11, product runtime permission, Final Canon or production authorization. BPV-1 execution remains `BLOCKED_PENDING_EXECUTION_ADMISSION` until that separate checkpoint is authoritative.
+The only current next gate is `BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION`. BPV-1 execution is `ADMITTED_FOR_EXPERIMENT_ONLY`, bounded strictly to the BPV1-001 subject; it is not A11, product runtime permission, Final Canon or production authorization. Product runtime integration remains not authorized and runtime expansion remains `FROZEN`.

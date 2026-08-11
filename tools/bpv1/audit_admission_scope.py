@@ -1,5 +1,19 @@
 #!/usr/bin/env python3
-"""Fail closed if the BPV1-001 execution-admission package escapes its bounded paths."""
+"""Fail closed on BPV1-001 execution-admission scope violations.
+
+Two distinct, permanent checks:
+
+1. Historical: the merged execution-admission candidate package itself
+   (BASE..ADMISSION_MERGE) touched only its declared admission-only paths.
+   This range is immutable git history and this check always passes once
+   satisfied - it does not re-run against every future commit.
+2. Ongoing: no commit, ever, touches product/runtime/subject paths that
+   remain forbidden regardless of admission or status-sync activity. This
+   check runs against the live BASE..HEAD diff and applies to every commit
+   this workflow evaluates, including later status-sync checkpoints that
+   legitimately touch docs/tests/tools/project-state.json outside the
+   admission-only allowlist.
+"""
 from __future__ import annotations
 
 import argparse
@@ -8,7 +22,8 @@ import subprocess
 from pathlib import Path
 
 BASE = "20484a151bc7011509579353c2cf78845e3c33f9"
-ALLOWED = (
+ADMISSION_MERGE = "6027eec73f11c4626be5553de7e79f827be2c81d"
+ADMISSION_ALLOWED = (
     ".github/workflows/ai-context.yml",
     ".github/workflows/bpv1-admission.yml",
     "docs/research/BPV1_EXECUTION_ADMISSION.md",
@@ -37,16 +52,27 @@ def _git(repo: Path, *args: str) -> str:
     return result.stdout
 
 
+def _changed_paths(repo: Path, base: str, head: str) -> list[str]:
+    return [line.strip() for line in _git(repo, "diff", "--name-only", f"{base}...{head}").splitlines() if line.strip()]
+
+
 def audit(repo: Path, head: str = "HEAD") -> list[str]:
-    changed = [line.strip() for line in _git(repo, "diff", "--name-only", f"{BASE}...{head}").splitlines() if line.strip()]
     findings: list[str] = []
-    if not changed:
-        return ["admission diff is empty"]
-    for path in changed:
+
+    historical_changed = _changed_paths(repo, BASE, ADMISSION_MERGE)
+    if not historical_changed:
+        findings.append("historical admission-package diff is empty")
+    for path in historical_changed:
+        if not any(fnmatch.fnmatch(path, pattern) for pattern in ADMISSION_ALLOWED):
+            findings.append(f"historical admission package touched a path outside its allowlist: {path}")
+
+    live_changed = _changed_paths(repo, BASE, head)
+    if not live_changed:
+        findings.append("live diff since pre-admission base is empty")
+    for path in live_changed:
         if any(path.startswith(prefix) for prefix in FORBIDDEN_PREFIXES):
             findings.append(f"forbidden product/subject path changed: {path}")
-        if not any(fnmatch.fnmatch(path, pattern) for pattern in ALLOWED):
-            findings.append(f"path outside execution-admission allowlist: {path}")
+
     return findings
 
 
@@ -65,7 +91,7 @@ def main() -> int:
             print(f"ERROR {finding}")
         print(f"BPV1 admission scope audit FAILED ({len(findings)} finding(s))")
         return 1
-    print(f"BPV1 admission scope audit PASS; base={BASE}; subject=absent; product_roots=unchanged")
+    print(f"BPV1 admission scope audit PASS; base={BASE}; admission_merge={ADMISSION_MERGE}; subject=absent; product_roots=unchanged")
     return 0
 
 

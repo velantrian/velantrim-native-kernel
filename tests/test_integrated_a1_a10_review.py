@@ -53,15 +53,15 @@ class IntegratedA1A10ReviewTests(unittest.TestCase):
     def test_integrated_review_remains_historical_while_machine_state_advances(self) -> None:
         refoundation = STATE["tracks"]["long_horizon_research"]["architecture_refoundation"]
         validation = STATE["tracks"]["long_horizon_research"]["post_blueprint_validation"]
-        self.assertEqual("BPV1_EXECUTION_ADMISSION", refoundation["next_content_slice"])
+        self.assertEqual("BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION", refoundation["next_content_slice"])
         self.assertEqual(10, len(refoundation["completed_deliverables"]))
         self.assertNotIn("INTEGRATED_A1_A10_REVIEW", refoundation["completed_deliverables"])
         self.assertNotIn("OPERATOR_POST_BLUEPRINT_DECISION", refoundation["completed_deliverables"])
         self.assertTrue(refoundation["runtime_expansion_frozen"])
         self.assertEqual("ADR-0026", validation["decision"])
         self.assertEqual("QUALIFYING_REVIEW_COMPLETE", validation["independent_review_status"])
-        self.assertEqual("AUTHORIZED / REVIEW_COMPLETE / RECONCILIATION_COMPLETE / BPV1_PLAN_PREREGISTERED / EXECUTION_ADMISSION_NEXT", validation["status"])
-        self.assertEqual("BLOCKED_PENDING_EXECUTION_ADMISSION", validation["bpv1_status"])
+        self.assertEqual("AUTHORIZED / REVIEW_COMPLETE / RECONCILIATION_COMPLETE / BPV1_PLAN_PREREGISTERED / EXECUTION_ADMITTED_FOR_EXPERIMENT_ONLY", validation["status"])
+        self.assertEqual("ADMITTED_FOR_EXPERIMENT_ONLY", validation["bpv1_status"])
         self.assertEqual("BPV1-001-cross-lineage-bounded-accountability-v1", validation["bpv1_plan"]["plan_id"])
         self.assertFalse(validation["bpv1_plan"]["execution_authorized"])
         self.assertFalse(validation["product_runtime_thaw"])

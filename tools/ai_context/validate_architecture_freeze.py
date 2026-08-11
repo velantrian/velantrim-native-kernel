@@ -2,9 +2,12 @@
 """Fail closed when the post-blueprint validation/runtime-freeze boundary drifts.
 
 Historical IAR-1/IAR-1-R1 records retain their publication-time next gate
-(BPV1_PLAN_AND_PREREGISTRATION). Current project state advances only after the
-merged preregistration to BPV1_EXECUTION_ADMISSION, while execution remains
-blocked and product runtime remains frozen.
+(BPV1_PLAN_AND_PREREGISTRATION). The frozen preregistration record retains its
+own historical next gate (BPV1_EXECUTION_ADMISSION), the gate that was
+required after plan merge. Current project state advances only after the
+merged, corrected-digest execution-admission package to
+BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION, admitting only the BPV1-001 subject
+implementation/execution while product runtime remains frozen.
 """
 from __future__ import annotations
 
@@ -52,16 +55,26 @@ EXPECTED_POST_BLUEPRINT_FIELDS = {
     "decision", "issue", "operator_approval", "selected_option", "status",
     "independent_review_protocol", "independent_review_document_en",
     "independent_review_document_ru", "independent_review_status", "bpv1_status",
-    "bpv1_role", "bpv1_plan", "product_runtime_thaw", "automatic_canon_promotion",
-    "automatic_runtime_promotion",
+    "bpv1_role", "bpv1_plan", "bpv1_execution_admission", "product_runtime_thaw",
+    "automatic_canon_promotion", "automatic_runtime_promotion",
 }
 EXPECTED_HISTORICAL_RECONCILIATION_NEXT_GATE = "BPV1_PLAN_AND_PREREGISTRATION"
-EXPECTED_CURRENT_NEXT_GATE = "BPV1_EXECUTION_ADMISSION"
-EXPECTED_CURRENT_BPV1_STATUS = "BLOCKED_PENDING_EXECUTION_ADMISSION"
+# Historical: the gate the frozen preregistration record required after plan
+# merge. This never changes once the plan is preregistered/frozen.
+EXPECTED_PLAN_NEXT_GATE = "BPV1_EXECUTION_ADMISSION"
+EXPECTED_PLAN_POST_MERGE_STATUS = "BLOCKED_PENDING_EXECUTION_ADMISSION"
+# Current: the live forward-looking gate/status after execution admission.
+EXPECTED_CURRENT_NEXT_CONTENT_SLICE = "BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION"
+EXPECTED_CURRENT_BPV1_STATUS = "ADMITTED_FOR_EXPERIMENT_ONLY"
 EXPECTED_PLAN_ID = "BPV1-001-cross-lineage-bounded-accountability-v1"
 EXPECTED_PLAN_PROTOCOL = "nk-bpv1-preregistration/1"
 EXPECTED_PLAN_PATH = "docs/research/BPV1_PREREGISTRATION.json"
 EXPECTED_PLAN_MERGE_SHA = "a538d7f1e28858a88b9ee777ac7d6e05b85943db"
+EXPECTED_PLAN_SHA256 = "7fe8174c604678c6b79d3fdeae83d7c5ab0d2fb15bfe343d41659d05d9496ad0"
+EXPECTED_ADMISSION_PROTOCOL = "nk-bpv1-execution-admission-status/1"
+EXPECTED_ADMISSION_ID = "BPV1-001-execution-admission-v1"
+EXPECTED_ADMISSION_PACKAGE_MERGE_SHA = "6027eec73f11c4626be5553de7e79f827be2c81d"
+EXPECTED_SUBJECT_AUTHORIZATION = "AUTHORIZED_FOR_BPV1-001_ONLY"
 
 INTEGRATED_REVIEW_DOCS = (
     "docs/INTEGRATED_A1_A10_REVIEW.md",
@@ -286,19 +299,35 @@ def _validate_current_bpv1_plan(validation: Mapping[str, Any], repo: Path) -> No
     _require(plan.get("path") == EXPECTED_PLAN_PATH, "BPV-1 plan path drift")
     _require(plan.get("authoritative_plan_merge_sha") == EXPECTED_PLAN_MERGE_SHA, "BPV-1 authoritative plan merge drift")
     _require(plan.get("status") == "PREREGISTERED / EXECUTION_NOT_AUTHORIZED", "BPV-1 plan status drift")
-    _require(plan.get("execution_authorized") is False, "BPV-1 execution must remain blocked")
+    _require(plan.get("execution_authorized") is False, "BPV-1 execution must remain blocked at the plan level")
     _require(plan.get("execution_admission_required") is True, "BPV-1 execution admission must remain required")
-    _require(plan.get("next_gate") == EXPECTED_CURRENT_NEXT_GATE, "BPV-1 plan next gate drift")
+    _require(plan.get("next_gate") == EXPECTED_PLAN_NEXT_GATE, "BPV-1 plan historical next gate drift")
     record = _load_json_record(repo / EXPECTED_PLAN_PATH, "BPV-1 preregistration")
     _require(record.get("protocol") == EXPECTED_PLAN_PROTOCOL, "BPV-1 preregistration protocol drift")
     _require(record.get("plan_id") == EXPECTED_PLAN_ID, "BPV-1 preregistration identity drift")
     _require(record.get("status") == "PREREGISTERED / EXECUTION_NOT_AUTHORIZED", "BPV-1 preregistration status drift")
-    _require(record.get("execution_authorized") is False, "merged BPV-1 preregistration cannot authorize execution")
-    _require(record.get("next_gate_after_plan_merge") == EXPECTED_CURRENT_NEXT_GATE, "merged BPV-1 preregistration next gate drift")
+    _require(record.get("execution_authorized") is False, "merged BPV-1 preregistration cannot itself authorize execution")
+    _require(record.get("next_gate_after_plan_merge") == EXPECTED_PLAN_NEXT_GATE, "merged BPV-1 preregistration historical next gate drift")
     boundary = record.get("execution_boundary")
     _require(isinstance(boundary, Mapping), "BPV-1 execution boundary required")
-    _require(boundary.get("plan_merge_authorizes_execution") is False, "plan merge cannot authorize BPV-1 execution")
-    _require(boundary.get("execution_status_after_plan_merge") == EXPECTED_CURRENT_BPV1_STATUS, "BPV-1 post-plan execution status drift")
+    _require(boundary.get("plan_merge_authorizes_execution") is False, "plan merge alone cannot authorize BPV-1 execution")
+    _require(boundary.get("execution_status_after_plan_merge") == EXPECTED_PLAN_POST_MERGE_STATUS, "BPV-1 post-plan-merge (pre-admission) execution status drift")
+
+
+def _validate_bpv1_execution_admission(validation: Mapping[str, Any]) -> None:
+    admission = validation.get("bpv1_execution_admission")
+    _require(isinstance(admission, Mapping), "BPV-1 execution-admission status record required")
+    _require(admission.get("protocol") == EXPECTED_ADMISSION_PROTOCOL, "BPV-1 execution-admission protocol drift")
+    _require(admission.get("admission_id") == EXPECTED_ADMISSION_ID, "BPV-1 execution-admission identity drift")
+    _require(admission.get("status") == "COMPLETE", "BPV-1 execution-admission status drift")
+    _require(admission.get("admission_package_pr") == 112, "BPV-1 execution-admission package PR drift")
+    _require(admission.get("admission_package_merge_sha") == EXPECTED_ADMISSION_PACKAGE_MERGE_SHA, "BPV-1 execution-admission package merge drift")
+    _require(admission.get("plan_merge_sha") == EXPECTED_PLAN_MERGE_SHA, "BPV-1 execution-admission plan-merge binding drift")
+    _require(admission.get("plan_sha256") == EXPECTED_PLAN_SHA256, "BPV-1 execution-admission frozen plan digest drift")
+    _require(admission.get("subject_implementation_authorization") == EXPECTED_SUBJECT_AUTHORIZATION, "BPV-1 subject implementation authorization drift")
+    _require(admission.get("subject_execution_authorization") == EXPECTED_SUBJECT_AUTHORIZATION, "BPV-1 subject execution authorization drift")
+    _require(admission.get("product_runtime_integration_authorized") is False, "BPV-1 execution admission cannot authorize product runtime integration")
+    _require(admission.get("runtime_expansion") == "FROZEN", "BPV-1 execution admission must preserve runtime freeze")
 
 
 def validate(state: Mapping[str, Any], *, repo: Path) -> None:
@@ -338,7 +367,7 @@ def validate(state: Mapping[str, Any], *, repo: Path) -> None:
     _require("OPERATOR_POST_BLUEPRINT_DECISION" not in completed, "operator gate must not be treated as an A1-A10 deliverable")
     _require(all(item in EXPECTED_DELIVERABLES for item in completed), "completed deliverable is not a declared blueprint deliverable")
     _require(len(completed) == len(set(completed)), "completed deliverable inventory must not contain duplicates")
-    _require(refoundation.get("next_content_slice") == EXPECTED_CURRENT_NEXT_GATE, "next architecture validation gate drift")
+    _require(refoundation.get("next_content_slice") == EXPECTED_CURRENT_NEXT_CONTENT_SLICE, "next architecture validation gate drift")
     for plan_field in ("plan_en", "plan_ru"):
         _require((repo / str(refoundation[plan_field])).is_file(), f"missing architecture blueprint plan: {refoundation[plan_field]}")
     for deliverable in completed:
@@ -352,12 +381,12 @@ def validate(state: Mapping[str, Any], *, repo: Path) -> None:
     _require(set(validation) == EXPECTED_POST_BLUEPRINT_FIELDS, "post_blueprint_validation field inventory drift")
     _require((validation.get("decision"), validation.get("issue"), validation.get("operator_approval")) == ("ADR-0026", 88, "APPROVED"), "ADR-0026 identity, issue or approval drift")
     _require(validation.get("selected_option") == "D_INDEPENDENT_CHALLENGE_THEN_BOUNDED_CROSS_LINEAGE_FALSIFICATION", "post-blueprint Option D selection drift")
-    _require(validation.get("status") == "AUTHORIZED / REVIEW_COMPLETE / RECONCILIATION_COMPLETE / BPV1_PLAN_PREREGISTERED / EXECUTION_ADMISSION_NEXT", "post-blueprint validation phase drift")
+    _require(validation.get("status") == "AUTHORIZED / REVIEW_COMPLETE / RECONCILIATION_COMPLETE / BPV1_PLAN_PREREGISTERED / EXECUTION_ADMITTED_FOR_EXPERIMENT_ONLY", "post-blueprint validation phase drift")
     _require(validation.get("independent_review_protocol") == "nk-independent-architecture-review/1", "independent review protocol identity drift")
     _require(validation.get("independent_review_document_en") == INDEPENDENT_REVIEW_DOCS[0], "independent review English document drift")
     _require(validation.get("independent_review_document_ru") == INDEPENDENT_REVIEW_DOCS[1], "independent review Russian document drift")
     _require(validation.get("independent_review_status") == "QUALIFYING_REVIEW_COMPLETE", "independent review completion drift")
-    _require(validation.get("bpv1_status") == EXPECTED_CURRENT_BPV1_STATUS, "BPV-1 execution must remain blocked pending execution admission")
+    _require(validation.get("bpv1_status") == EXPECTED_CURRENT_BPV1_STATUS, "BPV-1 execution must remain admitted for the bounded experiment only")
     _require(validation.get("bpv1_role") == "FALSIFICATION_INSTRUMENT_ONLY", "BPV-1 role drift")
     _require(validation.get("product_runtime_thaw") is False, "Option D must not thaw product runtime")
     _require(validation.get("automatic_canon_promotion") is False, "automatic Canon promotion forbidden")
@@ -366,6 +395,7 @@ def validate(state: Mapping[str, Any], *, repo: Path) -> None:
         _require((repo / review_doc).is_file(), f"missing independent review protocol document: {review_doc}")
     _validate_iar1_records(repo)
     _validate_current_bpv1_plan(validation, repo)
+    _validate_bpv1_execution_admission(validation)
     _require((repo / "docs/adr/0026-independent-challenge-before-bounded-cross-lineage-falsification.md").is_file(), "missing ADR-0026")
 
     _require(research.get("runtime_freeze_exceptions") == EXPECTED_FREEZE_EXCEPTIONS, "runtime freeze exception inventory drift")
@@ -381,8 +411,8 @@ def validate(state: Mapping[str, Any], *, repo: Path) -> None:
     _require("IAR-1 is QUALIFYING_REVIEW_COMPLETE" in meaning, "Issue #88 must record IAR-1 review completion")
     _require("IAR-1-R1 reconciliation" in meaning, "Issue #88 must record IAR-1 reconciliation")
     _require(EXPECTED_PLAN_ID in meaning and EXPECTED_PLAN_MERGE_SHA in meaning, "Issue #88 must record authoritative BPV-1 plan binding")
-    _require(EXPECTED_CURRENT_NEXT_GATE in meaning, "Issue #88 must record BPV-1 execution admission as next gate")
-    _require(EXPECTED_CURRENT_BPV1_STATUS in meaning, "Issue #88 must record BPV-1 execution blocked status")
+    _require(EXPECTED_ADMISSION_PACKAGE_MERGE_SHA in meaning, "Issue #88 must record the execution-admission package merge")
+    _require(EXPECTED_CURRENT_BPV1_STATUS in meaning, "Issue #88 must record the bounded BPV-1 execution-admission status")
     _require("runtime remain" in meaning.lower() and "frozen" in meaning.lower(), "Issue #88 must preserve runtime freeze")
     verification = issue.get("verification")
     _require(isinstance(verification, Mapping), "Issue #88 verification required")
@@ -396,6 +426,7 @@ def validate(state: Mapping[str, Any], *, repo: Path) -> None:
         "adr-0026 operator approval authorizes a validation phase",
         "iar-1 qualifying review completion and iar-1-r1 reconciliation do not prove the architecture correct",
         "bpv-1 preregistration and an authoritative plan merge do not authorize experiment execution",
+        "bpv-1 execution admission authorizes only the bpv1-001 subject implementation and execution",
         "runtime thaw",
     ):
         _require(phrase in non_claims, f"missing architecture boundary: {phrase}")
@@ -413,7 +444,7 @@ def main(argv: list[str] | None = None) -> int:
     except ArchitectureFreezeError as exc:
         print(f"Architecture validation boundary failed: {exc}", file=sys.stderr)
         return 1
-    print("Architecture validation boundary passed; chronology=valid; IAR-1=QUALIFYING_REVIEW_COMPLETE; reconciliation=COMPLETE; BPV1_plan=PREREGISTERED; next=BPV1_EXECUTION_ADMISSION; BPV-1_execution=BLOCKED; runtime_expansion_frozen=true")
+    print("Architecture validation boundary passed; chronology=valid; IAR-1=QUALIFYING_REVIEW_COMPLETE; reconciliation=COMPLETE; BPV1_plan=PREREGISTERED; BPV1_execution_admission=COMPLETE; BPV-1_execution=ADMITTED_FOR_EXPERIMENT_ONLY; next=BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION; runtime_expansion_frozen=true")
     return 0
 
 

@@ -180,7 +180,25 @@ def validate(repo: Path) -> None:
 
     state = _load_json(repo / "project-state.json", "project state")
     validation = state.get("tracks", {}).get("long_horizon_research", {}).get("post_blueprint_validation", {})
-    _require(validation.get("bpv1_status") == "BLOCKED_PENDING_EXECUTION_ADMISSION", "current machine state must remain blocked during admission-package PR")
+    # The admission package (this document) can never self-authorize execution -
+    # that is enforced above against its own bundled status fields, which stay
+    # CANDIDATE_PACKAGE / EXECUTION_NOT_ADMITTED permanently. The *current*
+    # machine truth in project-state.json is a separate, later record: it starts
+    # BLOCKED_PENDING_EXECUTION_ADMISSION while this package is merging, and may
+    # legitimately advance to ADMITTED_FOR_EXPERIMENT_ONLY only via a distinct,
+    # separate post-merge status checkpoint - never via this package itself.
+    _require(
+        validation.get("bpv1_status") in {"BLOCKED_PENDING_EXECUTION_ADMISSION", "ADMITTED_FOR_EXPERIMENT_ONLY"},
+        "current machine state must remain within the admission-controlled state set",
+    )
+    if validation.get("bpv1_status") == "ADMITTED_FOR_EXPERIMENT_ONLY":
+        granted = validation.get("bpv1_execution_admission")
+        _require(isinstance(granted, Mapping), "admission grant requires a separate bpv1_execution_admission record")
+        _require(granted.get("status") == "COMPLETE", "admission grant record must be COMPLETE")
+        _require(granted.get("plan_sha256") == PLAN_SHA256, "admission grant plan digest drift")
+        _require(granted.get("subject_implementation_authorization") == "AUTHORIZED_FOR_BPV1-001_ONLY", "admission grant must be bounded to BPV1-001 only")
+        _require(granted.get("subject_execution_authorization") == "AUTHORIZED_FOR_BPV1-001_ONLY", "admission grant must be bounded to BPV1-001 only")
+        _require(granted.get("product_runtime_integration_authorized") is False, "admission grant cannot authorize product runtime integration")
     _require(validation.get("product_runtime_thaw") is False, "product runtime must remain frozen")
     _require(state.get("status", {}).get("production_authorized") is False, "production must remain unauthorized")
 

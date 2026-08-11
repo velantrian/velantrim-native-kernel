@@ -10,6 +10,7 @@ blueprint_decision: ADR-0025
 post_blueprint_decision: ADR-0026
 active_architecture_issue: 88
 bpv1_plan_merge: a538d7f1e28858a88b9ee777ac7d6e05b85943db
+bpv1_execution_admission_package_merge: 6027eec73f11c4626be5553de7e79f827be2c81d
 ```
 
 Native Kernel keeps three independent tracks:
@@ -38,8 +39,9 @@ A1 purpose
 → INDEPENDENT_ARCHITECTURE_REVIEW          COMPLETE / IAR-1 / QUALIFYING
 → REVIEW_FINDING_RECONCILIATION            COMPLETE / IAR-1-R1
 → BPV1_PLAN_AND_PREREGISTRATION            COMPLETE / PR #110
-→ BPV1_EXECUTION_ADMISSION                 NEXT GATE
-→ BPV-1 CROSS-LINEAGE FALSIFICATION        BLOCKED BY EXECUTION ADMISSION
+→ BPV1_EXECUTION_ADMISSION                 COMPLETE / PR #112
+→ BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION NEXT GATE
+→ BPV-1 CROSS-LINEAGE FALSIFICATION        ADMITTED_FOR_EXPERIMENT_ONLY
 → A10 OUTCOME CLASSIFICATION               BLOCKED BY BPV-1
 → INTEGRATED RE-REVIEW                     BLOCKED BY OUTCOMES
 → separate operator Canon/runtime decision BLOCKED BY RE-REVIEW
@@ -54,8 +56,9 @@ A1 purpose
 - reconciliation: `IAR-1-R1 / COMPLETE / open blockers 0 / open material 0`;
 - BPV-1 plan: `BPV1-001-cross-lineage-bounded-accountability-v1 / PREREGISTERED / EXECUTION_NOT_AUTHORIZED`;
 - authoritative plan merge: `a538d7f1e28858a88b9ee777ac7d6e05b85943db`;
-- next gate: `BPV1_EXECUTION_ADMISSION`;
-- BPV-1 execution: `BLOCKED_PENDING_EXECUTION_ADMISSION`;
+- execution-admission package merge: `6027eec73f11c4626be5553de7e79f827be2c81d`;
+- next gate: `BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION`;
+- BPV-1 execution: `ADMITTED_FOR_EXPERIMENT_ONLY` (BPV1-001 subject implementation/execution only);
 - runtime expansion: `FROZEN`;
 - P1–C5: `BOUNDED_REFERENCE_LABORATORY`;
 - production: `false`.
@@ -93,20 +96,22 @@ oracle_authority
 
 The plan also fixes the bounded workload and independence limitations. Rust is an experimental cross-language instrument only; independent team/custody and independent computation model remain `NOT_ESTABLISHED`. Post-execution changes to normative fields invalidate the run and require a new scenario identity.
 
-## BPV1_EXECUTION_ADMISSION — next gate
+## BPV1_EXECUTION_ADMISSION — complete
 
-Execution admission is a separate fail-closed checkpoint. Before any subject implementation/execution it must bind:
+Execution admission was a separate fail-closed checkpoint. PR #112 merged the candidate package at `6027eec73f11c4626be5553de7e79f827be2c81d`, binding:
 
-- the authoritative plan and a frozen preregistration digest;
+- the authoritative plan and a frozen preregistration digest (corrected to `7fe8174c604678c6b79d3fdeae83d7c5ab0d2fb15bfe343d41659d05d9496ad0` after independent verification against the unmodified preregistration file);
 - machine-readable fixtures derived only from the preregistered plan;
 - a standalone evaluator/oracle whose tests pass before subject execution;
 - a pinned Rust toolchain and experimental source boundary;
 - a static scope audit proving no product runtime/profile integration.
 
-Until that checkpoint is authoritative:
+That checkpoint admits only BPV1-001 subject implementation/execution:
 
 ```text
-BPV-1 execution: BLOCKED_PENDING_EXECUTION_ADMISSION
+BPV-1 execution: ADMITTED_FOR_EXPERIMENT_ONLY
+subject implementation/execution: AUTHORIZED_FOR_BPV1-001_ONLY
+product runtime integration: NOT AUTHORIZED
 runtime expansion: FROZEN
 product runtime thaw: NO
 production: false
@@ -138,4 +143,4 @@ C5 PASS ≠ production readiness
 public repository ≠ open-source license
 ```
 
-The only current next gate is `BPV1_EXECUTION_ADMISSION`.
+The only current next gate is `BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION`, bounded strictly to the BPV1-001 subject.

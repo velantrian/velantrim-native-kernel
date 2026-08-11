@@ -139,8 +139,9 @@ A1–A10 provisional blueprint
 → INDEPENDENT_ARCHITECTURE_REVIEW           COMPLETE / IAR-1 / QUALIFYING
 → REVIEW_FINDING_RECONCILIATION             COMPLETE / IAR-1-R1
 → BPV1_PLAN_AND_PREREGISTRATION             COMPLETE / PR #110
-→ BPV1_EXECUTION_ADMISSION                  NEXT GATE
-→ BPV-1 bounded cross-lineage falsification BLOCKED BY EXECUTION ADMISSION
+→ BPV1_EXECUTION_ADMISSION                  COMPLETE / PR #112
+→ BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION NEXT GATE
+→ BPV-1 bounded cross-lineage falsification ADMITTED_FOR_EXPERIMENT_ONLY
 → A10 outcome classification
 → integrated re-review
 → separate later operator Canon/runtime decision
@@ -154,8 +155,9 @@ IAR-1 findings: 10 total / 7 BLOCKING / 3 MATERIAL
 IAR-1-R1: COMPLETE / open blockers 0 / open material 0
 BPV-1 plan: BPV1-001-cross-lineage-bounded-accountability-v1 / PREREGISTERED / EXECUTION_NOT_AUTHORIZED
 plan merge: a538d7f1e28858a88b9ee777ac7d6e05b85943db
-next gate: BPV1_EXECUTION_ADMISSION
-BPV-1 execution: BLOCKED_PENDING_EXECUTION_ADMISSION
+execution-admission package merge: 6027eec73f11c4626be5553de7e79f827be2c81d
+next gate: BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION
+BPV-1 execution: ADMITTED_FOR_EXPERIMENT_ONLY
 runtime expansion: FROZEN
 product runtime thaw: NO
 A1-A10 Final Canon: NOT AUTHORIZED

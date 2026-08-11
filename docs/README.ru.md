@@ -3,7 +3,7 @@
 **[English](./README.md) · [Русский](./README.ru.md)**
 
 > **Текущая граница:** `RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY`  
-> **Активная фаза:** `POST-BLUEPRINT VALIDATION / BPV1 PREREGISTERED / EXECUTION ADMISSION NEXT / RUNTIME EXPANSION FROZEN`
+> **Активная фаза:** `POST-BLUEPRINT VALIDATION / BPV1 EXECUTION-ADMISSION COMPLETE / SUBJECT-IMPLEMENTATION-NEXT / RUNTIME EXPANSION FROZEN`
 
 ## Начать здесь
 
@@ -46,7 +46,7 @@ STATUS + project-state
 ```text
 H historical recovery: OPEN / BLOCKED / independent
 C clean implementation: PRESERVED / PARTIAL / BOUNDED REFERENCE LABORATORY
-R post-blueprint validation: ACTIVE / BPV1-PREREGISTERED / EXECUTION-ADMISSION-NEXT
+R post-blueprint validation: ACTIVE / BPV1-EXECUTION-ADMISSION-COMPLETE / SUBJECT-IMPLEMENTATION-NEXT
 blueprint content: A1-A10 DRAFTED / PROVISIONAL / RECONCILED BY OVERLAY
 integrated review: COMPLETED / PROVISIONAL
 operator post-blueprint choice: OPTION D / ADR-0026 / APPROVED
@@ -55,8 +55,9 @@ IAR-1 findings: 10 total / 7 BLOCKING / 3 MATERIAL
 IAR-1-R1: COMPLETE / open blockers 0 / open material 0
 BPV-1 plan: BPV1-001-cross-lineage-bounded-accountability-v1 / PREREGISTERED / EXECUTION_NOT_AUTHORIZED
 plan merge: a538d7f1e28858a88b9ee777ac7d6e05b85943db
-next gate: BPV1_EXECUTION_ADMISSION
-BPV-1 execution: BLOCKED_PENDING_EXECUTION_ADMISSION
+execution-admission package merge: 6027eec73f11c4626be5553de7e79f827be2c81d
+next gate: BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION
+BPV-1 execution: ADMITTED_FOR_EXPERIMENT_ONLY
 kernel runtime: C4
 operational validation: C5_BOUNDED_REHEARSAL
 assertions: 45 / 10 / 17 / 0
@@ -93,4 +94,4 @@ falsification instrument ≠ product runtime
 
 ## Hard stop
 
-`BPV1_EXECUTION_ADMISSION` — следующий gate. BPV-1 subject implementation/execution нельзя начинать до admission checkpoint, связывающего frozen plan/digest, machine-readable fixture/oracle package, standalone evaluator tests, pinned Rust toolchain/source boundary и static no-product-integration audit. Runtime остаётся `FROZEN`; A1–A10 остаются provisional. Issue #18, Issue #74 / ADR-0024, ADR-0003 и Track H остаются unchanged/operator-controlled.
+`BPV1_EXECUTION_ADMISSION` — завершён: PR #112 (merge `6027eec73f11c4626be5553de7e79f827be2c81d`) связал frozen plan/digest, machine-readable fixture/oracle package, standalone evaluator tests, pinned Rust toolchain/source boundary и static no-product-integration audit. `BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION` — следующий gate; он допускает только BPV1-001 subject implementation/execution, не product runtime integration. Runtime остаётся `FROZEN`; A1–A10 остаются provisional. Issue #18, Issue #74 / ADR-0024, ADR-0003 и Track H остаются unchanged/operator-controlled.

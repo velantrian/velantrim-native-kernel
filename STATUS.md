@@ -17,12 +17,13 @@ notion_synchronized_through: 70acd0da61fee19131947aa56125833adb156ced
 blueprint_decision: ADR-0025
 post_blueprint_decision: ADR-0026
 active_architecture_issue: 88
-architecture_phase: POST_BLUEPRINT_VALIDATION_BPV1_EXECUTION_ADMISSION_NEXT
+architecture_phase: POST_BLUEPRINT_VALIDATION_BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION_NEXT
 bpv1_plan_merge: a538d7f1e28858a88b9ee777ac7d6e05b85943db
+bpv1_execution_admission_package_merge: 6027eec73f11c4626be5553de7e79f827be2c81d
 ```
 
 > **Repository status:** `RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY`  
-> **Architecture state:** `A1-A10 DRAFTED / PROVISIONAL · INTEGRATED REVIEW COMPLETE / PROVISIONAL · IAR-1 QUALIFYING REVIEW COMPLETE · IAR-1-R1 COMPLETE · BPV-1 PLAN PREREGISTERED · EXECUTION ADMISSION NEXT`.
+> **Architecture state:** `A1-A10 DRAFTED / PROVISIONAL · INTEGRATED REVIEW COMPLETE / PROVISIONAL · IAR-1 QUALIFYING REVIEW COMPLETE · IAR-1-R1 COMPLETE · BPV-1 PLAN PREREGISTERED · EXECUTION ADMISSION COMPLETE · SUBJECT IMPLEMENTATION/EXECUTION ADMITTED FOR BPV1-001 ONLY`.
 
 Committed checkpoint SHAs above remain historical role identities, not automatic live HEAD. Resolve live `main` through GitHub/Git.
 
@@ -62,8 +63,9 @@ open BLOCKING findings: 0
 open MATERIAL findings: 0
 BPV-1 plan: PREREGISTERED / EXECUTION_NOT_AUTHORIZED
 authoritative BPV-1 plan merge: a538d7f1e28858a88b9ee777ac7d6e05b85943db
-next content gate: BPV1_EXECUTION_ADMISSION
-BPV-1 execution: BLOCKED_PENDING_EXECUTION_ADMISSION
+BPV-1 execution-admission package merge: 6027eec73f11c4626be5553de7e79f827be2c81d
+next content gate: BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION
+BPV-1 execution: ADMITTED_FOR_EXPERIMENT_ONLY
 runtime expansion: FROZEN
 ```
 
@@ -96,7 +98,7 @@ oracle_authority
 
 It also fixes a single-node, non-composed, conventional-digital, cross-language Rust falsification instrument with bounded durable semantic state; Rust is an experimental instrument, not Canon or a product profile. Post-execution normative rescoping invalidates the run and requires a new scenario identity.
 
-**Plan merge does not authorize execution.** Before any subject implementation/execution, a separate `BPV1_EXECUTION_ADMISSION` checkpoint must bind the frozen plan/digest, machine-readable fixtures and standalone evaluator, pinned Rust toolchain/source boundary, and a static non-product scope audit.
+**Plan merge did not by itself authorize execution.** A separate `BPV1_EXECUTION_ADMISSION` checkpoint bound the frozen plan/digest, machine-readable fixtures and standalone evaluator, pinned Rust toolchain/source boundary, and a static non-product scope audit; that checkpoint is now `COMPLETE` (package merge `6027eec73f11c4626be5553de7e79f827be2c81d`). It authorizes BPV1-001 subject implementation/execution only, not product runtime integration.
 
 ## Required non-equivalences
 
@@ -145,4 +147,4 @@ NOT_TESTED ≠ SUPPORTED
 
 ## Hard stop
 
-The next gate is `BPV1_EXECUTION_ADMISSION`. It may admit only the preregistered falsification instrument after its executable oracle/fixture/toolchain/scope package is frozen. It is **not** product runtime thaw, not A11, not Final Canon and not production authorization. BPV-1 execution remains `BLOCKED_PENDING_EXECUTION_ADMISSION`; runtime expansion remains `FROZEN` and production authorization remains `false`.
+The next gate is `BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION`. `BPV1_EXECUTION_ADMISSION` is `COMPLETE` (package merge `6027eec73f11c4626be5553de7e79f827be2c81d`) and admits only the preregistered BPV1-001 falsification instrument's subject implementation/execution. It is **not** product runtime thaw, not A11, not Final Canon and not production authorization. BPV-1 execution is `ADMITTED_FOR_EXPERIMENT_ONLY`; runtime expansion remains `FROZEN` and production authorization remains `false`.
