@@ -24,6 +24,12 @@ SUBJECT_ALLOWED = (
     "experiments/bpv1/BPV1-001/results/**",
     "tests/test_bpv1_subject.py",
     ".github/workflows/bpv1.yml",
+    # Shared BPV1 tooling: admitting the subject can legitimately require a
+    # bounded fix to the validator that governs the admission/subject
+    # boundary itself (e.g. subject existence becoming conditional on live
+    # authorization state), plus its own admission-package self-test.
+    "tools/bpv1/**",
+    "tests/test_bpv1_execution_admission.py",
 )
 
 FORBIDDEN_PRODUCT_ROOTS = (
