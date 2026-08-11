@@ -34,7 +34,7 @@ class ArchitectureFreezeTests(unittest.TestCase):
 
     def test_snapshot_timestamp_requires_timezone(self) -> None:
         state = copy.deepcopy(self.state)
-        state["observed_at"] = "2026-08-11T08:08:00"
+        state["observed_at"] = "2026-08-11T09:52:34"
         with self.assertRaisesRegex(module.ArchitectureFreezeError, "timestamp must include timezone"):
             self.validate(state)
 
@@ -68,9 +68,9 @@ class ArchitectureFreezeTests(unittest.TestCase):
         with self.assertRaisesRegex(module.ArchitectureFreezeError, "completed blueprint deliverable inventory drift"):
             self.validate(state)
 
-    def test_next_gate_is_independent_architecture_review(self) -> None:
+    def test_next_gate_is_bpv1_plan_and_preregistration(self) -> None:
         state = copy.deepcopy(self.state)
-        state["tracks"]["long_horizon_research"]["architecture_refoundation"]["next_content_slice"] = "BPV1"
+        state["tracks"]["long_horizon_research"]["architecture_refoundation"]["next_content_slice"] = "BPV1_EXECUTE"
         with self.assertRaisesRegex(module.ArchitectureFreezeError, "next architecture validation gate drift"):
             self.validate(state)
 
@@ -128,16 +128,16 @@ class ArchitectureFreezeTests(unittest.TestCase):
         with self.assertRaisesRegex(module.ArchitectureFreezeError, "Option D selection drift"):
             self.validate(state)
 
-    def test_independent_review_cannot_be_self_certified(self) -> None:
+    def test_independent_review_completion_cannot_be_downgraded(self) -> None:
         state = copy.deepcopy(self.state)
-        state["tracks"]["long_horizon_research"]["post_blueprint_validation"]["independent_review_status"] = "QUALIFYING_REVIEW_COMPLETE"
-        with self.assertRaisesRegex(module.ArchitectureFreezeError, "must not be self-certified"):
+        state["tracks"]["long_horizon_research"]["post_blueprint_validation"]["independent_review_status"] = "NOT_ESTABLISHED"
+        with self.assertRaisesRegex(module.ArchitectureFreezeError, "independent review completion drift"):
             self.validate(state)
 
-    def test_bpv1_cannot_be_unblocked_before_review_and_reconciliation(self) -> None:
+    def test_bpv1_execution_cannot_be_unblocked_before_preregistered_plan(self) -> None:
         state = copy.deepcopy(self.state)
         state["tracks"]["long_horizon_research"]["post_blueprint_validation"]["bpv1_status"] = "AUTHORIZED"
-        with self.assertRaisesRegex(module.ArchitectureFreezeError, "BPV-1 must remain blocked"):
+        with self.assertRaisesRegex(module.ArchitectureFreezeError, "execution must remain blocked"):
             self.validate(state)
 
     def test_option_d_cannot_thaw_product_runtime(self) -> None:
@@ -146,7 +146,176 @@ class ArchitectureFreezeTests(unittest.TestCase):
         with self.assertRaisesRegex(module.ArchitectureFreezeError, "must not thaw product runtime"):
             self.validate(state)
 
-    def test_issue_88_remains_open_verified_and_records_option_d(self) -> None:
+    def test_iar1_review_result_is_required(self) -> None:
+        original = module.IAR1_RESULT_JSON
+        module.IAR1_RESULT_JSON = "docs/reviews/DOES_NOT_EXIST.json"
+        try:
+            with self.assertRaisesRegex(module.ArchitectureFreezeError, "missing IAR-1 review/reconciliation record"):
+                self.validate()
+        finally:
+            module.IAR1_RESULT_JSON = original
+
+    def test_iar1_review_must_cover_q1_q12(self) -> None:
+        original = module._load_json_record
+
+        def fake_load(path: Path, label: str):
+            value = original(path, label)
+            if label == "IAR-1 result":
+                value["q1_q12_complete"] = False
+            return value
+
+        module._load_json_record = fake_load
+        try:
+            with self.assertRaisesRegex(module.ArchitectureFreezeError, "Q1-Q12 coverage"):
+                self.validate()
+        finally:
+            module._load_json_record = original
+
+    def test_source_blocker_cannot_be_rewritten_as_nonblocking(self) -> None:
+        original = module._load_json_record
+
+        def fake_load(path: Path, label: str):
+            value = original(path, label)
+            if label == "IAR-1 result":
+                value["findings"][0]["bpv1_dependency"] = "SHOULD_INFORM"
+            return value
+
+        module._load_json_record = fake_load
+        try:
+            with self.assertRaisesRegex(module.ArchitectureFreezeError, "source BPV-1 dependency drift"):
+                self.validate()
+        finally:
+            module._load_json_record = original
+
+    def test_source_finding_requires_protocol_evidence_fields(self) -> None:
+        original = module._load_json_record
+
+        def fake_load(path: Path, label: str):
+            value = original(path, label)
+            if label == "IAR-1 result":
+                value["findings"][0].pop("counterexample_or_reasoning")
+            return value
+
+        module._load_json_record = fake_load
+        try:
+            with self.assertRaisesRegex(module.ArchitectureFreezeError, "source finding field required"):
+                self.validate()
+        finally:
+            module._load_json_record = original
+
+    def test_material_source_severity_cannot_drift(self) -> None:
+        original = module._load_json_record
+
+        def fake_load(path: Path, label: str):
+            value = original(path, label)
+            if label == "IAR-1 result":
+                next(item for item in value["findings"] if item["finding_id"] == "IAR-F04")["severity"] = "MINOR"
+            return value
+
+        module._load_json_record = fake_load
+        try:
+            with self.assertRaisesRegex(module.ArchitectureFreezeError, "IAR-F04 severity drift"):
+                self.validate()
+        finally:
+            module._load_json_record = original
+
+    def test_reconciliation_must_resolve_every_blocker(self) -> None:
+        original = module._load_json_record
+
+        def fake_load(path: Path, label: str):
+            value = original(path, label)
+            if label == "IAR-1 reconciliation":
+                value["findings"][0]["status"] = "OPEN"
+            return value
+
+        module._load_json_record = fake_load
+        try:
+            with self.assertRaisesRegex(module.ArchitectureFreezeError, "must be reconciled"):
+                self.validate()
+        finally:
+            module._load_json_record = original
+
+    def test_material_reconciliation_cannot_reopen(self) -> None:
+        original = module._load_json_record
+
+        def fake_load(path: Path, label: str):
+            value = original(path, label)
+            if label == "IAR-1 reconciliation":
+                next(item for item in value["findings"] if item["finding_id"] == "IAR-F06")["status"] = "OPEN"
+            return value
+
+        module._load_json_record = fake_load
+        try:
+            with self.assertRaisesRegex(module.ArchitectureFreezeError, "IAR-F06 must be reconciled"):
+                self.validate()
+        finally:
+            module._load_json_record = original
+
+    def test_material_reconciliation_requires_record(self) -> None:
+        original = module._load_json_record
+
+        def fake_load(path: Path, label: str):
+            value = original(path, label)
+            if label == "IAR-1 reconciliation":
+                next(item for item in value["findings"] if item["finding_id"] == "IAR-F10")["reconciliation_record"] = ""
+            return value
+
+        module._load_json_record = fake_load
+        try:
+            with self.assertRaisesRegex(module.ArchitectureFreezeError, "IAR-F10 reconciliation record required"):
+                self.validate()
+        finally:
+            module._load_json_record = original
+
+    def test_material_reconciliation_dependency_cannot_drift(self) -> None:
+        original = module._load_json_record
+
+        def fake_load(path: Path, label: str):
+            value = original(path, label)
+            if label == "IAR-1 reconciliation":
+                next(item for item in value["findings"] if item["finding_id"] == "IAR-F10")["bpv1_dependency"] = "INFORMS_PLAN"
+            return value
+
+        module._load_json_record = fake_load
+        try:
+            with self.assertRaisesRegex(module.ArchitectureFreezeError, "IAR-F10 reconciliation BPV-1 dependency drift"):
+                self.validate()
+        finally:
+            module._load_json_record = original
+
+    def test_reconciliation_cannot_enable_event_sourcing_as_universal(self) -> None:
+        original = module._load_json_record
+
+        def fake_load(path: Path, label: str):
+            value = original(path, label)
+            if label == "IAR-1 reconciliation":
+                value["principles"]["event_sourcing_universal"] = True
+            return value
+
+        module._load_json_record = fake_load
+        try:
+            with self.assertRaisesRegex(module.ArchitectureFreezeError, "Event sourcing cannot become universal"):
+                self.validate()
+        finally:
+            module._load_json_record = original
+
+    def test_post_hoc_rescoping_must_fail_closed(self) -> None:
+        original = module._load_json_record
+
+        def fake_load(path: Path, label: str):
+            value = original(path, label)
+            if label == "IAR-1 reconciliation":
+                value["conformance_preregistration"]["post_hoc_rescoping"] = "ALLOWED"
+            return value
+
+        module._load_json_record = fake_load
+        try:
+            with self.assertRaisesRegex(module.ArchitectureFreezeError, "rescoping must fail closed"):
+                self.validate()
+        finally:
+            module._load_json_record = original
+
+    def test_issue_88_remains_open_verified_and_records_iar1(self) -> None:
         state = copy.deepcopy(self.state)
         state["issues"]["88"]["state"] = "CLOSED"
         with self.assertRaisesRegex(module.ArchitectureFreezeError, "must remain open"):

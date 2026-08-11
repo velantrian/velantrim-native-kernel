@@ -34,9 +34,10 @@ A1 purpose
 → A10 open questions / falsification
 → integrated A1-A10 review                 COMPLETE / PROVISIONAL
 → OPERATOR_POST_BLUEPRINT_DECISION         COMPLETE / OPTION D / ADR-0026
-→ INDEPENDENT_ARCHITECTURE_REVIEW          NEXT GATE
-→ REVIEW_FINDING_RECONCILIATION            BLOCKED BY REVIEW
-→ BPV-1 CROSS-LINEAGE FALSIFICATION        BLOCKED BY REVIEW + RECONCILIATION
+→ INDEPENDENT_ARCHITECTURE_REVIEW          COMPLETE / IAR-1 / QUALIFYING
+→ REVIEW_FINDING_RECONCILIATION            COMPLETE / IAR-1-R1
+→ BPV1_PLAN_AND_PREREGISTRATION            NEXT GATE
+→ BPV-1 CROSS-LINEAGE FALSIFICATION        BLOCKED BY PREREGISTERED PLAN
 → A10 OUTCOME CLASSIFICATION               BLOCKED BY BPV-1
 → INTEGRATED RE-REVIEW                     BLOCKED BY OUTCOMES
 → separate operator Canon/runtime decision BLOCKED BY RE-REVIEW
@@ -44,34 +45,66 @@ A1 purpose
 
 ## Current architecture checkpoint
 
-- A1–A10: `DRAFTED / PROVISIONAL`;
+- A1–A10: `DRAFTED / PROVISIONAL / RECONCILED BY OVERLAY`;
 - integrated review: [EN](docs/INTEGRATED_A1_A10_REVIEW.md) / [RU](docs/INTEGRATED_A1_A10_REVIEW.ru.md);
-- review identity: `nk-integrated-blueprint-review/A1-A10-review-1`;
+- independent review: `IAR-1 / QUALIFYING_REVIEW_COMPLETE`;
+- IAR-1 findings: `10 total / 7 BLOCKING / 3 MATERIAL`;
+- reconciliation: `IAR-1-R1 / COMPLETE / open blockers 0 / open material 0`;
+- review result: [human](docs/reviews/IAR-1_RESULT.md) / [machine](docs/reviews/IAR-1_RESULT.json);
+- reconciliation: [human](docs/reviews/IAR-1_RECONCILIATION.md) / [machine](docs/reviews/IAR-1_RECONCILIATION.json);
 - operator post-blueprint choice: `OPTION D / ADR-0026 / APPROVED`;
-- independent review protocol: `nk-independent-architecture-review/1`;
-- independent architectural validation: `NOT ESTABLISHED`;
-- next gate: `INDEPENDENT_ARCHITECTURE_REVIEW`;
-- BPV-1: `BLOCKED_PENDING_INDEPENDENT_REVIEW_AND_RECONCILIATION`;
+- next gate: `BPV1_PLAN_AND_PREREGISTRATION`;
+- BPV-1 execution: `BLOCKED_PENDING_PREREGISTERED_PLAN`;
 - runtime expansion: `FROZEN`;
 - P1–C5: `BOUNDED_REFERENCE_LABORATORY`;
 - production: `false`.
 
-## Option D validation sequence
+## Reconciled architecture boundary
 
-ADR-0026 deliberately separates two kinds of attack on the architecture:
+IAR-1 established that the architecture was still too shaped by its laboratory lineage even after literal Python/SQL/Event disclaimers. The reconciliation therefore narrows the minimum Kernel.
 
-1. **independent conceptual challenge** — search for hidden assumptions, unnecessary obligations, circularity, non-falsifiability and implementation capture before the experiment is designed;
-2. **bounded cross-lineage falsification** — after review reconciliation, attempt one deliberately different realization to test named architecture hypotheses without admitting it as product runtime.
+### Candidate minimum obligations
 
-The independent review is not complete merely because the protocol exists. The review must have a declared qualifying reviewer and independence basis.
+1. representation/Claim is not silently equated with reality/truth;
+2. scope, Context, warrant/provenance and Authority assumptions are explicit where materially relevant;
+3. Unknown, uncertainty and unsupported states remain explicit;
+4. change, revision, supersession, retention and loss are accountable for declared scope;
+5. equivalence, capability, degradation and loss are judged against preregistered observables and failure conditions.
 
-The later BPV-1 plan must define success/failure conditions before implementation. A failed experiment may weaken or refute an architecture claim and is not a project failure.
+### Reference taxonomy, not universal implementation shape
+
+The complete A2 inventory, A3 transition/outcome catalogue, A5 identity/time inventory, A6 lifecycle graph, Receipt-shaped accountability and Event-log-shaped history remain useful analysis/reference mappings, but a later cross-lineage realization is not required to reproduce them as its native shape.
+
+Exact replay/reconstruction, permanent predecessor visibility and global total order are not universal requirements. Local conformance does not imply composition/federation conformance.
+
+## BPV-1 preregistration gate
+
+Before any BPV-1 implementation/execution, the plan must freeze:
+
+```text
+scenario_id
+purpose_scope
+mandatory_obligations
+applicability_rules
+mandatory_observables
+equivalence_predicates
+allowed_declared_losses
+failure_thresholds
+hard_refutation_observations
+grounding_mode
+threat_model
+oracle_authority
+```
+
+Post-execution changes to mandatory obligations, applicability, equivalence predicates or failure thresholds invalidate the run for the claimed scope. A changed experiment receives a new identity; the previous outcome is retained.
+
+The plan must include the hard refutation observations from `IAR-1-R1`, including the rule that a non-event realization preserving the minimum purpose weakens over-strong A3/A6 claims rather than being rejected merely for not exposing those taxonomies.
 
 ## Runtime freeze
 
-Allowed: architecture research, independent review, review reconciliation, integrity/security/reproducibility/provenance repair, evidence preservation, truth/validator repair, historical recovery, and later isolated falsification experiments that satisfy ADR-0026 without runtime promotion.
+Allowed: architecture research, BPV-1 planning/preregistration, integrity/security/reproducibility/provenance repair, evidence preservation, truth/validator repair, historical recovery, and later isolated falsification execution only after the preregistered plan is authoritative.
 
-Not authorized without a later explicit operator decision: reducer-v2, new semantic/conflict Event verbs, product database/language/model/integration profiles, executable NK-EPI/Temporal/full Admission, operational deletion expansion, maturity promotion, production authorization, or other product semantic/runtime expansion.
+Not authorized without a later explicit operator decision: product runtime thaw, reducer-v2, new semantic/conflict Event verbs, product database/language/model/integration profiles, executable NK-EPI/Temporal/full Admission, operational deletion expansion, maturity promotion, production authorization, or other product semantic/runtime expansion.
 
 ## Independent pending decisions
 
@@ -82,12 +115,12 @@ Not authorized without a later explicit operator decision: reducer-v2, new seman
 
 ## Contract and laboratory boundary
 
-Accepted/versioned current contracts remain usable and historically valid within their scope. ADR-0026 does not silently promote Python, PostgreSQL, SQLite, Event sourcing, reducer v1, SHA-256, sequence integers, Receipt encoding, CI, or evidence packaging into universal Architecture Canon.
+Accepted/versioned current contracts remain usable and historically valid within their scope. IAR-1-R1 does not rewrite their history and does not convert the reconciled minimum architecture into a new runtime contract.
 
 ```text
 accepted current mechanism
 → retain scope and evidence identity
-→ challenge against A1-A10 obligations
+→ compare against preregistered problem-level obligations
 → later map as PRESERVED / PARTIAL / LOSSY / UNSUPPORTED / INDETERMINATE
 ≠ automatic architecture requirement
 ≠ retroactive evidence rewrite
@@ -96,14 +129,13 @@ accepted current mechanism
 ## Hard stop
 
 ```text
-Option D approved ≠ independent validation
-independent review protocol ≠ completed review
-completed review ≠ BPV-1 success
-BPV-1 ≠ product runtime
+qualifying review complete ≠ architecture proof
+reconciliation complete ≠ BPV-1 execution authorization
+BPV-1 plan ≠ product runtime
 BPV-1 outcome ≠ automatic Canon promotion
-A1-A10 drafted ≠ Final Canon
+A1-A10 drafted/reconciled ≠ Final Canon
 C5 PASS ≠ production readiness
 public repository ≠ open-source license
 ```
 
-The only current next gate is `INDEPENDENT_ARCHITECTURE_REVIEW`.
+The only current next gate is `BPV1_PLAN_AND_PREREGISTRATION`.

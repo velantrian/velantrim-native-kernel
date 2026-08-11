@@ -2,7 +2,7 @@
 
 **[English](./ARCHITECTURE_REFOUNDATION.md) · [Русский](./ARCHITECTURE_REFOUNDATION.ru.md)**
 
-> **State:** `ACTIVE / BLUEPRINT-FIRST / RUNTIME EXPANSION FROZEN`  
+> **State:** `ACTIVE / POST-BLUEPRINT VALIDATION / IAR-1 RECONCILED / BPV1 PLAN NEXT / RUNTIME EXPANSION FROZEN`  
 > **Blueprint decision:** [`ADR-0025`](./adr/0025-blueprint-before-runtime-expansion.md)  
 > **Post-blueprint decision:** [`ADR-0026`](./adr/0026-independent-challenge-before-bounded-cross-lineage-falsification.md)  
 > **Issue:** [#88](https://github.com/velantrian/velantrim-native-kernel/issues/88)
@@ -24,8 +24,10 @@ A1 purpose / non-goals
 → A10 open questions / falsification
 → integrated A1-A10 review
 → operator post-blueprint decision
-→ independent architecture review
-→ bounded cross-lineage falsification только после review reconciliation
+→ independent architecture review             COMPLETE / IAR-1
+→ review finding reconciliation               COMPLETE / IAR-1-R1
+→ BPV1 plan and preregistration               NEXT
+→ bounded cross-lineage falsification         BLOCKED UNTIL PLAN IS AUTHORITATIVE
 ```
 
 ## 2. Draft inventory
@@ -43,89 +45,151 @@ A1 purpose / non-goals
 9. [A9 RU](./A9_REFERENCE_LABORATORY_BOUNDARY.ru.md) / [EN](./A9_REFERENCE_LABORATORY_BOUNDARY.md)
 10. [A10 RU](./A10_OPEN_QUESTIONS_AND_FALSIFICATION.ru.md) / [EN](./A10_OPEN_QUESTIONS_AND_FALSIFICATION.md)
 
-## 3. Integrated review
+## 3. Integrated и independent review lineage
 
 Первый integrated review сохраняется как:
 
 - [Integrated A1–A10 Review RU](./INTEGRATED_A1_A10_REVIEW.ru.md)
 - [English review](./INTEGRATED_A1_A10_REVIEW.md)
-- completed gate identity: `INTEGRATED_A1_A10_REVIEW`
-- review identity: `nk-integrated-blueprint-review/A1-A10-review-1`
-- historical completion state: `COMPLETED / PROVISIONAL / OPERATOR_DECISION_PENDING`
+- identity: `nk-integrated-blueprint-review/A1-A10-review-1`
+- historical state: `COMPLETED / PROVISIONAL / OPERATOR_DECISION_PENDING`
 
-Review явно reconciles семь cross-slice findings вместо silent rewrite draft history. Ключевые current provisional interpretations:
+Integrated review reconciled семь cross-slice findings и в том проходе не нашёл remaining known blocking internal semantic contradiction. Он был явно **не** independent validation.
+
+После этого ADR-0026 авторизовал Option D. Qualifying independent challenge теперь сохранён отдельно:
+
+- [IAR-1 result RU](./reviews/IAR-1_RESULT.ru.md) / [EN](./reviews/IAR-1_RESULT.md) / [JSON](./reviews/IAR-1_RESULT.json)
+- [IAR-1 reconciliation RU](./reviews/IAR-1_RECONCILIATION.ru.md) / [EN](./reviews/IAR-1_RECONCILIATION.md) / [JSON](./reviews/IAR-1_RECONCILIATION.json)
+- review process outcome: `QUALIFYING_REVIEW_COMPLETE`
+- findings: `10 total / 7 BLOCKING / 3 MATERIAL`
+- reconciliation identity: `IAR-1-R1`
+- reconciliation state: `COMPLETE`
+
+IAR-1 не утверждает blueprint. Он его атакует. IAR-1-R1 не доказывает refined architecture; он фиксирует explicit provisional dispositions, необходимые перед falsification planning.
+
+## 4. Reconciled minimum architecture boundary
+
+IAR-1 показал, что first blueprint всё ещё слишком формировался current laboratory даже после literal Python/SQL/Event disclaimers. Поэтому следующее является **reference taxonomy**, а не universal minimum Kernel shape:
+
+- полный A2 inventory;
+- A3 `K → K′`, fixed transition-family catalogue и common outcome vocabulary;
+- полный A5 seven-identity/eight-time inventory как mandatory whole;
+- A6 nine lifecycle positions;
+- Receipt-shaped accountability;
+- Event-log-shaped history;
+- exact replay/exact reconstruction.
+
+Меньший current candidate minimum является problem-level:
 
 ```text
-PHYSICALLY_ERASED ≠ CRYPTOGRAPHICALLY_ERASED
-FORGOTTEN_OR_LOST не требует deliberate erasure method
-A1 confidence wording → uncertainty + epistemic position
-A10 outcome protocol = ровно пять declared outcomes
-Conflict ≠ necessarily Contradiction
-A6 lifecycle positions ≠ mandatory pipeline stages
+representation / Claim не смешиваются молча с reality / truth
+scope / Context / warrant-provenance / Authority assumptions явны, где material
+Unknown / uncertainty / unsupported остаются явными
+change / revision / supersession / retention / loss accountable для declared scope
+equivalence / degradation / loss оцениваются по preregistered observables и failure rules
 ```
 
-После этих explicit reconciliation decisions review не нашёл remaining known blocking internal semantic contradiction в этом pass. Это всё ещё не independent validation.
+Future realization может использовать snapshots, witnesses, bounded summaries, procedural accounts или другой state/change model, если preregistered obligations его scope сохраняются.
 
-## 4. Граница Reference Laboratory
+## 5. Граница Reference Laboratory
 
-P1–C5 остаётся `BOUNDED_REFERENCE_LABORATORY`. Python, PostgreSQL, SQLite, SQL, JSON, SHA-256, current Event/reducer/Receipt/sequence mechanisms, CI и evidence packaging остаются profile/laboratory mechanisms, если separate architecture decision не установит иное.
+P1–C5 остаётся `BOUNDED_REFERENCE_LABORATORY`. Python, PostgreSQL, SQLite, SQL, JSON, SHA-256, current Event/reducer/Receipt/sequence mechanisms, CI и evidence packaging остаются profile/laboratory mechanisms, если later architecture decision не установит иное.
 
 ```text
 useful implementation evidence ≠ architecture requirement
 PostgreSQL ↔ SQLite C3 ≠ independent-language equivalence
+bounded accountability ≠ exact reconstruction
+history visibility ≠ mandatory Event sourcing
+local conformance ≠ composition/federation conformance
 substrate-independent specification ≠ universal portability proof
 ```
 
-## 5. Runtime freeze
+## 6. Runtime freeze
 
-При freeze разрешены architecture research; independent architectural review; review reconciliation; integrity/security/reproducibility/provenance fixes; evidence preservation; truth/validator repair; historical recovery; а позднее — isolated falsification experiments, допущенные ADR-0026 без runtime promotion.
+При freeze разрешены architecture research; BPV-1 plan/preregistration; integrity/security/reproducibility/provenance fixes; evidence preservation; truth/validator repair; historical recovery; и later isolated falsification execution только после того, как его preregistered plan станет authoritative.
 
-Автоматически не разрешены reducer-v2, new semantic Event verbs, product database/language/model/integration profiles, executable NK-EPI/Temporal/full Admission, deletion execution expansion, maturity или production promotion.
+Автоматически не разрешены: BPV-1 execution до такого plan; reducer-v2; new semantic Event verbs; product database/language/model/integration profiles; executable NK-EPI/Temporal/full Admission; deletion execution expansion; Final Canon; maturity/production promotion.
 
-## 6. Pending operator-controlled decisions
+## 7. Pending operator-controlled decisions
 
 - Issue #18 license/publication: unchanged / operator-controlled.
 - Issue #74 / ADR-0024: `PROPOSED / PENDING_OPERATOR`; reducer-v2 unauthorized.
 - ADR-0003: `PROPOSED / NOT_STARTED`.
 - Track H source admission: operator-controlled.
 
-## 7. Current progress
+## 8. Current progress
 
 ```text
-Blueprint content: A1-A10 DRAFTED / PROVISIONAL
+Blueprint content: A1-A10 DRAFTED / PROVISIONAL / RECONCILED BY OVERLAY
 Integrated review: COMPLETED / PROVISIONAL
 Operator post-blueprint decision: OPTION D / ADR-0026 / APPROVED
-Next bounded gate: INDEPENDENT_ARCHITECTURE_REVIEW
-Independent architectural validation: NOT ESTABLISHED
-BPV-1: BLOCKED_PENDING_INDEPENDENT_REVIEW_AND_RECONCILIATION
+Independent architecture review: IAR-1 / QUALIFYING_REVIEW_COMPLETE
+IAR-1 findings: 10 total / 7 BLOCKING / 3 MATERIAL
+Review finding reconciliation: IAR-1-R1 / COMPLETE
+Open BLOCKING findings: 0
+Open MATERIAL findings: 0
+Next bounded gate: BPV1_PLAN_AND_PREREGISTRATION
+BPV-1 execution: BLOCKED_PENDING_PREREGISTERED_PLAN
 Runtime expansion: FROZEN
 Existing P1–C5 laboratory: PRESERVED / BOUNDED
 Production authorization: false
 ```
 
-## 8. Gate завершения blueprint
+## 9. BPV-1 preregistration gate
 
-Исторический blueprint completion gate удовлетворён только в узком смысле: оператор через ADR-0026 выбрал следующую **validation** phase. Это не продвигает A1–A10 в Final Canon и не разрешает runtime thaw.
-
-`OPERATOR_POST_BLUEPRINT_DECISION` остаётся частью recorded history и не является A11.
-
-## 9. Post-blueprint validation gate
-
-Активный independent-review protocol:
+Исходный independent-review protocol сохраняется как normative review method:
 
 - [Independent Architecture Review Protocol RU](./INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.ru.md)
 - [English protocol](./INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.md)
 - identity: `nk-independent-architecture-review/1`
 
-Current sequence:
+Его header описывает publication-time state самого protocol и является historical относительно уже завершённого IAR-1. Current live review outcome записан в IAR-1 result/reconciliation records и `project-state.json`.
+
+Перед BPV-1 implementation/execution authoritative plan обязан preregister:
 
 ```text
-INDEPENDENT_ARCHITECTURE_REVIEW
-→ REVIEW_FINDING_RECONCILIATION
-→ BPV-1 bounded cross-lineage falsification
-→ A10 outcome classification
-→ integrated re-review
-→ separate later operator Canon/runtime decision
+scenario_id
+purpose_scope
+mandatory_obligations
+applicability_rules
+mandatory_observables
+equivalence_predicates
+allowed_declared_losses
+failure_thresholds
+hard_refutation_observations
+grounding_mode
+threat_model
+oracle_authority
 ```
 
-Сам факт существования protocol не означает completed independent review. BPV-1 остаётся blocked до qualifying independent review и reconciliation.
+Implementation под тестом не может после execution решать свой normative oracle. Post-execution изменения mandatory obligations, applicability, equivalence predicates или failure thresholds инвалидируют run для заявленного scope и требуют нового experiment identity.
+
+## 10. Required threat and grounding boundary
+
+Где materially relevant, BPV-1 planning объявляет protected meanings, trust roots/assumptions и adversarial cases, включая forgery, fork, truncation, rollback, equivocation, withheld counterevidence, unavailable/colluding witnesses и compromised certifier.
+
+Context/Provenance/Authority chains обязаны завершаться через explicit finite grounding mode:
+
+```text
+EXTERNALLY_ATTESTED_ROOT
+EXPLICIT_ASSUMED_ROOT
+BOUNDED_RECURSIVE_CLOSURE
+DECLARED_CYCLE
+TERMINAL_UNKNOWN_OR_GAP
+```
+
+Physical/cryptographic erasure нельзя продвигать из unverified self-assertion; при отсутствии sufficient threat-scoped evidence правильный outcome остаётся `INDETERMINATE`.
+
+## 11. Current sequence и hard stop
+
+```text
+IAR-1 qualifying review                       COMPLETE
+IAR-1-R1 reconciliation                       COMPLETE
+BPV1_PLAN_AND_PREREGISTRATION                 NEXT
+BPV-1 bounded cross-lineage falsification     BLOCKED_PENDING_PREREGISTERED_PLAN
+A10 outcome classification                    BLOCKED BY BPV-1
+integrated re-review                           BLOCKED BY OUTCOMES
+separate operator Canon/runtime decision      BLOCKED BY RE-REVIEW
+```
+
+`BPV1_PLAN_AND_PREREGISTRATION` разрешает только design/preregistration. Это не A11, не experiment execution, не runtime thaw, не Final Canon и не production authorization.

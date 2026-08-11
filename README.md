@@ -5,40 +5,40 @@
 ### Technology-neutral architecture for durable knowledge, memory, change, and explanation
 
 > **Current state:** `RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY`  
-> **Active phase:** `POST-BLUEPRINT VALIDATION / INDEPENDENT-REVIEW-FIRST / RUNTIME EXPANSION FROZEN`
+> **Active phase:** `POST-BLUEPRINT VALIDATION / IAR-1 RECONCILED / BPV1 PLAN NEXT / RUNTIME EXPANSION FROZEN`
 
 Velantrim Native Kernel studies what semantic meaning, identity, provenance, time, uncertainty, conflict, revision, and explanation should survive when databases, languages, models, processors, and storage media change.
 
 It is **not** an operating-system kernel, database product, LLM memory plugin, vector store, or Python framework definition.
 
 ```text
-first define meaning and invariants
+first define problem-level meaning and candidate obligations
         ↓
-define an abstract Kernel machine
+preregister scope, observables, threat/grounding assumptions and failure rules
         ↓
-define versioned contracts
+derive a replaceable bounded realization independently
         ↓
-map replaceable implementation profiles
+map it against provisional reference taxonomies
         ↓
-test and falsify them
+test and falsify the architectural claims
 ```
 
 ## Architecture boundary
 
 ```text
-Architecture Purpose and Ontology
-→ Abstract Native Kernel Machine
-→ Semantic Laws and Invariants
-→ Versioned Abstract Contracts
-→ Replaceable Implementation Profiles
-→ Fixtures and Tests
+Problem-level Purpose and Candidate Semantic Obligations
+→ Preregistered Conformance / Threat / Grounding Boundary
+→ Independently Derived Bounded Realization
+→ Replaceable Implementation or Falsification Instrument
+→ Positive + Adversarial Negative Fixtures
+→ Cross-lineage Semantic Comparison
 → Evidence
-→ Status and Maturity
+→ Outcome / Status / Maturity
 ```
 
-Python, JSON, SHA-256, PostgreSQL, SQLite, graphs, vectors, LLMs, conventional hardware, and CI are replaceable research instruments. They are not permanent Canon.
+Python, JSON, SHA-256, PostgreSQL, SQLite, graphs, vectors, LLMs, conventional hardware, event sourcing, exact replay, and CI are replaceable research instruments. They are not permanent Canon.
 
-The current Python/PostgreSQL/SQLite lineage is a **bounded reference laboratory**, not the final definition of Native Kernel.
+The current Python/PostgreSQL/SQLite lineage is a **bounded reference laboratory**, not the final definition of Native Kernel. IAR-1 additionally established that the full A3 transition/outcome machine, A6 lifecycle graph, current Event/reducer/Receipt shape, and exact reconstruction are not yet justified as the universal minimum Kernel form.
 
 ## Current state
 
@@ -104,7 +104,7 @@ repository-resident evidence
 ≠ production readiness
 ```
 
-ADR-0025 and ADR-0026 do not expand any existing evidence boundary.
+ADR-0025, ADR-0026, IAR-1 and IAR-1-R1 do not expand any existing runtime/evidence proof boundary.
 
 ## Three independent tracks
 
@@ -119,7 +119,8 @@ C — Clean Reference Implementation
 
 R — Post-Blueprint Validation
   A1–A10 + integrated review remain provisional
-  ACTIVE / OPTION D / INDEPENDENT-REVIEW-FIRST / NO AUTOMATIC PROMOTION
+  IAR-1 QUALIFYING / IAR-1-R1 COMPLETE
+  ACTIVE / BPV1 PLAN NEXT / NO AUTOMATIC PROMOTION
 ```
 
 ```text
@@ -130,17 +131,18 @@ reference laboratory ≠ final architecture
 
 ## Active architecture phase
 
-ADR-0025 established blueprint-before-runtime. A1–A10 and the first integrated review are now complete only as `DRAFTED / PROVISIONAL` architecture work.
+ADR-0025 established blueprint-before-runtime. A1–A10 and the first integrated review remain `DRAFTED / PROVISIONAL` architecture work.
 
-ADR-0026 records the operator-approved **Option D** validation route:
+ADR-0026 records the operator-approved **Option D** validation route. IAR-1 has now completed the independent challenge and IAR-1-R1 has reconciled all ten findings without promoting Final Canon:
 
 ```text
 A1–A10 provisional blueprint
 → integrated review                         COMPLETE / PROVISIONAL
 → operator post-blueprint decision          OPTION D / ADR-0026 / APPROVED
-→ INDEPENDENT_ARCHITECTURE_REVIEW           NEXT GATE
-→ REVIEW_FINDING_RECONCILIATION
-→ BPV-1 bounded cross-lineage falsification
+→ INDEPENDENT_ARCHITECTURE_REVIEW           COMPLETE / IAR-1 / QUALIFYING
+→ REVIEW_FINDING_RECONCILIATION             COMPLETE / IAR-1-R1
+→ BPV1_PLAN_AND_PREREGISTRATION             NEXT GATE
+→ BPV-1 bounded cross-lineage falsification BLOCKED BY PREREGISTERED PLAN
 → A10 outcome classification
 → integrated re-review
 → separate later operator Canon/runtime decision
@@ -149,23 +151,29 @@ A1–A10 provisional blueprint
 Current boundaries:
 
 ```text
-independent architectural validation: NOT ESTABLISHED
-BPV-1: BLOCKED_PENDING_INDEPENDENT_REVIEW_AND_RECONCILIATION
+independent architectural validation: IAR-1 QUALIFYING_REVIEW_COMPLETE
+IAR-1 findings: 10 total / 7 BLOCKING / 3 MATERIAL
+IAR-1-R1: COMPLETE / open blockers 0 / open material 0
+BPV-1 execution: BLOCKED_PENDING_PREREGISTERED_PLAN
 runtime expansion: FROZEN
 product runtime thaw: NO
 A1-A10 Final Canon: NOT AUTHORIZED
 production: false
 ```
 
+IAR-1 did **not** prove the architecture correct. It materially weakened it. The current candidate minimum is problem-level: non-conflation of representation/Claim with reality/truth; explicit scope/Context/warrant/Authority assumptions where material; explicit Unknown/uncertainty/unsupported states; accountable change/retention/loss for declared scope; and preregistered equivalence/degradation/refutation conditions.
+
+Before BPV-1 execution, its plan must freeze `scenario_id`, purpose scope, mandatory obligations, applicability rules, mandatory observables, equivalence predicates, allowed declared losses, failure thresholds, hard refutation observations, grounding mode, threat model, and oracle Authority. Post-execution changes to those normative fields cannot rescue the run; they require a new experiment identity.
+
 Plan: [English](docs/ARCHITECTURE_REFOUNDATION.md) · [Русский](docs/ARCHITECTURE_REFOUNDATION.ru.md).  
 Blueprint decision: [`ADR-0025`](docs/adr/0025-blueprint-before-runtime-expansion.md).  
 Post-blueprint decision: [`ADR-0026`](docs/adr/0026-independent-challenge-before-bounded-cross-lineage-falsification.md).  
 Independent-review protocol: [English](docs/INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.md) · [Русский](docs/INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.ru.md).  
+IAR-1 result: [English](docs/reviews/IAR-1_RESULT.md) · [Русский](docs/reviews/IAR-1_RESULT.ru.md) · [JSON](docs/reviews/IAR-1_RESULT.json).  
+IAR-1 reconciliation: [English](docs/reviews/IAR-1_RECONCILIATION.md) · [Русский](docs/reviews/IAR-1_RECONCILIATION.ru.md) · [JSON](docs/reviews/IAR-1_RECONCILIATION.json).  
 Tracking: [Issue #88](https://github.com/velantrian/velantrim-native-kernel/issues/88).
 
-Publishing the review protocol is not a completed independent review. If a qualifying independent reviewer cannot be established, the project records `BLOCKED_NO_QUALIFYING_REVIEWER` rather than self-certifying or skipping to BPV-1.
-
-During the freeze, architecture research, independent review/reconciliation, integrity, security, reproducibility, provenance, evidence-preservation, truth-surface, and historical-recovery work remains allowed. A later isolated BPV-1 falsification instrument is permitted only after its independent-review/reconciliation gate. New product semantic/runtime features are not authorized.
+During the freeze, architecture research, BPV-1 planning/preregistration, integrity, security, reproducibility, provenance, evidence-preservation, truth-surface, and historical-recovery work remains allowed. BPV-1 execution remains forbidden until its preregistered plan is authoritative. New product semantic/runtime features remain unauthorized.
 
 ## Pending decisions
 
@@ -179,7 +187,7 @@ Issue #74 / ADR-0024 — reducer referential semantics
   blocks reducer-v2 work
 ```
 
-Neither decision is silently decided by ADR-0026. Track H source admission also remains operator-controlled.
+Neither decision is silently decided by ADR-0026 or IAR-1-R1. Track H source admission also remains operator-controlled.
 
 Runtime work may be reconsidered only through a later explicit operator decision after validation. BPV-1 itself is not product runtime and cannot authorize reducer-v2 or any other runtime expansion.
 
