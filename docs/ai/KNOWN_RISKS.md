@@ -9,10 +9,13 @@ blueprint_decision: ADR-0025
 post_blueprint_decision: ADR-0026
 independent_review: IAR-1 / QUALIFYING_REVIEW_COMPLETE
 review_reconciliation: IAR-1-R1 / COMPLETE
-next_gate: BPV1_PLAN_AND_PREREGISTRATION
+bpv1_plan: BPV1-001-cross-lineage-bounded-accountability-v1 / PREREGISTERED
+bpv1_plan_merge: a538d7f1e28858a88b9ee777ac7d6e05b85943db
+next_gate: BPV1_EXECUTION_ADMISSION
+bpv1_execution: BLOCKED_PENDING_EXECUTION_ADMISSION
 ```
 
-This page lists current risks and explicitly closed historical findings. A closed code defect or reconciled architecture finding may still leave version-bound historical evidence or a broader unresolved threat model.
+This page lists current risks. Historical defects and prior gate states remain available through Git history and their original evidence/review records; they are not rewritten as current truth.
 
 ## Risk-state vocabulary
 
@@ -20,24 +23,26 @@ This page lists current risks and explicitly closed historical findings. A close
 OPEN                 unresolved technical, governance or evidence risk
 MITIGATED            bounded control exists; residual risk remains
 CLOSED               exact finding corrected and repository-verified
-HISTORICAL_BOUNDARY  retained evidence remains valid only for its original version/scope
+HISTORICAL_BOUNDARY  retained evidence remains valid only for original version/scope
 PROPOSED             research or decision work, not runtime protection
 ```
 
 ## P0 — Production overclaim
 
+**State:** `OPEN / PRIMARY COMMUNICATION AND GOVERNANCE RISK`.
+
 ```text
-ephemeral CI + synthetic data + 18 scenarios
+ephemeral CI + synthetic C5 scenarios
 ≠ production deployment
 ≠ live user traffic
 ≠ sustained operations
 ```
 
-**State:** `OPEN / PRIMARY COMMUNICATION AND GOVERNANCE RISK`.
-
-C5 establishes a bounded synthetic operational rehearsal only. Production authorization remains `false`.
+Production authorization remains `false`.
 
 ## P0 — Semantic assertion overclaim
+
+**State:** `OPEN`.
 
 ```text
 kernel_runtime_conformance: C4
@@ -46,148 +51,163 @@ assertion map:              45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED / 0 FAILE
 NK-EPI:                     0 SUPPORTED / 0 PARTIAL / 8 UNSUPPORTED / 0 FAILED
 ```
 
-**State:** `OPEN`.
-
-Operational success cannot promote unsupported or partial semantic assertions. In particular, `NK-EPI-004 — Unknown ≠ False` is not executable support yet.
+Operational success cannot promote unsupported or partial semantic assertions.
 
 ## P0 — Reference implementation may capture the Canon
 
-```text
-available Python / PostgreSQL / SQLite mechanisms
-≠ ontology
-≠ minimum Kernel obligations
-≠ permanent architecture
-```
+**State:** `MITIGATED BY ADR-0025 + ADR-0026 + IAR-1-R1 + BPV1-001 PREREGISTRATION / RESIDUAL OPEN`.
 
-**State:** `MITIGATED BY ADR-0025 + ADR-0026 + IAR-1-R1 / RESIDUAL RISK OPEN`.
+The current P1–C5 lineage was implemented before the complete blueprint. IAR-1 showed that capture risk existed not only in Python/SQL/Event choices but also in higher-level A3 transition/outcome, A6 lifecycle and Receipt/reconstruction structures.
 
-The current P1–C5 lineage was implemented before the complete A1–A10 blueprint. IAR-1 confirmed that capture risk existed not only in literal Python/SQL/Event choices, but also in higher-level A3 transition/outcome, A6 lifecycle and Receipt/reconstruction structures.
+Current controls:
 
-Controls now established:
-
-- ADR-0025 established `Blueprint before Runtime`;
 - P1–C5 remains `BOUNDED_REFERENCE_LABORATORY`;
 - A1–A10 remain provisional;
-- ADR-0026 selected independent challenge before cross-lineage falsification;
-- IAR-1 completed as a qualifying adversarial review with 10 findings;
-- IAR-1-R1 demotes the complete A3/A6/current-laboratory shape from universal minimum to reference taxonomy;
-- a later BPV-1 must independently derive its state/change/history model from problem-level obligations;
-- runtime remains frozen;
-- fail-closed machine/current-state guards preserve these boundaries.
+- IAR-1 completed as a qualifying adversarial review;
+- IAR-1-R1 demoted over-shaped taxonomies from universal minimum to reference structures;
+- BPV1-001 forbids reuse of current Python domain models, Event envelope, reducer and Receipt shape as the semantic oracle;
+- BPV1-001 uses Rust only as an experimental cross-language instrument, not Canon/product profile;
+- runtime remains frozen.
 
-Residual risk:
+Residual risk: a later subject implementation can still imitate the same conceptual architecture under different syntax. Execution admission must therefore freeze the evaluator before the subject exists/runs.
 
-- the reconciled minimum is still provisional and untested by BPV-1;
-- accepted contracts may retain assumptions inherited from event sourcing and serialization within their scoped laboratory role;
-- a future BPV-1 could still become a semantic port if its design copies A3/A6/Event/reducer/Receipt structures despite different syntax/language;
-- future contributors may hide semantic expansion inside maintenance, optimization or portability work;
-- a detailed blueprint/reconciliation may still be mistaken for portability evidence.
+## P0 — False independence / self-confirming validation
 
-Detection rule:
+**State:** `MITIGATED FOR IAR-1 / RESIDUAL OPEN FOR EXPERIMENT`.
+
+IAR-1 recorded a concrete reviewer identity and separation basis. It satisfies its review-process gate but does not prove architecture correctness.
+
+BPV1-001 declares:
 
 ```text
-future BPV-1 realization reproduces current implementation/taxonomy by inertia
-without independent derivation from preregistered problem-level obligations
-→ implementation-capture failure
+independent language: APPLICABLE / RUST
+same repository custody: DECLARED_LIMITATION
+independent team: NOT_ESTABLISHED
+independent computation model: NOT_ESTABLISHED / CONVENTIONAL_DIGITAL
 ```
 
-## P0 — False independence / self-confirming review
+No later report may call BPV1-001 fully independent merely because the implementation language differs.
 
-**State:** `MITIGATED BY IAR-1 / RESIDUAL GOVERNANCE RISK OPEN`.
+## P0 — Execution-admission oracle leakage
 
-IAR-1 recorded a concrete reviewer identity and independence basis, reviewed immutable `main@2dd51723e30d5f3c5e86268365bf4cf7639b5e9a`, answered Q1–Q12 and produced a ten-finding adversarial register. This satisfies the review-process gate under `nk-independent-architecture-review/1`; it does not prove the architecture correct.
+**State:** `OPEN / NEXT ACTIVE GATE / SUBJECT EXECUTION BLOCKED`.
 
-Residual risk remains for later validation stages: a new model/session/label or the same implementation authorship lineage must not be treated as independent merely by name. Future independent gates still require their own concrete separation and evidence trail.
+The preregistration is authoritative, but machine-readable fixtures and the standalone evaluator are not yet admitted. The immediate risk is translating the plan into executable expectations in a way that secretly incorporates subject behavior or current implementation assumptions.
 
-## P0 — BPV-1 preregistration may become self-confirming
+Before any subject implementation/execution, `BPV1_EXECUTION_ADMISSION` must bind:
 
-**State:** `OPEN / NEXT ACTIVE GATE / EXECUTION BLOCKED`.
+- authoritative plan `BPV1-001-cross-lineage-bounded-accountability-v1`;
+- frozen digest of normative preregistration;
+- machine-readable fixtures derived only from the preregistered plan;
+- standalone evaluator tests passing before subject execution;
+- pinned Rust toolchain and experimental source boundary;
+- static no-product-integration audit.
 
-The largest immediate architecture risk is no longer absence of review; it is an experiment whose oracle can change after results are observed.
+The evaluator cannot be changed after observing subject results under the same scenario identity except for non-normative bug repair that forces a new admitted evidence identity where meaning could change.
 
-Required before BPV-1 execution:
+```text
+preregistered plan ≠ execution authorization
+fixture package ≠ subject implementation
+implementation self-report ≠ oracle Authority
+```
 
-- authoritative `scenario_id` and purpose scope;
-- mandatory obligations and preregistered applicability rules;
-- mandatory observables;
-- equivalence predicates;
-- allowed declared losses;
-- failure thresholds;
-- hard refutation observations;
-- finite grounding mode;
-- architecture-level threat model;
-- oracle Authority separate from the implementation under test.
+## P0 — Post-hoc rescoping
 
-`IAR-1-R1` requires that post-execution changes to mandatory obligations, applicability, equivalence predicates or failure thresholds **invalidate the run for the claimed scope**. A redesigned experiment must receive a new identity; the prior result cannot be rewritten away.
+**State:** `MITIGATED BY FROZEN PLAN / MUST REMAIN FAIL-CLOSED`.
+
+The twelve normative fields are frozen before execution:
+
+```text
+scenario_id
+purpose_scope
+mandatory_obligations
+applicability_rules
+mandatory_observables
+equivalence_predicates
+allowed_declared_losses
+failure_thresholds
+hard_refutation_observations
+grounding_mode
+threat_model
+oracle_authority
+```
+
+Changing them after results are observed invalidates the run for its claimed scope and requires a new scenario identity. A failed experiment may not be rescued by silently changing applicability or thresholds.
 
 ## P0 — Bounded accountability boundary is untested
 
-**State:** `OPEN / RECONCILED CONCEPT / NOT YET FALSIFIED`.
+**State:** `OPEN / PREREGISTERED / NOT YET EXECUTED`.
 
-IAR-1-R1 separates current accountability from exact reconstruction/replay. Candidate required classes are current accountability, declared retention scope and explicit loss witness. Exact reconstruction, permanent predecessor visibility and unbounded reopening are optional capabilities unless a scenario preregisters them.
+IAR-1-R1 separates current accountability from exact reconstruction/replay. BPV1-001 preregisters bounded current accountability, explicit retention scope and loss witnesses while allowing compaction outside retained detail.
 
-Risk: BPV-1 may show that the proposed loss-witness boundary is too weak to prevent silent overwrite or too strong for genuinely bounded realizations. Such a result must weaken/refute the architecture claim rather than force an Event-log equivalent by definition.
+Risk: the proposed loss-witness boundary may be too weak to prevent silent overwrite or too strong for genuinely bounded realizations. Such an observation must weaken/refute the claim rather than force an Event-log equivalent by definition.
+
+## P0 — Bounded-state thresholds may be misleading
+
+**State:** `OPEN / PREREGISTERED THRESHOLDS / EMPIRICAL RESULT PENDING`.
+
+BPV1-001 fixes:
+
+```text
+scripted_mutations: 512
+durable_state_byte_cap: 262144
+retained_detailed_predecessor_cap: 64
+loss_witness_cap: 32
+growth_rule: durable_bytes_at_512 <= durable_bytes_at_256 * 1.25 + 4096
+```
+
+These are experiment thresholds, not universal architecture constants or performance targets. Passing them cannot be generalized to arbitrary workloads/hardware.
 
 ## P0 — Threat/authenticity boundary is provisional
 
-**State:** `OPEN / RECONCILED CONCEPT / NEGATIVE TESTS REQUIRED`.
+**State:** `OPEN / NEGATIVE TESTS PREREGISTERED / EXECUTION PENDING`.
 
-IAR-F08 found that honest-path semantic evidence was insufficient without explicit adversarial behavior. IAR-1-R1 now requires declared protected meanings, trust assumptions and relevant cases such as forgery, fork, truncation, rollback, equivocation, withheld counterevidence, unavailable/colluding witnesses and compromised certifier.
-
-Risk: no single current mechanism proves authenticity across arbitrary profiles. Architecture must preserve explicit trust/failure/uncertainty semantics without turning one cryptographic mechanism into Canon.
+Relevant adversarial cases include forgery, truncation, rollback, equivocation, withheld counterevidence and unavailable/forged Authority. No one cryptographic mechanism is architecture Canon.
 
 ## P0 — Context/Provenance/Authority grounding can hide assumptions
 
-**State:** `OPEN / FINITE GROUNDING MODEL RECONCILED / NOT YET TESTED`.
+**State:** `OPEN / FINITE GROUNDING PREREGISTERED / EXECUTION PENDING`.
 
-IAR-F09 identified infinite regress or undeclared trusted-root risk. IAR-1-R1 requires one declared grounding mode: externally attested root, explicit assumed root, bounded recursive closure, declared cycle, or terminal Unknown/gap.
-
-Risk: two profiles can reach identical outputs using materially different hidden roots. BPV-1 conformance must therefore compare grounding assumptions where they matter rather than treating metadata presence as sufficient.
+Context/Provenance/Authority chains require an explicit finite grounding mode. Matching visible outputs with materially different hidden roots cannot count as full semantic equivalence.
 
 ## P0 — Historical and clean lineages may be collapsed
+
+**State:** `OPEN / GOVERNANCE BOUNDARY`.
 
 ```text
 clean P1–P5 + C4 + C5
 ≠ recovered v0.1.2.1
 ≠ original 44-test evidence
+NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GLOBALLY_LOST
 ```
 
-**State:** `OPEN / GOVERNANCE BOUNDARY`.
-
-Issue #1 remains independent. `NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GLOBALLY_LOST`.
+Issue #1 remains independent.
 
 ## P0 — Reducer referential semantics are incomplete
 
-Reducer v1 permits histories whose LINK, UTILIZED, SUPERSEDED or ERASED references do not satisfy the proposed stricter rules in Issue #74 / ADR-0024.
+**State:** `OPEN / ISSUE #74 / ADR-0024 PENDING / RUNTIME FROZEN`.
 
-**State:** `OPEN / CONTRACT DECISION REQUIRED / RUNTIME FROZEN`.
-
-Reducer v1 must not be changed in place. ADR-0026 and IAR-1-R1 do not accept ADR-0024 and do not authorize reducer v2.
+Reducer v1 must not be rewritten in place. Option D and BPV-1 do not accept ADR-0024 or authorize reducer v2.
 
 ## P0 — Event/history commitment is not complete authenticity
-
-The current hash chain and exact Event verification are integrity signals. The portable semantic commitment boundary, history-head model, fork/truncation/rollback model, external witness model and authenticity claims remain incomplete.
 
 **State:** `OPEN`.
 
 ```text
 hash chain ≠ complete authenticity
 signature over incomplete commitment ≠ complete integrity
+history visibility ≠ mandatory Event sourcing
 ```
 
-IAR-1-R1 explicitly prevents this risk from being “solved” by declaring the current Event/hash-chain mechanism universal architecture.
+BPV1-001 specifically tests a non-event-sourced authoritative history model; success or failure is scoped evidence, not a universal conclusion by itself.
 
 ## P0 — Physical deletion remains absent
 
-No complete physical or cryptographic deletion is executed and verified across databases, backups, replicas, logs, exports, caches, evidence artifacts, external providers or keys.
+**State:** `OPEN / OUTSIDE BPV1-001 SCOPE`.
 
-**State:** `OPEN`.
-
-Logical `ERASED`, restriction and a bounded Receipt must not be represented as global physical deletion. IAR-1-R1 further requires threat-scoped evidence outside unverified self-attestation before a physical/cryptographic erasure condition may be claimed; otherwise the appropriate result is `INDETERMINATE`.
+Logical `ERASED`, restriction and Receipts must not be represented as global physical deletion. Physical/cryptographic erasure remains outside BPV1-001 because independent physical substrate observability is absent.
 
 ## P0 — License and contribution rights are unresolved
-
-The repository is public but has no operator-approved open-source or source-available regime.
 
 **State:** `OPEN / ISSUE #18 / OPERATOR DECISION REQUIRED`.
 
@@ -195,120 +215,80 @@ The repository is public but has no operator-approved open-source or source-avai
 publicly readable source ≠ permission to copy, modify or redistribute
 ```
 
-External collaboration, package publication, CLA/DCO policy, patent terms and contribution acceptance remain blocked pending a decision.
+BPV-1 work does not select a license or contribution regime.
 
 ## P0 — Research may be mistaken for authorization
 
 **State:** `OPEN / GOVERNANCE BOUNDARY`.
 
-Research prose, qualifying review completion, reconciliation and future BPV-1 results do not automatically create Canon, runtime behavior, production authority, or broad substrate claims. ADR-0026 authorizes validation only.
-
-## P1 — Operational equivalence remains absent
-
-PostgreSQL and SQLite pass the same bounded semantic scenarios, but concurrency, durability, replication, failover, administration, filesystem and managed-provider behavior differ.
-
-**State:** `OPEN`.
-
-C3 is bounded semantic/behavioural comparison, not full operational equivalence.
+Qualifying review, reconciliation, preregistration, execution admission, experimental PASS, or A10 outcome classification do not automatically create Final Canon, product runtime behavior, production authority, or universal substrate claims.
 
 ## P1 — Independent implementation evidence remains absent
 
-Current PostgreSQL and SQLite profiles share a Python semantic lineage.
+**State:** `OPEN / BPV1-001 TARGETS A STRONGER CLASS BUT HAS NOT EXECUTED`.
 
-**State:** `OPEN / TARGETED BY FUTURE BPV-1 BUT NOT YET TESTED`.
+Current PostgreSQL and SQLite profiles share a Python semantic lineage. BPV1-001 plans cross-language + non-event-sourced + bounded-memory evidence, but independent team/custody and independent computation-model evidence remain absent.
 
-Still absent:
+Still absent after preregistration:
 
-- independent-language evidence;
-- non-event-sourced cross-lineage realization;
-- bounded-memory realization;
+- an executed independent-language realization;
+- executed non-event-sourced cross-lineage evidence;
+- executed bounded-memory evidence;
 - independent implementation team/custody;
 - probabilistic/neuromorphic/analog/non-classical implementation evidence.
 
-A different language alone is insufficient if it simply ports the same semantics, A3/A6 taxonomies, Event/reducer/Receipt shape or current expected outputs.
-
-## P1 — Composition/federation semantics remain outside base conformance
+## P1 — Composition/federation remains outside base conformance
 
 **State:** `OPEN / SEPARATE CAPABILITY CLASS`.
-
-IAR-F10 showed that local scoped conformance did not define how independently evolving Kernels compose. IAR-1-R1 narrows base substrate-independence to scoped non-composed realizations. Therefore:
 
 ```text
 local conformance ≠ federation/composition conformance
 ```
 
-A future composition experiment must separately define Context overlap, identity disagreement, provenance union/loss, Authority conflict, concurrency and partial failure. BPV-1 must not silently introduce a centralized coordinator and then generalize from it.
+BPV1-001 is explicitly single-node/non-composed and cannot be generalized to federation.
+
+## P1 — Operational equivalence remains absent
+
+**State:** `OPEN`.
+
+PostgreSQL and SQLite bounded semantic comparison is not full operational equivalence. BPV1-001 does not attempt to prove operational parity either.
 
 ## P1 — Durable evidence lacks independent custody
 
-Sixteen exact ZIPs across the historical and ADR-0023 identities are repository-resident and hash-verified.
+**State:** `MITIGATED / RESIDUAL OPEN`.
 
-**State:** `MITIGATED / RESIDUAL RISK OPEN`.
-
-Still absent: independent third-party custody, signed timestamping, append-only external archive, reviewer quorum and disaster recovery for the Git repository itself.
+Repository-resident ZIPs and future BPV-1 artifacts are not independent third-party custody, signed timestamping, or disaster recovery.
 
 ## P1 — Synthetic privacy checks are not privacy compliance
 
-Canaries were absent from inspected synthetic artifacts.
-
 **State:** `OPEN`.
 
-This does not prove real personal-data handling, data-subject rights, retention, provider logs, breach response or jurisdictional compliance.
+Synthetic artifact inspection does not prove real personal-data handling or legal compliance.
 
 ## P1 — Logical export is not disaster recovery
 
-The bounded export/import path preserves exact synthetic Event bytes and quarantined replay for one instance.
-
 **State:** `OPEN`.
 
-It is not physical PostgreSQL backup, WAL recovery, provider snapshot, point-in-time recovery, cross-region restore or restore-under-load proof.
+Logical export/import evidence is not physical DB backup, WAL recovery, PITR, cross-region restore or restore-under-load proof.
 
 ## P1 — Scale and environment scope are narrow
 
-Current operational workloads are small, and preserved evidence covers Ubuntu 24.04, Python 3.11/3.12, PostgreSQL 16/18 and declared SQLite versions.
-
 **State:** `OPEN`.
 
-Passing current thresholds is not a capacity, SLO, cost, architecture or broad portability claim.
+Passing C5 or BPV1-001 thresholds is not a capacity, SLO, cost, architecture, hardware-portability or universal substrate claim.
 
 ## P1 — Current-state surfaces can drift
 
-GitHub refs, issue states, Actions and Notion can change after a committed snapshot.
-
 **State:** `MITIGATED / RESIDUAL LIVE-STATE RISK OPEN`.
 
-`nk-project-state/2` separates checkpoint roles and declares the expected relation to HEAD. It does not make committed metadata self-updating. Live state still requires GitHub verification, and Notion requires separate post-merge synchronization/read-back.
+GitHub refs, issue states, Actions and Notion can change after committed snapshots. Live state requires GitHub verification; Notion requires separate post-merge synchronization/read-back.
 
-## Closed historical findings
+## Closed/historical boundaries
 
-### Exact Event type comparison gap
-
-**State:** `CLOSED BY PR #72 / EXACT PR AND MAIN CI PASS / HISTORICAL EVIDENCE VERSION-BOUND`.
-
-The correction compares committed Event fields by canonical JSON bytes in both PostgreSQL and SQLite. Earlier artifacts remain evidence only of their producing versions.
-
-### Evidence schema and associated-run identity drift
-
-**State:** `CLOSED BY PR #72 / EXACT PR AND MAIN CI PASS`.
-
-This establishes repository-declared identity binding, not external signatures or independent custody.
-
-### SQLite builder workflow trigger gap
-
-**State:** `CLOSED BY PR #72 / EXACT PR AND MAIN CI PASS`.
-
-### Historical SQLite WAL-reset exposure
-
-**State:** `MITIGATED IN CURRENT PROFILE / HISTORICAL EVIDENCE VERSION-BOUND`.
-
-The current profile fails closed below linked SQLite `3.51.3`; safe-version evidence has its own immutable identity. Historical bytes are not rewritten.
+Historical Event-comparison, evidence-schema, workflow-trigger and SQLite-version defects remain closed/version-bound in their original PR/evidence histories. They are not reopened by BPV-1 and are not rewritten here.
 
 ## Update rule
 
 For every risk transition record exact contract/decision, exact SHA/workflow runs, affected evidence identity, residual risk, proof boundary, and whether operator approval is required.
 
-Never convert a bounded PASS, retained archive, closed bug, accepted research priority, operator approval, qualifying independent review, review reconciliation or future BPV-1 result into production, truth, compliance, deletion, Final Canon, universal neutrality, future-substrate support or ecosystem-authority claims.
-
-## Historical snapshot
-
-The pre-reconciliation risk chronology remains available at [publication checkpoint `626f34e…`](https://github.com/velantrian/velantrim-native-kernel/blob/626f34e6328b455258f2dd5fcf2145ec4db64a60/docs/ai/KNOWN_RISKS.md).
+Never convert a bounded PASS, retained archive, closed bug, accepted research priority, operator approval, qualifying independent review, reconciliation, preregistration or future BPV-1 result into production, truth, compliance, deletion, Final Canon, universal neutrality, future-substrate support or ecosystem-authority claims.
