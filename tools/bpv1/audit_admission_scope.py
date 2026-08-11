@@ -41,8 +41,14 @@ FORBIDDEN_PREFIXES = (
     "profiles/",
     "migrations/",
     "evidence/c5/",
-    "experiments/bpv1/BPV1-001/subject/",
 )
+# The BPV1-001 subject path is intentionally not in FORBIDDEN_PREFIXES.
+# Unlike the product/runtime roots above, its prohibition was scoped to
+# "before the separate execution-admission checkpoint", not forever. That
+# checkpoint (PR #113) legitimately admitted subject implementation/
+# execution; whether the subject may exist now is governed by the live
+# bpv1_status check in validate_execution_admission.py, not by this
+# permanent live-diff guard.
 
 
 def _git(repo: Path, *args: str) -> str:
@@ -91,7 +97,8 @@ def main() -> int:
             print(f"ERROR {finding}")
         print(f"BPV1 admission scope audit FAILED ({len(findings)} finding(s))")
         return 1
-    print(f"BPV1 admission scope audit PASS; base={BASE}; admission_merge={ADMISSION_MERGE}; subject=absent; product_roots=unchanged")
+    subject_state = "present" if (args.repo.resolve() / "experiments/bpv1/BPV1-001/subject").exists() else "absent"
+    print(f"BPV1 admission scope audit PASS; base={BASE}; admission_merge={ADMISSION_MERGE}; subject={subject_state}; product_roots=unchanged")
     return 0
 
 
