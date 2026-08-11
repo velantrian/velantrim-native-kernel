@@ -19,6 +19,8 @@ EXPECTED_REVIEWED_COMMIT = "2dd51723e30d5f3c5e86268365bf4cf7639b5e9a"
 EXPECTED_REVIEW_PR = 107
 EXPECTED_REVIEWER_IDENTITY = "github-codex-review-agent"
 EXPECTED_GITHUB_ACTOR = "chatgpt-codex-connector[bot]"
+EXPECTED_REVIEW_REQUEST_DOCUMENT = "docs/reviews/IAR-1_CODEX_REVIEW_REQUEST.md"
+EXPECTED_REVIEW_PROTOCOL_DOCUMENT = "docs/INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.md"
 EXPECTED_VISIBLE_REPOSITORY_ACTORS = ["velantrian"]
 EXPECTED_CONTRIBUTORS_SOURCE = (
     "https://api.github.com/repos/velantrian/velantrim-native-kernel/contributors?per_page=100"
@@ -75,7 +77,7 @@ EXPECTED_EXACT_PACKET_PATHS = [
     "docs/INTEGRATED_A1_A10_REVIEW.md",
     "docs/adr/0025-blueprint-before-runtime-expansion.md",
     "docs/adr/0026-independent-challenge-before-bounded-cross-lineage-falsification.md",
-    "docs/INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.md",
+    EXPECTED_REVIEW_PROTOCOL_DOCUMENT,
 ]
 
 
@@ -193,6 +195,8 @@ def validate_cross_records(
     _require(packet.get("review_id") == EXPECTED_REVIEW_ID, "input-packet evidence review id drift")
     _require(packet.get("reviewed_commit") == EXPECTED_REVIEWED_COMMIT, "input-packet reviewed commit drift")
     _require(packet.get("review_request_commit") == submission.get("commit_id"), "input-packet review request commit binding drift")
+    _require(packet.get("review_request_document") == EXPECTED_REVIEW_REQUEST_DOCUMENT, "input-packet review request document drift")
+    _require(packet.get("review_protocol_document") == EXPECTED_REVIEW_PROTOCOL_DOCUMENT, "input-packet review protocol document drift")
     _require(packet.get("source_review_attestation") == result.get("input_packet_read"), "packet normalization must preserve source review attestation")
 
     exact_paths = packet.get("normalized_exact_paths")
@@ -213,6 +217,14 @@ def validate_cross_records(
     _require(isinstance(interpretation, str) and "must not claim independent per-file read telemetry" in interpretation, "input-packet qualification boundary missing")
 
     if repo is not None:
+        _require(
+            _git_path_exists(repo, submission["commit_id"], EXPECTED_REVIEW_REQUEST_DOCUMENT),
+            "IAR-1 review request document absent at exact review submission commit",
+        )
+        _require(
+            _git_path_exists(repo, EXPECTED_REVIEWED_COMMIT, EXPECTED_REVIEW_PROTOCOL_DOCUMENT),
+            "IAR-1 review protocol absent at immutable reviewed commit",
+        )
         missing = [rel for rel in exact_paths if not _git_path_exists(repo, EXPECTED_REVIEWED_COMMIT, rel)]
         _require(not missing, f"normalized input-packet path absent at reviewed commit: {missing}")
 
@@ -233,7 +245,7 @@ def main(argv: list[str] | None = None) -> int:
     except IndependenceEvidenceError as exc:
         print(f"IAR-1 independence evidence failed: {exc}", file=sys.stderr)
         return 1
-    print("IAR-1 independence evidence passed; exact review submission is cross-bound to the result, and the mandatory named-file packet is normalized without inventing per-file reviewer telemetry")
+    print("IAR-1 independence evidence passed; exact review submission/result/request and mandatory named-file packet are cross-bound without inventing per-file reviewer telemetry")
     return 0
 
 
