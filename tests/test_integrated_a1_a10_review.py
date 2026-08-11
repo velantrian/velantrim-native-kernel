@@ -58,14 +58,14 @@ class IntegratedA1A10ReviewTests(unittest.TestCase):
     def test_integrated_review_remains_historical_while_machine_state_advances(self) -> None:
         refoundation = STATE["tracks"]["long_horizon_research"]["architecture_refoundation"]
         validation = STATE["tracks"]["long_horizon_research"]["post_blueprint_validation"]
-        self.assertEqual("INDEPENDENT_ARCHITECTURE_REVIEW", refoundation["next_content_slice"])
+        self.assertEqual("BPV1_PLAN_AND_PREREGISTRATION", refoundation["next_content_slice"])
         self.assertEqual(10, len(refoundation["completed_deliverables"]))
         self.assertNotIn("INTEGRATED_A1_A10_REVIEW", refoundation["completed_deliverables"])
         self.assertNotIn("OPERATOR_POST_BLUEPRINT_DECISION", refoundation["completed_deliverables"])
         self.assertTrue(refoundation["runtime_expansion_frozen"])
         self.assertEqual("ADR-0026", validation["decision"])
-        self.assertEqual("NOT_ESTABLISHED", validation["independent_review_status"])
-        self.assertEqual("BLOCKED_PENDING_INDEPENDENT_REVIEW_AND_RECONCILIATION", validation["bpv1_status"])
+        self.assertEqual("QUALIFYING_REVIEW_COMPLETE", validation["independent_review_status"])
+        self.assertEqual("BLOCKED_PENDING_PREREGISTERED_PLAN", validation["bpv1_status"])
         self.assertFalse(validation["product_runtime_thaw"])
         self.assertFalse(STATE["status"]["production_authorized"])
         self.assertEqual("BOUNDED_REFERENCE_LABORATORY", STATE["tracks"]["clean_implementation"]["architecture_role"])
