@@ -7,6 +7,7 @@ authoritative_machine_source: ../../project-state.json
 machine_protocol: nk-project-state/2
 repository_status: RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY
 live_head_source: GitHub API or checked-out Git ref
+machine_truth_reconciliation_merge: d9eee591de308a689ace940c2efe58c9e8a137f2
 publication_checkpoint: 10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c
 runtime_checkpoint: 675aa4b398a2fc0181dc71d38904a2d33a09f5f8
 runtime_integrity_checkpoint: a1cdc6d8f36d67f40f065641809bc6da463c10a4
@@ -42,13 +43,17 @@ public repository ≠ open-source license
 operator approval ≠ independent validation
 ```
 
+The later Notion synchronization checkpoint does not rewrite or replace the earlier publication checkpoint.
+
 ## Architecture state
 
+Architecture Re-foundation: `BLUEPRINT COMPLETE / PROVISIONAL / VALIDATION ACTIVE`.
+
 ```text
-A1-A10: DRAFTED / PROVISIONAL
+blueprint content A1–A10 is DRAFTED / PROVISIONAL
 integrated review: COMPLETED / PROVISIONAL
 operator post-blueprint choice: OPTION D / ADR-0026 / APPROVED
-next gate: INDEPENDENT_ARCHITECTURE_REVIEW
+next bounded gate is INDEPENDENT_ARCHITECTURE_REVIEW
 independent architectural validation: NOT ESTABLISHED
 BPV-1: BLOCKED_PENDING_INDEPENDENT_REVIEW_AND_RECONCILIATION
 runtime expansion: FROZEN
@@ -87,6 +92,8 @@ substrate-independent specification ≠ universal portability proof
 ```
 
 ## Runtime/operator boundary
+
+No AI agent may select the license or accept ADR-0024. Track H source admission also remains operator-controlled.
 
 Not authorized automatically: product runtime thaw, reducer v2, new semantic/conflict Event verbs, new product database/language/model/integration profiles, executable NK-EPI/Temporal/full Admission, operational deletion expansion, Final Canon, maturity promotion or production authorization.
 
