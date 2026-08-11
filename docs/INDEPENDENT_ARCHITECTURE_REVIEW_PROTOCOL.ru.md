@@ -44,7 +44,7 @@ INDEPENDENT_REVIEW_STATUS = BLOCKED_NO_QUALIFYING_REVIEWER
 
 ## 3. Обязательный пакет входных материалов
 
-Reviewer должен получить архитектурные truth surfaces, а не только handoff-summary.
+Reviewer должен получить архитектурные truth surfaces, а не только handoff-summary. Reviewer обязан прочитать `AGENTS.md`, а затем следовать актуальному mandatory orientation order, указанному там.
 
 Минимальный пакет:
 
@@ -52,17 +52,19 @@ Reviewer должен получить архитектурные truth surfaces
 2. `README.md`
 3. `STATUS.md`
 4. `project-state.json`
-5. `ROADMAP.md`
-6. `docs/ARCHITECTURE_REFOUNDATION.md`
-7. английские документы A1–A10
-8. `docs/INTEGRATED_A1_A10_REVIEW.md`
-9. `docs/A8_SUBSTRATE_INDEPENDENCE_CONTRACT.md`
-10. `docs/A9_REFERENCE_LABORATORY_BOUNDARY.md`
-11. `docs/A10_OPEN_QUESTIONS_AND_FALSIFICATION.md`
-12. `docs/ai/KNOWN_RISKS.md`
-13. `docs/adr/0025-blueprint-before-runtime-expansion.md`
-14. `docs/adr/0026-independent-challenge-before-bounded-cross-lineage-falsification.md`
-15. достаточный контекст P1–C5 contracts/evidence для обнаружения implementation capture, но без превращения этой реализации в нормативный authority.
+5. `docs/ai/README.md`
+6. `docs/ai/CURRENT_STATE.md`
+7. `docs/ai/KNOWN_RISKS.md`
+8. `ROADMAP.md`
+9. `docs/ARCHITECTURE_REFOUNDATION.md`
+10. английские документы A1–A10
+11. `docs/INTEGRATED_A1_A10_REVIEW.md`
+12. `docs/A8_SUBSTRATE_INDEPENDENCE_CONTRACT.md`
+13. `docs/A9_REFERENCE_LABORATORY_BOUNDARY.md`
+14. `docs/A10_OPEN_QUESTIONS_AND_FALSIFICATION.md`
+15. `docs/adr/0025-blueprint-before-runtime-expansion.md`
+16. `docs/adr/0026-independent-challenge-before-bounded-cross-lineage-falsification.md`
+17. достаточный контекст P1–C5 contracts/evidence для обнаружения implementation capture, но без превращения этой реализации в нормативный authority.
 
 Русские переводы могут использоваться как параллельная поверхность чтения, но не должны молча менять semantic status.
 
@@ -153,7 +155,7 @@ IAR-F02
 ```yaml
 finding_id: IAR-FNN
 severity: BLOCKING | MATERIAL | MODERATE | MINOR
-status: OPEN
+status: OPEN | RESOLVED
 affected_slices: [A1, ...]
 claim_or_obligation: <точный предмет>
 finding: <что неверно или недостаточно обосновано>
@@ -162,9 +164,10 @@ implementation_capture_risk: NONE | LOW | MEDIUM | HIGH
 falsifiability_impact: NONE | LOW | MEDIUM | HIGH
 recommended_disposition: REMOVE | WEAKEN | SPLIT | CLARIFY | TEST | RETAIN
 bpv1_dependency: BLOCKS | SHOULD_INFORM | NONE
+reconciliation_record: <обязательно при status=RESOLVED>
 ```
 
-Finding не закрывается только потому, что текущие авторы с ним не согласны. Reconciliation обязан фиксировать rationale и evidence boundary.
+Finding не закрывается только потому, что текущие авторы с ним не согласны. Reconciliation обязан фиксировать rationale и evidence boundary. Назначенный recommended disposition сам по себе не означает resolution.
 
 ## 7. Правила severity
 
@@ -177,6 +180,8 @@ Finding не закрывается только потому, что текущ
 - supposedly substrate-neutral obligation скрыто требует текущую Event/reducer модель;
 - experiment не способен falsify claim, который должен тестировать;
 - два core obligations несовместимы для заявленного scope.
+
+Неразрешённый `BLOCKING` finding **всегда блокирует BPV-1**. Пока он имеет `status: OPEN`, его `bpv1_dependency` обязан быть `BLOCKS`. `TEST`, `RETAIN` или любой другой recommended disposition сам по себе не может обойти этот gate.
 
 ### `MATERIAL`
 
@@ -228,15 +233,20 @@ REVIEW_INVALIDATED_BY_INDEPENDENCE_FAILURE
 - blocking/material findings, формирующие BPV-1;
 - явную фиксацию, что product runtime остаётся frozen.
 
+`QUALIFYING_REVIEW_COMPLETE` означает, что процесс review завершён по этому протоколу. Это **не означает**, что findings reconciled или что BPV-1 допущен.
+
 ## 10. Reconciliation gate перед BPV-1
 
 BPV-1 остаётся `BLOCKED_PENDING_INDEPENDENT_REVIEW_AND_RECONCILIATION`, пока:
 
 - review не стал qualifying;
-- каждый `BLOCKING` finding не получил disposition;
+- каждый `BLOCKING` finding не имеет `status: RESOLVED` с конкретной reconciliation record;
+- каждый unresolved `BLOCKING` finding, если он существует, сохраняет `bpv1_dependency: BLOCKS` и тем самым удерживает BPV-1 blocked;
 - каждый `MATERIAL` finding не reconciled либо явно перенесён в experiment как falsification dependency;
 - success/failure criteria experiment не записаны до implementation;
 - ни один current runtime component не стал молча experiment oracle.
+
+Нет исключения, позволяющего перенести open `BLOCKING` finding в BPV-1 просто как test target. Сначала blocker должен быть разрешён достаточно, чтобы experiment был non-self-confirming, architecture-coherent и способен различать success/failure.
 
 ## 11. Что доказывает завершение
 
