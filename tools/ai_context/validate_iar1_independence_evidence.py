@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import sys
 from pathlib import Path
@@ -22,9 +23,23 @@ EXPECTED_CONTRIBUTORS_SOURCE = (
 EXPECTED_COLLABORATORS_SOURCE = (
     "https://api.github.com/repos/velantrian/velantrim-native-kernel/collaborators?affiliation=all&per_page=100"
 )
-EXPECTED_REVIEWS_SOURCE = (
-    "https://api.github.com/repos/velantrian/velantrim-native-kernel/pulls/107/reviews"
+EXPECTED_REVIEW_SUBMISSION_SOURCE = (
+    "https://api.github.com/repos/velantrian/velantrim-native-kernel/pulls/107/reviews/4904562661"
 )
+EXPECTED_REVIEW_SUBMISSION = {
+    "id": 4904562661,
+    "node_id": "PRR_kwDOTgZ4oc8AAAABJFWv5Q",
+    "actor_login": EXPECTED_GITHUB_ACTOR,
+    "actor_id": 199175422,
+    "submitted_at": "2026-08-11T09:03:03Z",
+    "commit_id": "925a33f33d1a252a71475d11d82edd2c53307dbb",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/velantrian/velantrim-native-kernel/pull/107#pullrequestreview-4904562661",
+}
+EXPECTED_REVIEW_SUBMISSION_IDENTITY_SHA256 = (
+    "a74166d124dcf99622607c7e655a9fa9e941f99ff81255d02ffe07b5be387b04"
+)
+EXPECTED_CANONICALIZATION = "UTF-8 JSON; keys sorted; separators ',' and ':'; identity projection only"
 
 
 class IndependenceEvidenceError(RuntimeError):
@@ -45,6 +60,11 @@ def _load(path: Path) -> dict[str, Any]:
     return value
 
 
+def _identity_digest(value: Mapping[str, Any]) -> str:
+    canonical = json.dumps(dict(value), sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+    return hashlib.sha256(canonical.encode("utf-8")).hexdigest()
+
+
 def validate_record(record: Mapping[str, Any]) -> None:
     _require(record.get("protocol") == "nk-independent-review-evidence/1", "independence evidence protocol drift")
     _require(record.get("review_id") == EXPECTED_REVIEW_ID, "independence evidence review id drift")
@@ -62,7 +82,27 @@ def validate_record(record: Mapping[str, Any]) -> None:
     _require(collaborators.get("source") == EXPECTED_COLLABORATORS_SOURCE, "collaborators evidence source drift")
     _require(contributors.get("logins") == EXPECTED_VISIBLE_REPOSITORY_ACTORS, "contributors snapshot drift")
     _require(collaborators.get("logins") == EXPECTED_VISIBLE_REPOSITORY_ACTORS, "collaborators snapshot drift")
-    _require(record.get("review_submission_source") == EXPECTED_REVIEWS_SOURCE, "review submission evidence source drift")
+
+    _require(
+        record.get("review_submission_source") == EXPECTED_REVIEW_SUBMISSION_SOURCE,
+        "exact review submission evidence source drift",
+    )
+    submission = record.get("review_submission")
+    _require(isinstance(submission, Mapping), "exact review submission identity required")
+    _require(dict(submission) == EXPECTED_REVIEW_SUBMISSION, "exact review submission identity drift")
+    _require(
+        record.get("review_submission_identity_canonicalization") == EXPECTED_CANONICALIZATION,
+        "review submission canonicalization drift",
+    )
+    _require(
+        _identity_digest(submission) == EXPECTED_REVIEW_SUBMISSION_IDENTITY_SHA256,
+        "computed review submission identity digest drift",
+    )
+    _require(
+        record.get("review_submission_identity_sha256") == EXPECTED_REVIEW_SUBMISSION_IDENTITY_SHA256,
+        "recorded review submission identity digest drift",
+    )
+    _require(submission.get("actor_login") == record.get("github_actor_login"), "review submission actor binding drift")
 
     contributor_logins = contributors.get("logins")
     collaborator_logins = collaborators.get("logins")
@@ -80,6 +120,8 @@ def validate_record(record: Mapping[str, Any]) -> None:
     _require(isinstance(basis, str) and len(basis.strip()) >= 180, "substantive repository-visible separation basis required")
     for marker in (
         EXPECTED_GITHUB_ACTOR,
+        "4904562661",
+        EXPECTED_REVIEW_SUBMISSION["commit_id"],
         "absent from both repository contributor and collaborator snapshots",
         "immutable architecture subject",
         "PR review channel",
@@ -106,7 +148,7 @@ def main(argv: list[str] | None = None) -> int:
     except IndependenceEvidenceError as exc:
         print(f"IAR-1 independence evidence failed: {exc}", file=sys.stderr)
         return 1
-    print("IAR-1 independence evidence passed; repository-visible reviewer separation is recorded and scope-limited")
+    print("IAR-1 independence evidence passed; exact GitHub review submission and repository-visible reviewer separation are recorded and scope-limited")
     return 0
 
 
