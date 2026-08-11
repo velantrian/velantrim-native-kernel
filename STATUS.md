@@ -17,11 +17,11 @@ notion_synchronized_through: 70acd0da61fee19131947aa56125833adb156ced
 blueprint_decision: ADR-0025
 post_blueprint_decision: ADR-0026
 active_architecture_issue: 88
-architecture_phase: POST_BLUEPRINT_VALIDATION_INDEPENDENT_REVIEW_FIRST
+architecture_phase: POST_BLUEPRINT_VALIDATION_BPV1_PLAN_NEXT
 ```
 
 > **Repository status:** `RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY`  
-> **Architecture state:** `A1-A10 DRAFTED / PROVISIONAL · INTEGRATED REVIEW COMPLETE / PROVISIONAL · OPTION D APPROVED · INDEPENDENT REVIEW NOT ESTABLISHED`.
+> **Architecture state:** `A1-A10 DRAFTED / PROVISIONAL · INTEGRATED REVIEW COMPLETE / PROVISIONAL · IAR-1 QUALIFYING REVIEW COMPLETE · IAR-1-R1 RECONCILIATION COMPLETE · BPV-1 PLAN NEXT`.
 
 Committed checkpoint SHAs above remain historical role identities, not automatic live HEAD. Resolve live `main` through GitHub/Git.
 
@@ -45,32 +45,52 @@ Post-blueprint decision: [ADR-0026](docs/adr/0026-independent-challenge-before-b
 Plan: [English](docs/ARCHITECTURE_REFOUNDATION.md) · [Русский](docs/ARCHITECTURE_REFOUNDATION.ru.md).  
 Integrated review: [English](docs/INTEGRATED_A1_A10_REVIEW.md) · [Русский](docs/INTEGRATED_A1_A10_REVIEW.ru.md).  
 Independent-review protocol: [English](docs/INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.md) · [Русский](docs/INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.ru.md).  
+IAR-1 result: [human](docs/reviews/IAR-1_RESULT.md) · [machine](docs/reviews/IAR-1_RESULT.json).  
+IAR-1 reconciliation: [human](docs/reviews/IAR-1_RECONCILIATION.md) · [machine](docs/reviews/IAR-1_RECONCILIATION.json).  
 Tracking: [Issue #88](https://github.com/velantrian/velantrim-native-kernel/issues/88).
 
 ```text
 blueprint content: A1-A10 DRAFTED / PROVISIONAL
 integrated review: COMPLETED / PROVISIONAL
 operator post-blueprint decision: OPTION D / ADR-0026 / APPROVED
-next content gate: INDEPENDENT_ARCHITECTURE_REVIEW
-independent architectural validation: NOT ESTABLISHED
-BPV-1: BLOCKED_PENDING_INDEPENDENT_REVIEW_AND_RECONCILIATION
+IAR-1: QUALIFYING_REVIEW_COMPLETE
+IAR-1 findings: 10 total / 7 BLOCKING / 3 MATERIAL
+IAR-1-R1 reconciliation: COMPLETE
+open BLOCKING findings: 0
+open MATERIAL findings: 0
+next content gate: BPV1_PLAN_AND_PREREGISTRATION
+BPV-1 execution: BLOCKED_PENDING_PREREGISTERED_PLAN
 runtime expansion: FROZEN
 ```
 
-The integrated review identity remains `nk-integrated-blueprint-review/A1-A10-review-1`. Its seven explicit reconciliations remain the current provisional interpretation where first-draft wording conflicts.
+IAR-1 materially weakened the provisional architecture. In particular, the complete A3 transition/outcome machine, A6 lifecycle graph, full A5 identity/time inventory, Receipt-shaped accountability and Event-log-shaped history are no longer treated as the universal minimum Kernel form.
 
-ADR-0026 does not convert that integrated review into independent validation. It authorizes a validation sequence:
+The current provisional minimum is problem-level: non-conflation of representation/Claim with reality/truth, explicit scope/Context/warrant/Authority assumptions where material, explicit Unknown/uncertainty/unsupported states, accountable change/retention/loss for the declared scope, and preregistered equivalence/degradation/refutation conditions.
+
+Exact reconstructability, exact replay, permanent predecessor visibility, global total order and distributed-composition semantics are **not** universal requirements.
+
+## BPV-1 planning gate
+
+BPV-1 implementation/execution is still forbidden. A plan must first preregister:
 
 ```text
-independent architecture challenge
-→ finding reconciliation
-→ one bounded cross-lineage falsification instrument (BPV-1)
-→ A10 outcome classification
-→ integrated re-review
-→ separate later operator Canon/runtime decision
+scenario_id
+purpose_scope
+mandatory_obligations
+applicability_rules
+mandatory_observables
+equivalence_predicates
+allowed_declared_losses
+failure_thresholds
+hard_refutation_observations
+grounding_mode
+threat_model
+oracle_authority
 ```
 
-BPV-1 is not admitted yet. A qualifying independent review and reconciliation must occur first.
+Changing those after execution invalidates the run for the claimed scope and requires a new experiment identity.
+
+The BPV-1 plan must independently derive its state/change/history model instead of importing the current A3/A6/Event/reducer/Receipt shape as an oracle.
 
 ## Required non-equivalences
 
@@ -79,7 +99,8 @@ NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GLOBALLY_LOST
 reference laboratory ≠ final architecture
 blueprint documentation ≠ runtime evidence
 operator approval ≠ independent validation
-independent review protocol ≠ completed independent review
+qualifying independent review ≠ architecture proof
+review reconciliation ≠ BPV-1 execution authorization
 falsification instrument ≠ product runtime
 representation ≠ represented reality
 Observation ≠ Claim
@@ -98,8 +119,10 @@ Revision ≠ overwrite
 Supersession ≠ deletion or falsity
 restriction ≠ logical erase ≠ physical deletion ≠ cryptographic erasure ≠ forgetting
 PHYSICALLY_ERASED ≠ CRYPTOGRAPHICALLY_ERASED
-transition ≠ Event envelope
+transition taxonomy ≠ mandatory implementation shape
 history visibility ≠ mandatory Event sourcing
+bounded accountability ≠ exact reconstruction
+local conformance ≠ composition/federation conformance
 profile conformance ≠ production authorization
 substrate-independent specification ≠ universal portability proof
 existing mechanism ≠ architecture requirement
@@ -115,6 +138,4 @@ NOT_TESTED ≠ SUPPORTED
 
 ## Hard stop
 
-ADR-0026 satisfies the historical `OPERATOR_POST_BLUEPRINT_DECISION` gate only by selecting the validation route. It does **not** authorize product-runtime thaw.
-
-The next gate is `INDEPENDENT_ARCHITECTURE_REVIEW`. It is not A11, not BPV-1 execution, and not Canon promotion. A1–A10 remains provisional; independent validation remains `NOT ESTABLISHED`; production authorization remains `false`.
+The next gate is `BPV1_PLAN_AND_PREREGISTRATION`. It authorizes only experiment design/preregistration. It is not A11, not BPV-1 execution, not runtime thaw and not Canon promotion. A1–A10 remain provisional and reconciled by overlay; production authorization remains `false`.
