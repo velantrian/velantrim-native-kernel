@@ -79,8 +79,10 @@ class A10OpenQuestionsFalsificationTests(unittest.TestCase):
             self.assertIn("45/10/17/0", markdown)
             self.assertIn("0/0/8/0", markdown)
 
-    def test_machine_state_preserves_a10_and_moves_to_operator_gate(self) -> None:
-        refoundation = self.state["tracks"]["long_horizon_research"]["architecture_refoundation"]
+    def test_machine_state_preserves_a10_and_advances_to_independent_review(self) -> None:
+        research = self.state["tracks"]["long_horizon_research"]
+        refoundation = research["architecture_refoundation"]
+        validation = research["post_blueprint_validation"]
         expected = [
             "A1_KERNEL_PURPOSE_AND_NON_GOALS",
             "A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY",
@@ -94,7 +96,10 @@ class A10OpenQuestionsFalsificationTests(unittest.TestCase):
             "A10_OPEN_QUESTIONS_AND_FALSIFICATION",
         ]
         self.assertEqual(expected, refoundation["completed_deliverables"])
-        self.assertEqual("OPERATOR_POST_BLUEPRINT_DECISION", refoundation["next_content_slice"])
+        self.assertEqual("INDEPENDENT_ARCHITECTURE_REVIEW", refoundation["next_content_slice"])
+        self.assertEqual("ADR-0026", validation["decision"])
+        self.assertEqual("NOT_ESTABLISHED", validation["independent_review_status"])
+        self.assertEqual("BLOCKED_PENDING_INDEPENDENT_REVIEW_AND_RECONCILIATION", validation["bpv1_status"])
         self.assertTrue(refoundation["runtime_expansion_frozen"])
         self.assertEqual("BOUNDED_REFERENCE_LABORATORY", self.state["tracks"]["clean_implementation"]["architecture_role"])
         self.assertFalse(self.state["status"]["production_authorized"])

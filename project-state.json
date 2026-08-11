@@ -1,7 +1,7 @@
 {
   "protocol": "nk-project-state/2",
-  "snapshot_id": "native-kernel/state/2026-08-10-integrated-a1-a10-review",
-  "observed_at": "2026-08-10T21:56:29Z",
+  "snapshot_id": "native-kernel/state/2026-08-11-post-blueprint-option-d",
+  "observed_at": "2026-08-11T08:08:00Z",
   "repository": {
     "full_name": "velantrian/velantrim-native-kernel",
     "visibility": "PUBLIC",
@@ -15,7 +15,7 @@
     "evidence_producing_sha": "296981ae84ad5bdab5dabbec9b7b9ebb43af63d7",
     "publication_checkpoint_sha": "10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c",
     "notion_synchronized_through_sha": "70acd0da61fee19131947aa56125833adb156ced",
-    "checkpoint_semantics": "The publication checkpoint records the PR #83 decision-package publication identity. The manifest source and Notion synchronization checkpoint record the latest already merged descendant that was synchronized and read back before this file was authored. Live HEAD is resolved by Git or the GitHub API; no committed file attempts to contain the SHA of its own future merge. ADR-0025 changes architecture research priority without changing runtime, evidence or publication checkpoint identities."
+    "checkpoint_semantics": "The publication checkpoint records the PR #83 decision-package publication identity. The manifest source and Notion synchronization checkpoint record the latest exact synchronization identity committed by this machine-state lineage. Live HEAD is resolved by Git or the GitHub API; no committed file attempts to contain the SHA of its own future merge. ADR-0025 established blueprint-first refoundation. ADR-0026 authorizes post-blueprint validation while keeping runtime and prior evidence/publication checkpoint identities unchanged."
   },
   "status": {
     "repository_status": "RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY",
@@ -63,13 +63,13 @@
     },
     "long_horizon_research": {
       "id": "R",
-      "status": "ACTIVE / ARCHITECTURE RE-FOUNDATION / NO AUTOMATIC PROMOTION",
+      "status": "ACTIVE / POST-BLUEPRINT VALIDATION / NO AUTOMATIC PROMOTION",
       "runtime_authorized": false,
       "architecture_refoundation": {
         "decision": "ADR-0025",
         "issue": 88,
         "operator_approval": "APPROVED",
-        "status": "ACTIVE / BLUEPRINT-FIRST",
+        "status": "BLUEPRINT COMPLETE / PROVISIONAL / VALIDATION ACTIVE",
         "runtime_expansion_frozen": true,
         "existing_reference_runtime_role": "BOUNDED_REFERENCE_LABORATORY",
         "plan_en": "docs/ARCHITECTURE_REFOUNDATION.md",
@@ -87,7 +87,7 @@
           "A10_OPEN_QUESTIONS_AND_FALSIFICATION"
         ],
         "completion_requires_operator_review": true,
-        "next_content_slice": "OPERATOR_POST_BLUEPRINT_DECISION",
+        "next_content_slice": "INDEPENDENT_ARCHITECTURE_REVIEW",
         "completed_deliverables": [
           "A1_KERNEL_PURPOSE_AND_NON_GOALS",
           "A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY",
@@ -100,6 +100,22 @@
           "A9_REFERENCE_LABORATORY_BOUNDARY",
           "A10_OPEN_QUESTIONS_AND_FALSIFICATION"
         ]
+      },
+      "post_blueprint_validation": {
+        "decision": "ADR-0026",
+        "issue": 88,
+        "operator_approval": "APPROVED",
+        "selected_option": "D_INDEPENDENT_CHALLENGE_THEN_BOUNDED_CROSS_LINEAGE_FALSIFICATION",
+        "status": "AUTHORIZED / INDEPENDENT_REVIEW_FIRST",
+        "independent_review_protocol": "nk-independent-architecture-review/1",
+        "independent_review_document_en": "docs/INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.md",
+        "independent_review_document_ru": "docs/INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.ru.md",
+        "independent_review_status": "NOT_ESTABLISHED",
+        "bpv1_status": "BLOCKED_PENDING_INDEPENDENT_REVIEW_AND_RECONCILIATION",
+        "bpv1_role": "FALSIFICATION_INSTRUMENT_ONLY",
+        "product_runtime_thaw": false,
+        "automatic_canon_promotion": false,
+        "automatic_runtime_promotion": false
       },
       "runtime_freeze_exceptions": [
         "integrity and security fixes",
@@ -140,7 +156,7 @@
     "18": {"state": "OPEN", "meaning": "License and publication terms remain PENDING_OPERATOR; no license, contribution regime or package publication is authorized.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-10T20:36:15Z", "source": "issue/18"}},
     "64": {"state": "CLOSED", "state_reason": "COMPLETED", "meaning": "C5 bounded operational rehearsal implementation issue is complete.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-09T11:31:28Z", "source": "issue/64"}},
     "74": {"state": "OPEN", "meaning": "ADR-0024 remains PROPOSED / PENDING_OPERATOR; reducer v1 is immutable and reducer-v2 runtime is not authorized.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-10T20:36:15Z", "source": "issue/74"}},
-    "88": {"state": "OPEN", "meaning": "Architecture Re-foundation is active under ADR-0025; A1-A10 drafting and the integrated A1-A10 review are complete/provisional; OPERATOR_POST_BLUEPRINT_DECISION is next; no semantic/runtime expansion is authorized.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-10T21:56:29Z", "source": "issue/88"}}
+    "88": {"state": "OPEN", "meaning": "Architecture Re-foundation A1-A10 and integrated review are complete/provisional; operator selected ADR-0026 Option D; next gate is INDEPENDENT_ARCHITECTURE_REVIEW; BPV-1 is blocked pending qualifying independent review and reconciliation; runtime remains frozen.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-11T07:38:00Z", "source": "issue/88"}}
   },
   "evidence": {
     "c5_bundle": {"protocol": "nk-evidence-bundle/1", "path": "evidence/c5/2026-08-07/manifest.json", "status": "CAPTURED_REPOSITORY_RESIDENT", "checkpoint_count": 2, "artifact_count": 8, "original_archives_preserved": true, "source_retention_expiry": "2026-09-06"},
@@ -149,7 +165,7 @@
   "notion": {
     "synchronization_required": true,
     "status": "SYNCED_THROUGH_DESCENDANT_CHECKPOINT",
-    "scope": "GitHub and Notion were directly synchronized and read back through merged PR #86 checkpoint 70acd0da61fee19131947aa56125833adb156ced. The PR #83 publication checkpoint 10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c remains a separate immutable role. ADR-0025 and the Architecture Re-foundation phase require a post-merge Notion update; this committed state does not predict that future synchronization.",
+    "scope": "The exact committed synchronization identity remains 70acd0da61fee19131947aa56125833adb156ced (PR #86 lineage) and remains distinct from publication checkpoint 10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c. This field does not claim that the exact committed checkpoint itself contains the later integrated A1-A10 review or ADR-0026. Any newer live Notion content must be verified directly and, after this PR merges, synchronized/read back again before being claimed as the current Option D Notion checkpoint.",
     "authority_boundary": "Notion carries current orientation, rationale and history; GitHub remains sufficient and authoritative for technical state, live refs, contracts, tests, workflow results and evidence. A later post-merge Notion write may be newer than the latest repository-committed synchronization checkpoint until a subsequent non-self-referential manifest records it."
   },
   "non_claims": [
@@ -170,6 +186,7 @@
     "A8 substrate-independence is drafted and provisional; it defines scoped preservation, loss and conformance claims but does not prove universal portability, implement a future substrate, grade P1-C5, or authorize runtime expansion.",
     "A9 reference-laboratory boundary is drafted and provisional; it classifies P1-C5 mechanisms without proving independent-substrate conformance or authorizing runtime expansion.",
     "A10 open-questions/falsification is drafted and provisional; integrated review normalizes its outcome protocol without proving the hypotheses.",
-    "Integrated A1-A10 review completion is not independent validation, operator acceptance, Canon promotion, runtime authorization, arbitrary-substrate proof, or production authorization."
+    "Integrated A1-A10 review completion is not independent validation, operator acceptance, Canon promotion, runtime authorization, arbitrary-substrate proof, or production authorization.",
+    "ADR-0026 operator approval authorizes a validation phase, not independent validation, BPV-1 success, Final Canon, runtime thaw, arbitrary-substrate proof, or production authorization."
   ]
 }

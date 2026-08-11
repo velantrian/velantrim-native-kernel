@@ -3,7 +3,7 @@
 **[English](./README.md) · [Русский](./README.ru.md)**
 
 > **Current boundary:** `RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY`  
-> **Active phase:** `ARCHITECTURE RE-FOUNDATION / BLUEPRINT-FIRST / RUNTIME EXPANSION FROZEN`
+> **Active phase:** `POST-BLUEPRINT VALIDATION / INDEPENDENT-REVIEW-FIRST / RUNTIME EXPANSION FROZEN`
 
 ## Start here
 
@@ -12,9 +12,12 @@
 | [`../STATUS.md`](../STATUS.md) | authoritative human current state |
 | [`../project-state.json`](../project-state.json) | committed machine state (`nk-project-state/2`) |
 | [`../ROADMAP.md`](../ROADMAP.md) | active sequence and authorization boundaries |
-| [`ARCHITECTURE_REFOUNDATION.md`](./ARCHITECTURE_REFOUNDATION.md) | blueprint plan/current phase |
+| [`ARCHITECTURE_REFOUNDATION.md`](./ARCHITECTURE_REFOUNDATION.md) | blueprint/refoundation history and current validation gate |
 | [`INTEGRATED_A1_A10_REVIEW.md`](./INTEGRATED_A1_A10_REVIEW.md) | integrated review / current provisional reconciliation |
 | [`INTEGRATED_A1_A10_REVIEW.ru.md`](./INTEGRATED_A1_A10_REVIEW.ru.md) | Russian integrated review |
+| [`INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.md`](./INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.md) | active independent-review protocol |
+| [`INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.ru.md`](./INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.ru.md) | Russian independent-review protocol |
+| [`adr/0026-independent-challenge-before-bounded-cross-lineage-falsification.md`](./adr/0026-independent-challenge-before-bounded-cross-lineage-falsification.md) | operator-approved Option D decision |
 | [`ai/CURRENT_STATE.md`](./ai/CURRENT_STATE.md) | compact AI current state |
 | [`../AGENTS.md`](../AGENTS.md) | mandatory repository instructions |
 
@@ -28,6 +31,8 @@ STATUS + project-state
 → Architecture Re-foundation plan
 → A1–A10 first drafts
 → Integrated A1–A10 Review
+→ ADR-0026 Option D decision
+→ Independent Architecture Review Protocol
 → relevant accepted contracts/ADRs
 → reference runtime/tests/evidence
 ```
@@ -37,11 +42,14 @@ STATUS + project-state
 ```text
 H historical recovery: OPEN / BLOCKED / independent
 C clean implementation: PRESERVED / PARTIAL / BOUNDED REFERENCE LABORATORY
-R architecture re-foundation: ACTIVE / BLUEPRINT-FIRST
+R post-blueprint validation: ACTIVE / INDEPENDENT-REVIEW-FIRST
 blueprint content: A1-A10 DRAFTED / PROVISIONAL
-integrated review: COMPLETED / PROVISIONAL / OPERATOR_DECISION_PENDING
+integrated review: COMPLETED / PROVISIONAL
 completed review gate identity: INTEGRATED_A1_A10_REVIEW
-next gate: OPERATOR_POST_BLUEPRINT_DECISION
+operator post-blueprint choice: OPTION D / ADR-0026 / APPROVED
+next gate: INDEPENDENT_ARCHITECTURE_REVIEW
+independent architectural validation: NOT ESTABLISHED
+BPV-1: BLOCKED_PENDING_INDEPENDENT_REVIEW_AND_RECONCILIATION
 kernel runtime: C4
 operational validation: C5_BOUNDED_REHEARSAL
 assertions: 45 / 10 / 17 / 0
@@ -49,7 +57,7 @@ NK-EPI: 0 SUPPORTED / 0 PARTIAL / 8 UNSUPPORTED / 0 FAILED
 production: NOT AUTHORIZED
 ```
 
-Integrated review identity: `nk-integrated-blueprint-review/A1-A10-review-1`. It explicitly reconciles `IR-F01`…`IR-F07`. Where first-draft wording conflicts with that review, cite the review rather than silently rewriting draft history.
+Integrated review identity: `nk-integrated-blueprint-review/A1-A10-review-1`. Independent-review protocol identity: `nk-independent-architecture-review/1`.
 
 ## Current integrated distinctions
 
@@ -64,10 +72,13 @@ NOT_TESTED ≠ SUPPORTED
 reference laboratory ≠ final architecture
 existing mechanism ≠ architecture requirement
 substrate-independent specification ≠ universal portability proof
+operator approval ≠ independent validation
+independent review protocol ≠ completed independent review
+falsification instrument ≠ product runtime
 ```
 
 The integrated review found no known blocking internal semantic contradiction remaining after explicit reconciliation, but independent architectural validation is `NOT ESTABLISHED`.
 
 ## Hard stop
 
-`OPERATOR_POST_BLUEPRINT_DECISION` is the next gate. It is not A11 and does not authorize runtime thaw. Issue #18, Issue #74 / ADR-0024, ADR-0003 and Track H boundaries remain unchanged/operator-controlled.
+`INDEPENDENT_ARCHITECTURE_REVIEW` is the next gate. BPV-1 cannot begin until a qualifying independent review and reconciliation are recorded. Runtime remains `FROZEN`; A1–A10 remains provisional. Issue #18, Issue #74 / ADR-0024, ADR-0003 and Track H boundaries remain unchanged/operator-controlled.

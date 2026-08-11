@@ -41,19 +41,21 @@ Decision status
 | [`0022`](./0022-preserve-c5-evidence-and-declare-project-state.md) | Preserve C5 evidence and declare project state | `ACCEPTED` | repository and post-merge validation passed; superseded machine protocol retained historically | implemented; current state now uses `nk-project-state/2` | `APPROVED` |
 | [`0023`](./0023-harden-sqlite-wal-and-event-integrity.md) | Harden SQLite WAL and stored Event integrity | `ACCEPTED` | repository-reproduced; additive evidence captured; follow-up integrity checks passed | merged via PR #69 + follow-up PR #72 | `APPROVED` |
 | [`0024`](./0024-version-reducer-referential-semantics.md) | Version reducer referential semantics without rewriting history | `PROPOSED` | repository gap documented | `NOT_STARTED` | `PENDING` |
-| [`0025`](./0025-blueprint-before-runtime-expansion.md) | Complete the architecture blueprint before further runtime expansion | `ACCEPTED` | `DOCUMENTED` | governance/plan partial; blueprint incomplete | `APPROVED` |
+| [`0025`](./0025-blueprint-before-runtime-expansion.md) | Complete the architecture blueprint before further runtime expansion | `ACCEPTED` | `DOCUMENTED` | blueprint drafted/reviewed provisionally; runtime freeze active | `APPROVED` |
+| [`0026`](./0026-independent-challenge-before-bounded-cross-lineage-falsification.md) | Independent challenge before bounded cross-lineage falsification | `ACCEPTED` | `DOCUMENTED` | `GOVERNANCE_PARTIAL` / review not yet established | `APPROVED` |
 
 ## Current boundary
 
 ```text
 H historical recovery: OPEN / BLOCKED / independent
 C clean implementation: P1–P5 + C4 + C5 / BOUNDED REFERENCE LABORATORY
-R architecture re-foundation: ACTIVE / BLUEPRINT-FIRST
+R post-blueprint validation: ACTIVE / INDEPENDENT-REVIEW-FIRST
 kernel_runtime_conformance: C4
 operational_validation: C5_BOUNDED_REHEARSAL
 assertion map: 45 / 10 / 17 / 0
 NK-EPI: 0 SUPPORTED / 0 PARTIAL / 8 UNSUPPORTED / 0 FAILED
 production: NOT AUTHORIZED
+runtime expansion: FROZEN
 ```
 
 ## Active architecture gate
@@ -61,36 +63,39 @@ production: NOT AUTHORIZED
 ```text
 ADR-0025 — Blueprint before Runtime
   ACCEPTED / OPERATOR APPROVED
-  runtime expansion: FROZEN
-  current P1–C5: PRESERVED AS BOUNDED REFERENCE LABORATORY
+  A1-A10 + integrated review complete/provisional
 
-Architecture Re-foundation A1–A10
-  ACTIVE / CONTENT INCOMPLETE
+ADR-0026 — Post-Blueprint Validation / Option D
+  ACCEPTED / OPERATOR APPROVED
+  next: INDEPENDENT_ARCHITECTURE_REVIEW
+  independent validation: NOT ESTABLISHED
+  BPV-1: BLOCKED_PENDING_INDEPENDENT_REVIEW_AND_RECONCILIATION
+  product runtime thaw: NO
 
 Issue #18 — license/publication terms
   PENDING_OPERATOR
-  blocks open contribution/publication regime
 
 Issue #74 / ADR-0024
   PROPOSED / PENDING_OPERATOR
-  blocks reducer-v2 path, not ontology research
+  reducer-v2 unauthorized
 ```
 
-After the integrated blueprint review:
+Post-blueprint validation sequence:
 
 ```text
-reconcile contract families
-→ define NK-SAM and named equivalence
-→ define Event/history commitment
-→ decide ADR-0024 outcome when reducer work resumes
-→ only then reducer-v2 runtime
+independent architecture review
+→ finding reconciliation
+→ one bounded BPV-1 falsification instrument
+→ A10 outcomes
+→ integrated re-review
+→ separate later operator Canon/runtime decision
 ```
 
 ## Operational rules
 
 1. Multi-model agreement is input, not approval.
 2. Proposed decisions must not be summarized as implemented behavior.
-3. `ACCEPTED` does not mean complete runtime.
+3. `ACCEPTED` does not mean complete runtime or empirical proof.
 4. Evidence must link exact checks, bytes, digests, reports, commits, runs, or artifacts.
 5. Approval and evidence remain separate.
 6. Reproducible evidence does not silently promote proposals.
@@ -107,4 +112,8 @@ reconcile contract families
 17. Portable semantic commitments and operational/profile receipts must not be collapsed without an accepted contract.
 18. A public repository does not imply an open-source license.
 19. Existing implementation profiles cannot define Canon merely by being implemented first.
-20. ADR-0025 permits maintenance and falsification experiments, not semantic/runtime expansion.
+20. ADR-0025 permits maintenance and falsification instruments, not automatic semantic/runtime expansion.
+21. ADR-0026 permits independent challenge and later BPV-1 only under its review/reconciliation gate; it does not thaw product runtime.
+22. Independent review protocol publication is not completed independent review.
+23. A qualifying independent review may not be self-certified by the same authorship lineage.
+24. BPV-1 results use A10 outcomes and may weaken/refute the architecture; they never promote Canon or runtime automatically.

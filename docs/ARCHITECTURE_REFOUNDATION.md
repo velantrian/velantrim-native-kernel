@@ -3,7 +3,8 @@
 **[English](./ARCHITECTURE_REFOUNDATION.md) · [Русский](./ARCHITECTURE_REFOUNDATION.ru.md)**
 
 > **State:** `ACTIVE / BLUEPRINT-FIRST / RUNTIME EXPANSION FROZEN`  
-> **Decision:** [`ADR-0025`](./adr/0025-blueprint-before-runtime-expansion.md)  
+> **Blueprint decision:** [`ADR-0025`](./adr/0025-blueprint-before-runtime-expansion.md)  
+> **Post-blueprint decision:** [`ADR-0026`](./adr/0026-independent-challenge-before-bounded-cross-lineage-falsification.md)  
 > **Issue:** [#88](https://github.com/velantrian/velantrim-native-kernel/issues/88)
 
 ## 1. Why this phase exists
@@ -23,6 +24,8 @@ A1 purpose / non-goals
 → A10 open questions / falsification
 → integrated A1-A10 review
 → operator post-blueprint decision
+→ independent architecture review
+→ bounded cross-lineage falsification only after review reconciliation
 ```
 
 ## 2. Draft inventory
@@ -42,15 +45,15 @@ All ten required blueprint slices exist and remain `DRAFTED / PROVISIONAL`. A10 
 
 ## 3. Integrated review
 
-The first integrated review is now recorded as:
+The first integrated review remains:
 
 - [Integrated A1–A10 Review](./INTEGRATED_A1_A10_REVIEW.md)
 - [Russian review](./INTEGRATED_A1_A10_REVIEW.ru.md)
 - completed gate identity: `INTEGRATED_A1_A10_REVIEW`
 - review identity: `nk-integrated-blueprint-review/A1-A10-review-1`
-- state: `COMPLETED / PROVISIONAL / OPERATOR_DECISION_PENDING`
+- historical completion state: `COMPLETED / PROVISIONAL / OPERATOR_DECISION_PENDING`
 
-The review explicitly reconciles seven cross-slice findings rather than silently rewriting draft history. Key current provisional interpretations include:
+The review explicitly reconciles seven cross-slice findings rather than silently rewriting draft history. Current provisional interpretations include:
 
 ```text
 PHYSICALLY_ERASED ≠ CRYPTOGRAPHICALLY_ERASED
@@ -61,7 +64,7 @@ Conflict ≠ necessarily Contradiction
 A6 lifecycle positions ≠ mandatory pipeline stages
 ```
 
-After those explicit reconciliation decisions, the review found no known blocking internal semantic contradiction remaining in this pass. This is not independent validation.
+After those explicit reconciliation decisions, the review found no known blocking internal semantic contradiction remaining in that pass. It is still not independent validation.
 
 ## 4. Reference laboratory boundary
 
@@ -75,9 +78,9 @@ substrate-independent specification ≠ universal portability proof
 
 ## 5. Runtime freeze
 
-Allowed while frozen: architecture research; integrity/security/reproducibility/provenance fixes; evidence preservation; truth/validator repair; historical recovery; isolated falsification experiments without runtime promotion.
+Allowed while frozen: architecture research; independent architectural review; review reconciliation; integrity/security/reproducibility/provenance fixes; evidence preservation; truth/validator repair; historical recovery; and later isolated falsification experiments admitted under ADR-0026 without runtime promotion.
 
-Not authorized automatically: reducer-v2, new semantic Event verbs, new databases/language profiles/model adapters/integrations, executable NK-EPI/Temporal/full Admission, deletion execution expansion, maturity or production promotion.
+Not authorized automatically: reducer-v2, new semantic Event verbs, product database/language/model/integration profiles, executable NK-EPI/Temporal/full Admission, deletion execution expansion, maturity or production promotion.
 
 ## 6. Pending operator-controlled decisions
 
@@ -90,14 +93,39 @@ Not authorized automatically: reducer-v2, new semantic Event verbs, new database
 
 ```text
 Blueprint content: A1-A10 DRAFTED / PROVISIONAL
-Integrated review: COMPLETED / PROVISIONAL / OPERATOR_DECISION_PENDING
-Next bounded gate: OPERATOR_POST_BLUEPRINT_DECISION
+Integrated review: COMPLETED / PROVISIONAL
+Operator post-blueprint decision: OPTION D / ADR-0026 / APPROVED
+Next bounded gate: INDEPENDENT_ARCHITECTURE_REVIEW
+Independent architectural validation: NOT ESTABLISHED
+BPV-1: BLOCKED_PENDING_INDEPENDENT_REVIEW_AND_RECONCILIATION
 Runtime expansion: FROZEN
 Existing P1–C5 laboratory: PRESERVED / BOUNDED
 Production authorization: false
-Independent architectural validation: NOT ESTABLISHED
 ```
 
 ## 8. Blueprint completion gate
 
-The draft inventory and first integrated review are complete as provisional architecture work. Acceptance is still not automatic: `OPERATOR_POST_BLUEPRINT_DECISION` is the next gate, not A11 and not runtime permission. The integrated review does not choose the next phase.
+The historical blueprint completion gate is satisfied only in the narrow sense that the operator selected the next **validation** phase through ADR-0026. It did not promote A1–A10 to final Canon and did not authorize runtime thaw.
+
+`OPERATOR_POST_BLUEPRINT_DECISION` remains part of the recorded history and is not A11.
+
+## 9. Post-blueprint validation gate
+
+The active independent-review protocol is:
+
+- [Independent Architecture Review Protocol](./INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.md)
+- [Russian protocol](./INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.ru.md)
+- identity: `nk-independent-architecture-review/1`
+
+Current sequence:
+
+```text
+INDEPENDENT_ARCHITECTURE_REVIEW
+→ REVIEW_FINDING_RECONCILIATION
+→ BPV-1 bounded cross-lineage falsification
+→ A10 outcome classification
+→ integrated re-review
+→ separate later operator Canon/runtime decision
+```
+
+The protocol's existence is not a completed independent review. BPV-1 remains blocked until a qualifying independent review and reconciliation are recorded.

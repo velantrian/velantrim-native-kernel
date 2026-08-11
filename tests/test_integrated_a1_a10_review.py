@@ -11,7 +11,7 @@ STATE = json.loads((ROOT / "project-state.json").read_text(encoding="utf-8"))
 
 
 class IntegratedA1A10ReviewTests(unittest.TestCase):
-    def test_review_identity_and_next_gate_are_bilingual(self) -> None:
+    def test_review_identity_and_historical_next_gate_are_bilingual(self) -> None:
         for markdown in (EN, RU):
             self.assertIn("nk-integrated-blueprint-review/A1-A10-review-1", markdown)
             self.assertIn("COMPLETED / PROVISIONAL / OPERATOR_DECISION_PENDING", markdown)
@@ -55,13 +55,18 @@ class IntegratedA1A10ReviewTests(unittest.TestCase):
             self.assertIn("runtime", markdown.lower())
             self.assertIn("operator", markdown.lower())
 
-    def test_machine_state_moves_only_to_operator_gate(self) -> None:
+    def test_integrated_review_remains_historical_while_machine_state_advances(self) -> None:
         refoundation = STATE["tracks"]["long_horizon_research"]["architecture_refoundation"]
-        self.assertEqual("OPERATOR_POST_BLUEPRINT_DECISION", refoundation["next_content_slice"])
+        validation = STATE["tracks"]["long_horizon_research"]["post_blueprint_validation"]
+        self.assertEqual("INDEPENDENT_ARCHITECTURE_REVIEW", refoundation["next_content_slice"])
         self.assertEqual(10, len(refoundation["completed_deliverables"]))
         self.assertNotIn("INTEGRATED_A1_A10_REVIEW", refoundation["completed_deliverables"])
         self.assertNotIn("OPERATOR_POST_BLUEPRINT_DECISION", refoundation["completed_deliverables"])
         self.assertTrue(refoundation["runtime_expansion_frozen"])
+        self.assertEqual("ADR-0026", validation["decision"])
+        self.assertEqual("NOT_ESTABLISHED", validation["independent_review_status"])
+        self.assertEqual("BLOCKED_PENDING_INDEPENDENT_REVIEW_AND_RECONCILIATION", validation["bpv1_status"])
+        self.assertFalse(validation["product_runtime_thaw"])
         self.assertFalse(STATE["status"]["production_authorized"])
         self.assertEqual("BOUNDED_REFERENCE_LABORATORY", STATE["tracks"]["clean_implementation"]["architecture_role"])
 
