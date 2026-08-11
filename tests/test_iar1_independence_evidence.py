@@ -101,6 +101,18 @@ class IAR1IndependenceEvidenceTests(unittest.TestCase):
         with self.assertRaisesRegex(module.IndependenceEvidenceError, "normalized exact input-packet inventory drift"):
             self.validate(packet=packet)
 
+    def test_packet_request_document_binding_cannot_drift(self) -> None:
+        packet = copy.deepcopy(PACKET)
+        packet["review_request_document"] = "docs/reviews/WRONG.md"
+        with self.assertRaisesRegex(module.IndependenceEvidenceError, "review request document drift"):
+            self.validate(packet=packet)
+
+    def test_packet_protocol_document_binding_cannot_drift(self) -> None:
+        packet = copy.deepcopy(PACKET)
+        packet["review_protocol_document"] = "docs/WRONG_PROTOCOL.md"
+        with self.assertRaisesRegex(module.IndependenceEvidenceError, "review protocol document drift"):
+            self.validate(packet=packet)
+
     def test_packet_normalization_must_preserve_source_attestation(self) -> None:
         packet = copy.deepcopy(PACKET)
         packet["source_review_attestation"] = []
