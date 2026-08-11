@@ -1,7 +1,7 @@
 {
   "protocol": "nk-project-state/2",
   "snapshot_id": "native-kernel/state/2026-08-11-post-blueprint-option-d",
-  "observed_at": "2026-08-11T07:34:54Z",
+  "observed_at": "2026-08-11T08:08:00Z",
   "repository": {
     "full_name": "velantrian/velantrim-native-kernel",
     "visibility": "PUBLIC",
@@ -15,7 +15,7 @@
     "evidence_producing_sha": "296981ae84ad5bdab5dabbec9b7b9ebb43af63d7",
     "publication_checkpoint_sha": "10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c",
     "notion_synchronized_through_sha": "70acd0da61fee19131947aa56125833adb156ced",
-    "checkpoint_semantics": "The publication checkpoint records the PR #83 decision-package publication identity. The manifest source and Notion synchronization checkpoint record the latest already merged descendant that was synchronized and read back before this file was authored. Live HEAD is resolved by Git or the GitHub API; no committed file attempts to contain the SHA of its own future merge. ADR-0025 established blueprint-first refoundation. ADR-0026 authorizes post-blueprint validation while keeping runtime and prior evidence/publication checkpoint identities unchanged."
+    "checkpoint_semantics": "The publication checkpoint records the PR #83 decision-package publication identity. The manifest source and Notion synchronization checkpoint record the latest exact synchronization identity committed by this machine-state lineage. Live HEAD is resolved by Git or the GitHub API; no committed file attempts to contain the SHA of its own future merge. ADR-0025 established blueprint-first refoundation. ADR-0026 authorizes post-blueprint validation while keeping runtime and prior evidence/publication checkpoint identities unchanged."
   },
   "status": {
     "repository_status": "RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY",
@@ -165,7 +165,7 @@
   "notion": {
     "synchronization_required": true,
     "status": "SYNCED_THROUGH_DESCENDANT_CHECKPOINT",
-    "scope": "Publication checkpoint 10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c remains distinct from the previously synchronized/read-back descendant checkpoint 70acd0da61fee19131947aa56125833adb156ced. GitHub and Notion were directly synchronized through that descendant before ADR-0026. ADR-0026 post-blueprint validation requires a new post-merge Notion update; this committed state does not predict that future synchronization.",
+    "scope": "The exact committed synchronization identity remains 70acd0da61fee19131947aa56125833adb156ced (PR #86 lineage) and remains distinct from publication checkpoint 10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c. This field does not claim that the exact committed checkpoint itself contains the later integrated A1-A10 review or ADR-0026. Any newer live Notion content must be verified directly and, after this PR merges, synchronized/read back again before being claimed as the current Option D Notion checkpoint.",
     "authority_boundary": "Notion carries current orientation, rationale and history; GitHub remains sufficient and authoritative for technical state, live refs, contracts, tests, workflow results and evidence. A later post-merge Notion write may be newer than the latest repository-committed synchronization checkpoint until a subsequent non-self-referential manifest records it."
   },
   "non_claims": [
