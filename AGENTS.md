@@ -12,13 +12,14 @@ Before searching code, creating a branch, or proposing architecture changes, rea
 6. `docs/ai/KNOWN_RISKS.md`
 7. `ROADMAP.md`
 8. `docs/ARCHITECTURE_REFOUNDATION.md`
-9. `docs/INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.md` when working in the post-blueprint validation phase
+9. `docs/INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.md`
 10. `docs/reviews/IAR-1_RESULT.md` and `docs/reviews/IAR-1_RESULT.json`
 11. `docs/reviews/IAR-1_RECONCILIATION.md` and `docs/reviews/IAR-1_RECONCILIATION.json`
-12. affected Canon, contracts, and ADRs
-13. affected source, tests, workflows, and evidence records
-14. current GitHub PRs, issues, Actions, and review threads
-15. corresponding Notion current-state pages
+12. `docs/research/BPV1_PREREGISTRATION.md` and `docs/research/BPV1_PREREGISTRATION.json`
+13. affected Canon, contracts, and ADRs
+14. affected source, tests, workflows, and evidence records
+15. current GitHub PRs, issues, Actions, and review threads
+16. corresponding Notion current-state pages
 
 Do not begin with random repository search. Verify live state first.
 
@@ -49,7 +50,7 @@ C — Clean Reference Implementation
   PRESERVED / PARTIAL / bounded reference laboratory
 
 R — Architecture Re-foundation and Post-Blueprint Validation
-  ACTIVE / IAR-1-RECONCILED / BPV1-PLAN-NEXT / no automatic promotion
+  ACTIVE / IAR-1-RECONCILED / BPV1-PREREGISTERED / EXECUTION-ADMISSION-NEXT
 ```
 
 Never collapse these tracks.
@@ -71,38 +72,43 @@ ADR-0026 records the operator-selected post-blueprint **Option D**:
 A1-A10 provisional blueprint
 → independent architecture review            COMPLETE / IAR-1 / QUALIFYING
 → review finding reconciliation              COMPLETE / IAR-1-R1
-→ BPV1 plan and preregistration              NEXT
+→ BPV1 plan and preregistration              COMPLETE / PR #110
+→ BPV1 execution admission                   NEXT
 → one bounded cross-lineage falsification instrument (BPV-1)
 → A10 outcome classification
 → integrated re-review
 → separate later operator Canon/runtime decision
 ```
 
-The active gate is `BPV1_PLAN_AND_PREREGISTRATION`.
+The active gate is `BPV1_EXECUTION_ADMISSION`.
 
 ```text
 qualifying independent review ≠ architecture proof
 review reconciliation ≠ BPV-1 execution authorization
+preregistered plan ≠ BPV-1 execution authorization
 operator approval ≠ independent validation
 BPV-1 ≠ product runtime
 BPV-1 outcome ≠ automatic Canon promotion
 ```
 
-IAR-1 is `QUALIFYING_REVIEW_COMPLETE`. IAR-1-R1 reconciliation is `COMPLETE`. All ten review findings have explicit reconciliation records; source review evidence remains preserved. BPV-1 execution is `BLOCKED_PENDING_PREREGISTERED_PLAN`.
+IAR-1 is `QUALIFYING_REVIEW_COMPLETE`. IAR-1-R1 reconciliation is `COMPLETE`. All ten review findings have explicit reconciliation records; source review evidence remains preserved.
+
+BPV-1 plan `BPV1-001-cross-lineage-bounded-accountability-v1` is `PREREGISTERED / EXECUTION_NOT_AUTHORIZED` at authoritative plan merge `a538d7f1e28858a88b9ee777ac7d6e05b85943db`. BPV-1 execution is `BLOCKED_PENDING_EXECUTION_ADMISSION`.
 
 ### Allowed during the freeze
 
 - architecture and ontology research;
-- BPV-1 plan and preregistration work;
+- BPV-1 execution-admission packaging derived from the frozen plan;
 - integrity, security, reproducibility, and provenance fixes;
 - evidence preservation;
 - validator and truth-surface repairs;
 - historical recovery;
-- later isolated experiments explicitly admitted under ADR-0026 after their preregistered plan is authoritative, solely to test or falsify blueprint assumptions without runtime promotion.
+- later isolated BPV-1 execution only after a separate authoritative execution-admission checkpoint.
 
 ### Not authorized during the freeze
 
-- BPV-1 execution before an authoritative preregistered plan;
+- BPV-1 subject implementation/execution before execution admission;
+- changes to preregistered normative fields under the same scenario identity;
 - product runtime thaw;
 - reducer v2 or new Event semantics;
 - new product databases, language/runtime profiles, LLM/vector adapters, or ecosystem integrations;
@@ -111,17 +117,49 @@ IAR-1 is `QUALIFYING_REVIEW_COMPLETE`. IAR-1-R1 reconciliation is `COMPLETE`. Al
 - Final Canon promotion;
 - maturity or production promotion.
 
-A different language or non-event-sourced realization may later be used as a falsification instrument, but neither becomes a product profile or Canon requirement merely because BPV-1 uses it.
+Rust in BPV-1 is an experimental cross-language instrument only. It is not a product profile and not a Canon requirement. Independent team/custody and independent computation model remain `NOT_ESTABLISHED` for BPV1-001.
 
-## Independent-review and reconciliation discipline
+## Independent-review, reconciliation, and preregistration discipline
 
-IAR-1 followed `nk-independent-architecture-review/1` and recorded a concrete independence basis. The qualifying review produced 10 findings: 7 `BLOCKING` and 3 `MATERIAL`. `IAR-1-R1` reconciles all ten through separate records without rewriting the original review evidence.
+IAR-1 followed `nk-independent-architecture-review/1` and recorded a concrete independence basis. The qualifying review produced 10 findings: 7 `BLOCKING` and 3 `MATERIAL`. `IAR-1-R1` reconciles all ten without rewriting the original review evidence.
 
 Do not reinterpret a resolved GitHub thread as deletion of the source finding. `docs/reviews/IAR-1_RESULT.json` preserves the review-local source status; `docs/reviews/IAR-1_RECONCILIATION.json` records the later disposition.
 
 Do not self-certify future independent gates. The current assistant lineage, integrated review, CI, tests, Notion read-back, operator approval, or automated review alone do not prove the architecture correct.
 
-The central IAR-1 result is that changing implementation language is insufficient if the experiment merely ports the existing conceptual structure. A later BPV-1 must independently derive its state/change/history model from the preregistered problem-level obligations.
+The central IAR-1 result is that changing implementation language is insufficient if the experiment merely ports the existing conceptual structure. BPV1-001 therefore requires an independently derived bounded state/change/history realization and forbids reuse of the current Python domain model, Event envelope, reducer, or Receipt shape as its semantic oracle.
+
+The preregistered plan freezes before execution exactly:
+
+```text
+scenario_id
+purpose_scope
+mandatory_obligations
+applicability_rules
+mandatory_observables
+equivalence_predicates
+allowed_declared_losses
+failure_thresholds
+hard_refutation_observations
+grounding_mode
+threat_model
+oracle_authority
+```
+
+Post-execution normative rescoping cannot rescue an old run; it invalidates the run for the claimed scope and requires a new scenario identity.
+
+## BPV1_EXECUTION_ADMISSION requirements
+
+Before any subject implementation/execution, the admission checkpoint must bind:
+
+1. authoritative plan `BPV1-001-cross-lineage-bounded-accountability-v1` and its frozen digest;
+2. machine-readable fixture/oracle package derived only from that plan;
+3. standalone evaluator tests passing before subject execution;
+4. pinned Rust toolchain and experimental source boundary;
+5. static scope audit proving no product runtime/profile integration;
+6. explicit continued `runtime_expansion: FROZEN`, `product_runtime_thaw: NO`, `production_authorized: false`.
+
+Admission may authorize only the bounded falsification instrument. It may not authorize product runtime, reducer-v2, Event semantics, NK-EPI runtime, Final Canon, production, Issue #18, Issue #74/ADR-0024, or Track H admission.
 
 ## Required architecture discipline
 
@@ -129,6 +167,7 @@ The central IAR-1 result is that changing implementation language is insufficien
 Problem-level purpose and candidate semantic obligations
 → Preregistered scope / observables / applicability / failure thresholds
 → Explicit grounding and threat model
+→ Frozen external fixture/oracle package
 → Independently derived bounded state/change/history realization
 → Positive and adversarial negative fixtures
 → Cross-lineage semantic comparison
@@ -141,40 +180,27 @@ Problem-level purpose and candidate semantic obligations
 
 Do not implement new semantics first and write the architecture afterward. Do not force a future realization to reproduce the A3 transition catalogue, A6 lifecycle graph, Event/reducer/Receipt structures, exact replay, or the current identity/time inventory as its native shape merely because those taxonomies already exist.
 
-Python, PostgreSQL, SQLite, JSON, SHA-256, graphs, vectors, LLMs, event sourcing, exact replay, and hardware are replaceable profiles or research instruments, not permanent Canon unless a later evidence-backed decision establishes otherwise.
+Python, PostgreSQL, SQLite, JSON, SHA-256, graphs, vectors, LLMs, event sourcing, exact replay, Rust, and current hardware are replaceable profiles or research instruments, not permanent Canon unless a later evidence-backed decision establishes otherwise.
 
 ## Pending decisions remain separate
 
 ```text
 Issue #18 — license/publication
   PENDING_OPERATOR
-  blocks open contribution and package publication
 
 Issue #74 / ADR-0024 — reducer referential semantics
   PROPOSED / PENDING_OPERATOR
-  blocks reducer-v2 work
+  reducer-v2 NOT AUTHORIZED
 
 Track H source admission
   operator-controlled
 ```
 
-Post-blueprint validation may proceed without silently deciding any of these. No AI agent may choose a license, accept ADR-0024, or admit Track H sources for the operator.
+No AI agent may choose a license, accept ADR-0024, or admit Track H sources for the operator.
 
 ## Historical immutability
 
-Do not reinterpret or rewrite published:
-
-- reducer-v1 histories;
-- Event histories;
-- Receipts;
-- P1–C5 evidence;
-- ZIP archives;
-- historical checkpoint identities;
-- fixture outputs;
-- A1–A10 first-draft history or the first integrated-review record;
-- IAR-1 source findings.
-
-New semantics require a new contract/reducer/Event version where applicable, a migration boundary, a new evidence identity, and separate authorization.
+Do not reinterpret or rewrite published reducer-v1 histories, Event histories, Receipts, P1–C5 evidence, ZIP archives, historical checkpoint identities, fixture outputs, A1–A10 first-draft history, the first integrated-review record, IAR-1 source findings, or IAR-1-R1 publication-time gate language.
 
 ## Required distinctions
 
@@ -188,6 +214,7 @@ blueprint documentation ≠ implementation evidence
 operator approval ≠ independent validation
 qualifying independent review ≠ architecture proof
 review reconciliation ≠ experiment execution authorization
+preregistered plan ≠ execution authorization
 falsification instrument ≠ product runtime
 C2 ≠ C3 ≠ C4 ≠ C5
 C5 operational rehearsal ≠ semantic assertion promotion
@@ -195,7 +222,6 @@ synthetic CI ≠ live production
 logical Event export ≠ physical backup or disaster recovery
 logical ERASED ≠ physical deletion
 physical erasure ≠ cryptographic erasure
-physical/cryptographic erasure assertion ≠ independently verified substrate condition
 forgetting/loss ≠ deliberate erasure
 bounded accountability ≠ exact reconstruction
 history visibility ≠ mandatory Event sourcing
@@ -211,18 +237,7 @@ substrate-independent specification ≠ universal portability proof
 
 ## Evidence discipline
 
-```text
-plan: native-kernel/c5-bounded-rehearsal-v1
-sha256: 4ed680ff4e83ac9d1aca6c1ab8a435ecb19af4a5badf1be8202bc842f964b098
-scenarios: 18
-deployment: CI_EPHEMERAL_SYNTHETIC
-historical bundle: evidence/c5/2026-08-07/manifest.json
-ADR-0023 bundle: evidence/c5/2026-08-08-adr0023/manifest.json
-```
-
-Never alter plan scenarios or thresholds under the same identity/digest. Never rewrite archived ZIPs or expand their proof boundary.
-
-Future BPV-1 evidence must receive its own identity and use A10 outcomes exactly:
+Historical C5 evidence remains immutable. Future BPV-1 evidence must receive its own identity and use A10 outcomes exactly:
 
 ```text
 SUPPORTED_FOR_SCOPE
@@ -234,17 +249,9 @@ NOT_TESTED
 
 `NOT_TESTED ≠ SUPPORTED`.
 
-The BPV-1 plan must freeze, before execution, its `scenario_id`, purpose scope, mandatory obligations, applicability rules, observables, equivalence predicates, allowed losses, failure thresholds, hard refutation observations, grounding mode, threat model, and oracle Authority. Post-execution changes to these fields cannot rescue an old run; they require a new experiment identity.
-
 ## Verification
 
-The SQLite WAL profile fails closed below linked SQLite `3.51.3`. On Linux, build the pinned library before SQLite/P5/C3/C4/C5 checks:
-
-```bash
-tools/sqlite/build_safe_sqlite.sh /tmp/native-kernel-sqlite-3.51.3 /usr/bin/python3
-export LD_LIBRARY_PATH=/tmp/native-kernel-sqlite-3.51.3/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
-python -c 'from native_kernel.sqlite_profile import linked_sqlite_version; print(linked_sqlite_version())'
-```
+The SQLite WAL profile fails closed below linked SQLite `3.51.3`.
 
 Minimum integrity commands:
 
@@ -253,11 +260,12 @@ python tools/evidence/verify_bundle.py evidence/c5/2026-08-07/manifest.json
 python tools/evidence/verify_bundle.py evidence/c5/2026-08-08-adr0023/manifest.json
 python tools/ai_context/validate_project_state.py --repo .
 python tools/ai_context/validate_architecture_freeze.py --repo .
+python tools/ai_context/validate_bpv1_preregistration.py --repo .
 python tools/ai_context/validate_context.py --repo .
 python tools/docs/validate_bilingual_parity.py --repo .
 python -m unittest discover -s tests -p 'test_project_state.py' -v
 python -m unittest discover -s tests -p 'test_architecture_freeze.py' -v
-python -m unittest discover -s tests -p 'test_independent_architecture_review_protocol.py' -v
+python -m unittest discover -s tests -p 'test_bpv1_preregistration.py' -v
 python -m unittest discover -s tests -p 'test_ai_context_validator.py' -v
 python -m unittest discover -s tests -p 'test_bilingual_parity_validator.py' -v
 ```
@@ -266,21 +274,10 @@ A skipped test is not PASS. An unavailable environment is `NOT_EXECUTED`.
 
 ## Review discipline
 
-Distinguish:
-
-```text
-BOT_NOTICE
-AUTOMATED_FINDING
-HUMAN_REVIEW
-QUALIFYING_INDEPENDENT_ARCHITECTURE_REVIEW
-OPERATOR_DECISION
-EVIDENCE
-```
+Distinguish `BOT_NOTICE`, `AUTOMATED_FINDING`, `HUMAN_REVIEW`, `QUALIFYING_INDEPENDENT_ARCHITECTURE_REVIEW`, `OPERATOR_DECISION`, and `EVIDENCE`.
 
 A Codex quota notice is not review approval. Reproduce every actionable finding, fix or reject it with rationale, add a regression test where applicable, close the thread, and record post-merge state.
 
 ## Documentation synchronization
 
-Material work must update the relevant current-state, roadmap, risks, architecture, public English/Russian documentation, and Notion pages.
-
-GitHub must remain technically sufficient without Notion. Notion may preserve strategy, decisions, and history but must not silently contradict GitHub code, contracts, evidence, or live issue state.
+Material work must update relevant current-state, roadmap, risks, architecture, public English/Russian documentation, and Notion pages. GitHub must remain technically sufficient without Notion. Notion may preserve strategy, decisions, and history but must not silently contradict GitHub code, contracts, evidence, or live issue state.

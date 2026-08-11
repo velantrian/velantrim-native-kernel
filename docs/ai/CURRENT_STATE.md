@@ -21,9 +21,7 @@ active_architecture_issue: 88
 
 This file must not predict its own future merge SHA. GitHub live refs remain authoritative for `main`, PR heads, Actions, reviews and merge state.
 
-Historical reconciliation binding: publication checkpoint `10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c`; manifest source / previously Notion-synchronized descendant `70acd0da61fee19131947aa56125833adb156ced`. The descendant synchronization identity does not rewrite or replace the publication checkpoint.
-
-The later Notion synchronization checkpoint does not rewrite or replace the earlier publication checkpoint.
+Historical reconciliation binding remains unchanged: publication checkpoint `10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c`; manifest source / previously committed Notion-synchronized descendant `70acd0da61fee19131947aa56125833adb156ced`. The later Notion synchronization checkpoint does not rewrite or replace the earlier publication checkpoint.
 
 ## Current boundary
 
@@ -47,6 +45,7 @@ public repository ≠ open-source license
 operator approval ≠ independent validation
 qualifying review ≠ architecture proof
 review reconciliation ≠ BPV-1 execution permission
+preregistered plan ≠ BPV-1 execution permission
 ```
 
 ## Architecture state
@@ -62,46 +61,24 @@ IAR-1 findings: 10 total / 7 BLOCKING / 3 MATERIAL
 IAR-1-R1 reconciliation: COMPLETE
 open BLOCKING findings: 0
 open MATERIAL findings: 0
-next bounded gate: BPV1_PLAN_AND_PREREGISTRATION
-BPV-1 execution: BLOCKED_PENDING_PREREGISTERED_PLAN
+BPV-1 plan: PREREGISTERED / EXECUTION_NOT_AUTHORIZED
+authoritative BPV-1 plan merge: a538d7f1e28858a88b9ee777ac7d6e05b85943db
+next bounded gate: BPV1_EXECUTION_ADMISSION
+BPV-1 execution: BLOCKED_PENDING_EXECUTION_ADMISSION
 runtime expansion: FROZEN
 ```
 
-Integrated review: [EN](../INTEGRATED_A1_A10_REVIEW.md) / [RU](../INTEGRATED_A1_A10_REVIEW.ru.md). Identity: `nk-integrated-blueprint-review/A1-A10-review-1`.
-
-Independent-review protocol: [EN](../INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.md) / [RU](../INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.ru.md). Identity: `nk-independent-architecture-review/1`.
-
+Integrated review: [EN](../INTEGRATED_A1_A10_REVIEW.md) / [RU](../INTEGRATED_A1_A10_REVIEW.ru.md).  
+Independent-review protocol: [EN](../INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.md) / [RU](../INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.ru.md).  
 IAR-1 result: [human](../reviews/IAR-1_RESULT.md) / [machine](../reviews/IAR-1_RESULT.json).  
-IAR-1 reconciliation: [human](../reviews/IAR-1_RECONCILIATION.md) / [machine](../reviews/IAR-1_RECONCILIATION.json).
+IAR-1 reconciliation: [human](../reviews/IAR-1_RECONCILIATION.md) / [machine](../reviews/IAR-1_RECONCILIATION.json).  
+BPV-1 preregistration: [EN](../research/BPV1_PREREGISTRATION.md) / [RU](../research/BPV1_PREREGISTRATION.ru.md) / [machine](../research/BPV1_PREREGISTRATION.json).
 
-## IAR-1 architectural effect
+## BPV-1 preregistration effect
 
-IAR-1 found ten substantive issues and completed as a qualifying adversarial review. The reconciliation deliberately shrinks the provisional Kernel rather than preserving every A1–A10 structure.
+Scenario `BPV1-001-cross-lineage-bounded-accountability-v1` is now an authoritative preregistered falsification plan. PR #110 merged it as `a538d7f1e28858a88b9ee777ac7d6e05b85943db`, with exact-head and post-merge validation green.
 
-Current minimum candidate obligations are:
-
-```text
-representation / Claim are not silently reality / truth
-scope / Context / warrant-provenance / Authority assumptions explicit where material
-Unknown / uncertainty / unsupported remain explicit
-change / revision / supersession / retention / loss accountable for declared scope
-equivalence / degradation / loss judged against preregistered observables and failure rules
-```
-
-The complete A2 inventory, A3 transition/outcome machine, A5 seven-identity/eight-time inventory, A6 lifecycle graph, Receipt-shaped accountability and Event-log-shaped history are **reference taxonomies**, not mandatory universal implementation shape.
-
-```text
-bounded accountability ≠ exact reconstruction
-history visibility ≠ mandatory Event sourcing
-exact replay ≠ universal architecture requirement
-local conformance ≠ composition/federation conformance
-```
-
-Physical/cryptographic erasure requires threat-scoped evidence beyond unverified self-assertion. Context/Provenance/Authority evaluation must terminate through an explicit grounding mode rather than infinite recursive metadata.
-
-## BPV-1 preregistration boundary
-
-Before implementation/execution, the BPV-1 plan must freeze:
+The plan freezes before execution all twelve normative fields required by IAR-1-R1:
 
 ```text
 scenario_id
@@ -118,9 +95,28 @@ threat_model
 oracle_authority
 ```
 
-Post-execution changes to mandatory obligations, applicability, equivalence predicates or failure thresholds invalidate the run for the claimed scope and require a new experiment identity.
+It fixes one single-node, non-composed, conventional-digital cross-language instrument. Rust is `EXPERIMENTAL_INSTRUMENT_NOT_CANON`; independent team/custody and independent computation model remain `NOT_ESTABLISHED`. The subject may not reuse current Python domain models, Event envelopes, reducer logic, Receipt shape, or SQL profile as its semantic oracle.
 
-The implementation under test must not serve as its own semantic oracle. The plan must derive its state/change/history model from problem-level obligations and must not import A3/A6/Event/reducer/Receipt structures merely because they already exist.
+Post-execution normative rescoping invalidates the run and requires a new scenario identity.
+
+## BPV1_EXECUTION_ADMISSION — current next gate
+
+No subject implementation/execution is admitted yet. A separate checkpoint must first bind:
+
+- the authoritative preregistration and frozen digest;
+- machine-readable fixtures/oracle package derived only from the plan;
+- standalone evaluator tests passing before subject execution;
+- pinned Rust toolchain and experimental source boundary;
+- static scope audit proving no product runtime/profile integration.
+
+The implementation under test cannot define expected semantic outcomes after execution begins.
+
+```text
+BPV-1 execution: BLOCKED_PENDING_EXECUTION_ADMISSION
+runtime expansion: FROZEN
+product runtime thaw: NO
+production_authorized: false
+```
 
 ## Current integrated/reconciled distinctions
 
@@ -132,6 +128,9 @@ uncertainty ≠ one universal confidence scalar
 Conflict ≠ necessarily Contradiction
 A6 lifecycle positions ≠ mandatory pipeline or universal shape
 A3 transition catalogue ≠ mandatory Kernel machine shape
+bounded accountability ≠ exact reconstruction
+history visibility ≠ mandatory Event sourcing
+local conformance ≠ composition/federation conformance
 A10 outcomes = SUPPORTED_FOR_SCOPE / WEAKENED / REFUTED / INDETERMINATE / NOT_TESTED
 NOT_TESTED ≠ SUPPORTED
 reference laboratory ≠ final architecture
@@ -143,7 +142,7 @@ substrate-independent specification ≠ universal portability proof
 
 No AI agent may select the license or accept ADR-0024. Track H source admission also remains operator-controlled.
 
-Not authorized automatically: BPV-1 execution before an authoritative preregistered plan, product runtime thaw, reducer v2, new semantic/conflict Event verbs, new product database/language/model/integration profiles, executable NK-EPI/Temporal/full Admission, operational deletion expansion, Final Canon, maturity promotion or production authorization.
+Not authorized automatically: BPV-1 execution before admission, product runtime thaw, reducer v2, new semantic/conflict Event verbs, new product database/language/model/integration profiles, executable NK-EPI/Temporal/full Admission, operational deletion expansion, Final Canon, maturity promotion or production authorization.
 
 ```text
 Issue #18: PENDING_OPERATOR
@@ -154,15 +153,15 @@ Track H source admission: operator-controlled
 
 ## Current known gaps
 
-- BPV-1 plan/preregistration is not yet authoritative;
-- no cross-lineage BPV-1 realization exists;
+- execution-admission fixtures/evaluator/toolchain binding is not yet authoritative;
+- no cross-lineage BPV-1 subject realization has been executed;
 - P5/C3 is not independent-language or arbitrary-substrate evidence;
-- no bounded-memory realization has yet tested the refined accountability boundary;
-- composition/federation semantics are intentionally outside base conformance and remain separate research;
+- no bounded-memory run has yet tested the refined accountability boundary;
+- composition/federation remains a separate capability class;
 - no arbitrary future-substrate support is demonstrated;
 - A10 major hypotheses remain unproved across independent computation models;
 - physical/cryptographic erasure execution and production operations remain absent.
 
 ## Hard stop
 
-The only current next gate is `BPV1_PLAN_AND_PREREGISTRATION`. It authorizes design/preregistration only. It is not A11, BPV-1 execution, Canon promotion, runtime permission or production authorization.
+The only current next gate is `BPV1_EXECUTION_ADMISSION`. It may admit only the bounded preregistered falsification instrument; it is not A11, product runtime permission, Final Canon or production authorization. BPV-1 execution remains `BLOCKED_PENDING_EXECUTION_ADMISSION` until that separate checkpoint is authoritative.

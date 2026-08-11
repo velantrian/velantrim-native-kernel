@@ -2,7 +2,7 @@
 
 **[English](./ARCHITECTURE_REFOUNDATION.md) · [Русский](./ARCHITECTURE_REFOUNDATION.ru.md)**
 
-> **State:** `ACTIVE / POST-BLUEPRINT VALIDATION / IAR-1 RECONCILED / BPV1 PLAN NEXT / RUNTIME EXPANSION FROZEN`  
+> **State:** `ACTIVE / POST-BLUEPRINT VALIDATION / BPV1 PREREGISTERED / EXECUTION ADMISSION NEXT / RUNTIME EXPANSION FROZEN`  
 > **Blueprint decision:** [`ADR-0025`](./adr/0025-blueprint-before-runtime-expansion.md)  
 > **Post-blueprint decision:** [`ADR-0026`](./adr/0026-independent-challenge-before-bounded-cross-lineage-falsification.md)  
 > **Issue:** [#88](https://github.com/velantrian/velantrim-native-kernel/issues/88)
@@ -12,22 +12,14 @@
 Native Kernel studies a technology-neutral architecture for meaning, memory, knowledge, provenance, uncertainty, change and accountability. The existing **Python + PostgreSQL + SQLite** lineage is retained as a bounded reference laboratory rather than promoted into Canon because it exists first.
 
 ```text
-A1 purpose / non-goals
-→ A2 ontology
-→ A3 abstract machine
-→ A4 semantic laws
-→ A5 identity / time / change
-→ A6 lifecycle
-→ A7 conflict / uncertainty / revision
-→ A8 substrate-independence
-→ A9 reference-laboratory boundary
-→ A10 open questions / falsification
-→ integrated A1-A10 review
-→ operator post-blueprint decision
-→ independent architecture review             COMPLETE / IAR-1
-→ review finding reconciliation               COMPLETE / IAR-1-R1
-→ BPV1 plan and preregistration               NEXT
-→ bounded cross-lineage falsification         BLOCKED UNTIL PLAN IS AUTHORITATIVE
+A1-A10 blueprint                                  COMPLETE / PROVISIONAL
+→ integrated A1-A10 review                       COMPLETE / PROVISIONAL
+→ operator post-blueprint decision               COMPLETE / OPTION D
+→ independent architecture review                COMPLETE / IAR-1
+→ review finding reconciliation                  COMPLETE / IAR-1-R1
+→ BPV1 plan and preregistration                  COMPLETE / PR #110
+→ BPV1 execution admission                       NEXT
+→ bounded cross-lineage falsification            BLOCKED BY ADMISSION
 ```
 
 ## 2. Draft inventory
@@ -47,37 +39,22 @@ All ten required blueprint slices exist and remain `DRAFTED / PROVISIONAL`. A10 
 
 ## 3. Integrated and independent review lineage
 
-The first integrated review remains preserved as:
+The first integrated review remains preserved as `nk-integrated-blueprint-review/A1-A10-review-1`, historical state `COMPLETED / PROVISIONAL / OPERATOR_DECISION_PENDING`. It reconciled seven cross-slice findings and found no known remaining blocking internal semantic contradiction in that pass; it was explicitly **not** independent validation.
 
-- [Integrated A1–A10 Review](./INTEGRATED_A1_A10_REVIEW.md)
-- [Russian review](./INTEGRATED_A1_A10_REVIEW.ru.md)
-- identity: `nk-integrated-blueprint-review/A1-A10-review-1`
-- historical state: `COMPLETED / PROVISIONAL / OPERATOR_DECISION_PENDING`
+Stable gate token: `INTEGRATED_A1_A10_REVIEW`.
 
-The integrated review reconciled seven cross-slice findings and found no known remaining blocking internal semantic contradiction in that pass. It was explicitly **not** independent validation.
+ADR-0026 then authorized Option D. The qualifying independent challenge is preserved separately in IAR-1 result and reconciliation records:
 
-ADR-0026 then authorized Option D. The qualifying independent challenge is now preserved separately as:
+- review process: `QUALIFYING_REVIEW_COMPLETE`;
+- findings: `10 total / 7 BLOCKING / 3 MATERIAL`;
+- reconciliation: `IAR-1-R1 / COMPLETE`;
+- open blocking/material findings after reconciliation: `0 / 0`.
 
-- [IAR-1 result](./reviews/IAR-1_RESULT.md) / [RU](./reviews/IAR-1_RESULT.ru.md) / [JSON](./reviews/IAR-1_RESULT.json)
-- [IAR-1 reconciliation](./reviews/IAR-1_RECONCILIATION.md) / [RU](./reviews/IAR-1_RECONCILIATION.ru.md) / [JSON](./reviews/IAR-1_RECONCILIATION.json)
-- review process outcome: `QUALIFYING_REVIEW_COMPLETE`
-- findings: `10 total / 7 BLOCKING / 3 MATERIAL`
-- reconciliation identity: `IAR-1-R1`
-- reconciliation state: `COMPLETE`
-
-IAR-1 does not approve the blueprint. It attacks it. IAR-1-R1 does not prove the refined architecture; it records explicit provisional dispositions needed before falsification planning.
+IAR-1 does not approve the blueprint. IAR-1-R1 does not prove the refined architecture; it records explicit provisional dispositions before falsification.
 
 ## 4. Reconciled minimum architecture boundary
 
-IAR-1 found that the first blueprint remained over-shaped by the current laboratory even after literal Python/SQL/Event disclaimers. Therefore the following remain **reference taxonomies**, not the universal minimum Kernel shape:
-
-- the complete A2 inventory;
-- A3 `K → K′`, fixed transition-family catalogue and common outcome vocabulary;
-- A5's full seven-identity/eight-time inventory as a mandatory whole;
-- A6's nine lifecycle positions;
-- Receipt-shaped accountability;
-- Event-log-shaped history;
-- exact replay or exact reconstruction.
+IAR-1 found that the first blueprint remained over-shaped by the current laboratory even after literal Python/SQL/Event disclaimers. The complete A2 inventory, A3 transition/outcome catalogue, A5 identity/time inventory, A6 lifecycle graph, Receipt-shaped accountability, Event-log-shaped history, exact replay and exact reconstruction therefore remain **reference taxonomies/capabilities**, not the universal minimum Kernel shape.
 
 The smaller current candidate minimum is problem-level:
 
@@ -106,9 +83,9 @@ substrate-independent specification ≠ universal portability proof
 
 ## 6. Runtime freeze
 
-Allowed while frozen: architecture research; BPV-1 plan/preregistration; integrity/security/reproducibility/provenance fixes; evidence preservation; truth/validator repair; historical recovery; and later isolated falsification execution only after its preregistered plan becomes authoritative.
+Allowed while frozen: architecture research; execution-admission packaging derived from the frozen BPV-1 plan; integrity/security/reproducibility/provenance fixes; evidence preservation; truth/validator repair; historical recovery; and later isolated falsification execution only after separate admission.
 
-Not authorized automatically: BPV-1 execution before that plan; reducer-v2; new semantic Event verbs; product database/language/model/integration profiles; executable NK-EPI/Temporal/full Admission; deletion execution expansion; Final Canon; maturity or production promotion.
+Not authorized: subject implementation/execution before admission; reducer-v2; new semantic Event verbs; product database/language/model/integration profiles; executable NK-EPI/Temporal/full Admission; deletion execution expansion; Final Canon; maturity or production promotion.
 
 ## 7. Pending operator-controlled decisions
 
@@ -128,24 +105,20 @@ IAR-1 findings: 10 total / 7 BLOCKING / 3 MATERIAL
 Review finding reconciliation: IAR-1-R1 / COMPLETE
 Open BLOCKING findings: 0
 Open MATERIAL findings: 0
-Next bounded gate: BPV1_PLAN_AND_PREREGISTRATION
-BPV-1 execution: BLOCKED_PENDING_PREREGISTERED_PLAN
+BPV-1 plan: BPV1-001-cross-lineage-bounded-accountability-v1 / PREREGISTERED
+Authoritative plan merge: a538d7f1e28858a88b9ee777ac7d6e05b85943db
+Next bounded gate: BPV1_EXECUTION_ADMISSION
+BPV-1 execution: BLOCKED_PENDING_EXECUTION_ADMISSION
 Runtime expansion: FROZEN
 Existing P1–C5 laboratory: PRESERVED / BOUNDED
 Production authorization: false
 ```
 
-## 9. BPV-1 preregistration gate
+## 9. BPV-1 preregistration and execution-admission gate
 
-The original independent-review protocol is preserved as the normative review method:
+The authoritative plan is [BPV1_PREREGISTRATION](./research/BPV1_PREREGISTRATION.md) / [RU](./research/BPV1_PREREGISTRATION.ru.md) / [JSON](./research/BPV1_PREREGISTRATION.json). It was merged by PR #110 as `a538d7f1e28858a88b9ee777ac7d6e05b85943db`.
 
-- [Independent Architecture Review Protocol](./INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.md)
-- [Russian protocol](./INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.ru.md)
-- identity: `nk-independent-architecture-review/1`
-
-Its header describes the protocol's publication-time state and is historical with respect to the completed IAR-1. Current live review outcome is recorded in IAR-1 result/reconciliation records and `project-state.json`.
-
-Before BPV-1 implementation/execution, an authoritative plan must preregister:
+It freezes before execution exactly:
 
 ```text
 scenario_id
@@ -162,34 +135,38 @@ threat_model
 oracle_authority
 ```
 
-The implementation under test may not decide its own normative oracle after execution. Post-execution changes to mandatory obligations, applicability, equivalence predicates or failure thresholds invalidate the run for the claimed scope and require a new experiment identity.
+`BPV1-001` specifies a single-node, non-composed, conventional-digital, cross-language Rust falsification instrument with bounded durable semantic state and no authoritative per-operation Event log. Rust is an experimental instrument only, not Canon or a product profile. Independent team/custody and independent computation model are `NOT_ESTABLISHED`.
+
+Post-execution changes to normative fields invalidate the run and require a new scenario identity.
+
+The next gate, `BPV1_EXECUTION_ADMISSION`, must bind the frozen plan/digest, machine-readable fixtures, standalone evaluator tests, pinned Rust toolchain/source boundary, and static no-product-integration audit **before** any subject execution.
 
 ## 10. Required threat and grounding boundary
 
-Where materially relevant, BPV-1 planning must declare protected meanings, trust roots/assumptions and adversarial cases including forgery, fork, truncation, rollback, equivocation, withheld counterevidence, unavailable/colluding witnesses and compromised certifier.
+The preregistered plan declares protected meanings, trust assumptions and adversarial cases including forgery, truncation, rollback, equivocation, withheld counterevidence and unavailable/forged Authority where applicable.
 
-Context/Provenance/Authority chains must terminate through an explicit finite grounding mode:
-
-```text
-EXTERNALLY_ATTESTED_ROOT
-EXPLICIT_ASSUMED_ROOT
-BOUNDED_RECURSIVE_CLOSURE
-DECLARED_CYCLE
-TERMINAL_UNKNOWN_OR_GAP
-```
-
-Physical/cryptographic erasure cannot be promoted from unverified self-assertion; absent sufficient threat-scoped evidence the correct outcome remains `INDETERMINATE`.
+Context/Provenance/Authority evaluation uses an explicit finite grounding mode rather than infinite recursive metadata. Physical/cryptographic erasure is outside BPV1-001 scope because independent physical substrate observability is absent; no stronger erasure claim may be inferred.
 
 ## 11. Current sequence and hard stop
 
 ```text
 IAR-1 qualifying review                       COMPLETE
 IAR-1-R1 reconciliation                       COMPLETE
-BPV1_PLAN_AND_PREREGISTRATION                 NEXT
-BPV-1 bounded cross-lineage falsification     BLOCKED_PENDING_PREREGISTERED_PLAN
+BPV1_PLAN_AND_PREREGISTRATION                 COMPLETE / PR #110
+BPV1_EXECUTION_ADMISSION                      NEXT
+BPV-1 bounded cross-lineage falsification     BLOCKED_PENDING_EXECUTION_ADMISSION
 A10 outcome classification                    BLOCKED BY BPV-1
 integrated re-review                           BLOCKED BY OUTCOMES
 separate operator Canon/runtime decision      BLOCKED BY RE-REVIEW
 ```
 
-`BPV1_PLAN_AND_PREREGISTRATION` authorizes design/preregistration only. It is not A11, not experiment execution, not runtime thaw, not Final Canon, and not production authorization.
+`BPV1_EXECUTION_ADMISSION` may admit only the bounded preregistered falsification instrument. It is not A11, not product runtime thaw, not Final Canon and not production authorization.
+
+### Historical IAR-1-R1 publication-time markers
+
+The following strings are retained only as historical R1 publication-time state and **do not describe the current gate**:
+
+```text
+Next bounded gate: BPV1_PLAN_AND_PREREGISTRATION
+BPV-1 execution: BLOCKED_PENDING_PREREGISTERED_PLAN
+```

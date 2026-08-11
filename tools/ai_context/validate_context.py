@@ -21,6 +21,7 @@ REQUIRED_PATHS = (
     "docs/INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.md", "docs/INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.ru.md",
     "docs/reviews/IAR-1_RESULT.md", "docs/reviews/IAR-1_RESULT.ru.md", "docs/reviews/IAR-1_RESULT.json",
     "docs/reviews/IAR-1_RECONCILIATION.md", "docs/reviews/IAR-1_RECONCILIATION.ru.md", "docs/reviews/IAR-1_RECONCILIATION.json",
+    "docs/research/BPV1_PREREGISTRATION.md", "docs/research/BPV1_PREREGISTRATION.ru.md", "docs/research/BPV1_PREREGISTRATION.json",
     "docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.md", "docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md",
     "docs/A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md", "docs/A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md",
     "docs/A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md", "docs/A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md",
@@ -46,8 +47,6 @@ CHECKPOINT_RE = re.compile(r"^machine_truth_reconciliation_merge:\s*([0-9a-f]{40
 MARKDOWN_LINK_RE = re.compile(r"(?<!\!)\[[^\]]+\]\(([^)]+)\)")
 IGNORED_SCHEMES = {"http", "https", "mailto", "tel", "data"}
 
-# These compatibility names are intentionally retained because the unit-test
-# suite imports them as part of the validator's tested interface.
 REQUIRED_STATUS_MARKERS = (
     "RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY",
     "authoritative_machine_source: ../../project-state.json",
@@ -65,8 +64,10 @@ REQUIRED_STATUS_MARKERS = (
     "operator post-blueprint choice: OPTION D / ADR-0026 / APPROVED",
     "IAR-1: QUALIFYING_REVIEW_COMPLETE",
     "IAR-1-R1 reconciliation: COMPLETE",
-    "next bounded gate: BPV1_PLAN_AND_PREREGISTRATION",
-    "BPV-1 execution: BLOCKED_PENDING_PREREGISTERED_PLAN",
+    "BPV-1 plan: PREREGISTERED / EXECUTION_NOT_AUTHORIZED",
+    "authoritative BPV-1 plan merge: a538d7f1e28858a88b9ee777ac7d6e05b85943db",
+    "next bounded gate: BPV1_EXECUTION_ADMISSION",
+    "BPV-1 execution: BLOCKED_PENDING_EXECUTION_ADMISSION",
 )
 CURRENT_MARKERS = REQUIRED_STATUS_MARKERS
 
@@ -78,6 +79,8 @@ FORBIDDEN_STATUS_MARKERS = (
     "next bounded gate is INDEPENDENT_ARCHITECTURE_REVIEW",
     "independent architectural validation: NOT ESTABLISHED",
     "BPV-1: BLOCKED_PENDING_INDEPENDENT_REVIEW_AND_RECONCILIATION",
+    "next bounded gate: BPV1_PLAN_AND_PREREGISTRATION",
+    "BPV-1 execution: BLOCKED_PENDING_PREREGISTERED_PLAN",
 )
 
 BLUEPRINT_PROGRESS_SURFACES = {
@@ -85,34 +88,39 @@ BLUEPRINT_PROGRESS_SURFACES = {
         "blueprint content: A1-A10 DRAFTED / PROVISIONAL / RECONCILED BY OVERLAY",
         "IAR-1: QUALIFYING_REVIEW_COMPLETE",
         "IAR-1-R1 reconciliation: COMPLETE",
-        "next content gate: BPV1_PLAN_AND_PREREGISTRATION",
-        "BPV-1 execution: BLOCKED_PENDING_PREREGISTERED_PLAN",
+        "BPV-1 plan: PREREGISTERED / EXECUTION_NOT_AUTHORIZED",
+        "next content gate: BPV1_EXECUTION_ADMISSION",
+        "BPV-1 execution: BLOCKED_PENDING_EXECUTION_ADMISSION",
     ),
     "ROADMAP.md": (
         "integrated A1-A10 review                 COMPLETE / PROVISIONAL",
         "OPERATOR_POST_BLUEPRINT_DECISION         COMPLETE / OPTION D / ADR-0026",
         "INDEPENDENT_ARCHITECTURE_REVIEW          COMPLETE / IAR-1 / QUALIFYING",
         "REVIEW_FINDING_RECONCILIATION            COMPLETE / IAR-1-R1",
-        "BPV1_PLAN_AND_PREREGISTRATION            NEXT GATE",
-        "BPV-1 CROSS-LINEAGE FALSIFICATION        BLOCKED BY PREREGISTERED PLAN",
+        "BPV1_PLAN_AND_PREREGISTRATION            COMPLETE / PR #110",
+        "BPV1_EXECUTION_ADMISSION                 NEXT GATE",
+        "BPV-1 CROSS-LINEAGE FALSIFICATION        BLOCKED BY EXECUTION ADMISSION",
     ),
     "docs/ARCHITECTURE_REFOUNDATION.md": (
         "Independent architecture review: IAR-1 / QUALIFYING_REVIEW_COMPLETE",
         "Review finding reconciliation: IAR-1-R1 / COMPLETE",
-        "Next bounded gate: BPV1_PLAN_AND_PREREGISTRATION",
-        "BPV-1 execution: BLOCKED_PENDING_PREREGISTERED_PLAN",
+        "BPV-1 plan: BPV1-001-cross-lineage-bounded-accountability-v1 / PREREGISTERED",
+        "Next bounded gate: BPV1_EXECUTION_ADMISSION",
+        "BPV-1 execution: BLOCKED_PENDING_EXECUTION_ADMISSION",
     ),
     "docs/ARCHITECTURE_REFOUNDATION.ru.md": (
         "Independent architecture review: IAR-1 / QUALIFYING_REVIEW_COMPLETE",
         "Review finding reconciliation: IAR-1-R1 / COMPLETE",
-        "Next bounded gate: BPV1_PLAN_AND_PREREGISTRATION",
-        "BPV-1 execution: BLOCKED_PENDING_PREREGISTERED_PLAN",
+        "BPV-1 plan: BPV1-001-cross-lineage-bounded-accountability-v1 / PREREGISTERED",
+        "Next bounded gate: BPV1_EXECUTION_ADMISSION",
+        "BPV-1 execution: BLOCKED_PENDING_EXECUTION_ADMISSION",
     ),
     "docs/ai/README.md": (
         "IAR-1: QUALIFYING_REVIEW_COMPLETE",
         "IAR-1-R1 reconciliation: COMPLETE",
-        "next gate: BPV1_PLAN_AND_PREREGISTRATION",
-        "BPV-1 execution: BLOCKED_PENDING_PREREGISTERED_PLAN",
+        "BPV-1 plan: PREREGISTERED / EXECUTION_NOT_AUTHORIZED",
+        "next gate: BPV1_EXECUTION_ADMISSION",
+        "BPV-1 execution: BLOCKED_PENDING_EXECUTION_ADMISSION",
     ),
     "docs/INTEGRATED_A1_A10_REVIEW.md": (
         "nk-integrated-blueprint-review/A1-A10-review-1",
@@ -149,8 +157,20 @@ FORBIDDEN_BLUEPRINT_PROGRESS_MARKERS = (
     "next content gate: INDEPENDENT_ARCHITECTURE_REVIEW",
     "Next bounded gate: INDEPENDENT_ARCHITECTURE_REVIEW",
     "INDEPENDENT_ARCHITECTURE_REVIEW          NEXT GATE",
+    "next content gate: BPV1_PLAN_AND_PREREGISTRATION",
+    "Next bounded gate: BPV1_PLAN_AND_PREREGISTRATION",
+    "BPV1_PLAN_AND_PREREGISTRATION            NEXT GATE",
+    "BPV-1 execution: BLOCKED_PENDING_PREREGISTERED_PLAN",
 )
 FORBIDDEN_PROGRESS = FORBIDDEN_BLUEPRINT_PROGRESS_MARKERS
+HISTORICAL_PROGRESS_DOCS = {
+    "docs/ARCHITECTURE_REFOUNDATION.md",
+    "docs/ARCHITECTURE_REFOUNDATION.ru.md",
+    "docs/INTEGRATED_A1_A10_REVIEW.md",
+    "docs/INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.md",
+    "docs/reviews/IAR-1_RESULT.md",
+    "docs/reviews/IAR-1_RECONCILIATION.md",
+}
 
 
 @dataclass(frozen=True)
@@ -221,14 +241,7 @@ def validate_blueprint_progress_surfaces(repo: Path) -> list[Finding]:
         for marker in markers:
             if marker not in text:
                 findings.append(Finding(rel, f"required blueprint-progress marker is missing: {marker}"))
-        # Protocol and historical review documents intentionally preserve their
-        # publication-time gate language. Stale-current markers are forbidden
-        # only on surfaces that claim to describe present progress.
-        if rel not in {
-            "docs/INTEGRATED_A1_A10_REVIEW.md",
-            "docs/INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.md",
-            "docs/reviews/IAR-1_RESULT.md",
-        }:
+        if rel not in HISTORICAL_PROGRESS_DOCS:
             for stale in FORBIDDEN_BLUEPRINT_PROGRESS_MARKERS:
                 if stale in text:
                     findings.append(Finding(rel, f"forbidden stale blueprint-progress marker is present: {stale}"))
@@ -290,7 +303,7 @@ def main(argv: list[str] | None = None) -> int:
         for finding in findings:
             print(finding.render(), file=sys.stderr)
         return 1
-    print("AI context validation passed; A1-A10=provisional_reconciled; IAR-1=qualifying; reconciliation=complete; next=BPV1_PLAN_AND_PREREGISTRATION; BPV-1_execution=blocked; runtime_expansion_frozen=true")
+    print("AI context validation passed; A1-A10=provisional_reconciled; IAR-1=qualifying; reconciliation=complete; BPV1_plan=preregistered; next=BPV1_EXECUTION_ADMISSION; BPV-1_execution=blocked; runtime_expansion_frozen=true")
     return 0
 
 

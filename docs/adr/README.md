@@ -38,18 +38,18 @@ Decision status
 | [`0019`](./0019-authorize-p5-sqlite-and-c3-equivalence.md) | Authorize P5 SQLite and C3 equivalence | `ACCEPTED` | C2/C3 | `PARTIAL — P5` | `APPROVED` |
 | [`0020`](./0020-authorize-c4-offline-shadow-evaluation.md) | Authorize C4 offline shadow evaluation | `ACCEPTED` | approved dataset + C3 + reports | `PARTIAL — C4` | `APPROVED` |
 | [`0021`](./0021-authorize-c5-bounded-operational-rehearsal.md) | Authorize C5 bounded operational rehearsal | `ACCEPTED` | two passing checkpoints + retained ZIPs | `PARTIAL — C5` | `APPROVED` |
-| [`0022`](./0022-preserve-c5-evidence-and-declare-project-state.md) | Preserve C5 evidence and declare project state | `ACCEPTED` | repository and post-merge validation passed; superseded machine protocol retained historically | implemented; current state now uses `nk-project-state/2` | `APPROVED` |
-| [`0023`](./0023-harden-sqlite-wal-and-event-integrity.md) | Harden SQLite WAL and stored Event integrity | `ACCEPTED` | repository-reproduced; additive evidence captured; follow-up integrity checks passed | merged via PR #69 + follow-up PR #72 | `APPROVED` |
+| [`0022`](./0022-preserve-c5-evidence-and-declare-project-state.md) | Preserve C5 evidence and declare project state | `ACCEPTED` | repository and post-merge validation passed | implemented; current state uses `nk-project-state/2` | `APPROVED` |
+| [`0023`](./0023-harden-sqlite-wal-and-event-integrity.md) | Harden SQLite WAL and stored Event integrity | `ACCEPTED` | repository-reproduced; additive evidence captured | merged via PR #69 + follow-up PR #72 | `APPROVED` |
 | [`0024`](./0024-version-reducer-referential-semantics.md) | Version reducer referential semantics without rewriting history | `PROPOSED` | repository gap documented | `NOT_STARTED` | `PENDING` |
 | [`0025`](./0025-blueprint-before-runtime-expansion.md) | Complete the architecture blueprint before further runtime expansion | `ACCEPTED` | `DOCUMENTED` | blueprint drafted/reviewed provisionally; runtime freeze active | `APPROVED` |
-| [`0026`](./0026-independent-challenge-before-bounded-cross-lineage-falsification.md) | Independent challenge before bounded cross-lineage falsification | `ACCEPTED` | IAR-1 qualifying review + IAR-1-R1 reconciliation | `GOVERNANCE_PARTIAL` / BPV-1 plan not yet authoritative | `APPROVED` |
+| [`0026`](./0026-independent-challenge-before-bounded-cross-lineage-falsification.md) | Independent challenge before bounded cross-lineage falsification | `ACCEPTED` | IAR-1 + IAR-1-R1 + authoritative BPV-1 preregistration | `GOVERNANCE_PARTIAL` / execution admission next | `APPROVED` |
 
 ## Current boundary
 
 ```text
 H historical recovery: OPEN / BLOCKED / independent
 C clean implementation: P1–P5 + C4 + C5 / BOUNDED REFERENCE LABORATORY
-R post-blueprint validation: ACTIVE / IAR-1-RECONCILED / BPV1-PLAN-NEXT
+R post-blueprint validation: ACTIVE / BPV1-PREREGISTERED / EXECUTION-ADMISSION-NEXT
 kernel_runtime_conformance: C4
 operational_validation: C5_BOUNDED_REHEARSAL
 assertion map: 45 / 10 / 17 / 0
@@ -68,10 +68,11 @@ ADR-0025 — Blueprint before Runtime
 ADR-0026 — Post-Blueprint Validation / Option D
   ACCEPTED / OPERATOR APPROVED
   independent review: IAR-1 / QUALIFYING_REVIEW_COMPLETE
-  review findings: 10 total / 7 BLOCKING / 3 MATERIAL
   reconciliation: IAR-1-R1 / COMPLETE / open blockers 0 / open material 0
-  next: BPV1_PLAN_AND_PREREGISTRATION
-  BPV-1 execution: BLOCKED_PENDING_PREREGISTERED_PLAN
+  BPV-1 plan: BPV1-001-cross-lineage-bounded-accountability-v1 / PREREGISTERED
+  plan merge: a538d7f1e28858a88b9ee777ac7d6e05b85943db
+  next: BPV1_EXECUTION_ADMISSION
+  BPV-1 execution: BLOCKED_PENDING_EXECUTION_ADMISSION
   product runtime thaw: NO
 
 Issue #18 — license/publication terms
@@ -87,7 +88,8 @@ Post-blueprint validation sequence:
 ```text
 independent architecture review       COMPLETE / IAR-1
 → finding reconciliation              COMPLETE / IAR-1-R1
-→ BPV-1 plan and preregistration      NEXT
+→ BPV-1 plan and preregistration      COMPLETE / PR #110
+→ BPV-1 execution admission           NEXT
 → one bounded BPV-1 falsification instrument
 → A10 outcomes
 → integrated re-review
@@ -116,8 +118,8 @@ independent architecture review       COMPLETE / IAR-1
 18. A public repository does not imply an open-source license.
 19. Existing implementation profiles cannot define Canon merely by being implemented first.
 20. ADR-0025 permits maintenance and falsification instruments, not automatic semantic/runtime expansion.
-21. ADR-0026 permits independent challenge and later BPV-1 only under its review/reconciliation/preregistration gates; it does not thaw product runtime.
-22. Independent review protocol publication is not completed independent review; IAR-1 result is the qualifying review record.
-23. A qualifying independent review may not be self-certified by the same authorship lineage; its concrete independence basis must remain recorded and guarded.
-24. BPV-1 normative fields must be preregistered before execution and post-hoc rescoping cannot rescue a completed run.
+21. ADR-0026 permits independent challenge and later BPV-1 only under review/reconciliation/preregistration/admission gates; it does not thaw product runtime.
+22. A qualifying independent review may not be self-certified by the same authorship lineage.
+23. BPV-1 normative fields are frozen before execution and post-hoc rescoping cannot rescue a run.
+24. Preregistration merge ≠ execution authorization; execution admission is separate.
 25. BPV-1 results use A10 outcomes and may weaken/refute the architecture; they never promote Canon or runtime automatically.

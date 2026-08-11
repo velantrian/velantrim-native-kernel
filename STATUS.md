@@ -17,11 +17,12 @@ notion_synchronized_through: 70acd0da61fee19131947aa56125833adb156ced
 blueprint_decision: ADR-0025
 post_blueprint_decision: ADR-0026
 active_architecture_issue: 88
-architecture_phase: POST_BLUEPRINT_VALIDATION_BPV1_PLAN_NEXT
+architecture_phase: POST_BLUEPRINT_VALIDATION_BPV1_EXECUTION_ADMISSION_NEXT
+bpv1_plan_merge: a538d7f1e28858a88b9ee777ac7d6e05b85943db
 ```
 
 > **Repository status:** `RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY`  
-> **Architecture state:** `A1-A10 DRAFTED / PROVISIONAL · INTEGRATED REVIEW COMPLETE / PROVISIONAL · IAR-1 QUALIFYING REVIEW COMPLETE · IAR-1-R1 RECONCILIATION COMPLETE · BPV-1 PLAN NEXT`.
+> **Architecture state:** `A1-A10 DRAFTED / PROVISIONAL · INTEGRATED REVIEW COMPLETE / PROVISIONAL · IAR-1 QUALIFYING REVIEW COMPLETE · IAR-1-R1 COMPLETE · BPV-1 PLAN PREREGISTERED · EXECUTION ADMISSION NEXT`.
 
 Committed checkpoint SHAs above remain historical role identities, not automatic live HEAD. Resolve live `main` through GitHub/Git.
 
@@ -47,6 +48,7 @@ Integrated review: [English](docs/INTEGRATED_A1_A10_REVIEW.md) · [Русски�
 Independent-review protocol: [English](docs/INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.md) · [Русский](docs/INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.ru.md).  
 IAR-1 result: [human](docs/reviews/IAR-1_RESULT.md) · [machine](docs/reviews/IAR-1_RESULT.json).  
 IAR-1 reconciliation: [human](docs/reviews/IAR-1_RECONCILIATION.md) · [machine](docs/reviews/IAR-1_RECONCILIATION.json).  
+BPV-1 preregistration: [English](docs/research/BPV1_PREREGISTRATION.md) · [Русский](docs/research/BPV1_PREREGISTRATION.ru.md) · [JSON](docs/research/BPV1_PREREGISTRATION.json).  
 Tracking: [Issue #88](https://github.com/velantrian/velantrim-native-kernel/issues/88).
 
 ```text
@@ -58,20 +60,24 @@ IAR-1 findings: 10 total / 7 BLOCKING / 3 MATERIAL
 IAR-1-R1 reconciliation: COMPLETE
 open BLOCKING findings: 0
 open MATERIAL findings: 0
-next content gate: BPV1_PLAN_AND_PREREGISTRATION
-BPV-1 execution: BLOCKED_PENDING_PREREGISTERED_PLAN
+BPV-1 plan: PREREGISTERED / EXECUTION_NOT_AUTHORIZED
+authoritative BPV-1 plan merge: a538d7f1e28858a88b9ee777ac7d6e05b85943db
+next content gate: BPV1_EXECUTION_ADMISSION
+BPV-1 execution: BLOCKED_PENDING_EXECUTION_ADMISSION
 runtime expansion: FROZEN
 ```
 
-IAR-1 materially weakened the provisional architecture. In particular, the complete A3 transition/outcome machine, A6 lifecycle graph, full A5 identity/time inventory, Receipt-shaped accountability and Event-log-shaped history are no longer treated as the universal minimum Kernel form.
+IAR-1 materially weakened the provisional architecture. The complete A3 transition/outcome machine, A6 lifecycle graph, full A5 identity/time inventory, Receipt-shaped accountability and Event-log-shaped history are reference taxonomies/capabilities rather than universal minimum Kernel form.
 
-The current provisional minimum is problem-level: non-conflation of representation/Claim with reality/truth, explicit scope/Context/warrant/Authority assumptions where material, explicit Unknown/uncertainty/unsupported states, accountable change/retention/loss for the declared scope, and preregistered equivalence/degradation/refutation conditions.
+The current provisional minimum is problem-level: non-conflation of representation/Claim with reality/truth; explicit scope/Context/warrant/Authority assumptions where material; explicit Unknown/uncertainty/unsupported states; accountable change/retention/loss for the declared scope; and preregistered equivalence/degradation/refutation conditions.
 
 Exact reconstructability, exact replay, permanent predecessor visibility, global total order and distributed-composition semantics are **not** universal requirements.
 
-## BPV-1 planning gate
+## BPV-1 preregistered plan
 
-BPV-1 implementation/execution is still forbidden. A plan must first preregister:
+Scenario: `BPV1-001-cross-lineage-bounded-accountability-v1`.
+
+The plan freezes before execution all twelve IAR-1-R1 normative fields:
 
 ```text
 scenario_id
@@ -88,9 +94,9 @@ threat_model
 oracle_authority
 ```
 
-Changing those after execution invalidates the run for the claimed scope and requires a new experiment identity.
+It also fixes a single-node, non-composed, conventional-digital, cross-language Rust falsification instrument with bounded durable semantic state; Rust is an experimental instrument, not Canon or a product profile. Post-execution normative rescoping invalidates the run and requires a new scenario identity.
 
-The BPV-1 plan must independently derive its state/change/history model instead of importing the current A3/A6/Event/reducer/Receipt shape as an oracle.
+**Plan merge does not authorize execution.** Before any subject implementation/execution, a separate `BPV1_EXECUTION_ADMISSION` checkpoint must bind the frozen plan/digest, machine-readable fixtures and standalone evaluator, pinned Rust toolchain/source boundary, and a static non-product scope audit.
 
 ## Required non-equivalences
 
@@ -101,6 +107,7 @@ blueprint documentation ≠ runtime evidence
 operator approval ≠ independent validation
 qualifying independent review ≠ architecture proof
 review reconciliation ≠ BPV-1 execution authorization
+preregistered plan ≠ execution authorization
 falsification instrument ≠ product runtime
 representation ≠ represented reality
 Observation ≠ Claim
@@ -138,4 +145,4 @@ NOT_TESTED ≠ SUPPORTED
 
 ## Hard stop
 
-The next gate is `BPV1_PLAN_AND_PREREGISTRATION`. It authorizes only experiment design/preregistration. It is not A11, not BPV-1 execution, not runtime thaw and not Canon promotion. A1–A10 remain provisional and reconciled by overlay; production authorization remains `false`.
+The next gate is `BPV1_EXECUTION_ADMISSION`. It may admit only the preregistered falsification instrument after its executable oracle/fixture/toolchain/scope package is frozen. It is **not** product runtime thaw, not A11, not Final Canon and not production authorization. BPV-1 execution remains `BLOCKED_PENDING_EXECUTION_ADMISSION`; runtime expansion remains `FROZEN` and production authorization remains `false`.

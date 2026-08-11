@@ -50,28 +50,14 @@ class A9ReferenceLaboratoryBoundaryTests(unittest.TestCase):
 
     def test_storage_profile_evidence_is_bounded(self) -> None:
         for markdown in (self.en, self.ru):
-            for literal in (
-                "PostgreSQL ↔ SQLite C3",
-                "independent-language equivalence",
-                "independent-computation-model equivalence",
-                "arbitrary-substrate portability proof",
-                "Python",
-            ):
+            for literal in ("PostgreSQL ↔ SQLite C3", "independent-language equivalence", "independent-computation-model equivalence", "arbitrary-substrate portability proof", "Python"):
                 self.assertIn(literal, markdown)
         self.assertIn("shared", self.en)
         self.assertTrue("разделяют" in self.ru or "общей language lineage" in self.ru)
 
     def test_mechanisms_do_not_capture_canon(self) -> None:
         for markdown in (self.en, self.ru):
-            for literal in (
-                "profile-specific",
-                "Event sourcing",
-                "reducer",
-                "PostgreSQL",
-                "SQLite",
-                "SHA-256",
-                "global",
-            ):
+            for literal in ("profile-specific", "Event sourcing", "reducer", "PostgreSQL", "SQLite", "SHA-256", "global"):
                 self.assertIn(literal, markdown)
         self.assertIn("existing mechanism", self.en)
         self.assertIn("architecture requirement", self.en)
@@ -80,44 +66,29 @@ class A9ReferenceLaboratoryBoundaryTests(unittest.TestCase):
 
     def test_preservation_rule_and_overclaim_cases_exist(self) -> None:
         for markdown in (self.en, self.ru):
-            for literal in (
-                "reproducibility",
-                "silent Canon promotion",
-                "profile-specific",
-                "C5",
-                "production security",
-                "independent custody",
-                "assertion arithmetic",
-            ):
+            for literal in ("reproducibility", "silent Canon promotion", "profile-specific", "C5", "production security", "independent custody", "assertion arithmetic"):
                 self.assertIn(literal, markdown)
         self.assertIn("preserve reproducibility", self.en)
         self.assertIn("сохранить reproducibility", self.ru)
 
     def test_operator_boundaries_are_unchanged(self) -> None:
         for markdown in (self.en, self.ru):
-            for literal in (
-                "Issue #18",
-                "Issue #74 / ADR-0024",
-                "ADR-0003",
-                "Track H",
-                "reducer-v2",
-            ):
+            for literal in ("Issue #18", "Issue #74 / ADR-0024", "ADR-0003", "Track H", "reducer-v2"):
                 self.assertIn(literal, markdown)
 
-    def test_project_state_preserves_a9_after_iar1_reconciliation(self) -> None:
+    def test_project_state_preserves_a9_after_bpv1_preregistration(self) -> None:
         research = self.state["tracks"]["long_horizon_research"]
         refoundation = research["architecture_refoundation"]
         validation = research["post_blueprint_validation"]
         self.assertIn("A9_REFERENCE_LABORATORY_BOUNDARY", refoundation["completed_deliverables"])
         self.assertIn("A10_OPEN_QUESTIONS_AND_FALSIFICATION", refoundation["completed_deliverables"])
-        self.assertEqual("BPV1_PLAN_AND_PREREGISTRATION", refoundation["next_content_slice"])
+        self.assertEqual("BPV1_EXECUTION_ADMISSION", refoundation["next_content_slice"])
         self.assertEqual("ADR-0026", validation["decision"])
         self.assertEqual("QUALIFYING_REVIEW_COMPLETE", validation["independent_review_status"])
-        self.assertEqual(
-            "AUTHORIZED / REVIEW_COMPLETE / RECONCILIATION_COMPLETE / BPV1_PLAN_NEXT",
-            validation["status"],
-        )
-        self.assertEqual("BLOCKED_PENDING_PREREGISTERED_PLAN", validation["bpv1_status"])
+        self.assertEqual("AUTHORIZED / REVIEW_COMPLETE / RECONCILIATION_COMPLETE / BPV1_PLAN_PREREGISTERED / EXECUTION_ADMISSION_NEXT", validation["status"])
+        self.assertEqual("BLOCKED_PENDING_EXECUTION_ADMISSION", validation["bpv1_status"])
+        self.assertEqual("BPV1-001-cross-lineage-bounded-accountability-v1", validation["bpv1_plan"]["plan_id"])
+        self.assertFalse(validation["bpv1_plan"]["execution_authorized"])
         self.assertTrue(refoundation["runtime_expansion_frozen"])
         self.assertEqual("BOUNDED_REFERENCE_LABORATORY", self.state["tracks"]["clean_implementation"]["architecture_role"])
         self.assertFalse(self.state["status"]["production_authorized"])

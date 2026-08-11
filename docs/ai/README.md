@@ -17,10 +17,11 @@ This directory is the mandatory continuity surface for AI agents, auditors and m
 11. [`../INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.md`](../INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.md) / [`RU`](../INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.ru.md)
 12. [`../reviews/IAR-1_RESULT.md`](../reviews/IAR-1_RESULT.md) / [`RU`](../reviews/IAR-1_RESULT.ru.md) + [`JSON`](../reviews/IAR-1_RESULT.json)
 13. [`../reviews/IAR-1_RECONCILIATION.md`](../reviews/IAR-1_RECONCILIATION.md) / [`RU`](../reviews/IAR-1_RECONCILIATION.ru.md) + [`JSON`](../reviews/IAR-1_RECONCILIATION.json)
-14. [`../adr/0026-independent-challenge-before-bounded-cross-lineage-falsification.md`](../adr/0026-independent-challenge-before-bounded-cross-lineage-falsification.md)
-15. [`ISSUE_RECONCILIATION.md`](ISSUE_RECONCILIATION.md)
-16. [`NOTION_HANDOFF.md`](NOTION_HANDOFF.md)
-17. affected contracts/ADRs/runtime/tests/evidence plus current GitHub/Notion live state
+14. [`../research/BPV1_PREREGISTRATION.md`](../research/BPV1_PREREGISTRATION.md) / [`RU`](../research/BPV1_PREREGISTRATION.ru.md) + [`JSON`](../research/BPV1_PREREGISTRATION.json)
+15. [`../adr/0026-independent-challenge-before-bounded-cross-lineage-falsification.md`](../adr/0026-independent-challenge-before-bounded-cross-lineage-falsification.md)
+16. [`ISSUE_RECONCILIATION.md`](ISSUE_RECONCILIATION.md)
+17. [`NOTION_HANDOFF.md`](NOTION_HANDOFF.md)
+18. affected contracts/ADRs/runtime/tests/evidence plus current GitHub/Notion live state
 
 Do not start from a handoff alone; resolve live GitHub/Notion truth first.
 
@@ -47,63 +48,48 @@ IAR-1 findings: 10 total / 7 BLOCKING / 3 MATERIAL
 IAR-1-R1 reconciliation: COMPLETE
 open BLOCKING findings: 0
 open MATERIAL findings: 0
-next gate: BPV1_PLAN_AND_PREREGISTRATION
-BPV-1 execution: BLOCKED_PENDING_PREREGISTERED_PLAN
+BPV-1 plan: PREREGISTERED / EXECUTION_NOT_AUTHORIZED
+plan_id: BPV1-001-cross-lineage-bounded-accountability-v1
+plan_merge: a538d7f1e28858a88b9ee777ac7d6e05b85943db
+next gate: BPV1_EXECUTION_ADMISSION
+BPV-1 execution: BLOCKED_PENDING_EXECUTION_ADMISSION
 ```
 
-The candidate blueprint inventory remains exact A1+A2+A3+A4+A5+A6+A7+A8+A9+A10. `INTEGRATED_A1_A10_REVIEW`, `OPERATOR_POST_BLUEPRINT_DECISION`, `INDEPENDENT_ARCHITECTURE_REVIEW` and `BPV1_PLAN_AND_PREREGISTRATION` are gates/review records, not A11-style deliverables.
-
-Integrated review identity: `nk-integrated-blueprint-review/A1-A10-review-1`. Independent-review protocol identity: `nk-independent-architecture-review/1`. IAR-1 reconciliation identity: `IAR-1-R1`.
+The candidate blueprint inventory remains exact A1+A2+A3+A4+A5+A6+A7+A8+A9+A10. Integrated review, operator decision, independent review, reconciliation, preregistration and execution admission are gates/review records, not A11-style blueprint deliverables.
 
 ## Current reconciliation hierarchy
 
-Apply the following order when first-draft wording conflicts:
-
 ```text
-A1-A10 first draft provenance
+A1-A10 first-draft provenance
 → integrated review IR-F01..IR-F07
 → IAR-1 independent challenge
 → IAR-1-R1 provisional reconciliation overlay
+→ BPV1-001 frozen preregistration
 ```
 
-IAR-1-R1 intentionally weakens several prior candidate structures:
+IAR-1-R1 intentionally weakens several prior candidate structures: A3/A6 are reference taxonomies; A5 identity/time inventories are scenario-selected analytical dimensions; bounded accountability is separate from exact replay; Source/Evidence/Provenance/Authority is a non-conflation rule rather than mandatory four-field storage; erasure claims require threat-scoped evidence; grounding must terminate explicitly; local conformance does not imply composition/federation.
 
-- A3 transition families/outcomes are reference taxonomy, not mandatory Kernel shape;
-- A6 lifecycle positions are reference taxonomy, not mandatory Kernel shape;
-- A5 identity/time inventories are scenario-selected analytical dimensions, not universal latent inventory;
-- bounded accountability is separated from exact reconstruction/replay;
-- Source/Evidence/Provenance/Authority separation is a semantic non-conflation rule, not a mandatory four-field storage schema;
-- physical/cryptographic erasure claims require threat-scoped evidence beyond self-assertion;
-- Context/Provenance/Authority chains require an explicit finite grounding mode;
-- local scoped conformance does not imply composition/federation conformance.
+The qualifying review and preregistered plan do **not** prove the architecture correct.
 
-The independent review is qualifying, but that does **not** prove the architecture correct.
+## BPV1_EXECUTION_ADMISSION hard stop
 
-## BPV-1 planning hard stop
-
-BPV-1 execution remains forbidden until an authoritative plan preregisters:
+PR #110 made the plan authoritative; it did **not** authorize execution. The next gate must bind before any subject implementation/execution:
 
 ```text
-scenario_id
-purpose_scope
-mandatory_obligations
-applicability_rules
-mandatory_observables
-equivalence_predicates
-allowed_declared_losses
-failure_thresholds
-hard_refutation_observations
-grounding_mode
-threat_model
-oracle_authority
+authoritative preregistration + frozen digest
+machine-readable fixtures derived only from the plan
+standalone evaluator/oracle tested before subject execution
+pinned Rust toolchain + experimental source boundary
+static audit proving no product runtime/profile integration
 ```
 
-Post-execution changes to mandatory obligations, applicability, equivalence predicates or failure thresholds invalidate the run for the claimed scope and require a new experiment identity.
+The twelve preregistered normative fields are immutable under `BPV1-001-cross-lineage-bounded-accountability-v1`. Post-execution rescoping requires a new scenario identity.
 
-The implementation under test must not serve as its own semantic oracle. A different language is insufficient if the experiment simply ports A3/A6/Event/reducer/Receipt structures.
+Rust is an experimental cross-language falsification instrument only. It is not Canon or a product runtime profile; independent team/custody and independent computation model remain `NOT_ESTABLISHED`.
 
 ```text
 runtime thaw: NO
+BPV-1 execution: BLOCKED_PENDING_EXECUTION_ADMISSION
 reducer v2: NOT AUTHORIZED
 new Event verbs: NOT AUTHORIZED
 new product DB/language/runtime profile: NOT AUTHORIZED
@@ -121,6 +107,8 @@ publication checkpoint:
   10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c
 manifest source / Notion synchronized descendant:
   70acd0da61fee19131947aa56125833adb156ced
+BPV-1 preregistration merge:
+  a538d7f1e28858a88b9ee777ac7d6e05b85943db
 ```
 
 The later Notion synchronization checkpoint does not rewrite or replace the earlier publication checkpoint. Live HEAD comes from Git/GitHub; committed state does not predict its own future merge/Notion identity.
@@ -130,11 +118,12 @@ The later Notion synchronization checkpoint does not rewrite or replace the earl
 ```bash
 python tools/ai_context/validate_project_state.py --repo .
 python tools/ai_context/validate_architecture_freeze.py --repo .
+python tools/ai_context/validate_bpv1_preregistration.py --repo .
 python tools/ai_context/validate_context.py --repo .
 python tools/docs/validate_bilingual_parity.py --repo .
 python -m unittest discover -s tests -p 'test_architecture_freeze.py' -v
-python -m unittest discover -s tests -p 'test_independent_architecture_review_protocol.py' -v
+python -m unittest discover -s tests -p 'test_bpv1_preregistration.py' -v
 python -m unittest discover -s tests -p 'test_integrated_a1_a10_review.py' -v
 ```
 
-Passing these guards proves continuity constraints only; it is not proof that the reconciled architecture or a future BPV-1 is correct.
+Passing these guards proves continuity constraints only; it is not proof that the reconciled architecture or BPV-1 is correct.

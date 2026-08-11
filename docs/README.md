@@ -3,7 +3,7 @@
 **[English](./README.md) · [Русский](./README.ru.md)**
 
 > **Current boundary:** `RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY`  
-> **Active phase:** `POST-BLUEPRINT VALIDATION / IAR-1 RECONCILED / BPV1 PLAN NEXT / RUNTIME EXPANSION FROZEN`
+> **Active phase:** `POST-BLUEPRINT VALIDATION / BPV1 PREREGISTERED / EXECUTION ADMISSION NEXT / RUNTIME EXPANSION FROZEN`
 
 ## Start here
 
@@ -16,7 +16,8 @@
 | [`INTEGRATED_A1_A10_REVIEW.md`](./INTEGRATED_A1_A10_REVIEW.md) | historical integrated review / provisional reconciliation |
 | [`INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.md`](./INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.md) | normative independent-review protocol; publication-time status is historical |
 | [`reviews/IAR-1_RESULT.md`](./reviews/IAR-1_RESULT.md) / [`RU`](./reviews/IAR-1_RESULT.ru.md) / [`JSON`](./reviews/IAR-1_RESULT.json) | qualifying independent review result |
-| [`reviews/IAR-1_RECONCILIATION.md`](./reviews/IAR-1_RECONCILIATION.md) / [`RU`](./reviews/IAR-1_RECONCILIATION.ru.md) / [`JSON`](./reviews/IAR-1_RECONCILIATION.json) | current provisional architecture reconciliation |
+| [`reviews/IAR-1_RECONCILIATION.md`](./reviews/IAR-1_RECONCILIATION.md) / [`RU`](./reviews/IAR-1_RECONCILIATION.ru.md) / [`JSON`](./reviews/IAR-1_RECONCILIATION.json) | provisional architecture reconciliation |
+| [`research/BPV1_PREREGISTRATION.md`](./research/BPV1_PREREGISTRATION.md) / [`RU`](./research/BPV1_PREREGISTRATION.ru.md) / [`JSON`](./research/BPV1_PREREGISTRATION.json) | authoritative BPV-1 preregistration; execution not authorized |
 | [`adr/0026-independent-challenge-before-bounded-cross-lineage-falsification.md`](./adr/0026-independent-challenge-before-bounded-cross-lineage-falsification.md) | operator-approved Option D decision |
 | [`ai/CURRENT_STATE.md`](./ai/CURRENT_STATE.md) | compact AI current state |
 | [`../AGENTS.md`](../AGENTS.md) | mandatory repository instructions |
@@ -35,6 +36,7 @@ STATUS + project-state
 → Independent Architecture Review Protocol
 → IAR-1 result
 → IAR-1-R1 reconciliation
+→ BPV-1 preregistration
 → relevant accepted contracts/ADRs
 → reference runtime/tests/evidence
 ```
@@ -44,15 +46,17 @@ STATUS + project-state
 ```text
 H historical recovery: OPEN / BLOCKED / independent
 C clean implementation: PRESERVED / PARTIAL / BOUNDED REFERENCE LABORATORY
-R post-blueprint validation: ACTIVE / IAR-1-RECONCILED / BPV1-PLAN-NEXT
+R post-blueprint validation: ACTIVE / BPV1-PREREGISTERED / EXECUTION-ADMISSION-NEXT
 blueprint content: A1-A10 DRAFTED / PROVISIONAL / RECONCILED BY OVERLAY
 integrated review: COMPLETED / PROVISIONAL
 operator post-blueprint choice: OPTION D / ADR-0026 / APPROVED
 independent architecture review: IAR-1 / QUALIFYING_REVIEW_COMPLETE
 IAR-1 findings: 10 total / 7 BLOCKING / 3 MATERIAL
 IAR-1-R1: COMPLETE / open blockers 0 / open material 0
-next gate: BPV1_PLAN_AND_PREREGISTRATION
-BPV-1 execution: BLOCKED_PENDING_PREREGISTERED_PLAN
+BPV-1 plan: BPV1-001-cross-lineage-bounded-accountability-v1 / PREREGISTERED / EXECUTION_NOT_AUTHORIZED
+plan merge: a538d7f1e28858a88b9ee777ac7d6e05b85943db
+next gate: BPV1_EXECUTION_ADMISSION
+BPV-1 execution: BLOCKED_PENDING_EXECUTION_ADMISSION
 kernel runtime: C4
 operational validation: C5_BOUNDED_REHEARSAL
 assertions: 45 / 10 / 17 / 0
@@ -61,7 +65,7 @@ production: NOT AUTHORIZED
 runtime expansion: FROZEN
 ```
 
-Integrated review identity: `nk-integrated-blueprint-review/A1-A10-review-1`. Independent-review protocol identity: `nk-independent-architecture-review/1`. Reconciliation identity: `IAR-1-R1`.
+Integrated review identity: `nk-integrated-blueprint-review/A1-A10-review-1`. Independent-review protocol identity: `nk-independent-architecture-review/1`. Reconciliation identity: `IAR-1-R1`. BPV-1 plan identity: `BPV1-001-cross-lineage-bounded-accountability-v1`.
 
 ## Current reconciled distinctions
 
@@ -83,9 +87,10 @@ existing mechanism ≠ architecture requirement
 substrate-independent specification ≠ universal portability proof
 qualifying independent review ≠ architecture proof
 review reconciliation ≠ BPV-1 execution authorization
+preregistered plan ≠ BPV-1 execution authorization
 falsification instrument ≠ product runtime
 ```
 
 ## Hard stop
 
-`BPV1_PLAN_AND_PREREGISTRATION` is the next gate. BPV-1 implementation/execution cannot begin until an authoritative plan fixes the required scope, obligations, applicability, observables, equivalence predicates, allowed losses, failure thresholds, hard refutations, grounding mode, threat model and oracle Authority. Runtime remains `FROZEN`; A1–A10 remain provisional. Issue #18, Issue #74 / ADR-0024, ADR-0003 and Track H remain unchanged/operator-controlled.
+`BPV1_EXECUTION_ADMISSION` is the next gate. BPV-1 subject implementation/execution cannot begin until the admission checkpoint binds the frozen plan/digest, machine-readable fixture/oracle package, standalone evaluator tests, pinned Rust toolchain/source boundary and static no-product-integration audit. Runtime remains `FROZEN`; A1–A10 remain provisional. Issue #18, Issue #74 / ADR-0024, ADR-0003 and Track H remain unchanged/operator-controlled.

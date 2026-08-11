@@ -67,10 +67,7 @@ class BilingualParityValidatorTests(unittest.TestCase):
 
     def _write_config(self, data: dict[str, object] | None = None) -> None:
         self.config.parent.mkdir(parents=True, exist_ok=True)
-        self.config.write_text(
-            json.dumps(data or self._configuration(), ensure_ascii=False, indent=2) + "\n",
-            encoding="utf-8",
-        )
+        self.config.write_text(json.dumps(data or self._configuration(), ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
     def _findings(self):
         return validator.validate(self.repo, self.config)
@@ -85,23 +82,19 @@ class BilingualParityValidatorTests(unittest.TestCase):
 
     def test_missing_selector(self):
         self._write(self.russian_path, self.russian.replace("(./example.ru.md)", "(./wrong.ru.md)"))
-        findings = self._findings()
-        self.assertTrue(any("missing language selector" in f.message for f in findings))
+        self.assertTrue(any("missing language selector" in f.message for f in self._findings()))
 
     def test_missing_shared_literal(self):
         self._write(self.english_path, self.english.replace("SHARED-STATUS", "DRIFTED-STATUS"))
-        findings = self._findings()
-        self.assertTrue(any("missing shared literal" in f.message for f in findings))
+        self.assertTrue(any("missing shared literal" in f.message for f in self._findings()))
 
     def test_missing_language_specific_literal(self):
         self._write(self.russian_path, self.russian.replace("RUSSIAN-BOUNDARY", ""))
-        findings = self._findings()
-        self.assertTrue(any("missing Russian obligation" in f.message for f in findings))
+        self.assertTrue(any("missing Russian obligation" in f.message for f in self._findings()))
 
     def test_heading_outline_mismatch(self):
         self._write(self.russian_path, self.russian.replace("## Общий раздел", "### Общий раздел"))
-        findings = self._findings()
-        self.assertTrue(any("heading-level outlines differ" in f.message for f in findings))
+        self.assertTrue(any("heading-level outlines differ" in f.message for f in self._findings()))
 
     def test_fenced_code_headings_are_ignored(self):
         self._write(self.english_path, self.english + "\n```markdown\n### Not a document heading\n```\n")
@@ -122,51 +115,27 @@ class BilingualParityValidatorTests(unittest.TestCase):
 
     def test_single_h1_is_enforced(self):
         self._write(self.english_path, self.english + "\n# Second top-level heading\n")
-        findings = self._findings()
-        self.assertTrue(any("expected exactly one level-1 heading" in f.message for f in findings))
+        self.assertTrue(any("expected exactly one level-1 heading" in f.message for f in self._findings()))
 
     def test_unsafe_config_path_is_rejected(self):
-        data = self._configuration()
-        pair = data["pairs"][0]
-        assert isinstance(pair, dict)
-        pair["english"] = "../outside.md"
+        data = self._configuration(); pair = data["pairs"][0]; assert isinstance(pair, dict); pair["english"] = "../outside.md"
         self._write_config(data)
-        findings = self._findings()
-        self.assertEqual(1, len(findings))
-        self.assertEqual("configuration", findings[0].pair_id)
-        self.assertIn("repository-relative path", findings[0].message)
+        findings = self._findings(); self.assertEqual(1, len(findings)); self.assertEqual("configuration", findings[0].pair_id); self.assertIn("repository-relative path", findings[0].message)
 
     def test_non_posix_config_path_is_rejected(self):
-        data = self._configuration()
-        pair = data["pairs"][0]
-        assert isinstance(pair, dict)
-        pair["english"] = "docs\\example.md"
+        data = self._configuration(); pair = data["pairs"][0]; assert isinstance(pair, dict); pair["english"] = "docs\\example.md"
         self._write_config(data)
-        findings = self._findings()
-        self.assertEqual(1, len(findings))
-        self.assertIn("POSIX separators", findings[0].message)
+        findings = self._findings(); self.assertEqual(1, len(findings)); self.assertIn("POSIX separators", findings[0].message)
 
     def test_non_canonical_config_path_is_rejected(self):
-        data = self._configuration()
-        pair = data["pairs"][0]
-        assert isinstance(pair, dict)
-        pair["english"] = "docs/./example.md"
+        data = self._configuration(); pair = data["pairs"][0]; assert isinstance(pair, dict); pair["english"] = "docs/./example.md"
         self._write_config(data)
-        findings = self._findings()
-        self.assertEqual(1, len(findings))
-        self.assertIn("canonical repository-relative path", findings[0].message)
+        findings = self._findings(); self.assertEqual(1, len(findings)); self.assertIn("canonical repository-relative path", findings[0].message)
 
     def test_duplicate_document_registration_is_rejected(self):
-        data = self._configuration()
-        original = data["pairs"][0]
-        assert isinstance(original, dict)
-        duplicate = dict(original)
-        duplicate["pair_id"] = "duplicate"
-        data["pairs"].append(duplicate)
+        data = self._configuration(); original = data["pairs"][0]; assert isinstance(original, dict); duplicate = dict(original); duplicate["pair_id"] = "duplicate"; data["pairs"].append(duplicate)
         self._write_config(data)
-        findings = self._findings()
-        self.assertEqual(1, len(findings))
-        self.assertIn("more than one pair", findings[0].message)
+        findings = self._findings(); self.assertEqual(1, len(findings)); self.assertIn("more than one pair", findings[0].message)
 
 
 class CurrentGateLiteralRegistryTests(unittest.TestCase):
@@ -177,19 +146,25 @@ class CurrentGateLiteralRegistryTests(unittest.TestCase):
         cls.english = (ROOT / "docs" / "README.md").read_text(encoding="utf-8")
         cls.russian = (ROOT / "docs" / "README.ru.md").read_text(encoding="utf-8")
         cls.expected = [
-            "POST-BLUEPRINT VALIDATION / IAR-1 RECONCILED / BPV1 PLAN NEXT / RUNTIME EXPANSION FROZEN",
-            "R post-blueprint validation: ACTIVE / IAR-1-RECONCILED / BPV1-PLAN-NEXT",
+            "POST-BLUEPRINT VALIDATION / BPV1 PREREGISTERED / EXECUTION ADMISSION NEXT / RUNTIME EXPANSION FROZEN",
+            "R post-blueprint validation: ACTIVE / BPV1-PREREGISTERED / EXECUTION-ADMISSION-NEXT",
             "blueprint content: A1-A10 DRAFTED / PROVISIONAL / RECONCILED BY OVERLAY",
             "independent architecture review: IAR-1 / QUALIFYING_REVIEW_COMPLETE",
             "IAR-1-R1: COMPLETE / open blockers 0 / open material 0",
-            "next gate: BPV1_PLAN_AND_PREREGISTRATION",
-            "BPV-1 execution: BLOCKED_PENDING_PREREGISTERED_PLAN",
+            "BPV-1 plan: BPV1-001-cross-lineage-bounded-accountability-v1 / PREREGISTERED / EXECUTION_NOT_AUTHORIZED",
+            "plan merge: a538d7f1e28858a88b9ee777ac7d6e05b85943db",
+            "next gate: BPV1_EXECUTION_ADMISSION",
+            "BPV-1 execution: BLOCKED_PENDING_EXECUTION_ADMISSION",
             "runtime expansion: FROZEN",
         ]
         cls.forbidden = [
             "independent architectural validation: NOT ESTABLISHED",
             "next gate: INDEPENDENT_ARCHITECTURE_REVIEW",
             "BPV-1: BLOCKED_PENDING_INDEPENDENT_REVIEW_AND_RECONCILIATION",
+            "POST-BLUEPRINT VALIDATION / IAR-1 RECONCILED / BPV1 PLAN NEXT / RUNTIME EXPANSION FROZEN",
+            "R post-blueprint validation: ACTIVE / IAR-1-RECONCILED / BPV1-PLAN-NEXT",
+            "next gate: BPV1_PLAN_AND_PREREGISTRATION",
+            "BPV-1 execution: BLOCKED_PENDING_PREREGISTERED_PLAN",
         ]
 
     def test_docs_index_current_gate_registry_is_exact(self) -> None:
@@ -207,7 +182,7 @@ class CurrentGateLiteralRegistryTests(unittest.TestCase):
             self.assertIn(literal, self.english)
             self.assertIn(literal, self.russian)
 
-    def test_pre_reconciliation_gate_is_forbidden_in_current_indexes(self) -> None:
+    def test_pre_admission_gate_is_forbidden_in_current_indexes(self) -> None:
         for literal in self.forbidden:
             self.assertNotIn(literal, self.english)
             self.assertNotIn(literal, self.russian)
