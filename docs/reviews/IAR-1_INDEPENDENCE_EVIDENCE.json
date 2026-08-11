@@ -1,0 +1,27 @@
+{
+  "protocol": "nk-independent-review-evidence/1",
+  "review_id": "IAR-1",
+  "repository": "velantrian/velantrim-native-kernel",
+  "observed_at": "2026-08-11T09:52:34Z",
+  "reviewed_commit": "2dd51723e30d5f3c5e86268365bf4cf7639b5e9a",
+  "review_pr": 107,
+  "reviewer_identity": "github-codex-review-agent",
+  "github_actor_login": "chatgpt-codex-connector[bot]",
+  "contributors_snapshot": {
+    "source": "https://api.github.com/repos/velantrian/velantrim-native-kernel/contributors?per_page=100",
+    "logins": ["velantrian"]
+  },
+  "collaborators_snapshot": {
+    "source": "https://api.github.com/repos/velantrian/velantrim-native-kernel/collaborators?affiliation=all&per_page=100",
+    "logins": ["velantrian"]
+  },
+  "review_submission_source": "https://api.github.com/repos/velantrian/velantrim-native-kernel/pulls/107/reviews",
+  "reviewer_in_contributors_snapshot": false,
+  "reviewer_in_collaborators_snapshot": false,
+  "repository_authorship_inference": "NO_REPOSITORY_COMMIT_ATTRIBUTED_TO_REVIEWER_IN_VISIBLE_CONTRIBUTOR_SNAPSHOT",
+  "separation_basis": "At the recorded observation boundary, the GitHub actor that supplied the independent review is absent from both repository contributor and collaborator snapshots; the repository-visible contributor snapshot contains only velantrian. The review was submitted through the PR review channel after the immutable architecture subject had been published, rather than as a repository content commit.",
+  "limitations": [
+    "This evidence establishes repository-visible role/authorship separation for IAR-1; it does not prove model-training independence, organizational independence, or independent implementation custody.",
+    "A future independent review or implementation must establish its own evidence rather than inheriting this record automatically."
+  ]
+}
