@@ -9,6 +9,8 @@ ROOT = Path(__file__).resolve().parents[1]
 EN = (ROOT / "docs" / "INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.md").read_text(encoding="utf-8")
 RU = (ROOT / "docs" / "INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.ru.md").read_text(encoding="utf-8")
 ADR = (ROOT / "docs" / "adr" / "0026-independent-challenge-before-bounded-cross-lineage-falsification.md").read_text(encoding="utf-8")
+RESULT = json.loads((ROOT / "docs" / "reviews" / "IAR-1_RESULT.json").read_text(encoding="utf-8"))
+RECONCILIATION = json.loads((ROOT / "docs" / "reviews" / "IAR-1_RECONCILIATION.json").read_text(encoding="utf-8"))
 STATE = json.loads((ROOT / "project-state.json").read_text(encoding="utf-8"))
 
 
@@ -70,12 +72,32 @@ class IndependentArchitectureReviewProtocolTests(unittest.TestCase):
         self.assertIn("automatic_canon_promotion: NO", ADR)
         self.assertIn("automatic_runtime_promotion: NO", ADR)
 
-    def test_machine_state_starts_at_review_not_experiment(self) -> None:
+    def test_iar1_result_binds_reviewed_subject_and_complete_questions(self) -> None:
+        self.assertEqual("QUALIFYING_REVIEW_COMPLETE", RESULT["process_outcome"])
+        self.assertEqual("2dd51723e30d5f3c5e86268365bf4cf7639b5e9a", RESULT["reviewed_commit"])
+        self.assertTrue(RESULT["q1_q12_complete"])
+        self.assertEqual(10, RESULT["finding_count"])
+        self.assertEqual(7, len(RESULT["blocking_findings"]))
+        self.assertEqual(3, len(RESULT["material_findings"]))
+        self.assertEqual("FROZEN", RESULT["product_runtime_status"])
+
+    def test_reconciliation_covers_all_review_findings_without_runtime_promotion(self) -> None:
+        source_ids = {finding["finding_id"] for finding in RESULT["findings"]}
+        reconciled = {finding["finding_id"]: finding for finding in RECONCILIATION["findings"]}
+        self.assertEqual(source_ids, set(reconciled))
+        self.assertTrue(all(item["status"] == "RESOLVED" for item in reconciled.values()))
+        self.assertTrue(all(item["reconciliation_record"].strip() for item in reconciled.values()))
+        self.assertEqual([], RECONCILIATION["open_blocking_findings"])
+        self.assertEqual([], RECONCILIATION["open_material_findings"])
+        self.assertFalse(RECONCILIATION["automatic_canon_promotion"])
+        self.assertFalse(RECONCILIATION["automatic_runtime_promotion"])
+
+    def test_machine_state_advances_to_preregistration_not_execution(self) -> None:
         research = STATE["tracks"]["long_horizon_research"]
         validation = research["post_blueprint_validation"]
-        self.assertEqual("INDEPENDENT_ARCHITECTURE_REVIEW", research["architecture_refoundation"]["next_content_slice"])
-        self.assertEqual("NOT_ESTABLISHED", validation["independent_review_status"])
-        self.assertEqual("BLOCKED_PENDING_INDEPENDENT_REVIEW_AND_RECONCILIATION", validation["bpv1_status"])
+        self.assertEqual("BPV1_PLAN_AND_PREREGISTRATION", research["architecture_refoundation"]["next_content_slice"])
+        self.assertEqual("QUALIFYING_REVIEW_COMPLETE", validation["independent_review_status"])
+        self.assertEqual("BLOCKED_PENDING_PREREGISTERED_PLAN", validation["bpv1_status"])
         self.assertFalse(validation["product_runtime_thaw"])
         self.assertFalse(validation["automatic_canon_promotion"])
         self.assertFalse(validation["automatic_runtime_promotion"])
