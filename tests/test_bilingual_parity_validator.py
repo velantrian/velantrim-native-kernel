@@ -7,7 +7,8 @@ import tempfile
 import unittest
 from pathlib import Path
 
-MODULE_PATH = Path(__file__).parents[1] / "tools" / "docs" / "validate_bilingual_parity.py"
+ROOT = Path(__file__).resolve().parents[1]
+MODULE_PATH = ROOT / "tools" / "docs" / "validate_bilingual_parity.py"
 spec = importlib.util.spec_from_file_location("validate_bilingual_parity", MODULE_PATH)
 assert spec and spec.loader
 validator = importlib.util.module_from_spec(spec)
@@ -103,24 +104,15 @@ class BilingualParityValidatorTests(unittest.TestCase):
         self.assertTrue(any("heading-level outlines differ" in f.message for f in findings))
 
     def test_fenced_code_headings_are_ignored(self):
-        self._write(
-            self.english_path,
-            self.english + "\n```markdown\n### Not a document heading\n```\n",
-        )
+        self._write(self.english_path, self.english + "\n```markdown\n### Not a document heading\n```\n")
         self.assertEqual([], self._findings())
 
     def test_shorter_fence_does_not_close_longer_fence(self):
-        self._write(
-            self.english_path,
-            self.english + "\n````markdown\n```\n### Still inside the long fence\n````\n",
-        )
+        self._write(self.english_path, self.english + "\n````markdown\n```\n### Still inside the long fence\n````\n")
         self.assertEqual([], self._findings())
 
     def test_fence_with_trailing_text_does_not_close_active_fence(self):
-        self._write(
-            self.english_path,
-            self.english + "\n````markdown\n````still-code\n### Still fenced\n````\n",
-        )
+        self._write(self.english_path, self.english + "\n````markdown\n````still-code\n### Still fenced\n````\n")
         self.assertEqual([], self._findings())
 
     def test_up_to_three_leading_spaces_are_valid_atx_headings(self):
@@ -175,6 +167,50 @@ class BilingualParityValidatorTests(unittest.TestCase):
         findings = self._findings()
         self.assertEqual(1, len(findings))
         self.assertIn("more than one pair", findings[0].message)
+
+
+class CurrentGateLiteralRegistryTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls) -> None:
+        cls.registry_path = ROOT / "tools" / "docs" / "current-gate-pairs-v1.json"
+        cls.registry = json.loads(cls.registry_path.read_text(encoding="utf-8"))
+        cls.english = (ROOT / "docs" / "README.md").read_text(encoding="utf-8")
+        cls.russian = (ROOT / "docs" / "README.ru.md").read_text(encoding="utf-8")
+        cls.expected = [
+            "POST-BLUEPRINT VALIDATION / IAR-1 RECONCILED / BPV1 PLAN NEXT / RUNTIME EXPANSION FROZEN",
+            "R post-blueprint validation: ACTIVE / IAR-1-RECONCILED / BPV1-PLAN-NEXT",
+            "blueprint content: A1-A10 DRAFTED / PROVISIONAL / RECONCILED BY OVERLAY",
+            "independent architecture review: IAR-1 / QUALIFYING_REVIEW_COMPLETE",
+            "IAR-1-R1: COMPLETE / open blockers 0 / open material 0",
+            "next gate: BPV1_PLAN_AND_PREREGISTRATION",
+            "BPV-1 execution: BLOCKED_PENDING_PREREGISTERED_PLAN",
+            "runtime expansion: FROZEN",
+        ]
+        cls.forbidden = [
+            "independent architectural validation: NOT ESTABLISHED",
+            "next gate: INDEPENDENT_ARCHITECTURE_REVIEW",
+            "BPV-1: BLOCKED_PENDING_INDEPENDENT_REVIEW_AND_RECONCILIATION",
+        ]
+
+    def test_docs_index_current_gate_registry_is_exact(self) -> None:
+        self.assertEqual("nk-current-gate-doc-parity/1", self.registry["protocol"])
+        self.assertEqual(1, len(self.registry["pairs"]))
+        pair = self.registry["pairs"][0]
+        self.assertEqual("docs-index-current-gate", pair["pair_id"])
+        self.assertEqual("docs/README.md", pair["english"])
+        self.assertEqual("docs/README.ru.md", pair["russian"])
+        self.assertEqual(self.expected, pair["shared_literals"])
+        self.assertEqual(self.forbidden, pair["forbidden_current_literals"])
+
+    def test_current_gate_literals_exist_in_both_indexes(self) -> None:
+        for literal in self.expected:
+            self.assertIn(literal, self.english)
+            self.assertIn(literal, self.russian)
+
+    def test_pre_reconciliation_gate_is_forbidden_in_current_indexes(self) -> None:
+        for literal in self.forbidden:
+            self.assertNotIn(literal, self.english)
+            self.assertNotIn(literal, self.russian)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,25 @@
+{
+  "protocol": "nk-current-gate-doc-parity/1",
+  "pairs": [
+    {
+      "pair_id": "docs-index-current-gate",
+      "english": "docs/README.md",
+      "russian": "docs/README.ru.md",
+      "shared_literals": [
+        "POST-BLUEPRINT VALIDATION / IAR-1 RECONCILED / BPV1 PLAN NEXT / RUNTIME EXPANSION FROZEN",
+        "R post-blueprint validation: ACTIVE / IAR-1-RECONCILED / BPV1-PLAN-NEXT",
+        "blueprint content: A1-A10 DRAFTED / PROVISIONAL / RECONCILED BY OVERLAY",
+        "independent architecture review: IAR-1 / QUALIFYING_REVIEW_COMPLETE",
+        "IAR-1-R1: COMPLETE / open blockers 0 / open material 0",
+        "next gate: BPV1_PLAN_AND_PREREGISTRATION",
+        "BPV-1 execution: BLOCKED_PENDING_PREREGISTERED_PLAN",
+        "runtime expansion: FROZEN"
+      ],
+      "forbidden_current_literals": [
+        "independent architectural validation: NOT ESTABLISHED",
+        "next gate: INDEPENDENT_ARCHITECTURE_REVIEW",
+        "BPV-1: BLOCKED_PENDING_INDEPENDENT_REVIEW_AND_RECONCILIATION"
+      ]
+    }
+  ]
+}
