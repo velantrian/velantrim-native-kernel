@@ -15,11 +15,23 @@
     "source": "https://api.github.com/repos/velantrian/velantrim-native-kernel/collaborators?affiliation=all&per_page=100",
     "logins": ["velantrian"]
   },
-  "review_submission_source": "https://api.github.com/repos/velantrian/velantrim-native-kernel/pulls/107/reviews",
+  "review_submission_source": "https://api.github.com/repos/velantrian/velantrim-native-kernel/pulls/107/reviews/4904562661",
+  "review_submission": {
+    "id": 4904562661,
+    "node_id": "PRR_kwDOTgZ4oc8AAAABJFWv5Q",
+    "actor_login": "chatgpt-codex-connector[bot]",
+    "actor_id": 199175422,
+    "submitted_at": "2026-08-11T09:03:03Z",
+    "commit_id": "925a33f33d1a252a71475d11d82edd2c53307dbb",
+    "state": "COMMENTED",
+    "html_url": "https://github.com/velantrian/velantrim-native-kernel/pull/107#pullrequestreview-4904562661"
+  },
+  "review_submission_identity_canonicalization": "UTF-8 JSON; keys sorted; separators ',' and ':'; identity projection only",
+  "review_submission_identity_sha256": "a74166d124dcf99622607c7e655a9fa9e941f99ff81255d02ffe07b5be387b04",
   "reviewer_in_contributors_snapshot": false,
   "reviewer_in_collaborators_snapshot": false,
   "repository_authorship_inference": "NO_REPOSITORY_COMMIT_ATTRIBUTED_TO_REVIEWER_IN_VISIBLE_CONTRIBUTOR_SNAPSHOT",
-  "separation_basis": "At the recorded observation boundary, GitHub actor chatgpt-codex-connector[bot], identified here as github-codex-review-agent, is absent from both repository contributor and collaborator snapshots; the repository-visible contributor snapshot contains only velantrian. The review was submitted through the PR review channel after the immutable architecture subject had been published, rather than as a repository content commit.",
+  "separation_basis": "At the recorded observation boundary, GitHub actor chatgpt-codex-connector[bot], identified here as github-codex-review-agent and bound to exact PR review submission 4904562661, is absent from both repository contributor and collaborator snapshots; the repository-visible contributor snapshot contains only velantrian. The exact review submission is anchored to commit 925a33f33d1a252a71475d11d82edd2c53307dbb and was submitted through the PR review channel after the immutable architecture subject had been published, rather than as a repository content commit.",
   "limitations": [
     "This evidence establishes repository-visible role/authorship separation for IAR-1; it does not prove model-training independence, organizational independence, or independent implementation custody.",
     "A future independent review or implementation must establish its own evidence rather than inheriting this record automatically."
