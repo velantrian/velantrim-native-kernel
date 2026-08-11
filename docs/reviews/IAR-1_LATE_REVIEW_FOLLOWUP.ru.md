@@ -1,24 +1,56 @@
-# IAR-1 — follow-up позднего финального re-review
+# IAR-1 — Follow-up позднего review
 
-**Назначение:** сохранить post-merge chronology финального Codex re-review PR #107 и bounded fixes, необходимые до начала D4.
+> **Record identity:** `nk-independent-architecture-review/IAR-1-late-followup-1`  
+> **Status:** `CORRECTIVE FOLLOW-UP ACTIVE`  
+> **Parent review:** `IAR-1`  
+> **Parent reconciliation:** `IAR-1-R1`  
+> **Parent merge:** `845f2c8e9322c5353f9d6b421e44d1da71b82f58`  
+> **Corrective PR:** `#108`  
+> **Runtime expansion:** `FROZEN`
 
-Финальный re-review PR #107 был запрошен на exact head `3ca47783cf1b4bde46158bce5aa183ceed82d0f5`. Review-agent принял запрос до merge, но опубликовал submission уже после squash merge PR #107 в `845f2c8e9322c5353f9d6b421e44d1da71b82f58`.
+## 1. Почему существует этот follow-up
 
-Поздний review дал четыре actionable findings:
+Финальный Codex reconciliation-quality re-review PR #107 был направлен на exact PR head `3ca47783cf1b4bde46158bce5aa183ceed82d0f5`, но опубликован уже после squash merge PR #107. Поэтому четыре actionable findings обрабатываются отдельным bounded corrective PR, а не молча переписывают уже merged chronology review.
 
-1. **P1 — stale workflow gate tests**: три test-файла всё ещё требовали pre-IAR machine state `INDEPENDENT_ARCHITECTURE_REVIEW / NOT_ESTABLISHED`.
-2. **P2 — stale documentation indexes**: `docs/README.md`, `docs/README.ru.md`, `docs/adr/README.md` всё ещё представляли independent review как current next gate.
-3. **P2 — insufficient independence evidence guard**: `validate_architecture_freeze.py` проверял identity/flags reviewer, но не требовал substantive `independence_basis` и recorded input packet до принятия `QUALIFYING_REVIEW_COMPLETE`.
-4. **P2 — incomplete preregistration-field guard**: validator не требовал exact required field inventory, поэтому `threat_model`/`oracle_authority` могли исчезнуть незаметно.
+Затем PR #108 получил ещё два P2 findings на своём первом reviewed head. Они являются частью той же corrective chronology и не исчезают после последующего thread resolution.
 
-Этот follow-up исправляет все четыре finding без изменения runtime, contracts, profile semantics, evidence bytes, исходных IAR-1 findings, substantive IAR-1-R1 dispositions или operator-controlled решений.
+## 2. Поздние findings финального re-review PR #107
 
-```text
-runtime_expansion: FROZEN
-BPV-1 execution: BLOCKED_PENDING_PREREGISTERED_PLAN
-next gate after follow-up: BPV1_PLAN_AND_PREREGISTRATION
-product_runtime_thaw: NO
-production_authorized: false
-```
+1. stale A9/A10/integrated-review workflow tests могли принять validation status до reconciliation;
+2. current documentation indexes всё ещё описывали independent review как следующий gate;
+3. IAR-1 independence-basis guard слишком зависел от prose;
+4. inventory полей BPV-1 preregistration не применялся достаточно строго.
 
-Наличие этого follow-up корректирует более раннее sync-утверждение, что дополнительного финального review submission не появилось. Historical Notion/Issue text сохраняется; после merge и post-merge validation этого follow-up новый corrective checkpoint должен его supersede.
+## 3. Дополнительные findings review PR #108
+
+1. A9/A10/integrated-review slice tests должны явно проверять, что `post_blueprint_validation.status` содержит `RECONCILIATION_COMPLETE`;
+2. generic padded `independence_basis` всё ещё мог пройти architecture-freeze validator, если validation gate не требует repository-visible structured independence evidence.
+
+## 4. Corrective disposition
+
+Поэтому follow-up:
+
+- сохраняет historical состояния документов A9/A10/integrated-review, одновременно проверяя current machine gate;
+- требует от slice tests явной проверки `RECONCILIATION_COMPLETE`;
+- обновляет current documentation indexes до `IAR-1 complete / IAR-1-R1 complete / BPV1 plan next`;
+- сохраняет exact preregistration field inventory и fail-closed проверки duplicate/missing fields;
+- фиксирует repository-visible evidence разделения reviewer для IAR-1 в `docs/reviews/IAR-1_INDEPENDENCE_EVIDENCE.json`;
+- проверяет эти evidence через `tools/ai_context/validate_iar1_independence_evidence.py` и regression suite;
+- подключает independence-evidence validator/test к обязательному AI-context CI;
+- восстанавливает historical reconciliation markers, требуемые current-truth validation.
+
+## 5. Non-authorizations
+
+Этот corrective follow-up **не** разрешает:
+
+- BPV-1 implementation или execution;
+- product runtime thaw;
+- reducer v2;
+- новые Event verbs;
+- новый database/language/product profile;
+- выбор license;
+- Track H admission;
+- Final Canon;
+- maturity или production promotion.
+
+Current next gate остаётся `BPV1_PLAN_AND_PREREGISTRATION`, а runtime expansion — `FROZEN`.
