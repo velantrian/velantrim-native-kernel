@@ -43,21 +43,25 @@ repository-resident evidence ≠ independent custody
 logical ERASED ≠ physical deletion
 public repository ≠ open-source license
 operator approval ≠ independent validation
+qualifying review ≠ architecture proof
+review reconciliation ≠ BPV-1 execution permission
 ```
-
-The later Notion synchronization checkpoint does not rewrite or replace the earlier publication checkpoint.
 
 ## Architecture state
 
 Architecture Re-foundation: `BLUEPRINT COMPLETE / PROVISIONAL / VALIDATION ACTIVE`.
 
 ```text
-blueprint content A1–A10 is DRAFTED / PROVISIONAL
+blueprint content A1-A10: DRAFTED / PROVISIONAL / RECONCILED BY OVERLAY
 integrated review: COMPLETED / PROVISIONAL
 operator post-blueprint choice: OPTION D / ADR-0026 / APPROVED
-next bounded gate is INDEPENDENT_ARCHITECTURE_REVIEW
-independent architectural validation: NOT ESTABLISHED
-BPV-1: BLOCKED_PENDING_INDEPENDENT_REVIEW_AND_RECONCILIATION
+IAR-1: QUALIFYING_REVIEW_COMPLETE
+IAR-1 findings: 10 total / 7 BLOCKING / 3 MATERIAL
+IAR-1-R1 reconciliation: COMPLETE
+open BLOCKING findings: 0
+open MATERIAL findings: 0
+next bounded gate: BPV1_PLAN_AND_PREREGISTRATION
+BPV-1 execution: BLOCKED_PENDING_PREREGISTERED_PLAN
 runtime expansion: FROZEN
 ```
 
@@ -65,27 +69,67 @@ Integrated review: [EN](../INTEGRATED_A1_A10_REVIEW.md) / [RU](../INTEGRATED_A1_
 
 Independent-review protocol: [EN](../INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.md) / [RU](../INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.ru.md). Identity: `nk-independent-architecture-review/1`.
 
-ADR-0026 authorizes a validation sequence only:
+IAR-1 result: [human](../reviews/IAR-1_RESULT.md) / [machine](../reviews/IAR-1_RESULT.json).  
+IAR-1 reconciliation: [human](../reviews/IAR-1_RECONCILIATION.md) / [machine](../reviews/IAR-1_RECONCILIATION.json).
+
+## IAR-1 architectural effect
+
+IAR-1 found ten substantive issues and completed as a qualifying adversarial review. The reconciliation deliberately shrinks the provisional Kernel rather than preserving every A1–A10 structure.
+
+Current minimum candidate obligations are:
 
 ```text
-INDEPENDENT_ARCHITECTURE_REVIEW
-→ REVIEW_FINDING_RECONCILIATION
-→ one BPV-1 bounded cross-lineage falsification instrument
-→ A10 outcome classification
-→ integrated re-review
-→ separate later operator Canon/runtime decision
+representation / Claim are not silently reality / truth
+scope / Context / warrant-provenance / Authority assumptions explicit where material
+Unknown / uncertainty / unsupported remain explicit
+change / revision / supersession / retention / loss accountable for declared scope
+equivalence / degradation / loss judged against preregistered observables and failure rules
 ```
 
-Publishing the protocol does not satisfy the independent-review gate. The same authorship/reasoning lineage must not self-certify independence.
+The complete A2 inventory, A3 transition/outcome machine, A5 seven-identity/eight-time inventory, A6 lifecycle graph, Receipt-shaped accountability and Event-log-shaped history are **reference taxonomies**, not mandatory universal implementation shape.
 
-## Current integrated distinctions
+```text
+bounded accountability ≠ exact reconstruction
+history visibility ≠ mandatory Event sourcing
+exact replay ≠ universal architecture requirement
+local conformance ≠ composition/federation conformance
+```
+
+Physical/cryptographic erasure requires threat-scoped evidence beyond unverified self-assertion. Context/Provenance/Authority evaluation must terminate through an explicit grounding mode rather than infinite recursive metadata.
+
+## BPV-1 preregistration boundary
+
+Before implementation/execution, the BPV-1 plan must freeze:
+
+```text
+scenario_id
+purpose_scope
+mandatory_obligations
+applicability_rules
+mandatory_observables
+equivalence_predicates
+allowed_declared_losses
+failure_thresholds
+hard_refutation_observations
+grounding_mode
+threat_model
+oracle_authority
+```
+
+Post-execution changes to mandatory obligations, applicability, equivalence predicates or failure thresholds invalidate the run for the claimed scope and require a new experiment identity.
+
+The implementation under test must not serve as its own semantic oracle. The plan must derive its state/change/history model from problem-level obligations and must not import A3/A6/Event/reducer/Receipt structures merely because they already exist.
+
+## Current integrated/reconciled distinctions
 
 ```text
 PHYSICALLY_ERASED ≠ CRYPTOGRAPHICALLY_ERASED
 FORGOTTEN_OR_LOST ≠ deliberate erasure claim
+physical/crypto erasure assertion ≠ verified substrate condition
 uncertainty ≠ one universal confidence scalar
 Conflict ≠ necessarily Contradiction
-A6 lifecycle positions ≠ mandatory pipeline
+A6 lifecycle positions ≠ mandatory pipeline or universal shape
+A3 transition catalogue ≠ mandatory Kernel machine shape
 A10 outcomes = SUPPORTED_FOR_SCOPE / WEAKENED / REFUTED / INDETERMINATE / NOT_TESTED
 NOT_TESTED ≠ SUPPORTED
 reference laboratory ≠ final architecture
@@ -97,7 +141,7 @@ substrate-independent specification ≠ universal portability proof
 
 No AI agent may select the license or accept ADR-0024. Track H source admission also remains operator-controlled.
 
-Not authorized automatically: product runtime thaw, reducer v2, new semantic/conflict Event verbs, new product database/language/model/integration profiles, executable NK-EPI/Temporal/full Admission, operational deletion expansion, Final Canon, maturity promotion or production authorization.
+Not authorized automatically: BPV-1 execution before an authoritative preregistered plan, product runtime thaw, reducer v2, new semantic/conflict Event verbs, new product database/language/model/integration profiles, executable NK-EPI/Temporal/full Admission, operational deletion expansion, Final Canon, maturity promotion or production authorization.
 
 ```text
 Issue #18: PENDING_OPERATOR
@@ -108,14 +152,15 @@ Track H source admission: operator-controlled
 
 ## Current known gaps
 
-- qualifying independent architectural review is not yet established;
+- BPV-1 plan/preregistration is not yet authoritative;
+- no cross-lineage BPV-1 realization exists;
 - P5/C3 is not independent-language or arbitrary-substrate evidence;
-- no non-event-sourced cross-lineage realization exists;
-- no bounded-memory realization exists;
+- no bounded-memory realization has yet tested the refined accountability boundary;
+- composition/federation semantics are intentionally outside base conformance and remain separate research;
 - no arbitrary future-substrate support is demonstrated;
 - A10 major hypotheses remain unproved across independent computation models;
 - physical/cryptographic erasure execution and production operations remain absent.
 
 ## Hard stop
 
-The only current next gate is `INDEPENDENT_ARCHITECTURE_REVIEW`. It is not A11, BPV-1 execution, Canon promotion, runtime permission or production authorization.
+The only current next gate is `BPV1_PLAN_AND_PREREGISTRATION`. It authorizes design/preregistration only. It is not A11, BPV-1 execution, Canon promotion, runtime permission or production authorization.
