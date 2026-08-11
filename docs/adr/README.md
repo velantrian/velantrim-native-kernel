@@ -42,14 +42,14 @@ Decision status
 | [`0023`](./0023-harden-sqlite-wal-and-event-integrity.md) | Harden SQLite WAL and stored Event integrity | `ACCEPTED` | repository-reproduced; additive evidence captured; follow-up integrity checks passed | merged via PR #69 + follow-up PR #72 | `APPROVED` |
 | [`0024`](./0024-version-reducer-referential-semantics.md) | Version reducer referential semantics without rewriting history | `PROPOSED` | repository gap documented | `NOT_STARTED` | `PENDING` |
 | [`0025`](./0025-blueprint-before-runtime-expansion.md) | Complete the architecture blueprint before further runtime expansion | `ACCEPTED` | `DOCUMENTED` | blueprint drafted/reviewed provisionally; runtime freeze active | `APPROVED` |
-| [`0026`](./0026-independent-challenge-before-bounded-cross-lineage-falsification.md) | Independent challenge before bounded cross-lineage falsification | `ACCEPTED` | `DOCUMENTED` | `GOVERNANCE_PARTIAL` / review not yet established | `APPROVED` |
+| [`0026`](./0026-independent-challenge-before-bounded-cross-lineage-falsification.md) | Independent challenge before bounded cross-lineage falsification | `ACCEPTED` | IAR-1 qualifying review + IAR-1-R1 reconciliation | `GOVERNANCE_PARTIAL` / BPV-1 plan not yet authoritative | `APPROVED` |
 
 ## Current boundary
 
 ```text
 H historical recovery: OPEN / BLOCKED / independent
 C clean implementation: P1–P5 + C4 + C5 / BOUNDED REFERENCE LABORATORY
-R post-blueprint validation: ACTIVE / INDEPENDENT-REVIEW-FIRST
+R post-blueprint validation: ACTIVE / IAR-1-RECONCILED / BPV1-PLAN-NEXT
 kernel_runtime_conformance: C4
 operational_validation: C5_BOUNDED_REHEARSAL
 assertion map: 45 / 10 / 17 / 0
@@ -67,9 +67,11 @@ ADR-0025 — Blueprint before Runtime
 
 ADR-0026 — Post-Blueprint Validation / Option D
   ACCEPTED / OPERATOR APPROVED
-  next: INDEPENDENT_ARCHITECTURE_REVIEW
-  independent validation: NOT ESTABLISHED
-  BPV-1: BLOCKED_PENDING_INDEPENDENT_REVIEW_AND_RECONCILIATION
+  independent review: IAR-1 / QUALIFYING_REVIEW_COMPLETE
+  review findings: 10 total / 7 BLOCKING / 3 MATERIAL
+  reconciliation: IAR-1-R1 / COMPLETE / open blockers 0 / open material 0
+  next: BPV1_PLAN_AND_PREREGISTRATION
+  BPV-1 execution: BLOCKED_PENDING_PREREGISTERED_PLAN
   product runtime thaw: NO
 
 Issue #18 — license/publication terms
@@ -83,8 +85,9 @@ Issue #74 / ADR-0024
 Post-blueprint validation sequence:
 
 ```text
-independent architecture review
-→ finding reconciliation
+independent architecture review       COMPLETE / IAR-1
+→ finding reconciliation              COMPLETE / IAR-1-R1
+→ BPV-1 plan and preregistration      NEXT
 → one bounded BPV-1 falsification instrument
 → A10 outcomes
 → integrated re-review
@@ -113,7 +116,8 @@ independent architecture review
 18. A public repository does not imply an open-source license.
 19. Existing implementation profiles cannot define Canon merely by being implemented first.
 20. ADR-0025 permits maintenance and falsification instruments, not automatic semantic/runtime expansion.
-21. ADR-0026 permits independent challenge and later BPV-1 only under its review/reconciliation gate; it does not thaw product runtime.
-22. Independent review protocol publication is not completed independent review.
-23. A qualifying independent review may not be self-certified by the same authorship lineage.
-24. BPV-1 results use A10 outcomes and may weaken/refute the architecture; they never promote Canon or runtime automatically.
+21. ADR-0026 permits independent challenge and later BPV-1 only under its review/reconciliation/preregistration gates; it does not thaw product runtime.
+22. Independent review protocol publication is not completed independent review; IAR-1 result is the qualifying review record.
+23. A qualifying independent review may not be self-certified by the same authorship lineage; its concrete independence basis must remain recorded and guarded.
+24. BPV-1 normative fields must be preregistered before execution and post-hoc rescoping cannot rescue a completed run.
+25. BPV-1 results use A10 outcomes and may weaken/refute the architecture; they never promote Canon or runtime automatically.
