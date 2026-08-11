@@ -15,10 +15,12 @@ This directory is the mandatory continuity surface for AI agents, auditors and m
 9. A1–A10 bilingual first-draft documents
 10. [`../INTEGRATED_A1_A10_REVIEW.md`](../INTEGRATED_A1_A10_REVIEW.md) / [`RU`](../INTEGRATED_A1_A10_REVIEW.ru.md)
 11. [`../INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.md`](../INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.md) / [`RU`](../INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.ru.md)
-12. [`../adr/0026-independent-challenge-before-bounded-cross-lineage-falsification.md`](../adr/0026-independent-challenge-before-bounded-cross-lineage-falsification.md)
-13. [`ISSUE_RECONCILIATION.md`](ISSUE_RECONCILIATION.md)
-14. [`NOTION_HANDOFF.md`](NOTION_HANDOFF.md)
-15. affected contracts/ADRs/runtime/tests/evidence plus current GitHub/Notion live state
+12. [`../reviews/IAR-1_RESULT.md`](../reviews/IAR-1_RESULT.md) + [`JSON`](../reviews/IAR-1_RESULT.json)
+13. [`../reviews/IAR-1_RECONCILIATION.md`](../reviews/IAR-1_RECONCILIATION.md) + [`JSON`](../reviews/IAR-1_RECONCILIATION.json)
+14. [`../adr/0026-independent-challenge-before-bounded-cross-lineage-falsification.md`](../adr/0026-independent-challenge-before-bounded-cross-lineage-falsification.md)
+15. [`ISSUE_RECONCILIATION.md`](ISSUE_RECONCILIATION.md)
+16. [`NOTION_HANDOFF.md`](NOTION_HANDOFF.md)
+17. affected contracts/ADRs/runtime/tests/evidence plus current GitHub/Notion live state
 
 Do not start from a handoff alone; resolve live GitHub/Notion truth first.
 
@@ -38,52 +40,67 @@ P1-C5: BOUNDED REFERENCE LABORATORY
 ```text
 ADR-0025: ACCEPTED / OPERATOR APPROVED
 ADR-0026: ACCEPTED / OPERATOR APPROVED
-blueprint content: A1-A10 DRAFTED / PROVISIONAL
+blueprint content: A1-A10 DRAFTED / PROVISIONAL / RECONCILED BY OVERLAY
 integrated review: COMPLETED / PROVISIONAL
-post-blueprint choice: OPTION D
-next gate: INDEPENDENT_ARCHITECTURE_REVIEW
-independent architectural validation: NOT ESTABLISHED
-BPV-1: BLOCKED_PENDING_INDEPENDENT_REVIEW_AND_RECONCILIATION
+IAR-1: QUALIFYING_REVIEW_COMPLETE
+IAR-1 findings: 10 total / 7 BLOCKING / 3 MATERIAL
+IAR-1-R1 reconciliation: COMPLETE
+open BLOCKING findings: 0
+open MATERIAL findings: 0
+next gate: BPV1_PLAN_AND_PREREGISTRATION
+BPV-1 execution: BLOCKED_PENDING_PREREGISTERED_PLAN
 ```
 
-The candidate blueprint inventory remains exact A1+A2+A3+A4+A5+A6+A7+A8+A9+A10. `INTEGRATED_A1_A10_REVIEW`, `OPERATOR_POST_BLUEPRINT_DECISION` and `INDEPENDENT_ARCHITECTURE_REVIEW` are gates/review records, not A11-style deliverables.
+The candidate blueprint inventory remains exact A1+A2+A3+A4+A5+A6+A7+A8+A9+A10. `INTEGRATED_A1_A10_REVIEW`, `OPERATOR_POST_BLUEPRINT_DECISION`, `INDEPENDENT_ARCHITECTURE_REVIEW` and `BPV1_PLAN_AND_PREREGISTRATION` are gates/review records, not A11-style deliverables.
 
-Integrated review identity: `nk-integrated-blueprint-review/A1-A10-review-1`. Independent-review protocol identity: `nk-independent-architecture-review/1`.
+Integrated review identity: `nk-integrated-blueprint-review/A1-A10-review-1`. Independent-review protocol identity: `nk-independent-architecture-review/1`. IAR-1 reconciliation identity: `IAR-1-R1`.
 
-### Integrated reconciliation boundary
+## Current reconciliation hierarchy
 
-Current provisional semantics are governed by the integrated review where a first-draft wording conflicts:
+Apply the following order when first-draft wording conflicts:
 
 ```text
-PHYSICALLY_ERASED ≠ CRYPTOGRAPHICALLY_ERASED
-closure taxonomy = LOGICALLY_ERASED / PHYSICALLY_ERASED / CRYPTOGRAPHICALLY_ERASED / FORGOTTEN_OR_LOST
-FORGOTTEN_OR_LOST does not require deliberate erasure method
-A1 confidence wording means uncertainty + epistemic position, not mandatory scalar
-A10 outcome protocol = SUPPORTED_FOR_SCOPE / WEAKENED / REFUTED / INDETERMINATE / NOT_TESTED
-Conflict ≠ necessarily Contradiction
-A6 lifecycle positions ≠ mandatory pipeline
+A1-A10 first draft provenance
+→ integrated review IR-F01..IR-F07
+→ IAR-1 independent challenge
+→ IAR-1-R1 provisional reconciliation overlay
 ```
 
-Do not silently rewrite historical first-draft meaning. Cite the integrated finding (`IR-F01`…`IR-F07`) when applying a reconciliation.
+IAR-1-R1 intentionally weakens several prior candidate structures:
 
-The review pass found no known blocking internal semantic contradiction remaining after those explicit reconciliations, but independent architectural validation is **NOT ESTABLISHED**.
+- A3 transition families/outcomes are reference taxonomy, not mandatory Kernel shape;
+- A6 lifecycle positions are reference taxonomy, not mandatory Kernel shape;
+- A5 identity/time inventories are scenario-selected analytical dimensions, not universal latent inventory;
+- bounded accountability is separated from exact reconstruction/replay;
+- Source/Evidence/Provenance/Authority separation is a semantic non-conflation rule, not a mandatory four-field storage schema;
+- physical/cryptographic erasure claims require threat-scoped evidence beyond self-assertion;
+- Context/Provenance/Authority chains require an explicit finite grounding mode;
+- local scoped conformance does not imply composition/federation conformance.
 
-## Option D / independent-review hard stop
+The independent review is qualifying, but that does **not** prove the architecture correct.
 
-ADR-0026 selected:
+## BPV-1 planning hard stop
+
+BPV-1 execution remains forbidden until an authoritative plan preregisters:
 
 ```text
-INDEPENDENT_ARCHITECTURE_REVIEW
-→ REVIEW_FINDING_RECONCILIATION
-→ BPV-1 bounded cross-lineage falsification
-→ A10 outcome classification
-→ integrated re-review
-→ separate later operator Canon/runtime decision
+scenario_id
+purpose_scope
+mandatory_obligations
+applicability_rules
+mandatory_observables
+equivalence_predicates
+allowed_declared_losses
+failure_thresholds
+hard_refutation_observations
+grounding_mode
+threat_model
+oracle_authority
 ```
 
-The independent-review protocol does not complete the review. A qualifying reviewer must have a declared independence basis and must attack the architecture for hidden assumptions, unnecessary obligations, circularity, non-falsifiability and implementation capture.
+Post-execution changes to mandatory obligations, applicability, equivalence predicates or failure thresholds invalidate the run for the claimed scope and require a new experiment identity.
 
-If no qualifying reviewer exists, record `BLOCKED_NO_QUALIFYING_REVIEWER`; do not self-certify and do not skip to BPV-1.
+The implementation under test must not serve as its own semantic oracle. A different language is insufficient if the experiment simply ports A3/A6/Event/reducer/Receipt structures.
 
 ```text
 runtime thaw: NO
@@ -115,8 +132,9 @@ python tools/ai_context/validate_project_state.py --repo .
 python tools/ai_context/validate_architecture_freeze.py --repo .
 python tools/ai_context/validate_context.py --repo .
 python tools/docs/validate_bilingual_parity.py --repo .
+python -m unittest discover -s tests -p 'test_architecture_freeze.py' -v
 python -m unittest discover -s tests -p 'test_independent_architecture_review_protocol.py' -v
 python -m unittest discover -s tests -p 'test_integrated_a1_a10_review.py' -v
 ```
 
-Passing these guards proves continuity constraints only; it is not independent architectural validation.
+Passing these guards proves continuity constraints only; it is not proof that the reconciled architecture or a future BPV-1 is correct.
