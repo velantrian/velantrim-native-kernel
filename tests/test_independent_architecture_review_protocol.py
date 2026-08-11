@@ -92,12 +92,17 @@ class IndependentArchitectureReviewProtocolTests(unittest.TestCase):
         self.assertFalse(RECONCILIATION["automatic_canon_promotion"])
         self.assertFalse(RECONCILIATION["automatic_runtime_promotion"])
 
-    def test_machine_state_advances_to_preregistration_not_execution(self) -> None:
+    def test_historical_reconciliation_gate_and_current_machine_gate_are_separate(self) -> None:
         research = STATE["tracks"]["long_horizon_research"]
         validation = research["post_blueprint_validation"]
-        self.assertEqual("BPV1_PLAN_AND_PREREGISTRATION", research["architecture_refoundation"]["next_content_slice"])
+        self.assertEqual("BPV1_PLAN_AND_PREREGISTRATION", RECONCILIATION["next_gate"])
+        self.assertEqual("BLOCKED_PENDING_PREREGISTERED_PLAN", RECONCILIATION["bpv1_status_after_reconciliation"])
+        self.assertEqual("BPV1_EXECUTION_ADMISSION", research["architecture_refoundation"]["next_content_slice"])
         self.assertEqual("QUALIFYING_REVIEW_COMPLETE", validation["independent_review_status"])
-        self.assertEqual("BLOCKED_PENDING_PREREGISTERED_PLAN", validation["bpv1_status"])
+        self.assertEqual("BLOCKED_PENDING_EXECUTION_ADMISSION", validation["bpv1_status"])
+        self.assertEqual("BPV1-001-cross-lineage-bounded-accountability-v1", validation["bpv1_plan"]["plan_id"])
+        self.assertEqual("a538d7f1e28858a88b9ee777ac7d6e05b85943db", validation["bpv1_plan"]["authoritative_plan_merge_sha"])
+        self.assertFalse(validation["bpv1_plan"]["execution_authorized"])
         self.assertFalse(validation["product_runtime_thaw"])
         self.assertFalse(validation["automatic_canon_promotion"])
         self.assertFalse(validation["automatic_runtime_promotion"])
