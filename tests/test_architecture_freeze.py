@@ -171,6 +171,54 @@ class ArchitectureFreezeTests(unittest.TestCase):
         finally:
             module._load_json_record = original
 
+    def test_independence_basis_cannot_be_empty(self) -> None:
+        original = module._load_json_record
+
+        def fake_load(path: Path, label: str):
+            value = original(path, label)
+            if label == "IAR-1 result":
+                value["reviewer"]["independence_basis"] = ""
+            return value
+
+        module._load_json_record = fake_load
+        try:
+            with self.assertRaisesRegex(module.ArchitectureFreezeError, "substantive independence basis required"):
+                self.validate()
+        finally:
+            module._load_json_record = original
+
+    def test_independence_basis_requires_concrete_separation_markers(self) -> None:
+        original = module._load_json_record
+
+        def fake_load(path: Path, label: str):
+            value = original(path, label)
+            if label == "IAR-1 result":
+                value["reviewer"]["independence_basis"] = "x" * 120
+            return value
+
+        module._load_json_record = fake_load
+        try:
+            with self.assertRaisesRegex(module.ArchitectureFreezeError, "independence basis missing evidence marker"):
+                self.validate()
+        finally:
+            module._load_json_record = original
+
+    def test_input_packet_read_cannot_be_empty_or_partial(self) -> None:
+        original = module._load_json_record
+
+        def fake_load(path: Path, label: str):
+            value = original(path, label)
+            if label == "IAR-1 result":
+                value["input_packet_read"] = []
+            return value
+
+        module._load_json_record = fake_load
+        try:
+            with self.assertRaisesRegex(module.ArchitectureFreezeError, "input packet evidence drift"):
+                self.validate()
+        finally:
+            module._load_json_record = original
+
     def test_source_blocker_cannot_be_rewritten_as_nonblocking(self) -> None:
         original = module._load_json_record
 
@@ -282,6 +330,41 @@ class ArchitectureFreezeTests(unittest.TestCase):
                 self.validate()
         finally:
             module._load_json_record = original
+
+    def test_preregistration_fields_must_match_exact_inventory(self) -> None:
+        original = module._load_json_record
+
+        def fake_load(path: Path, label: str):
+            value = original(path, label)
+            if label == "IAR-1 reconciliation":
+                value["conformance_preregistration"]["fields"].remove("threat_model")
+            return value
+
+        module._load_json_record = fake_load
+        try:
+            with self.assertRaisesRegex(module.ArchitectureFreezeError, "preregistration field inventory drift"):
+                self.validate()
+        finally:
+            module._load_json_record = original
+
+    def test_preregistration_fields_cannot_contain_duplicates(self) -> None:
+        original = module._load_json_record
+
+        def fake_load(path: Path, label: str):
+            value = original(path, label)
+            if label == "IAR-1 reconciliation":
+                fields = value["conformance_preregistration"]["fields"]
+                fields[-1] = fields[0]
+                module.EXPECTED_PREREGISTRATION_FIELDS[-1] = module.EXPECTED_PREREGISTRATION_FIELDS[0]
+            return value
+
+        module._load_json_record = fake_load
+        try:
+            with self.assertRaisesRegex(module.ArchitectureFreezeError, "contains duplicates"):
+                self.validate()
+        finally:
+            module._load_json_record = original
+            module.EXPECTED_PREREGISTRATION_FIELDS[-1] = "oracle_authority"
 
     def test_reconciliation_cannot_enable_event_sourcing_as_universal(self) -> None:
         original = module._load_json_record
