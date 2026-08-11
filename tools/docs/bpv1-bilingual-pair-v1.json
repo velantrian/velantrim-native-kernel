@@ -1,0 +1,47 @@
+{
+  "protocol": "nk-bilingual-doc-parity/1",
+  "pairs": [
+    {
+      "pair_id": "bpv1-preregistration",
+      "english": "docs/research/BPV1_PREREGISTRATION.md",
+      "russian": "docs/research/BPV1_PREREGISTRATION.ru.md",
+      "selectors": ["(./BPV1_PREREGISTRATION.md)", "(./BPV1_PREREGISTRATION.ru.md)"],
+      "shared_literals": [
+        "nk-bpv1-preregistration/1",
+        "BPV1-001-cross-lineage-bounded-accountability-v1",
+        "PREREGISTERED / EXECUTION_NOT_AUTHORIZED",
+        "FALSIFICATION_INSTRUMENT_ONLY",
+        "c5d76fe281606edc0053bd7fc65167ebdfa50992",
+        "FROZEN",
+        "Rust",
+        "512",
+        "262,144 bytes",
+        "CURRENT_ACCOUNTABILITY",
+        "DECLARED_RETENTION_SCOPE",
+        "LOSS_WITNESS",
+        "EXPLICIT_ASSUMED_ROOT",
+        "BPV1-ORACLE-001",
+        "BPV1_EXECUTION_ADMISSION",
+        "BLOCKED_PENDING_EXECUTION_ADMISSION",
+        "SUPPORTED_FOR_SCOPE",
+        "WEAKENED",
+        "REFUTED",
+        "INDETERMINATE",
+        "NOT_TESTED",
+        "NOT_TESTED ≠ SUPPORTED"
+      ],
+      "english_literals": [
+        "Experimental lineage boundary",
+        "Exact preregistration fields",
+        "Execution hard stop"
+      ],
+      "russian_literals": [
+        "Граница experimental lineage",
+        "Exact preregistration fields",
+        "Execution hard stop"
+      ],
+      "compare_heading_levels": true,
+      "require_single_h1": true
+    }
+  ]
+}

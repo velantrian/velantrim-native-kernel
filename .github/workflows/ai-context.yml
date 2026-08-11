@@ -35,6 +35,7 @@ on:
       - "tests/test_integrated_a1_a10_review.py"
       - "tests/test_independent_architecture_review_protocol.py"
       - "tests/test_iar1_independence_evidence.py"
+      - "tests/test_bpv1_preregistration.py"
       - "tests/test_ai_context_validator.py"
       - "tests/test_architecture_freeze.py"
       - "tests/test_bilingual_parity_validator.py"
@@ -77,6 +78,7 @@ on:
       - "tests/test_integrated_a1_a10_review.py"
       - "tests/test_independent_architecture_review_protocol.py"
       - "tests/test_iar1_independence_evidence.py"
+      - "tests/test_bpv1_preregistration.py"
       - "tests/test_ai_context_validator.py"
       - "tests/test_architecture_freeze.py"
       - "tests/test_bilingual_parity_validator.py"
@@ -128,6 +130,7 @@ jobs:
             tests/test_integrated_a1_a10_review.py \
             tests/test_independent_architecture_review_protocol.py \
             tests/test_iar1_independence_evidence.py \
+            tests/test_bpv1_preregistration.py \
             tests/test_ai_context_validator.py \
             tests/test_architecture_freeze.py \
             tests/test_bilingual_parity_validator.py \
@@ -148,6 +151,7 @@ jobs:
           python -m unittest discover -s tests -p 'test_integrated_a1_a10_review.py' -v
           python -m unittest discover -s tests -p 'test_independent_architecture_review_protocol.py' -v
           python -m unittest discover -s tests -p 'test_iar1_independence_evidence.py' -v
+          python -m unittest discover -s tests -p 'test_bpv1_preregistration.py' -v
           python -m unittest discover -s tests -p 'test_ai_context_validator.py' -v
           python -m unittest discover -s tests -p 'test_architecture_freeze.py' -v
           python -m unittest discover -s tests -p 'test_bilingual_parity_validator.py' -v
@@ -171,6 +175,9 @@ jobs:
       - name: Validate IAR-1 repository-visible independence evidence
         run: python tools/ai_context/validate_iar1_independence_evidence.py --repo .
 
+      - name: Validate BPV-1 preregistration
+        run: python tools/ai_context/validate_bpv1_preregistration.py --repo .
+
       - name: Validate reconciliation state
         run: python tools/ai_context/validate_reconciliation.py --repo .
 
@@ -182,3 +189,6 @@ jobs:
 
       - name: Validate bilingual documentation parity
         run: python tools/docs/validate_bilingual_parity.py --repo .
+
+      - name: Validate BPV-1 bilingual preregistration parity
+        run: python tools/docs/validate_bilingual_parity.py --repo . --config tools/docs/bpv1-bilingual-pair-v1.json

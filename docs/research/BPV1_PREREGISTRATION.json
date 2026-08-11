@@ -1,0 +1,287 @@
+{
+  "protocol": "nk-bpv1-preregistration/1",
+  "plan_id": "BPV1-001-cross-lineage-bounded-accountability-v1",
+  "status": "PREREGISTERED / EXECUTION_NOT_AUTHORIZED",
+  "architecture_checkpoint": "c5d76fe281606edc0053bd7fc65167ebdfa50992",
+  "decision": "ADR-0026",
+  "review": "IAR-1",
+  "reconciliation": "IAR-1-R1",
+  "role": "FALSIFICATION_INSTRUMENT_ONLY",
+  "execution_authorized": false,
+  "execution_admission_required": true,
+  "next_gate_after_plan_merge": "BPV1_EXECUTION_ADMISSION",
+  "product_runtime_thaw": false,
+  "automatic_canon_promotion": false,
+  "automatic_runtime_promotion": false,
+  "implementation_instrument": {
+    "language": "Rust",
+    "language_role": "EXPERIMENTAL_INSTRUMENT_NOT_CANON",
+    "lineage_class": "INDEPENDENT_LANGUAGE / SAME_REPOSITORY_CUSTODY / CONVENTIONAL_DIGITAL_COMPUTATION",
+    "state_model": "BOUNDED_CURRENT_STATE_PLUS_LINEAGE_SUMMARY_AND_LOSS_WITNESS",
+    "storage_model": "CUSTOM_BOUNDED_SNAPSHOT / NO_SQL_PROFILE",
+    "event_sourcing": "PROHIBITED_AS_AUTHORITATIVE_HISTORY_MODEL",
+    "current_native_kernel_dependency": "PROHIBITED",
+    "current_python_domain_model_translation": "PROHIBITED",
+    "current_event_envelope_reuse": "PROHIBITED",
+    "current_reducer_reuse": "PROHIBITED",
+    "current_receipt_shape_as_oracle": "PROHIBITED",
+    "exact_replay_requirement": false,
+    "global_total_order_requirement": false,
+    "composition_or_federation": "OUT_OF_SCOPE"
+  },
+  "target_hypotheses": {
+    "primary": ["A10-H02", "A10-H05"],
+    "secondary": ["A10-H01", "A10-H04", "A10-H07", "A10-H12"],
+    "informative_not_adjudicated": ["A10-H03", "A10-H10"],
+    "not_tested": ["A10-H06", "A10-H08", "A10-H09", "A10-H11"]
+  },
+  "target_open_questions": ["A10-Q01", "A10-Q02", "A10-Q04", "A10-Q10", "A10-Q13", "A10-Q14", "A10-Q18"],
+  "workload": {
+    "active_claim_slots": 32,
+    "revision_cycles": 16,
+    "scripted_mutations": 512,
+    "checkpoints_after_mutations": [128, 256, 512],
+    "compaction_after_each_revision_cycle": true,
+    "bounded_memory_definition": "BOUND_ON_RETAINED_DURABLE_EXPERIMENT_STATE_NOT_PROCESS_RSS",
+    "durable_state_byte_cap": 262144,
+    "retained_detailed_predecessor_cap": 64,
+    "loss_witness_cap": 32,
+    "growth_rule": "durable_bytes_at_512 <= durable_bytes_at_256 * 1.25 + 4096",
+    "authoritative_per_operation_append_log_allowed": false,
+    "bounded_crash_journal_allowed": true,
+    "bounded_crash_journal_max_entries": 8,
+    "bounded_crash_journal_may_define_semantic_history": false
+  },
+  "fixture_families": [
+    {
+      "id": "BPV1-FX01-UNKNOWN-NOT-FALSE",
+      "purpose": "Preserve Unknown without coercion to False.",
+      "mandatory": true
+    },
+    {
+      "id": "BPV1-FX02-ROLE-NONCONFLATION",
+      "purpose": "Preserve material separation of Claim, Source, Evidence and scoped Authority relations.",
+      "mandatory": true
+    },
+    {
+      "id": "BPV1-FX03-CONTEXT-BINDING",
+      "purpose": "Keep the same proposition distinguishable across materially different Context scopes.",
+      "mandatory": true
+    },
+    {
+      "id": "BPV1-FX04-REVISION-SUPERSESSION",
+      "purpose": "Revise/supersede without silent overwrite of retained-scope accountability.",
+      "mandatory": true
+    },
+    {
+      "id": "BPV1-FX05-UNRESOLVED-PLURALITY",
+      "purpose": "Keep materially conflicting claims unresolved when the oracle does not authorize a winner.",
+      "mandatory": true
+    },
+    {
+      "id": "BPV1-FX06-BOUNDED-COMPACTION",
+      "purpose": "Compact superseded detail outside the declared retention scope while preserving current accountability and an explicit loss witness.",
+      "mandatory": true
+    },
+    {
+      "id": "BPV1-FX07-TRUNCATION-ROLLBACK",
+      "purpose": "Detect or explicitly surface uncertainty after rollback/truncation that invalidates an accountability claim.",
+      "mandatory": true
+    },
+    {
+      "id": "BPV1-FX08-FORGED-AUTHORITY",
+      "purpose": "Reject or mark unsupported a forged Authority/provenance basis rather than silently treating it as valid warrant.",
+      "mandatory": true
+    },
+    {
+      "id": "BPV1-FX09-WITHHELD-COUNTEREVIDENCE",
+      "purpose": "Keep the result scoped/uncertain when counterevidence declared relevant by the fixture is unavailable or withheld.",
+      "mandatory": true
+    },
+    {
+      "id": "BPV1-FX10-DECLARED-LOSS-AND-UNSUPPORTED",
+      "purpose": "Expose LOSSY/UNSUPPORTED/INDETERMINATE preservation instead of fabricating full equivalence.",
+      "mandatory": true
+    },
+    {
+      "id": "BPV1-FX11-NON-EVENT-HISTORY",
+      "purpose": "Demonstrate required scoped accountability without a canonical per-operation Event log or exact replay.",
+      "mandatory": true
+    },
+    {
+      "id": "BPV1-FX12-HIDDEN-SEMANTIC-DIVERGENCE",
+      "purpose": "Refute full semantic equivalence when final visible values match but provenance, Authority, uncertainty or loss semantics materially differ.",
+      "mandatory": true
+    }
+  ],
+  "scenario_id": "BPV1-001-cross-lineage-bounded-accountability-v1",
+  "purpose_scope": {
+    "claim": "Test whether the reconciled minimal Native Kernel obligations can survive one materially different single-node realization that is written in a non-Python language, does not use Event sourcing as its authoritative history model, and keeps retained durable experimental state bounded while preserving declared accountability and loss semantics.",
+    "scope_class": "SINGLE_NODE / NON_COMPOSED / CONVENTIONAL_DIGITAL / EXPERIMENTAL",
+    "evidence_class": "CROSS_LANGUAGE_AND_HISTORY_MODEL_FALSIFICATION_EVIDENCE_ONLY",
+    "not_a_claim_about": [
+      "production readiness",
+      "universal substrate portability",
+      "independent team or custody",
+      "analog or neuromorphic substrates",
+      "probabilistic computation",
+      "composition or federation",
+      "physical or cryptographic erasure",
+      "performance superiority",
+      "product runtime suitability"
+    ]
+  },
+  "mandatory_obligations": [
+    "Representation or Claim must not be silently equated with reality or objective truth.",
+    "Material Context, warrant/provenance and scoped Authority assumptions must remain inspectable without requiring the current Python field layout.",
+    "Unknown, uncertainty and unsupported states must remain representable without coercion to False or fabricated certainty.",
+    "Revision, supersession, retention and loss must remain accountable for the declared retained scope without silent overwrite.",
+    "Equivalence, degradation and loss must be classified against this preregistered oracle rather than by implementation self-report.",
+    "CURRENT_ACCOUNTABILITY must remain available for every retained active claim slot.",
+    "DECLARED_RETENTION_SCOPE must be explicit and machine-observable.",
+    "LOSS_WITNESS must exist whenever detail is compacted outside the declared retention scope.",
+    "Unresolved plurality must remain representable when no preregistered Authority rule resolves a conflict.",
+    "The realization must satisfy the mandatory obligations without making a canonical per-operation Event log or exact replay its authoritative semantic history."
+  ],
+  "applicability_rules": {
+    "single_node_non_composed": "APPLICABLE",
+    "bounded_durable_semantic_state": "APPLICABLE",
+    "non_event_sourced_authoritative_history": "APPLICABLE",
+    "independent_language": "APPLICABLE / RUST",
+    "same_repository_custody": "DECLARED_LIMITATION",
+    "independent_team": "NOT_ESTABLISHED",
+    "independent_computation_model": "NOT_ESTABLISHED / CONVENTIONAL_DIGITAL",
+    "identity_and_time_dimensions": "ONLY_DIMENSIONS_NAMED_BY_A_FIXTURE_ARE_APPLICABLE; UNNAMED_A5_DIMENSIONS_ARE_NOT_REQUIRED",
+    "physical_erasure": "NOT_APPLICABLE / NO_INDEPENDENT_PHYSICAL_SUBSTRATE_OBSERVABILITY_IN_THIS_SCENARIO",
+    "cryptographic_erasure": "NOT_APPLICABLE / NO_KEY-DESTRUCTION_SUBSTRATE_CLAIM_IN_THIS_SCENARIO",
+    "composition_federation": "NOT_APPLICABLE / SEPARATE_CAPABILITY_CLASS",
+    "exact_replay": "NOT_APPLICABLE AS A UNIVERSAL REQUIREMENT",
+    "global_total_order": "NOT_APPLICABLE AS A UNIVERSAL REQUIREMENT",
+    "post_hoc_applicability_change": "INVALIDATES_RUN_FOR_CLAIMED_SCOPE_AND_REQUIRES_NEW_SCENARIO_ID"
+  },
+  "mandatory_observables": [
+    "For every fixture, the external evaluator can read the current proposition/claim state and its epistemic position without inspecting implementation-private types.",
+    "Where a fixture makes Source, Evidence, Provenance or Authority material, the evaluator can distinguish the corresponding relations and detect prohibited collapse.",
+    "Context binding is externally observable for fixtures that vary context while holding proposition text constant.",
+    "Revision/supersession relation for retained active claims is externally observable without requiring exact byte identity or current Native Kernel IDs.",
+    "Declared retention scope is externally observable.",
+    "Every compaction that removes superseded detail outside retained scope emits or updates a bounded LOSS_WITNESS containing at least affected semantic identity, compacted range/count, reason and witness Authority/basis.",
+    "Unresolved conflict/plurality remains externally visible where no winner is authorized.",
+    "LOSSY, UNSUPPORTED and INDETERMINATE preservation states can be emitted explicitly by the external evaluator.",
+    "Durable experiment-state byte size and retained detail/witness counts are measured at mutations 128, 256 and 512.",
+    "The evaluator can determine whether an authoritative per-operation append log exists and whether exact replay is required to recover current accountability.",
+    "Rollback/truncation and forged-Authority negative fixtures produce an observable failure, unsupported or uncertainty state rather than silent acceptance.",
+    "A conformance report is generated by an evaluator that consumes preregistered observations; the implementation under test cannot choose expected outcomes after execution."
+  ],
+  "equivalence_predicates": [
+    "EQ01: Two realizations are equivalent for a fixture only if the scoped proposition/claim meaning and allowed epistemic position agree; matching bytes or identifiers are neither necessary nor sufficient.",
+    "EQ02: Material Source/Evidence/Provenance/Authority distinctions may be represented differently but may not be collapsed when that collapse changes the fixture's warrant or accountability meaning.",
+    "EQ03: Context distinctions named by a fixture must be preserved; identical proposition text in different material Contexts is not automatically the same scoped claim.",
+    "EQ04: Revision/supersession must preserve the retained-scope lineage relation; exact predecessor bytes and exact replay are not required unless the fixture explicitly retains them.",
+    "EQ05: Unknown must remain distinct from False; unsupported/indeterminate must not be silently promoted to supported/true.",
+    "EQ06: Compacted detail may differ or be absent only when outside the declared retention scope and covered by a valid LOSS_WITNESS.",
+    "EQ07: Unresolved plurality is equivalent only if no implementation silently selects a winner absent preregistered Authority.",
+    "EQ08: FULL_CONFORMANCE_FOR_SCOPE is forbidden when final values match but provenance, Authority, uncertainty, Context or declared-loss semantics materially diverge.",
+    "EQ09: No predicate requires current Event envelopes, reducer versions, SQL schema, ID prefixes, Receipt bytes, global sequence numbers or exact write chronology.",
+    "EQ10: Resource-bound conformance requires all bounded-memory workload thresholds to pass in addition to semantic predicates."
+  ],
+  "allowed_declared_losses": [
+    "Exact bytes and storage addresses of superseded detail outside the declared retention scope.",
+    "Per-operation write chronology outside the retained accountability scope.",
+    "Exact replay capability.",
+    "A3 transition-family/outcome representation as a native implementation shape.",
+    "A6 lifecycle-position representation as a native implementation shape.",
+    "Current Event/reducer/Receipt/SQL/ID/hash representation forms.",
+    "A5 identity/time dimensions not named by the fixture applicability rules.",
+    "Superseded detail after compaction when a bounded LOSS_WITNESS preserves the declared loss boundary.",
+    "Implementation-private crash-journal entries after recovery, provided the journal is bounded, is not semantic Authority, and is not used as an append-only history substitute."
+  ],
+  "failure_thresholds": {
+    "semantic_hard_failures_allowed": 0,
+    "mandatory_fixture_failures_allowed": 0,
+    "silent_unknown_to_false_coercions_allowed": 0,
+    "silent_loss_inside_declared_retention_scope_allowed": 0,
+    "unauthorized_conflict_winner_selections_allowed": 0,
+    "material_role_collapses_allowed": 0,
+    "authoritative_per_operation_append_log_allowed": false,
+    "durable_state_byte_cap": 262144,
+    "retained_detailed_predecessor_cap": 64,
+    "loss_witness_cap": 32,
+    "durable_growth_rule": "durable_bytes_at_512 <= durable_bytes_at_256 * 1.25 + 4096",
+    "required_checkpoint_count": 3,
+    "required_mutation_count": 512,
+    "indeterminate_rule": "If a mandatory observable cannot be independently evaluated, the relevant predicate is INDETERMINATE and cannot be counted as PASS.",
+    "aggregate_pass_rule": "Every applicable mandatory semantic predicate and every bounded-memory threshold must pass; no averaging can hide a hard semantic failure."
+  },
+  "hard_refutation_observations": [
+    "HR01: If required scoped accountability can only be preserved by recreating an authoritative unbounded/per-operation Event log in substance, A10-H02 is WEAKENED or REFUTED for this scope.",
+    "HR02: If bounded compaction cannot preserve CURRENT_ACCOUNTABILITY, DECLARED_RETENTION_SCOPE and a truthful LOSS_WITNESS without unbounded retained predecessor detail, A10-H05 is WEAKENED or REFUTED for this scope.",
+    "HR03: If any mandatory fixture requires Unknown to become False or unresolved plurality to become a forced winner, A10-H04 is REFUTED for this scope.",
+    "HR04: If a materially different representation cannot express a mandatory minimal obligation without importing current A3/A6/Event/reducer/Receipt structures, A10-H01 is WEAKENED for this scope and the imported structure must not be promoted by the experiment.",
+    "HR05: If final visible values match while material provenance, Authority, Context, uncertainty or loss semantics differ, FULL_CONFORMANCE_FOR_SCOPE is REFUTED for that fixture and A10-H12 is weakened if the loss-aware classification cannot express the difference actionably.",
+    "HR06: If the Rust realization agrees only because it copies current Python domain classes/serialization/SQL/Event/reducer semantics, the cross-lineage evidence class is invalid for A10-H07 rather than counted as support.",
+    "HR07: If a required retained-scope commitment disappears during compaction without an explicit valid LOSS_WITNESS, the run is REFUTED for bounded-accountability conformance.",
+    "HR08: If rollback, truncation or forged Authority can be silently accepted while the system still claims intact accountability, the run is REFUTED for the protected meaning involved.",
+    "HR09: If any mandatory obligation, applicability rule, equivalence predicate or failure threshold is changed after execution begins, the run is INVALIDATED_FOR_CLAIMED_SCOPE and requires a new scenario identity.",
+    "HR10: If the external oracle must inspect implementation-private state or accept implementation self-report as the expected semantic truth, the run is non-qualifying and cannot adjudicate the target hypotheses."
+  ],
+  "grounding_mode": {
+    "mode": "EXPLICIT_ASSUMED_ROOT",
+    "root": "The BPV1-001 fixture package and preregistered oracle definitions are assumed roots for the experimental scope only.",
+    "truth_boundary": "Fixture roots define expected scenario relations; they are not claims of objective world truth.",
+    "recursion_rule": "Provenance/Authority chains terminate at the explicit fixture root or at TERMINAL_UNKNOWN_OR_GAP; infinite recursive grounding is not required.",
+    "hidden_root_allowed": false
+  },
+  "threat_model": {
+    "protected_meanings": [
+      "declared provenance and scoped Authority basis",
+      "current accountability within the retained scope",
+      "revision/supersession relation",
+      "declared retention and loss boundary",
+      "conformance observations and result evidence"
+    ],
+    "mandatory_adversarial_cases": [
+      "forgery",
+      "truncation",
+      "rollback",
+      "equivocation",
+      "withheld counterevidence",
+      "unavailable witness",
+      "forged Authority/provenance"
+    ],
+    "not_applicable_with_rationale": {
+      "colluding_witness": "Single-node BPV1-001 has no multi-witness quorum; witness-collusion semantics belong to a later composition/custody scenario.",
+      "compromised_external_certifier": "No external operational certifier is used in BPV1-001; the repository oracle is an assumed experimental root, not a production trust service.",
+      "physical_residue_after_erasure": "Physical erasure is outside scope because this scenario has no independently observable physical-substrate erasure channel."
+    },
+    "mechanism_boundary": "No universal cryptographic mechanism is required. The realization must expose the preregistered failure/uncertainty semantics for applicable adversarial cases.",
+    "non_goals": ["OS exploit resistance", "side-channel resistance", "network consensus", "production key management", "performance benchmarking"]
+  },
+  "oracle_authority": {
+    "authority_id": "BPV1-ORACLE-001",
+    "normative_source_after_merge": "docs/research/BPV1_PREREGISTRATION.json",
+    "authority_scope": "EXPERIMENTAL_CONFORMANCE_FOR_BPV1-001_ONLY",
+    "implementation_under_test_may_modify_oracle": false,
+    "implementation_under_test_may_define_expected_outcomes": false,
+    "evaluator_input": "implementation-neutral observations and preregistered fixture identities",
+    "execution_admission_requires": [
+      "authoritative merged preregistration",
+      "frozen preregistration digest",
+      "machine-readable fixture/oracle package derived only from this plan",
+      "standalone evaluator tests passing before subject implementation execution",
+      "pinned Rust toolchain and experimental source boundary",
+      "static scope audit proving no product runtime/profile integration",
+      "separate BPV1_EXECUTION_ADMISSION checkpoint"
+    ],
+    "result_vocabulary": ["SUPPORTED_FOR_SCOPE", "WEAKENED", "REFUTED", "INDETERMINATE", "NOT_TESTED"],
+    "not_authority_for": ["Final Canon", "product runtime", "production", "license", "reducer v2", "Track H"]
+  },
+  "execution_boundary": {
+    "plan_merge_authorizes_execution": false,
+    "next_gate": "BPV1_EXECUTION_ADMISSION",
+    "execution_status_after_plan_merge": "BLOCKED_PENDING_EXECUTION_ADMISSION",
+    "execution_branch_must_start_after_admission": true,
+    "execution_cannot_change_preregistered_fields": true,
+    "change_requires_new_scenario_id": true
+  }
+}
