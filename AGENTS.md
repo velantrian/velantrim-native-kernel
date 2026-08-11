@@ -73,14 +73,15 @@ A1-A10 provisional blueprint
 → independent architecture review            COMPLETE / IAR-1 / QUALIFYING
 → review finding reconciliation              COMPLETE / IAR-1-R1
 → BPV1 plan and preregistration              COMPLETE / PR #110
-→ BPV1 execution admission                   NEXT
+→ BPV1 execution admission                   COMPLETE / PR #112
+→ BPV1-001 subject implementation/execution  NEXT
 → one bounded cross-lineage falsification instrument (BPV-1)
 → A10 outcome classification
 → integrated re-review
 → separate later operator Canon/runtime decision
 ```
 
-The active gate is `BPV1_EXECUTION_ADMISSION`.
+The active gate is `BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION`. `BPV1_EXECUTION_ADMISSION` is `COMPLETE` (package merge `6027eec73f11c4626be5553de7e79f827be2c81d`).
 
 ```text
 qualifying independent review ≠ architecture proof
@@ -93,21 +94,21 @@ BPV-1 outcome ≠ automatic Canon promotion
 
 IAR-1 is `QUALIFYING_REVIEW_COMPLETE`. IAR-1-R1 reconciliation is `COMPLETE`. All ten review findings have explicit reconciliation records; source review evidence remains preserved.
 
-BPV-1 plan `BPV1-001-cross-lineage-bounded-accountability-v1` is `PREREGISTERED / EXECUTION_NOT_AUTHORIZED` at authoritative plan merge `a538d7f1e28858a88b9ee777ac7d6e05b85943db`. BPV-1 execution is `BLOCKED_PENDING_EXECUTION_ADMISSION`.
+BPV-1 plan `BPV1-001-cross-lineage-bounded-accountability-v1` is `PREREGISTERED / EXECUTION_NOT_AUTHORIZED` at authoritative plan merge `a538d7f1e28858a88b9ee777ac7d6e05b85943db`. BPV-1 execution is `ADMITTED_FOR_EXPERIMENT_ONLY`, bounded strictly to BPV1-001 subject implementation/execution (execution-admission package merge `6027eec73f11c4626be5553de7e79f827be2c81d`); product runtime integration is not authorized.
 
 ### Allowed during the freeze
 
 - architecture and ontology research;
-- BPV-1 execution-admission packaging derived from the frozen plan;
+- BPV1-001 subject implementation/execution, now admitted;
 - integrity, security, reproducibility, and provenance fixes;
 - evidence preservation;
 - validator and truth-surface repairs;
-- historical recovery;
-- later isolated BPV-1 execution only after a separate authoritative execution-admission checkpoint.
+- historical recovery.
 
 ### Not authorized during the freeze
 
-- BPV-1 subject implementation/execution before execution admission;
+- BPV-1 subject implementation/execution outside BPV1-001's admitted scope;
+- product runtime integration of the BPV1-001 subject;
 - changes to preregistered normative fields under the same scenario identity;
 - product runtime thaw;
 - reducer v2 or new Event semantics;
@@ -148,18 +149,18 @@ oracle_authority
 
 Post-execution normative rescoping cannot rescue an old run; it invalidates the run for the claimed scope and requires a new scenario identity.
 
-## BPV1_EXECUTION_ADMISSION requirements
+## BPV1_EXECUTION_ADMISSION requirements — complete
 
-Before any subject implementation/execution, the admission checkpoint must bind:
+PR #112 (merge `6027eec73f11c4626be5553de7e79f827be2c81d`) bound before any subject implementation/execution:
 
-1. authoritative plan `BPV1-001-cross-lineage-bounded-accountability-v1` and its frozen digest;
+1. authoritative plan `BPV1-001-cross-lineage-bounded-accountability-v1` and its frozen digest (corrected to `7fe8174c604678c6b79d3fdeae83d7c5ab0d2fb15bfe343d41659d05d9496ad0` after independent verification against the unmodified preregistration file);
 2. machine-readable fixture/oracle package derived only from that plan;
 3. standalone evaluator tests passing before subject execution;
 4. pinned Rust toolchain and experimental source boundary;
 5. static scope audit proving no product runtime/profile integration;
 6. explicit continued `runtime_expansion: FROZEN`, `product_runtime_thaw: NO`, `production_authorized: false`.
 
-Admission may authorize only the bounded falsification instrument. It may not authorize product runtime, reducer-v2, Event semantics, NK-EPI runtime, Final Canon, production, Issue #18, Issue #74/ADR-0024, or Track H admission.
+Admission authorizes only the bounded BPV1-001 falsification instrument's subject implementation/execution. It does not authorize product runtime integration, reducer-v2, Event semantics, NK-EPI runtime, Final Canon, production, Issue #18, Issue #74/ADR-0024, or Track H admission.
 
 ## Required architecture discipline
 

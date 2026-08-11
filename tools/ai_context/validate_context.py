@@ -66,8 +66,9 @@ REQUIRED_STATUS_MARKERS = (
     "IAR-1-R1 reconciliation: COMPLETE",
     "BPV-1 plan: PREREGISTERED / EXECUTION_NOT_AUTHORIZED",
     "authoritative BPV-1 plan merge: a538d7f1e28858a88b9ee777ac7d6e05b85943db",
-    "next bounded gate: BPV1_EXECUTION_ADMISSION",
-    "BPV-1 execution: BLOCKED_PENDING_EXECUTION_ADMISSION",
+    "BPV-1 execution-admission package merge: 6027eec73f11c4626be5553de7e79f827be2c81d",
+    "next bounded gate: BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION",
+    "BPV-1 execution: ADMITTED_FOR_EXPERIMENT_ONLY",
 )
 CURRENT_MARKERS = REQUIRED_STATUS_MARKERS
 
@@ -81,6 +82,8 @@ FORBIDDEN_STATUS_MARKERS = (
     "BPV-1: BLOCKED_PENDING_INDEPENDENT_REVIEW_AND_RECONCILIATION",
     "next bounded gate: BPV1_PLAN_AND_PREREGISTRATION",
     "BPV-1 execution: BLOCKED_PENDING_PREREGISTERED_PLAN",
+    "next bounded gate: BPV1_EXECUTION_ADMISSION",
+    "BPV-1 execution: BLOCKED_PENDING_EXECUTION_ADMISSION",
 )
 
 BLUEPRINT_PROGRESS_SURFACES = {
@@ -89,8 +92,9 @@ BLUEPRINT_PROGRESS_SURFACES = {
         "IAR-1: QUALIFYING_REVIEW_COMPLETE",
         "IAR-1-R1 reconciliation: COMPLETE",
         "BPV-1 plan: PREREGISTERED / EXECUTION_NOT_AUTHORIZED",
-        "next content gate: BPV1_EXECUTION_ADMISSION",
-        "BPV-1 execution: BLOCKED_PENDING_EXECUTION_ADMISSION",
+        "BPV-1 execution-admission package merge: 6027eec73f11c4626be5553de7e79f827be2c81d",
+        "next content gate: BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION",
+        "BPV-1 execution: ADMITTED_FOR_EXPERIMENT_ONLY",
     ),
     "ROADMAP.md": (
         "integrated A1-A10 review                 COMPLETE / PROVISIONAL",
@@ -98,29 +102,33 @@ BLUEPRINT_PROGRESS_SURFACES = {
         "INDEPENDENT_ARCHITECTURE_REVIEW          COMPLETE / IAR-1 / QUALIFYING",
         "REVIEW_FINDING_RECONCILIATION            COMPLETE / IAR-1-R1",
         "BPV1_PLAN_AND_PREREGISTRATION            COMPLETE / PR #110",
-        "BPV1_EXECUTION_ADMISSION                 NEXT GATE",
-        "BPV-1 CROSS-LINEAGE FALSIFICATION        BLOCKED BY EXECUTION ADMISSION",
+        "BPV1_EXECUTION_ADMISSION                 COMPLETE / PR #112",
+        "BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION NEXT GATE",
+        "BPV-1 CROSS-LINEAGE FALSIFICATION        ADMITTED_FOR_EXPERIMENT_ONLY",
     ),
     "docs/ARCHITECTURE_REFOUNDATION.md": (
         "Independent architecture review: IAR-1 / QUALIFYING_REVIEW_COMPLETE",
         "Review finding reconciliation: IAR-1-R1 / COMPLETE",
         "BPV-1 plan: BPV1-001-cross-lineage-bounded-accountability-v1 / PREREGISTERED",
-        "Next bounded gate: BPV1_EXECUTION_ADMISSION",
-        "BPV-1 execution: BLOCKED_PENDING_EXECUTION_ADMISSION",
+        "BPV-1 execution-admission package merge: 6027eec73f11c4626be5553de7e79f827be2c81d",
+        "Next bounded gate: BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION",
+        "BPV-1 execution: ADMITTED_FOR_EXPERIMENT_ONLY",
     ),
     "docs/ARCHITECTURE_REFOUNDATION.ru.md": (
         "Independent architecture review: IAR-1 / QUALIFYING_REVIEW_COMPLETE",
         "Review finding reconciliation: IAR-1-R1 / COMPLETE",
         "BPV-1 plan: BPV1-001-cross-lineage-bounded-accountability-v1 / PREREGISTERED",
-        "Next bounded gate: BPV1_EXECUTION_ADMISSION",
-        "BPV-1 execution: BLOCKED_PENDING_EXECUTION_ADMISSION",
+        "BPV-1 execution-admission package merge: 6027eec73f11c4626be5553de7e79f827be2c81d",
+        "Next bounded gate: BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION",
+        "BPV-1 execution: ADMITTED_FOR_EXPERIMENT_ONLY",
     ),
     "docs/ai/README.md": (
         "IAR-1: QUALIFYING_REVIEW_COMPLETE",
         "IAR-1-R1 reconciliation: COMPLETE",
         "BPV-1 plan: PREREGISTERED / EXECUTION_NOT_AUTHORIZED",
-        "next gate: BPV1_EXECUTION_ADMISSION",
-        "BPV-1 execution: BLOCKED_PENDING_EXECUTION_ADMISSION",
+        "BPV-1 execution-admission package merge: 6027eec73f11c4626be5553de7e79f827be2c81d",
+        "next gate: BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION",
+        "BPV-1 execution: ADMITTED_FOR_EXPERIMENT_ONLY",
     ),
     "docs/INTEGRATED_A1_A10_REVIEW.md": (
         "nk-integrated-blueprint-review/A1-A10-review-1",
@@ -161,6 +169,11 @@ FORBIDDEN_BLUEPRINT_PROGRESS_MARKERS = (
     "Next bounded gate: BPV1_PLAN_AND_PREREGISTRATION",
     "BPV1_PLAN_AND_PREREGISTRATION            NEXT GATE",
     "BPV-1 execution: BLOCKED_PENDING_PREREGISTERED_PLAN",
+    "next content gate: BPV1_EXECUTION_ADMISSION",
+    "Next bounded gate: BPV1_EXECUTION_ADMISSION",
+    "next gate: BPV1_EXECUTION_ADMISSION",
+    "BPV1_EXECUTION_ADMISSION                 NEXT GATE",
+    "BPV-1 execution: BLOCKED_PENDING_EXECUTION_ADMISSION",
 )
 FORBIDDEN_PROGRESS = FORBIDDEN_BLUEPRINT_PROGRESS_MARKERS
 HISTORICAL_PROGRESS_DOCS = {
@@ -303,7 +316,7 @@ def main(argv: list[str] | None = None) -> int:
         for finding in findings:
             print(finding.render(), file=sys.stderr)
         return 1
-    print("AI context validation passed; A1-A10=provisional_reconciled; IAR-1=qualifying; reconciliation=complete; BPV1_plan=preregistered; next=BPV1_EXECUTION_ADMISSION; BPV-1_execution=blocked; runtime_expansion_frozen=true")
+    print("AI context validation passed; A1-A10=provisional_reconciled; IAR-1=qualifying; reconciliation=complete; BPV1_plan=preregistered; BPV1_execution_admission=complete; BPV-1_execution=admitted_for_experiment_only; next=BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION; runtime_expansion_frozen=true")
     return 0
 
 

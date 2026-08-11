@@ -107,8 +107,9 @@ Open BLOCKING findings: 0
 Open MATERIAL findings: 0
 BPV-1 plan: BPV1-001-cross-lineage-bounded-accountability-v1 / PREREGISTERED
 Authoritative plan merge: a538d7f1e28858a88b9ee777ac7d6e05b85943db
-Next bounded gate: BPV1_EXECUTION_ADMISSION
-BPV-1 execution: BLOCKED_PENDING_EXECUTION_ADMISSION
+BPV-1 execution-admission package merge: 6027eec73f11c4626be5553de7e79f827be2c81d
+Next bounded gate: BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION
+BPV-1 execution: ADMITTED_FOR_EXPERIMENT_ONLY
 Runtime expansion: FROZEN
 Existing P1–C5 laboratory: PRESERVED / BOUNDED
 Production authorization: false
@@ -139,7 +140,7 @@ oracle_authority
 
 Post-execution изменение normative fields инвалидирует run и требует нового scenario identity.
 
-Следующий gate `BPV1_EXECUTION_ADMISSION` должен до любого subject execution связать frozen plan/digest, machine-readable fixtures, standalone evaluator tests, pinned Rust toolchain/source boundary и static no-product-integration audit.
+Gate execution-admission, `BPV1_EXECUTION_ADMISSION`, теперь `COMPLETE`: PR #112 (merge `6027eec73f11c4626be5553de7e79f827be2c81d`) связал frozen plan/digest, machine-readable fixtures, standalone evaluator tests, pinned Rust toolchain/source boundary и static no-product-integration audit до любого subject execution. Он допускает только BPV1-001 subject implementation/execution; product runtime integration остаётся не авторизованным.
 
 ## 10. Required threat and grounding boundary
 
@@ -153,14 +154,15 @@ Context/Provenance/Authority evaluation использует explicit finite gro
 IAR-1 qualifying review                       COMPLETE
 IAR-1-R1 reconciliation                       COMPLETE
 BPV1_PLAN_AND_PREREGISTRATION                 COMPLETE / PR #110
-BPV1_EXECUTION_ADMISSION                      NEXT
-BPV-1 bounded cross-lineage falsification     BLOCKED_PENDING_EXECUTION_ADMISSION
+BPV1_EXECUTION_ADMISSION                      COMPLETE / PR #112
+BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION     NEXT
+BPV-1 bounded cross-lineage falsification     ADMITTED_FOR_EXPERIMENT_ONLY
 A10 outcome classification                    BLOCKED BY BPV-1
 integrated re-review                           BLOCKED BY OUTCOMES
 separate operator Canon/runtime decision      BLOCKED BY RE-REVIEW
 ```
 
-`BPV1_EXECUTION_ADMISSION` может допустить только bounded preregistered falsification instrument. Это не A11, не product runtime thaw, не Final Canon и не production authorization.
+`BPV1_EXECUTION_ADMISSION` допустил только bounded preregistered BPV1-001 falsification instrument's subject implementation/execution. Это не A11, не product runtime thaw, не Final Canon и не production authorization.
 
 ### Historical IAR-1-R1 publication-time markers
 

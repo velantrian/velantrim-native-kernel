@@ -11,8 +11,9 @@ independent_review: IAR-1 / QUALIFYING_REVIEW_COMPLETE
 review_reconciliation: IAR-1-R1 / COMPLETE
 bpv1_plan: BPV1-001-cross-lineage-bounded-accountability-v1 / PREREGISTERED
 bpv1_plan_merge: a538d7f1e28858a88b9ee777ac7d6e05b85943db
-next_gate: BPV1_EXECUTION_ADMISSION
-bpv1_execution: BLOCKED_PENDING_EXECUTION_ADMISSION
+bpv1_execution_admission_package_merge: 6027eec73f11c4626be5553de7e79f827be2c81d
+next_gate: BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION
+bpv1_execution: ADMITTED_FOR_EXPERIMENT_ONLY
 ```
 
 This page lists current risks. Historical defects and prior gate states remain available through Git history and their original evidence/review records; they are not rewritten as current truth.
@@ -90,11 +91,11 @@ No later report may call BPV1-001 fully independent merely because the implement
 
 ## P0 — Execution-admission oracle leakage
 
-**State:** `OPEN / NEXT ACTIVE GATE / SUBJECT EXECUTION BLOCKED`.
+**State:** `MITIGATED / SUBJECT IMPLEMENTATION NOW ADMITTED FOR BPV1-001 ONLY`.
 
-The preregistration is authoritative, but machine-readable fixtures and the standalone evaluator are not yet admitted. The immediate risk is translating the plan into executable expectations in a way that secretly incorporates subject behavior or current implementation assumptions.
+The preregistration is authoritative, and the machine-readable fixtures and standalone evaluator are now admitted (PR #112, merge `6027eec73f11c4626be5553de7e79f827be2c81d`, frozen digest corrected to `7fe8174c604678c6b79d3fdeae83d7c5ab0d2fb15bfe343d41659d05d9496ad0`). The immediate risk was translating the plan into executable expectations in a way that secretly incorporates subject behavior or current implementation assumptions; the fixtures/evaluator were authored and self-tested before any subject source existed, closing that specific leakage path for this admission.
 
-Before any subject implementation/execution, `BPV1_EXECUTION_ADMISSION` must bind:
+`BPV1_EXECUTION_ADMISSION` bound before any subject implementation/execution:
 
 - authoritative plan `BPV1-001-cross-lineage-bounded-accountability-v1`;
 - frozen digest of normative preregistration;
@@ -103,7 +104,7 @@ Before any subject implementation/execution, `BPV1_EXECUTION_ADMISSION` must bin
 - pinned Rust toolchain and experimental source boundary;
 - static no-product-integration audit.
 
-The evaluator cannot be changed after observing subject results under the same scenario identity except for non-normative bug repair that forces a new admitted evidence identity where meaning could change.
+The evaluator cannot be changed after observing subject results under the same scenario identity except for non-normative bug repair that forces a new admitted evidence identity where meaning could change. Residual risk: the source-boundary audit must be re-verified once the BPV1-001 subject actually exists, to confirm no hidden Native Kernel reuse crept in during implementation.
 
 ```text
 preregistered plan ≠ execution authorization

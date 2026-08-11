@@ -68,7 +68,7 @@ class ArchitectureFreezeTests(unittest.TestCase):
         with self.assertRaisesRegex(module.ArchitectureFreezeError, "completed blueprint deliverable inventory drift"):
             self.validate(state)
 
-    def test_current_next_gate_is_bpv1_execution_admission(self) -> None:
+    def test_current_next_content_slice_is_bpv1_subject_implementation_and_execution(self) -> None:
         state = copy.deepcopy(self.state)
         state["tracks"]["long_horizon_research"]["architecture_refoundation"]["next_content_slice"] = "BPV1_PLAN_AND_PREREGISTRATION"
         with self.assertRaisesRegex(module.ArchitectureFreezeError, "next architecture validation gate drift"):
@@ -134,10 +134,10 @@ class ArchitectureFreezeTests(unittest.TestCase):
         with self.assertRaisesRegex(module.ArchitectureFreezeError, "independent review completion drift"):
             self.validate(state)
 
-    def test_bpv1_execution_cannot_be_unblocked_before_admission(self) -> None:
+    def test_bpv1_execution_cannot_drift_beyond_admitted_scope(self) -> None:
         state = copy.deepcopy(self.state)
         state["tracks"]["long_horizon_research"]["post_blueprint_validation"]["bpv1_status"] = "AUTHORIZED"
-        with self.assertRaisesRegex(module.ArchitectureFreezeError, "execution must remain blocked"):
+        with self.assertRaisesRegex(module.ArchitectureFreezeError, "must remain admitted for the bounded experiment only"):
             self.validate(state)
 
     def test_plan_binding_cannot_authorize_execution(self) -> None:

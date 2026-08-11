@@ -71,8 +71,9 @@ ADR-0026 — Post-Blueprint Validation / Option D
   reconciliation: IAR-1-R1 / COMPLETE / open blockers 0 / open material 0
   BPV-1 plan: BPV1-001-cross-lineage-bounded-accountability-v1 / PREREGISTERED
   plan merge: a538d7f1e28858a88b9ee777ac7d6e05b85943db
-  next: BPV1_EXECUTION_ADMISSION
-  BPV-1 execution: BLOCKED_PENDING_EXECUTION_ADMISSION
+  execution-admission package merge: 6027eec73f11c4626be5553de7e79f827be2c81d
+  next: BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION
+  BPV-1 execution: ADMITTED_FOR_EXPERIMENT_ONLY
   product runtime thaw: NO
 
 Issue #18 — license/publication terms

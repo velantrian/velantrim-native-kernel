@@ -51,8 +51,9 @@ open MATERIAL findings: 0
 BPV-1 plan: PREREGISTERED / EXECUTION_NOT_AUTHORIZED
 plan_id: BPV1-001-cross-lineage-bounded-accountability-v1
 plan_merge: a538d7f1e28858a88b9ee777ac7d6e05b85943db
-next gate: BPV1_EXECUTION_ADMISSION
-BPV-1 execution: BLOCKED_PENDING_EXECUTION_ADMISSION
+BPV-1 execution-admission package merge: 6027eec73f11c4626be5553de7e79f827be2c81d
+next gate: BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION
+BPV-1 execution: ADMITTED_FOR_EXPERIMENT_ONLY
 ```
 
 The candidate blueprint inventory remains exact A1+A2+A3+A4+A5+A6+A7+A8+A9+A10. Integrated review, operator decision, independent review, reconciliation, preregistration and execution admission are gates/review records, not A11-style blueprint deliverables.
@@ -71,9 +72,9 @@ IAR-1-R1 intentionally weakens several prior candidate structures: A3/A6 are ref
 
 The qualifying review and preregistered plan do **not** prove the architecture correct.
 
-## BPV1_EXECUTION_ADMISSION hard stop
+## BPV1_EXECUTION_ADMISSION hard stop — complete
 
-PR #110 made the plan authoritative; it did **not** authorize execution. The next gate must bind before any subject implementation/execution:
+PR #110 made the plan authoritative; it did **not** authorize execution. A separate checkpoint, PR #112 (merge `6027eec73f11c4626be5553de7e79f827be2c81d`), bound before any subject implementation/execution:
 
 ```text
 authoritative preregistration + frozen digest
@@ -89,7 +90,9 @@ Rust is an experimental cross-language falsification instrument only. It is not 
 
 ```text
 runtime thaw: NO
-BPV-1 execution: BLOCKED_PENDING_EXECUTION_ADMISSION
+BPV-1 execution: ADMITTED_FOR_EXPERIMENT_ONLY
+subject implementation/execution: AUTHORIZED_FOR_BPV1-001_ONLY
+product runtime integration: NOT AUTHORIZED
 reducer v2: NOT AUTHORIZED
 new Event verbs: NOT AUTHORIZED
 new product DB/language/runtime profile: NOT AUTHORIZED
