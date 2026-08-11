@@ -5,7 +5,7 @@
 ### Technology-neutral architecture for durable knowledge, memory, change, and explanation
 
 > **Current state:** `RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY`  
-> **Active phase:** `ARCHITECTURE RE-FOUNDATION / BLUEPRINT-FIRST / RUNTIME EXPANSION FROZEN`
+> **Active phase:** `POST-BLUEPRINT VALIDATION / INDEPENDENT-REVIEW-FIRST / RUNTIME EXPANSION FROZEN`
 
 Velantrim Native Kernel studies what semantic meaning, identity, provenance, time, uncertainty, conflict, revision, and explanation should survive when databases, languages, models, processors, and storage media change.
 
@@ -78,11 +78,11 @@ machine-readable truth: COMPLETE / PR #80
 human-readable truth:   COMPLETE / PR #81
 Issues #14–#17:         RECONCILED / OPEN / PR #82
 publication checkpoint: PR #83
-Notion dashboard:       SYNCED AND READ BACK THROUGH PR #86
+Notion dashboard:       COMMITTED CHECKPOINT THROUGH PR #86
 checkpoint role repair: COMPLETE / PR #87
 ```
 
-Historical reports and proposals remain preserved but do not override current state.
+The exact committed Notion checkpoint above is historical. Newer live Notion content must be read directly and is synchronized again after material GitHub merges. Historical reports and proposals remain preserved but do not override current state.
 
 ## Current evidence
 
@@ -104,7 +104,7 @@ repository-resident evidence
 ≠ production readiness
 ```
 
-ADR-0025 does not expand any existing evidence boundary.
+ADR-0025 and ADR-0026 do not expand any existing evidence boundary.
 
 ## Three independent tracks
 
@@ -117,9 +117,9 @@ C — Clean Reference Implementation
   P1–P5 + C4 + C5
   PRESERVED / PARTIAL / BOUNDED REFERENCE LABORATORY
 
-R — Architecture Re-foundation
-  blueprint A1–A10
-  ACTIVE / BLUEPRINT-FIRST / NO AUTOMATIC RUNTIME PROMOTION
+R — Post-Blueprint Validation
+  A1–A10 + integrated review remain provisional
+  ACTIVE / OPTION D / INDEPENDENT-REVIEW-FIRST / NO AUTOMATIC PROMOTION
 ```
 
 ```text
@@ -130,28 +130,42 @@ reference laboratory ≠ final architecture
 
 ## Active architecture phase
 
-ADR-0025 records the operator-approved direction: complete the architecture blueprint before further semantic/runtime expansion.
+ADR-0025 established blueprint-before-runtime. A1–A10 and the first integrated review are now complete only as `DRAFTED / PROVISIONAL` architecture work.
+
+ADR-0026 records the operator-approved **Option D** validation route:
 
 ```text
-A1 Purpose and Non-goals
-→ A2 Knowledge and Memory Ontology
-→ A3 Abstract Native Kernel Machine
-→ A4 Semantic Laws and Invariants
-→ A5 Identity / Time / Change
-→ A6 Knowledge Lifecycle
-→ A7 Conflict / Uncertainty / Revision
-→ A8 Substrate-independence Contract
-→ A9 Reference Laboratory Boundary
-→ A10 Open Questions / Falsification
-→ integrated blueprint review
-→ separate operator decision before runtime expansion
+A1–A10 provisional blueprint
+→ integrated review                         COMPLETE / PROVISIONAL
+→ operator post-blueprint decision          OPTION D / ADR-0026 / APPROVED
+→ INDEPENDENT_ARCHITECTURE_REVIEW           NEXT GATE
+→ REVIEW_FINDING_RECONCILIATION
+→ BPV-1 bounded cross-lineage falsification
+→ A10 outcome classification
+→ integrated re-review
+→ separate later operator Canon/runtime decision
+```
+
+Current boundaries:
+
+```text
+independent architectural validation: NOT ESTABLISHED
+BPV-1: BLOCKED_PENDING_INDEPENDENT_REVIEW_AND_RECONCILIATION
+runtime expansion: FROZEN
+product runtime thaw: NO
+A1-A10 Final Canon: NOT AUTHORIZED
+production: false
 ```
 
 Plan: [English](docs/ARCHITECTURE_REFOUNDATION.md) · [Русский](docs/ARCHITECTURE_REFOUNDATION.ru.md).  
-Decision: [`ADR-0025`](docs/adr/0025-blueprint-before-runtime-expansion.md).  
+Blueprint decision: [`ADR-0025`](docs/adr/0025-blueprint-before-runtime-expansion.md).  
+Post-blueprint decision: [`ADR-0026`](docs/adr/0026-independent-challenge-before-bounded-cross-lineage-falsification.md).  
+Independent-review protocol: [English](docs/INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.md) · [Русский](docs/INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.ru.md).  
 Tracking: [Issue #88](https://github.com/velantrian/velantrim-native-kernel/issues/88).
 
-During the freeze, integrity, security, reproducibility, provenance, evidence-preservation, truth-surface, and historical-recovery work remains allowed. New semantic/runtime features are not authorized.
+Publishing the review protocol is not a completed independent review. If a qualifying independent reviewer cannot be established, the project records `BLOCKED_NO_QUALIFYING_REVIEWER` rather than self-certifying or skipping to BPV-1.
+
+During the freeze, architecture research, independent review/reconciliation, integrity, security, reproducibility, provenance, evidence-preservation, truth-surface, and historical-recovery work remains allowed. A later isolated BPV-1 falsification instrument is permitted only after its independent-review/reconciliation gate. New product semantic/runtime features are not authorized.
 
 ## Pending decisions
 
@@ -165,17 +179,9 @@ Issue #74 / ADR-0024 — reducer referential semantics
   blocks reducer-v2 work
 ```
 
-Neither decision blocks blueprint research. Neither is silently decided by ADR-0025.
+Neither decision is silently decided by ADR-0026. Track H source admission also remains operator-controlled.
 
-After blueprint review, downstream work may be reconsidered:
-
-```text
-reconcile contract families
-→ define NK-SAM and named equivalence
-→ define portable Event/history commitment
-→ decide ADR-0024 outcome if reducer work resumes
-→ only then reducer-v2 runtime
-```
+Runtime work may be reconsidered only through a later explicit operator decision after validation. BPV-1 itself is not product runtime and cannot authorize reducer-v2 or any other runtime expansion.
 
 ## Human quickstart
 
@@ -185,42 +191,6 @@ The current laboratory requires Python 3.11 or 3.12:
 python -m unittest discover -s tests -p 'test_semantic_core.py' -v
 python -m unittest discover -s tests -p 'test_p1_manifest.py' -v
 python tools/ai_context/validate_project_state.py --repo .
+python tools/ai_context/validate_architecture_freeze.py --repo .
 python tools/ai_context/validate_context.py --repo .
 ```
-
-The SQLite profile fails closed when Python links SQLite older than `3.51.3`. Full setup is in [`docs/QUICKSTART.md`](docs/QUICKSTART.md).
-
-## Explicit non-equivalences
-
-```text
-Claim ≠ truth
-admission ≠ objective truth
-Unknown ≠ False
-Architecture Canon ≠ implementation profile
-reference laboratory ≠ final architecture
-blueprint documentation ≠ implementation evidence
-runtime implementation ≠ evidence
-evidence ≠ operator authorization
-C5 PASS ≠ production readiness
-PostgreSQL + SQLite ≠ full substrate neutrality
-hash chain ≠ complete authenticity
-logical ERASED ≠ physical deletion
-public repository ≠ open-source license
-future-facing design ≠ demonstrated future substrate support
-```
-
-## Read next
-
-- [`STATUS.md`](STATUS.md) — authoritative human current state
-- [`project-state.json`](project-state.json) — committed machine state
-- [`ROADMAP.md`](ROADMAP.md) — active sequence
-- [`docs/ARCHITECTURE_REFOUNDATION.md`](docs/ARCHITECTURE_REFOUNDATION.md) — blueprint plan
-- [`AGENTS.md`](AGENTS.md) — mandatory repository instructions
-- [`docs/ai/CURRENT_STATE.md`](docs/ai/CURRENT_STATE.md) — AI continuity state
-- [`docs/ai/KNOWN_RISKS.md`](docs/ai/KNOWN_RISKS.md) — active risks
-- [`docs/QUICKSTART.md`](docs/QUICKSTART.md) — laboratory setup and tests
-- [`docs/GLOSSARY.md`](docs/GLOSSARY.md) — terminology and distinctions
-- [`docs/adr/README.md`](docs/adr/README.md) — architecture decisions
-- [`evidence/c5/README.md`](evidence/c5/README.md) — retained evidence identities
-
-Historical status and review chronology remains available in Git history and version-bound records.
