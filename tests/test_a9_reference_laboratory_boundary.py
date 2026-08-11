@@ -113,7 +113,10 @@ class A9ReferenceLaboratoryBoundaryTests(unittest.TestCase):
         self.assertEqual("BPV1_PLAN_AND_PREREGISTRATION", refoundation["next_content_slice"])
         self.assertEqual("ADR-0026", validation["decision"])
         self.assertEqual("QUALIFYING_REVIEW_COMPLETE", validation["independent_review_status"])
-        self.assertIn("RECONCILIATION_COMPLETE", validation["status"])
+        self.assertEqual(
+            "AUTHORIZED / REVIEW_COMPLETE / RECONCILIATION_COMPLETE / BPV1_PLAN_NEXT",
+            validation["status"],
+        )
         self.assertEqual("BLOCKED_PENDING_PREREGISTERED_PLAN", validation["bpv1_status"])
         self.assertTrue(refoundation["runtime_expansion_frozen"])
         self.assertEqual("BOUNDED_REFERENCE_LABORATORY", self.state["tracks"]["clean_implementation"]["architecture_role"])
