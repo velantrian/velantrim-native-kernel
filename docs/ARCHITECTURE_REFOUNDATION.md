@@ -159,3 +159,12 @@ separate operator Canon/runtime decision      BLOCKED BY RE-REVIEW
 ```
 
 `BPV1_EXECUTION_ADMISSION` may admit only the bounded preregistered falsification instrument. It is not A11, not product runtime thaw, not Final Canon and not production authorization.
+
+### Historical IAR-1-R1 publication-time markers
+
+The following strings are retained only as historical R1 publication-time state and **do not describe the current gate**:
+
+```text
+Next bounded gate: BPV1_PLAN_AND_PREREGISTRATION
+BPV-1 execution: BLOCKED_PENDING_PREREGISTERED_PLAN
+```
