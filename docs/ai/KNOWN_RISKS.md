@@ -2,10 +2,11 @@
 
 ```yaml
 document_role: ACTIVE_RISKS
-status_as_of: 2026-08-09
+status_as_of: 2026-08-11
 authoritative_machine_source: ../../project-state.json
 repository_status: RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY
-active_architecture_decision: ADR-0025
+blueprint_decision: ADR-0025
+post_blueprint_decision: ADR-0026
 ```
 
 This page lists current risks and explicitly closed historical findings. A closed code defect may still leave version-bound historical evidence or a broader unresolved threat model.
@@ -55,24 +56,27 @@ available Python / PostgreSQL / SQLite mechanisms
 ≠ permanent architecture
 ```
 
-**State:** `MITIGATED BY ADR-0025 / RESIDUAL RISK OPEN`.
+**State:** `MITIGATED BY ADR-0025 + ADR-0026 / RESIDUAL RISK OPEN`.
 
-The current P1–C5 lineage was implemented before the full knowledge ontology, abstract machine, semantic laws and substrate-independence contract were complete. Without an explicit boundary, current source structures and event-sourcing assumptions could become de facto Canon through inertia.
+The current P1–C5 lineage was implemented before the complete A1–A10 blueprint. Current source structures and event-sourcing assumptions can therefore become de facto Canon through inertia unless challenged independently.
 
 Controls:
 
-- ADR-0025 establishes `Blueprint before Runtime`;
-- P1–C5 is classified as a `BOUNDED REFERENCE LABORATORY`;
-- new semantic/runtime expansion is frozen until integrated blueprint review and a separate operator decision;
-- machine/current-state surfaces and fail-closed AI-context guards record the phase;
-- isolated experiments are permitted only as falsification instruments without automatic promotion.
+- ADR-0025 established `Blueprint before Runtime`;
+- P1–C5 is `BOUNDED_REFERENCE_LABORATORY`;
+- A1–A10 and the integrated review remain provisional;
+- ADR-0026 selected independent challenge before a bounded cross-lineage falsification instrument;
+- runtime remains frozen;
+- BPV-1 is blocked until qualifying independent review and finding reconciliation;
+- fail-closed machine/current-state guards preserve these boundaries.
 
 Residual risk:
 
-- the blueprint A1–A10 is incomplete;
-- existing accepted contracts may still contain assumptions inherited from current event-sourcing and serialization practice;
-- future contributors or agents may attempt to hide semantic expansion inside maintenance, optimization or portability work;
-- a detailed blueprint may itself be mistaken for implementation or portability evidence.
+- independent architectural validation is still `NOT ESTABLISHED`;
+- accepted contracts may retain assumptions inherited from event sourcing and current serialization practice;
+- a future BPV-1 could become a port of the current model instead of a cross-lineage falsification if its independence boundary is weak;
+- future agents/contributors may hide semantic expansion inside maintenance, optimization or portability work;
+- a detailed blueprint may be mistaken for implementation or portability evidence.
 
 Detection rule:
 
@@ -81,6 +85,39 @@ new semantic behaviour
 without ontology / abstract-machine / law / contract / decision lineage
 → governance failure
 ```
+
+## P0 — False independence / self-confirming review
+
+**State:** `OPEN / ADR-0026 GATE`.
+
+A different model name, fresh session, different prompt, or review label does not automatically create meaningful independence. The same authorship/reasoning lineage could unintentionally certify its own assumptions.
+
+Required control:
+
+```text
+qualifying reviewer identity
++ explicit independence basis
++ no authorship of A1-A10/integrated review
++ adversarial falsification mandate
+≠ simple second opinion
+```
+
+If a qualifying reviewer cannot be established, the correct state is `BLOCKED_NO_QUALIFYING_REVIEWER`, not silent progression to BPV-1.
+
+## P0 — BPV-1 may become self-confirming
+
+**State:** `OPEN / BLOCKED BEFORE EXPERIMENT DESIGN`.
+
+If experiment success criteria are chosen after implementation, or if Python/reducer/Event-envelope/current SQL schema/ID layout becomes the hidden oracle, BPV-1 would not provide meaningful cross-lineage evidence.
+
+Controls required before BPV-1:
+
+- qualifying independent review complete;
+- blocking/material findings reconciled or explicitly carried as experiment dependencies;
+- hypotheses and falsification conditions written before implementation;
+- no automatic product-profile admission;
+- A10 outcome vocabulary used exactly;
+- failed outcomes retained rather than redesigned away.
 
 ## P0 — Historical and clean lineages may be collapsed
 
@@ -100,7 +137,7 @@ Reducer v1 permits histories whose LINK, UTILIZED, SUPERSEDED or ERASED referenc
 
 **State:** `OPEN / CONTRACT DECISION REQUIRED / RUNTIME FROZEN`.
 
-Reducer v1 must not be changed in place. Any stricter behavior requires a separately versioned reducer, fixtures, migration assessment and evidence after the blueprint gate is reviewed and runtime work is separately reopened.
+Reducer v1 must not be changed in place. ADR-0026 does not accept ADR-0024 and does not authorize reducer v2.
 
 ## P0 — Event/history commitment is not complete authenticity
 
@@ -135,11 +172,9 @@ External collaboration, package publication, CLA/DCO policy, patent terms and co
 
 ## P0 — Research may be mistaken for authorization
 
-The Architecture Re-foundation plan and post-C5 backlog include ontology, an abstract Kernel machine, semantic laws, NK-EPI, Temporal, Admission, independent profiles, signed Receipts, deletion, ecosystem adapters and future substrates.
-
 **State:** `OPEN / GOVERNANCE BOUNDARY`.
 
-Research prose does not create Canon, accepted contracts, runtime behavior, evidence or production authority. ADR-0025 authorizes the research phase and runtime freeze; it does not pre-accept the contents of future blueprint deliverables.
+Research prose, independent-review findings and BPV-1 results do not automatically create Canon, runtime behavior, production authority, or broad substrate claims. ADR-0026 authorizes validation only.
 
 ## P1 — Operational equivalence remains absent
 
@@ -151,11 +186,19 @@ C3 is bounded semantic/behavioural comparison, not full operational equivalence.
 
 ## P1 — Independent implementation evidence remains absent
 
-Current PostgreSQL and SQLite profiles share a Python semantic lineage. This is stronger than a single storage profile but weaker than a fully independent language/runtime implementation.
+Current PostgreSQL and SQLite profiles share a Python semantic lineage.
 
-**State:** `OPEN`.
+**State:** `OPEN / TARGETED BY FUTURE BPV-1 BUT NOT YET TESTED`.
 
-A future independent implementation must own its encoder, Event parser/verifier, reducer, state codec and fixture runner and pass declared equivalence profiles without using Python as a hidden oracle. ADR-0025 does not authorize starting that implementation before blueprint review.
+Still absent:
+
+- independent-language evidence;
+- non-event-sourced cross-lineage realization;
+- bounded-memory realization;
+- independent implementation team/custody;
+- probabilistic/neuromorphic/analog/non-classical implementation evidence.
+
+A different language alone is insufficient if it simply ports the same semantics and representations.
 
 ## P1 — Durable evidence lacks independent custody
 
@@ -163,13 +206,7 @@ Sixteen exact ZIPs across the historical and ADR-0023 identities are repository-
 
 **State:** `MITIGATED / RESIDUAL RISK OPEN`.
 
-Still absent:
-
-- independent third-party custody;
-- signed timestamping;
-- append-only external archive;
-- reviewer quorum;
-- disaster recovery for the Git repository itself.
+Still absent: independent third-party custody, signed timestamping, append-only external archive, reviewer quorum and disaster recovery for the Git repository itself.
 
 ## P1 — Synthetic privacy checks are not privacy compliance
 
@@ -189,7 +226,7 @@ It is not physical PostgreSQL backup, WAL recovery, provider snapshot, point-in-
 
 ## P1 — Scale and environment scope are narrow
 
-Current operational workloads are small, and preserved evidence covers Ubuntu 24.04, Python 3.11/3.12, PostgreSQL 16/18 and the declared SQLite versions.
+Current operational workloads are small, and preserved evidence covers Ubuntu 24.04, Python 3.11/3.12, PostgreSQL 16/18 and declared SQLite versions.
 
 **State:** `OPEN`.
 
@@ -199,15 +236,13 @@ Passing current thresholds is not a capacity, SLO, cost, architecture or broad p
 
 GitHub refs, issue states, Actions and Notion can change after a committed snapshot.
 
-**State:** `MITIGATED BY PR #80, PR #86 AND PR #87 / RESIDUAL LIVE-STATE RISK OPEN`.
+**State:** `MITIGATED / RESIDUAL LIVE-STATE RISK OPEN`.
 
-`nk-project-state/2` separates checkpoint roles and declares the expected relation to HEAD. It does not make committed metadata self-updating. Live state still requires GitHub verification, and Notion requires a separate post-merge sync and read-back record.
+`nk-project-state/2` separates checkpoint roles and declares the expected relation to HEAD. It does not make committed metadata self-updating. Live state still requires GitHub verification, and Notion requires separate post-merge synchronization/read-back.
 
 ## Closed historical findings
 
 ### Exact Event type comparison gap
-
-Python boolean/integer equality could previously allow a re-hashed envelope with `true` where canonical payload stored `1`.
 
 **State:** `CLOSED BY PR #72 / EXACT PR AND MAIN CI PASS / HISTORICAL EVIDENCE VERSION-BOUND`.
 
@@ -215,21 +250,15 @@ The correction compares committed Event fields by canonical JSON bytes in both P
 
 ### Evidence schema and associated-run identity drift
 
-ADR-0023 evidence fields were not fully represented in the v1 schema, and associated P5/C3/C4 run identities were insufficiently constrained.
-
 **State:** `CLOSED BY PR #72 / EXACT PR AND MAIN CI PASS`.
 
 This establishes repository-declared identity binding, not external signatures or independent custody.
 
 ### SQLite builder workflow trigger gap
 
-A change limited to `tools/sqlite/build_safe_sqlite.sh` did not trigger every dependent profile workflow.
-
 **State:** `CLOSED BY PR #72 / EXACT PR AND MAIN CI PASS`.
 
 ### Historical SQLite WAL-reset exposure
-
-Historical C5 evidence used SQLite `3.45.1`, which lies below the current safe WAL floor.
 
 **State:** `MITIGATED IN CURRENT PROFILE / HISTORICAL EVIDENCE VERSION-BOUND`.
 
@@ -237,16 +266,9 @@ The current profile fails closed below linked SQLite `3.51.3`; safe-version evid
 
 ## Update rule
 
-For every risk transition record:
+For every risk transition record exact contract/decision, exact SHA/workflow runs, affected evidence identity, residual risk, proof boundary, and whether operator approval is required.
 
-- exact contract or decision;
-- exact SHA and workflow runs;
-- affected evidence identity;
-- residual risk;
-- proof boundary;
-- whether operator approval is required.
-
-Never convert a bounded PASS, retained archive, closed bug, accepted research priority or blueprint proposal into production, truth, compliance, deletion, full neutrality, future-substrate support or ecosystem-authority claims.
+Never convert a bounded PASS, retained archive, closed bug, accepted research priority, operator approval, independent-review protocol or future BPV-1 result into production, truth, compliance, deletion, Final Canon, universal neutrality, future-substrate support or ecosystem-authority claims.
 
 ## Historical snapshot
 
