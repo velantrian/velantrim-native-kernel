@@ -1,0 +1,68 @@
+{
+  "protocol": "nk-bpv1-execution-admission/1",
+  "admission_id": "BPV1-001-execution-admission-v1",
+  "scenario_id": "BPV1-001-cross-lineage-bounded-accountability-v1",
+  "status": "CANDIDATE_PACKAGE / EXECUTION_NOT_ADMITTED",
+  "execution_authorized_by_this_package": false,
+  "separate_post_merge_state_checkpoint_required": true,
+  "plan": {
+    "protocol": "nk-bpv1-preregistration/1",
+    "path": "docs/research/BPV1_PREREGISTRATION.json",
+    "authoritative_merge": "a538d7f1e28858a88b9ee777ac7d6e05b85943db",
+    "sha256": "15c830ed195762d571cf675900303dfbfb29bf01a5cde2aac814388319585a91"
+  },
+  "oracle": {
+    "authority": "BPV1-ORACLE-001",
+    "fixture_spec": "experiments/bpv1/BPV1-001/admission/fixtures.json",
+    "fixture_protocol": "nk-bpv1-fixtures/1",
+    "observation_protocol": "nk-bpv1-observations/1",
+    "evaluation_protocol": "nk-bpv1-evaluation/1",
+    "evaluator": "tools/bpv1/evaluate.py",
+    "self_test": "tests/test_bpv1_execution_admission.py",
+    "subject_may_define_expected_outcomes": false,
+    "post_result_normative_edits_under_same_scenario": "FORBIDDEN"
+  },
+  "source_boundary": {
+    "manifest": "experiments/bpv1/BPV1-001/admission/source-boundary.json",
+    "toolchain": "experiments/bpv1/BPV1-001/rust-toolchain.toml",
+    "rust_channel": "1.97.1",
+    "rust_release_source": "https://blog.rust-lang.org/2026/07/16/Rust-1.97.1/",
+    "subject_root": "experiments/bpv1/BPV1-001/subject",
+    "subject_must_be_absent_in_admission_package": true,
+    "language_role": "EXPERIMENTAL_INSTRUMENT_NOT_CANON",
+    "independent_team": "NOT_ESTABLISHED",
+    "independent_custody": "NOT_ESTABLISHED",
+    "independent_computation_model": "NOT_ESTABLISHED / CONVENTIONAL_DIGITAL"
+  },
+  "static_scope_audit": {
+    "tool": "tools/bpv1/audit_scope.py",
+    "admission_base": "20484a151bc7011509579353c2cf78845e3c33f9",
+    "mode": "admission",
+    "product_runtime_roots_may_change": false,
+    "subject_source_may_exist": false
+  },
+  "required_pre_admission_evidence": [
+    "fixture specification matches all 12 preregistered fixture families",
+    "plan SHA-256 recomputes to the frozen digest",
+    "authoritative plan merge is an ancestor of the admission candidate",
+    "standalone evaluator self-tests pass before subject source exists",
+    "Rust toolchain is pinned to 1.97.1",
+    "source-boundary manifest forbids current Native Kernel/Event/reducer/Receipt/SQL reuse as semantic oracle",
+    "static admission diff contains no product/runtime/profile/evidence-c5 changes",
+    "exact-head CI passes",
+    "post-merge CI passes",
+    "unresolved review threads are zero",
+    "separate state checkpoint binds the admission package merge before subject execution"
+  ],
+  "admission_effect_if_later_bound_by_state_checkpoint": {
+    "may_authorize": "BPV1-001 SUBJECT IMPLEMENTATION_AND_EXECUTION_ONLY",
+    "product_runtime_thaw": false,
+    "runtime_expansion": "FROZEN",
+    "reducer_v2": "NOT_AUTHORIZED",
+    "new_event_verbs": "NOT_AUTHORIZED",
+    "nk_epi_runtime": "NOT_AUTHORIZED",
+    "final_canon": "NOT_AUTHORIZED",
+    "production": false,
+    "universal_substrate_independence_claim": "NOT_AUTHORIZED"
+  }
+}
