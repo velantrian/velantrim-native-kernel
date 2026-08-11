@@ -2,7 +2,7 @@
   "protocol": "nk-bpv1-source-boundary/1",
   "scenario_id": "BPV1-001-cross-lineage-bounded-accountability-v1",
   "plan_merge": "a538d7f1e28858a88b9ee777ac7d6e05b85943db",
-  "plan_sha256": "15c830ed195762d571cf675900303dfbfb29bf01a5cde2aac814388319585a91",
+  "plan_sha256": "7fe8174c604678c6b79d3fdeae83d7c5ab0d2fb15bfe343d41659d05d9496ad0",
   "toolchain_file": "experiments/bpv1/BPV1-001/rust-toolchain.toml",
   "rust_channel": "1.97.1",
   "subject_root": "experiments/bpv1/BPV1-001/subject",

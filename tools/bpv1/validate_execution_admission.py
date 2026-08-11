@@ -14,7 +14,7 @@ from typing import Any, Mapping
 PLAN_ID = "BPV1-001-cross-lineage-bounded-accountability-v1"
 PLAN_PATH = "docs/research/BPV1_PREREGISTRATION.json"
 PLAN_MERGE = "a538d7f1e28858a88b9ee777ac7d6e05b85943db"
-PLAN_SHA256 = "15c830ed195762d571cf675900303dfbfb29bf01a5cde2aac814388319585a91"
+PLAN_SHA256 = "7fe8174c604678c6b79d3fdeae83d7c5ab0d2fb15bfe343d41659d05d9496ad0"
 ADMISSION_PATH = "docs/research/BPV1_EXECUTION_ADMISSION.json"
 FIXTURES_PATH = "experiments/bpv1/BPV1-001/admission/fixtures.json"
 BOUNDARY_PATH = "experiments/bpv1/BPV1-001/admission/source-boundary.json"

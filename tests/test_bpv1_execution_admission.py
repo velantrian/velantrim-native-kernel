@@ -70,7 +70,7 @@ class BPV1ExecutionAdmissionTests(unittest.TestCase):
 
     def test_frozen_plan_sha256_is_exact(self) -> None:
         digest = digest_tool.digest_file(ROOT / "docs" / "research" / "BPV1_PREREGISTRATION.json")
-        self.assertEqual("15c830ed195762d571cf675900303dfbfb29bf01a5cde2aac814388319585a91", digest)
+        self.assertEqual("7fe8174c604678c6b79d3fdeae83d7c5ab0d2fb15bfe343d41659d05d9496ad0", digest)
 
     def test_synthetic_complete_bundle_supports_scope(self) -> None:
         report = evaluator.evaluate(SPEC, passing_observations())

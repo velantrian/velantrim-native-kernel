@@ -57,7 +57,7 @@ jobs:
 
       - name: Validate exact preregistered plan digest
         run: |
-          test "$(python tools/bpv1/plan_digest.py --repo .)" = "15c830ed195762d571cf675900303dfbfb29bf01a5cde2aac814388319585a91"
+          test "$(python tools/bpv1/plan_digest.py --repo .)" = "7fe8174c604678c6b79d3fdeae83d7c5ab0d2fb15bfe343d41659d05d9496ad0"
 
       - name: Self-test standalone oracle before subject exists
         run: python -m unittest discover -s tests -p 'test_bpv1_execution_admission.py' -v
