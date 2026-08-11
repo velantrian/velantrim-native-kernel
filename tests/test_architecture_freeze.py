@@ -26,6 +26,24 @@ class ArchitectureFreezeTests(unittest.TestCase):
     def test_repository_freeze_passes(self) -> None:
         self.validate()
 
+    def test_snapshot_cannot_predate_constituent_verification(self) -> None:
+        state = copy.deepcopy(self.state)
+        state["observed_at"] = "2000-01-01T00:00:00Z"
+        with self.assertRaisesRegex(module.ArchitectureFreezeError, "observed_at predates constituent verification"):
+            self.validate(state)
+
+    def test_snapshot_timestamp_requires_timezone(self) -> None:
+        state = copy.deepcopy(self.state)
+        state["observed_at"] = "2026-08-11T08:08:00"
+        with self.assertRaisesRegex(module.ArchitectureFreezeError, "timestamp must include timezone"):
+            self.validate(state)
+
+    def test_constituent_verification_timestamp_is_validated(self) -> None:
+        state = copy.deepcopy(self.state)
+        state["issues"]["88"]["verification"]["observed_at"] = "not-a-time"
+        with self.assertRaisesRegex(module.ArchitectureFreezeError, "invalid .*verification.observed_at timestamp"):
+            self.validate(state)
+
     def test_runtime_freeze_cannot_be_disabled(self) -> None:
         state = copy.deepcopy(self.state)
         state["tracks"]["long_horizon_research"]["architecture_refoundation"]["runtime_expansion_frozen"] = False

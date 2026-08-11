@@ -5,8 +5,9 @@ from __future__ import annotations
 import argparse
 import json
 import sys
+from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Mapping
+from typing import Any, Iterator, Mapping
 
 EXPECTED_DELIVERABLES = [
     "A1_KERNEL_PURPOSE_AND_NON_GOALS",
@@ -81,8 +82,45 @@ def _load(path: Path) -> dict[str, Any]:
     return value
 
 
+def _parse_timestamp(value: Any, label: str) -> datetime:
+    _require(isinstance(value, str) and value.strip(), f"{label} timestamp required")
+    normalized = value.strip().replace("Z", "+00:00")
+    try:
+        parsed = datetime.fromisoformat(normalized)
+    except ValueError as exc:
+        raise ArchitectureFreezeError(f"invalid {label} timestamp: {value}") from exc
+    _require(parsed.tzinfo is not None, f"{label} timestamp must include timezone")
+    return parsed.astimezone(timezone.utc)
+
+
+def _verification_observations(value: Any, path: str = "$") -> Iterator[tuple[str, Any]]:
+    if isinstance(value, Mapping):
+        verification = value.get("verification")
+        if isinstance(verification, Mapping) and "observed_at" in verification:
+            yield f"{path}.verification.observed_at", verification.get("observed_at")
+        for key, child in value.items():
+            if key == "verification":
+                continue
+            yield from _verification_observations(child, f"{path}.{key}")
+    elif isinstance(value, list):
+        for index, child in enumerate(value):
+            yield from _verification_observations(child, f"{path}[{index}]")
+
+
+def _validate_snapshot_chronology(state: Mapping[str, Any]) -> None:
+    snapshot_time = _parse_timestamp(state.get("observed_at"), "project-state observed_at")
+    for path, raw_observed_at in _verification_observations(state):
+        observation_time = _parse_timestamp(raw_observed_at, path)
+        _require(
+            snapshot_time >= observation_time,
+            f"project-state observed_at predates constituent verification: {path}",
+        )
+
+
 def validate(state: Mapping[str, Any], *, repo: Path) -> None:
     _require(state.get("protocol") == "nk-project-state/2", "unsupported project-state protocol")
+    _validate_snapshot_chronology(state)
+
     status = state.get("status")
     _require(isinstance(status, Mapping), "status object required")
     _require(status.get("production_authorized") is False, "architecture validation cannot coexist with production authorization")
@@ -199,7 +237,7 @@ def main(argv: list[str] | None = None) -> int:
     except ArchitectureFreezeError as exc:
         print(f"Architecture validation boundary failed: {exc}", file=sys.stderr)
         return 1
-    print("Architecture validation boundary passed; next=INDEPENDENT_ARCHITECTURE_REVIEW; independent_review=NOT_ESTABLISHED; BPV-1=BLOCKED; runtime_expansion_frozen=true")
+    print("Architecture validation boundary passed; chronology=valid; next=INDEPENDENT_ARCHITECTURE_REVIEW; independent_review=NOT_ESTABLISHED; BPV-1=BLOCKED; runtime_expansion_frozen=true")
     return 0
 
 
