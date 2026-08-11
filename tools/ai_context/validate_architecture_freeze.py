@@ -82,6 +82,29 @@ EXPECTED_RECONCILED_BPV1_DEPENDENCY = {
     "IAR-F06": "INFORMS_PLAN",
     "IAR-F10": "INFORMS_FUTURE_COMPOSITION_SCOPE",
 }
+EXPECTED_IAR1_INPUT_PACKET = [
+    "AGENTS.md and mandatory orientation surfaces",
+    "A1-A10 provisional architecture documents",
+    "integrated A1-A10 reconciliation",
+    "ADR-0025",
+    "ADR-0026",
+    "nk-independent-architecture-review/1",
+    "P1-C5 contract/evidence/runtime context sufficient to test implementation capture",
+]
+EXPECTED_PREREGISTRATION_FIELDS = [
+    "scenario_id",
+    "purpose_scope",
+    "mandatory_obligations",
+    "applicability_rules",
+    "mandatory_observables",
+    "equivalence_predicates",
+    "allowed_declared_losses",
+    "failure_thresholds",
+    "hard_refutation_observations",
+    "grounding_mode",
+    "threat_model",
+    "oracle_authority",
+]
 COMPLETED_DELIVERABLE_DOCS = {
     item: (f"docs/{item}.md", f"docs/{item}.ru.md")
     for item in EXPECTED_COMPLETED_DELIVERABLES
@@ -184,12 +207,18 @@ def _validate_iar1_records(repo: Path) -> None:
     _require(result.get("material_findings") == EXPECTED_IAR1_MATERIAL, "IAR-1 material finding inventory drift")
     _require(result.get("bpv1_status_recommendation") == "BLOCKED_PENDING_INDEPENDENT_REVIEW_AND_RECONCILIATION", "IAR-1 must not itself admit BPV-1")
     _require(result.get("product_runtime_status") == "FROZEN", "IAR-1 must preserve runtime freeze")
+    _require(result.get("input_packet_read") == EXPECTED_IAR1_INPUT_PACKET, "IAR-1 input packet evidence drift")
     reviewer = result.get("reviewer")
     _require(isinstance(reviewer, Mapping), "IAR-1 reviewer record required")
     _require(reviewer.get("reviewer_identity") == "github-codex-review-agent", "IAR-1 reviewer identity drift")
     _require(reviewer.get("reviewer_kind") == "AGENT", "IAR-1 reviewer kind drift")
+    independence_basis = reviewer.get("independence_basis")
+    _require(isinstance(independence_basis, str) and len(independence_basis.strip()) >= 80, "IAR-1 substantive independence basis required")
+    for marker in ("Separate GitHub review agent", "contributor/collaborator", "did not author"):
+        _require(marker in independence_basis, f"IAR-1 independence basis missing evidence marker: {marker}")
     _require(reviewer.get("prior_authorship_of_A1_A10") is False, "IAR-1 reviewer cannot be A1-A10 author")
     _require(reviewer.get("prior_authorship_of_integrated_review") is False, "IAR-1 reviewer cannot be integrated-review author")
+    _require(reviewer.get("review_scope") == "A1-A10 + integrated reconciliation", "IAR-1 reviewer scope drift")
     _require(reviewer.get("review_mode") == "ADVERSARIAL_FALSIFICATION", "IAR-1 review mode drift")
     _require(reviewer.get("current_runtime_used_as_architectural_oracle") is False, "IAR-1 must not use current runtime as architecture oracle")
     findings = result.get("findings")
@@ -224,7 +253,11 @@ def _validate_iar1_records(repo: Path) -> None:
     preregistration = reconciliation.get("conformance_preregistration")
     _require(isinstance(preregistration, Mapping), "IAR-1 preregistration boundary required")
     _require(preregistration.get("required_before_execution") is True, "BPV-1 preregistration must precede execution")
+    preregistration_fields = preregistration.get("fields")
+    _require(preregistration_fields == EXPECTED_PREREGISTRATION_FIELDS, "BPV-1 preregistration field inventory drift")
+    _require(len(preregistration_fields) == len(set(preregistration_fields)), "BPV-1 preregistration field inventory contains duplicates")
     _require(preregistration.get("post_hoc_rescoping") == "INVALIDATES_RUN_FOR_CLAIMED_SCOPE", "post-hoc BPV-1 rescoping must fail closed")
+    _require(preregistration.get("not_applicable_requires_preregistered_rationale") is True, "NOT_APPLICABLE must require preregistered rationale")
     principles = reconciliation.get("principles")
     _require(isinstance(principles, Mapping), "IAR-1 refined principle boundary required")
     _require(principles.get("exact_reconstruction_universal") is False, "exact reconstruction cannot remain universal")
