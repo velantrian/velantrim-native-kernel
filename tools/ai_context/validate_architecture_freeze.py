@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
-"""Fail closed when the architecture validation/runtime-freeze boundary drifts."""
+"""Fail closed when the post-blueprint validation/runtime-freeze boundary drifts.
+
+Historical IAR-1/IAR-1-R1 records retain their publication-time next gate
+(BPV1_PLAN_AND_PREREGISTRATION). Current project state advances only after the
+merged preregistration to BPV1_EXECUTION_ADMISSION, while execution remains
+blocked and product runtime remains frozen.
+"""
 from __future__ import annotations
 
 import argparse
@@ -21,6 +27,7 @@ EXPECTED_DELIVERABLES = [
     "A9_REFERENCE_LABORATORY_BOUNDARY",
     "A10_OPEN_QUESTIONS_AND_FALSIFICATION",
 ]
+EXPECTED_COMPLETED_DELIVERABLES = EXPECTED_DELIVERABLES[:]
 EXPECTED_FREEZE_EXCEPTIONS = [
     "integrity and security fixes",
     "reproducibility and provenance corrections",
@@ -45,11 +52,17 @@ EXPECTED_POST_BLUEPRINT_FIELDS = {
     "decision", "issue", "operator_approval", "selected_option", "status",
     "independent_review_protocol", "independent_review_document_en",
     "independent_review_document_ru", "independent_review_status", "bpv1_status",
-    "bpv1_role", "product_runtime_thaw", "automatic_canon_promotion",
+    "bpv1_role", "bpv1_plan", "product_runtime_thaw", "automatic_canon_promotion",
     "automatic_runtime_promotion",
 }
-EXPECTED_COMPLETED_DELIVERABLES = EXPECTED_DELIVERABLES[:]
-EXPECTED_NEXT_CONTENT_SLICE = "BPV1_PLAN_AND_PREREGISTRATION"
+EXPECTED_HISTORICAL_RECONCILIATION_NEXT_GATE = "BPV1_PLAN_AND_PREREGISTRATION"
+EXPECTED_CURRENT_NEXT_GATE = "BPV1_EXECUTION_ADMISSION"
+EXPECTED_CURRENT_BPV1_STATUS = "BLOCKED_PENDING_EXECUTION_ADMISSION"
+EXPECTED_PLAN_ID = "BPV1-001-cross-lineage-bounded-accountability-v1"
+EXPECTED_PLAN_PROTOCOL = "nk-bpv1-preregistration/1"
+EXPECTED_PLAN_PATH = "docs/research/BPV1_PREREGISTRATION.json"
+EXPECTED_PLAN_MERGE_SHA = "a538d7f1e28858a88b9ee777ac7d6e05b85943db"
+
 INTEGRATED_REVIEW_DOCS = (
     "docs/INTEGRATED_A1_A10_REVIEW.md",
     "docs/INTEGRATED_A1_A10_REVIEW.ru.md",
@@ -64,6 +77,7 @@ IAR1_RESULT_RU_MD = "docs/reviews/IAR-1_RESULT.ru.md"
 IAR1_RECONCILIATION_JSON = "docs/reviews/IAR-1_RECONCILIATION.json"
 IAR1_RECONCILIATION_MD = "docs/reviews/IAR-1_RECONCILIATION.md"
 IAR1_RECONCILIATION_RU_MD = "docs/reviews/IAR-1_RECONCILIATION.ru.md"
+
 EXPECTED_IAR1_BLOCKERS = [
     "IAR-F01", "IAR-F02", "IAR-F03", "IAR-F05", "IAR-F07", "IAR-F08", "IAR-F09",
 ]
@@ -155,9 +169,8 @@ def _verification_observations(value: Any, path: str = "$") -> Iterator[tuple[st
         if isinstance(verification, Mapping) and "observed_at" in verification:
             yield f"{path}.verification.observed_at", verification.get("observed_at")
         for key, child in value.items():
-            if key == "verification":
-                continue
-            yield from _verification_observations(child, f"{path}.{key}")
+            if key != "verification":
+                yield from _verification_observations(child, f"{path}.{key}")
     elif isinstance(value, list):
         for index, child in enumerate(value):
             yield from _verification_observations(child, f"{path}[{index}]")
@@ -182,8 +195,7 @@ def _validate_source_finding(finding_id: str, item: Mapping[str, Any]) -> None:
         "implementation_capture_risk", "falsifiability_impact", "recommended_disposition",
         "source_review_comment_id",
     ):
-        value = item.get(field)
-        _require(value not in (None, "", []), f"{finding_id} source finding field required: {field}")
+        _require(item.get(field) not in (None, "", []), f"{finding_id} source finding field required: {field}")
     _require(item.get("implementation_capture_risk") in {"LOW", "MEDIUM", "HIGH"}, f"{finding_id} implementation-capture risk drift")
     _require(item.get("falsifiability_impact") in {"LOW", "MEDIUM", "HIGH"}, f"{finding_id} falsifiability impact drift")
     _require(item.get("recommended_disposition") in {"REMOVE", "WEAKEN", "SPLIT", "CLARIFY", "TEST", "RETAIN"}, f"{finding_id} disposition drift")
@@ -212,10 +224,10 @@ def _validate_iar1_records(repo: Path) -> None:
     _require(isinstance(reviewer, Mapping), "IAR-1 reviewer record required")
     _require(reviewer.get("reviewer_identity") == "github-codex-review-agent", "IAR-1 reviewer identity drift")
     _require(reviewer.get("reviewer_kind") == "AGENT", "IAR-1 reviewer kind drift")
-    independence_basis = reviewer.get("independence_basis")
-    _require(isinstance(independence_basis, str) and len(independence_basis.strip()) >= 80, "IAR-1 substantive independence basis required")
+    basis = reviewer.get("independence_basis")
+    _require(isinstance(basis, str) and len(basis.strip()) >= 80, "IAR-1 substantive independence basis required")
     for marker in ("Separate GitHub review agent", "contributor/collaborator", "did not author"):
-        _require(marker in independence_basis, f"IAR-1 independence basis missing evidence marker: {marker}")
+        _require(marker in basis, f"IAR-1 independence basis missing evidence marker: {marker}")
     _require(reviewer.get("prior_authorship_of_A1_A10") is False, "IAR-1 reviewer cannot be A1-A10 author")
     _require(reviewer.get("prior_authorship_of_integrated_review") is False, "IAR-1 reviewer cannot be integrated-review author")
     _require(reviewer.get("review_scope") == "A1-A10 + integrated reconciliation", "IAR-1 reviewer scope drift")
@@ -235,29 +247,29 @@ def _validate_iar1_records(repo: Path) -> None:
     _require(reconciliation.get("status") == "COMPLETE", "IAR-1 reconciliation must be complete")
     _require(reconciliation.get("architecture_status") == "PROVISIONAL_RECONCILED", "IAR-1 architecture status drift")
     _require(reconciliation.get("runtime_expansion") == "FROZEN", "IAR-1 reconciliation must preserve runtime freeze")
-    _require(reconciliation.get("bpv1_status_after_reconciliation") == "BLOCKED_PENDING_PREREGISTERED_PLAN", "IAR-1 reconciliation must keep BPV-1 execution blocked pending plan")
-    _require(reconciliation.get("next_gate") == EXPECTED_NEXT_CONTENT_SLICE, "IAR-1 reconciliation next gate drift")
+    _require(reconciliation.get("bpv1_status_after_reconciliation") == "BLOCKED_PENDING_PREREGISTERED_PLAN", "IAR-1 reconciliation must preserve its historical post-review BPV-1 status")
+    _require(reconciliation.get("next_gate") == EXPECTED_HISTORICAL_RECONCILIATION_NEXT_GATE, "IAR-1 reconciliation next gate drift")
     _require(reconciliation.get("open_blocking_findings") == [], "IAR-1 reconciliation cannot leave blocking findings open")
     _require(reconciliation.get("open_material_findings") == [], "IAR-1 reconciliation cannot leave material findings untracked")
     _require(reconciliation.get("automatic_canon_promotion") is False, "IAR-1 reconciliation cannot auto-promote Canon")
     _require(reconciliation.get("automatic_runtime_promotion") is False, "IAR-1 reconciliation cannot auto-promote runtime")
-    reconciled_findings = reconciliation.get("findings")
-    _require(isinstance(reconciled_findings, list) and len(reconciled_findings) == 10, "IAR-1 reconciliation must cover all findings")
-    reconciled_by_id = {item.get("finding_id"): item for item in reconciled_findings if isinstance(item, Mapping)}
+    reconciled = reconciliation.get("findings")
+    _require(isinstance(reconciled, list) and len(reconciled) == 10, "IAR-1 reconciliation must cover all findings")
+    reconciled_by_id = {item.get("finding_id"): item for item in reconciled if isinstance(item, Mapping)}
     _require(set(reconciled_by_id) == set(by_id), "IAR-1 reconciliation finding inventory drift")
     for finding_id, item in reconciled_by_id.items():
         _require(item.get("severity") == EXPECTED_IAR1_SEVERITY[finding_id], f"{finding_id} reconciliation severity drift")
         _require(item.get("status") == "RESOLVED", f"{finding_id} must be reconciled before BPV-1 planning")
         _require(bool(str(item.get("reconciliation_record", "")).strip()), f"{finding_id} reconciliation record required")
         _require(item.get("bpv1_dependency") == EXPECTED_RECONCILED_BPV1_DEPENDENCY[finding_id], f"{finding_id} reconciliation BPV-1 dependency drift")
-    preregistration = reconciliation.get("conformance_preregistration")
-    _require(isinstance(preregistration, Mapping), "IAR-1 preregistration boundary required")
-    _require(preregistration.get("required_before_execution") is True, "BPV-1 preregistration must precede execution")
-    preregistration_fields = preregistration.get("fields")
-    _require(preregistration_fields == EXPECTED_PREREGISTRATION_FIELDS, "BPV-1 preregistration field inventory drift")
-    _require(len(preregistration_fields) == len(set(preregistration_fields)), "BPV-1 preregistration field inventory contains duplicates")
-    _require(preregistration.get("post_hoc_rescoping") == "INVALIDATES_RUN_FOR_CLAIMED_SCOPE", "post-hoc BPV-1 rescoping must fail closed")
-    _require(preregistration.get("not_applicable_requires_preregistered_rationale") is True, "NOT_APPLICABLE must require preregistered rationale")
+    prereg = reconciliation.get("conformance_preregistration")
+    _require(isinstance(prereg, Mapping), "IAR-1 preregistration boundary required")
+    _require(prereg.get("required_before_execution") is True, "BPV-1 preregistration must precede execution")
+    fields = prereg.get("fields")
+    _require(fields == EXPECTED_PREREGISTRATION_FIELDS, "BPV-1 preregistration field inventory drift")
+    _require(len(fields) == len(set(fields)), "BPV-1 preregistration field inventory contains duplicates")
+    _require(prereg.get("post_hoc_rescoping") == "INVALIDATES_RUN_FOR_CLAIMED_SCOPE", "post-hoc BPV-1 rescoping must fail closed")
+    _require(prereg.get("not_applicable_requires_preregistered_rationale") is True, "NOT_APPLICABLE must require preregistered rationale")
     principles = reconciliation.get("principles")
     _require(isinstance(principles, Mapping), "IAR-1 refined principle boundary required")
     _require(principles.get("exact_reconstruction_universal") is False, "exact reconstruction cannot remain universal")
@@ -266,10 +278,32 @@ def _validate_iar1_records(repo: Path) -> None:
     _require(principles.get("composition_conformance_implied_by_local_conformance") is False, "local conformance cannot imply composition conformance")
 
 
+def _validate_current_bpv1_plan(validation: Mapping[str, Any], repo: Path) -> None:
+    plan = validation.get("bpv1_plan")
+    _require(isinstance(plan, Mapping), "authoritative BPV-1 plan binding required")
+    _require(plan.get("protocol") == EXPECTED_PLAN_PROTOCOL, "BPV-1 plan protocol drift")
+    _require(plan.get("plan_id") == EXPECTED_PLAN_ID, "BPV-1 plan identity drift")
+    _require(plan.get("path") == EXPECTED_PLAN_PATH, "BPV-1 plan path drift")
+    _require(plan.get("authoritative_plan_merge_sha") == EXPECTED_PLAN_MERGE_SHA, "BPV-1 authoritative plan merge drift")
+    _require(plan.get("status") == "PREREGISTERED / EXECUTION_NOT_AUTHORIZED", "BPV-1 plan status drift")
+    _require(plan.get("execution_authorized") is False, "BPV-1 execution must remain blocked")
+    _require(plan.get("execution_admission_required") is True, "BPV-1 execution admission must remain required")
+    _require(plan.get("next_gate") == EXPECTED_CURRENT_NEXT_GATE, "BPV-1 plan next gate drift")
+    record = _load_json_record(repo / EXPECTED_PLAN_PATH, "BPV-1 preregistration")
+    _require(record.get("protocol") == EXPECTED_PLAN_PROTOCOL, "BPV-1 preregistration protocol drift")
+    _require(record.get("plan_id") == EXPECTED_PLAN_ID, "BPV-1 preregistration identity drift")
+    _require(record.get("status") == "PREREGISTERED / EXECUTION_NOT_AUTHORIZED", "BPV-1 preregistration status drift")
+    _require(record.get("execution_authorized") is False, "merged BPV-1 preregistration cannot authorize execution")
+    _require(record.get("next_gate_after_plan_merge") == EXPECTED_CURRENT_NEXT_GATE, "merged BPV-1 preregistration next gate drift")
+    boundary = record.get("execution_boundary")
+    _require(isinstance(boundary, Mapping), "BPV-1 execution boundary required")
+    _require(boundary.get("plan_merge_authorizes_execution") is False, "plan merge cannot authorize BPV-1 execution")
+    _require(boundary.get("execution_status_after_plan_merge") == EXPECTED_CURRENT_BPV1_STATUS, "BPV-1 post-plan execution status drift")
+
+
 def validate(state: Mapping[str, Any], *, repo: Path) -> None:
     _require(state.get("protocol") == "nk-project-state/2", "unsupported project-state protocol")
     _validate_snapshot_chronology(state)
-
     status = state.get("status")
     _require(isinstance(status, Mapping), "status object required")
     _require(status.get("production_authorized") is False, "architecture validation cannot coexist with production authorization")
@@ -291,17 +325,12 @@ def validate(state: Mapping[str, Any], *, repo: Path) -> None:
     refoundation = research.get("architecture_refoundation")
     _require(isinstance(refoundation, Mapping), "ADR-0025 architecture_refoundation object required")
     _require(set(refoundation) == EXPECTED_REFOUNDATION_FIELDS, "architecture_refoundation field inventory drift")
-    _require(
-        (refoundation.get("decision"), refoundation.get("issue"), refoundation.get("operator_approval"), refoundation.get("status"))
-        == ("ADR-0025", 88, "APPROVED", "BLUEPRINT COMPLETE / PROVISIONAL / VALIDATION ACTIVE"),
-        "ADR-0025 identity, issue, approval or phase drift",
-    )
+    _require((refoundation.get("decision"), refoundation.get("issue"), refoundation.get("operator_approval"), refoundation.get("status")) == ("ADR-0025", 88, "APPROVED", "BLUEPRINT COMPLETE / PROVISIONAL / VALIDATION ACTIVE"), "ADR-0025 identity, issue, approval or phase drift")
     _require(refoundation.get("runtime_expansion_frozen") is True, "runtime expansion freeze must remain enabled")
     _require(refoundation.get("existing_reference_runtime_role") == "BOUNDED_REFERENCE_LABORATORY", "existing runtime role drift")
     _require(refoundation.get("plan_en") == "docs/ARCHITECTURE_REFOUNDATION.md" and refoundation.get("plan_ru") == "docs/ARCHITECTURE_REFOUNDATION.ru.md", "architecture blueprint plan identity drift")
     _require(refoundation.get("deliverables") == EXPECTED_DELIVERABLES, "A1-A10 blueprint deliverable inventory drift")
     _require(refoundation.get("completion_requires_operator_review") is True, "blueprint completion must retain separate operator review history")
-
     completed = refoundation.get("completed_deliverables")
     _require(completed == EXPECTED_COMPLETED_DELIVERABLES, "completed blueprint deliverable inventory drift")
     _require("INDEPENDENT_ARCHITECTURE_REVIEW" not in completed, "independent review gate must not be treated as an A1-A10 deliverable")
@@ -309,14 +338,11 @@ def validate(state: Mapping[str, Any], *, repo: Path) -> None:
     _require("OPERATOR_POST_BLUEPRINT_DECISION" not in completed, "operator gate must not be treated as an A1-A10 deliverable")
     _require(all(item in EXPECTED_DELIVERABLES for item in completed), "completed deliverable is not a declared blueprint deliverable")
     _require(len(completed) == len(set(completed)), "completed deliverable inventory must not contain duplicates")
-    _require(refoundation.get("next_content_slice") == EXPECTED_NEXT_CONTENT_SLICE, "next architecture validation gate drift")
-
+    _require(refoundation.get("next_content_slice") == EXPECTED_CURRENT_NEXT_GATE, "next architecture validation gate drift")
     for plan_field in ("plan_en", "plan_ru"):
         _require((repo / str(refoundation[plan_field])).is_file(), f"missing architecture blueprint plan: {refoundation[plan_field]}")
     for deliverable in completed:
-        docs = COMPLETED_DELIVERABLE_DOCS.get(deliverable)
-        _require(docs is not None, f"missing completed deliverable document mapping: {deliverable}")
-        for doc_path in docs:
+        for doc_path in COMPLETED_DELIVERABLE_DOCS[deliverable]:
             _require((repo / doc_path).is_file(), f"missing completed deliverable document: {doc_path}")
     for review_doc in INTEGRATED_REVIEW_DOCS:
         _require((repo / review_doc).is_file(), f"missing integrated review document: {review_doc}")
@@ -324,21 +350,14 @@ def validate(state: Mapping[str, Any], *, repo: Path) -> None:
     validation = research.get("post_blueprint_validation")
     _require(isinstance(validation, Mapping), "ADR-0026 post_blueprint_validation object required")
     _require(set(validation) == EXPECTED_POST_BLUEPRINT_FIELDS, "post_blueprint_validation field inventory drift")
-    _require(
-        (validation.get("decision"), validation.get("issue"), validation.get("operator_approval"))
-        == ("ADR-0026", 88, "APPROVED"),
-        "ADR-0026 identity, issue or approval drift",
-    )
-    _require(
-        validation.get("selected_option") == "D_INDEPENDENT_CHALLENGE_THEN_BOUNDED_CROSS_LINEAGE_FALSIFICATION",
-        "post-blueprint Option D selection drift",
-    )
-    _require(validation.get("status") == "AUTHORIZED / REVIEW_COMPLETE / RECONCILIATION_COMPLETE / BPV1_PLAN_NEXT", "post-blueprint validation phase drift")
+    _require((validation.get("decision"), validation.get("issue"), validation.get("operator_approval")) == ("ADR-0026", 88, "APPROVED"), "ADR-0026 identity, issue or approval drift")
+    _require(validation.get("selected_option") == "D_INDEPENDENT_CHALLENGE_THEN_BOUNDED_CROSS_LINEAGE_FALSIFICATION", "post-blueprint Option D selection drift")
+    _require(validation.get("status") == "AUTHORIZED / REVIEW_COMPLETE / RECONCILIATION_COMPLETE / BPV1_PLAN_PREREGISTERED / EXECUTION_ADMISSION_NEXT", "post-blueprint validation phase drift")
     _require(validation.get("independent_review_protocol") == "nk-independent-architecture-review/1", "independent review protocol identity drift")
     _require(validation.get("independent_review_document_en") == INDEPENDENT_REVIEW_DOCS[0], "independent review English document drift")
     _require(validation.get("independent_review_document_ru") == INDEPENDENT_REVIEW_DOCS[1], "independent review Russian document drift")
     _require(validation.get("independent_review_status") == "QUALIFYING_REVIEW_COMPLETE", "independent review completion drift")
-    _require(validation.get("bpv1_status") == "BLOCKED_PENDING_PREREGISTERED_PLAN", "BPV-1 execution must remain blocked pending preregistered plan")
+    _require(validation.get("bpv1_status") == EXPECTED_CURRENT_BPV1_STATUS, "BPV-1 execution must remain blocked pending execution admission")
     _require(validation.get("bpv1_role") == "FALSIFICATION_INSTRUMENT_ONLY", "BPV-1 role drift")
     _require(validation.get("product_runtime_thaw") is False, "Option D must not thaw product runtime")
     _require(validation.get("automatic_canon_promotion") is False, "automatic Canon promotion forbidden")
@@ -346,6 +365,7 @@ def validate(state: Mapping[str, Any], *, repo: Path) -> None:
     for review_doc in INDEPENDENT_REVIEW_DOCS:
         _require((repo / review_doc).is_file(), f"missing independent review protocol document: {review_doc}")
     _validate_iar1_records(repo)
+    _validate_current_bpv1_plan(validation, repo)
     _require((repo / "docs/adr/0026-independent-challenge-before-bounded-cross-lineage-falsification.md").is_file(), "missing ADR-0026")
 
     _require(research.get("runtime_freeze_exceptions") == EXPECTED_FREEZE_EXCEPTIONS, "runtime freeze exception inventory drift")
@@ -360,7 +380,9 @@ def validate(state: Mapping[str, Any], *, repo: Path) -> None:
     _require("ADR-0026 Option D" in meaning, "Issue #88 must record Option D selection")
     _require("IAR-1 is QUALIFYING_REVIEW_COMPLETE" in meaning, "Issue #88 must record IAR-1 review completion")
     _require("IAR-1-R1 reconciliation" in meaning, "Issue #88 must record IAR-1 reconciliation")
-    _require(EXPECTED_NEXT_CONTENT_SLICE in meaning, "Issue #88 must record BPV-1 planning as next gate")
+    _require(EXPECTED_PLAN_ID in meaning and EXPECTED_PLAN_MERGE_SHA in meaning, "Issue #88 must record authoritative BPV-1 plan binding")
+    _require(EXPECTED_CURRENT_NEXT_GATE in meaning, "Issue #88 must record BPV-1 execution admission as next gate")
+    _require(EXPECTED_CURRENT_BPV1_STATUS in meaning, "Issue #88 must record BPV-1 execution blocked status")
     _require("runtime remain" in meaning.lower() and "frozen" in meaning.lower(), "Issue #88 must preserve runtime freeze")
     verification = issue.get("verification")
     _require(isinstance(verification, Mapping), "Issue #88 verification required")
@@ -373,6 +395,7 @@ def validate(state: Mapping[str, Any], *, repo: Path) -> None:
         "integrated a1-a10 review completion is not independent validation",
         "adr-0026 operator approval authorizes a validation phase",
         "iar-1 qualifying review completion and iar-1-r1 reconciliation do not prove the architecture correct",
+        "bpv-1 preregistration and an authoritative plan merge do not authorize experiment execution",
         "runtime thaw",
     ):
         _require(phrase in non_claims, f"missing architecture boundary: {phrase}")
@@ -390,7 +413,7 @@ def main(argv: list[str] | None = None) -> int:
     except ArchitectureFreezeError as exc:
         print(f"Architecture validation boundary failed: {exc}", file=sys.stderr)
         return 1
-    print("Architecture validation boundary passed; chronology=valid; IAR-1=QUALIFYING_REVIEW_COMPLETE; reconciliation=COMPLETE; next=BPV1_PLAN_AND_PREREGISTRATION; BPV-1_execution=BLOCKED; runtime_expansion_frozen=true")
+    print("Architecture validation boundary passed; chronology=valid; IAR-1=QUALIFYING_REVIEW_COMPLETE; reconciliation=COMPLETE; BPV1_plan=PREREGISTERED; next=BPV1_EXECUTION_ADMISSION; BPV-1_execution=BLOCKED; runtime_expansion_frozen=true")
     return 0
 
 
