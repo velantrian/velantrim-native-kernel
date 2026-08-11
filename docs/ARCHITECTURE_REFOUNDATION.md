@@ -41,6 +41,8 @@ All ten required blueprint slices exist and remain `DRAFTED / PROVISIONAL`. A10 
 
 The first integrated review remains preserved as `nk-integrated-blueprint-review/A1-A10-review-1`, historical state `COMPLETED / PROVISIONAL / OPERATOR_DECISION_PENDING`. It reconciled seven cross-slice findings and found no known remaining blocking internal semantic contradiction in that pass; it was explicitly **not** independent validation.
 
+Stable gate token: `INTEGRATED_A1_A10_REVIEW`.
+
 ADR-0026 then authorized Option D. The qualifying independent challenge is preserved separately in IAR-1 result and reconciliation records:
 
 - review process: `QUALIFYING_REVIEW_COMPLETE`;
