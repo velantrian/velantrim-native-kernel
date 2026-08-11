@@ -97,9 +97,12 @@ The following do not satisfy the independent-review gate by themselves:
 BPV-1 may begin only after:
 
 1. a qualifying independent review is recorded;
-2. all blocking/material findings are explicitly reconciled, rejected with rationale, or left open with a declared experiment dependency;
-3. the experiment plan names the exact hypotheses and falsification conditions it will test;
-4. the experiment remains isolated from product runtime.
+2. **every `BLOCKING` finding has `status: RESOLVED` with a concrete reconciliation record**;
+3. every unresolved `MATERIAL` finding is either reconciled or explicitly carried into the experiment as a declared falsification dependency;
+4. the experiment plan names the exact hypotheses and falsification conditions it will test before implementation;
+5. the experiment remains isolated from product runtime.
+
+An unresolved `BLOCKING` finding is never admissible merely as a future BPV-1 test target. While open, it must retain `bpv1_dependency: BLOCKS` and keeps BPV-1 blocked. A recommended disposition such as `TEST` or `RETAIN` is not a resolution by itself.
 
 BPV-1 is a **falsification instrument**, not a new implementation profile automatically admitted to the product or Canon.
 
@@ -205,7 +208,7 @@ A failed experiment is a valid and potentially valuable result. If preserving an
 2. A1–A10 remains provisional until a later operator Canon decision.
 3. P1–C5 remains a bounded reference laboratory.
 4. Independent review cannot be self-certified by the same authorship lineage.
-5. BPV-1 is admitted only as a falsification instrument.
+5. BPV-1 is admitted only as a falsification instrument and only after all blocking review findings are resolved.
 6. No experiment outcome automatically promotes Canon, runtime, maturity, or production status.
 7. Loss, partial preservation, unsupported mappings and indeterminate results must remain visible.
 8. Historical contracts, reducer-v1 histories and evidence identities are not rewritten.
