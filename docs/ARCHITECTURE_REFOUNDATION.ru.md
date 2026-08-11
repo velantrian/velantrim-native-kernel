@@ -41,6 +41,8 @@ A1-A10 blueprint                                  COMPLETE / PROVISIONAL
 
 Первый integrated review сохраняется как `nk-integrated-blueprint-review/A1-A10-review-1`, historical state `COMPLETED / PROVISIONAL / OPERATOR_DECISION_PENDING`. Он reconciled семь cross-slice findings и в том проходе не нашёл remaining known blocking internal semantic contradiction. Это явно **не** independent validation.
 
+Stable gate token: `INTEGRATED_A1_A10_REVIEW`.
+
 После этого ADR-0026 авторизовал Option D. Qualifying independent challenge сохранён отдельно в IAR-1 result/reconciliation records:
 
 - review process: `QUALIFYING_REVIEW_COMPLETE`;
