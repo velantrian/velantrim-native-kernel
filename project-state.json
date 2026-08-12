@@ -212,8 +212,8 @@
   },
   "notion": {
     "synchronization_required": true,
-    "status": "DEFERRED_TO_OPTION_D_FINAL_SYNC",
-    "scope": "The committed Notion synchronization checkpoint remains historical. Live Notion currently reflects the earlier D4.5 admission checkpoint; D5/D5-R1/D6 evidence is intentionally deferred to the consolidated Option D D8 synchronization unless live governance changes that rule. GitHub remains authoritative for current technical state.",
+    "status": "SYNCED_THROUGH_DESCENDANT_CHECKPOINT",
+    "scope": "The committed synchronization identity remains historical at 70acd0da61fee19131947aa56125833adb156ced. Live Notion currently reflects the earlier D4.5 admission checkpoint and therefore does not yet contain D5/D5-R1/D6 truth. That later synchronization is intentionally deferred to consolidated Option D D8 unless live governance changes the rule; GitHub remains authoritative for current technical state.",
     "authority_boundary": "Notion carries orientation, rationale and history; GitHub remains sufficient and authoritative for technical state, live refs, contracts, tests, workflow results and evidence. Deferred Notion synchronization must not be misread as absence of merged GitHub evidence."
   },
   "non_claims": [
