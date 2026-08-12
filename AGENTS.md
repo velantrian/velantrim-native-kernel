@@ -17,11 +17,15 @@ Before searching code, creating a branch, or proposing architecture changes, rea
 11. `docs/reviews/IAR-1_RECONCILIATION.md` and `docs/reviews/IAR-1_RECONCILIATION.json`
 12. `docs/research/BPV1_PREREGISTRATION.md` and `docs/research/BPV1_PREREGISTRATION.json`
 13. `docs/research/BPV1_D5_R1_QUALIFICATION.md`
-14. affected Canon, contracts, ADRs, source, tests, workflows and evidence records
-15. current GitHub PRs, issues, Actions and review threads
-16. corresponding Notion current-state pages
+14. `docs/research/BPV1_D6_A10_CLASSIFICATION.md` and `docs/research/BPV1_D6_A10_CLASSIFICATION.json`
+15. `docs/research/BPV1_D7_INTEGRATED_REREVIEW.md` and `docs/research/BPV1_D7_INTEGRATED_REREVIEW.json`
+16. `docs/research/BPV1_D8_CONSOLIDATED_SYNC.md` and `docs/research/BPV1_D8_CONSOLIDATED_SYNC.json`
+17. `docs/adr/0027-post-d8-residual-validation-planning.md`
+18. affected Canon, contracts, ADRs, source, tests, workflows and evidence records
+19. current GitHub PRs, issues, Actions and review threads
+20. corresponding Notion current-state pages
 
-Do not begin with random repository search. Verify live state first.
+Do not begin with random repository search. Verify live state first. When a lower historical section conflicts with the current ADR-0027 overlay or `project-state.json`, preserve the historical record and follow the newer current-truth layer.
 
 ## Current maturity
 
@@ -51,7 +55,8 @@ C — Clean Reference Implementation
   PRESERVED / PARTIAL / bounded reference laboratory
 
 R — Architecture Re-foundation and Post-Blueprint Validation
-  ACTIVE / IAR-1-RECONCILED / BPV1 D5 COMPLETE / D5-R1 QUALIFIED / D6 NEXT
+  ACTIVE / OPTION D COMPLETE / ADR-0027 ACCEPTED
+  RESIDUAL A10 VALIDATION PLANNING ONLY
 ```
 
 Never collapse these tracks.
@@ -65,31 +70,45 @@ reference laboratory ≠ final architecture
 
 ## Active operator-approved priority
 
-ADR-0025 established **Architecture Re-foundation / Blueprint-first**. A1–A10 and the integrated review remain provisional architecture work.
-
-ADR-0026 records the operator-selected post-blueprint **Option D**:
+ADR-0025 established **Architecture Re-foundation / Blueprint-first**. ADR-0026 selected Option D. Option D is now complete through D8, and ADR-0027 records the separate post-D8 operator decision.
 
 ```text
-A1-A10 provisional blueprint
-→ independent architecture review            COMPLETE / IAR-1 / QUALIFYING
-→ review finding reconciliation              COMPLETE / IAR-1-R1
-→ BPV1 plan and preregistration              COMPLETE / PR #110
-→ BPV1 execution admission                   COMPLETE / PR #112 + #113
-→ BPV1-001 subject implementation/execution  COMPLETE / PR #114
-→ D5-R1 evidence qualification               COMPLETE / PR #115 / QUALIFIED
-→ A10 hypothesis classification              NEXT / D6 / NOT STARTED
-→ integrated re-review                       D7
-→ consolidated authoritative sync            D8
-→ separate later operator Canon/runtime decision
+A1-A10 provisional blueprint                         COMPLETE / PROVISIONAL
+→ independent architecture review                    COMPLETE / IAR-1 / QUALIFYING
+→ review finding reconciliation                      COMPLETE / IAR-1-R1
+→ BPV1 plan and preregistration                      COMPLETE / PR #110
+→ BPV1 execution admission                           COMPLETE / PR #112 + #113
+→ BPV1-001 subject implementation/execution          COMPLETE / PR #114
+→ D5-R1 evidence qualification                       COMPLETE / PR #115 / QUALIFIED
+→ D6 A10 hypothesis classification                  COMPLETE / PR #117
+→ D7 integrated re-review                           COMPLETE / PR #118
+→ D8 consolidated authoritative synchronization     COMPLETE / PR #119 / 7/7
+→ separate post-D8 operator decision                COMPLETE / ADR-0027
+→ ADR-0027 Notion synchronization/read-back          COMPLETE / 7/7 VERIFIED
+→ residual A10 validation planning                  CURRENT / RESEARCH_PLANNING_ONLY
 ```
 
-The active gate is `D6_A10_HYPOTHESIS_CLASSIFICATION`.
+The active gate is `RESIDUAL_A10_VALIDATION_PLAN`.
+
+```text
+scope: RESEARCH_PLANNING_ONLY
+residual targets: A10-H03 / H06 / H08 / H09 / H10 / H11
+residual experiment execution: NOT AUTHORIZED
+architecture: STRENGTHENED_FOR_BPV1_SCOPE / STILL_PROVISIONAL
+Final Canon: DEFERRED / NOT AUTHORIZED
+runtime expansion: FROZEN
+product runtime thaw: NO
+production: false
+```
+
+Do not infer execution authorization from planning authorization.
 
 ```text
 qualifying independent review ≠ architecture proof
 operator approval ≠ independent validation
 SUPPORTED_FOR_SCOPE ≠ universal portability proof
-D5 result ≠ D6 hypothesis classification
+NOT_TESTED ≠ SUPPORTED
+planning authorization ≠ experiment execution authorization
 BPV-1 ≠ product runtime
 BPV-1 outcome ≠ automatic Canon promotion
 ```
@@ -98,7 +117,7 @@ IAR-1 is `QUALIFYING_REVIEW_COMPLETE`. IAR-1-R1 reconciliation is `COMPLETE`. Al
 
 BPV-1 plan `BPV1-001-cross-lineage-bounded-accountability-v1` remains bound to authoritative plan merge `a538d7f1e28858a88b9ee777ac7d6e05b85943db` and frozen digest `7fe8174c604678c6b79d3fdeae83d7c5ab0d2fb15bfe343d41659d05d9496ad0`.
 
-Execution admission remains a separate authorization lane: `ADMITTED_FOR_EXPERIMENT_ONLY`, bounded strictly to BPV1-001 subject implementation/execution. Product runtime integration is not authorized.
+Execution admission for BPV1-001 is a historical bounded authorization lane. It did not authorize product runtime integration, and it does not authorize any residual experiment under ADR-0027.
 
 D5 historical execution merged via PR #114 at `a191e9c868c14af34a269dcdfae44406f1013bda`. D5-R1 qualification merged via PR #115 at `3856740570620fb2243e2f0da76359281ec4068f` and records:
 
@@ -108,23 +127,34 @@ frozen evaluator: SUPPORTED_FOR_SCOPE
 mandatory fixtures: 12 / 12 PASS
 mutations: 512
 checkpoints: 128 / 256 / 512
-D6: NOT_STARTED
 ```
+
+D6 classified exactly:
+
+```text
+SUPPORTED_FOR_SCOPE:
+  A10-H01 / A10-H02 / A10-H04 / A10-H05 / A10-H07 / A10-H12
+
+NOT_TESTED:
+  A10-H03 / A10-H06 / A10-H08 / A10-H09 / A10-H10 / A10-H11
+```
+
+Do not change any `NOT_TESTED` outcome without new qualifying evidence.
 
 ### Allowed during the freeze
 
-- D6 A10 hypothesis classification;
-- D7 integrated re-review;
-- D8 authoritative GitHub↔Notion synchronization;
+- `RESIDUAL_A10_VALIDATION_PLAN` research planning for the six `NOT_TESTED` hypotheses;
 - architecture and ontology research that does not mutate frozen experiment authority;
+- preregistration design only after the planning artifact establishes a bounded family and a later gate authorizes that work;
 - integrity, security, reproducibility, provenance and truth-surface fixes;
 - evidence preservation;
 - historical recovery.
 
 ### Not authorized during the freeze
 
-- product runtime integration of the BPV1-001 subject;
-- changes to preregistered normative fields, fixture expected outcomes, thresholds, scenario identity or HR01-HR10 under the same experiment identity;
+- residual experiment implementation or execution without separate preregistration/admission authority;
+- product runtime integration of any falsification subject;
+- changes to BPV1-001 preregistered normative fields, fixture expected outcomes, thresholds, scenario identity or HR01-HR10 under the same experiment identity;
 - product runtime thaw;
 - reducer v2 or new Event semantics;
 - new product databases, language/runtime profiles, LLM/vector adapters or ecosystem integrations;
@@ -147,9 +177,9 @@ The historical D5 evidence remains immutable; D5-R1 has a separate repository ev
 
 The specific HR10 subject-self-report adjudication path is removed for this evidence path. Do **not** reinterpret that as independent-team, independent-custody or independent-computation-model validation.
 
-## D6 discipline
+## D6 classification discipline — historical complete gate
 
-D6 must classify the preregistered target hypotheses using the frozen plan plus authoritative qualified D5 evidence. Allowed A10 outcomes are exactly:
+D6 used the frozen plan plus authoritative qualified D5 evidence and only the allowed A10 outcomes:
 
 ```text
 SUPPORTED_FOR_SCOPE
@@ -159,14 +189,7 @@ INDETERMINATE
 NOT_TESTED
 ```
 
-Do not assign `SUPPORTED_FOR_SCOPE` mechanically to every hypothesis because the aggregate fixture run passed. Respect the preregistered target map:
-
-- primary: `A10-H02`, `A10-H05`;
-- secondary: `A10-H01`, `A10-H04`, `A10-H07`, `A10-H12`;
-- informative, not adjudicated: `A10-H03`, `A10-H10`;
-- not tested: `A10-H06`, `A10-H08`, `A10-H09`, `A10-H11`.
-
-D6 is classification/evidence work only; it does not change the experiment or authorize runtime expansion.
+Its result is immutable classification evidence for that checkpoint. Residual planning starts from the six `NOT_TESTED` hypotheses; it must not reinterpret the six supported hypotheses or broaden their scope.
 
 ## Required architecture discipline
 
@@ -175,13 +198,15 @@ Problem-level purpose and candidate semantic obligations
 → Preregistered scope / observables / applicability / failure thresholds
 → Explicit grounding and threat model
 → Frozen external fixture/oracle package
-→ Independently derived bounded state/change/history realization
+→ Independently derived bounded realization
 → External evidence qualification
 → Frozen oracle evaluation
 → Explicit A10 outcome classification
 → Integrated re-review
 → Authoritative synchronization
 → Separate operator decision
+→ Residual research planning for remaining NOT_TESTED hypotheses
+→ Separate preregistration and execution-admission chain before any new execution
 ```
 
 Do not implement new product semantics first and write architecture afterward. Do not force future realizations to reproduce the A3 transition catalogue, A6 lifecycle graph, Event/reducer/Receipt structures, exact replay, or current identity/time inventory merely because those taxonomies exist.
@@ -235,7 +260,8 @@ public repository ≠ open-source license
 future-facing design ≠ demonstrated future substrate support
 substrate-independent specification ≠ universal portability proof
 SUPPORTED_FOR_SCOPE ≠ universal proof
-D5 evidence ≠ D6 classification
+NOT_TESTED ≠ SUPPORTED
+planning ≠ execution
 ```
 
 ## Verification
@@ -268,4 +294,4 @@ A Codex quota notice is not review approval. Reproduce every actionable finding,
 
 ## Documentation synchronization
 
-GitHub must remain technically sufficient without Notion. The current Option D plan deliberately defers D5/D5-R1/D6 Notion synchronization to consolidated D8; until then live Notion may lag at D4.5 without overriding GitHub technical authority. Do not create new Notion pages without operator permission.
+GitHub remains technically sufficient without Notion. ADR-0027 orientation has now been synchronized across the seven existing Native Kernel Notion surfaces and read back `7/7 VERIFIED`; zero new pages were created. This documentation convergence is not architecture proof, evidence promotion, runtime thaw, production authorization, or residual experiment admission.
