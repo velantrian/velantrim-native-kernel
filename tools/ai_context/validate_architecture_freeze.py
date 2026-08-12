@@ -120,7 +120,10 @@ def _validate_current_option_d_state(state: Mapping[str, Any]) -> None:
     _require(result.get("qualification_merge_sha") == EXPECTED_D5_R1_MERGE_SHA, "BPV-1 D5-R1 merge drift")
     _require(result.get("hr10_self_report_path") == "REMOVED_BY_EXTERNAL_QUALIFICATION", "BPV-1 HR10 qualification drift")
     _require(result.get("next_gate") == CURRENT_NEXT_GATE, "BPV-1 post-D8 next gate drift")
-    _require(result.get("d6_status") == "COMPLETE", "D6 completion drift")
+    _require(
+        result.get("d6_status") == "COMPLETE",
+        "D6 completion drift; D6 must remain not started only in the historical D5-R1 view",
+    )
     _require(result.get("d7_status") == "COMPLETE", "D7 completion drift")
     _require(result.get("d8_status") == "COMPLETE / READ_BACK_VERIFIED", "D8 completion drift")
 
@@ -189,7 +192,7 @@ def _validate_current_option_d_state(state: Mapping[str, Any]) -> None:
     for phrase in (
         "six a10 hypotheses remain not_tested",
         "do not establish universal substrate independence",
-        "does not authorize product runtime integration",
+        "do not authorize product runtime integration",
         "does not authorize or decide the separate operator_canon_runtime_decision_required gate",
     ):
         _require(phrase in current_nonclaims, f"missing post-D8 architecture boundary: {phrase}")
