@@ -22,6 +22,7 @@ REQUIRED_PATHS = (
     "docs/reviews/IAR-1_RESULT.md", "docs/reviews/IAR-1_RESULT.ru.md", "docs/reviews/IAR-1_RESULT.json",
     "docs/reviews/IAR-1_RECONCILIATION.md", "docs/reviews/IAR-1_RECONCILIATION.ru.md", "docs/reviews/IAR-1_RECONCILIATION.json",
     "docs/research/BPV1_PREREGISTRATION.md", "docs/research/BPV1_PREREGISTRATION.ru.md", "docs/research/BPV1_PREREGISTRATION.json",
+    "docs/research/BPV1_D5_R1_QUALIFICATION.md", "docs/research/BPV1_D5_R1_QUALIFICATION.ru.md",
     "docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.md", "docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md",
     "docs/A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md", "docs/A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md",
     "docs/A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md", "docs/A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md",
@@ -57,7 +58,6 @@ REQUIRED_STATUS_MARKERS = (
     "logical ERASED ≠ physical deletion",
     "public repository ≠ open-source license",
     "No AI agent may select the license or accept ADR-0024",
-    "The later Notion synchronization checkpoint does not rewrite or replace the earlier publication checkpoint.",
     "Architecture Re-foundation: `BLUEPRINT COMPLETE / PROVISIONAL / VALIDATION ACTIVE`",
     "blueprint content A1-A10: DRAFTED / PROVISIONAL / RECONCILED BY OVERLAY",
     "integrated review: COMPLETED / PROVISIONAL",
@@ -67,8 +67,13 @@ REQUIRED_STATUS_MARKERS = (
     "BPV-1 plan: PREREGISTERED / EXECUTION_NOT_AUTHORIZED",
     "authoritative BPV-1 plan merge: a538d7f1e28858a88b9ee777ac7d6e05b85943db",
     "BPV-1 execution-admission package merge: 6027eec73f11c4626be5553de7e79f827be2c81d",
-    "next bounded gate: BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION",
-    "BPV-1 execution: ADMITTED_FOR_EXPERIMENT_ONLY",
+    "D5 execution: COMPLETE / merge a191e9c868c14af34a269dcdfae44406f1013bda",
+    "D5-R1 qualification: COMPLETE / QUALIFIED / merge 3856740570620fb2243e2f0da76359281ec4068f",
+    "qualified oracle outcome: SUPPORTED_FOR_SCOPE / 12-of-12 mandatory fixtures PASS",
+    "next bounded gate: D6_A10_HYPOTHESIS_CLASSIFICATION",
+    "D6: NOT_STARTED",
+    "BPV-1 execution authorization lane: ADMITTED_FOR_EXPERIMENT_ONLY",
+    "runtime expansion: FROZEN",
 )
 CURRENT_MARKERS = REQUIRED_STATUS_MARKERS
 
@@ -84,6 +89,7 @@ FORBIDDEN_STATUS_MARKERS = (
     "BPV-1 execution: BLOCKED_PENDING_PREREGISTERED_PLAN",
     "next bounded gate: BPV1_EXECUTION_ADMISSION",
     "BPV-1 execution: BLOCKED_PENDING_EXECUTION_ADMISSION",
+    "next bounded gate: BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION",
 )
 
 BLUEPRINT_PROGRESS_SURFACES = {
@@ -93,8 +99,12 @@ BLUEPRINT_PROGRESS_SURFACES = {
         "IAR-1-R1 reconciliation: COMPLETE",
         "BPV-1 plan: PREREGISTERED / EXECUTION_NOT_AUTHORIZED",
         "BPV-1 execution-admission package merge: 6027eec73f11c4626be5553de7e79f827be2c81d",
-        "next content gate: BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION",
-        "BPV-1 execution: ADMITTED_FOR_EXPERIMENT_ONLY",
+        "BPV-1 D5 execution: COMPLETE / historical merge a191e9c868c14af34a269dcdfae44406f1013bda",
+        "BPV-1 D5-R1 qualification: COMPLETE / QUALIFIED / merge 3856740570620fb2243e2f0da76359281ec4068f",
+        "BPV-1 qualified outcome: SUPPORTED_FOR_SCOPE / 12-of-12 mandatory fixtures PASS",
+        "next content gate: D6_A10_HYPOTHESIS_CLASSIFICATION",
+        "D6: NOT_STARTED",
+        "BPV-1 execution authorization lane: ADMITTED_FOR_EXPERIMENT_ONLY",
     ),
     "ROADMAP.md": (
         "integrated A1-A10 review                 COMPLETE / PROVISIONAL",
@@ -102,9 +112,10 @@ BLUEPRINT_PROGRESS_SURFACES = {
         "INDEPENDENT_ARCHITECTURE_REVIEW          COMPLETE / IAR-1 / QUALIFYING",
         "REVIEW_FINDING_RECONCILIATION            COMPLETE / IAR-1-R1",
         "BPV1_PLAN_AND_PREREGISTRATION            COMPLETE / PR #110",
-        "BPV1_EXECUTION_ADMISSION                 COMPLETE / PR #112",
-        "BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION NEXT GATE",
-        "BPV-1 CROSS-LINEAGE FALSIFICATION        ADMITTED_FOR_EXPERIMENT_ONLY",
+        "BPV1_EXECUTION_ADMISSION                 COMPLETE / PR #112 + PR #113 checkpoint",
+        "BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION COMPLETE / PR #114",
+        "D5_R1_EVIDENCE_QUALIFICATION             COMPLETE / PR #115 / QUALIFIED",
+        "A10 OUTCOME CLASSIFICATION               NEXT / D6 / NOT STARTED",
     ),
     "docs/ARCHITECTURE_REFOUNDATION.md": (
         "Independent architecture review: IAR-1 / QUALIFYING_REVIEW_COMPLETE",
@@ -127,8 +138,12 @@ BLUEPRINT_PROGRESS_SURFACES = {
         "IAR-1-R1 reconciliation: COMPLETE",
         "BPV-1 plan: PREREGISTERED / EXECUTION_NOT_AUTHORIZED",
         "BPV-1 execution-admission package merge: 6027eec73f11c4626be5553de7e79f827be2c81d",
-        "next gate: BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION",
-        "BPV-1 execution: ADMITTED_FOR_EXPERIMENT_ONLY",
+        "D5 execution: COMPLETE / a191e9c868c14af34a269dcdfae44406f1013bda",
+        "D5-R1 qualification: COMPLETE / QUALIFIED / 3856740570620fb2243e2f0da76359281ec4068f",
+        "qualified outcome: SUPPORTED_FOR_SCOPE / 12-of-12 mandatory fixtures PASS",
+        "next gate: D6_A10_HYPOTHESIS_CLASSIFICATION",
+        "D6: NOT_STARTED",
+        "BPV-1 execution authorization lane: ADMITTED_FOR_EXPERIMENT_ONLY",
     ),
     "docs/INTEGRATED_A1_A10_REVIEW.md": (
         "nk-integrated-blueprint-review/A1-A10-review-1",
@@ -174,6 +189,9 @@ FORBIDDEN_BLUEPRINT_PROGRESS_MARKERS = (
     "next gate: BPV1_EXECUTION_ADMISSION",
     "BPV1_EXECUTION_ADMISSION                 NEXT GATE",
     "BPV-1 execution: BLOCKED_PENDING_EXECUTION_ADMISSION",
+    "next content gate: BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION",
+    "next gate: BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION",
+    "BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION NEXT GATE",
 )
 FORBIDDEN_PROGRESS = FORBIDDEN_BLUEPRINT_PROGRESS_MARKERS
 HISTORICAL_PROGRESS_DOCS = {
@@ -316,7 +334,7 @@ def main(argv: list[str] | None = None) -> int:
         for finding in findings:
             print(finding.render(), file=sys.stderr)
         return 1
-    print("AI context validation passed; A1-A10=provisional_reconciled; IAR-1=qualifying; reconciliation=complete; BPV1_plan=preregistered; BPV1_execution_admission=complete; BPV-1_execution=admitted_for_experiment_only; next=BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION; runtime_expansion_frozen=true")
+    print("AI context validation passed; A1-A10=provisional_reconciled; IAR-1=qualifying; reconciliation=complete; BPV1_plan=preregistered; BPV1_execution_admission=complete; D5=complete; D5_R1=qualified; outcome=SUPPORTED_FOR_SCOPE; next=D6_A10_HYPOTHESIS_CLASSIFICATION; D6=NOT_STARTED; runtime_expansion_frozen=true")
     return 0
 
 
