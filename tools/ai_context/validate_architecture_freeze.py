@@ -109,7 +109,7 @@ def _validate_current(state: Mapping[str, Any]) -> None:
     _require(isinstance(issue, Mapping), "Issue #88 snapshot required")
     _require(issue.get("state") == "OPEN", "Issue #88 must remain open")
     meaning = str(issue.get("meaning", ""))
-    _require("A10-H11" in meaning and H11_PLAN_ID in meaning and H11_NEXT_GATE in meaning, "current Issue #88 H11 gate drift")
+    _require("A10-H11" in meaning and H11_PLAN_ID in meaning and H11_NEXT_GATE in meaning, "current Issue #88 H11 gate drift / Option D selection")
     verification = issue.get("verification")
     _require(isinstance(verification, Mapping), "Issue #88 verification required")
     _require(verification.get("status") == "VERIFIED" and verification.get("method") == "GITHUB_API" and verification.get("source") == "issue/88", "Issue #88 verification drift")
