@@ -1,0 +1,563 @@
+{
+  "protocol": "nk-residual-a10-validation-plan/1",
+  "plan_id": "RAVP-001-residual-a10-validation-plan-v1",
+  "state": "PLANNING_ONLY / EXECUTION_NOT_AUTHORIZED",
+  "source_checkpoint_sha": "ec421410d6ea5df86adca3a962ad2c5ba699e297",
+  "operator_decision": {
+    "adr": "ADR-0027",
+    "decision_id": "OD-POST-D8-001",
+    "decision_merge_sha": "57993f39906ae7266011f6146c9a485d0587d2bf",
+    "authorized_gate": "RESIDUAL_A10_VALIDATION_PLAN",
+    "authorized_scope": "RESEARCH_PLANNING_ONLY",
+    "experiment_execution_authorized": false,
+    "runtime_expansion": "FROZEN",
+    "product_runtime_thaw": false,
+    "production_authorized": false,
+    "final_canon": "DEFERRED / NOT_AUTHORIZED_AT_THIS_CHECKPOINT"
+  },
+  "architecture_position": "STRENGTHENED_FOR_BPV1_SCOPE / STILL_PROVISIONAL",
+  "allowed_a10_outcomes": [
+    "SUPPORTED_FOR_SCOPE",
+    "WEAKENED",
+    "REFUTED",
+    "INDETERMINATE",
+    "NOT_TESTED"
+  ],
+  "residual_targets": [
+    "A10-H03",
+    "A10-H06",
+    "A10-H08",
+    "A10-H09",
+    "A10-H10",
+    "A10-H11"
+  ],
+  "explicit_non_targets": [
+    "D7-F08 composition/federation conformance is a separate capability class and is not A10-H11",
+    "A10-Q16 quantum/non-classical computation remains an open question and is not admitted by this plan",
+    "Final Canon promotion",
+    "product runtime integration or thaw",
+    "production authorization",
+    "Issue #18 license/publication decision",
+    "Issue #74 / ADR-0024 reducer-v2 decision",
+    "Track H recovered-source admission",
+    "new residual experiment implementation or execution"
+  ],
+  "independence_classes": [
+    "INDEPENDENT_LANGUAGE",
+    "INDEPENDENT_IMPLEMENTATION_STRUCTURE",
+    "INDEPENDENT_TEAM",
+    "INDEPENDENT_CUSTODY",
+    "INDEPENDENT_STORAGE_MODEL",
+    "INDEPENDENT_COMPUTATION_MODEL",
+    "INDEPENDENT_HARDWARE_FAMILY",
+    "INDEPENDENT_SEMANTIC_ORACLE"
+  ],
+  "global_fail_closed_rules": {
+    "subject_self_pass": "FORBIDDEN",
+    "implementation_self_report_as_semantic_truth": "FORBIDDEN",
+    "private_implementation_state_as_mandatory_oracle_input": "FORBIDDEN",
+    "failure_condition_preregistered_before_adjudication": true,
+    "oracle_and_thresholds_frozen_before_adjudication": true,
+    "post_hoc_rescue_of_failed_run": "FORBIDDEN",
+    "indeterminate_is_legitimate": true,
+    "not_tested_is_legitimate": true,
+    "calibration_or_pilot_data_must_be_separated_from_adjudication_data": true,
+    "raw_fact_capture_separate_from_semantic_qualification": true,
+    "qualifier_separate_from_subject": true,
+    "outcome_must_use_a10_vocabulary_only": true
+  },
+  "family_strategy": {
+    "rule": "ONE_RESEARCH_QUESTION_PER_BOUNDED_FALSIFICATION_FAMILY",
+    "giant_bpv2": "FORBIDDEN_AS_DEFAULT",
+    "cross_hypothesis_promotion": "FORBIDDEN_UNLESS_SEPARATELY_PREREGISTERED",
+    "family_ids_are_planning_labels_not_frozen_experiment_identities": true,
+    "execution_chain": [
+      "PLAN_ACCEPTED",
+      "SEPARATE_FAMILY_PREREGISTRATION",
+      "SEPARATE_EXECUTION_ADMISSION",
+      "ONLY_THEN_IMPLEMENTATION_AND_EXECUTION"
+    ]
+  },
+  "families": [
+    {
+      "hypothesis_id": "A10-H03",
+      "family_id": "RAVP-H03-REPRESENTATION-MIGRATION",
+      "hypothesis": "Scoped identity and lineage continuity can survive representation migration.",
+      "why_not_tested_by_bpv1": "BPV1-001 did not perform or adjudicate a source-to-target representation migration preserving or breaking identity and continuation relations.",
+      "target_semantic_obligations": [
+        "A5 typed/scoped identity and MIGRATED_FROM/CONTINUATION_OF semantics",
+        "A8-P04 typed/scoped identity",
+        "A8-P08 Context/Provenance/Source/Authority",
+        "A8-P09 bounded accountability",
+        "A8-P10 explicit capability and loss declaration"
+      ],
+      "testable_question": "Can a materially different target representation preserve the declared semantic identity and lineage relations while substrate-local identity changes, without using source-format physical identity as the semantic decision rule?",
+      "required_independence_axis": [
+        "INDEPENDENT_IMPLEMENTATION_STRUCTURE",
+        "INDEPENDENT_STORAGE_MODEL",
+        "INDEPENDENT_SEMANTIC_ORACLE"
+      ],
+      "strengthening_independence_axis": [
+        "INDEPENDENT_LANGUAGE",
+        "INDEPENDENT_TEAM",
+        "INDEPENDENT_CUSTODY"
+      ],
+      "candidate_realization_class": "A source representation and a materially different target representation with different local identifiers/layout/history form; migration may carry declared provenance or bounded companion evidence, but the oracle must not infer semantic continuity from equal bytes, copied IDs, hashes, source row keys, or successful deserialization.",
+      "observables": [
+        "pre-migration typed identity relation vector",
+        "post-migration typed identity relation vector",
+        "declared MIGRATED_FROM/CONTINUATION_OF lineage",
+        "Context/Provenance/Authority preservation",
+        "substrate-local identity change",
+        "declared information-loss vector",
+        "raw transformation and adjudication facts"
+      ],
+      "equivalence_predicate": "For every preregistered case, materially required semantic identity/lineage relations agree with the frozen external semantic oracle after migration, while differences in substrate-local identity, encoding, layout, or byte representation do not count as semantic failure by themselves.",
+      "allowed_losses": [
+        "source bytes and serialization form",
+        "source-local row/object/address identity",
+        "non-semantic layout and indexing details",
+        "exact implementation operation sequence",
+        "declared non-material metadata outside the test scope"
+      ],
+      "failure_condition": [
+        "semantic continuity is inferred solely from copied/equal source identifiers, hashes, bytes, or source-format physical identity",
+        "material Context/Provenance/Authority or lineage is silently dropped",
+        "a target representation cannot distinguish SAME, DISTINCT, CONTINUATION_OF, MIGRATED_FROM, or UNRESOLVED where the scope requires the distinction",
+        "loss is hidden while a stronger equivalence claim is emitted"
+      ],
+      "hard_refutation": "A reproducible migration case preserves all declared meaning-level content required by scope yet required identity/continuation cannot be justified without making source-format physical identity itself a universal semantic requirement.",
+      "grounding_mode": "Externally specified semantic cases plus raw source/target artifacts and migration facts; semantic qualification occurs outside the migration subject.",
+      "threat_trust_model": [
+        "migration implementation may copy source IDs or leak oracle labels",
+        "matching visible content may hide provenance or authority loss",
+        "same-team assumptions may couple source and target semantics",
+        "oracle must not inspect private target internals"
+      ],
+      "oracle_authority": "Frozen implementation-neutral migration oracle operating on externally visible identity/provenance/lineage observations and declared loss only.",
+      "reproduction_requirements": [
+        "immutable source case set and semantic relation expectations",
+        "source and target profile declarations",
+        "migration transform identity and version",
+        "raw target observations",
+        "external qualifier output",
+        "frozen oracle version and digest",
+        "loss declarations and environment metadata"
+      ],
+      "expected_evidence": "Per-case migration evidence package showing physical/representation difference, raw semantic observations, externally derived relation verdicts, loss declarations, and one allowed A10 outcome."
+    },
+    {
+      "hypothesis_id": "A10-H06",
+      "family_id": "RAVP-H06-DISPOSITION-ERASURE-EPISTEMICS",
+      "hypothesis": "Forgetting and disposal can be represented without claiming impossible knowledge of physical substrate state.",
+      "why_not_tested_by_bpv1": "Physical and cryptographic erasure were explicitly outside BPV1-001 applicability; bounded loss/compaction evidence is not physical-residue or key-destruction evidence.",
+      "target_semantic_obligations": [
+        "A5 separation of restriction, logical erasure, physical deletion, cryptographic erasure, and forgetting/loss",
+        "A8-P06 lifecycle/history meaning",
+        "A8-P08 provenance and authority",
+        "A8-P09 bounded accountability",
+        "A8-P10 explicit capability/loss declaration"
+      ],
+      "testable_question": "Can the system keep logical disposal, semantic forgetting/loss, cryptographic erasure, physical erasure, and unknown physical residue distinct, while making no claim stronger than independently observable evidence and without retaining prohibited content or secrets merely to prove absence?",
+      "required_independence_axis": [
+        "INDEPENDENT_CUSTODY",
+        "INDEPENDENT_SEMANTIC_ORACLE"
+      ],
+      "strengthening_independence_axis": [
+        "INDEPENDENT_STORAGE_MODEL",
+        "INDEPENDENT_TEAM",
+        "INDEPENDENT_HARDWARE_FAMILY"
+      ],
+      "candidate_realization_class": "Three separately adjudicated evidence lanes: (L) logical/semantic forgetting on a substrate with opaque physical residue; (C) encrypted storage with independently controlled key lifecycle and externally validated cryptographic-erasure evidence; (P) a media/substrate case with an independently inspectable sanitization/physical-erasure validation path. Lane L must permit physical/crypto status to remain INDETERMINATE.",
+      "evidence_lanes": [
+        {
+          "lane": "LOGICAL_FORGETTING",
+          "qualifying_claim": "semantic/logical unavailability or forgetting only",
+          "physical_claim": "INDETERMINATE unless independently observed"
+        },
+        {
+          "lane": "CRYPTOGRAPHIC_ERASURE",
+          "qualifying_claim": "bounded cryptographic erasure only when key sanitization and recoverability assumptions are independently evidenced",
+          "self_report_only": "NON_QUALIFYING"
+        },
+        {
+          "lane": "PHYSICAL_ERASURE",
+          "qualifying_claim": "bounded physical/media sanitization only when residue/recoverability is independently inspectable under a declared effort/threat boundary",
+          "opaque_substrate": "INDETERMINATE"
+        }
+      ],
+      "observables": [
+        "semantic query/recovery result after forgetting",
+        "retained non-content disposition/accountability witness",
+        "key custody and sanitization evidence where cryptographic erasure is claimed",
+        "media sanitization/physical residue validation evidence where physical erasure is claimed",
+        "declared recoverability/effort boundary",
+        "claim-strength classification",
+        "unknown/indeterminate status where observability is absent"
+      ],
+      "equivalence_predicate": "The emitted disposal/erasure claim class must equal or be weaker than the independently established evidence class; logical forgetting is conformant when semantic recoverability is removed for scope while physical/cryptographic state remains explicitly INDETERMINATE unless separately evidenced.",
+      "allowed_losses": [
+        "forgotten content itself",
+        "secrets whose destruction is the object of a cryptographic-erasure claim",
+        "physical microstate unavailable to the declared observation boundary",
+        "implementation-specific deletion workflow details outside scope"
+      ],
+      "failure_condition": [
+        "logical inaccessibility is promoted to physical or cryptographic erasure",
+        "subject self-report is the only basis for an erasure PASS",
+        "forgotten/lost is collapsed into never-existed or false",
+        "the only way to prove forgetting requires retaining prohibited recoverable content or secret material",
+        "opaque physical residue is reported as erased instead of INDETERMINATE"
+      ],
+      "hard_refutation": "Within a declared scope, the architecture cannot preserve the semantic distinction among logical forgetting, cryptographic erasure, physical erasure, and unknown residue without either retaining the prohibited material or issuing an unjustifiably strong erasure claim.",
+      "grounding_mode": "External recoverability probes, custody records, and sanitization validation appropriate to each lane; no subject-authored PASS booleans are authoritative.",
+      "threat_trust_model": [
+        "hidden replicas/backups or stale physical residue",
+        "destroyed-key self-report without independent custody evidence",
+        "forbidden proof material retained by the evaluator",
+        "vendor or subject attestation treated as ground truth",
+        "recovery effort boundary left undefined"
+      ],
+      "oracle_authority": "Lane-specific external qualifier: semantic recoverability oracle for L, independent key/custody and recoverability evidence for C, independent sanitization/physical observability for P. Absence of qualifying evidence yields INDETERMINATE, not PASS.",
+      "reproduction_requirements": [
+        "declared threat/effort boundary",
+        "pre-disposition inventory without unnecessary secret disclosure",
+        "disposition action record",
+        "post-disposition independent recovery probes",
+        "custody/sanitization evidence where applicable",
+        "non-content-bearing accountability witness",
+        "oracle and qualifier versions"
+      ],
+      "expected_evidence": "Separate lane evidence packages; H06 adjudication must distinguish successful epistemic boundary discipline from any stronger physical/cryptographic capability claim."
+    },
+    {
+      "hypothesis_id": "A10-H08",
+      "family_id": "RAVP-H08-NON-ADDRESS-DYNAMICAL-CONTINUITY",
+      "hypothesis": "A non-address-based substrate could preserve semantic identity and history through relational or dynamical continuity rather than stable byte addresses.",
+      "why_not_tested_by_bpv1": "BPV1-001 used conventional digital computation and did not test analog or neuromorphic non-address-based continuity.",
+      "target_semantic_obligations": [
+        "A8-P04 typed/scoped identity",
+        "A8-P05 temporal/order meaning",
+        "A8-P06 lifecycle/history meaning",
+        "A8-P08 Context/Provenance/Source/Authority",
+        "A8-P09 bounded accountability",
+        "A8-P10 explicit loss declaration"
+      ],
+      "testable_question": "Can a physical non-address-based dynamical realization preserve a scoped identity/lineage/accountability contract when exact microstate, stable row/byte address, and exact deterministic replay are unavailable?",
+      "required_independence_axis": [
+        "INDEPENDENT_COMPUTATION_MODEL",
+        "INDEPENDENT_HARDWARE_FAMILY",
+        "INDEPENDENT_IMPLEMENTATION_STRUCTURE",
+        "INDEPENDENT_SEMANTIC_ORACLE"
+      ],
+      "strengthening_independence_axis": [
+        "INDEPENDENT_TEAM",
+        "INDEPENDENT_CUSTODY",
+        "INDEPENDENT_STORAGE_MODEL"
+      ],
+      "candidate_realization_class": "A physical analog, neuromorphic, reservoir/attractor, memristive, or other dynamical carrier in which semantic continuity is not identified with stable byte/row/neuron addresses. A companion mechanism is allowed only when declared as part of a hybrid profile and must not contain the entire authoritative semantic state such that the dynamical substrate becomes decorative.",
+      "qualification_tiers": {
+        "SIMULATION_OR_EMULATION": "METHOD_REHEARSAL_ONLY / CANNOT_SUPPORT_H08",
+        "PHYSICAL_NON_ADDRESS_REALIZATION": "ELIGIBLE_FOR_H08_IF_ALL_OTHER_GATES_QUALIFY",
+        "HYBRID_PROFILE": "ELIGIBLE_ONLY_FOR_DECLARED_HYBRID_SCOPE; COMPANION CANNOT HIDE ALL SEMANTIC STATE"
+      },
+      "observables": [
+        "externally discriminable state/attractor or relational continuity classes",
+        "lineage and transformation relation across perturbation/change",
+        "Context/Authority/provenance observables or explicitly bounded companion records",
+        "partial/unknown/loss states",
+        "recovery or continuation after benign physical drift",
+        "absence of stable physical-address identity as semantic oracle"
+      ],
+      "equivalence_predicate": "The frozen external oracle can recover the required semantic identity, lineage, uncertainty, authority, and accountability distinctions from declared external observations across admissible physical drift/perturbation, without relying on persistent byte/row/neuron addresses or a hidden full digital shadow.",
+      "allowed_losses": [
+        "exact microstate",
+        "exact neuron/synapse/device identity",
+        "exact deterministic replay path",
+        "exact timing and weight values outside declared semantic scope",
+        "non-semantic physical coordinates"
+      ],
+      "failure_condition": [
+        "semantic identity is actually anchored to stable physical addresses or device IDs",
+        "a conventional companion stores the full authoritative semantic history and the dynamical substrate contributes no required semantic preservation",
+        "benign substrate drift destroys required lineage/accountability without declared loss",
+        "uncertainty, Context, Authority, or provenance can only be reconstructed by reading private implementation state",
+        "simulation is promoted as physical substrate evidence"
+      ],
+      "hard_refutation": "A qualifying physical non-address-based realization cannot preserve required semantic identity/lineage/accountability within the declared scope even when exact microstate and physical-address identity are explicitly non-required and a bounded non-authoritative companion is allowed.",
+      "grounding_mode": "Raw physical measurements and externally supplied semantic challenge cases; implementation-neutral qualifier derives semantic observations without private-state access.",
+      "threat_trust_model": [
+        "decorative neuromorphic/analog substrate backed by a full digital shadow",
+        "hidden persistent address labels",
+        "calibration drift or perturbation cherry-picking",
+        "oracle coupled to training/internal state",
+        "simulation mistaken for hardware-family evidence"
+      ],
+      "oracle_authority": "Frozen external semantic oracle over declared physical/hybrid observations, with an anti-shadow audit establishing where authoritative meaning actually resides.",
+      "reproduction_requirements": [
+        "physical substrate identity and configuration",
+        "initialization/training/calibration protocol",
+        "challenge and perturbation protocol",
+        "raw measurement traces",
+        "companion-boundary inventory",
+        "external qualifier and oracle versions",
+        "loss and uncertainty report"
+      ],
+      "expected_evidence": "A physical/hybrid evidence package that makes the actual semantic carrier boundary inspectable and can falsify address-free continuity rather than merely demonstrate a neuromorphic computation task."
+    },
+    {
+      "hypothesis_id": "A10-H09",
+      "family_id": "RAVP-H09-PROBABILISTIC-CONFORMANCE",
+      "hypothesis": "Probabilistic substrates can be assessed using bounded statistical conformance without redefining uncertainty as failure.",
+      "why_not_tested_by_bpv1": "BPV1-001 used no probabilistic substrate and preregistered no repeated-trial statistical conformance protocol.",
+      "target_semantic_obligations": [
+        "A8-P02 explicit failure/unknown/partial/unsupported outcomes",
+        "A8-P03 semantic laws",
+        "A8-P07 conflict/uncertainty/revision meaning",
+        "A8-P09 bounded accountability",
+        "A8-P10 explicit loss/capability declaration"
+      ],
+      "testable_question": "Can a materially probabilistic realization be tested with preregistered repeated-trial statistics so that required semantic invariants remain falsifiable, distributional variation is bounded, and real semantic divergence cannot be excused post hoc as noise?",
+      "required_independence_axis": [
+        "INDEPENDENT_COMPUTATION_MODEL",
+        "INDEPENDENT_SEMANTIC_ORACLE"
+      ],
+      "strengthening_independence_axis": [
+        "INDEPENDENT_HARDWARE_FAMILY",
+        "INDEPENDENT_TEAM",
+        "INDEPENDENT_CUSTODY",
+        "INDEPENDENT_IMPLEMENTATION_STRUCTURE"
+      ],
+      "candidate_realization_class": "A realization whose computation materially produces distributions rather than one deterministic byte-exact trajectory. Software stochastic simulation may qualify only the statistical protocol; H09 substrate support requires a materially probabilistic computation/substrate claim with independently captured repeated trials.",
+      "qualification_tiers": {
+        "SOFTWARE_STOCHASTIC_REHEARSAL": "STATISTICAL_PROTOCOL_QUALIFICATION_ONLY / CANNOT_SUPPORT_PHYSICAL_SUBSTRATE_CLAIM",
+        "MATERIALLY_PROBABILISTIC_REALIZATION": "ELIGIBLE_FOR_H09_IF_PREREGISTERED_STATISTICAL_AND_SEMANTIC_GATES_QUALIFY"
+      },
+      "observables": [
+        "raw repeated-trial semantic outcome classes",
+        "forbidden semantic-state incidence",
+        "distributional outcome frequencies",
+        "trial independence/correlation diagnostics",
+        "environment/randomness-source metadata",
+        "predeclared uncertainty and loss states",
+        "sample size and stopping rule"
+      ],
+      "equivalence_predicate": "Preregistration separates zero-tolerance semantic invariants from explicitly statistical obligations. Zero-tolerance claims admit no forbidden semantic outcome in their declared scope; statistical obligations must remain within preregistered equivalence/error bounds with sufficient power. Insufficient power or ambiguous measurement yields INDETERMINATE, not PASS.",
+      "allowed_losses": [
+        "exact execution path",
+        "byte-identical replay",
+        "exact sample ordering",
+        "microstate and random trajectory",
+        "declared bounded stochastic variation outside hard semantic invariants"
+      ],
+      "failure_condition": [
+        "thresholds/equivalence margins/trial counts are chosen after observing adjudication data",
+        "semantic divergence is always excused as random noise",
+        "insufficient statistical power is reported as support",
+        "forbidden Unknown-to-False, plurality collapse, authority drift, or silent-loss outcomes occur under a scope claiming they cannot occur",
+        "selected/retried runs hide adverse trials"
+      ],
+      "hard_refutation": "Under a preregistered adequately powered protocol, required semantic distinctions cannot be separated from stochastic divergence strongly enough to keep the preservation claim falsifiable, or a hard semantic invariant is reproducibly violated within its claimed scope.",
+      "grounding_mode": "Independently captured raw trial series; blinded/frozen statistical qualifier; semantic labels derived externally rather than supplied by the subject.",
+      "threat_trust_model": [
+        "p-hacking or post-hoc equivalence margins",
+        "optional stopping",
+        "seed/random-source leakage",
+        "non-independent trials and environmental drift",
+        "discarded adverse samples",
+        "model uncertainty conflated with architecture uncertainty"
+      ],
+      "oracle_authority": "Two-layer frozen oracle: deterministic semantic rule checker for hard invariants plus preregistered statistical evaluator for distributional obligations.",
+      "reproduction_requirements": [
+        "statistical analysis plan with alpha/power/equivalence margin where applicable",
+        "fixed trial count or preregistered stopping rule",
+        "randomness/source and environment description",
+        "complete raw trial capture",
+        "semantic qualifier version",
+        "statistical evaluator version/digest",
+        "multiple-comparison policy if applicable"
+      ],
+      "expected_evidence": "Complete repeated-trial dataset plus immutable statistical and semantic adjudication outputs that can produce SUPPORT, WEAKENED, REFUTED, INDETERMINATE, or NOT_TESTED without post-hoc rescue."
+    },
+    {
+      "hypothesis_id": "A10-H10",
+      "family_id": "RAVP-H10-ORTHOGONAL-STORAGE-COMPUTATION",
+      "hypothesis": "Storage and computation mechanisms can vary independently within declared semantic constraints.",
+      "why_not_tested_by_bpv1": "BPV1-001 changed language, history model, and representation together, so storage and computation axes were not independently isolated.",
+      "target_semantic_obligations": [
+        "A8-P04 typed/scoped identity",
+        "A8-P06 lifecycle/history meaning",
+        "A8-P08 Context/Provenance/Authority",
+        "A8-P09 bounded accountability",
+        "A8-P10 explicit loss declaration"
+      ],
+      "testable_question": "When storage model and computation model are varied orthogonally rather than together, can each axis change while the other is held materially fixed without changing a semantic law, identity relation, authority rule, or declared meaning-level outcome?",
+      "required_independence_axis": [
+        "INDEPENDENT_STORAGE_MODEL",
+        "INDEPENDENT_COMPUTATION_MODEL",
+        "INDEPENDENT_SEMANTIC_ORACLE"
+      ],
+      "strengthening_independence_axis": [
+        "INDEPENDENT_IMPLEMENTATION_STRUCTURE",
+        "INDEPENDENT_LANGUAGE",
+        "INDEPENDENT_TEAM",
+        "INDEPENDENT_CUSTODY"
+      ],
+      "candidate_realization_class": "A minimum 2x2 mechanism matrix: storage S1/S2 crossed with computation C1/C2. C1/C2 must differ in computation mechanism rather than merely programming language; S1/S2 must differ in storage model rather than schema/dialect only. The semantic challenge specification and oracle remain external to all four cells.",
+      "minimum_matrix": [
+        "C1/S1",
+        "C1/S2",
+        "C2/S1",
+        "C2/S2"
+      ],
+      "observables": [
+        "pairwise semantic outcome matrix",
+        "identity/lineage/provenance/authority effects per cell",
+        "declared losses per cell",
+        "storage-axis deltas while computation is held fixed",
+        "computation-axis deltas while storage is held fixed",
+        "interaction/coupling findings"
+      ],
+      "equivalence_predicate": "For preregistered obligations, S1↔S2 changes at fixed computation and C1↔C2 changes at fixed storage preserve the same meaning-level outcomes or explicitly declared allowed losses. A programming-language change alone does not qualify as a computation-model change.",
+      "allowed_losses": [
+        "encoding/layout/indexing differences",
+        "performance and resource differences",
+        "local scheduling/write-order differences not promoted to semantic order",
+        "mechanism-specific diagnostic metadata"
+      ],
+      "failure_condition": [
+        "one axis cannot be held fixed while the other changes",
+        "the shared interface smuggles one storage/computation mechanism into all cells",
+        "changing storage changes identity/authority/semantic law without declared applicability reason",
+        "changing computation changes required semantic meaning without declared applicability reason",
+        "same final value hides material provenance/uncertainty/authority divergence"
+      ],
+      "hard_refutation": "Within a scope claiming independent substitutability, an isolated storage or computation mechanism change necessarily alters a required semantic law, identity relation, authority rule, or accountability property rather than merely changing implementation mechanics or declared loss.",
+      "grounding_mode": "Externally generated challenge cases and an implementation-neutral oracle shared across a preregistered orthogonal mechanism matrix.",
+      "threat_trust_model": [
+        "fake independence via thin wrappers around one shared core",
+        "language difference mislabeled as computation-model difference",
+        "storage adapter carrying semantic logic",
+        "oracle coupled to one cell's internal representation",
+        "uncontrolled simultaneous axis changes"
+      ],
+      "oracle_authority": "Frozen cross-cell semantic comparator over external observations, provenance/authority/loss vectors, and explicit axis qualification evidence.",
+      "reproduction_requirements": [
+        "formal axis qualification for S1/S2 and C1/C2",
+        "immutable challenge set",
+        "four cell build/run identities",
+        "raw cell outputs",
+        "external semantic qualification",
+        "pairwise/cross-axis comparison report",
+        "shared oracle version/digest"
+      ],
+      "expected_evidence": "A four-cell mechanism-isolation evidence matrix that can distinguish true axis independence from coupled implementation variation."
+    },
+    {
+      "hypothesis_id": "A10-H11",
+      "family_id": "RAVP-H11-LAB-CANON-SEPARATION",
+      "hypothesis": "Laboratory mechanisms can remain reproducible without becoming Architecture Canon.",
+      "why_not_tested_by_bpv1": "BPV1-001 did not preregister H11 as a falsification target. Existing repository governance evidence is informative but was not an H11 experiment.",
+      "target_semantic_obligations": [
+        "A9 distinction between architecture-preserving evidence, profile-specific realization, laboratory-only constraint, and architecture authority",
+        "A8 separation of semantic obligation from realization mechanism",
+        "historical evidence reproducibility without retroactive Canon promotion"
+      ],
+      "testable_question": "Can exact reproduction of accepted laboratory evidence depend on profile-specific Python/SQL/JSON/hash/Event/reducer details while the Architecture specification and conformance oracle remain meaning-level and do not mandate those mechanisms universally?",
+      "required_independence_axis": [
+        "INDEPENDENT_SEMANTIC_ORACLE"
+      ],
+      "strengthening_independence_axis": [
+        "INDEPENDENT_TEAM",
+        "INDEPENDENT_CUSTODY",
+        "INDEPENDENT_IMPLEMENTATION_STRUCTURE"
+      ],
+      "candidate_realization_class": "A dual-layer reproduction challenge: an immutable laboratory reproduction manifest may require exact profile bytes/tools/versions, while a separate architecture-obligation dependency graph and conformance specification must contain only meaning-level requirements. An independent reviewer/reproducer attempts both tasks without treating the lab manifest as Canon.",
+      "observables": [
+        "successful or failed exact laboratory reproduction against its own profile manifest",
+        "dependency graph from architecture obligations to concrete mechanisms",
+        "mandatory profile-specific mechanism leakage count",
+        "architecture conformance checks that remain mechanism-neutral",
+        "historical evidence identity preserved without architecture rewrite"
+      ],
+      "equivalence_predicate": "Historical lab evidence may require exact profile-specific reproduction inputs, but no such input becomes a universal Architecture obligation unless independently justified at meaning level. Architecture reproducibility means the semantic obligation and falsifier remain testable without mandating current profile machinery.",
+      "allowed_losses": [
+        "none for the exact historical laboratory artifact being reproduced",
+        "mechanism differences are allowed for separate architecture-level conformance exercises",
+        "profile-specific metadata may remain outside Architecture Canon"
+      ],
+      "failure_condition": [
+        "architecture documents must mandate Python, SQL, JSON, SHA-256, Event, reducer, exact replay, UUID, current clocks, or equivalent profile mechanism solely to reproduce laboratory evidence",
+        "architecture validators depend on profile bytes rather than meaning-level obligations",
+        "lab-only constraints are silently promoted to substrate-neutral requirements",
+        "historical evidence reproducibility requires rewriting architecture history"
+      ],
+      "hard_refutation": "A necessary accepted architecture obligation cannot remain reproducible/testable unless a profile-specific laboratory mechanism is elevated into universal Architecture solely because historical evidence reproduction depends on that mechanism.",
+      "grounding_mode": "Repository dependency audit plus independently performed reproduction/review; architecture authors do not self-certify absence of mechanism leakage.",
+      "threat_trust_model": [
+        "circular documentation where architecture cites the lab and the lab is then treated as architecture authority",
+        "hidden validators that enforce current bytes/mechanisms",
+        "same-author review bias",
+        "historical reproducibility confused with universal conformance"
+      ],
+      "oracle_authority": "Independent architecture-boundary reviewer using a frozen dependency/leakage rubric plus exact lab reproduction evidence under the laboratory's own versioned manifest.",
+      "reproduction_requirements": [
+        "historical lab checkpoint and evidence identity",
+        "exact lab reproduction manifest",
+        "architecture obligation inventory",
+        "mechanism dependency graph",
+        "independent reviewer/reproducer report",
+        "leakage findings and dispositions"
+      ],
+      "expected_evidence": "A paired reproduction-and-boundary-audit package showing whether laboratory exactness can coexist with mechanism-neutral Architecture, with H11 outcome kept separate from substrate portability claims."
+    }
+  ],
+  "recommended_order": [
+    {
+      "order": 1,
+      "hypothesis": "A10-H11",
+      "reason": "Lowest execution burden and protects all later families from profile-to-Canon leakage."
+    },
+    {
+      "order": 2,
+      "hypothesis": "A10-H03",
+      "reason": "Directly tests representation migration using conventional-digital resources without claiming new hardware support."
+    },
+    {
+      "order": 3,
+      "hypothesis": "A10-H10",
+      "reason": "Requires careful 2x2 orthogonal mechanism design and clarifies what computation-model independence actually means before hardware claims."
+    },
+    {
+      "order": 4,
+      "hypothesis": "A10-H06",
+      "reason": "Semantic/epistemic lane can be designed early; cryptographic/physical lanes require stronger custody and observation boundaries."
+    },
+    {
+      "order": 5,
+      "hypothesis": "A10-H09",
+      "reason": "Statistical protocol should be qualified before any costly probabilistic-substrate adjudication."
+    },
+    {
+      "order": 6,
+      "hypothesis": "A10-H08",
+      "reason": "Strongest specialized hardware requirement; should be attempted only after anti-shadow and external-oracle rules are mature."
+    }
+  ],
+  "external_research_references": [
+    {
+      "reference": "NIST SP 800-88 Rev. 2, Guidelines for Media Sanitization, 2025",
+      "role": "H06 threat/validation design reference only; not Native Kernel authority"
+    },
+    {
+      "reference": "Singh et al., Nature Communications 15, 2685 (2024), DOI 10.1038/s41467-024-46645-6",
+      "role": "H09 example that materially stochastic p-bit hardware exists; not Native Kernel evidence"
+    },
+    {
+      "reference": "Cotteret et al., arXiv:2405.01305 (2024), distributed representations in neuromorphic hardware",
+      "role": "H08 candidate-realization research reference only; not Native Kernel evidence"
+    }
+  ],
+  "next_gate_after_plan": "SEPARATE_FAMILY_PREREGISTRATION_SELECTION",
+  "next_gate_execution_authorized": false
+}
