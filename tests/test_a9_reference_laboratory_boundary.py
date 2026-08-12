@@ -82,11 +82,11 @@ class A9ReferenceLaboratoryBoundaryTests(unittest.TestCase):
         validation = research["post_blueprint_validation"]
         self.assertIn("A9_REFERENCE_LABORATORY_BOUNDARY", refoundation["completed_deliverables"])
         self.assertIn("A10_OPEN_QUESTIONS_AND_FALSIFICATION", refoundation["completed_deliverables"])
-        self.assertEqual("OPERATOR_CANON_RUNTIME_DECISION_REQUIRED", refoundation["next_content_slice"])
+        self.assertEqual("RESIDUAL_A10_VALIDATION_PLAN", refoundation["next_content_slice"])
         self.assertEqual("ADR-0026", validation["decision"])
         self.assertEqual("QUALIFYING_REVIEW_COMPLETE", validation["independent_review_status"])
         self.assertEqual(
-            "COMPLETE / OPTION_D_VALIDATION_AND_SYNC_COMPLETE / AWAITING_SEPARATE_OPERATOR_DECISION",
+            "COMPLETE / OPTION_D_OPERATOR_DECISION_ACCEPTED / RESIDUAL_VALIDATION_PLANNING_AUTHORIZED",
             validation["status"],
         )
         self.assertEqual("ADMITTED_FOR_EXPERIMENT_ONLY", validation["bpv1_status"])
@@ -96,7 +96,7 @@ class A9ReferenceLaboratoryBoundaryTests(unittest.TestCase):
         self.assertEqual("COMPLETE", result["status"])
         self.assertEqual("QUALIFIED", result["qualification_status"])
         self.assertEqual("SUPPORTED_FOR_SCOPE", result["oracle_outcome"])
-        self.assertEqual("OPERATOR_CANON_RUNTIME_DECISION_REQUIRED", result["next_gate"])
+        self.assertEqual("RESIDUAL_A10_VALIDATION_PLAN", result["next_gate"])
         self.assertEqual("COMPLETE", result["d6_status"])
         self.assertEqual("COMPLETE", result["d7_status"])
         self.assertEqual("COMPLETE / READ_BACK_VERIFIED", result["d8_status"])
