@@ -2,7 +2,7 @@
 
 ```yaml
 document_role: ACTIVE_RISKS
-status_as_of: 2026-08-11
+status_as_of: 2026-08-12
 authoritative_machine_source: ../../project-state.json
 repository_status: RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY
 blueprint_decision: ADR-0025
@@ -11,9 +11,12 @@ independent_review: IAR-1 / QUALIFYING_REVIEW_COMPLETE
 review_reconciliation: IAR-1-R1 / COMPLETE
 bpv1_plan: BPV1-001-cross-lineage-bounded-accountability-v1 / PREREGISTERED
 bpv1_plan_merge: a538d7f1e28858a88b9ee777ac7d6e05b85943db
-bpv1_execution_admission_package_merge: 6027eec73f11c4626be5553de7e79f827be2c81d
-next_gate: BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION
-bpv1_execution: ADMITTED_FOR_EXPERIMENT_ONLY
+bpv1_d5_merge: a191e9c868c14af34a269dcdfae44406f1013bda
+bpv1_d5_r1_qualification_merge: 3856740570620fb2243e2f0da76359281ec4068f
+bpv1_qualified_outcome: SUPPORTED_FOR_SCOPE
+next_gate: D6_A10_HYPOTHESIS_CLASSIFICATION
+D6: NOT_STARTED
+bpv1_execution_authorization_lane: ADMITTED_FOR_EXPERIMENT_ONLY
 ```
 
 This page lists current risks. Historical defects and prior gate states remain available through Git history and their original evidence/review records; they are not rewritten as current truth.
@@ -33,7 +36,7 @@ PROPOSED             research or decision work, not runtime protection
 **State:** `OPEN / PRIMARY COMMUNICATION AND GOVERNANCE RISK`.
 
 ```text
-ephemeral CI + synthetic C5 scenarios
+C5 + BPV1-001 scoped evidence
 ≠ production deployment
 ≠ live user traffic
 ≠ sustained operations
@@ -52,13 +55,11 @@ assertion map:              45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED / 0 FAILE
 NK-EPI:                     0 SUPPORTED / 0 PARTIAL / 8 UNSUPPORTED / 0 FAILED
 ```
 
-Operational success cannot promote unsupported or partial semantic assertions.
+Operational success and BPV1-001 `SUPPORTED_FOR_SCOPE` cannot promote unsupported semantic assertions or silently classify A10 hypotheses.
 
 ## P0 — Reference implementation may capture the Canon
 
-**State:** `MITIGATED BY ADR-0025 + ADR-0026 + IAR-1-R1 + BPV1-001 PREREGISTRATION / RESIDUAL OPEN`.
-
-The current P1–C5 lineage was implemented before the complete blueprint. IAR-1 showed that capture risk existed not only in Python/SQL/Event choices but also in higher-level A3 transition/outcome, A6 lifecycle and Receipt/reconstruction structures.
+**State:** `MITIGATED BY ADR-0025 + ADR-0026 + IAR-1-R1 + BPV1-001 D5/D5-R1 / RESIDUAL OPEN`.
 
 Current controls:
 
@@ -66,19 +67,18 @@ Current controls:
 - A1–A10 remain provisional;
 - IAR-1 completed as a qualifying adversarial review;
 - IAR-1-R1 demoted over-shaped taxonomies from universal minimum to reference structures;
-- BPV1-001 forbids reuse of current Python domain models, Event envelope, reducer and Receipt shape as the semantic oracle;
-- BPV1-001 uses Rust only as an experimental cross-language instrument, not Canon/product profile;
+- BPV1-001 forbids current Python/Event/reducer/Receipt/SQL forms as semantic oracle;
+- Rust subject was derived as a separate bounded experimental realization;
+- D5-R1 externally qualifies structural evidence rather than accepting subject self-report;
 - runtime remains frozen.
 
-Residual risk: a later subject implementation can still imitate the same conceptual architecture under different syntax. Execution admission must therefore freeze the evaluator before the subject exists/runs.
+Residual risk: one Rust realization can still share conceptual assumptions with the repository authors. D6/D7 must preserve this limitation rather than presenting one cross-language success as universal architectural proof.
 
 ## P0 — False independence / self-confirming validation
 
-**State:** `MITIGATED FOR IAR-1 / RESIDUAL OPEN FOR EXPERIMENT`.
+**State:** `MITIGATED FOR IAR-1 AND D5-R1 SELF-REPORT PATH / RESIDUAL OPEN`.
 
-IAR-1 recorded a concrete reviewer identity and separation basis. It satisfies its review-process gate but does not prove architecture correctness.
-
-BPV1-001 declares:
+BPV1-001 still declares:
 
 ```text
 independent language: APPLICABLE / RUST
@@ -87,89 +87,74 @@ independent team: NOT_ESTABLISHED
 independent computation model: NOT_ESTABLISHED / CONVENTIONAL_DIGITAL
 ```
 
-No later report may call BPV1-001 fully independent merely because the implementation language differs.
+PR #115 removed the specific HR10 problem found after D5: the Rust subject no longer supplies structural oracle-facing PASS booleans. The external qualifier derives structural facts without reading frozen fixture expectations or private runtime state; if it cannot establish a required fact, the unchanged evaluator can become `INDETERMINATE`.
 
-## P0 — Execution-admission oracle leakage
+This fixes that adjudication path, but it does **not** establish independent team, custody or computation-model evidence.
 
-**State:** `MITIGATED / SUBJECT IMPLEMENTATION NOW ADMITTED FOR BPV1-001 ONLY`.
+## P0 — Oracle leakage / post-hoc rescoping
 
-The preregistration is authoritative, and the machine-readable fixtures and standalone evaluator are now admitted (PR #112, merge `6027eec73f11c4626be5553de7e79f827be2c81d`, frozen digest corrected to `7fe8174c604678c6b79d3fdeae83d7c5ab0d2fb15bfe343d41659d05d9496ad0`). The immediate risk was translating the plan into executable expectations in a way that secretly incorporates subject behavior or current implementation assumptions; the fixtures/evaluator were authored and self-tested before any subject source existed, closing that specific leakage path for this admission.
+**State:** `MITIGATED / MUST REMAIN FAIL-CLOSED`.
 
-`BPV1_EXECUTION_ADMISSION` bound before any subject implementation/execution:
+The frozen preregistration, machine-readable fixture/oracle package and evaluator remain unchanged across D5 and D5-R1. The twelve normative fields, scenario identity, expected fixture semantics, thresholds and HR01-HR10 cannot be changed to rescue a result under the same scenario identity.
 
-- authoritative plan `BPV1-001-cross-lineage-bounded-accountability-v1`;
-- frozen digest of normative preregistration;
-- machine-readable fixtures derived only from the preregistered plan;
-- standalone evaluator tests passing before subject execution;
-- pinned Rust toolchain and experimental source boundary;
-- static no-product-integration audit.
-
-The evaluator cannot be changed after observing subject results under the same scenario identity except for non-normative bug repair that forces a new admitted evidence identity where meaning could change. Residual risk: the source-boundary audit must be re-verified once the BPV1-001 subject actually exists, to confirm no hidden Native Kernel reuse crept in during implementation.
+D5-R1 has a dedicated scope guard that rejects changes to:
 
 ```text
-preregistered plan ≠ execution authorization
-fixture package ≠ subject implementation
-implementation self-report ≠ oracle Authority
+docs/research/BPV1_PREREGISTRATION.*
+experiments/bpv1/BPV1-001/admission/**
+tools/bpv1/evaluate.py
 ```
 
-## P0 — Post-hoc rescoping
+A semantic change there requires a new admitted evidence identity or new scenario identity as applicable.
 
-**State:** `MITIGATED BY FROZEN PLAN / MUST REMAIN FAIL-CLOSED`.
+## P0 — Bounded accountability boundary
 
-The twelve normative fields are frozen before execution:
+**State:** `MITIGATED FOR BPV1-001 FIXED SCOPE / RESIDUAL OPEN OUTSIDE SCOPE`.
 
-```text
-scenario_id
-purpose_scope
-mandatory_obligations
-applicability_rules
-mandatory_observables
-equivalence_predicates
-allowed_declared_losses
-failure_thresholds
-hard_refutation_observations
-grounding_mode
-threat_model
-oracle_authority
-```
+The fixed 512-mutation BPV1-001 run preserves current accountability, explicit retention scope and valid loss witnesses while remaining within the preregistered state bounds. D5-R1 also fixes the earlier implementation weakness where witness storage itself could grow without an internal cap.
 
-Changing them after results are observed invalidates the run for its claimed scope and requires a new scenario identity. A failed experiment may not be rescued by silently changing applicability or thresholds.
+A separate 96-cycle engineering stress test verifies retained witness records remain bounded and older witness detail folds into a bounded per-slot rollup rather than silently disappearing or becoming an unbounded replacement log.
 
-## P0 — Bounded accountability boundary is untested
-
-**State:** `OPEN / PREREGISTERED / NOT YET EXECUTED`.
-
-IAR-1-R1 separates current accountability from exact reconstruction/replay. BPV1-001 preregisters bounded current accountability, explicit retention scope and loss witnesses while allowing compaction outside retained detail.
-
-Risk: the proposed loss-witness boundary may be too weak to prevent silent overwrite or too strong for genuinely bounded realizations. Such an observation must weaken/refute the claim rather than force an Event-log equivalent by definition.
+Residual risk: this is not a proof of bounded behavior for arbitrary workloads, data distributions or future substrates.
 
 ## P0 — Bounded-state thresholds may be misleading
 
-**State:** `OPEN / PREREGISTERED THRESHOLDS / EMPIRICAL RESULT PENDING`.
+**State:** `MITIGATED FOR FIXED BPV1-001 / RESIDUAL OPEN`.
 
-BPV1-001 fixes:
+Observed qualified run:
 
 ```text
 scripted_mutations: 512
 durable_state_byte_cap: 262144
+durable_bytes_at_512: 42276
 retained_detailed_predecessor_cap: 64
+retained_detailed_predecessors: 52
 loss_witness_cap: 32
-growth_rule: durable_bytes_at_512 <= durable_bytes_at_256 * 1.25 + 4096
+retained_loss_witness_records: 13
+growth_rule: PASS
 ```
 
-These are experiment thresholds, not universal architecture constants or performance targets. Passing them cannot be generalized to arbitrary workloads/hardware.
+These are experiment thresholds, not universal architecture constants, capacity claims or performance targets.
+
+## P0 — Semantic corruption coverage
+
+**State:** `MITIGATED FOR BPV1-001 CLAIM FIELDS / RESIDUAL OPEN`.
+
+The original D5 content digest omitted `evidence` and `epistemic_position`; D5-R1 corrected this and added adversarial tests that mutate each without recomputing the digest and require corruption detection.
+
+Residual risk: this local digest is an experiment corruption detector, not a cryptographic authenticity scheme or universal storage-integrity architecture.
 
 ## P0 — Threat/authenticity boundary is provisional
 
-**State:** `OPEN / NEGATIVE TESTS PREREGISTERED / EXECUTION PENDING`.
+**State:** `MITIGATED FOR PREREGISTERED NEGATIVE FIXTURES / RESIDUAL OPEN`.
 
-Relevant adversarial cases include forgery, truncation, rollback, equivocation, withheld counterevidence and unavailable/forged Authority. No one cryptographic mechanism is architecture Canon.
+BPV1-001 executed its scoped negative fixtures for truncation/corruption, forged Authority and withheld counterevidence. This is not a cybersecurity benchmark and does not establish OS security, distributed consensus, production key management, cryptographic authenticity or arbitrary adversarial resilience.
 
 ## P0 — Context/Provenance/Authority grounding can hide assumptions
 
-**State:** `OPEN / FINITE GROUNDING PREREGISTERED / EXECUTION PENDING`.
+**State:** `OPEN / SCOPED BPV1 EVIDENCE ONLY`.
 
-Context/Provenance/Authority chains require an explicit finite grounding mode. Matching visible outputs with materially different hidden roots cannot count as full semantic equivalence.
+BPV1-001 preserves the material Context/Source/Evidence/Authority distinctions required by its fixtures and detects hidden semantic divergence despite matching visible final values. It does not exhaust grounding problems across all knowledge systems or substrates.
 
 ## P0 — Historical and clean lineages may be collapsed
 
@@ -188,7 +173,7 @@ Issue #1 remains independent.
 
 **State:** `OPEN / ISSUE #74 / ADR-0024 PENDING / RUNTIME FROZEN`.
 
-Reducer v1 must not be rewritten in place. Option D and BPV-1 do not accept ADR-0024 or authorize reducer v2.
+Reducer v1 must not be rewritten in place. Option D, D5 and D5-R1 do not accept ADR-0024 or authorize reducer v2.
 
 ## P0 — Event/history commitment is not complete authenticity
 
@@ -200,7 +185,7 @@ signature over incomplete commitment ≠ complete integrity
 history visibility ≠ mandatory Event sourcing
 ```
 
-BPV1-001 specifically tests a non-event-sourced authoritative history model; success or failure is scoped evidence, not a universal conclusion by itself.
+BPV1-001 produced scoped evidence that current accountability can survive without a canonical per-operation Event log or exact replay in this one realization. D6 must decide what that supports or weakens among the preregistered hypotheses; no universal conclusion is automatic.
 
 ## P0 — Physical deletion remains absent
 
@@ -222,21 +207,20 @@ BPV-1 work does not select a license or contribution regime.
 
 **State:** `OPEN / GOVERNANCE BOUNDARY`.
 
-Qualifying review, reconciliation, preregistration, execution admission, experimental PASS, or A10 outcome classification do not automatically create Final Canon, product runtime behavior, production authority, or universal substrate claims.
+Qualifying review, reconciliation, preregistration, execution admission, D5/D5-R1 `SUPPORTED_FOR_SCOPE`, or later A10 outcome classification do not automatically create Final Canon, product runtime behavior, production authority, or universal substrate claims.
 
-## P1 — Independent implementation evidence remains absent
+## P1 — Independent implementation evidence remains limited
 
-**State:** `OPEN / BPV1-001 TARGETS A STRONGER CLASS BUT HAS NOT EXECUTED`.
+**State:** `PARTIAL / CROSS-LANGUAGE EVIDENCE EXISTS / BROADER INDEPENDENCE ABSENT`.
 
-Current PostgreSQL and SQLite profiles share a Python semantic lineage. BPV1-001 plans cross-language + non-event-sourced + bounded-memory evidence, but independent team/custody and independent computation-model evidence remain absent.
+BPV1-001 now provides one executed Rust, non-event-sourced, bounded-memory realization. This is materially stronger than PostgreSQL↔SQLite storage-profile evidence, but still lacks:
 
-Still absent after preregistration:
-
-- an executed independent-language realization;
-- executed non-event-sourced cross-lineage evidence;
-- executed bounded-memory evidence;
 - independent implementation team/custody;
-- probabilistic/neuromorphic/analog/non-classical implementation evidence.
+- independent computation model;
+- probabilistic/neuromorphic/analog/non-classical implementation evidence;
+- composition/federation evidence.
+
+Do not call it fully independent merely because the language differs.
 
 ## P1 — Composition/federation remains outside base conformance
 
@@ -252,25 +236,13 @@ BPV1-001 is explicitly single-node/non-composed and cannot be generalized to fed
 
 **State:** `OPEN`.
 
-PostgreSQL and SQLite bounded semantic comparison is not full operational equivalence. BPV1-001 does not attempt to prove operational parity either.
+PostgreSQL and SQLite bounded semantic comparison is not full operational equivalence. BPV1-001 does not attempt to prove operational parity or performance superiority.
 
 ## P1 — Durable evidence lacks independent custody
 
 **State:** `MITIGATED / RESIDUAL OPEN`.
 
-Repository-resident ZIPs and future BPV-1 artifacts are not independent third-party custody, signed timestamping, or disaster recovery.
-
-## P1 — Synthetic privacy checks are not privacy compliance
-
-**State:** `OPEN`.
-
-Synthetic artifact inspection does not prove real personal-data handling or legal compliance.
-
-## P1 — Logical export is not disaster recovery
-
-**State:** `OPEN`.
-
-Logical export/import evidence is not physical DB backup, WAL recovery, PITR, cross-region restore or restore-under-load proof.
+Repository-resident C5 and BPV1 artifacts are not independent third-party custody, signed timestamping, or disaster recovery.
 
 ## P1 — Scale and environment scope are narrow
 
@@ -282,14 +254,20 @@ Passing C5 or BPV1-001 thresholds is not a capacity, SLO, cost, architecture, ha
 
 **State:** `MITIGATED / RESIDUAL LIVE-STATE RISK OPEN`.
 
-GitHub refs, issue states, Actions and Notion can change after committed snapshots. Live state requires GitHub verification; Notion requires separate post-merge synchronization/read-back.
+GitHub refs, issue states, Actions and Notion can change after committed snapshots. Live state requires GitHub verification. Notion currently remains at D4.5 by deliberate Option D synchronization policy; D5/D5-R1/D6 are deferred to D8.
+
+## P1 — Repository governance enforcement
+
+**State:** `OPEN / SEPARATE FROM BPV1 SEMANTICS`.
+
+Live repository inspection has shown the main branch as protected while enforcement/settings may still be disabled. This is a repository governance risk, not evidence that BPV1 semantics failed. It must not be conflated with D5/D5-R1 qualification.
 
 ## Closed/historical boundaries
 
-Historical Event-comparison, evidence-schema, workflow-trigger and SQLite-version defects remain closed/version-bound in their original PR/evidence histories. They are not reopened by BPV-1 and are not rewritten here.
+Historical Event-comparison, evidence-schema, workflow-trigger, SQLite-version, D5 subject-self-report, semantic-digest coverage and unbounded witness-retention defects remain preserved in their original PR/evidence histories. D5-R1 corrects the latter three in a new evidence identity rather than rewriting PR #114 evidence.
 
 ## Update rule
 
 For every risk transition record exact contract/decision, exact SHA/workflow runs, affected evidence identity, residual risk, proof boundary, and whether operator approval is required.
 
-Never convert a bounded PASS, retained archive, closed bug, accepted research priority, operator approval, qualifying independent review, reconciliation, preregistration or future BPV-1 result into production, truth, compliance, deletion, Final Canon, universal neutrality, future-substrate support or ecosystem-authority claims.
+Never convert a bounded PASS, retained archive, closed bug, accepted research priority, operator approval, qualifying independent review, reconciliation, preregistration or BPV1 result into production, truth, compliance, deletion, Final Canon, universal neutrality, future-substrate support or ecosystem-authority claims.
