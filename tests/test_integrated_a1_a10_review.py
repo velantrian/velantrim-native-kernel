@@ -53,7 +53,7 @@ class IntegratedA1A10ReviewTests(unittest.TestCase):
     def test_integrated_review_remains_historical_while_machine_state_advances(self) -> None:
         refoundation = STATE["tracks"]["long_horizon_research"]["architecture_refoundation"]
         validation = STATE["tracks"]["long_horizon_research"]["post_blueprint_validation"]
-        self.assertEqual("OPERATOR_CANON_RUNTIME_DECISION_REQUIRED", refoundation["next_content_slice"])
+        self.assertEqual("RESIDUAL_A10_VALIDATION_PLAN", refoundation["next_content_slice"])
         self.assertEqual(10, len(refoundation["completed_deliverables"]))
         self.assertNotIn("INTEGRATED_A1_A10_REVIEW", refoundation["completed_deliverables"])
         self.assertNotIn("OPERATOR_POST_BLUEPRINT_DECISION", refoundation["completed_deliverables"])
@@ -61,7 +61,7 @@ class IntegratedA1A10ReviewTests(unittest.TestCase):
         self.assertEqual("ADR-0026", validation["decision"])
         self.assertEqual("QUALIFYING_REVIEW_COMPLETE", validation["independent_review_status"])
         self.assertEqual(
-            "COMPLETE / OPTION_D_VALIDATION_AND_SYNC_COMPLETE / AWAITING_SEPARATE_OPERATOR_DECISION",
+            "COMPLETE / OPTION_D_OPERATOR_DECISION_ACCEPTED / RESIDUAL_VALIDATION_PLANNING_AUTHORIZED",
             validation["status"],
         )
         self.assertEqual("ADMITTED_FOR_EXPERIMENT_ONLY", validation["bpv1_status"])
@@ -71,7 +71,7 @@ class IntegratedA1A10ReviewTests(unittest.TestCase):
         self.assertEqual("COMPLETE", result["status"])
         self.assertEqual("QUALIFIED", result["qualification_status"])
         self.assertEqual("SUPPORTED_FOR_SCOPE", result["oracle_outcome"])
-        self.assertEqual("OPERATOR_CANON_RUNTIME_DECISION_REQUIRED", result["next_gate"])
+        self.assertEqual("RESIDUAL_A10_VALIDATION_PLAN", result["next_gate"])
         self.assertEqual("COMPLETE", result["d6_status"])
         self.assertEqual("COMPLETE", result["d7_status"])
         self.assertEqual("COMPLETE / READ_BACK_VERIFIED", result["d8_status"])

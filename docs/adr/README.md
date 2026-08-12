@@ -1,3 +1,7 @@
+<!-- POST_D8_OPERATOR_DECISION_CURRENT -->
+> [!IMPORTANT]
+> **Current post-D8 operator decision — 2026-08-12.** ADR-0027 / `OD-POST-D8-001` is `ACCEPTED / OPERATOR APPROVED` at `57993f39906ae7266011f6146c9a485d0587d2bf`. A1–A10 remains `STRENGTHENED_FOR_BPV1_SCOPE / STILL_PROVISIONAL`; Final Canon is **deferred**, product runtime remains `FROZEN`, production remains `false`. The only current next gate is `RESIDUAL_A10_VALIDATION_PLAN` for A10-H03, A10-H06, A10-H08, A10-H09, A10-H10, A10-H11, and that gate is **RESEARCH_PLANNING_ONLY** — no residual experiment execution is authorized. Any lower `D6 NEXT`, `D8 IN_PROGRESS`, or `OPERATOR_CANON_RUNTIME_DECISION_REQUIRED` wording is historical chronology, not current truth.
+
 # 📝 Architecture Decision Records
 
 [← Project README](../../README.md) · [Русский README](../../README.ru.md) · [Decision process](../DECISION_PROCESS.md) · [Research RFCs](../rfc/README.md)
@@ -43,6 +47,7 @@ Decision status
 | [`0024`](./0024-version-reducer-referential-semantics.md) | Version reducer referential semantics without rewriting history | `PROPOSED` | repository gap documented | `NOT_STARTED` | `PENDING` |
 | [`0025`](./0025-blueprint-before-runtime-expansion.md) | Complete the architecture blueprint before further runtime expansion | `ACCEPTED` | `DOCUMENTED` | blueprint drafted/reviewed provisionally; runtime freeze active | `APPROVED` |
 | [`0026`](./0026-independent-challenge-before-bounded-cross-lineage-falsification.md) | Independent challenge before bounded cross-lineage falsification | `ACCEPTED` | IAR-1 + IAR-1-R1 + authoritative BPV-1 preregistration | `GOVERNANCE_PARTIAL` / execution admission next | `APPROVED` |
+| [`0027`](./0027-retain-provisional-architecture-and-runtime-freeze-after-option-d.md) | Retain provisional architecture and runtime freeze after Option D | `ACCEPTED` | `REPOSITORY_REPRODUCED` | governance complete; residual validation planning only | `APPROVED` |
 
 ## Current boundary
 

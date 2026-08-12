@@ -97,7 +97,7 @@ class IndependentArchitectureReviewProtocolTests(unittest.TestCase):
         validation = research["post_blueprint_validation"]
         self.assertEqual("BPV1_PLAN_AND_PREREGISTRATION", RECONCILIATION["next_gate"])
         self.assertEqual("BLOCKED_PENDING_PREREGISTERED_PLAN", RECONCILIATION["bpv1_status_after_reconciliation"])
-        self.assertEqual("OPERATOR_CANON_RUNTIME_DECISION_REQUIRED", research["architecture_refoundation"]["next_content_slice"])
+        self.assertEqual("RESIDUAL_A10_VALIDATION_PLAN", research["architecture_refoundation"]["next_content_slice"])
         self.assertEqual("QUALIFYING_REVIEW_COMPLETE", validation["independent_review_status"])
         self.assertEqual("ADMITTED_FOR_EXPERIMENT_ONLY", validation["bpv1_status"])
         self.assertEqual("BPV1-001-cross-lineage-bounded-accountability-v1", validation["bpv1_plan"]["plan_id"])
@@ -107,7 +107,7 @@ class IndependentArchitectureReviewProtocolTests(unittest.TestCase):
         self.assertEqual("COMPLETE", result["status"])
         self.assertEqual("QUALIFIED", result["qualification_status"])
         self.assertEqual("SUPPORTED_FOR_SCOPE", result["oracle_outcome"])
-        self.assertEqual("OPERATOR_CANON_RUNTIME_DECISION_REQUIRED", result["next_gate"])
+        self.assertEqual("RESIDUAL_A10_VALIDATION_PLAN", result["next_gate"])
         self.assertEqual("COMPLETE", result["d6_status"])
         self.assertEqual("COMPLETE", result["d7_status"])
         self.assertEqual("COMPLETE / READ_BACK_VERIFIED", result["d8_status"])

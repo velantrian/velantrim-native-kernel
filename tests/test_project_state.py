@@ -172,8 +172,8 @@ class ProjectStateTests(unittest.TestCase):
 
     def test_notion_synchronization_remains_complete_after_d8(self) -> None:
         state = copy.deepcopy(self.state)
-        state["notion"]["synchronization_required"] = True
-        with self.assertRaisesRegex(module.ProjectStateError, "must remain complete"):
+        state["notion"]["synchronization_required"] = False
+        with self.assertRaisesRegex(module.ProjectStateError, "must remain pending"):
             self.validate(state=state)
 
 

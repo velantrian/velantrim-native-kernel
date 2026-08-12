@@ -1,3 +1,7 @@
+<!-- POST_D8_OPERATOR_DECISION_CURRENT -->
+> [!IMPORTANT]
+> **Current post-D8 operator decision — 2026-08-12.** ADR-0027 / `OD-POST-D8-001` is `ACCEPTED / OPERATOR APPROVED` at `57993f39906ae7266011f6146c9a485d0587d2bf`. A1–A10 remains `STRENGTHENED_FOR_BPV1_SCOPE / STILL_PROVISIONAL`; Final Canon is **deferred**, product runtime remains `FROZEN`, production remains `false`. The only current next gate is `RESIDUAL_A10_VALIDATION_PLAN` for A10-H03, A10-H06, A10-H08, A10-H09, A10-H10, A10-H11, and that gate is **RESEARCH_PLANNING_ONLY** — no residual experiment execution is authorized. Any lower `D6 NEXT`, `D8 IN_PROGRESS`, or `OPERATOR_CANON_RUNTIME_DECISION_REQUIRED` wording is historical chronology, not current truth.
+
 # 🔗 Native Kernel Notion Synchronization Record
 
 ```yaml
