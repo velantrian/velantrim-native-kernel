@@ -17,7 +17,7 @@ Before searching code, creating a branch, or proposing architecture changes, rea
 11. `docs/research/BPV1_D6_A10_CLASSIFICATION.md`
 12. `docs/research/BPV1_D7_INTEGRATED_REREVIEW.md`
 13. `docs/research/BPV1_D8_CONSOLIDATED_SYNC.md`
-14. `docs/adr/0027-post-d8-residual-validation-planning.md`
+14. `docs/adr/0027-retain-provisional-architecture-and-runtime-freeze-after-option-d.md`
 15. `docs/research/RESIDUAL_A10_VALIDATION_PLAN.md`
 16. affected Canon, contracts, ADRs, source, tests, workflows and evidence
 17. live GitHub PRs/issues/Actions/reviews
