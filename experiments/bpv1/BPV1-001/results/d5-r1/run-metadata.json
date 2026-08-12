@@ -1,0 +1,65 @@
+{
+  "protocol": "nk-bpv1-d5-r1-run-metadata/1",
+  "scenario_id": "BPV1-001-cross-lineage-bounded-accountability-v1",
+  "plan_merge": "a538d7f1e28858a88b9ee777ac7d6e05b85943db",
+  "plan_sha256": "7fe8174c604678c6b79d3fdeae83d7c5ab0d2fb15bfe343d41659d05d9496ad0",
+  "execution_admission_package_merge": "6027eec73f11c4626be5553de7e79f827be2c81d",
+  "status_admission_checkpoint_merge": "e2deac859c2a56f29b88c54f1da440f3f04734dc",
+  "historical_d5_merge": "a191e9c868c14af34a269dcdfae44406f1013bda",
+  "qualification_source_exact_head": "5433ec0e56a2882ddfdd44e1d131cdca1ee1a082",
+  "exact_head_ci": {
+    "ai_context_integrity_run": 31549755468,
+    "execution_admission_run": 31549755493,
+    "d5_r1_subject_qualification_run": 31549755461,
+    "d5_r1_python_3_11_job": 93969695483,
+    "d5_r1_python_3_12_job": 93969695477,
+    "status": "SUCCESS"
+  },
+  "toolchain": {
+    "rust_channel": "1.97.1",
+    "python_versions": ["3.11", "3.12"]
+  },
+  "qualification": {
+    "status": "QUALIFIED",
+    "protocol": "nk-bpv1-external-qualification/1",
+    "subject_self_report_used_for_structural_oracle_fields": false,
+    "oracle_fixture_expectations_read_by_qualifier": false,
+    "implementation_private_runtime_state_read_by_qualifier": false
+  },
+  "evaluation": {
+    "evaluator": "tools/bpv1/evaluate.py",
+    "fixture_spec": "experiments/bpv1/BPV1-001/admission/fixtures.json",
+    "outcome": "SUPPORTED_FOR_SCOPE",
+    "mandatory_fixtures": 12,
+    "mandatory_pass": 12,
+    "mandatory_fail": 0,
+    "mandatory_indeterminate": 0
+  },
+  "workload": {
+    "active_claim_slots": 32,
+    "revision_cycles": 16,
+    "mutation_count": 512,
+    "checkpoints": [128, 256, 512],
+    "durable_bytes": {"128": 32118, "256": 37530, "512": 42276},
+    "retained_detailed_predecessors": 52,
+    "loss_witness_records": 13,
+    "growth_rule_passed": true
+  },
+  "additional_corrective_tests": {
+    "evidence_mutation_detected": true,
+    "epistemic_position_mutation_detected": true,
+    "witness_storage_bounded_beyond_preregistered_workload": true,
+    "stress_revision_cycles": 96,
+    "stress_is_not_part_of_preregistered_bpv1_workload": true
+  },
+  "reproduction": {
+    "subject": "rustup run 1.97.1 cargo run --release --locked -- --output <raw.json>",
+    "qualifier": "python tools/bpv1/qualify_observations.py <raw.json> --repo . --output <observations.json> --qualification-report <qualification-report.json>",
+    "evaluator": "python tools/bpv1/evaluate.py <observations.json> --spec experiments/bpv1/BPV1-001/admission/fixtures.json --output <evaluation-report.json>"
+  },
+  "non_claims": [
+    "D5-R1 does not change the frozen preregistration, oracle, scenario identity, thresholds, target hypotheses, or HR01-HR10.",
+    "This evidence does not establish Final Canon, production readiness, universal substrate portability, independent team/custody, or an independent computation model.",
+    "Runtime expansion remains FROZEN and product runtime integration remains unauthorized."
+  ]
+}
