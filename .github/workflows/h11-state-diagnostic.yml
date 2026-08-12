@@ -46,7 +46,21 @@ jobs:
         run: python -m unittest test_architecture_freeze.ArchitectureFreezeTests.test_repository_freeze_passes -v
         working-directory: tests
       - name: Architecture freeze validator tests
-        run: python -m unittest discover -s tests -p 'test_architecture_freeze.py' -v
+        shell: bash
+        run: |
+          set +e
+          python -m unittest discover -s tests -p 'test_architecture_freeze.py' -v 2>&1 | tee architecture-freeze.log
+          status=${PIPESTATUS[0]}
+          set -e
+          if [ "$status" -ne 0 ]; then
+            python - <<'PY'
+          from pathlib import Path
+          text = "\n".join(Path("architecture-freeze.log").read_text(encoding="utf-8").splitlines()[-80:])
+          text = text.replace("%", "%25").replace("\r", "%0D").replace("\n", "%0A")
+          print(f"::error title=Architecture freeze unit tests::{text}")
+          PY
+            exit "$status"
+          fi
       - name: Bilingual parity validator tests
         run: python -m unittest discover -s tests -p 'test_bilingual_parity_validator.py' -v
       - name: Project state validator tests
