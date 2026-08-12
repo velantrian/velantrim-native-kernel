@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate Native Kernel AI continuity and post-blueprint truth surfaces."""
+"""Validate Native Kernel AI continuity and layered current-truth surfaces."""
 from __future__ import annotations
 
 import argparse
@@ -23,6 +23,8 @@ REQUIRED_PATHS = (
     "docs/reviews/IAR-1_RECONCILIATION.md", "docs/reviews/IAR-1_RECONCILIATION.ru.md", "docs/reviews/IAR-1_RECONCILIATION.json",
     "docs/research/BPV1_PREREGISTRATION.md", "docs/research/BPV1_PREREGISTRATION.ru.md", "docs/research/BPV1_PREREGISTRATION.json",
     "docs/research/BPV1_D5_R1_QUALIFICATION.md", "docs/research/BPV1_D5_R1_QUALIFICATION.ru.md",
+    "docs/research/RESIDUAL_A10_VALIDATION_PLAN.md", "docs/research/RESIDUAL_A10_VALIDATION_PLAN.ru.md",
+    "docs/research/RESIDUAL_A10_VALIDATION_PLAN.json",
     "docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.md", "docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md",
     "docs/A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.md", "docs/A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md",
     "docs/A3_ABSTRACT_NATIVE_KERNEL_MACHINE.md", "docs/A3_ABSTRACT_NATIVE_KERNEL_MACHINE.ru.md",
@@ -35,9 +37,10 @@ REQUIRED_PATHS = (
     "docs/A10_OPEN_QUESTIONS_AND_FALSIFICATION.md", "docs/A10_OPEN_QUESTIONS_AND_FALSIFICATION.ru.md",
     "docs/adr/0025-blueprint-before-runtime-expansion.md",
     "docs/adr/0026-independent-challenge-before-bounded-cross-lineage-falsification.md",
-    "docs/ai/README.md", "docs/ai/CURRENT_STATE.md", "docs/ai/COMPONENT_MAP.md",
-    "docs/ai/KNOWN_RISKS.md", "docs/ai/WORK_LOG.md", "docs/ai/ISSUE_RECONCILIATION.md",
-    "docs/ai/NOTION_HANDOFF.md",
+    "docs/adr/0027-retain-provisional-architecture-and-runtime-freeze-after-option-d.md",
+    "docs/ai/README.md", "docs/ai/CURRENT_STATE.md", "docs/ai/POST_RESIDUAL_A10_STATE.md",
+    "docs/ai/COMPONENT_MAP.md", "docs/ai/KNOWN_RISKS.md", "docs/ai/WORK_LOG.md",
+    "docs/ai/ISSUE_RECONCILIATION.md", "docs/ai/NOTION_HANDOFF.md",
 )
 
 LINK_SCAN_PATHS = REQUIRED_PATHS + (
@@ -48,6 +51,9 @@ CHECKPOINT_RE = re.compile(r"^machine_truth_reconciliation_merge:\s*([0-9a-f]{40
 MARKDOWN_LINK_RE = re.compile(r"(?<!\!)\[[^\]]+\]\(([^)]+)\)")
 IGNORED_SCHEMES = {"http", "https", "mailto", "tel", "data"}
 
+# Historical compatibility markers remain checked in the older CURRENT_STATE
+# surface so D5/D6-era chronology cannot silently disappear. They are not the
+# current gate; POST_RESIDUAL_A10_STATE.md is the authoritative human overlay.
 REQUIRED_STATUS_MARKERS = (
     "RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY",
     "authoritative_machine_source: ../../project-state.json",
@@ -168,6 +174,27 @@ BLUEPRINT_PROGRESS_SURFACES = {
         "BLOCKED_PENDING_PREREGISTERED_PLAN",
         "open BLOCKING findings: 0",
     ),
+    "AGENTS.md": (
+        "next gate: SEPARATE_FAMILY_PREREGISTRATION_SELECTION",
+        "selected family: NONE",
+        "family preregistration authorized: false",
+        "residual experiment implementation authorized: false",
+        "residual experiment execution authorized: false",
+        "A10-H11 ≠ composition/federation",
+    ),
+    "docs/ai/POST_RESIDUAL_A10_STATE.md": (
+        "POST_RESIDUAL_A10_PLAN_CURRENT",
+        "current_truth_source_sha: edc0501d71a827462aafd1ac4497920a719a4519",
+        "plan_id: RAVP-001-residual-a10-validation-plan-v1",
+        "plan_state: COMPLETE / MERGED / NOTION_7_OF_7_READ_BACK_VERIFIED",
+        "selected_family: NONE",
+        "next_gate: SEPARATE_FAMILY_PREREGISTRATION_SELECTION",
+        "next_gate_scope: PREREGISTRATION_SELECTION_ONLY",
+        "family_preregistration_authorized: false",
+        "experiment_implementation_authorized: false",
+        "experiment_execution_authorized: false",
+        "composition/federation ≠ A10-H11",
+    ),
 }
 SURFACE_MARKERS = BLUEPRINT_PROGRESS_SURFACES
 
@@ -195,12 +222,10 @@ FORBIDDEN_BLUEPRINT_PROGRESS_MARKERS = (
 )
 FORBIDDEN_PROGRESS = FORBIDDEN_BLUEPRINT_PROGRESS_MARKERS
 HISTORICAL_PROGRESS_DOCS = {
-    "docs/ARCHITECTURE_REFOUNDATION.md",
-    "docs/ARCHITECTURE_REFOUNDATION.ru.md",
-    "docs/INTEGRATED_A1_A10_REVIEW.md",
-    "docs/INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.md",
-    "docs/reviews/IAR-1_RESULT.md",
-    "docs/reviews/IAR-1_RECONCILIATION.md",
+    "STATUS.md", "ROADMAP.md", "docs/ai/README.md",
+    "docs/ARCHITECTURE_REFOUNDATION.md", "docs/ARCHITECTURE_REFOUNDATION.ru.md",
+    "docs/INTEGRATED_A1_A10_REVIEW.md", "docs/INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.md",
+    "docs/reviews/IAR-1_RESULT.md", "docs/reviews/IAR-1_RECONCILIATION.md",
 }
 
 
@@ -287,16 +312,16 @@ def read_checkpoint(repo: Path) -> tuple[str | None, list[Finding]]:
     rel = "docs/ai/CURRENT_STATE.md"
     path = repo / rel
     if not path.is_file():
-        return None, [Finding(rel, "cannot read checkpoint because file is missing")]
+        return None, [Finding(rel, "cannot read historical reconciliation checkpoint because file is missing")]
     text = path.read_text(encoding="utf-8")
     findings: list[Finding] = []
     match = CHECKPOINT_RE.search(text)
     if not match:
-        findings.append(Finding(rel, "missing exact 40-character machine truth reconciliation checkpoint"))
+        findings.append(Finding(rel, "missing exact 40-character historical machine truth reconciliation checkpoint"))
         return None, findings
     for marker in REQUIRED_STATUS_MARKERS:
         if marker not in text:
-            findings.append(Finding(rel, f"required current-state marker is missing: {marker}"))
+            findings.append(Finding(rel, f"required historical current-state marker is missing: {marker}"))
     for marker in FORBIDDEN_STATUS_MARKERS:
         if marker in text:
             findings.append(Finding(rel, f"forbidden legacy current-state marker is present: {marker}"))
@@ -334,7 +359,12 @@ def main(argv: list[str] | None = None) -> int:
         for finding in findings:
             print(finding.render(), file=sys.stderr)
         return 1
-    print("AI context validation passed; A1-A10=provisional_reconciled; IAR-1=qualifying; reconciliation=complete; BPV1_plan=preregistered; BPV1_execution_admission=complete; D5=complete; D5_R1=qualified; outcome=SUPPORTED_FOR_SCOPE; next=D6_A10_HYPOTHESIS_CLASSIFICATION; D6=NOT_STARTED; runtime_expansion_frozen=true")
+    print(
+        "AI context validation passed; RAVP-001=COMPLETE; Notion=7/7; "
+        "current=POST_RESIDUAL_A10_PLAN_CURRENT; next=SEPARATE_FAMILY_PREREGISTRATION_SELECTION; "
+        "selected_family=NONE; preregistration=NOT_AUTHORIZED; execution=NOT_AUTHORIZED; "
+        "runtime_expansion_frozen=true"
+    )
     return 0
 
 

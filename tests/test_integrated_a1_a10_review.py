@@ -53,7 +53,7 @@ class IntegratedA1A10ReviewTests(unittest.TestCase):
     def test_integrated_review_remains_historical_while_machine_state_advances(self) -> None:
         refoundation = STATE["tracks"]["long_horizon_research"]["architecture_refoundation"]
         validation = STATE["tracks"]["long_horizon_research"]["post_blueprint_validation"]
-        self.assertEqual("RESIDUAL_A10_VALIDATION_PLAN", refoundation["next_content_slice"])
+        self.assertEqual("SEPARATE_FAMILY_PREREGISTRATION_SELECTION", refoundation["next_content_slice"])
         self.assertEqual(10, len(refoundation["completed_deliverables"]))
         self.assertNotIn("INTEGRATED_A1_A10_REVIEW", refoundation["completed_deliverables"])
         self.assertNotIn("OPERATOR_POST_BLUEPRINT_DECISION", refoundation["completed_deliverables"])
@@ -61,7 +61,7 @@ class IntegratedA1A10ReviewTests(unittest.TestCase):
         self.assertEqual("ADR-0026", validation["decision"])
         self.assertEqual("QUALIFYING_REVIEW_COMPLETE", validation["independent_review_status"])
         self.assertEqual(
-            "COMPLETE / OPTION_D_OPERATOR_DECISION_ACCEPTED / RESIDUAL_VALIDATION_PLANNING_AUTHORIZED",
+            "COMPLETE / RESIDUAL_A10_VALIDATION_PLAN_COMPLETE / PREREGISTRATION_SELECTION_NEXT",
             validation["status"],
         )
         self.assertEqual("ADMITTED_FOR_EXPERIMENT_ONLY", validation["bpv1_status"])
@@ -71,6 +71,7 @@ class IntegratedA1A10ReviewTests(unittest.TestCase):
         self.assertEqual("COMPLETE", result["status"])
         self.assertEqual("QUALIFIED", result["qualification_status"])
         self.assertEqual("SUPPORTED_FOR_SCOPE", result["oracle_outcome"])
+        # Historical D5/D6/D7/D8 chain remains bound to the residual-planning gate.
         self.assertEqual("RESIDUAL_A10_VALIDATION_PLAN", result["next_gate"])
         self.assertEqual("COMPLETE", result["d6_status"])
         self.assertEqual("COMPLETE", result["d7_status"])
@@ -79,6 +80,22 @@ class IntegratedA1A10ReviewTests(unittest.TestCase):
         self.assertEqual("COMPLETE / READ_BACK_VERIFIED", validation["d8_consolidated_sync"]["status"])
         self.assertTrue(validation["d8_consolidated_sync"]["operator_decision_required"])
         self.assertFalse(validation["d8_consolidated_sync"]["next_gate_authorized_by_d8"])
+
+        decision = validation["post_d8_operator_decision"]
+        self.assertEqual("RESIDUAL_A10_VALIDATION_PLAN", decision["next_gate"])
+        self.assertEqual("RESEARCH_PLANNING_ONLY", decision["next_gate_scope"])
+        self.assertFalse(decision["experiment_execution_authorized"])
+
+        plan = validation["residual_a10_validation_plan"]
+        self.assertEqual("RAVP-001-residual-a10-validation-plan-v1", plan["plan_id"])
+        self.assertEqual("COMPLETE / MERGED / NOTION_7_OF_7_READ_BACK_VERIFIED", plan["status"])
+        self.assertEqual("SEPARATE_FAMILY_PREREGISTRATION_SELECTION", plan["next_gate"])
+        self.assertIsNone(plan["selected_family"])
+        self.assertFalse(plan["family_preregistration_authorized"])
+        self.assertFalse(plan["experiment_implementation_authorized"])
+        self.assertFalse(plan["experiment_execution_authorized"])
+        self.assertFalse(plan["composition_federation_is_h11"])
+
         self.assertFalse(validation["product_runtime_thaw"])
         self.assertFalse(STATE["status"]["production_authorized"])
         self.assertEqual("BOUNDED_REFERENCE_LABORATORY", STATE["tracks"]["clean_implementation"]["architecture_role"])

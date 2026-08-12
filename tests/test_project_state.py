@@ -18,18 +18,10 @@ SPEC.loader.exec_module(module)
 
 class ProjectStateTests(unittest.TestCase):
     def setUp(self) -> None:
-        self.state = json.loads(
-            (ROOT / "project-state.json").read_text(encoding="utf-8")
-        )
-        self.registry = json.loads(
-            (ROOT / "contracts" / "registry.json").read_text(encoding="utf-8")
-        )
+        self.state = json.loads((ROOT / "project-state.json").read_text(encoding="utf-8"))
+        self.registry = json.loads((ROOT / "contracts" / "registry.json").read_text(encoding="utf-8"))
 
-    def validate(
-        self,
-        state: dict | None = None,
-        registry: dict | None = None,
-    ) -> None:
+    def validate(self, state: dict | None = None, registry: dict | None = None) -> None:
         module.validate(
             copy.deepcopy(self.state) if state is None else state,
             repo=ROOT,
@@ -54,9 +46,7 @@ class ProjectStateTests(unittest.TestCase):
 
     def test_manifest_source_must_match_historical_role(self) -> None:
         state = copy.deepcopy(self.state)
-        state["checkpoints"]["manifest_generated_from_sha"] = state["checkpoints"][
-            "publication_checkpoint_sha"
-        ]
+        state["checkpoints"]["manifest_generated_from_sha"] = state["checkpoints"]["publication_checkpoint_sha"]
         with self.assertRaisesRegex(module.ProjectStateError, "manifest/Notion"):
             self.validate(state=state)
 
@@ -82,16 +72,11 @@ class ProjectStateTests(unittest.TestCase):
 
     def test_sqlite_floor_and_historical_bundle_fail_closed(self) -> None:
         state = copy.deepcopy(self.state)
-        state["tracks"]["clean_implementation"]["integrity_review"][
-            "sqlite_wal_minimum"
-        ] = "3.45.1"
+        state["tracks"]["clean_implementation"]["integrity_review"]["sqlite_wal_minimum"] = "3.45.1"
         with self.assertRaisesRegex(module.ProjectStateError, "SQLite WAL floor"):
             self.validate(state=state)
-
         state = copy.deepcopy(self.state)
-        state["evidence"]["sqlite_integrity_revalidation"][
-            "may_rewrite_2026_08_07_bundle"
-        ] = True
+        state["evidence"]["sqlite_integrity_revalidation"]["may_rewrite_2026_08_07_bundle"] = True
         with self.assertRaisesRegex(module.ProjectStateError, "immutable"):
             self.validate(state=state)
 
@@ -100,11 +85,8 @@ class ProjectStateTests(unittest.TestCase):
         state["evidence"]["sqlite_integrity_revalidation"]["artifact_count"] = 0
         with self.assertRaisesRegex(module.ProjectStateError, "inventory"):
             self.validate(state=state)
-
         state = copy.deepcopy(self.state)
-        state["tracks"]["clean_implementation"]["integrity_review"][
-            "affected_assertions_re_adjudicated"
-        ] = False
+        state["tracks"]["clean_implementation"]["integrity_review"]["affected_assertions_re_adjudicated"] = False
         with self.assertRaisesRegex(module.ProjectStateError, "re-adjudicated"):
             self.validate(state=state)
 
@@ -141,20 +123,14 @@ class ProjectStateTests(unittest.TestCase):
 
     def test_nk_epi_registry_cannot_claim_runtime(self) -> None:
         registry = copy.deepcopy(self.registry)
-        epi = next(
-            family
-            for family in registry["families"]
-            if family["family_id"] == "NK-EPI"
-        )
+        epi = next(family for family in registry["families"] if family["family_id"] == "NK-EPI")
         epi["implementation_support"] = "PARTIAL"
         with self.assertRaisesRegex(module.ProjectStateError, "NK-EPI support"):
             self.validate(registry=registry)
 
     def test_duplicate_assertion_is_rejected(self) -> None:
         registry = copy.deepcopy(self.registry)
-        registry["families"][1]["assertions"][0]["assertion_id"] = registry[
-            "families"
-        ][0]["assertions"][0]["assertion_id"]
+        registry["families"][1]["assertions"][0]["assertion_id"] = registry["families"][0]["assertions"][0]["assertion_id"]
         with self.assertRaisesRegex(module.ProjectStateError, "duplicate assertion"):
             self.validate(registry=registry)
 
@@ -170,7 +146,7 @@ class ProjectStateTests(unittest.TestCase):
         with self.assertRaisesRegex(module.ProjectStateError, "verification method"):
             self.validate(state=state)
 
-    def test_notion_synchronization_must_remain_complete_after_adr0027(self) -> None:
+    def test_notion_synchronization_must_remain_complete(self) -> None:
         state = copy.deepcopy(self.state)
         state["notion"]["synchronization_required"] = True
         with self.assertRaisesRegex(module.ProjectStateError, "must be complete"):
@@ -182,20 +158,42 @@ class ProjectStateTests(unittest.TestCase):
         with self.assertRaisesRegex(module.ProjectStateError, "7/7"):
             self.validate(state=state)
 
-    def test_notion_sync_checkpoint_must_remain_adr0027_truth_sha(self) -> None:
+    def test_notion_sync_checkpoint_must_remain_residual_plan_merge(self) -> None:
         state = copy.deepcopy(self.state)
-        state["checkpoints"]["notion_synchronized_through_sha"] = (
-            "491ff7b229606d228ca04985b19b146878390e08"
-        )
+        state["checkpoints"]["notion_synchronized_through_sha"] = "90bcb0fa2a3a2e85a590e9ba79746f3297b55457"
         with self.assertRaisesRegex(module.ProjectStateError, "checkpoint drift"):
             self.validate(state=state)
 
-    def test_residual_experiment_execution_cannot_be_authorized_by_sync(self) -> None:
+    def test_historical_adr0027_execution_boundary_cannot_change(self) -> None:
         state = copy.deepcopy(self.state)
-        state["tracks"]["long_horizon_research"]["post_blueprint_validation"][
-            "post_d8_operator_decision"
-        ]["experiment_execution_authorized"] = True
+        state["tracks"]["long_horizon_research"]["post_blueprint_validation"]["post_d8_operator_decision"]["experiment_execution_authorized"] = True
         with self.assertRaisesRegex(module.ProjectStateError, "execution"):
+            self.validate(state=state)
+
+    def test_no_family_can_be_silently_selected_by_sync(self) -> None:
+        state = copy.deepcopy(self.state)
+        state["tracks"]["long_horizon_research"]["post_blueprint_validation"]["residual_a10_validation_plan"]["selected_family"] = "A10-H11"
+        with self.assertRaisesRegex(module.ProjectStateError, "silently selected"):
+            self.validate(state=state)
+
+    def test_preregistration_cannot_be_auto_authorized(self) -> None:
+        state = copy.deepcopy(self.state)
+        state["tracks"]["long_horizon_research"]["post_blueprint_validation"]["residual_a10_validation_plan"]["family_preregistration_authorized"] = True
+        with self.assertRaisesRegex(module.ProjectStateError, "preregistration"):
+            self.validate(state=state)
+
+    def test_residual_implementation_and_execution_remain_unauthorized(self) -> None:
+        for field in ("experiment_implementation_authorized", "experiment_execution_authorized"):
+            state = copy.deepcopy(self.state)
+            state["tracks"]["long_horizon_research"]["post_blueprint_validation"]["residual_a10_validation_plan"][field] = True
+            with self.assertRaisesRegex(module.ProjectStateError, "implementation|execution"):
+                self.validate(state=state)
+
+    def test_h11_cannot_be_redefined_as_federation(self) -> None:
+        state = copy.deepcopy(self.state)
+        plan = state["tracks"]["long_horizon_research"]["post_blueprint_validation"]["residual_a10_validation_plan"]
+        plan["composition_federation_is_h11"] = True
+        with self.assertRaisesRegex(module.ProjectStateError, "composition/federation"):
             self.validate(state=state)
 
 

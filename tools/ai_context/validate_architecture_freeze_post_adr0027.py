@@ -19,10 +19,17 @@ POST_DECISION_STATUS = "COMPLETE / OPTION_D_OPERATOR_DECISION_ACCEPTED / RESIDUA
 POST_RESEARCH_STATUS = "ACTIVE / POST-D8 RESIDUAL VALIDATION PLANNING / NO AUTOMATIC PROMOTION"
 POST_REFOUNDATION_STATUS = "BLUEPRINT COMPLETE / PROVISIONAL / RESIDUAL VALIDATION PLANNING AUTHORIZED"
 RESIDUAL = ["A10-H03", "A10-H06", "A10-H08", "A10-H09", "A10-H10", "A10-H11"]
+D8_NONCLAIMS = [
+    "Six A10 hypotheses remain NOT_TESTED.",
+    "D6/D7/D8 do not establish universal substrate independence.",
+    "D6/D7/D8 do not authorize product runtime integration.",
+    "D8 does not authorize or decide the separate OPERATOR_CANON_RUNTIME_DECISION_REQUIRED gate.",
+]
 
 
 def _d8_view(state: Mapping[str, Any]) -> dict[str, Any]:
     value = copy.deepcopy(dict(state))
+    value["checkpoints"]["notion_synchronized_through_sha"] = D8_NOTION_SHA
     research = value["tracks"]["long_horizon_research"]
     research["status"] = CURRENT_RESEARCH_STATUS
     ref = research["architecture_refoundation"]
@@ -41,6 +48,11 @@ def _d8_view(state: Mapping[str, Any]) -> dict[str, Any]:
         "D7 is STRENGTHENED_FOR_BPV1_SCOPE / STILL_PROVISIONAL; D8 completed with 7/7 read-back verification; "
         "OPERATOR_CANON_RUNTIME_DECISION_REQUIRED is next. Runtime remains frozen."
     )
+    nonclaims = list(value.get("non_claims", []))
+    for item in D8_NONCLAIMS:
+        if item not in nonclaims:
+            nonclaims.append(item)
+    value["non_claims"] = nonclaims
     return value
 
 
