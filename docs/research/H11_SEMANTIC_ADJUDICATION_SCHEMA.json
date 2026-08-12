@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "nk-h11-semantic-adjudication/1",
+  "title": "H11 semantic adjudication",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol",
+    "experiment_id",
+    "source_plan_id",
+    "source_plan_sha256",
+    "input_policy",
+    "raw_observation_record",
+    "dependency_graph_record",
+    "reviewer_reproducer_qualification_record",
+    "subject_private_state_used",
+    "leakage_rubric",
+    "hard_refutation",
+    "mandatory_profile_leakage_count",
+    "independence_qualified",
+    "outcome",
+    "rationale"
+  ],
+  "properties": {
+    "protocol": {"const": "nk-h11-semantic-adjudication/1"},
+    "experiment_id": {"const": "H11-001"},
+    "source_plan_id": {"const": "H11-001-c5-lab-canon-separation-v1"},
+    "source_plan_sha256": {"const": "60da649e675b79b3e70bf8a61cf03cb4d57bb989f4934b65ab8d50c925b19914"},
+    "input_policy": {"const": "REPOSITORY_VISIBLE_FROZEN_INPUTS_ONLY"},
+    "raw_observation_record": {"type": "string", "minLength": 1},
+    "dependency_graph_record": {"type": "string", "minLength": 1},
+    "reviewer_reproducer_qualification_record": {"type": "string", "minLength": 1},
+    "subject_private_state_used": {"const": false},
+    "leakage_rubric": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["classes", "hard_failure_class", "support_threshold"],
+      "properties": {
+        "classes": {
+          "const": [
+            "LAB_ONLY",
+            "PROFILE_SPECIFIC",
+            "MEANING_LEVEL_JUSTIFIED",
+            "UNJUSTIFIED_CANON_DEPENDENCY"
+          ]
+        },
+        "hard_failure_class": {"const": "UNJUSTIFIED_CANON_DEPENDENCY"},
+        "support_threshold": {
+          "const": "mandatory_profile_leakage_count == 0 and all Architecture obligations remain testable/falsifiable without current profile bytes as mandatory semantic-oracle input."
+        }
+      }
+    },
+    "hard_refutation": {
+      "const": "Within this preregistered scope, a necessary accepted Architecture obligation cannot remain reproducible/testable unless a profile-specific C5 laboratory mechanism is elevated into universal Architecture solely because historical C5 evidence reproduction depends on that mechanism."
+    },
+    "mandatory_profile_leakage_count": {"type": "integer", "minimum": 0},
+    "independence_qualified": {"type": "boolean"},
+    "outcome": {
+      "enum": [
+        "SUPPORTED_FOR_SCOPE",
+        "WEAKENED",
+        "REFUTED",
+        "INDETERMINATE",
+        "NOT_TESTED"
+      ]
+    },
+    "rationale": {"type": "string", "minLength": 1},
+    "declared_gaps": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1}
+    }
+  }
+}
