@@ -1,7 +1,7 @@
 {
   "protocol": "nk-project-state/2",
-  "snapshot_id": "native-kernel/state/2026-08-12-bpv1-d5-r1-qualified",
-  "observed_at": "2026-08-12T00:33:00Z",
+  "snapshot_id": "native-kernel/state/2026-08-12-option-d-d8-complete",
+  "observed_at": "2026-08-12T06:45:00Z",
   "repository": {
     "full_name": "velantrian/velantrim-native-kernel",
     "visibility": "PUBLIC",
@@ -14,8 +14,8 @@
     "runtime_integrity_checkpoint_sha": "a1cdc6d8f36d67f40f065641809bc6da463c10a4",
     "evidence_producing_sha": "296981ae84ad5bdab5dabbec9b7b9ebb43af63d7",
     "publication_checkpoint_sha": "10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c",
-    "notion_synchronized_through_sha": "70acd0da61fee19131947aa56125833adb156ced",
-    "checkpoint_semantics": "The publication checkpoint, runtime checkpoints, evidence-producing checkpoint and committed Notion synchronization checkpoint remain historical role identities. Live HEAD is resolved through Git/GitHub and is never predicted by this file. ADR-0025 established blueprint-first refoundation; ADR-0026 authorized Option D validation without thawing product runtime. IAR-1 and IAR-1-R1 completed the independent challenge and reconciliation gates. PR #110 preregistered BPV1-001; PR #112 published the execution-admission package; PR #113 separately admitted BPV1-001 subject implementation/execution only. PR #114 executed D5 and produced scoped evidence. PR #115 merged D5-R1 qualification at 3856740570620fb2243e2f0da76359281ec4068f, removing the HR10 self-report path, strengthening semantic corruption coverage and bounding retained witness storage while preserving the frozen preregistration/oracle. The next bounded gate is D6 A10 hypothesis classification."
+    "notion_synchronized_through_sha": "491ff7b229606d228ca04985b19b146878390e08",
+    "checkpoint_semantics": "Historical publication, runtime, integrity, evidence-producing and manifest-source role identities remain unchanged. D5 execution merged in PR #114; D5-R1 qualification merged in PR #115; PR #116 reconciled current truth; D6 classification merged in PR #117; D7 integrated re-review merged in PR #118 at 491ff7b229606d228ca04985b19b146878390e08. D8 synchronized seven existing Notion surfaces from that D7 checkpoint with 7/7 read-back verification and PR #119 recorded the synchronization evidence at 9ecb2369edec17a0171b6e965bcb49f9526adf0b. Live HEAD is resolved through Git/GitHub and is never predicted by this file. The next gate is a separate operator Canon/runtime decision; D8 does not authorize its outcome."
   },
   "status": {
     "repository_status": "RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY",
@@ -63,13 +63,13 @@
     },
     "long_horizon_research": {
       "id": "R",
-      "status": "ACTIVE / POST-BLUEPRINT VALIDATION / NO AUTOMATIC PROMOTION",
+      "status": "ACTIVE / OPTION D VALIDATION COMPLETE / OPERATOR DECISION REQUIRED / NO AUTOMATIC PROMOTION",
       "runtime_authorized": false,
       "architecture_refoundation": {
         "decision": "ADR-0025",
         "issue": 88,
         "operator_approval": "APPROVED",
-        "status": "BLUEPRINT COMPLETE / PROVISIONAL / VALIDATION ACTIVE",
+        "status": "BLUEPRINT COMPLETE / PROVISIONAL / OPTION D VALIDATION COMPLETE",
         "runtime_expansion_frozen": true,
         "existing_reference_runtime_role": "BOUNDED_REFERENCE_LABORATORY",
         "plan_en": "docs/ARCHITECTURE_REFOUNDATION.md",
@@ -87,7 +87,7 @@
           "A10_OPEN_QUESTIONS_AND_FALSIFICATION"
         ],
         "completion_requires_operator_review": true,
-        "next_content_slice": "D6_A10_HYPOTHESIS_CLASSIFICATION",
+        "next_content_slice": "OPERATOR_CANON_RUNTIME_DECISION_REQUIRED",
         "completed_deliverables": [
           "A1_KERNEL_PURPOSE_AND_NON_GOALS",
           "A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY",
@@ -106,7 +106,7 @@
         "issue": 88,
         "operator_approval": "APPROVED",
         "selected_option": "D_INDEPENDENT_CHALLENGE_THEN_BOUNDED_CROSS_LINEAGE_FALSIFICATION",
-        "status": "AUTHORIZED / REVIEW_COMPLETE / RECONCILIATION_COMPLETE / BPV1_PLAN_PREREGISTERED / EXECUTION_ADMITTED_FOR_EXPERIMENT_ONLY / D5_COMPLETE / D5_R1_QUALIFIED",
+        "status": "COMPLETE / OPTION_D_VALIDATION_AND_SYNC_COMPLETE / AWAITING_SEPARATE_OPERATOR_DECISION",
         "independent_review_protocol": "nk-independent-architecture-review/1",
         "independent_review_document_en": "docs/INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.md",
         "independent_review_document_ru": "docs/INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.ru.md",
@@ -157,8 +157,44 @@
           "independent_team": "NOT_ESTABLISHED",
           "independent_custody": "NOT_ESTABLISHED",
           "independent_computation_model": "NOT_ESTABLISHED / CONVENTIONAL_DIGITAL",
-          "next_gate": "D6_A10_HYPOTHESIS_CLASSIFICATION",
-          "d6_status": "NOT_STARTED"
+          "next_gate": "OPERATOR_CANON_RUNTIME_DECISION_REQUIRED",
+          "d6_status": "COMPLETE",
+          "d7_status": "COMPLETE",
+          "d8_status": "COMPLETE / READ_BACK_VERIFIED"
+        },
+        "d6_hypothesis_classification": {
+          "protocol": "nk-a10-hypothesis-classification/1",
+          "status": "COMPLETE",
+          "pr": 117,
+          "merge_sha": "030d0a0585bd061b27329a38e29708c11304701a",
+          "supported_for_scope": ["A10-H01", "A10-H02", "A10-H04", "A10-H05", "A10-H07", "A10-H12"],
+          "not_tested": ["A10-H03", "A10-H06", "A10-H08", "A10-H09", "A10-H10", "A10-H11"],
+          "weakened": [],
+          "refuted": [],
+          "indeterminate": [],
+          "next_gate": "D7_INTEGRATED_RE_REVIEW"
+        },
+        "d7_integrated_rereview": {
+          "protocol": "nk-integrated-post-bpv1-rereview/1",
+          "status": "COMPLETE",
+          "pr": 118,
+          "merge_sha": "491ff7b229606d228ca04985b19b146878390e08",
+          "review_outcome": "PROVISIONAL_VALIDATION_REVIEW_COMPLETE",
+          "architecture_position": "STRENGTHENED_FOR_BPV1_SCOPE / STILL_PROVISIONAL",
+          "next_gate": "D8_CONSOLIDATED_AUTHORITATIVE_SYNC"
+        },
+        "d8_consolidated_sync": {
+          "protocol": "nk-option-d-consolidated-sync/1",
+          "status": "COMPLETE / READ_BACK_VERIFIED",
+          "pr": 119,
+          "merge_sha": "9ecb2369edec17a0171b6e965bcb49f9526adf0b",
+          "source_checkpoint_sha": "491ff7b229606d228ca04985b19b146878390e08",
+          "notion_surface_count": 7,
+          "notion_read_back_verified_count": 7,
+          "new_notion_pages_created": 0,
+          "next_gate": "OPERATOR_CANON_RUNTIME_DECISION_REQUIRED",
+          "next_gate_authorized_by_d8": false,
+          "operator_decision_required": true
         },
         "product_runtime_thaw": false,
         "automatic_canon_promotion": false,
@@ -203,18 +239,21 @@
     "18": {"state": "OPEN", "meaning": "License and publication terms remain PENDING_OPERATOR; no license, contribution regime or package publication is authorized.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-10T20:36:15Z", "source": "issue/18"}},
     "64": {"state": "CLOSED", "state_reason": "COMPLETED", "meaning": "C5 bounded operational rehearsal implementation issue is complete.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-09T11:31:28Z", "source": "issue/64"}},
     "74": {"state": "OPEN", "meaning": "ADR-0024 remains PROPOSED / PENDING_OPERATOR; reducer v1 is immutable and reducer-v2 runtime is not authorized.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-10T20:36:15Z", "source": "issue/74"}},
-    "88": {"state": "OPEN", "meaning": "Architecture Re-foundation A1-A10 and integrated review remain provisional; ADR-0026 Option D is active; IAR-1 is QUALIFYING_REVIEW_COMPLETE and IAR-1-R1 reconciliation resolves all blocking/material findings; frozen plan BPV1-001-cross-lineage-bounded-accountability-v1 remains bound to plan merge a538d7f1e28858a88b9ee777ac7d6e05b85943db and frozen digest 7fe8174c604678c6b79d3fdeae83d7c5ab0d2fb15bfe343d41659d05d9496ad0; D5 execution merged via PR #114 at a191e9c868c14af34a269dcdfae44406f1013bda; D5-R1 qualification merged via PR #115 at 3856740570620fb2243e2f0da76359281ec4068f with external qualification QUALIFIED and frozen-oracle outcome SUPPORTED_FOR_SCOPE / 12-of-12 mandatory fixtures PASS; D6 A10 hypothesis classification is next and NOT_STARTED; runtime remains frozen.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-12T00:33:00Z", "source": "issue/88"}}
+    "88": {"state": "OPEN", "meaning": "Architecture Re-foundation A1-A10 remains provisional; ADR-0026 Option D validation is complete through D8 synchronization. IAR-1 is QUALIFYING_REVIEW_COMPLETE and IAR-1-R1 reconciliation is COMPLETE. Frozen plan BPV1-001-cross-lineage-bounded-accountability-v1 remains bound to plan merge a538d7f1e28858a88b9ee777ac7d6e05b85943db and digest 7fe8174c604678c6b79d3fdeae83d7c5ab0d2fb15bfe343d41659d05d9496ad0. D5/D5-R1 are complete; D6 classified six hypotheses SUPPORTED_FOR_SCOPE and six NOT_TESTED; D7 concluded STRENGTHENED_FOR_BPV1_SCOPE / STILL_PROVISIONAL; D8 synchronized seven existing Notion surfaces with 7/7 read-back verification and repository evidence merge 9ecb2369edec17a0171b6e965bcb49f9526adf0b. The next gate is OPERATOR_CANON_RUNTIME_DECISION_REQUIRED, but D8 does not authorize or decide that outcome. Runtime remains frozen; Final Canon and universal substrate-independence proof remain unestablished.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-12T06:45:00Z", "source": "issue/88"}}
   },
   "evidence": {
     "c5_bundle": {"protocol": "nk-evidence-bundle/1", "path": "evidence/c5/2026-08-07/manifest.json", "status": "CAPTURED_REPOSITORY_RESIDENT", "checkpoint_count": 2, "artifact_count": 8, "original_archives_preserved": true, "source_retention_expiry": "2026-09-06"},
     "sqlite_integrity_revalidation": {"status": "CAPTURED_REPOSITORY_RESIDENT", "protocol": "nk-evidence-bundle/1", "path": "evidence/c5/2026-08-08-adr0023/manifest.json", "checkpoint_count": 2, "artifact_count": 8, "required_profiles": ["P5", "C3", "C4", "C5"], "minimum_linked_sqlite": "3.51.3", "new_evidence_identity_required": true, "new_evidence_identity": "native-kernel/c5/2026-08-08-adr0023", "may_rewrite_2026_08_07_bundle": false, "original_archives_preserved": true, "source_retention_expiry": "2026-09-07"},
-    "bpv1_d5_r1": {"protocol": "nk-bpv1-d5-r1-run-metadata/1", "path": "experiments/bpv1/BPV1-001/results/d5-r1/run-metadata.json", "status": "QUALIFIED_REPOSITORY_RESIDENT", "qualification_merge_sha": "3856740570620fb2243e2f0da76359281ec4068f", "outcome": "SUPPORTED_FOR_SCOPE", "mandatory_fixture_pass": 12, "mandatory_fixture_total": 12, "historical_d5_preserved": true}
+    "bpv1_d5_r1": {"protocol": "nk-bpv1-d5-r1-run-metadata/1", "path": "experiments/bpv1/BPV1-001/results/d5-r1/run-metadata.json", "status": "QUALIFIED_REPOSITORY_RESIDENT", "qualification_merge_sha": "3856740570620fb2243e2f0da76359281ec4068f", "outcome": "SUPPORTED_FOR_SCOPE", "mandatory_fixture_pass": 12, "mandatory_fixture_total": 12, "historical_d5_preserved": true},
+    "bpv1_d6": {"protocol": "nk-a10-hypothesis-classification/1", "path": "docs/research/BPV1_D6_A10_CLASSIFICATION.json", "status": "COMPLETE_REPOSITORY_RESIDENT", "merge_sha": "030d0a0585bd061b27329a38e29708c11304701a", "supported_for_scope": 6, "not_tested": 6},
+    "bpv1_d7": {"protocol": "nk-integrated-post-bpv1-rereview/1", "path": "docs/research/BPV1_D7_INTEGRATED_REREVIEW.json", "status": "COMPLETE_REPOSITORY_RESIDENT", "merge_sha": "491ff7b229606d228ca04985b19b146878390e08", "architecture_position": "STRENGTHENED_FOR_BPV1_SCOPE / STILL_PROVISIONAL"},
+    "bpv1_d8": {"protocol": "nk-option-d-consolidated-sync/1", "path": "docs/research/BPV1_D8_CONSOLIDATED_SYNC.json", "status": "COMPLETE / READ_BACK_VERIFIED / REPOSITORY_RESIDENT", "merge_sha": "9ecb2369edec17a0171b6e965bcb49f9526adf0b", "source_checkpoint_sha": "491ff7b229606d228ca04985b19b146878390e08", "notion_surfaces": 7, "notion_read_back_verified": 7, "new_notion_pages_created": 0}
   },
   "notion": {
-    "synchronization_required": true,
+    "synchronization_required": false,
     "status": "SYNCED_THROUGH_DESCENDANT_CHECKPOINT",
-    "scope": "Publication checkpoint 10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c and synchronized descendant checkpoint 70acd0da61fee19131947aa56125833adb156ced remain distinct historical role identities; the later synchronization checkpoint does not rewrite or replace the earlier publication checkpoint. Live Notion currently reflects the later D4.5 admission narrative even though this committed role checkpoint remains 70acd0da61fee19131947aa56125833adb156ced; D5/D5-R1/D6 truth is intentionally deferred to consolidated Option D D8 unless live governance changes the rule. GitHub remains authoritative for current technical state.",
-    "authority_boundary": "Notion carries orientation, rationale and history; GitHub remains sufficient and authoritative for technical state, live refs, contracts, tests, workflow results and evidence. Deferred Notion synchronization must not be misread as absence of merged GitHub evidence."
+    "scope": "Publication checkpoint 10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c and manifest source 70acd0da61fee19131947aa56125833adb156ced remain historical roles. D8 synchronized all seven existing Native Kernel Notion surfaces through D7 checkpoint 491ff7b229606d228ca04985b19b146878390e08 with 7/7 read-back verification; PR #119 merge 9ecb2369edec17a0171b6e965bcb49f9526adf0b records the synchronization evidence. The later synchronization does not rewrite or replace the earlier publication or manifest-source roles. GitHub remains authoritative for current technical state.",
+    "authority_boundary": "Notion carries synchronized orientation, rationale and history through the D7 source checkpoint; GitHub remains authoritative for technical state, live refs, contracts, tests, workflow results, evidence and the final current-truth descendant. D8 synchronization does not authorize Final Canon, runtime thaw, production, Issue #18, Issue #74/ADR-0024 or Track H admission."
   },
   "non_claims": [
     "C5 bounded rehearsal is not production readiness.",
@@ -223,17 +262,15 @@
     "Repository-resident artifacts do not prove live-data safety, compliance, physical deletion, operational equivalence or ecosystem authority.",
     "ADR-0023 safe-version reproduction and re-adjudication preserved the assertion arithmetic without promotion.",
     "A descendant HEAD does not silently broaden the proof scope of an earlier runtime, evidence or publication checkpoint.",
-    "A later Notion synchronization checkpoint does not rewrite or replace the earlier publication checkpoint.",
+    "A later Notion synchronization checkpoint does not rewrite or replace the earlier publication or manifest-source checkpoint roles.",
     "Architecture Re-foundation documentation is not runtime implementation evidence.",
     "Blueprint-first does not reject modern technologies; it classifies them as replaceable research instruments.",
     "A future-facing blueprint does not prove compatibility with arbitrary future substrates.",
-    "A1-A10 remain drafted/provisional; D5-R1 qualification does not promote them to Final Canon.",
-    "Integrated A1-A10 review completion is not independent validation, operator acceptance, Canon promotion, runtime authorization, arbitrary-substrate proof, or production authorization.",
-    "ADR-0026 operator approval authorizes a validation phase, not Final Canon, runtime thaw, arbitrary-substrate proof, or production authorization.",
-    "IAR-1 qualifying review completion and IAR-1-R1 reconciliation do not prove the architecture universally correct.",
-    "BPV1-001 SUPPORTED_FOR_SCOPE is scoped falsification evidence only; it is not universal substrate-independence proof.",
+    "A1-A10 remain provisional after D7; D8 synchronization does not promote them to Final Canon.",
+    "Integrated review, IAR-1, D5-R1 qualification, D6 classification and D7 re-review do not establish universal substrate independence.",
+    "BPV1-001 SUPPORTED_FOR_SCOPE is scoped falsification evidence only; six A10 hypotheses remain NOT_TESTED.",
     "D5-R1 external qualification removes the identified HR10 subject-self-report adjudication path but does not establish independent implementation team, custody, or computation-model evidence.",
-    "BPV-1 execution admission authorizes only BPV1-001 subject implementation and execution; it does not authorize product runtime integration, reducer v2, new Event verbs, NK-EPI runtime, Final Canon, production, Track H admission, or a license decision.",
-    "D6 A10 hypothesis classification is not yet performed; SUPPORTED_FOR_SCOPE must not be silently generalized into classifications that have not been adjudicated."
+    "BPV-1 execution admission and successful D5-D8 validation do not authorize product runtime integration, reducer v2, new Event verbs, NK-EPI runtime, Final Canon, production, Track H admission or a license decision.",
+    "D8 consolidated synchronization does not authorize or decide the separate OPERATOR_CANON_RUNTIME_DECISION_REQUIRED gate."
   ]
 }
