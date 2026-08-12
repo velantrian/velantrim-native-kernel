@@ -43,6 +43,7 @@ QUALIFICATION_ALLOWED = (
     "project-state.json",
     "STATUS.md",
     "README.md",
+    "README.ru.md",
     "ROADMAP.md",
     "AGENTS.md",
     "docs/ai/README.md",
