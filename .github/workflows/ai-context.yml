@@ -186,6 +186,9 @@ jobs:
       - name: Report BPV-1 authoritative plan SHA-256
         run: python tools/bpv1/plan_digest.py --repo .
 
+      - name: Report H11 authoritative plan SHA-256
+        run: python tools/bpv1/plan_digest.py --repo . --plan docs/research/H11_PREREGISTRATION.json
+
       - name: Verify historical C5 evidence bundle
         run: python tools/evidence/verify_bundle.py evidence/c5/2026-08-07/manifest.json
 
