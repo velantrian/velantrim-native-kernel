@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "nk-h11-raw-observations/1",
+  "title": "H11 raw observations",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol",
+    "experiment_id",
+    "source_plan_id",
+    "source_plan_sha256",
+    "observation_layer",
+    "observations",
+    "missing_data"
+  ],
+  "properties": {
+    "protocol": {"const": "nk-h11-raw-observations/1"},
+    "experiment_id": {"const": "H11-001"},
+    "source_plan_id": {"const": "H11-001-c5-lab-canon-separation-v1"},
+    "source_plan_sha256": {"const": "60da649e675b79b3e70bf8a61cf03cb4d57bb989f4934b65ab8d50c925b19914"},
+    "observation_layer": {"const": "RAW_FACTS_ONLY_NO_H11_SEMANTIC_JUDGMENT"},
+    "observations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "observation_id",
+          "observation_kind",
+          "source_reference",
+          "repository_visible",
+          "fact"
+        ],
+        "properties": {
+          "observation_id": {"type": "string", "minLength": 1},
+          "observation_kind": {
+            "enum": [
+              "BUNDLE_VERIFICATION",
+              "MANIFEST_IDENTITY",
+              "ARTIFACT_INVENTORY",
+              "DEPENDENCY_EDGE",
+              "SOURCE_REFERENCE",
+              "MECHANISM_CLASSIFICATION_INPUT",
+              "REVIEWER_IDENTITY_EVIDENCE",
+              "INDEPENDENCE_EVIDENCE",
+              "MISSING_DATA"
+            ]
+          },
+          "source_reference": {"type": "string", "minLength": 1},
+          "repository_visible": {"type": "boolean"},
+          "fact": {"type": "string", "minLength": 1},
+          "structured_value": {
+            "type": ["object", "array", "string", "number", "integer", "boolean", "null"]
+          },
+          "notes": {"type": "string"}
+        }
+      }
+    },
+    "missing_data": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["missing_id", "description", "effect_on_visibility"],
+        "properties": {
+          "missing_id": {"type": "string", "minLength": 1},
+          "description": {"type": "string", "minLength": 1},
+          "effect_on_visibility": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  }
+}
