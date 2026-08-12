@@ -1,0 +1,192 @@
+{
+  "protocol": "nk-a10-hypothesis-classification/1",
+  "classification_id": "BPV1-001-D6-A10-classification-v1",
+  "status": "CANDIDATE / AUTHORITATIVE_AFTER_MERGE",
+  "scenario_id": "BPV1-001-cross-lineage-bounded-accountability-v1",
+  "frozen_plan_merge_sha": "a538d7f1e28858a88b9ee777ac7d6e05b85943db",
+  "frozen_plan_sha256": "7fe8174c604678c6b79d3fdeae83d7c5ab0d2fb15bfe343d41659d05d9496ad0",
+  "historical_d5_merge_sha": "a191e9c868c14af34a269dcdfae44406f1013bda",
+  "d5_r1_qualification_merge_sha": "3856740570620fb2243e2f0da76359281ec4068f",
+  "current_truth_checkpoint_before_d6": "4f1bdfd4e8203b1234972d4c06ff0ce15d1c28ec",
+  "qualified_evidence": {
+    "qualification_protocol": "nk-bpv1-external-qualification/1",
+    "qualification_status": "QUALIFIED",
+    "frozen_evaluator_outcome": "SUPPORTED_FOR_SCOPE",
+    "mandatory_fixture_pass": 12,
+    "mandatory_fixture_total": 12,
+    "mutation_count": 512,
+    "checkpoints": [128, 256, 512],
+    "durable_bytes_at_512": 42276,
+    "durable_state_byte_cap": 262144,
+    "retained_detailed_predecessors": 52,
+    "retained_detailed_predecessor_cap": 64,
+    "retained_loss_witnesses": 13,
+    "loss_witness_cap": 32,
+    "growth_rule_passed": true,
+    "hr10_self_report_path": "REMOVED_BY_EXTERNAL_QUALIFICATION"
+  },
+  "allowed_outcomes": [
+    "SUPPORTED_FOR_SCOPE",
+    "WEAKENED",
+    "REFUTED",
+    "INDETERMINATE",
+    "NOT_TESTED"
+  ],
+  "preregistered_target_map": {
+    "primary": ["A10-H02", "A10-H05"],
+    "secondary": ["A10-H01", "A10-H04", "A10-H07", "A10-H12"],
+    "informative_not_adjudicated": ["A10-H03", "A10-H10"],
+    "not_tested": ["A10-H06", "A10-H08", "A10-H09", "A10-H11"]
+  },
+  "classifications": [
+    {
+      "hypothesis_id": "A10-H01",
+      "target_class": "SECONDARY",
+      "outcome": "SUPPORTED_FOR_SCOPE",
+      "basis": [
+        "The qualified Rust realization uses a custom bounded snapshot model rather than the current Python/PostgreSQL/SQLite representation.",
+        "External qualification established that it does not import the current Native Kernel, Event envelope, reducer, Receipt oracle shape, or current SQL profile.",
+        "All mandatory semantic fixtures passed under the materially different representation within BPV1-001 scope."
+      ],
+      "limits": "Support is limited to one single-node conventional-digital cross-language/history-model realization; no arbitrary or independent-computation-model portability is established."
+    },
+    {
+      "hypothesis_id": "A10-H02",
+      "target_class": "PRIMARY",
+      "outcome": "SUPPORTED_FOR_SCOPE",
+      "basis": [
+        "BPV1-FX11 passed with current accountability available.",
+        "External qualification established authoritative_per_operation_append_log=false and exact_replay_required=false.",
+        "HR01 was not observed in the preregistered bounded scope."
+      ],
+      "limits": "This supports non-Event-sourced bounded accountability for BPV1-001 only; it does not prove that every accountability regime can avoid Event sourcing."
+    },
+    {
+      "hypothesis_id": "A10-H03",
+      "target_class": "INFORMATIVE_NOT_ADJUDICATED",
+      "outcome": "NOT_TESTED",
+      "basis": [
+        "BPV1-001 did not execute a representation-migration protocol that had to preserve identity/continuation relations across pre- and post-migration states.",
+        "Context and lineage observations are informative but do not constitute the preregistered migration falsification attempt required to adjudicate H03."
+      ],
+      "limits": "Existing descriptive partial support from same-lineage mappings is not promoted by D6."
+    },
+    {
+      "hypothesis_id": "A10-H04",
+      "target_class": "SECONDARY",
+      "outcome": "SUPPORTED_FOR_SCOPE",
+      "basis": [
+        "BPV1-FX01 preserved UNKNOWN without coercion to False.",
+        "BPV1-FX05 preserved unresolved plurality without selecting an unauthorized winner.",
+        "BPV1-FX09 preserved scoped uncertainty when counterevidence was withheld.",
+        "HR03 was not observed."
+      ],
+      "limits": "The result covers the BPV1-001 epistemic cases only; it does not establish that no future domain will require additional uncertainty representations."
+    },
+    {
+      "hypothesis_id": "A10-H05",
+      "target_class": "PRIMARY",
+      "outcome": "SUPPORTED_FOR_SCOPE",
+      "basis": [
+        "BPV1-FX04 preserved retained-scope revision/supersession lineage without silent overwrite.",
+        "BPV1-FX06 compacted superseded detail only outside declared retention scope with a valid loss witness.",
+        "The 512-mutation run stayed within durable-state, predecessor, witness and growth thresholds.",
+        "HR02 and HR07 were not observed in the preregistered scope."
+      ],
+      "limits": "Support is for the declared retained scope and bounded workload; it is not a claim of indefinitely lossless history."
+    },
+    {
+      "hypothesis_id": "A10-H06",
+      "target_class": "NOT_TESTED",
+      "outcome": "NOT_TESTED",
+      "basis": [
+        "Physical erasure and cryptographic erasure were preregistered as NOT_APPLICABLE in BPV1-001.",
+        "No independent physical-substrate observability or key-destruction claim was exercised."
+      ],
+      "limits": "Logical loss/compaction evidence cannot be promoted to physical or cryptographic erasure evidence."
+    },
+    {
+      "hypothesis_id": "A10-H07",
+      "target_class": "SECONDARY",
+      "outcome": "SUPPORTED_FOR_SCOPE",
+      "basis": [
+        "BPV1-001 used Rust rather than the current Python implementation language and a different bounded history/storage model.",
+        "External qualification established that current Native Kernel/Event/reducer/Receipt/SQL structures were not reused as the subject implementation or oracle truth.",
+        "The qualified cross-language/history-model run survived all mandatory fixtures, providing a stronger evidence class than storage-profile variation inside one Python lineage.",
+        "HR06 was not observed."
+      ],
+      "limits": "The implementation remains same-repository custody, not independently authored by a separate team, and conventional-digital; stronger evidence does not mean independent validation or universal portability proof."
+    },
+    {
+      "hypothesis_id": "A10-H08",
+      "target_class": "NOT_TESTED",
+      "outcome": "NOT_TESTED",
+      "basis": [
+        "BPV1-001 used conventional digital computation and stable software-level identities.",
+        "No analog or neuromorphic realization was mapped or observed."
+      ],
+      "limits": "Non-address-based semantic continuity remains an open research question."
+    },
+    {
+      "hypothesis_id": "A10-H09",
+      "target_class": "NOT_TESTED",
+      "outcome": "NOT_TESTED",
+      "basis": [
+        "BPV1-001 did not use a probabilistic computation substrate or repeated-trial statistical conformance protocol.",
+        "No observational-noise boundary was adjudicated."
+      ],
+      "limits": "Probabilistic conformance remains untested."
+    },
+    {
+      "hypothesis_id": "A10-H10",
+      "target_class": "INFORMATIVE_NOT_ADJUDICATED",
+      "outcome": "NOT_TESTED",
+      "basis": [
+        "BPV1-001 changed implementation language, history model and storage representation together rather than independently varying storage and computation axes.",
+        "The run is informative about mechanism variation but cannot isolate the independence claim stated by H10."
+      ],
+      "limits": "Prior storage-profile evidence remains descriptive context; D6 does not promote it to an adjudicated H10 result."
+    },
+    {
+      "hypothesis_id": "A10-H11",
+      "target_class": "NOT_TESTED",
+      "outcome": "NOT_TESTED",
+      "basis": [
+        "H11 was explicitly outside the BPV1-001 target hypotheses.",
+        "The experiment preserved the laboratory/Canon governance boundary, but that governance observation was not preregistered as an H11 falsification attempt."
+      ],
+      "limits": "A10's pre-existing descriptive SUPPORTED_FOR_SCOPE governance status is not rewritten; BPV1-001 contributes no new qualifying H11 adjudication."
+    },
+    {
+      "hypothesis_id": "A10-H12",
+      "target_class": "SECONDARY",
+      "outcome": "SUPPORTED_FOR_SCOPE",
+      "basis": [
+        "BPV1-FX10 emitted LOSSY rather than claiming full conformance when declared loss applied.",
+        "BPV1-FX12 detected material semantic divergence despite matching final visible values and refused full conformance.",
+        "The evaluator and plan made loss, unsupported and indeterminate outcomes actionable rather than treating compatibility as binary universal sameness.",
+        "HR05 was not observed."
+      ],
+      "limits": "This supports scoped loss-aware comparison inside BPV1-001; it does not establish meaningful comparison for every substrate class."
+    }
+  ],
+  "summary": {
+    "SUPPORTED_FOR_SCOPE": 6,
+    "WEAKENED": 0,
+    "REFUTED": 0,
+    "INDETERMINATE": 0,
+    "NOT_TESTED": 6,
+    "total": 12
+  },
+  "non_claims": [
+    "The aggregate BPV1 evaluator outcome is not copied mechanically to every A10 hypothesis.",
+    "NOT_TESTED hypotheses remain not supported by BPV1-001 even when nearby fixtures produced informative observations.",
+    "No classification establishes Final Canon, production readiness, universal substrate portability, independent implementation team, independent custody, or an independent computation model.",
+    "D6 does not modify the frozen BPV1 plan, oracle, expected outcomes, thresholds, scenario identity, HR01-HR10, subject, or evidence bytes.",
+    "D6 does not authorize product runtime integration or runtime expansion."
+  ],
+  "next_gate_after_authoritative_merge": "D7_INTEGRATED_RE_REVIEW",
+  "runtime_expansion": "FROZEN",
+  "product_runtime_thaw": false,
+  "production_authorized": false
+}
