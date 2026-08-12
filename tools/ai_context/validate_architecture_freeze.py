@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate ADR-0027 current truth after completed seven-surface Notion read-back."""
+"""Validate architecture boundaries after completion of RAVP-001 planning."""
 from __future__ import annotations
 
 import copy
@@ -7,90 +7,85 @@ import sys
 from pathlib import Path
 from typing import Any, Mapping
 
-_PRE_SYNC_PATH = Path(__file__).with_name("validate_architecture_freeze_post_adr0027.py")
+_PRE_PLAN_PATH = Path(__file__).with_name("validate_architecture_freeze_post_adr0027.py")
 _saved_name = __name__
 globals()["__name__"] = "validate_architecture_freeze_post_adr0027_embedded"
-exec(
-    compile(
-        _PRE_SYNC_PATH.read_text(encoding="utf-8"),
-        str(_PRE_SYNC_PATH),
-        "exec",
-    ),
-    globals(),
-    globals(),
-)
+exec(compile(_PRE_PLAN_PATH.read_text(encoding="utf-8"), str(_PRE_PLAN_PATH), "exec"), globals(), globals())
 globals()["__name__"] = _saved_name
-_PRE_SYNC_VALIDATE = validate
+_PRE_PLAN_VALIDATE = validate
 
-D8_NOTION_SYNC_SHA = "491ff7b229606d228ca04985b19b146878390e08"
 ADR0027_TRUTH_SYNC_SHA = "90bcb0fa2a3a2e85a590e9ba79746f3297b55457"
+RESIDUAL_PLAN_MERGE = "edc0501d71a827462aafd1ac4497920a719a4519"
+NEXT_GATE = "SEPARATE_FAMILY_PREREGISTRATION_SELECTION"
+RESIDUAL_TARGETS = ["A10-H03", "A10-H06", "A10-H08", "A10-H09", "A10-H10", "A10-H11"]
 
 
-def _pre_sync_view(state: Mapping[str, Any]) -> dict[str, Any]:
-    """Project completed documentation sync onto the pre-readback ADR-0027 guard.
-
-    Only the authoritative completed-sync checkpoint is rewritten. Mutated
-    checkpoint values remain visible so historical negative tests fail on the
-    original invariant instead of being masked by compatibility projection.
-    """
+def _pre_plan_view(state: Mapping[str, Any]) -> dict[str, Any]:
+    """Project current state onto the completed ADR-0027/pre-residual-plan guard."""
     value = copy.deepcopy(dict(state))
-    checkpoints = value["checkpoints"]
-    if checkpoints.get("notion_synchronized_through_sha") == ADR0027_TRUTH_SYNC_SHA:
-        checkpoints["notion_synchronized_through_sha"] = D8_NOTION_SYNC_SHA
+    value["checkpoints"]["notion_synchronized_through_sha"] = ADR0027_TRUTH_SYNC_SHA
+    research = value["tracks"]["long_horizon_research"]
+    research["status"] = "ACTIVE / POST-D8 RESIDUAL VALIDATION PLANNING / NO AUTOMATIC PROMOTION"
+    ref = research["architecture_refoundation"]
+    ref["status"] = "BLUEPRINT COMPLETE / PROVISIONAL / RESIDUAL VALIDATION PLANNING AUTHORIZED"
+    ref["next_content_slice"] = "RESIDUAL_A10_VALIDATION_PLAN"
+    validation = research["post_blueprint_validation"]
+    validation["status"] = "COMPLETE / OPTION_D_OPERATOR_DECISION_ACCEPTED / RESIDUAL_VALIDATION_PLANNING_AUTHORIZED"
+    validation.pop("residual_a10_validation_plan", None)
     notion = value["notion"]
-    notion["synchronization_required"] = True
+    notion["synchronization_required"] = False
+    notion["decision_sync_status"] = "SYNCHRONIZED"
+    notion["surface_count"] = 7
+    notion["read_back_verified_count"] = 7
+    notion["new_pages_created"] = 0
+    notion["scope"] = (
+        "ADR-0027 / OD-POST-D8-001 at 57993f39906ae7266011f6146c9a485d0587d2bf and GitHub truth "
+        + ADR0027_TRUTH_SYNC_SHA
+        + " synchronized 7/7; current next gate RESIDUAL_A10_VALIDATION_PLAN in RESEARCH_PLANNING_ONLY scope; experiment execution is not authorized."
+    )
     return value
 
 
-def _validate_completed_sync(state: Mapping[str, Any]) -> None:
-    notion = state.get("notion")
-    _require(isinstance(notion, Mapping), "Notion synchronization state required")
+def _validate_current(state: Mapping[str, Any]) -> None:
+    research = state["tracks"]["long_horizon_research"]
+    _require(research.get("runtime_authorized") is False, "runtime authority must remain frozen")
+    ref = research["architecture_refoundation"]
+    _require(ref.get("runtime_expansion_frozen") is True, "runtime expansion must remain frozen")
+    _require(ref.get("next_content_slice") == NEXT_GATE, "post-plan architecture gate drift")
+    validation = research["post_blueprint_validation"]
+    _require(validation.get("product_runtime_thaw") is False, "product runtime thaw must remain false")
+    _require(validation.get("automatic_canon_promotion") is False, "automatic Canon promotion must remain false")
+    _require(validation.get("automatic_runtime_promotion") is False, "automatic runtime promotion must remain false")
+
+    plan = validation.get("residual_a10_validation_plan")
+    _require(isinstance(plan, Mapping), "RAVP-001 completion record required")
+    _require(plan.get("merge_sha") == RESIDUAL_PLAN_MERGE, "RAVP-001 merge binding drift")
+    _require(plan.get("families") == RESIDUAL_TARGETS, "residual family inventory drift")
+    _require(plan.get("selected_family") is None, "no family may be silently selected")
+    _require(plan.get("next_gate") == NEXT_GATE, "RAVP-001 next gate drift")
+    _require(plan.get("next_gate_scope") == "PREREGISTRATION_SELECTION_ONLY", "next gate scope drift")
+    _require(plan.get("family_preregistration_authorized") is False, "family preregistration must remain unauthorized")
+    _require(plan.get("experiment_implementation_authorized") is False, "experiment implementation must remain unauthorized")
+    _require(plan.get("experiment_execution_authorized") is False, "experiment execution must remain unauthorized")
+    _require(plan.get("composition_federation_is_h11") is False, "composition/federation must remain distinct from H11")
     _require(
-        notion.get("synchronization_required") is False,
-        "ADR-0027 Notion synchronization must be complete after verified read-back",
-    )
-    _require(
-        notion.get("decision_sync_status") == "SYNCHRONIZED",
-        "ADR-0027 synchronization status must remain SYNCHRONIZED",
-    )
-    _require(
-        notion.get("surface_count") == 7
-        and notion.get("read_back_verified_count") == 7
-        and notion.get("new_pages_created") == 0,
-        "ADR-0027 Notion synchronization must remain 7/7 with zero new pages",
-    )
-    checkpoints = state.get("checkpoints")
-    _require(isinstance(checkpoints, Mapping), "checkpoint inventory required")
-    _require(
-        checkpoints.get("notion_synchronized_through_sha") == ADR0027_TRUTH_SYNC_SHA,
-        "ADR-0027 Notion synchronization checkpoint drift",
+        plan.get("h11_definition") == "LABORATORY_MECHANISMS_REPRODUCIBLE_WITHOUT_BECOMING_ARCHITECTURE_CANON",
+        "H11 definition drift",
     )
 
-    research = state["tracks"]["long_horizon_research"]
-    ref = research["architecture_refoundation"]
-    validation = research["post_blueprint_validation"]
-    decision = validation["post_d8_operator_decision"]
-    _require(
-        ref.get("next_content_slice") == POST_DECISION_GATE,
-        "next architecture validation gate drift; post-ADR-0027 next gate drift",
-    )
-    _require(ref.get("runtime_expansion_frozen") is True, "ADR-0027 must preserve runtime freeze")
-    _require(validation.get("product_runtime_thaw") is False, "ADR-0027 cannot thaw product runtime")
-    _require(
-        decision.get("next_gate") == POST_DECISION_GATE
-        and decision.get("next_gate_scope") == "RESEARCH_PLANNING_ONLY",
-        "residual planning gate drift",
-    )
-    _require(
-        decision.get("experiment_execution_authorized") is False,
-        "residual experiment execution must remain unauthorized",
-    )
+    decision = validation.get("post_d8_operator_decision")
+    _require(isinstance(decision, Mapping), "ADR-0027 decision record required")
+    _require(decision.get("next_gate") == "RESIDUAL_A10_VALIDATION_PLAN", "historical ADR-0027 gate must remain unchanged")
+    _require(decision.get("next_gate_scope") == "RESEARCH_PLANNING_ONLY", "historical ADR-0027 scope must remain unchanged")
+    _require(decision.get("experiment_execution_authorized") is False, "ADR-0027 execution boundary drift")
+
+    _require(state["checkpoints"].get("notion_synchronized_through_sha") == RESIDUAL_PLAN_MERGE, "post-plan Notion checkpoint drift")
     _require(state["status"]["production_authorized"] is False, "production must remain unauthorized")
 
 
 def validate(state: Mapping[str, Any], *, repo: Path) -> None:
-    _PRE_SYNC_VALIDATE(_pre_sync_view(state), repo=repo)
-    _validate_completed_sync(state)
+    _PRE_PLAN_VALIDATE(_pre_plan_view(state), repo=repo)
+    _validate_current(state)
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -106,9 +101,9 @@ def main(argv: list[str] | None = None) -> int:
         print(f"Architecture validation boundary failed: {exc}", file=sys.stderr)
         return 1
     print(
-        "Architecture validation passed; history=D8 preserved; ADR-0027=ACCEPTED; "
-        "notion_read_back=7/7; next=RESIDUAL_A10_VALIDATION_PLAN; "
-        "execution_authorized=false; runtime_expansion_frozen=true"
+        "Architecture validation passed; RAVP-001=COMPLETE; "
+        "next=SEPARATE_FAMILY_PREREGISTRATION_SELECTION; selected_family=NONE; "
+        "preregistration=false; execution=false; runtime_expansion_frozen=true"
     )
     return 0
 
