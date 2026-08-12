@@ -76,7 +76,7 @@ class A9ReferenceLaboratoryBoundaryTests(unittest.TestCase):
             for literal in ("Issue #18", "Issue #74 / ADR-0024", "ADR-0003", "Track H", "reducer-v2"):
                 self.assertIn(literal, markdown)
 
-    def test_project_state_preserves_a9_through_h11_preregistration(self) -> None:
+    def test_project_state_preserves_a9_through_blocked_h11_admission(self) -> None:
         research = self.state["tracks"]["long_horizon_research"]
         refoundation = research["architecture_refoundation"]
         validation = research["post_blueprint_validation"]
@@ -85,7 +85,7 @@ class A9ReferenceLaboratoryBoundaryTests(unittest.TestCase):
         self.assertEqual("A10_H11_EXECUTION_ADMISSION", refoundation["next_content_slice"])
         self.assertEqual("ADR-0026", validation["decision"])
         self.assertEqual("QUALIFYING_REVIEW_COMPLETE", validation["independent_review_status"])
-        self.assertEqual("COMPLETE / H11_PREREGISTERED / EXECUTION_ADMISSION_NEXT", validation["status"])
+        self.assertEqual("COMPLETE / H11_EXECUTION_ADMISSION_BLOCKED / NO_AUTOMATIC_PROMOTION", validation["status"])
         self.assertEqual("ADMITTED_FOR_EXPERIMENT_ONLY", validation["bpv1_status"])
         self.assertEqual("BPV1-001-cross-lineage-bounded-accountability-v1", validation["bpv1_plan"]["plan_id"])
         self.assertFalse(validation["bpv1_plan"]["execution_authorized"])
@@ -93,7 +93,6 @@ class A9ReferenceLaboratoryBoundaryTests(unittest.TestCase):
         self.assertEqual("COMPLETE", result["status"])
         self.assertEqual("QUALIFIED", result["qualification_status"])
         self.assertEqual("SUPPORTED_FOR_SCOPE", result["oracle_outcome"])
-        # Historical D5 result remains bound to the gate that followed D5.
         self.assertEqual("RESIDUAL_A10_VALIDATION_PLAN", result["next_gate"])
         self.assertEqual("COMPLETE", result["d6_status"])
         self.assertEqual("COMPLETE", result["d7_status"])
@@ -109,6 +108,8 @@ class A9ReferenceLaboratoryBoundaryTests(unittest.TestCase):
         self.assertEqual("COMPLETE / MERGED / NOTION_7_OF_7_READ_BACK_VERIFIED", plan["status"])
         self.assertEqual("A10_H11_EXECUTION_ADMISSION", plan["next_gate"])
         self.assertEqual("EXECUTION_ADMISSION_ONLY", plan["next_gate_scope"])
+        self.assertEqual("BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER", plan["execution_admission_state"])
+        self.assertEqual("QUALIFYING_INDEPENDENT_H11_REVIEWER_REPRODUCER_EVIDENCE", plan["next_dependency"])
         self.assertEqual("A10-H11", plan["selected_family"])
         self.assertEqual("RAVP-H11-LAB-CANON-SEPARATION", plan["selected_family_id"])
         self.assertTrue(plan["family_preregistration_authorized"])
@@ -121,6 +122,17 @@ class A9ReferenceLaboratoryBoundaryTests(unittest.TestCase):
         self.assertEqual("NOT_TESTED", h11["current_a10_outcome"])
         self.assertFalse(h11["implementation_authorized"])
         self.assertFalse(h11["execution_authorized"])
+
+        admission = plan["h11_execution_admission"]
+        self.assertEqual("BLOCKED", admission["status"])
+        self.assertEqual("f7d13fce0104a4c2ce67589e954b09365a82f36f", admission["admission_package_merge_sha"])
+        self.assertEqual("BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER", admission["admission_result"])
+        self.assertEqual("NOT_ESTABLISHED", admission["qualifying_reviewer_reproducer"])
+        self.assertEqual("NOT_TESTED", admission["h11_outcome"])
+        self.assertFalse(admission["implementation_authorized"])
+        self.assertFalse(admission["execution_authorized"])
+        self.assertFalse(admission["dependency_graph_execution_authorized"])
+        self.assertFalse(admission["semantic_adjudication_authorized"])
         self.assertFalse(plan["experiment_implementation_authorized"])
         self.assertFalse(plan["experiment_execution_authorized"])
         self.assertFalse(plan["composition_federation_is_h11"])

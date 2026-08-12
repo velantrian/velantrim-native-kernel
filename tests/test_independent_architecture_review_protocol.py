@@ -95,14 +95,12 @@ class IndependentArchitectureReviewProtocolTests(unittest.TestCase):
     def test_historical_reconciliation_gate_and_current_h11_gate_are_separate(self) -> None:
         research = STATE["tracks"]["long_horizon_research"]
         validation = research["post_blueprint_validation"]
-        # Historical IAR-1-R1 remains bound to the gate that followed reconciliation.
         self.assertEqual("BPV1_PLAN_AND_PREREGISTRATION", RECONCILIATION["next_gate"])
         self.assertEqual("BLOCKED_PENDING_PREREGISTERED_PLAN", RECONCILIATION["bpv1_status_after_reconciliation"])
 
-        # Current machine truth has advanced through RAVP and H11 preregistration only.
         self.assertEqual("A10_H11_EXECUTION_ADMISSION", research["architecture_refoundation"]["next_content_slice"])
         self.assertEqual("QUALIFYING_REVIEW_COMPLETE", validation["independent_review_status"])
-        self.assertEqual("COMPLETE / H11_PREREGISTERED / EXECUTION_ADMISSION_NEXT", validation["status"])
+        self.assertEqual("COMPLETE / H11_EXECUTION_ADMISSION_BLOCKED / NO_AUTOMATIC_PROMOTION", validation["status"])
         self.assertEqual("ADMITTED_FOR_EXPERIMENT_ONLY", validation["bpv1_status"])
         self.assertEqual("BPV1-001-cross-lineage-bounded-accountability-v1", validation["bpv1_plan"]["plan_id"])
         self.assertEqual("a538d7f1e28858a88b9ee777ac7d6e05b85943db", validation["bpv1_plan"]["authoritative_plan_merge_sha"])
@@ -121,7 +119,6 @@ class IndependentArchitectureReviewProtocolTests(unittest.TestCase):
         self.assertTrue(validation["d8_consolidated_sync"]["operator_decision_required"])
         self.assertFalse(validation["d8_consolidated_sync"]["next_gate_authorized_by_d8"])
 
-        # ADR-0027 stays a historical planning authorization record.
         decision = validation["post_d8_operator_decision"]
         self.assertEqual("RESIDUAL_A10_VALIDATION_PLAN", decision["next_gate"])
         self.assertEqual("RESEARCH_PLANNING_ONLY", decision["next_gate_scope"])
@@ -133,6 +130,8 @@ class IndependentArchitectureReviewProtocolTests(unittest.TestCase):
         self.assertTrue(plan["family_preregistration_complete"])
         self.assertEqual("A10_H11_EXECUTION_ADMISSION", plan["next_gate"])
         self.assertEqual("EXECUTION_ADMISSION_ONLY", plan["next_gate_scope"])
+        self.assertEqual("BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER", plan["execution_admission_state"])
+        self.assertEqual("QUALIFYING_INDEPENDENT_H11_REVIEWER_REPRODUCER_EVIDENCE", plan["next_dependency"])
         self.assertFalse(plan["experiment_implementation_authorized"])
         self.assertFalse(plan["experiment_execution_authorized"])
 
@@ -143,6 +142,14 @@ class IndependentArchitectureReviewProtocolTests(unittest.TestCase):
         self.assertEqual("NOT_ESTABLISHED / MUST_BE_VERIFIED_AT_EXECUTION_ADMISSION", h11["qualifying_reviewer_reproducer"])
         self.assertFalse(h11["implementation_authorized"])
         self.assertFalse(h11["execution_authorized"])
+
+        admission = plan["h11_execution_admission"]
+        self.assertEqual("BLOCKED", admission["status"])
+        self.assertEqual("BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER", admission["admission_result"])
+        self.assertEqual("NOT_ESTABLISHED", admission["qualifying_reviewer_reproducer"])
+        self.assertEqual("NOT_TESTED", admission["h11_outcome"])
+        self.assertFalse(admission["implementation_authorized"])
+        self.assertFalse(admission["execution_authorized"])
 
         self.assertFalse(validation["product_runtime_thaw"])
         self.assertFalse(validation["automatic_canon_promotion"])

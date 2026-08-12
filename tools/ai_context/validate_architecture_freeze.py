@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate architecture boundaries after H11 preregistration."""
+"""Validate architecture boundaries after the blocked H11 execution-admission checkpoint."""
 from __future__ import annotations
 
 import copy
@@ -19,14 +19,16 @@ ADR0027_DECISION_MERGE = "57993f39906ae7266011f6146c9a485d0587d2bf"
 RESIDUAL_PLAN_MERGE = "edc0501d71a827462aafd1ac4497920a719a4519"
 H11_SELECTION_MERGE = "bcd3b3f6c9d898315c93e5d24b5d0e02c95508cc"
 H11_PLAN_MERGE = "4a75ff15542013c033030620bdff61997e365140"
-H11_NEXT_GATE = "A10_H11_EXECUTION_ADMISSION"
+H11_ADMISSION_MERGE = "f7d13fce0104a4c2ce67589e954b09365a82f36f"
+H11_PLAN_SHA256 = "60da649e675b79b3e70bf8a61cf03cb4d57bb989f4934b65ab8d50c925b19914"
+H11_CURRENT_GATE = "A10_H11_EXECUTION_ADMISSION"
 H11_PLAN_ID = "H11-001-c5-lab-canon-separation-v1"
 H11_BLOCKER = "BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER"
 RESIDUAL_TARGETS = ["A10-H03", "A10-H06", "A10-H08", "A10-H09", "A10-H10", "A10-H11"]
 
 
 def _pre_plan_view(state: Mapping[str, Any]) -> dict[str, Any]:
-    """Project current H11 state onto the ADR-0027/pre-RAVP guard."""
+    """Project current blocked H11 state onto the ADR-0027/pre-RAVP guard."""
     value = copy.deepcopy(dict(state))
     value["checkpoints"]["notion_synchronized_through_sha"] = ADR0027_TRUTH_SYNC_SHA
     research = value["tracks"]["long_horizon_research"]
@@ -61,11 +63,13 @@ def _pre_plan_view(state: Mapping[str, Any]) -> dict[str, Any]:
 def _validate_current(state: Mapping[str, Any]) -> None:
     research = state["tracks"]["long_horizon_research"]
     _require(research.get("runtime_authorized") is False, "runtime authority must remain frozen")
+    _require(research.get("status") == "ACTIVE / H11 EXECUTION ADMISSION BLOCKED / NO AUTOMATIC PROMOTION", "H11 blocked research status drift")
     ref = research["architecture_refoundation"]
     _require(ref.get("runtime_expansion_frozen") is True, "runtime expansion must remain frozen")
-    _require(ref.get("next_content_slice") == H11_NEXT_GATE, "next architecture validation gate drift")
+    _require(ref.get("next_content_slice") == H11_CURRENT_GATE, "next architecture validation gate drift")
 
     validation = research["post_blueprint_validation"]
+    _require(validation.get("status") == "COMPLETE / H11_EXECUTION_ADMISSION_BLOCKED / NO_AUTOMATIC_PROMOTION", "H11 blocked validation status drift")
     _require(validation.get("product_runtime_thaw") is False, "product runtime thaw must remain false")
     _require(validation.get("automatic_canon_promotion") is False, "automatic Canon promotion must remain false")
     _require(validation.get("automatic_runtime_promotion") is False, "automatic runtime promotion must remain false")
@@ -77,8 +81,10 @@ def _validate_current(state: Mapping[str, Any]) -> None:
     _require(plan.get("selected_family") == "A10-H11", "only H11 may be the selected residual family")
     _require(plan.get("selected_family_id") == "RAVP-H11-LAB-CANON-SEPARATION", "H11 family identity drift")
     _require(plan.get("family_preregistration_authorized") is True and plan.get("family_preregistration_complete") is True, "H11 preregistration binding drift")
-    _require(plan.get("next_gate") == H11_NEXT_GATE, "H11 next gate drift")
-    _require(plan.get("next_gate_scope") == "EXECUTION_ADMISSION_ONLY", "H11 next gate scope drift")
+    _require(plan.get("next_gate") == H11_CURRENT_GATE, "H11 current gate drift")
+    _require(plan.get("next_gate_scope") == "EXECUTION_ADMISSION_ONLY", "H11 current gate scope drift")
+    _require(plan.get("execution_admission_state") == H11_BLOCKER, "H11 execution admission blocker drift")
+    _require(plan.get("next_dependency") == "QUALIFYING_INDEPENDENT_H11_REVIEWER_REPRODUCER_EVIDENCE", "H11 next dependency drift")
     _require(plan.get("experiment_implementation_authorized") is False, "experiment implementation must remain unauthorized")
     _require(plan.get("experiment_execution_authorized") is False, "experiment execution must remain unauthorized")
     _require(plan.get("composition_federation_is_h11") is False, "composition/federation must remain distinct from H11")
@@ -94,10 +100,26 @@ def _validate_current(state: Mapping[str, Any]) -> None:
     _require(h11.get("plan_id") == H11_PLAN_ID and h11.get("merge_sha") == H11_PLAN_MERGE, "H11 preregistration identity/merge drift")
     _require(h11.get("status") == "PREREGISTERED / EXECUTION_NOT_AUTHORIZED", "H11 preregistration status drift")
     _require(h11.get("required_oracle_class") == "INDEPENDENT_SEMANTIC_ORACLE", "H11 independent semantic oracle requirement drift")
-    _require(h11.get("qualifying_reviewer_reproducer") == "NOT_ESTABLISHED / MUST_BE_VERIFIED_AT_EXECUTION_ADMISSION", "H11 reviewer independence must remain unestablished before admission")
+    _require(h11.get("qualifying_reviewer_reproducer") == "NOT_ESTABLISHED / MUST_BE_VERIFIED_AT_EXECUTION_ADMISSION", "historical H11 preregistration reviewer status drift")
     _require(h11.get("no_qualifying_reviewer_outcome") == H11_BLOCKER, "H11 no-reviewer blocker drift")
     _require(h11.get("current_a10_outcome") == "NOT_TESTED", "H11 must remain NOT_TESTED")
     _require(h11.get("implementation_authorized") is False and h11.get("execution_authorized") is False, "H11 preregistration must not authorize execution")
+
+    admission = plan.get("h11_execution_admission")
+    _require(isinstance(admission, Mapping), "H11 execution admission current binding required")
+    _require(admission.get("protocol") == "nk-h11-execution-admission/1", "H11 admission protocol drift")
+    _require(admission.get("status") == "BLOCKED", "H11 admission must remain BLOCKED")
+    _require(admission.get("admission_package_pr") == 129 and admission.get("admission_package_merge_sha") == H11_ADMISSION_MERGE, "H11 admission checkpoint drift")
+    _require(admission.get("plan_merge_sha") == H11_PLAN_MERGE and admission.get("plan_sha256") == H11_PLAN_SHA256, "H11 frozen plan binding drift")
+    _require(admission.get("admission_result") == H11_BLOCKER, "H11 blocked admission result drift")
+    _require(admission.get("qualifying_reviewer_reproducer") == "NOT_ESTABLISHED", "H11 admission cannot fabricate reviewer independence")
+    _require(admission.get("required_oracle_class") == "INDEPENDENT_SEMANTIC_ORACLE", "H11 required oracle drift")
+    _require(admission.get("implementation_authorized") is False and admission.get("execution_authorized") is False, "blocked H11 admission cannot authorize implementation/execution")
+    _require(admission.get("dependency_graph_execution_authorized") is False and admission.get("semantic_adjudication_authorized") is False, "blocked H11 admission cannot execute graph/adjudication")
+    _require(admission.get("h11_outcome") == "NOT_TESTED", "blocked admission must not become INDETERMINATE or another A10 outcome")
+    _require(admission.get("runtime_expansion") == "FROZEN" and admission.get("product_runtime_thaw") is False, "H11 admission cannot thaw runtime")
+    _require(admission.get("final_canon") == "DEFERRED / NOT_AUTHORIZED", "H11 admission cannot promote Final Canon")
+    _require(admission.get("production_authorized") is False, "H11 admission cannot authorize production")
 
     decision = validation.get("post_d8_operator_decision")
     _require(isinstance(decision, Mapping), "ADR-0027 decision record required")
@@ -109,12 +131,13 @@ def _validate_current(state: Mapping[str, Any]) -> None:
     _require(isinstance(issue, Mapping), "Issue #88 snapshot required")
     _require(issue.get("state") == "OPEN", "Issue #88 must remain open")
     meaning = str(issue.get("meaning", ""))
-    _require("A10-H11" in meaning and H11_PLAN_ID in meaning and H11_NEXT_GATE in meaning, "current Issue #88 H11 gate drift / Option D selection")
+    for marker in ("A10-H11", H11_PLAN_ID, H11_ADMISSION_MERGE, H11_CURRENT_GATE, H11_BLOCKER, "NOT_TESTED"):
+        _require(marker in meaning, f"Option D selection/current Issue #88 blocked H11 truth missing: {marker}")
     verification = issue.get("verification")
     _require(isinstance(verification, Mapping), "Issue #88 verification required")
     _require(verification.get("status") == "VERIFIED" and verification.get("method") == "GITHUB_API" and verification.get("source") == "issue/88", "Issue #88 verification drift")
 
-    _require(state["checkpoints"].get("notion_synchronized_through_sha") == H11_PLAN_MERGE, "H11 Notion checkpoint drift")
+    _require(state["checkpoints"].get("notion_synchronized_through_sha") == H11_ADMISSION_MERGE, "H11 blocked-admission Notion checkpoint drift")
     _require(state["status"]["production_authorized"] is False, "production must remain unauthorized")
 
 
@@ -136,8 +159,8 @@ def main(argv: list[str] | None = None) -> int:
         print(f"Architecture validation boundary failed: {exc}", file=sys.stderr)
         return 1
     print(
-        "Architecture validation passed; H11=PREREGISTERED/NOT_TESTED; "
-        "next=A10_H11_EXECUTION_ADMISSION; reviewer=NOT_ESTABLISHED; execution=false; runtime_expansion_frozen=true"
+        "Architecture validation passed; H11 admission=BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER; "
+        "H11=NOT_TESTED; reviewer=NOT_ESTABLISHED; execution=false; runtime_expansion_frozen=true"
     )
     return 0
 

@@ -73,7 +73,7 @@ class A10OpenQuestionsFalsificationTests(unittest.TestCase):
             self.assertIn("45/10/17/0", markdown)
             self.assertIn("0/0/8/0", markdown)
 
-    def test_machine_state_preserves_a10_and_h11_preregistration_outcomes(self) -> None:
+    def test_machine_state_preserves_a10_and_blocked_h11_admission(self) -> None:
         research = self.state["tracks"]["long_horizon_research"]
         refoundation = research["architecture_refoundation"]
         validation = research["post_blueprint_validation"]
@@ -93,7 +93,7 @@ class A10OpenQuestionsFalsificationTests(unittest.TestCase):
         self.assertEqual("A10_H11_EXECUTION_ADMISSION", refoundation["next_content_slice"])
         self.assertEqual("ADR-0026", validation["decision"])
         self.assertEqual("QUALIFYING_REVIEW_COMPLETE", validation["independent_review_status"])
-        self.assertEqual("COMPLETE / H11_PREREGISTERED / EXECUTION_ADMISSION_NEXT", validation["status"])
+        self.assertEqual("COMPLETE / H11_EXECUTION_ADMISSION_BLOCKED / NO_AUTOMATIC_PROMOTION", validation["status"])
         self.assertEqual("ADMITTED_FOR_EXPERIMENT_ONLY", validation["bpv1_status"])
         self.assertEqual("a538d7f1e28858a88b9ee777ac7d6e05b85943db", validation["bpv1_plan"]["authoritative_plan_merge_sha"])
         self.assertFalse(validation["bpv1_plan"]["execution_authorized"])
@@ -102,7 +102,6 @@ class A10OpenQuestionsFalsificationTests(unittest.TestCase):
         self.assertEqual("COMPLETE", result["status"])
         self.assertEqual("QUALIFIED", result["qualification_status"])
         self.assertEqual("SUPPORTED_FOR_SCOPE", result["oracle_outcome"])
-        # Historical D5 result remains bound to the later residual-planning gate.
         self.assertEqual("RESIDUAL_A10_VALIDATION_PLAN", result["next_gate"])
         self.assertEqual("COMPLETE", result["d6_status"])
         self.assertEqual("COMPLETE", result["d7_status"])
@@ -110,14 +109,8 @@ class A10OpenQuestionsFalsificationTests(unittest.TestCase):
 
         classification = validation["d6_hypothesis_classification"]
         self.assertEqual("COMPLETE", classification["status"])
-        self.assertEqual(
-            ["A10-H01", "A10-H02", "A10-H04", "A10-H05", "A10-H07", "A10-H12"],
-            classification["supported_for_scope"],
-        )
-        self.assertEqual(
-            ["A10-H03", "A10-H06", "A10-H08", "A10-H09", "A10-H10", "A10-H11"],
-            classification["not_tested"],
-        )
+        self.assertEqual(["A10-H01", "A10-H02", "A10-H04", "A10-H05", "A10-H07", "A10-H12"], classification["supported_for_scope"])
+        self.assertEqual(["A10-H03", "A10-H06", "A10-H08", "A10-H09", "A10-H10", "A10-H11"], classification["not_tested"])
         self.assertEqual([], classification["weakened"])
         self.assertEqual([], classification["refuted"])
         self.assertEqual([], classification["indeterminate"])
@@ -144,6 +137,8 @@ class A10OpenQuestionsFalsificationTests(unittest.TestCase):
         self.assertEqual(classification["not_tested"], plan["families"])
         self.assertEqual("A10_H11_EXECUTION_ADMISSION", plan["next_gate"])
         self.assertEqual("EXECUTION_ADMISSION_ONLY", plan["next_gate_scope"])
+        self.assertEqual("BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER", plan["execution_admission_state"])
+        self.assertEqual("QUALIFYING_INDEPENDENT_H11_REVIEWER_REPRODUCER_EVIDENCE", plan["next_dependency"])
         self.assertEqual("A10-H11", plan["selected_family"])
         self.assertEqual("RAVP-H11-LAB-CANON-SEPARATION", plan["selected_family_id"])
         self.assertTrue(plan["family_preregistration_authorized"])
@@ -161,7 +156,17 @@ class A10OpenQuestionsFalsificationTests(unittest.TestCase):
         self.assertFalse(h11["implementation_authorized"])
         self.assertFalse(h11["execution_authorized"])
 
-        # H11 remains in D6's NOT_TESTED set until a separately admitted qualifying execution.
+        admission = plan["h11_execution_admission"]
+        self.assertEqual("nk-h11-execution-admission/1", admission["protocol"])
+        self.assertEqual("BLOCKED", admission["status"])
+        self.assertEqual("BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER", admission["admission_result"])
+        self.assertEqual("NOT_ESTABLISHED", admission["qualifying_reviewer_reproducer"])
+        self.assertEqual("NOT_TESTED", admission["h11_outcome"])
+        self.assertFalse(admission["implementation_authorized"])
+        self.assertFalse(admission["execution_authorized"])
+        self.assertFalse(admission["dependency_graph_execution_authorized"])
+        self.assertFalse(admission["semantic_adjudication_authorized"])
+
         self.assertIn("A10-H11", classification["not_tested"])
         self.assertTrue(refoundation["runtime_expansion_frozen"])
         self.assertFalse(validation["product_runtime_thaw"])

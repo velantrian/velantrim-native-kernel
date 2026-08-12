@@ -60,7 +60,7 @@ class IntegratedA1A10ReviewTests(unittest.TestCase):
         self.assertTrue(refoundation["runtime_expansion_frozen"])
         self.assertEqual("ADR-0026", validation["decision"])
         self.assertEqual("QUALIFYING_REVIEW_COMPLETE", validation["independent_review_status"])
-        self.assertEqual("COMPLETE / H11_PREREGISTERED / EXECUTION_ADMISSION_NEXT", validation["status"])
+        self.assertEqual("COMPLETE / H11_EXECUTION_ADMISSION_BLOCKED / NO_AUTOMATIC_PROMOTION", validation["status"])
         self.assertEqual("ADMITTED_FOR_EXPERIMENT_ONLY", validation["bpv1_status"])
         self.assertEqual("BPV1-001-cross-lineage-bounded-accountability-v1", validation["bpv1_plan"]["plan_id"])
         self.assertFalse(validation["bpv1_plan"]["execution_authorized"])
@@ -68,7 +68,6 @@ class IntegratedA1A10ReviewTests(unittest.TestCase):
         self.assertEqual("COMPLETE", result["status"])
         self.assertEqual("QUALIFIED", result["qualification_status"])
         self.assertEqual("SUPPORTED_FOR_SCOPE", result["oracle_outcome"])
-        # Historical D5/D6/D7/D8 chain remains bound to the residual-planning gate.
         self.assertEqual("RESIDUAL_A10_VALIDATION_PLAN", result["next_gate"])
         self.assertEqual("COMPLETE", result["d6_status"])
         self.assertEqual("COMPLETE", result["d7_status"])
@@ -78,7 +77,6 @@ class IntegratedA1A10ReviewTests(unittest.TestCase):
         self.assertTrue(validation["d8_consolidated_sync"]["operator_decision_required"])
         self.assertFalse(validation["d8_consolidated_sync"]["next_gate_authorized_by_d8"])
 
-        # ADR-0027 remains historical authority for admitting RAVP planning only.
         decision = validation["post_d8_operator_decision"]
         self.assertEqual("RESIDUAL_A10_VALIDATION_PLAN", decision["next_gate"])
         self.assertEqual("RESEARCH_PLANNING_ONLY", decision["next_gate_scope"])
@@ -93,6 +91,8 @@ class IntegratedA1A10ReviewTests(unittest.TestCase):
         self.assertTrue(plan["family_preregistration_complete"])
         self.assertEqual("A10_H11_EXECUTION_ADMISSION", plan["next_gate"])
         self.assertEqual("EXECUTION_ADMISSION_ONLY", plan["next_gate_scope"])
+        self.assertEqual("BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER", plan["execution_admission_state"])
+        self.assertEqual("QUALIFYING_INDEPENDENT_H11_REVIEWER_REPRODUCER_EVIDENCE", plan["next_dependency"])
         self.assertFalse(plan["experiment_implementation_authorized"])
         self.assertFalse(plan["experiment_execution_authorized"])
         self.assertFalse(plan["composition_federation_is_h11"])
@@ -105,6 +105,16 @@ class IntegratedA1A10ReviewTests(unittest.TestCase):
         self.assertEqual("NOT_ESTABLISHED / MUST_BE_VERIFIED_AT_EXECUTION_ADMISSION", h11["qualifying_reviewer_reproducer"])
         self.assertFalse(h11["implementation_authorized"])
         self.assertFalse(h11["execution_authorized"])
+
+        admission = plan["h11_execution_admission"]
+        self.assertEqual("BLOCKED", admission["status"])
+        self.assertEqual("BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER", admission["admission_result"])
+        self.assertEqual("NOT_ESTABLISHED", admission["qualifying_reviewer_reproducer"])
+        self.assertEqual("NOT_TESTED", admission["h11_outcome"])
+        self.assertFalse(admission["implementation_authorized"])
+        self.assertFalse(admission["execution_authorized"])
+        self.assertFalse(admission["dependency_graph_execution_authorized"])
+        self.assertFalse(admission["semantic_adjudication_authorized"])
 
         self.assertFalse(validation["product_runtime_thaw"])
         self.assertFalse(STATE["status"]["production_authorized"])

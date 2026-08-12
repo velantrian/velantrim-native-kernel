@@ -207,7 +207,7 @@ class ProjectStateTests(unittest.TestCase):
         state = copy.deepcopy(self.state)
         plan = state["tracks"]["long_horizon_research"]["post_blueprint_validation"]["residual_a10_validation_plan"]
         plan["next_gate"] = "A10_H11_EXECUTION"
-        with self.assertRaisesRegex(module.ProjectStateError, "next gate drift"):
+        with self.assertRaisesRegex(module.ProjectStateError, "current gate drift"):
             self.validate(state=state)
 
     def test_residual_implementation_and_execution_remain_unauthorized(self) -> None:
