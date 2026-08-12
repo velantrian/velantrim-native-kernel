@@ -151,7 +151,12 @@ def _family_map(plan: Mapping[str, Any]) -> dict[str, Mapping[str, Any]]:
 
 def _validate_special_boundaries(plan: Mapping[str, Any], families: Mapping[str, Mapping[str, Any]]) -> None:
     h03 = families["A10-H03"]
-    _require("migration" in str(h03["testable_question"]).lower(), "H03 must remain a representation-migration question")
+    h03_question = str(h03["testable_question"]).lower()
+    _require(
+        "target representation" in h03_question
+        and "substrate-local identity" in h03_question,
+        "H03 must remain a representation-migration question",
+    )
     _require("source-format physical identity" in str(h03["hard_refutation"]), "H03 hard refutation must guard source physical identity")
 
     h06 = families["A10-H06"]
@@ -229,7 +234,7 @@ def _validate_human_docs(repo: Path) -> None:
         "A10-H11",
         "INDEPENDENT_COMPUTATION_MODEL",
         "INDEPENDENT_SEMANTIC_ORACLE",
-        "Composition/federation" if False else "composition/federation",
+        "composition/federation",
     ]
     for relative in (EN_PATH, RU_PATH):
         try:
