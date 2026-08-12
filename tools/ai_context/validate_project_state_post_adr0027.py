@@ -13,7 +13,16 @@ DECISION_MERGE="57993f39906ae7266011f6146c9a485d0587d2bf"
 
 def _d8_view(state: Mapping[str,Any])->dict[str,Any]:
     value=copy.deepcopy(dict(state))
-    value["notion"]["synchronization_required"]=False
+    notion=value["notion"]
+    notion["synchronization_required"]=False
+    notion["status"]="SYNCED_THROUGH_DESCENDANT_CHECKPOINT"
+    notion["scope"]=(
+        "Publication checkpoint " + PUBLICATION_SHA
+        + ", manifest source " + MANIFEST_SOURCE_SHA
+        + ", D8 Notion synchronization checkpoint " + D8_NOTION_SYNC_SHA
+        + ", and D8 consolidated record merge " + D8_RECORD_MERGE_SHA
+        + " remain distinct historical roles."
+    )
     return value
 
 def _validate_post_decision(state: Mapping[str,Any])->None:
