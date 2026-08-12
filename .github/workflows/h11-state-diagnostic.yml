@@ -24,50 +24,23 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: IAR-1 independence evidence
-        run: python -m unittest discover -s tests -p 'test_iar1_independence_evidence.py' -v
-      - name: BPV1 preregistration
-        run: python -m unittest discover -s tests -p 'test_bpv1_preregistration.py' -v
-      - name: BPV1 execution admission
-        run: python -m unittest discover -s tests -p 'test_bpv1_execution_admission.py' -v
-      - name: BPV1 D6 A10 classification
-        run: python -m unittest discover -s tests -p 'test_bpv1_d6_a10_classification.py' -v
-      - name: Residual A10 plan
-        run: python -m unittest discover -s tests -p 'test_residual_a10_plan.py' -v
-      - name: H11 family selection
-        run: python -m unittest discover -s tests -p 'test_h11_family_selection.py' -v
-      - name: H11 preregistration
-        run: python -m unittest discover -s tests -p 'test_h11_preregistration.py' -v
-      - name: H11 execution admission
-        run: python -m unittest discover -s tests -p 'test_h11_execution_admission.py' -v
-      - name: AI context validator
-        run: python -m unittest discover -s tests -p 'test_ai_context_validator.py' -v
       - name: Architecture freeze repository baseline
         run: python -m unittest test_architecture_freeze.ArchitectureFreezeTests.test_repository_freeze_passes -v
         working-directory: tests
-      - name: Architecture freeze validator tests
+      - name: Issue 88 mutation traceback
         shell: bash
+        working-directory: tests
         run: |
           set +e
-          python -m unittest discover -s tests -p 'test_architecture_freeze.py' -v 2>&1 | tee architecture-freeze.log
+          python -m unittest test_architecture_freeze.ArchitectureFreezeTests.test_issue_88_remains_open_verified_and_records_current_gate -v 2>&1 | tee issue88.log
           status=${PIPESTATUS[0]}
           set -e
           if [ "$status" -ne 0 ]; then
             python - <<'PY'
           from pathlib import Path
-          text = "\n".join(Path("architecture-freeze.log").read_text(encoding="utf-8").splitlines()[-80:])
+          text = Path("issue88.log").read_text(encoding="utf-8")
           text = text.replace("%", "%25").replace("\r", "%0D").replace("\n", "%0A")
-          print(f"::error title=Architecture freeze unit tests::{text}")
+          print(f"::error title=Issue 88 architecture mutation::{text}")
           PY
             exit "$status"
           fi
-      - name: Bilingual parity validator tests
-        run: python -m unittest discover -s tests -p 'test_bilingual_parity_validator.py' -v
-      - name: Project state validator tests
-        run: python -m unittest discover -s tests -p 'test_project_state.py' -v
-      - name: Reconciliation validator tests
-        run: python -m unittest discover -s tests -p 'test_reconciliation_state.py' -v
-      - name: Evidence bundle tests
-        run: python -m unittest discover -s tests -p 'test_evidence_bundle.py' -v
-      - name: C5 manifest tests
-        run: python -m unittest discover -s tests -p 'test_c5_manifest.py' -v
