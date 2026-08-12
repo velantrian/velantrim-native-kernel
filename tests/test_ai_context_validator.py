@@ -255,7 +255,7 @@ class AIContextValidatorTests(unittest.TestCase):
                     self._write_blueprint_progress_surface(rel)
 
     def test_each_forbidden_blueprint_progress_marker_is_rejected(self):
-        rel = "docs/ai/README.md"
+        rel = "docs/ai/POST_RESIDUAL_A10_STATE.md"
         for legacy in validator.FORBIDDEN_BLUEPRINT_PROGRESS_MARKERS:
             with self.subTest(marker=legacy):
                 self._write_blueprint_progress_surface(
