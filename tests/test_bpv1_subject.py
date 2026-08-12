@@ -6,6 +6,7 @@ derives oracle-facing observables without reading fixture expectations.
 """
 from __future__ import annotations
 
+import ast
 import importlib.util
 import json
 import shutil
@@ -101,11 +102,20 @@ class BPV1SourceBoundaryTests(unittest.TestCase):
         for name in ("observations.json", "evaluation-report.json", "run-metadata.json"):
             self.assertTrue((RESULTS_ROOT / name).is_file(), f"historical D5 evidence missing: {name}")
 
-    def test_external_qualifier_does_not_read_frozen_expectations(self) -> None:
+    def test_external_qualifier_does_not_depend_on_frozen_expectations(self) -> None:
         text = QUALIFIER.read_text(encoding="utf-8")
+        tree = ast.parse(text)
+        imported_modules: set[str] = set()
+        for node in ast.walk(tree):
+            if isinstance(node, ast.Import):
+                imported_modules.update(alias.name for alias in node.names)
+            elif isinstance(node, ast.ImportFrom) and node.module:
+                imported_modules.add(node.module)
+        self.assertNotIn("evaluate", imported_modules)
+        self.assertNotIn("tools.bpv1.evaluate", imported_modules)
         self.assertNotIn("fixtures.json", text)
         self.assertNotIn("FIXTURE_SPEC", text)
-        self.assertNotIn("evaluate.py", text)
+        self.assertNotIn("BPV1_ORACLE", text)
         self.assertIn("oracle_fixture_expectations_read", text)
 
     def test_external_structural_facts_are_derived_from_repository_source(self) -> None:
