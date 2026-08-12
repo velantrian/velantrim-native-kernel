@@ -52,7 +52,7 @@ open MATERIAL findings: 0
 BPV-1 plan: PREREGISTERED / EXECUTION_NOT_AUTHORIZED
 plan_id: BPV1-001-cross-lineage-bounded-accountability-v1
 plan_merge: a538d7f1e28858a88b9ee777ac7d6e05b85943db
-execution-admission package merge: 6027eec73f11c4626be5553de7e79f827be2c81d
+BPV-1 execution-admission package merge: 6027eec73f11c4626be5553de7e79f827be2c81d
 D5 execution: COMPLETE / a191e9c868c14af34a269dcdfae44406f1013bda
 D5-R1 qualification: COMPLETE / QUALIFIED / 3856740570620fb2243e2f0da76359281ec4068f
 qualified outcome: SUPPORTED_FOR_SCOPE / 12-of-12 mandatory fixtures PASS
