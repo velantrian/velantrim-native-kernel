@@ -1,0 +1,91 @@
+{
+  "protocol": "nk-h11-execution-admission/1",
+  "admission_id": "H11-001-execution-admission-v1",
+  "status": "BLOCKED",
+  "selected_family": "A10-H11",
+  "experiment_id": "H11-001",
+  "current_gate_source_sha": "82f5965bca9c44919f8f0c22d5b0862e803ff696",
+  "plan": {
+    "protocol": "nk-h11-preregistration/1",
+    "plan_id": "H11-001-c5-lab-canon-separation-v1",
+    "path": "docs/research/H11_PREREGISTRATION.json",
+    "authoritative_merge": "4a75ff15542013c033030620bdff61997e365140",
+    "sha256": "60da649e675b79b3e70bf8a61cf03cb4d57bb989f4934b65ab8d50c925b19914"
+  },
+  "subject": {
+    "role": "BOUNDED_REFERENCE_LABORATORY",
+    "bundle_id": "native-kernel/c5/2026-08-08-adr0023",
+    "manifest_path": "evidence/c5/2026-08-08-adr0023/manifest.json"
+  },
+  "schemas": {
+    "dependency_graph": "docs/research/H11_DEPENDENCY_GRAPH_SCHEMA.json",
+    "raw_observations": "docs/research/H11_RAW_OBSERVATION_SCHEMA.json",
+    "semantic_adjudication": "docs/research/H11_SEMANTIC_ADJUDICATION_SCHEMA.json",
+    "reviewer_reproducer_qualification": "docs/research/H11_REVIEWER_REPRODUCER_QUALIFICATION_SCHEMA.json"
+  },
+  "reviewer_reproducer": {
+    "qualification_record": "docs/research/H11_REVIEWER_REPRODUCER_QUALIFICATION.json",
+    "required_before_execution": true,
+    "qualification_result": "NOT_ESTABLISHED",
+    "required_oracle_class": "INDEPENDENT_SEMANTIC_ORACLE",
+    "non_qualifying_substitutes": [
+      "SELF_REVIEW",
+      "REPOSITORY_OWNER_REVIEW",
+      "CI_SUCCESS",
+      "CODEX_BOT_NOTICE",
+      "AUTOMATED_VALIDATOR",
+      "LLM_SELF_CRITIQUE",
+      "SAME_AGENT_RENAMED"
+    ]
+  },
+  "admission": {
+    "result": "BLOCKED",
+    "blocker": "BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER"
+  },
+  "frozen_controls": {
+    "raw_observation_semantic_adjudication_separation_required": true,
+    "leakage_classes": [
+      "LAB_ONLY",
+      "PROFILE_SPECIFIC",
+      "MEANING_LEVEL_JUSTIFIED",
+      "UNJUSTIFIED_CANON_DEPENDENCY"
+    ],
+    "hard_failure_class": "UNJUSTIFIED_CANON_DEPENDENCY",
+    "support_threshold": "mandatory_profile_leakage_count == 0 and all Architecture obligations remain testable/falsifiable without current profile bytes as mandatory semantic-oracle input.",
+    "hard_refutation": "Within this preregistered scope, a necessary accepted Architecture obligation cannot remain reproducible/testable unless a profile-specific C5 laboratory mechanism is elevated into universal Architecture solely because historical C5 evidence reproduction depends on that mechanism.",
+    "post_hoc_rubric_mutation": "FORBIDDEN",
+    "historical_evidence_rewrite": "FORBIDDEN",
+    "private_implementation_state_as_required_semantic_oracle_input": "FORBIDDEN"
+  },
+  "mandatory_profile_mechanisms": [
+    "Python 3.11/3.12",
+    "PostgreSQL 16/18",
+    "SQLite 3.51.3",
+    "SQL schema/transactions/locking",
+    "JSON serialization",
+    "ZIP archive representation",
+    "SHA-256 digest verification",
+    "current Event vocabulary/envelope",
+    "reducer v1",
+    "Receipt encoding",
+    "integer sequence/order mechanisms",
+    "current P4/P5/C3/C4/C5 report schemas"
+  ],
+  "allowed_a10_outcomes": [
+    "SUPPORTED_FOR_SCOPE",
+    "WEAKENED",
+    "REFUTED",
+    "INDETERMINATE",
+    "NOT_TESTED"
+  ],
+  "implementation_authorized": false,
+  "execution_authorized": false,
+  "dependency_graph_execution_authorized": false,
+  "semantic_adjudication_authorized": false,
+  "h11_outcome": "NOT_TESTED",
+  "runtime_expansion": "FROZEN",
+  "product_runtime_thaw": false,
+  "final_canon": "DEFERRED / NOT_AUTHORIZED",
+  "production_authorized": false,
+  "separate_post_merge_state_checkpoint_required": true
+}

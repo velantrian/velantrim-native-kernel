@@ -1,0 +1,22 @@
+{
+  "protocol": "nk-h11-reviewer-reproducer-qualification/1",
+  "experiment_id": "H11-001",
+  "source_plan_id": "H11-001-c5-lab-canon-separation-v1",
+  "source_plan_sha256": "60da649e675b79b3e70bf8a61cf03cb4d57bb989f4934b65ab8d50c925b19914",
+  "reviewer_identity_status": "NOT_ESTABLISHED",
+  "reviewer_identity": null,
+  "reviewer_role": "NOT_ESTABLISHED",
+  "authorship_relation": "UNKNOWN",
+  "custody_relation": "UNKNOWN",
+  "conflicts": [
+    "NOT_ASSESSABLE_WITHOUT_ESTABLISHED_REVIEWER_IDENTITY"
+  ],
+  "repository_visibility": "NO_QUALIFYING_EVIDENCE_VISIBLE",
+  "private_implementation_state_used": false,
+  "independence_basis": [],
+  "evidence_references": [
+    "docs/research/H11_PREREGISTRATION.json#reviewer_reproducer_independence_basis",
+    "project-state.json#tracks.long_horizon_research.post_blueprint_validation.residual_a10_validation_plan.h11_preregistration"
+  ],
+  "qualification_result": "NOT_ESTABLISHED"
+}
