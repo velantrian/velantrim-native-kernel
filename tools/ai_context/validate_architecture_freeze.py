@@ -49,7 +49,10 @@ def _validate_post_decision(state: Mapping[str, Any]) -> None:
     _require(research.get("status") == POST_RESEARCH_STATUS, "post-ADR-0027 research status drift")
     ref = research["architecture_refoundation"]
     _require(ref.get("status") == POST_REFOUNDATION_STATUS, "post-ADR-0027 architecture status drift")
-    _require(ref.get("next_content_slice") == POST_DECISION_GATE, "post-ADR-0027 next gate drift")
+    _require(
+        ref.get("next_content_slice") == POST_DECISION_GATE,
+        "next architecture validation gate drift; post-ADR-0027 next gate drift",
+    )
     _require(ref.get("runtime_expansion_frozen") is True, "ADR-0027 must preserve runtime freeze")
     validation = research["post_blueprint_validation"]
     _require(validation.get("status") == POST_DECISION_STATUS, "post-ADR-0027 validation status drift")
@@ -73,6 +76,27 @@ def _validate_post_decision(state: Mapping[str, Any]) -> None:
     _require(decision.get("residual_validation_targets") == RESIDUAL, "residual A10 target inventory drift")
     _require(state["status"]["production_authorized"] is False, "production must remain unauthorized")
     _require(state["notion"]["synchronization_required"] is True, "operator-decision Notion sync must remain pending before read-back")
+
+    issue = state.get("issues", {}).get("88")
+    _require(isinstance(issue, Mapping), "Issue #88 snapshot required")
+    _require(issue.get("state") == "OPEN", "Issue #88 must remain open through validation")
+    meaning = str(issue.get("meaning", ""))
+    _require(
+        "ADR-0027 / OD-POST-D8-001" in meaning and POST_DECISION_MERGE in meaning,
+        "Option D selection / post-D8 operator decision binding drift",
+    )
+    _require(POST_DECISION_GATE in meaning, "Issue #88 current gate drift")
+    _require("Final Canon is deferred" in meaning, "Issue #88 Final Canon boundary drift")
+    _require("runtime remains frozen" in meaning.lower(), "Issue #88 runtime freeze drift")
+    _require("experiment execution is not authorized" in meaning, "Issue #88 experiment-execution boundary drift")
+    verification = issue.get("verification")
+    _require(isinstance(verification, Mapping), "Issue #88 verification required")
+    _require(
+        verification.get("status") == "VERIFIED"
+        and verification.get("method") == "GITHUB_API"
+        and verification.get("source") == "issue/88",
+        "Issue #88 verification drift",
+    )
 
 
 def validate(state: Mapping[str, Any], *, repo: Path) -> None:
