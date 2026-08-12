@@ -1,3 +1,7 @@
+<!-- POST_D8_OPERATOR_DECISION_CURRENT -->
+> [!IMPORTANT]
+> **Текущее решение оператора после D8 — 2026-08-12.** ADR-0027 / `OD-POST-D8-001` имеет статус `ACCEPTED / OPERATOR APPROVED`, merge `57993f39906ae7266011f6146c9a485d0587d2bf`. A1–A10 остаётся `STRENGTHENED_FOR_BPV1_SCOPE / STILL_PROVISIONAL`; Final Canon **отложен**, product runtime остаётся `FROZEN`, production — `false`. Единственный текущий gate — `RESIDUAL_A10_VALIDATION_PLAN` для A10-H03, A10-H06, A10-H08, A10-H09, A10-H10, A10-H11; это только **RESEARCH_PLANNING_ONLY**, выполнение нового residual experiment не разрешено. Нижние `D6 NEXT`, `D8 IN_PROGRESS` и `OPERATOR_CANON_RUNTIME_DECISION_REQUIRED` — историческая хронология.
+
 # 🧬 Velantrim Native Kernel
 
 **[English](./README.md) · [Русский](./README.ru.md)**
