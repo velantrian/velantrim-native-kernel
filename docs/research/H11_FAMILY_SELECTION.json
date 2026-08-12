@@ -1,0 +1,73 @@
+{
+  "protocol": "nk-residual-family-selection/1",
+  "selection_id": "RFS-001-a10-h11-preregistration-selection-v1",
+  "state": "CANDIDATE_SELECTION / PREREGISTRATION_NOT_YET_AUTHORIZED",
+  "source_checkpoint_sha": "eeddda7382558f939f9bddb19ab80dd8dfbdbee4",
+  "source_plan": {
+    "protocol": "nk-residual-a10-validation-plan/1",
+    "plan_id": "RAVP-001-residual-a10-validation-plan-v1",
+    "merge_sha": "edc0501d71a827462aafd1ac4497920a719a4519"
+  },
+  "selection_scope": "PREREGISTRATION_SELECTION_ONLY",
+  "selected_hypothesis": "A10-H11",
+  "selected_family_id": "RAVP-H11-LAB-CANON-SEPARATION",
+  "selected_hypothesis_text": "Laboratory mechanisms can remain reproducible without becoming Architecture Canon.",
+  "selection_basis": {
+    "recommended_order_position": 1,
+    "plan_reason": "Lowest execution burden and protects all later families from profile-to-Canon leakage.",
+    "bounded_rationale": "H11 is selected first because it directly protects the architecture/reference-laboratory boundary before later residual families rely on additional profile or substrate mechanisms. This is a preregistration-selection decision only, not an A10 outcome change."
+  },
+  "h11_boundary": {
+    "definition": "LABORATORY_MECHANISMS_REPRODUCIBLE_WITHOUT_BECOMING_ARCHITECTURE_CANON",
+    "composition_federation_is_h11": false,
+    "testable_question": "Can exact reproduction of accepted laboratory evidence depend on profile-specific Python/SQL/JSON/hash/Event/reducer details while the Architecture specification and conformance oracle remain meaning-level and do not mandate those mechanisms universally?",
+    "required_independence_axis": [
+      "INDEPENDENT_SEMANTIC_ORACLE"
+    ],
+    "strengthening_independence_axis": [
+      "INDEPENDENT_TEAM",
+      "INDEPENDENT_CUSTODY",
+      "INDEPENDENT_IMPLEMENTATION_STRUCTURE"
+    ]
+  },
+  "preregistration_required_fields": [
+    "experiment_identity",
+    "historical_laboratory_checkpoint_and_evidence_identity",
+    "exact_laboratory_reproduction_manifest",
+    "architecture_obligation_inventory",
+    "mechanism_dependency_graph",
+    "frozen_mechanism_leakage_rubric",
+    "externally_visible_observables",
+    "equivalence_predicate",
+    "allowed_losses",
+    "failure_conditions",
+    "hard_refutation",
+    "grounding_mode",
+    "threat_trust_model",
+    "semantic_oracle_authority",
+    "reviewer_reproducer_independence_basis",
+    "reproduction_requirements",
+    "allowed_a10_outcome_vocabulary"
+  ],
+  "next_gate_if_accepted": "A10_H11_FAMILY_PREREGISTRATION",
+  "preregistration_authorized_by_this_package": false,
+  "experiment_implementation_authorized": false,
+  "experiment_execution_authorized": false,
+  "runtime_expansion": "FROZEN",
+  "product_runtime_thaw": false,
+  "final_canon": "DEFERRED / NOT_AUTHORIZED",
+  "production_authorized": false,
+  "explicit_non_targets": [
+    "A10-H03/H06/H08/H09/H10 preregistration",
+    "D7-F08 composition/federation conformance",
+    "A10-H11 empirical adjudication",
+    "experiment implementation or execution",
+    "Final Canon promotion",
+    "runtime expansion or product runtime integration",
+    "Issue #18 license/publication decision",
+    "Issue #74 / ADR-0024 reducer-v2 decision",
+    "Track H recovered-source admission",
+    "production authorization"
+  ],
+  "acceptance_effect": "If this candidate selection is merged and later bound into current truth, A10-H11 becomes the sole family admitted to the separate preregistration gate. The selection package itself does not preregister H11 and cannot authorize implementation or execution."
+}
