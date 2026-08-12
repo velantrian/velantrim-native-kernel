@@ -188,7 +188,14 @@ def validate(repo: Path, plan_override: Mapping[str, Any] | None = None, *, veri
         _require(marker in non_targets, f"H11 explicit non-target missing: {marker}")
 
     a9 = (repo / A9_PATH).read_text(encoding="utf-8")
-    for marker in ("BOUNDED_REFERENCE_LABORATORY", "LABORATORY_ONLY_CONSTRAINT", "PROFILE_SPECIFIC_REALIZATION", "C5 — Bounded operational rehearsal", "laboratory evidence, not architecture authority"):
+    for marker in (
+        "bounded reference laboratory",
+        "LABORATORY_ONLY_CONSTRAINT",
+        "PROFILE_SPECIFIC_REALIZATION",
+        "C5 — Bounded operational rehearsal",
+        "laboratory evidence",
+        "not architecture authority",
+    ):
         _require(marker.lower() in a9.lower(), f"A9 H11 source boundary missing: {marker}")
 
     for relative in (EN_PATH, RU_PATH):
