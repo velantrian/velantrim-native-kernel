@@ -1,0 +1,248 @@
+{
+  "protocol": "nk-h11-preregistration/1",
+  "plan_id": "H11-001-c5-lab-canon-separation-v1",
+  "state": "PREREGISTERED / EXECUTION_NOT_AUTHORIZED",
+  "target_hypothesis": "A10-H11",
+  "target_family_id": "RAVP-H11-LAB-CANON-SEPARATION",
+  "hypothesis": "Laboratory mechanisms can remain reproducible without becoming Architecture Canon.",
+  "selection_authority": {
+    "protocol": "nk-residual-family-selection/1",
+    "selection_id": "RFS-001-a10-h11-preregistration-selection-v1",
+    "selection_pr": 126,
+    "selection_merge_sha": "bcd3b3f6c9d898315c93e5d24b5d0e02c95508cc"
+  },
+  "source_residual_plan": {
+    "protocol": "nk-residual-a10-validation-plan/1",
+    "plan_id": "RAVP-001-residual-a10-validation-plan-v1",
+    "merge_sha": "edc0501d71a827462aafd1ac4497920a719a4519"
+  },
+  "architecture_snapshot_sha": "bcd3b3f6c9d898315c93e5d24b5d0e02c95508cc",
+  "architecture_position": "STRENGTHENED_FOR_BPV1_SCOPE / STILL_PROVISIONAL",
+  "experiment_identity": "H11-001",
+  "purpose_scope": "Test only whether exact reproduction requirements of one accepted bounded laboratory evidence package can remain explicitly profile-specific while the provisional Architecture obligation surface and H11 semantic oracle remain meaning-level and do not elevate those mechanisms into universal Canon.",
+  "historical_laboratory_checkpoint_and_evidence_identity": {
+    "laboratory_role": "BOUNDED_REFERENCE_LABORATORY",
+    "architecture_boundary_model": "nk-reference-laboratory-boundary/A9-draft-1",
+    "evidence_bundle_protocol": "nk-evidence-bundle/1",
+    "evidence_bundle_id": "native-kernel/c5/2026-08-08-adr0023",
+    "evidence_manifest_path": "evidence/c5/2026-08-08-adr0023/manifest.json",
+    "evidence_purpose": "ADR_0023_SQLITE_INTEGRITY_REVALIDATION",
+    "plan_id": "native-kernel/c5-bounded-rehearsal-v1",
+    "plan_scenario_count": 18,
+    "checkpoint_count": 2,
+    "artifact_count": 8,
+    "checkpoint_roles": [
+      {
+        "role": "remediation_pr_head",
+        "head_sha": "ab7a203ce7ed8ec46c341bc4da9063d56f023338",
+        "c5_workflow_run_id": 31251376574,
+        "p5_c3_workflow_run_id": 31251376567,
+        "c4_workflow_run_id": 31251376572
+      },
+      {
+        "role": "remediation_final_main",
+        "head_sha": "675aa4b398a2fc0181dc71d38904a2d33a09f5f8",
+        "c5_workflow_run_id": 31251526982,
+        "p5_c3_workflow_run_id": 31251526992,
+        "c4_workflow_run_id": 31251526965
+      }
+    ],
+    "exact_bundle_verifier": "tools/evidence/verify_bundle.py",
+    "historical_bundle_preserved": true,
+    "historical_bundle_rewrite_allowed": false
+  },
+  "exact_laboratory_reproduction_manifest": {
+    "manifest_path": "evidence/c5/2026-08-08-adr0023/manifest.json",
+    "verification_command_contract": "python tools/evidence/verify_bundle.py evidence/c5/2026-08-08-adr0023/manifest.json --repo .",
+    "required_bundle_id": "native-kernel/c5/2026-08-08-adr0023",
+    "required_protocol": "nk-evidence-bundle/1",
+    "required_sqlite_floor": "3.51.3",
+    "required_checkpoint_count": 2,
+    "required_artifact_count": 8,
+    "required_report_files_per_artifact": 6,
+    "required_scenarios_per_c5_report": 18,
+    "required_c5_status": "PASS",
+    "exactness_scope": "Repository-resident evidence manifest, ZIP bytes, file inventories, sizes, SHA-256 digests, environment snapshots, metrics, checkpoint identities, and preserved historical-bundle relation are exact laboratory reproduction requirements only.",
+    "architecture_authority_from_exactness": false
+  },
+  "architecture_obligation_inventory": [
+    {
+      "obligation_id": "H11-O01",
+      "obligation": "Laboratory evidence and profile mechanisms must remain distinguishable from Architecture authority.",
+      "source": "A9 classification vocabulary and boundary"
+    },
+    {
+      "obligation_id": "H11-O02",
+      "obligation": "A semantic obligation may survive different realization mechanisms; current mechanism identity is not automatically universal meaning.",
+      "source": "A8 substrate-independence boundary"
+    },
+    {
+      "obligation_id": "H11-O03",
+      "obligation": "Historical evidence identity must remain reproducible without retroactively rewriting Architecture history or changing its claimed scope.",
+      "source": "RAVP-H11 reproduction boundary"
+    },
+    {
+      "obligation_id": "H11-O04",
+      "obligation": "Architecture-level falsification or conformance criteria must be expressible at meaning level without requiring current profile bytes solely because historical laboratory reproduction requires them.",
+      "source": "RAVP-H11 semantic-oracle boundary"
+    }
+  ],
+  "mechanism_dependency_graph_schema": {
+    "node_classes": [
+      "ARCHITECTURE_OBLIGATION",
+      "LABORATORY_EVIDENCE",
+      "PROFILE_MECHANISM",
+      "VALIDATOR_OR_ORACLE"
+    ],
+    "edge_classes": [
+      "MEANING_LEVEL_JUSTIFICATION",
+      "LAB_REPRODUCTION_REQUIRES",
+      "PROFILE_REALIZES",
+      "ARCHITECTURE_REQUIRES",
+      "VALIDATOR_DEPENDS_ON"
+    ],
+    "mandatory_profile_mechanisms_to_audit": [
+      "Python 3.11/3.12",
+      "PostgreSQL 16/18",
+      "SQLite 3.51.3",
+      "SQL schema/transactions/locking",
+      "JSON serialization",
+      "ZIP archive representation",
+      "SHA-256 digest verification",
+      "current Event vocabulary/envelope",
+      "reducer v1",
+      "Receipt encoding",
+      "integer sequence/order mechanisms",
+      "current P4/P5/C3/C4/C5 report schemas"
+    ],
+    "forbidden_unqualified_edge": "ARCHITECTURE_REQUIRES from an Architecture obligation to a concrete profile mechanism when the only justification is historical laboratory reproduction."
+  },
+  "frozen_mechanism_leakage_rubric": {
+    "LAB_ONLY": "Concrete mechanism is mandatory only for exact reproduction of the named historical laboratory artifact and is explicitly non-Canon.",
+    "PROFILE_SPECIFIC": "Concrete mechanism is a valid realization choice for a named implementation profile but is not required by Architecture.",
+    "MEANING_LEVEL_JUSTIFIED": "A requirement is stated independently of a concrete mechanism; one or more mechanisms may realize it.",
+    "UNJUSTIFIED_CANON_DEPENDENCY": "A concrete laboratory/profile mechanism is made mandatory for Architecture solely because the historical laboratory/evidence package depends on it.",
+    "support_threshold": "mandatory_profile_leakage_count == 0 and all Architecture obligations remain testable/falsifiable without current profile bytes as mandatory semantic-oracle input.",
+    "hard_failure_class": "UNJUSTIFIED_CANON_DEPENDENCY"
+  },
+  "externally_visible_observables": [
+    "exact laboratory evidence verification result",
+    "historical evidence identity preservation result",
+    "mechanism dependency graph",
+    "per-edge leakage-rubric classification",
+    "mandatory_profile_leakage_count",
+    "architecture obligation inventory and source references",
+    "mechanism-neutral semantic-oracle/falsifier expressions",
+    "reviewer/reproducer independence qualification",
+    "declared gaps and INDETERMINATE reasons"
+  ],
+  "equivalence_predicate": "The historical C5/ADR-0023 evidence package reproduces exactly under its own versioned laboratory manifest, while every H11 Architecture obligation remains expressible and falsifiable without elevating Python, SQL, JSON, ZIP, SHA-256, Event, reducer, Receipt, current clocks/sequences, current report schemas, or other profile-specific machinery into universal Architecture solely because that exact laboratory reproduction requires it.",
+  "allowed_losses": [
+    "No byte, digest, inventory, checkpoint-identity, environment-snapshot, or metric loss is allowed when verifying the named immutable historical evidence bundle.",
+    "Architecture-level conformance exercises may use different concrete mechanisms when they preserve the declared meaning-level obligation and explicitly declare any permitted loss.",
+    "Profile-specific diagnostic metadata may remain outside Architecture authority."
+  ],
+  "failure_conditions": [
+    "The historical evidence package cannot be verified against its frozen manifest without modifying historical evidence bytes or identities.",
+    "An Architecture obligation is normatively coupled to Python, PostgreSQL, SQLite, SQL, JSON, ZIP, SHA-256, Event, reducer, Receipt, integer sequence, current report schema, or equivalent profile machinery solely because C5 evidence reproduction requires it.",
+    "An Architecture validator or H11 semantic oracle requires current profile bytes/private implementation state where a meaning-level observable would suffice.",
+    "A laboratory-only constraint is silently promoted to substrate-neutral Architecture authority.",
+    "Historical laboratory reproducibility requires rewriting Architecture history or changing the scope of prior evidence.",
+    "The dependency graph omits a known mandatory profile mechanism in a way that hides a Canon dependency."
+  ],
+  "hard_refutation": "Within this preregistered scope, a necessary accepted Architecture obligation cannot remain reproducible/testable unless a profile-specific C5 laboratory mechanism is elevated into universal Architecture solely because historical C5 evidence reproduction depends on that mechanism.",
+  "grounding_mode": "FROZEN_REPOSITORY_EVIDENCE_AND_ARCHITECTURE_SNAPSHOT_PLUS_QUALIFYING_INDEPENDENT_BOUNDARY_REVIEW",
+  "threat_trust_model": [
+    "circular authority: Architecture cites laboratory evidence and laboratory machinery is then treated as Architecture authority",
+    "hidden validator coupling to current bytes, schemas, private state, or implementation-specific helper semantics",
+    "same-author self-certification of absence of mechanism leakage",
+    "selective omission of a concrete dependency from the mechanism graph",
+    "exact-byte laboratory reproducibility conflated with universal semantic conformance",
+    "historical evidence or architecture scope rewritten after observing the audit result",
+    "reviewer/reproducer independence claimed without a concrete basis"
+  ],
+  "semantic_oracle_authority": {
+    "required_class": "INDEPENDENT_SEMANTIC_ORACLE",
+    "oracle": "Frozen H11 mechanism-leakage rubric applied to repository-visible Architecture obligations, dependency edges, and external laboratory verification results.",
+    "must_not_use_as_semantic_truth": [
+      "subject self-PASS",
+      "implementation self-report",
+      "private implementation state",
+      "current profile bytes as an Architecture truth source",
+      "post-hoc changes to this preregistration"
+    ],
+    "architecture_authors_may_self_certify_h11": false
+  },
+  "reviewer_reproducer_independence_basis": {
+    "required_before_execution": true,
+    "minimum_qualifying_basis": [
+      "reviewer/reproducer did not author this H11 preregistration or its frozen leakage rubric",
+      "reviewer/reproducer declares the concrete basis for independence from the Architecture/profile mechanism under adjudication",
+      "semantic adjudication is made from repository-visible frozen inputs rather than implementation-private state",
+      "conflicts, shared custody, shared authorship, or other material dependence are disclosed"
+    ],
+    "current_status": "NOT_ESTABLISHED / MUST_BE_VERIFIED_AT_EXECUTION_ADMISSION",
+    "no_qualifying_reviewer_outcome": "BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER"
+  },
+  "reproduction_requirements": [
+    "checkout/fetch of the frozen repository evidence and Architecture snapshot",
+    "verification of the exact C5/ADR-0023 bundle under tools/evidence/verify_bundle.py",
+    "preservation of both checkpoint identities and all eight repository-resident ZIP artifacts",
+    "explicit Architecture obligation inventory H11-O01..H11-O04",
+    "complete mechanism dependency graph using the frozen schema",
+    "classification of every relevant dependency edge under the frozen leakage rubric",
+    "independent reviewer/reproducer qualification record",
+    "raw laboratory verification output",
+    "raw dependency/leakage findings before semantic adjudication",
+    "separate final H11 adjudication record"
+  ],
+  "allowed_a10_outcome_vocabulary": [
+    "SUPPORTED_FOR_SCOPE",
+    "WEAKENED",
+    "REFUTED",
+    "INDETERMINATE",
+    "NOT_TESTED"
+  ],
+  "adjudication_rules": {
+    "SUPPORTED_FOR_SCOPE": "Exact laboratory bundle verification succeeds; a qualifying independent semantic reviewer/reproducer is established; mandatory_profile_leakage_count is zero; all H11 obligations remain meaning-level/testable without profile-byte promotion; historical evidence and Architecture history remain unchanged.",
+    "WEAKENED": "No hard refutation is observed, but one or more current Architecture statements require narrowing or explicit profile scoping to avoid mechanism capture; the same run cannot rewrite the preregistration or historical evidence to rescue the claim.",
+    "REFUTED": "The preregistered hard_refutation is observed.",
+    "INDETERMINATE": "Evidence, dependency visibility, or qualifying independence is insufficient for semantic adjudication without fabricating certainty.",
+    "NOT_TESTED": "No qualifying execution/adjudication has occurred. This remains the current outcome until a separately admitted execution completes."
+  },
+  "global_fail_closed_rules": {
+    "subject_self_pass": "FORBIDDEN",
+    "implementation_self_report_as_semantic_truth": "FORBIDDEN",
+    "private_implementation_state_as_mandatory_oracle_input": "FORBIDDEN",
+    "post_hoc_normative_rescoping_under_same_experiment_identity": "FORBIDDEN",
+    "historical_evidence_rewrite": "FORBIDDEN",
+    "architecture_history_rewrite_to_rescue_outcome": "FORBIDDEN",
+    "not_tested_is_legitimate": true,
+    "indeterminate_is_legitimate": true
+  },
+  "execution_admission": {
+    "required": true,
+    "next_gate_if_preregistered": "A10_H11_EXECUTION_ADMISSION",
+    "implementation_authorized_by_this_plan": false,
+    "execution_authorized_by_this_plan": false,
+    "requires_frozen_plan_digest": true,
+    "requires_qualifying_independent_reviewer_reproducer": true,
+    "requires_machine_readable_dependency_graph_format_before_execution": true,
+    "requires_raw_observation_semantic_adjudication_separation": true
+  },
+  "runtime_expansion": "FROZEN",
+  "product_runtime_thaw": false,
+  "final_canon": "DEFERRED / NOT_AUTHORIZED",
+  "production_authorized": false,
+  "explicit_non_targets": [
+    "A10-H03/H06/H08/H09/H10 execution or adjudication",
+    "D7-F08 composition/federation conformance",
+    "universal future-substrate portability proof",
+    "new product runtime profile or runtime integration",
+    "Final Canon promotion",
+    "Issue #18 license/publication decision",
+    "Issue #74 / ADR-0024 reducer-v2 decision",
+    "Track H recovered-source admission",
+    "production authorization"
+  ]
+}
