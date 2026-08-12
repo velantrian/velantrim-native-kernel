@@ -39,6 +39,7 @@ QUALIFICATION_ALLOWED = (
     "tools/bpv1/qualify_observations.py",
     "tools/bpv1/audit_scope.py",
     "docs/research/BPV1_D5_R1_QUALIFICATION.md",
+    "docs/research/BPV1_D5_R1_QUALIFICATION.ru.md",
     "project-state.json",
     "STATUS.md",
     "README.md",
