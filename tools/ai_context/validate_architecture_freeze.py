@@ -61,7 +61,10 @@ def _validate_current(state: Mapping[str, Any]) -> None:
     _require(research.get("runtime_authorized") is False, "runtime authority must remain frozen")
     ref = research["architecture_refoundation"]
     _require(ref.get("runtime_expansion_frozen") is True, "runtime expansion must remain frozen")
-    _require(ref.get("next_content_slice") == NEXT_GATE, "post-plan architecture gate drift")
+    _require(
+        ref.get("next_content_slice") == NEXT_GATE,
+        "next architecture validation gate drift; post-plan architecture gate drift",
+    )
     validation = research["post_blueprint_validation"]
     _require(validation.get("product_runtime_thaw") is False, "product runtime thaw must remain false")
     _require(validation.get("automatic_canon_promotion") is False, "automatic Canon promotion must remain false")
@@ -88,6 +91,23 @@ def _validate_current(state: Mapping[str, Any]) -> None:
     _require(decision.get("next_gate") == "RESIDUAL_A10_VALIDATION_PLAN", "historical ADR-0027 gate must remain unchanged")
     _require(decision.get("next_gate_scope") == "RESEARCH_PLANNING_ONLY", "historical ADR-0027 scope must remain unchanged")
     _require(decision.get("experiment_execution_authorized") is False, "ADR-0027 execution boundary drift")
+
+    issue = state.get("issues", {}).get("88")
+    _require(isinstance(issue, Mapping), "Issue #88 snapshot required")
+    _require(issue.get("state") == "OPEN", "Issue #88 must remain open")
+    meaning = str(issue.get("meaning", ""))
+    _require(
+        "RAVP-001" in meaning and NEXT_GATE in meaning,
+        "Option D selection / current Issue #88 gate drift",
+    )
+    verification = issue.get("verification")
+    _require(isinstance(verification, Mapping), "Issue #88 verification required")
+    _require(
+        verification.get("status") == "VERIFIED"
+        and verification.get("method") == "GITHUB_API"
+        and verification.get("source") == "issue/88",
+        "Issue #88 verification drift",
+    )
 
     _require(state["checkpoints"].get("notion_synchronized_through_sha") == RESIDUAL_PLAN_MERGE, "post-plan Notion checkpoint drift")
     _require(state["status"]["production_authorized"] is False, "production must remain unauthorized")
