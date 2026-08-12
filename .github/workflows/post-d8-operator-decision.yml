@@ -1,0 +1,50 @@
+name: Post-D8 operator decision
+
+on:
+  pull_request:
+    paths:
+      - "docs/adr/0027-retain-provisional-architecture-and-runtime-freeze-after-option-d.md"
+      - "docs/research/POST_D8_OPERATOR_DECISION.json"
+      - "docs/research/POST_D8_OPERATOR_DECISION.md"
+      - "docs/research/POST_D8_OPERATOR_DECISION.ru.md"
+      - "tests/test_post_d8_operator_decision.py"
+      - ".github/workflows/post-d8-operator-decision.yml"
+  push:
+    branches: [main]
+    paths:
+      - "docs/adr/0027-retain-provisional-architecture-and-runtime-freeze-after-option-d.md"
+      - "docs/research/POST_D8_OPERATOR_DECISION.json"
+      - "docs/research/POST_D8_OPERATOR_DECISION.md"
+      - "docs/research/POST_D8_OPERATOR_DECISION.ru.md"
+      - "tests/test_post_d8_operator_decision.py"
+      - ".github/workflows/post-d8-operator-decision.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  decision:
+    name: Python ${{ matrix.python-version }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+    steps:
+      - name: Check out exact commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Compile operator-decision guard
+        run: python -m compileall -q tests/test_post_d8_operator_decision.py
+      - name: Validate operator decision against D6-D8 evidence
+        run: python -m unittest tests.test_post_d8_operator_decision -v
+      - name: Preserve post-D8 source checkpoint
+        run: git cat-file -e ad459cd5301756936a26cab0997ba6c77c58191b^{commit}

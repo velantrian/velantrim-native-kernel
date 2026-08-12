@@ -1,0 +1,88 @@
+{
+  "protocol": "nk-post-d8-operator-decision/1",
+  "decision_id": "OD-POST-D8-001",
+  "date": "2026-08-12",
+  "source_checkpoint_sha": "ad459cd5301756936a26cab0997ba6c77c58191b",
+  "decision_status": "ACCEPTED",
+  "operator_approval": "APPROVED",
+  "evidence_level": "REPOSITORY_REPRODUCED",
+  "implementation_status": "COMPLETE",
+  "architecture_position_before_decision": "STRENGTHENED_FOR_BPV1_SCOPE / STILL_PROVISIONAL",
+  "inputs": {
+    "d6": {
+      "path": "docs/research/BPV1_D6_A10_CLASSIFICATION.json",
+      "merge_sha": "030d0a0585bd061b27329a38e29708c11304701a",
+      "supported_for_scope": [
+        "A10-H01",
+        "A10-H02",
+        "A10-H04",
+        "A10-H05",
+        "A10-H07",
+        "A10-H12"
+      ],
+      "not_tested": [
+        "A10-H03",
+        "A10-H06",
+        "A10-H08",
+        "A10-H09",
+        "A10-H10",
+        "A10-H11"
+      ]
+    },
+    "d7": {
+      "path": "docs/research/BPV1_D7_INTEGRATED_REREVIEW.json",
+      "merge_sha": "491ff7b229606d228ca04985b19b146878390e08",
+      "architecture_position": "STRENGTHENED_FOR_BPV1_SCOPE / STILL_PROVISIONAL"
+    },
+    "d8": {
+      "path": "docs/research/BPV1_D8_CONSOLIDATED_SYNC.json",
+      "merge_sha": "9ecb2369edec17a0171b6e965bcb49f9526adf0b",
+      "notion_read_back": "7_OF_7_VERIFIED",
+      "new_notion_pages": 0
+    },
+    "post_d8_machine_truth_merge": "ad459cd5301756936a26cab0997ba6c77c58191b"
+  },
+  "decision": {
+    "final_canon": "DEFERRED / NOT_AUTHORIZED_AT_THIS_CHECKPOINT",
+    "architecture_baseline": "STRENGTHENED_FOR_BPV1_SCOPE / STILL_PROVISIONAL",
+    "product_runtime_thaw": "NOT_AUTHORIZED_AT_THIS_CHECKPOINT",
+    "runtime_expansion": "FROZEN",
+    "production_authorized": false,
+    "p1_c5_role": "BOUNDED_REFERENCE_LABORATORY",
+    "next_gate": "RESIDUAL_A10_VALIDATION_PLAN",
+    "next_gate_scope": "RESEARCH_PLANNING_ONLY",
+    "experiment_execution_authorized": false,
+    "automatic_canon_promotion": false,
+    "automatic_runtime_promotion": false
+  },
+  "residual_validation_targets": [
+    "A10-H03",
+    "A10-H06",
+    "A10-H08",
+    "A10-H09",
+    "A10-H10",
+    "A10-H11"
+  ],
+  "required_next_plan_properties": [
+    "separate named validation targets rather than aggregate portability claims",
+    "predeclared applicability, observables, failure conditions and loss semantics",
+    "explicit independence class for each target",
+    "no product runtime integration",
+    "no reuse of current reference laboratory as semantic oracle",
+    "new experiment identity for every materially different normative scope",
+    "explicit NOT_TESTED or INDETERMINATE when evidence is absent or non-qualifying"
+  ],
+  "non_claims": [
+    "This decision does not make A1-A10 Final Canon.",
+    "This decision does not prove universal substrate independence.",
+    "This decision does not establish independent implementation team, custody or computation-model validation.",
+    "This decision does not authorize BPV-2 or any other experiment execution by itself.",
+    "This decision does not thaw product runtime or authorize production.",
+    "This decision does not decide Issue #18, Issue #74/ADR-0024 or Track H source admission."
+  ],
+  "operator_reserved_boundaries": {
+    "issue_18_license_publication": "UNCHANGED / PENDING_OPERATOR",
+    "issue_74_adr_0024_reducer_v2": "UNCHANGED / PENDING_OPERATOR",
+    "track_h_source_admission": "UNCHANGED / OPERATOR_CONTROLLED"
+  }
+}
