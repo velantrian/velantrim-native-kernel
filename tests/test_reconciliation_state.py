@@ -61,7 +61,7 @@ class ReconciliationStateTests(unittest.TestCase):
             checkpoints["publication_checkpoint_sha"],
         )
         self.assertEqual(
-            module.D8_NOTION_SYNC_SHA,
+            module.ADR0027_TRUTH_SYNC_SHA,
             checkpoints["notion_synchronized_through_sha"],
         )
         self.assertNotEqual(
