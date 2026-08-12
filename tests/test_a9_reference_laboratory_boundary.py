@@ -76,19 +76,28 @@ class A9ReferenceLaboratoryBoundaryTests(unittest.TestCase):
             for literal in ("Issue #18", "Issue #74 / ADR-0024", "ADR-0003", "Track H", "reducer-v2"):
                 self.assertIn(literal, markdown)
 
-    def test_project_state_preserves_a9_after_bpv1_preregistration(self) -> None:
+    def test_project_state_preserves_a9_through_d5_r1_qualification(self) -> None:
         research = self.state["tracks"]["long_horizon_research"]
         refoundation = research["architecture_refoundation"]
         validation = research["post_blueprint_validation"]
         self.assertIn("A9_REFERENCE_LABORATORY_BOUNDARY", refoundation["completed_deliverables"])
         self.assertIn("A10_OPEN_QUESTIONS_AND_FALSIFICATION", refoundation["completed_deliverables"])
-        self.assertEqual("BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION", refoundation["next_content_slice"])
+        self.assertEqual("D6_A10_HYPOTHESIS_CLASSIFICATION", refoundation["next_content_slice"])
         self.assertEqual("ADR-0026", validation["decision"])
         self.assertEqual("QUALIFYING_REVIEW_COMPLETE", validation["independent_review_status"])
-        self.assertEqual("AUTHORIZED / REVIEW_COMPLETE / RECONCILIATION_COMPLETE / BPV1_PLAN_PREREGISTERED / EXECUTION_ADMITTED_FOR_EXPERIMENT_ONLY", validation["status"])
+        self.assertEqual(
+            "AUTHORIZED / REVIEW_COMPLETE / RECONCILIATION_COMPLETE / BPV1_PLAN_PREREGISTERED / EXECUTION_ADMITTED_FOR_EXPERIMENT_ONLY / D5_COMPLETE / D5_R1_QUALIFIED",
+            validation["status"],
+        )
         self.assertEqual("ADMITTED_FOR_EXPERIMENT_ONLY", validation["bpv1_status"])
         self.assertEqual("BPV1-001-cross-lineage-bounded-accountability-v1", validation["bpv1_plan"]["plan_id"])
         self.assertFalse(validation["bpv1_plan"]["execution_authorized"])
+        result = validation["bpv1_execution_result"]
+        self.assertEqual("COMPLETE", result["status"])
+        self.assertEqual("QUALIFIED", result["qualification_status"])
+        self.assertEqual("SUPPORTED_FOR_SCOPE", result["oracle_outcome"])
+        self.assertEqual("D6_A10_HYPOTHESIS_CLASSIFICATION", result["next_gate"])
+        self.assertEqual("NOT_STARTED", result["d6_status"])
         self.assertTrue(refoundation["runtime_expansion_frozen"])
         self.assertEqual("BOUNDED_REFERENCE_LABORATORY", self.state["tracks"]["clean_implementation"]["architecture_role"])
         self.assertFalse(self.state["status"]["production_authorized"])

@@ -68,9 +68,9 @@ class ArchitectureFreezeTests(unittest.TestCase):
         with self.assertRaisesRegex(module.ArchitectureFreezeError, "completed blueprint deliverable inventory drift"):
             self.validate(state)
 
-    def test_current_next_content_slice_is_bpv1_subject_implementation_and_execution(self) -> None:
+    def test_current_next_content_slice_is_d6(self) -> None:
         state = copy.deepcopy(self.state)
-        state["tracks"]["long_horizon_research"]["architecture_refoundation"]["next_content_slice"] = "BPV1_PLAN_AND_PREREGISTRATION"
+        state["tracks"]["long_horizon_research"]["architecture_refoundation"]["next_content_slice"] = "BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION"
         with self.assertRaisesRegex(module.ArchitectureFreezeError, "next architecture validation gate drift"):
             self.validate(state)
 
@@ -134,10 +134,31 @@ class ArchitectureFreezeTests(unittest.TestCase):
         with self.assertRaisesRegex(module.ArchitectureFreezeError, "independent review completion drift"):
             self.validate(state)
 
-    def test_bpv1_execution_cannot_drift_beyond_admitted_scope(self) -> None:
+    def test_bpv1_execution_authorization_cannot_drift_beyond_admitted_scope(self) -> None:
         state = copy.deepcopy(self.state)
         state["tracks"]["long_horizon_research"]["post_blueprint_validation"]["bpv1_status"] = "AUTHORIZED"
-        with self.assertRaisesRegex(module.ArchitectureFreezeError, "must remain admitted for the bounded experiment only"):
+        with self.assertRaisesRegex(module.ArchitectureFreezeError, "must remain experiment-only"):
+            self.validate(state)
+
+    def test_d5_r1_result_cannot_be_promoted_to_universal(self) -> None:
+        state = copy.deepcopy(self.state)
+        result = state["tracks"]["long_horizon_research"]["post_blueprint_validation"]["bpv1_execution_result"]
+        result["oracle_outcome"] = "UNIVERSALLY_SUPPORTED"
+        with self.assertRaisesRegex(module.ArchitectureFreezeError, "qualified oracle outcome drift"):
+            self.validate(state)
+
+    def test_d6_cannot_be_marked_started_in_d5_r1_checkpoint(self) -> None:
+        state = copy.deepcopy(self.state)
+        result = state["tracks"]["long_horizon_research"]["post_blueprint_validation"]["bpv1_execution_result"]
+        result["d6_status"] = "IN_PROGRESS"
+        with self.assertRaisesRegex(module.ArchitectureFreezeError, "D6 must remain not started"):
+            self.validate(state)
+
+    def test_hr10_self_report_path_cannot_reappear(self) -> None:
+        state = copy.deepcopy(self.state)
+        result = state["tracks"]["long_horizon_research"]["post_blueprint_validation"]["bpv1_execution_result"]
+        result["hr10_self_report_path"] = "SUBJECT_SELF_REPORT"
+        with self.assertRaisesRegex(module.ArchitectureFreezeError, "HR10 qualification drift"):
             self.validate(state)
 
     def test_plan_binding_cannot_authorize_execution(self) -> None:
@@ -187,6 +208,20 @@ class ArchitectureFreezeTests(unittest.TestCase):
         finally:
             module._load_json_record = original
 
+    def test_independence_basis_cannot_be_empty_or_generic(self) -> None:
+        original = module._load_json_record
+        def fake_load(path: Path, label: str):
+            value = original(path, label)
+            if label == "IAR-1 result":
+                value["reviewer"]["independence_basis"] = "x" * 120
+            return value
+        module._load_json_record = fake_load
+        try:
+            with self.assertRaisesRegex(module.ArchitectureFreezeError, "independence basis missing evidence marker"):
+                self.validate()
+        finally:
+            module._load_json_record = original
+
     def test_independence_basis_cannot_be_empty(self) -> None:
         original = module._load_json_record
         def fake_load(path: Path, label: str):
@@ -197,20 +232,6 @@ class ArchitectureFreezeTests(unittest.TestCase):
         module._load_json_record = fake_load
         try:
             with self.assertRaisesRegex(module.ArchitectureFreezeError, "substantive independence basis required"):
-                self.validate()
-        finally:
-            module._load_json_record = original
-
-    def test_independence_basis_requires_concrete_separation_markers(self) -> None:
-        original = module._load_json_record
-        def fake_load(path: Path, label: str):
-            value = original(path, label)
-            if label == "IAR-1 result":
-                value["reviewer"]["independence_basis"] = "x" * 120
-            return value
-        module._load_json_record = fake_load
-        try:
-            with self.assertRaisesRegex(module.ArchitectureFreezeError, "independence basis missing evidence marker"):
                 self.validate()
         finally:
             module._load_json_record = original

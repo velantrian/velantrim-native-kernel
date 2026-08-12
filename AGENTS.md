@@ -16,9 +16,9 @@ Before searching code, creating a branch, or proposing architecture changes, rea
 10. `docs/reviews/IAR-1_RESULT.md` and `docs/reviews/IAR-1_RESULT.json`
 11. `docs/reviews/IAR-1_RECONCILIATION.md` and `docs/reviews/IAR-1_RECONCILIATION.json`
 12. `docs/research/BPV1_PREREGISTRATION.md` and `docs/research/BPV1_PREREGISTRATION.json`
-13. affected Canon, contracts, and ADRs
-14. affected source, tests, workflows, and evidence records
-15. current GitHub PRs, issues, Actions, and review threads
+13. `docs/research/BPV1_D5_R1_QUALIFICATION.md`
+14. affected Canon, contracts, ADRs, source, tests, workflows and evidence records
+15. current GitHub PRs, issues, Actions and review threads
 16. corresponding Notion current-state pages
 
 Do not begin with random repository search. Verify live state first.
@@ -27,13 +27,14 @@ Do not begin with random repository search. Verify live state first.
 
 ```text
 RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY
-clean_runtime_support:       PARTIAL
+clean_runtime_support:      PARTIAL
 kernel_runtime_conformance: C4
 operational_validation:     C5_BOUNDED_REHEARSAL
 production_authorized:      false
 
 assertions: 45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED / 0 FAILED
 NK-EPI:    0 SUPPORTED / 0 PARTIAL / 8 UNSUPPORTED / 0 FAILED
+runtime expansion: FROZEN
 ```
 
 Machine-readable truth uses `project-state.json` protocol `nk-project-state/2`. Live HEAD must be resolved through Git or GitHub; committed checkpoint metadata does not attempt to contain its own future merge SHA.
@@ -50,7 +51,7 @@ C — Clean Reference Implementation
   PRESERVED / PARTIAL / bounded reference laboratory
 
 R — Architecture Re-foundation and Post-Blueprint Validation
-  ACTIVE / IAR-1-RECONCILED / BPV1-PREREGISTERED / EXECUTION-ADMISSION-NEXT
+  ACTIVE / IAR-1-RECONCILED / BPV1 D5 COMPLETE / D5-R1 QUALIFIED / D6 NEXT
 ```
 
 Never collapse these tracks.
@@ -64,7 +65,7 @@ reference laboratory ≠ final architecture
 
 ## Active operator-approved priority
 
-ADR-0025 established **Architecture Re-foundation / Blueprint-first**. A1–A10 and the first integrated review remain provisional architecture work.
+ADR-0025 established **Architecture Re-foundation / Blueprint-first**. A1–A10 and the integrated review remain provisional architecture work.
 
 ADR-0026 records the operator-selected post-blueprint **Option D**:
 
@@ -73,94 +74,99 @@ A1-A10 provisional blueprint
 → independent architecture review            COMPLETE / IAR-1 / QUALIFYING
 → review finding reconciliation              COMPLETE / IAR-1-R1
 → BPV1 plan and preregistration              COMPLETE / PR #110
-→ BPV1 execution admission                   COMPLETE / PR #112
-→ BPV1-001 subject implementation/execution  NEXT
-→ one bounded cross-lineage falsification instrument (BPV-1)
-→ A10 outcome classification
-→ integrated re-review
+→ BPV1 execution admission                   COMPLETE / PR #112 + #113
+→ BPV1-001 subject implementation/execution  COMPLETE / PR #114
+→ D5-R1 evidence qualification               COMPLETE / PR #115 / QUALIFIED
+→ A10 hypothesis classification              NEXT / D6 / NOT STARTED
+→ integrated re-review                       D7
+→ consolidated authoritative sync            D8
 → separate later operator Canon/runtime decision
 ```
 
-The active gate is `BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION`. `BPV1_EXECUTION_ADMISSION` is `COMPLETE` (package merge `6027eec73f11c4626be5553de7e79f827be2c81d`).
+The active gate is `D6_A10_HYPOTHESIS_CLASSIFICATION`.
 
 ```text
 qualifying independent review ≠ architecture proof
-review reconciliation ≠ BPV-1 execution authorization
-preregistered plan ≠ BPV-1 execution authorization
 operator approval ≠ independent validation
+SUPPORTED_FOR_SCOPE ≠ universal portability proof
+D5 result ≠ D6 hypothesis classification
 BPV-1 ≠ product runtime
 BPV-1 outcome ≠ automatic Canon promotion
 ```
 
 IAR-1 is `QUALIFYING_REVIEW_COMPLETE`. IAR-1-R1 reconciliation is `COMPLETE`. All ten review findings have explicit reconciliation records; source review evidence remains preserved.
 
-BPV-1 plan `BPV1-001-cross-lineage-bounded-accountability-v1` is `PREREGISTERED / EXECUTION_NOT_AUTHORIZED` at authoritative plan merge `a538d7f1e28858a88b9ee777ac7d6e05b85943db`. BPV-1 execution is `ADMITTED_FOR_EXPERIMENT_ONLY`, bounded strictly to BPV1-001 subject implementation/execution (execution-admission package merge `6027eec73f11c4626be5553de7e79f827be2c81d`); product runtime integration is not authorized.
+BPV-1 plan `BPV1-001-cross-lineage-bounded-accountability-v1` remains bound to authoritative plan merge `a538d7f1e28858a88b9ee777ac7d6e05b85943db` and frozen digest `7fe8174c604678c6b79d3fdeae83d7c5ab0d2fb15bfe343d41659d05d9496ad0`.
+
+Execution admission remains a separate authorization lane: `ADMITTED_FOR_EXPERIMENT_ONLY`, bounded strictly to BPV1-001 subject implementation/execution. Product runtime integration is not authorized.
+
+D5 historical execution merged via PR #114 at `a191e9c868c14af34a269dcdfae44406f1013bda`. D5-R1 qualification merged via PR #115 at `3856740570620fb2243e2f0da76359281ec4068f` and records:
+
+```text
+external qualification: QUALIFIED
+frozen evaluator: SUPPORTED_FOR_SCOPE
+mandatory fixtures: 12 / 12 PASS
+mutations: 512
+checkpoints: 128 / 256 / 512
+D6: NOT_STARTED
+```
 
 ### Allowed during the freeze
 
-- architecture and ontology research;
-- BPV1-001 subject implementation/execution, now admitted;
-- integrity, security, reproducibility, and provenance fixes;
+- D6 A10 hypothesis classification;
+- D7 integrated re-review;
+- D8 authoritative GitHub↔Notion synchronization;
+- architecture and ontology research that does not mutate frozen experiment authority;
+- integrity, security, reproducibility, provenance and truth-surface fixes;
 - evidence preservation;
-- validator and truth-surface repairs;
 - historical recovery.
 
 ### Not authorized during the freeze
 
-- BPV-1 subject implementation/execution outside BPV1-001's admitted scope;
 - product runtime integration of the BPV1-001 subject;
-- changes to preregistered normative fields under the same scenario identity;
+- changes to preregistered normative fields, fixture expected outcomes, thresholds, scenario identity or HR01-HR10 under the same experiment identity;
 - product runtime thaw;
 - reducer v2 or new Event semantics;
-- new product databases, language/runtime profiles, LLM/vector adapters, or ecosystem integrations;
-- executable NK-EPI, Temporal, full Admission, or operational deletion;
+- new product databases, language/runtime profiles, LLM/vector adapters or ecosystem integrations;
+- executable NK-EPI, Temporal, full Admission or operational deletion;
 - performance-driven semantic changes;
 - Final Canon promotion;
 - maturity or production promotion.
 
 Rust in BPV-1 is an experimental cross-language instrument only. It is not a product profile and not a Canon requirement. Independent team/custody and independent computation model remain `NOT_ESTABLISHED` for BPV1-001.
 
-## Independent-review, reconciliation, and preregistration discipline
+## D5-R1 qualification discipline
 
-IAR-1 followed `nk-independent-architecture-review/1` and recorded a concrete independence basis. The qualifying review produced 10 findings: 7 `BLOCKING` and 3 `MATERIAL`. `IAR-1-R1` reconciles all ten without rewriting the original review evidence.
+PR #115 corrected three evidence-quality weaknesses without rewriting PR #114 history:
 
-Do not reinterpret a resolved GitHub thread as deletion of the source finding. `docs/reviews/IAR-1_RESULT.json` preserves the review-local source status; `docs/reviews/IAR-1_RECONCILIATION.json` records the later disposition.
+1. the Rust subject now emits raw facts instead of structural oracle-facing PASS booleans;
+2. an external qualifier derives implementation-neutral observations without reading frozen fixture expectations or private runtime state; if a required fact cannot be established, it is omitted so the unchanged evaluator can become `INDETERMINATE`;
+3. semantic corruption coverage includes evidence and epistemic position, and retained loss-witness storage is internally bounded with bounded rollup.
 
-Do not self-certify future independent gates. The current assistant lineage, integrated review, CI, tests, Notion read-back, operator approval, or automated review alone do not prove the architecture correct.
+The historical D5 evidence remains immutable; D5-R1 has a separate repository evidence identity under `experiments/bpv1/BPV1-001/results/d5-r1/`.
 
-The central IAR-1 result is that changing implementation language is insufficient if the experiment merely ports the existing conceptual structure. BPV1-001 therefore requires an independently derived bounded state/change/history realization and forbids reuse of the current Python domain model, Event envelope, reducer, or Receipt shape as its semantic oracle.
+The specific HR10 subject-self-report adjudication path is removed for this evidence path. Do **not** reinterpret that as independent-team, independent-custody or independent-computation-model validation.
 
-The preregistered plan freezes before execution exactly:
+## D6 discipline
+
+D6 must classify the preregistered target hypotheses using the frozen plan plus authoritative qualified D5 evidence. Allowed A10 outcomes are exactly:
 
 ```text
-scenario_id
-purpose_scope
-mandatory_obligations
-applicability_rules
-mandatory_observables
-equivalence_predicates
-allowed_declared_losses
-failure_thresholds
-hard_refutation_observations
-grounding_mode
-threat_model
-oracle_authority
+SUPPORTED_FOR_SCOPE
+WEAKENED
+REFUTED
+INDETERMINATE
+NOT_TESTED
 ```
 
-Post-execution normative rescoping cannot rescue an old run; it invalidates the run for the claimed scope and requires a new scenario identity.
+Do not assign `SUPPORTED_FOR_SCOPE` mechanically to every hypothesis because the aggregate fixture run passed. Respect the preregistered target map:
 
-## BPV1_EXECUTION_ADMISSION requirements — complete
+- primary: `A10-H02`, `A10-H05`;
+- secondary: `A10-H01`, `A10-H04`, `A10-H07`, `A10-H12`;
+- informative, not adjudicated: `A10-H03`, `A10-H10`;
+- not tested: `A10-H06`, `A10-H08`, `A10-H09`, `A10-H11`.
 
-PR #112 (merge `6027eec73f11c4626be5553de7e79f827be2c81d`) bound before any subject implementation/execution:
-
-1. authoritative plan `BPV1-001-cross-lineage-bounded-accountability-v1` and its frozen digest (corrected to `7fe8174c604678c6b79d3fdeae83d7c5ab0d2fb15bfe343d41659d05d9496ad0` after independent verification against the unmodified preregistration file);
-2. machine-readable fixture/oracle package derived only from that plan;
-3. standalone evaluator tests passing before subject execution;
-4. pinned Rust toolchain and experimental source boundary;
-5. static scope audit proving no product runtime/profile integration;
-6. explicit continued `runtime_expansion: FROZEN`, `product_runtime_thaw: NO`, `production_authorized: false`.
-
-Admission authorizes only the bounded BPV1-001 falsification instrument's subject implementation/execution. It does not authorize product runtime integration, reducer-v2, Event semantics, NK-EPI runtime, Final Canon, production, Issue #18, Issue #74/ADR-0024, or Track H admission.
+D6 is classification/evidence work only; it does not change the experiment or authorize runtime expansion.
 
 ## Required architecture discipline
 
@@ -170,18 +176,17 @@ Problem-level purpose and candidate semantic obligations
 → Explicit grounding and threat model
 → Frozen external fixture/oracle package
 → Independently derived bounded state/change/history realization
-→ Positive and adversarial negative fixtures
-→ Cross-lineage semantic comparison
-→ Explicit PRESERVED / PARTIAL / LOSSY / UNSUPPORTED / INDETERMINATE mapping
-→ Exact evidence
-→ A10 outcome classification
-→ Status update
-→ Notion synchronization
+→ External evidence qualification
+→ Frozen oracle evaluation
+→ Explicit A10 outcome classification
+→ Integrated re-review
+→ Authoritative synchronization
+→ Separate operator decision
 ```
 
-Do not implement new semantics first and write the architecture afterward. Do not force a future realization to reproduce the A3 transition catalogue, A6 lifecycle graph, Event/reducer/Receipt structures, exact replay, or the current identity/time inventory as its native shape merely because those taxonomies already exist.
+Do not implement new product semantics first and write architecture afterward. Do not force future realizations to reproduce the A3 transition catalogue, A6 lifecycle graph, Event/reducer/Receipt structures, exact replay, or current identity/time inventory merely because those taxonomies exist.
 
-Python, PostgreSQL, SQLite, JSON, SHA-256, graphs, vectors, LLMs, event sourcing, exact replay, Rust, and current hardware are replaceable profiles or research instruments, not permanent Canon unless a later evidence-backed decision establishes otherwise.
+Python, PostgreSQL, SQLite, JSON, SHA-256, graphs, vectors, LLMs, event sourcing, exact replay, Rust and current hardware are replaceable profiles or research instruments, not permanent Canon unless a later evidence-backed operator decision establishes otherwise.
 
 ## Pending decisions remain separate
 
@@ -201,7 +206,7 @@ No AI agent may choose a license, accept ADR-0024, or admit Track H sources for 
 
 ## Historical immutability
 
-Do not reinterpret or rewrite published reducer-v1 histories, Event histories, Receipts, P1–C5 evidence, ZIP archives, historical checkpoint identities, fixture outputs, A1–A10 first-draft history, the first integrated-review record, IAR-1 source findings, or IAR-1-R1 publication-time gate language.
+Do not reinterpret or rewrite published reducer-v1 histories, Event histories, Receipts, P1–C5 evidence, ZIP archives, historical checkpoint identities, fixture outputs, A1–A10 first-draft history, the integrated-review record, IAR-1 source findings, IAR-1-R1 publication-time gate language, frozen BPV1 preregistration/oracle or historical PR #114 D5 evidence.
 
 ## Required distinctions
 
@@ -214,41 +219,24 @@ reference implementation ≠ architectural authority
 blueprint documentation ≠ implementation evidence
 operator approval ≠ independent validation
 qualifying independent review ≠ architecture proof
-review reconciliation ≠ experiment execution authorization
-preregistered plan ≠ execution authorization
 falsification instrument ≠ product runtime
 C2 ≠ C3 ≠ C4 ≠ C5
 C5 operational rehearsal ≠ semantic assertion promotion
 synthetic CI ≠ live production
-logical Event export ≠ physical backup or disaster recovery
 logical ERASED ≠ physical deletion
 physical erasure ≠ cryptographic erasure
 forgetting/loss ≠ deliberate erasure
 bounded accountability ≠ exact reconstruction
 history visibility ≠ mandatory Event sourcing
 local scoped conformance ≠ composition/federation conformance
-hash chain ≠ complete authenticity
-Receipt/report/archive ≠ truth, compliance, or deletion proof
 runtime implementation ≠ evidence
 evidence ≠ operator authorization
 public repository ≠ open-source license
 future-facing design ≠ demonstrated future substrate support
 substrate-independent specification ≠ universal portability proof
+SUPPORTED_FOR_SCOPE ≠ universal proof
+D5 evidence ≠ D6 classification
 ```
-
-## Evidence discipline
-
-Historical C5 evidence remains immutable. Future BPV-1 evidence must receive its own identity and use A10 outcomes exactly:
-
-```text
-SUPPORTED_FOR_SCOPE
-WEAKENED
-REFUTED
-INDETERMINATE
-NOT_TESTED
-```
-
-`NOT_TESTED ≠ SUPPORTED`.
 
 ## Verification
 
@@ -267,8 +255,7 @@ python tools/docs/validate_bilingual_parity.py --repo .
 python -m unittest discover -s tests -p 'test_project_state.py' -v
 python -m unittest discover -s tests -p 'test_architecture_freeze.py' -v
 python -m unittest discover -s tests -p 'test_bpv1_preregistration.py' -v
-python -m unittest discover -s tests -p 'test_ai_context_validator.py' -v
-python -m unittest discover -s tests -p 'test_bilingual_parity_validator.py' -v
+python -m unittest discover -s tests -p 'test_bpv1_subject.py' -v
 ```
 
 A skipped test is not PASS. An unavailable environment is `NOT_EXECUTED`.
@@ -281,4 +268,4 @@ A Codex quota notice is not review approval. Reproduce every actionable finding,
 
 ## Documentation synchronization
 
-Material work must update relevant current-state, roadmap, risks, architecture, public English/Russian documentation, and Notion pages. GitHub must remain technically sufficient without Notion. Notion may preserve strategy, decisions, and history but must not silently contradict GitHub code, contracts, evidence, or live issue state.
+GitHub must remain technically sufficient without Notion. The current Option D plan deliberately defers D5/D5-R1/D6 Notion synchronization to consolidated D8; until then live Notion may lag at D4.5 without overriding GitHub technical authority. Do not create new Notion pages without operator permission.

@@ -5,7 +5,7 @@
 ### Technology-neutral architecture for durable knowledge, memory, change, and explanation
 
 > **Current state:** `RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY`  
-> **Active phase:** `POST-BLUEPRINT VALIDATION / BPV1 PREREGISTERED / EXECUTION ADMISSION NEXT / RUNTIME EXPANSION FROZEN`
+> **Active phase:** `POST-BLUEPRINT VALIDATION / D5-R1 QUALIFIED / D6 A10 HYPOTHESIS CLASSIFICATION NEXT / RUNTIME EXPANSION FROZEN`
 
 Velantrim Native Kernel studies what semantic meaning, identity, provenance, time, uncertainty, conflict, revision, and explanation should survive when databases, languages, models, processors, and storage media change.
 
@@ -21,6 +21,8 @@ freeze an external oracle and admission boundary
 derive a replaceable bounded realization independently
         ↓
 test and falsify the architectural claims
+        ↓
+classify only the hypotheses actually adjudicated by the evidence
 ```
 
 ## Architecture boundary
@@ -30,10 +32,11 @@ Problem-level Purpose and Candidate Semantic Obligations
 → Preregistered Conformance / Threat / Grounding Boundary
 → BPV1 Execution Admission
 → Independently Derived Bounded Realization
-→ Positive + Adversarial Negative Fixtures
-→ Cross-lineage Semantic Comparison
-→ Evidence
-→ Outcome / Status / Maturity
+→ External Evidence Qualification
+→ Frozen Oracle Evaluation
+→ A10 Hypothesis Classification
+→ Integrated Re-review
+→ Separate Operator Canon/Runtime Decision
 ```
 
 Python, Rust, JSON, SHA-256, PostgreSQL, SQLite, graphs, vectors, LLMs, conventional hardware, event sourcing, exact replay, and CI are replaceable research instruments. They are not permanent Canon.
@@ -43,7 +46,7 @@ The current Python/PostgreSQL/SQLite lineage is a **bounded reference laboratory
 ## Current state
 
 ```text
-clean_runtime_support:       PARTIAL
+clean_runtime_support:      PARTIAL
 kernel_runtime_conformance: C4
 operational_validation:     C5_BOUNDED_REHEARSAL
 production_authorized:      false
@@ -51,6 +54,7 @@ production_authorized:      false
 assertion map: 45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED / 0 FAILED
 NK-EPI:        0 SUPPORTED / 0 PARTIAL / 8 UNSUPPORTED / 0 FAILED
 runtime expansion: FROZEN
+P1-C5 role: BOUNDED_REFERENCE_LABORATORY
 ```
 
 C5 does not promote semantic assertions and does not authorize production.
@@ -67,20 +71,26 @@ Machine-readable truth is recorded in [`project-state.json`](project-state.json)
 | Evidence-producing checkpoint | `296981ae84ad5bdab5dabbec9b7b9ebb43af63d7` |
 | Manifest source / Notion synchronized descendant | `70acd0da61fee19131947aa56125833adb156ced` |
 | BPV-1 preregistration merge | `a538d7f1e28858a88b9ee777ac7d6e05b85943db` |
+| D5 execution merge | `a191e9c868c14af34a269dcdfae44406f1013bda` |
+| D5-R1 qualification merge | `3856740570620fb2243e2f0da76359281ec4068f` |
 
 These role checkpoints remain historical identities. Live `main` is resolved from GitHub or the checked-out Git ref; committed state does not predict its own future merge SHA.
 
 ## Truth reconciliation
 
 ```text
-machine-readable truth: historical reconciliation preserved
-human-readable truth:   historical reconciliation preserved
-IAR-1:                  QUALIFYING_REVIEW_COMPLETE
-IAR-1-R1:               COMPLETE
-BPV-1 plan:             PREREGISTERED / EXECUTION_NOT_AUTHORIZED
+IAR-1:                   QUALIFYING_REVIEW_COMPLETE
+IAR-1-R1:                COMPLETE
+BPV-1 plan:              PREREGISTERED / EXECUTION_NOT_AUTHORIZED
+execution admission:     COMPLETE / BPV1-001 ONLY
+D5 execution:            COMPLETE
+D5-R1 qualification:     COMPLETE / QUALIFIED
+qualified oracle outcome: SUPPORTED_FOR_SCOPE / 12-of-12 mandatory fixtures PASS
+next gate:               D6_A10_HYPOTHESIS_CLASSIFICATION
+D6:                      NOT_STARTED
 ```
 
-Newer live Notion content must be read directly and synchronized after material GitHub merges. Historical reports and proposals remain preserved but do not override current state.
+Newer live Notion content must be read directly. The Option D plan currently defers D5/D5-R1/D6 synchronization to consolidated D8; GitHub remains authoritative for technical state until that sync/read-back.
 
 ## Current evidence
 
@@ -91,6 +101,14 @@ evidence/c5/2026-08-07/manifest.json
 evidence/c5/2026-08-08-adr0023/manifest.json
 ```
 
+The BPV1-001 D5-R1 qualification evidence is separately preserved under:
+
+```text
+experiments/bpv1/BPV1-001/results/d5-r1/
+```
+
+Historical PR #114 D5 evidence remains unchanged.
+
 ADR-0023 sets linked SQLite `3.51.3` as the current WAL floor. Historical SQLite `3.45.1` artifacts remain unchanged and version-bound.
 
 ```text
@@ -100,9 +118,9 @@ repository-resident evidence
 ≠ live-data safety
 ≠ physical deletion
 ≠ production readiness
+SUPPORTED_FOR_SCOPE
+≠ universal substrate portability proof
 ```
-
-ADR-0025, ADR-0026, IAR-1, IAR-1-R1, and BPV-1 preregistration do not expand existing runtime/evidence proof boundaries.
 
 ## Three independent tracks
 
@@ -118,7 +136,8 @@ C — Clean Reference Implementation
 R — Post-Blueprint Validation
   A1–A10 + integrated review remain provisional
   IAR-1 QUALIFYING / IAR-1-R1 COMPLETE
-  BPV1-001 PREREGISTERED / EXECUTION ADMISSION NEXT
+  BPV1-001 D5 COMPLETE / D5-R1 QUALIFIED
+  D6 A10 HYPOTHESIS CLASSIFICATION NEXT
   NO AUTOMATIC PROMOTION
 ```
 
@@ -130,7 +149,7 @@ reference laboratory ≠ final architecture
 
 ## Active architecture phase — Post-Blueprint Validation
 
-ADR-0025 established blueprint-before-runtime. ADR-0026 records the operator-approved **Option D** validation route. IAR-1 completed the qualifying independent challenge; IAR-1-R1 reconciled all ten findings; PR #110 published the preregistered BPV-1 plan.
+ADR-0025 established blueprint-before-runtime. ADR-0026 records the operator-approved **Option D** validation route. IAR-1 completed the qualifying independent challenge; IAR-1-R1 reconciled all ten findings; PR #110 published the preregistered BPV-1 plan; PR #112 + PR #113 completed execution admission; PR #114 executed D5; PR #115 qualified the evidence path.
 
 ```text
 A1–A10 provisional blueprint
@@ -139,42 +158,46 @@ A1–A10 provisional blueprint
 → INDEPENDENT_ARCHITECTURE_REVIEW           COMPLETE / IAR-1 / QUALIFYING
 → REVIEW_FINDING_RECONCILIATION             COMPLETE / IAR-1-R1
 → BPV1_PLAN_AND_PREREGISTRATION             COMPLETE / PR #110
-→ BPV1_EXECUTION_ADMISSION                  COMPLETE / PR #112
-→ BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION NEXT GATE
-→ BPV-1 bounded cross-lineage falsification ADMITTED_FOR_EXPERIMENT_ONLY
-→ A10 outcome classification
+→ BPV1_EXECUTION_ADMISSION                  COMPLETE / PR #112 + #113
+→ BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION COMPLETE / PR #114
+→ D5_R1_EVIDENCE_QUALIFICATION              COMPLETE / PR #115
+→ D6_A10_HYPOTHESIS_CLASSIFICATION          NEXT / NOT STARTED
 → integrated re-review
+→ consolidated authoritative synchronization
 → separate later operator Canon/runtime decision
 ```
 
 Current boundaries:
 
 ```text
-independent architectural validation: IAR-1 QUALIFYING_REVIEW_COMPLETE
-IAR-1 findings: 10 total / 7 BLOCKING / 3 MATERIAL
-IAR-1-R1: COMPLETE / open blockers 0 / open material 0
-BPV-1 plan: BPV1-001-cross-lineage-bounded-accountability-v1 / PREREGISTERED / EXECUTION_NOT_AUTHORIZED
+BPV-1 plan: BPV1-001-cross-lineage-bounded-accountability-v1 / PREREGISTERED
 plan merge: a538d7f1e28858a88b9ee777ac7d6e05b85943db
-execution-admission package merge: 6027eec73f11c4626be5553de7e79f827be2c81d
-next gate: BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION
-BPV-1 execution: ADMITTED_FOR_EXPERIMENT_ONLY
+frozen plan digest: 7fe8174c604678c6b79d3fdeae83d7c5ab0d2fb15bfe343d41659d05d9496ad0
+D5 execution merge: a191e9c868c14af34a269dcdfae44406f1013bda
+D5-R1 qualification merge: 3856740570620fb2243e2f0da76359281ec4068f
+external qualification: QUALIFIED
+frozen-oracle outcome: SUPPORTED_FOR_SCOPE
+mandatory fixtures: 12/12 PASS
+next gate: D6_A10_HYPOTHESIS_CLASSIFICATION
+D6: NOT_STARTED
 runtime expansion: FROZEN
 product runtime thaw: NO
 A1-A10 Final Canon: NOT AUTHORIZED
 production: false
 ```
 
-IAR-1 did **not** prove the architecture correct. The current candidate minimum remains problem-level: non-conflation of representation/Claim with reality/truth; explicit scope/Context/warrant/Authority assumptions where material; explicit Unknown/uncertainty/unsupported states; accountable change/retention/loss for declared scope; and preregistered equivalence/degradation/refutation conditions.
+D5-R1 removes the identified HR10 subject-self-report adjudication path by making the Rust subject emit raw facts and deriving oracle-facing structural facts in a separate qualifier that does not read fixture expectations. The unchanged frozen evaluator remains the adjudicator. Integrity coverage now includes evidence and epistemic position, and retained loss-witness storage is internally bounded with bounded rollup.
 
-The plan freezes all twelve IAR-1-R1 normative fields before execution. Post-execution changes cannot rescue the run; they require a new experiment identity.
+This still does **not** establish independent implementation team/custody or an independent computation model. BPV1-001 remains conventional-digital, single-node, non-composed scoped evidence.
 
-BPV1 execution admission must still bind a frozen plan digest, machine-readable fixtures, standalone evaluator tests, pinned Rust toolchain/source boundary, and static no-product-integration audit. Rust is an experimental instrument, not Canon or a product runtime profile.
+D6 must classify only the A10 hypotheses actually adjudicated by this evidence. Aggregate `SUPPORTED_FOR_SCOPE` must not be copied mechanically to hypotheses marked informative or not tested.
 
 Plan: [English](docs/ARCHITECTURE_REFOUNDATION.md) · [Русский](docs/ARCHITECTURE_REFOUNDATION.ru.md).  
 BPV-1 preregistration: [English](docs/research/BPV1_PREREGISTRATION.md) · [Русский](docs/research/BPV1_PREREGISTRATION.ru.md) · [JSON](docs/research/BPV1_PREREGISTRATION.json).  
+D5-R1 qualification: [English](docs/research/BPV1_D5_R1_QUALIFICATION.md) · [Русский](docs/research/BPV1_D5_R1_QUALIFICATION.ru.md).  
 Tracking: [Issue #88](https://github.com/velantrian/velantrim-native-kernel/issues/88).
 
-During the freeze, architecture research, execution-admission packaging, integrity/security/reproducibility/provenance repair, evidence preservation, truth-surface repair and historical recovery remain allowed. BPV-1 subject implementation/execution remains forbidden until separate admission. Product semantic/runtime expansion remains unauthorized.
+During the freeze, architecture research, D6/D7/D8 validation work, integrity/security/reproducibility/provenance repair, evidence preservation, truth-surface repair and historical recovery remain allowed. Product semantic/runtime expansion remains unauthorized.
 
 ## Pending decisions
 
