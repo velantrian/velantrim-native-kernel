@@ -76,17 +76,17 @@ class A9ReferenceLaboratoryBoundaryTests(unittest.TestCase):
             for literal in ("Issue #18", "Issue #74 / ADR-0024", "ADR-0003", "Track H", "reducer-v2"):
                 self.assertIn(literal, markdown)
 
-    def test_project_state_preserves_a9_through_option_d_completion(self) -> None:
+    def test_project_state_preserves_a9_through_residual_planning_completion(self) -> None:
         research = self.state["tracks"]["long_horizon_research"]
         refoundation = research["architecture_refoundation"]
         validation = research["post_blueprint_validation"]
         self.assertIn("A9_REFERENCE_LABORATORY_BOUNDARY", refoundation["completed_deliverables"])
         self.assertIn("A10_OPEN_QUESTIONS_AND_FALSIFICATION", refoundation["completed_deliverables"])
-        self.assertEqual("RESIDUAL_A10_VALIDATION_PLAN", refoundation["next_content_slice"])
+        self.assertEqual("SEPARATE_FAMILY_PREREGISTRATION_SELECTION", refoundation["next_content_slice"])
         self.assertEqual("ADR-0026", validation["decision"])
         self.assertEqual("QUALIFYING_REVIEW_COMPLETE", validation["independent_review_status"])
         self.assertEqual(
-            "COMPLETE / OPTION_D_OPERATOR_DECISION_ACCEPTED / RESIDUAL_VALIDATION_PLANNING_AUTHORIZED",
+            "COMPLETE / RESIDUAL_A10_VALIDATION_PLAN_COMPLETE / PREREGISTRATION_SELECTION_NEXT",
             validation["status"],
         )
         self.assertEqual("ADMITTED_FOR_EXPERIMENT_ONLY", validation["bpv1_status"])
@@ -96,6 +96,7 @@ class A9ReferenceLaboratoryBoundaryTests(unittest.TestCase):
         self.assertEqual("COMPLETE", result["status"])
         self.assertEqual("QUALIFIED", result["qualification_status"])
         self.assertEqual("SUPPORTED_FOR_SCOPE", result["oracle_outcome"])
+        # Historical D5 result remains bound to the gate that followed D5.
         self.assertEqual("RESIDUAL_A10_VALIDATION_PLAN", result["next_gate"])
         self.assertEqual("COMPLETE", result["d6_status"])
         self.assertEqual("COMPLETE", result["d7_status"])
@@ -105,6 +106,17 @@ class A9ReferenceLaboratoryBoundaryTests(unittest.TestCase):
         self.assertEqual("COMPLETE / READ_BACK_VERIFIED", validation["d8_consolidated_sync"]["status"])
         self.assertTrue(validation["d8_consolidated_sync"]["operator_decision_required"])
         self.assertFalse(validation["d8_consolidated_sync"]["next_gate_authorized_by_d8"])
+
+        plan = validation["residual_a10_validation_plan"]
+        self.assertEqual("RAVP-001-residual-a10-validation-plan-v1", plan["plan_id"])
+        self.assertEqual("COMPLETE / MERGED / NOTION_7_OF_7_READ_BACK_VERIFIED", plan["status"])
+        self.assertEqual("SEPARATE_FAMILY_PREREGISTRATION_SELECTION", plan["next_gate"])
+        self.assertIsNone(plan["selected_family"])
+        self.assertFalse(plan["family_preregistration_authorized"])
+        self.assertFalse(plan["experiment_implementation_authorized"])
+        self.assertFalse(plan["experiment_execution_authorized"])
+        self.assertFalse(plan["composition_federation_is_h11"])
+
         self.assertTrue(refoundation["runtime_expansion_frozen"])
         self.assertFalse(validation["product_runtime_thaw"])
         self.assertEqual("BOUNDED_REFERENCE_LABORATORY", self.state["tracks"]["clean_implementation"]["architecture_role"])
