@@ -6,7 +6,7 @@ permissions:
   contents: write
 jobs:
   patch:
-    if: github.event.head_commit.message == 'chore(state): apply post-D8 operator truth'
+    if: "${{ github.event.head_commit.message == 'chore(state): apply post-D8 operator truth' }}"
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
