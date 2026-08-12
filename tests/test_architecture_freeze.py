@@ -222,6 +222,20 @@ class ArchitectureFreezeTests(unittest.TestCase):
         finally:
             module._load_json_record = original
 
+    def test_independence_basis_cannot_be_empty(self) -> None:
+        original = module._load_json_record
+        def fake_load(path: Path, label: str):
+            value = original(path, label)
+            if label == "IAR-1 result":
+                value["reviewer"]["independence_basis"] = ""
+            return value
+        module._load_json_record = fake_load
+        try:
+            with self.assertRaisesRegex(module.ArchitectureFreezeError, "substantive independence basis required"):
+                self.validate()
+        finally:
+            module._load_json_record = original
+
     def test_input_packet_read_cannot_be_empty_or_partial(self) -> None:
         original = module._load_json_record
         def fake_load(path: Path, label: str):
@@ -306,6 +320,34 @@ class ArchitectureFreezeTests(unittest.TestCase):
         finally:
             module._load_json_record = original
 
+    def test_material_reconciliation_requires_record(self) -> None:
+        original = module._load_json_record
+        def fake_load(path: Path, label: str):
+            value = original(path, label)
+            if label == "IAR-1 reconciliation":
+                next(item for item in value["findings"] if item["finding_id"] == "IAR-F10")["reconciliation_record"] = ""
+            return value
+        module._load_json_record = fake_load
+        try:
+            with self.assertRaisesRegex(module.ArchitectureFreezeError, "IAR-F10 reconciliation record required"):
+                self.validate()
+        finally:
+            module._load_json_record = original
+
+    def test_material_reconciliation_dependency_cannot_drift(self) -> None:
+        original = module._load_json_record
+        def fake_load(path: Path, label: str):
+            value = original(path, label)
+            if label == "IAR-1 reconciliation":
+                next(item for item in value["findings"] if item["finding_id"] == "IAR-F10")["bpv1_dependency"] = "INFORMS_PLAN"
+            return value
+        module._load_json_record = fake_load
+        try:
+            with self.assertRaisesRegex(module.ArchitectureFreezeError, "IAR-F10 reconciliation BPV-1 dependency drift"):
+                self.validate()
+        finally:
+            module._load_json_record = original
+
     def test_preregistration_fields_must_match_exact_inventory(self) -> None:
         original = module._load_json_record
         def fake_load(path: Path, label: str):
@@ -319,6 +361,79 @@ class ArchitectureFreezeTests(unittest.TestCase):
                 self.validate()
         finally:
             module._load_json_record = original
+
+    def test_preregistration_fields_cannot_contain_duplicates(self) -> None:
+        original = module._load_json_record
+        def fake_load(path: Path, label: str):
+            value = original(path, label)
+            if label == "IAR-1 reconciliation":
+                fields = value["conformance_preregistration"]["fields"]
+                fields[-1] = fields[0]
+                module.EXPECTED_PREREGISTRATION_FIELDS[-1] = module.EXPECTED_PREREGISTRATION_FIELDS[0]
+            return value
+        module._load_json_record = fake_load
+        try:
+            with self.assertRaisesRegex(module.ArchitectureFreezeError, "contains duplicates"):
+                self.validate()
+        finally:
+            module._load_json_record = original
+            module.EXPECTED_PREREGISTRATION_FIELDS[-1] = "oracle_authority"
+
+    def test_reconciliation_cannot_enable_event_sourcing_as_universal(self) -> None:
+        original = module._load_json_record
+        def fake_load(path: Path, label: str):
+            value = original(path, label)
+            if label == "IAR-1 reconciliation":
+                value["principles"]["event_sourcing_universal"] = True
+            return value
+        module._load_json_record = fake_load
+        try:
+            with self.assertRaisesRegex(module.ArchitectureFreezeError, "Event sourcing cannot become universal"):
+                self.validate()
+        finally:
+            module._load_json_record = original
+
+    def test_post_hoc_rescoping_must_fail_closed(self) -> None:
+        original = module._load_json_record
+        def fake_load(path: Path, label: str):
+            value = original(path, label)
+            if label == "IAR-1 reconciliation":
+                value["conformance_preregistration"]["post_hoc_rescoping"] = "ALLOWED"
+            return value
+        module._load_json_record = fake_load
+        try:
+            with self.assertRaisesRegex(module.ArchitectureFreezeError, "rescoping must fail closed"):
+                self.validate()
+        finally:
+            module._load_json_record = original
+
+    def test_historical_reconciliation_gate_is_preserved(self) -> None:
+        original = module._load_json_record
+        def fake_load(path: Path, label: str):
+            value = original(path, label)
+            if label == "IAR-1 reconciliation":
+                value["next_gate"] = "BPV1_EXECUTION_ADMISSION"
+            return value
+        module._load_json_record = fake_load
+        try:
+            with self.assertRaisesRegex(module.ArchitectureFreezeError, "reconciliation next gate drift"):
+                self.validate()
+        finally:
+            module._load_json_record = original
+
+    def test_issue_88_remains_open_verified_and_records_current_gate(self) -> None:
+        state = copy.deepcopy(self.state)
+        state["issues"]["88"]["state"] = "CLOSED"
+        with self.assertRaisesRegex(module.ArchitectureFreezeError, "must remain open"):
+            self.validate(state)
+        state = copy.deepcopy(self.state)
+        state["issues"]["88"]["meaning"] = "Architecture Re-foundation is active."
+        with self.assertRaisesRegex(module.ArchitectureFreezeError, "Option D selection"):
+            self.validate(state)
+        state = copy.deepcopy(self.state)
+        state["issues"]["88"]["verification"]["method"] = "SUMMARY"
+        with self.assertRaisesRegex(module.ArchitectureFreezeError, "verification drift"):
+            self.validate(state)
 
 
 if __name__ == "__main__":
