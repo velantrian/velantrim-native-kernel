@@ -50,7 +50,7 @@ def _pre_plan_view(state: Mapping[str, Any]) -> dict[str, Any]:
     value["issues"]["88"]["meaning"] = (
         "Architecture Re-foundation A1-A10 remains provisional. ADR-0027 / OD-POST-D8-001 at "
         + ADR0027_DECISION_MERGE
-        + " accepted the post-D8 decision, keeps Final Canon deferred, and keeps runtime frozen. "
+        + " accepted the post-D8 decision. Final Canon is deferred. Runtime remains frozen. "
         "RESIDUAL_A10_VALIDATION_PLAN is the next RESEARCH_PLANNING_ONLY gate; experiment execution is not authorized."
     )
     return value
