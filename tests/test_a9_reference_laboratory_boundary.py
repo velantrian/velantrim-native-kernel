@@ -76,17 +76,17 @@ class A9ReferenceLaboratoryBoundaryTests(unittest.TestCase):
             for literal in ("Issue #18", "Issue #74 / ADR-0024", "ADR-0003", "Track H", "reducer-v2"):
                 self.assertIn(literal, markdown)
 
-    def test_project_state_preserves_a9_through_d5_r1_qualification(self) -> None:
+    def test_project_state_preserves_a9_through_option_d_completion(self) -> None:
         research = self.state["tracks"]["long_horizon_research"]
         refoundation = research["architecture_refoundation"]
         validation = research["post_blueprint_validation"]
         self.assertIn("A9_REFERENCE_LABORATORY_BOUNDARY", refoundation["completed_deliverables"])
         self.assertIn("A10_OPEN_QUESTIONS_AND_FALSIFICATION", refoundation["completed_deliverables"])
-        self.assertEqual("D6_A10_HYPOTHESIS_CLASSIFICATION", refoundation["next_content_slice"])
+        self.assertEqual("OPERATOR_CANON_RUNTIME_DECISION_REQUIRED", refoundation["next_content_slice"])
         self.assertEqual("ADR-0026", validation["decision"])
         self.assertEqual("QUALIFYING_REVIEW_COMPLETE", validation["independent_review_status"])
         self.assertEqual(
-            "AUTHORIZED / REVIEW_COMPLETE / RECONCILIATION_COMPLETE / BPV1_PLAN_PREREGISTERED / EXECUTION_ADMITTED_FOR_EXPERIMENT_ONLY / D5_COMPLETE / D5_R1_QUALIFIED",
+            "COMPLETE / OPTION_D_VALIDATION_AND_SYNC_COMPLETE / AWAITING_SEPARATE_OPERATOR_DECISION",
             validation["status"],
         )
         self.assertEqual("ADMITTED_FOR_EXPERIMENT_ONLY", validation["bpv1_status"])
@@ -96,9 +96,17 @@ class A9ReferenceLaboratoryBoundaryTests(unittest.TestCase):
         self.assertEqual("COMPLETE", result["status"])
         self.assertEqual("QUALIFIED", result["qualification_status"])
         self.assertEqual("SUPPORTED_FOR_SCOPE", result["oracle_outcome"])
-        self.assertEqual("D6_A10_HYPOTHESIS_CLASSIFICATION", result["next_gate"])
-        self.assertEqual("NOT_STARTED", result["d6_status"])
+        self.assertEqual("OPERATOR_CANON_RUNTIME_DECISION_REQUIRED", result["next_gate"])
+        self.assertEqual("COMPLETE", result["d6_status"])
+        self.assertEqual("COMPLETE", result["d7_status"])
+        self.assertEqual("COMPLETE / READ_BACK_VERIFIED", result["d8_status"])
+        self.assertEqual("COMPLETE", validation["d6_hypothesis_classification"]["status"])
+        self.assertEqual("COMPLETE", validation["d7_integrated_rereview"]["status"])
+        self.assertEqual("COMPLETE / READ_BACK_VERIFIED", validation["d8_consolidated_sync"]["status"])
+        self.assertTrue(validation["d8_consolidated_sync"]["operator_decision_required"])
+        self.assertFalse(validation["d8_consolidated_sync"]["next_gate_authorized_by_d8"])
         self.assertTrue(refoundation["runtime_expansion_frozen"])
+        self.assertFalse(validation["product_runtime_thaw"])
         self.assertEqual("BOUNDED_REFERENCE_LABORATORY", self.state["tracks"]["clean_implementation"]["architecture_role"])
         self.assertFalse(self.state["status"]["production_authorized"])
         self.assertEqual({"supported": 45, "partial": 10, "unsupported": 17, "failed": 0, "total": 72}, self.state["assertion_map"])
