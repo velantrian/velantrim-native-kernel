@@ -2,7 +2,7 @@
 
 ```yaml
 document_role: ACTIVE_ROADMAP
-status_as_of: 2026-08-11
+status_as_of: 2026-08-12
 authoritative_machine_source: project-state.json
 repository_status: RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY
 publication_checkpoint: 10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c
@@ -11,6 +11,8 @@ post_blueprint_decision: ADR-0026
 active_architecture_issue: 88
 bpv1_plan_merge: a538d7f1e28858a88b9ee777ac7d6e05b85943db
 bpv1_execution_admission_package_merge: 6027eec73f11c4626be5553de7e79f827be2c81d
+bpv1_d5_merge: a191e9c868c14af34a269dcdfae44406f1013bda
+bpv1_d5_r1_qualification_merge: 3856740570620fb2243e2f0da76359281ec4068f
 ```
 
 Native Kernel keeps three independent tracks:
@@ -39,11 +41,12 @@ A1 purpose
 → INDEPENDENT_ARCHITECTURE_REVIEW          COMPLETE / IAR-1 / QUALIFYING
 → REVIEW_FINDING_RECONCILIATION            COMPLETE / IAR-1-R1
 → BPV1_PLAN_AND_PREREGISTRATION            COMPLETE / PR #110
-→ BPV1_EXECUTION_ADMISSION                 COMPLETE / PR #112
-→ BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION NEXT GATE
-→ BPV-1 CROSS-LINEAGE FALSIFICATION        ADMITTED_FOR_EXPERIMENT_ONLY
-→ A10 OUTCOME CLASSIFICATION               BLOCKED BY BPV-1
-→ INTEGRATED RE-REVIEW                     BLOCKED BY OUTCOMES
+→ BPV1_EXECUTION_ADMISSION                 COMPLETE / PR #112 + PR #113 checkpoint
+→ BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION COMPLETE / PR #114
+→ D5_R1_EVIDENCE_QUALIFICATION             COMPLETE / PR #115 / QUALIFIED
+→ A10 OUTCOME CLASSIFICATION               NEXT / D6 / NOT STARTED
+→ INTEGRATED RE-REVIEW                     BLOCKED BY D6
+→ FINAL AUTHORITATIVE SYNC                 BLOCKED BY D7
 → separate operator Canon/runtime decision BLOCKED BY RE-REVIEW
 ```
 
@@ -57,8 +60,13 @@ A1 purpose
 - BPV-1 plan: `BPV1-001-cross-lineage-bounded-accountability-v1 / PREREGISTERED / EXECUTION_NOT_AUTHORIZED`;
 - authoritative plan merge: `a538d7f1e28858a88b9ee777ac7d6e05b85943db`;
 - execution-admission package merge: `6027eec73f11c4626be5553de7e79f827be2c81d`;
-- next gate: `BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION`;
-- BPV-1 execution: `ADMITTED_FOR_EXPERIMENT_ONLY` (BPV1-001 subject implementation/execution only);
+- D5 execution merge: `a191e9c868c14af34a269dcdfae44406f1013bda`;
+- D5-R1 qualification merge: `3856740570620fb2243e2f0da76359281ec4068f`;
+- D5-R1 qualification: `QUALIFIED`;
+- frozen-oracle result: `SUPPORTED_FOR_SCOPE / 12-of-12 mandatory fixtures PASS`;
+- next gate: `D6_A10_HYPOTHESIS_CLASSIFICATION`;
+- D6: `NOT_STARTED`;
+- BPV-1 execution authorization lane: `ADMITTED_FOR_EXPERIMENT_ONLY`;
 - runtime expansion: `FROZEN`;
 - P1–C5: `BOUNDED_REFERENCE_LABORATORY`;
 - production: `false`.
@@ -75,51 +83,55 @@ The candidate minimum remains problem-level:
 
 The complete A2 inventory, A3 transition/outcome catalogue, A5 identity/time inventory, A6 lifecycle graph, Receipt-shaped accountability and Event-log-shaped history remain useful reference taxonomies, not universal implementation shape. Exact replay/reconstruction, permanent predecessor visibility and global total order are not universal requirements. Local conformance does not imply composition/federation conformance.
 
-## BPV-1 plan — authoritative, execution still blocked
+## BPV-1 execution and qualification
 
-PR #110 published the immutable preregistration identity `BPV1-001-cross-lineage-bounded-accountability-v1`. The plan freezes before execution:
+The frozen plan and oracle were not modified by D5 or D5-R1. PR #114 executed the exact preregistered workload. PR #115 added an external qualification layer so oracle-facing structural facts are derived outside the Rust subject rather than accepted as subject self-report, strengthened semantic corruption coverage, and made retained loss-witness storage intrinsically bounded.
 
-```text
-scenario_id
-purpose_scope
-mandatory_obligations
-applicability_rules
-mandatory_observables
-equivalence_predicates
-allowed_declared_losses
-failure_thresholds
-hard_refutation_observations
-grounding_mode
-threat_model
-oracle_authority
-```
-
-The plan also fixes the bounded workload and independence limitations. Rust is an experimental cross-language instrument only; independent team/custody and independent computation model remain `NOT_ESTABLISHED`. Post-execution changes to normative fields invalidate the run and require a new scenario identity.
-
-## BPV1_EXECUTION_ADMISSION — complete
-
-Execution admission was a separate fail-closed checkpoint. PR #112 merged the candidate package at `6027eec73f11c4626be5553de7e79f827be2c81d`, binding:
-
-- the authoritative plan and a frozen preregistration digest (corrected to `7fe8174c604678c6b79d3fdeae83d7c5ab0d2fb15bfe343d41659d05d9496ad0` after independent verification against the unmodified preregistration file);
-- machine-readable fixtures derived only from the preregistered plan;
-- a standalone evaluator/oracle whose tests pass before subject execution;
-- a pinned Rust toolchain and experimental source boundary;
-- a static scope audit proving no product runtime/profile integration.
-
-That checkpoint admits only BPV1-001 subject implementation/execution:
+The exact frozen BPV1-001 scenario remains:
 
 ```text
-BPV-1 execution: ADMITTED_FOR_EXPERIMENT_ONLY
-subject implementation/execution: AUTHORIZED_FOR_BPV1-001_ONLY
-product runtime integration: NOT AUTHORIZED
-runtime expansion: FROZEN
-product runtime thaw: NO
-production: false
+active claim slots: 32
+revision cycles: 16
+scripted mutations: 512
+checkpoints: 128 / 256 / 512
+durable-state cap: 262144 bytes
+retained detailed predecessor cap: 64
+loss-witness retained-record cap: 32
 ```
+
+Qualified result:
+
+```text
+external qualification: QUALIFIED
+frozen evaluator: SUPPORTED_FOR_SCOPE
+mandatory fixtures: 12 / 12 PASS
+durable bytes @512: 42276
+retained detailed predecessors: 52
+retained witness records: 13
+growth rule: PASS
+```
+
+This result is evidence for BPV1-001 only. It does not prove universal substrate independence, independent team/custody, independent computation model, Final Canon, production readiness, or product runtime suitability.
+
+## D6 — next bounded stage
+
+D6 must classify the A10 target hypotheses using only the authoritative frozen plan plus qualified D5 evidence. Allowed classifications remain:
+
+```text
+SUPPORTED_FOR_SCOPE
+WEAKENED
+REFUTED
+INDETERMINATE
+NOT_TESTED
+```
+
+D6 must not treat aggregate `SUPPORTED_FOR_SCOPE` as automatic support for every A10 hypothesis. Informative-not-adjudicated and not-tested hypotheses remain distinct, and `NOT_TESTED ≠ SUPPORTED`.
+
+D6 is documentation/evidence classification only. It does not thaw runtime, promote Final Canon, change the experiment, or authorize implementation expansion.
 
 ## Runtime freeze
 
-Allowed: architecture research, execution-admission packaging, integrity/security/reproducibility/provenance repair, evidence preservation, truth/validator repair, historical recovery, and later isolated falsification execution only after explicit admission.
+Allowed: architecture research, integrity/security/reproducibility/provenance repair, evidence preservation, truth/validator repair, historical recovery, D6 classification, D7 integrated re-review, and D8 synchronization.
 
 Not authorized: product runtime thaw, reducer-v2, new semantic/conflict Event verbs, product database/language/model/integration profiles, executable NK-EPI/Temporal/full Admission, operational deletion expansion, Final Canon, maturity or production promotion.
 
@@ -130,12 +142,17 @@ Not authorized: product runtime thaw, reducer-v2, new semantic/conflict Event ve
 - **ADR-0003** — `PROPOSED / NOT_STARTED`.
 - **Track H source admission** — operator-controlled.
 
+## Notion synchronization
+
+Live Notion remains at the earlier D4.5 admission checkpoint. D5/D5-R1/D6 evidence is intentionally deferred to the consolidated Option D D8 synchronization unless live governance changes that rule. This lag is explicit and must not be interpreted as a contradiction in GitHub technical authority.
+
 ## Hard stop
 
 ```text
 qualifying review complete ≠ architecture proof
-reconciliation complete ≠ BPV-1 execution authorization
 preregistered plan ≠ execution authorization
+SUPPORTED_FOR_SCOPE ≠ universal portability proof
+D5 result ≠ D6 classification
 BPV-1 ≠ product runtime
 BPV-1 outcome ≠ automatic Canon promotion
 A1-A10 drafted/reconciled ≠ Final Canon
@@ -143,4 +160,4 @@ C5 PASS ≠ production readiness
 public repository ≠ open-source license
 ```
 
-The only current next gate is `BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION`, bounded strictly to the BPV1-001 subject.
+The only current next gate is `D6_A10_HYPOTHESIS_CLASSIFICATION`; D6 is not started.
