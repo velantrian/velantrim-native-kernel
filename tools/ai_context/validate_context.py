@@ -37,7 +37,7 @@ REQUIRED_PATHS = (
     "docs/A10_OPEN_QUESTIONS_AND_FALSIFICATION.md", "docs/A10_OPEN_QUESTIONS_AND_FALSIFICATION.ru.md",
     "docs/adr/0025-blueprint-before-runtime-expansion.md",
     "docs/adr/0026-independent-challenge-before-bounded-cross-lineage-falsification.md",
-    "docs/adr/0027-post-d8-residual-validation-planning.md",
+    "docs/adr/0027-retain-provisional-architecture-and-runtime-freeze-after-option-d.md",
     "docs/ai/README.md", "docs/ai/CURRENT_STATE.md", "docs/ai/POST_RESIDUAL_A10_STATE.md",
     "docs/ai/COMPONENT_MAP.md", "docs/ai/KNOWN_RISKS.md", "docs/ai/WORK_LOG.md",
     "docs/ai/ISSUE_RECONCILIATION.md", "docs/ai/NOTION_HANDOFF.md",
