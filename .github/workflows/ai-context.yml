@@ -41,6 +41,7 @@ on:
       - "tests/test_bpv1_d6_a10_classification.py"
       - "tests/test_residual_a10_plan.py"
       - "tests/test_h11_family_selection.py"
+      - "tests/test_h11_preregistration.py"
       - "tests/test_ai_context_validator.py"
       - "tests/test_architecture_freeze.py"
       - "tests/test_bilingual_parity_validator.py"
@@ -89,6 +90,7 @@ on:
       - "tests/test_bpv1_d6_a10_classification.py"
       - "tests/test_residual_a10_plan.py"
       - "tests/test_h11_family_selection.py"
+      - "tests/test_h11_preregistration.py"
       - "tests/test_ai_context_validator.py"
       - "tests/test_architecture_freeze.py"
       - "tests/test_bilingual_parity_validator.py"
@@ -146,6 +148,7 @@ jobs:
             tests/test_bpv1_d6_a10_classification.py \
             tests/test_residual_a10_plan.py \
             tests/test_h11_family_selection.py \
+            tests/test_h11_preregistration.py \
             tests/test_ai_context_validator.py \
             tests/test_architecture_freeze.py \
             tests/test_bilingual_parity_validator.py \
@@ -171,6 +174,7 @@ jobs:
           python -m unittest discover -s tests -p 'test_bpv1_d6_a10_classification.py' -v
           python -m unittest discover -s tests -p 'test_residual_a10_plan.py' -v
           python -m unittest discover -s tests -p 'test_h11_family_selection.py' -v
+          python -m unittest discover -s tests -p 'test_h11_preregistration.py' -v
           python -m unittest discover -s tests -p 'test_ai_context_validator.py' -v
           python -m unittest discover -s tests -p 'test_architecture_freeze.py' -v
           python -m unittest discover -s tests -p 'test_bilingual_parity_validator.py' -v
@@ -205,6 +209,9 @@ jobs:
 
       - name: Validate H11 family selection candidate
         run: python tools/ai_context/validate_h11_family_selection.py --repo .
+
+      - name: Validate H11 preregistration
+        run: python tools/ai_context/validate_h11_preregistration.py --repo .
 
       - name: Validate reconciliation state
         run: python tools/ai_context/validate_reconciliation.py --repo .
