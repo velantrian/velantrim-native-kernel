@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate architecture boundaries after completion of RAVP-001 planning."""
+"""Validate architecture boundaries after H11 preregistration."""
 from __future__ import annotations
 
 import copy
@@ -17,12 +17,16 @@ _PRE_PLAN_VALIDATE = validate
 ADR0027_TRUTH_SYNC_SHA = "90bcb0fa2a3a2e85a590e9ba79746f3297b55457"
 ADR0027_DECISION_MERGE = "57993f39906ae7266011f6146c9a485d0587d2bf"
 RESIDUAL_PLAN_MERGE = "edc0501d71a827462aafd1ac4497920a719a4519"
-NEXT_GATE = "SEPARATE_FAMILY_PREREGISTRATION_SELECTION"
+H11_SELECTION_MERGE = "bcd3b3f6c9d898315c93e5d24b5d0e02c95508cc"
+H11_PLAN_MERGE = "4a75ff15542013c033030620bdff61997e365140"
+H11_NEXT_GATE = "A10_H11_EXECUTION_ADMISSION"
+H11_PLAN_ID = "H11-001-c5-lab-canon-separation-v1"
+H11_BLOCKER = "BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER"
 RESIDUAL_TARGETS = ["A10-H03", "A10-H06", "A10-H08", "A10-H09", "A10-H10", "A10-H11"]
 
 
 def _pre_plan_view(state: Mapping[str, Any]) -> dict[str, Any]:
-    """Project current state onto the ADR-0027/pre-readback residual-planning guard."""
+    """Project current H11 state onto the ADR-0027/pre-RAVP guard."""
     value = copy.deepcopy(dict(state))
     value["checkpoints"]["notion_synchronized_through_sha"] = ADR0027_TRUTH_SYNC_SHA
     research = value["tracks"]["long_horizon_research"]
@@ -40,10 +44,8 @@ def _pre_plan_view(state: Mapping[str, Any]) -> dict[str, Any]:
     notion["read_back_verified_count"] = 3
     notion["new_pages_created"] = 0
     notion["scope"] = (
-        "ADR-0027 / OD-POST-D8-001 at "
-        + ADR0027_DECISION_MERGE
-        + " is bound into GitHub current truth at "
-        + ADR0027_TRUTH_SYNC_SHA
+        "ADR-0027 / OD-POST-D8-001 at " + ADR0027_DECISION_MERGE
+        + " is bound into GitHub current truth at " + ADR0027_TRUTH_SYNC_SHA
         + "; seven existing Notion surfaces were written, but read-back verification remains incomplete. "
         "Current next gate is RESIDUAL_A10_VALIDATION_PLAN in RESEARCH_PLANNING_ONLY scope; experiment execution is not authorized."
     )
@@ -61,10 +63,8 @@ def _validate_current(state: Mapping[str, Any]) -> None:
     _require(research.get("runtime_authorized") is False, "runtime authority must remain frozen")
     ref = research["architecture_refoundation"]
     _require(ref.get("runtime_expansion_frozen") is True, "runtime expansion must remain frozen")
-    _require(
-        ref.get("next_content_slice") == NEXT_GATE,
-        "next architecture validation gate drift; post-plan architecture gate drift",
-    )
+    _require(ref.get("next_content_slice") == H11_NEXT_GATE, "next architecture validation gate drift")
+
     validation = research["post_blueprint_validation"]
     _require(validation.get("product_runtime_thaw") is False, "product runtime thaw must remain false")
     _require(validation.get("automatic_canon_promotion") is False, "automatic Canon promotion must remain false")
@@ -74,17 +74,30 @@ def _validate_current(state: Mapping[str, Any]) -> None:
     _require(isinstance(plan, Mapping), "RAVP-001 completion record required")
     _require(plan.get("merge_sha") == RESIDUAL_PLAN_MERGE, "RAVP-001 merge binding drift")
     _require(plan.get("families") == RESIDUAL_TARGETS, "residual family inventory drift")
-    _require(plan.get("selected_family") is None, "no family may be silently selected")
-    _require(plan.get("next_gate") == NEXT_GATE, "RAVP-001 next gate drift")
-    _require(plan.get("next_gate_scope") == "PREREGISTRATION_SELECTION_ONLY", "next gate scope drift")
-    _require(plan.get("family_preregistration_authorized") is False, "family preregistration must remain unauthorized")
+    _require(plan.get("selected_family") == "A10-H11", "only H11 may be the selected residual family")
+    _require(plan.get("selected_family_id") == "RAVP-H11-LAB-CANON-SEPARATION", "H11 family identity drift")
+    _require(plan.get("family_preregistration_authorized") is True and plan.get("family_preregistration_complete") is True, "H11 preregistration binding drift")
+    _require(plan.get("next_gate") == H11_NEXT_GATE, "H11 next gate drift")
+    _require(plan.get("next_gate_scope") == "EXECUTION_ADMISSION_ONLY", "H11 next gate scope drift")
     _require(plan.get("experiment_implementation_authorized") is False, "experiment implementation must remain unauthorized")
     _require(plan.get("experiment_execution_authorized") is False, "experiment execution must remain unauthorized")
     _require(plan.get("composition_federation_is_h11") is False, "composition/federation must remain distinct from H11")
-    _require(
-        plan.get("h11_definition") == "LABORATORY_MECHANISMS_REPRODUCIBLE_WITHOUT_BECOMING_ARCHITECTURE_CANON",
-        "H11 definition drift",
-    )
+    _require(plan.get("h11_definition") == "LABORATORY_MECHANISMS_REPRODUCIBLE_WITHOUT_BECOMING_ARCHITECTURE_CANON", "H11 definition drift")
+
+    selection = plan.get("family_selection")
+    _require(isinstance(selection, Mapping), "H11 selection binding required")
+    _require(selection.get("merge_sha") == H11_SELECTION_MERGE, "H11 selection merge drift")
+    _require(selection.get("preregistration_authorized_by_selection_package") is False, "H11 selection package cannot self-authorize preregistration")
+
+    h11 = plan.get("h11_preregistration")
+    _require(isinstance(h11, Mapping), "H11 preregistration current binding required")
+    _require(h11.get("plan_id") == H11_PLAN_ID and h11.get("merge_sha") == H11_PLAN_MERGE, "H11 preregistration identity/merge drift")
+    _require(h11.get("status") == "PREREGISTERED / EXECUTION_NOT_AUTHORIZED", "H11 preregistration status drift")
+    _require(h11.get("required_oracle_class") == "INDEPENDENT_SEMANTIC_ORACLE", "H11 independent semantic oracle requirement drift")
+    _require(h11.get("qualifying_reviewer_reproducer") == "NOT_ESTABLISHED / MUST_BE_VERIFIED_AT_EXECUTION_ADMISSION", "H11 reviewer independence must remain unestablished before admission")
+    _require(h11.get("no_qualifying_reviewer_outcome") == H11_BLOCKER, "H11 no-reviewer blocker drift")
+    _require(h11.get("current_a10_outcome") == "NOT_TESTED", "H11 must remain NOT_TESTED")
+    _require(h11.get("implementation_authorized") is False and h11.get("execution_authorized") is False, "H11 preregistration must not authorize execution")
 
     decision = validation.get("post_d8_operator_decision")
     _require(isinstance(decision, Mapping), "ADR-0027 decision record required")
@@ -96,20 +109,12 @@ def _validate_current(state: Mapping[str, Any]) -> None:
     _require(isinstance(issue, Mapping), "Issue #88 snapshot required")
     _require(issue.get("state") == "OPEN", "Issue #88 must remain open")
     meaning = str(issue.get("meaning", ""))
-    _require(
-        "RAVP-001" in meaning and NEXT_GATE in meaning,
-        "Option D selection / current Issue #88 gate drift",
-    )
+    _require("A10-H11" in meaning and H11_PLAN_ID in meaning and H11_NEXT_GATE in meaning, "current Issue #88 H11 gate drift")
     verification = issue.get("verification")
     _require(isinstance(verification, Mapping), "Issue #88 verification required")
-    _require(
-        verification.get("status") == "VERIFIED"
-        and verification.get("method") == "GITHUB_API"
-        and verification.get("source") == "issue/88",
-        "Issue #88 verification drift",
-    )
+    _require(verification.get("status") == "VERIFIED" and verification.get("method") == "GITHUB_API" and verification.get("source") == "issue/88", "Issue #88 verification drift")
 
-    _require(state["checkpoints"].get("notion_synchronized_through_sha") == RESIDUAL_PLAN_MERGE, "post-plan Notion checkpoint drift")
+    _require(state["checkpoints"].get("notion_synchronized_through_sha") == H11_PLAN_MERGE, "H11 Notion checkpoint drift")
     _require(state["status"]["production_authorized"] is False, "production must remain unauthorized")
 
 
@@ -131,9 +136,8 @@ def main(argv: list[str] | None = None) -> int:
         print(f"Architecture validation boundary failed: {exc}", file=sys.stderr)
         return 1
     print(
-        "Architecture validation passed; RAVP-001=COMPLETE; "
-        "next=SEPARATE_FAMILY_PREREGISTRATION_SELECTION; selected_family=NONE; "
-        "preregistration=false; execution=false; runtime_expansion_frozen=true"
+        "Architecture validation passed; H11=PREREGISTERED/NOT_TESTED; "
+        "next=A10_H11_EXECUTION_ADMISSION; reviewer=NOT_ESTABLISHED; execution=false; runtime_expansion_frozen=true"
     )
     return 0
 
