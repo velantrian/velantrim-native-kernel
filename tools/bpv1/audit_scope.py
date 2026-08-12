@@ -29,15 +29,18 @@ SUBJECT_ALLOWED = (
 )
 
 # D5-R1 may repair the admitted subject/evidence measurement path and current
-# truth surfaces, but it must not edit the frozen preregistration, oracle
-# fixtures/evaluator, admission package, or product/reference-laboratory roots.
+# truth surfaces/guards, but it must not edit the frozen preregistration,
+# oracle fixtures/evaluator, admission package, or product/reference roots.
 QUALIFICATION_ALLOWED = (
     ".github/workflows/bpv1.yml",
     "experiments/bpv1/BPV1-001/subject/**",
     "experiments/bpv1/BPV1-001/results/d5-r1/**",
     "tests/test_bpv1_subject.py",
+    "tests/test_a9_reference_laboratory_boundary.py",
+    "tests/test_architecture_freeze.py",
     "tools/bpv1/qualify_observations.py",
     "tools/bpv1/audit_scope.py",
+    "tools/ai_context/validate_architecture_freeze.py",
     "docs/research/BPV1_D5_R1_QUALIFICATION.md",
     "docs/research/BPV1_D5_R1_QUALIFICATION.ru.md",
     "project-state.json",
