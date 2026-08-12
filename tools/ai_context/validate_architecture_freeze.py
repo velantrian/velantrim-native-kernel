@@ -15,13 +15,14 @@ globals()["__name__"] = _saved_name
 _PRE_PLAN_VALIDATE = validate
 
 ADR0027_TRUTH_SYNC_SHA = "90bcb0fa2a3a2e85a590e9ba79746f3297b55457"
+ADR0027_DECISION_MERGE = "57993f39906ae7266011f6146c9a485d0587d2bf"
 RESIDUAL_PLAN_MERGE = "edc0501d71a827462aafd1ac4497920a719a4519"
 NEXT_GATE = "SEPARATE_FAMILY_PREREGISTRATION_SELECTION"
 RESIDUAL_TARGETS = ["A10-H03", "A10-H06", "A10-H08", "A10-H09", "A10-H10", "A10-H11"]
 
 
 def _pre_plan_view(state: Mapping[str, Any]) -> dict[str, Any]:
-    """Project current state onto the completed ADR-0027/pre-residual-plan guard."""
+    """Project current state onto the ADR-0027/pre-readback residual-planning guard."""
     value = copy.deepcopy(dict(state))
     value["checkpoints"]["notion_synchronized_through_sha"] = ADR0027_TRUTH_SYNC_SHA
     research = value["tracks"]["long_horizon_research"]
@@ -33,15 +34,24 @@ def _pre_plan_view(state: Mapping[str, Any]) -> dict[str, Any]:
     validation["status"] = "COMPLETE / OPTION_D_OPERATOR_DECISION_ACCEPTED / RESIDUAL_VALIDATION_PLANNING_AUTHORIZED"
     validation.pop("residual_a10_validation_plan", None)
     notion = value["notion"]
-    notion["synchronization_required"] = False
-    notion["decision_sync_status"] = "SYNCHRONIZED"
+    notion["synchronization_required"] = True
+    notion["decision_sync_status"] = "PENDING_READ_BACK_VERIFICATION"
     notion["surface_count"] = 7
-    notion["read_back_verified_count"] = 7
+    notion["read_back_verified_count"] = 3
     notion["new_pages_created"] = 0
     notion["scope"] = (
-        "ADR-0027 / OD-POST-D8-001 at 57993f39906ae7266011f6146c9a485d0587d2bf and GitHub truth "
+        "ADR-0027 / OD-POST-D8-001 at "
+        + ADR0027_DECISION_MERGE
+        + " is bound into GitHub current truth at "
         + ADR0027_TRUTH_SYNC_SHA
-        + " synchronized 7/7; current next gate RESIDUAL_A10_VALIDATION_PLAN in RESEARCH_PLANNING_ONLY scope; experiment execution is not authorized."
+        + "; seven existing Notion surfaces were written, but read-back verification remains incomplete. "
+        "Current next gate is RESIDUAL_A10_VALIDATION_PLAN in RESEARCH_PLANNING_ONLY scope; experiment execution is not authorized."
+    )
+    value["issues"]["88"]["meaning"] = (
+        "Architecture Re-foundation A1-A10 remains provisional. ADR-0027 / OD-POST-D8-001 at "
+        + ADR0027_DECISION_MERGE
+        + " accepted the post-D8 decision, keeps Final Canon deferred, and keeps runtime frozen. "
+        "RESIDUAL_A10_VALIDATION_PLAN is the next RESEARCH_PLANNING_ONLY gate; experiment execution is not authorized."
     )
     return value
 
