@@ -2,7 +2,7 @@
 
 ```yaml
 document_role: CURRENT_STATE
-status_as_of: 2026-08-11
+status_as_of: 2026-08-12
 authoritative_machine_source: ../../project-state.json
 machine_protocol: nk-project-state/2
 repository_status: RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY
@@ -17,11 +17,11 @@ notion_synchronized_through: 70acd0da61fee19131947aa56125833adb156ced
 blueprint_decision: ADR-0025
 post_blueprint_decision: ADR-0026
 active_architecture_issue: 88
+bpv1_d5_merge: a191e9c868c14af34a269dcdfae44406f1013bda
+bpv1_d5_r1_qualification_merge: 3856740570620fb2243e2f0da76359281ec4068f
 ```
 
 This file must not predict its own future merge SHA. GitHub live refs remain authoritative for `main`, PR heads, Actions, reviews and merge state.
-
-Historical reconciliation binding remains unchanged: publication checkpoint `10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c`; manifest source / previously committed Notion-synchronized descendant `70acd0da61fee19131947aa56125833adb156ced`. The later Notion synchronization checkpoint does not rewrite or replace the earlier publication checkpoint.
 
 ## Current boundary
 
@@ -44,8 +44,8 @@ logical ERASED ≠ physical deletion
 public repository ≠ open-source license
 operator approval ≠ independent validation
 qualifying review ≠ architecture proof
-review reconciliation ≠ BPV-1 execution permission
-preregistered plan ≠ BPV-1 execution permission
+SUPPORTED_FOR_SCOPE ≠ universal substrate proof
+D5 result ≠ D6 hypothesis classification
 ```
 
 ## Architecture state
@@ -64,8 +64,12 @@ open MATERIAL findings: 0
 BPV-1 plan: PREREGISTERED / EXECUTION_NOT_AUTHORIZED
 authoritative BPV-1 plan merge: a538d7f1e28858a88b9ee777ac7d6e05b85943db
 BPV-1 execution-admission package merge: 6027eec73f11c4626be5553de7e79f827be2c81d
-next bounded gate: BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION
-BPV-1 execution: ADMITTED_FOR_EXPERIMENT_ONLY
+D5 execution: COMPLETE / merge a191e9c868c14af34a269dcdfae44406f1013bda
+D5-R1 qualification: COMPLETE / QUALIFIED / merge 3856740570620fb2243e2f0da76359281ec4068f
+qualified oracle outcome: SUPPORTED_FOR_SCOPE / 12-of-12 mandatory fixtures PASS
+next bounded gate: D6_A10_HYPOTHESIS_CLASSIFICATION
+D6: NOT_STARTED
+BPV-1 execution authorization lane: ADMITTED_FOR_EXPERIMENT_ONLY
 runtime expansion: FROZEN
 ```
 
@@ -73,54 +77,41 @@ Integrated review: [EN](../INTEGRATED_A1_A10_REVIEW.md) / [RU](../INTEGRATED_A1_
 Independent-review protocol: [EN](../INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.md) / [RU](../INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.ru.md).  
 IAR-1 result: [human](../reviews/IAR-1_RESULT.md) / [machine](../reviews/IAR-1_RESULT.json).  
 IAR-1 reconciliation: [human](../reviews/IAR-1_RECONCILIATION.md) / [machine](../reviews/IAR-1_RECONCILIATION.json).  
-BPV-1 preregistration: [EN](../research/BPV1_PREREGISTRATION.md) / [RU](../research/BPV1_PREREGISTRATION.ru.md) / [machine](../research/BPV1_PREREGISTRATION.json).
+BPV-1 preregistration: [EN](../research/BPV1_PREREGISTRATION.md) / [RU](../research/BPV1_PREREGISTRATION.ru.md) / [machine](../research/BPV1_PREREGISTRATION.json).  
+D5-R1 qualification: [EN](../research/BPV1_D5_R1_QUALIFICATION.md) / [RU](../research/BPV1_D5_R1_QUALIFICATION.ru.md).
 
-## BPV-1 preregistration effect
+## D5 and D5-R1 effect
 
-Scenario `BPV1-001-cross-lineage-bounded-accountability-v1` is now an authoritative preregistered falsification plan. PR #110 merged it as `a538d7f1e28858a88b9ee777ac7d6e05b85943db`, with exact-head and post-merge validation green.
+PR #114 executed the exact preregistered BPV1-001 scenario under the already-authoritative execution admission. PR #115 then qualified the evidence path without changing the frozen plan, oracle, expected fixture semantics, thresholds, target hypotheses or HR01-HR10.
 
-The plan freezes before execution all twelve normative fields required by IAR-1-R1:
-
-```text
-scenario_id
-purpose_scope
-mandatory_obligations
-applicability_rules
-mandatory_observables
-equivalence_predicates
-allowed_declared_losses
-failure_thresholds
-hard_refutation_observations
-grounding_mode
-threat_model
-oracle_authority
-```
-
-It fixes one single-node, non-composed, conventional-digital cross-language instrument. Rust is `EXPERIMENTAL_INSTRUMENT_NOT_CANON`; independent team/custody and independent computation model remain `NOT_ESTABLISHED`. The subject may not reuse current Python domain models, Event envelopes, reducer logic, Receipt shape, or SQL profile as its semantic oracle.
-
-Post-execution normative rescoping invalidates the run and requires a new scenario identity.
-
-## BPV1_EXECUTION_ADMISSION — complete
-
-The separate execution-admission checkpoint is now authoritative. PR #112 merged the candidate package at `6027eec73f11c4626be5553de7e79f827be2c81d`, binding:
-
-- the authoritative preregistration and frozen digest (corrected to `7fe8174c604678c6b79d3fdeae83d7c5ab0d2fb15bfe343d41659d05d9496ad0` after independent verification found the originally recorded digest did not match the unmodified preregistration file's actual bytes);
-- machine-readable fixtures/oracle package derived only from the plan;
-- standalone evaluator tests passing before subject execution;
-- pinned Rust toolchain and experimental source boundary;
-- static scope audit proving no product runtime/profile integration.
-
-Admission authorizes only BPV1-001 subject implementation/execution. It is not A11, product runtime thaw, Final Canon or production authorization. The implementation under test cannot define expected semantic outcomes after execution begins.
+The D5-R1 path is:
 
 ```text
-BPV-1 execution: ADMITTED_FOR_EXPERIMENT_ONLY
-subject implementation: AUTHORIZED_FOR_BPV1-001_ONLY
-subject execution: AUTHORIZED_FOR_BPV1-001_ONLY
-product runtime integration: NOT AUTHORIZED
-runtime expansion: FROZEN
-product runtime thaw: NO
-production_authorized: false
+Rust subject
+→ raw implementation-neutral facts
+→ external qualifier without frozen expected outcomes
+→ nk-bpv1-observations/1
+→ unchanged frozen evaluator / BPV1-ORACLE-001
+→ SUPPORTED_FOR_SCOPE
 ```
+
+The external qualifier records that it does not read fixture expectations, does not read implementation-private runtime state, and does not accept the Rust subject's structural self-report for oracle-facing fields. If the required structural facts cannot be established, they are omitted so the unchanged evaluator can become `INDETERMINATE` rather than receiving fabricated values.
+
+The same frozen scenario still yields:
+
+```text
+mandatory fixtures: 12 / 12 PASS
+mutations: 512
+checkpoints: 128 / 256 / 512
+durable bytes @512: 42276 / 262144
+retained detailed predecessors: 52 / 64
+retained loss-witness records: 13 / 32
+growth rule: PASS
+```
+
+Additional corrective engineering tests, outside the preregistered workload, verify corruption detection after evidence or epistemic-position mutation and witness-storage boundedness across a 96-cycle stress run. Those extra tests do not alter BPV1-001 adjudication.
+
+The specific HR10 self-report pathway found after PR #114 is therefore removed for this evidence path. This **does not** establish independent team, custody or computation-model evidence; those remain `NOT_ESTABLISHED`.
 
 ## Current integrated/reconciled distinctions
 
@@ -146,7 +137,7 @@ substrate-independent specification ≠ universal portability proof
 
 No AI agent may select the license or accept ADR-0024. Track H source admission also remains operator-controlled.
 
-Not authorized automatically: BPV-1 execution before admission, product runtime thaw, reducer v2, new semantic/conflict Event verbs, new product database/language/model/integration profiles, executable NK-EPI/Temporal/full Admission, operational deletion expansion, Final Canon, maturity promotion or production authorization.
+Not authorized automatically: product runtime thaw, reducer v2, new semantic/conflict Event verbs, new product database/language/model/integration profiles, executable NK-EPI/Temporal/full Admission, operational deletion expansion, Final Canon, maturity promotion or production authorization.
 
 ```text
 Issue #18: PENDING_OPERATOR
@@ -157,15 +148,18 @@ Track H source admission: operator-controlled
 
 ## Current known gaps
 
-- BPV1-001 subject implementation has not yet been written or executed;
-- no cross-lineage BPV-1 subject realization has been executed;
-- P5/C3 is not independent-language or arbitrary-substrate evidence;
-- no bounded-memory run has yet tested the refined accountability boundary;
+- D6 A10 hypothesis classification has not started;
+- BPV1-001 remains same-repository custody and conventional-digital computation;
+- no independent implementation team/custody has been established;
+- P5/C3 is not arbitrary-substrate evidence;
 - composition/federation remains a separate capability class;
 - no arbitrary future-substrate support is demonstrated;
-- A10 major hypotheses remain unproved across independent computation models;
 - physical/cryptographic erasure execution and production operations remain absent.
+
+## Notion boundary
+
+Live Notion remains at the earlier D4.5 admission checkpoint. D5/D5-R1/D6 evidence is intentionally deferred to consolidated Option D D8 synchronization unless live governance changes that rule. GitHub is authoritative for current technical state until that sync/read-back occurs.
 
 ## Hard stop
 
-The only current next gate is `BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION`. BPV-1 execution is `ADMITTED_FOR_EXPERIMENT_ONLY`, bounded strictly to the BPV1-001 subject; it is not A11, product runtime permission, Final Canon or production authorization. Product runtime integration remains not authorized and runtime expansion remains `FROZEN`.
+The current next gate is `D6_A10_HYPOTHESIS_CLASSIFICATION`. D5 execution and D5-R1 qualification are complete; D6 is `NOT_STARTED`. `SUPPORTED_FOR_SCOPE` must not be silently generalized into A10 classifications that have not yet been adjudicated. Product runtime integration remains not authorized and runtime expansion remains `FROZEN`.
