@@ -23,6 +23,11 @@ def _d8_view(state: Mapping[str,Any])->dict[str,Any]:
         + ", and D8 consolidated record merge " + D8_RECORD_MERGE_SHA
         + " remain distinct historical roles."
     )
+    nonclaims=list(value.get("non_claims",[]))
+    historical_boundary="D8 preserved the assertion arithmetic while synchronizing descendant truth surfaces."
+    if historical_boundary not in nonclaims:
+        nonclaims.append(historical_boundary)
+    value["non_claims"]=nonclaims
     return value
 
 def _validate_post_decision(state: Mapping[str,Any])->None:
