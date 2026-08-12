@@ -1,0 +1,126 @@
+{
+  "protocol": "nk-integrated-post-bpv1-rereview/1",
+  "review_id": "BPV1-001-D7-integrated-rereview-v1",
+  "status": "CANDIDATE / AUTHORITATIVE_AFTER_MERGE",
+  "review_kind": "INTEGRATED_RE_REVIEW / NOT_INDEPENDENT_VALIDATION",
+  "input_checkpoint": "030d0a0585bd061b27329a38e29708c11304701a",
+  "inputs": {
+    "a1_a10": "DRAFTED / PROVISIONAL / RECONCILED_BY_OVERLAY",
+    "integrated_review": "nk-integrated-blueprint-review/A1-A10-review-1",
+    "independent_review": "IAR-1 / QUALIFYING_REVIEW_COMPLETE",
+    "independent_review_reconciliation": "IAR-1-R1 / COMPLETE",
+    "bpv1_plan_merge_sha": "a538d7f1e28858a88b9ee777ac7d6e05b85943db",
+    "bpv1_plan_sha256": "7fe8174c604678c6b79d3fdeae83d7c5ab0d2fb15bfe343d41659d05d9496ad0",
+    "d5_merge_sha": "a191e9c868c14af34a269dcdfae44406f1013bda",
+    "d5_r1_qualification_merge_sha": "3856740570620fb2243e2f0da76359281ec4068f",
+    "d6_classification_merge_sha": "030d0a0585bd061b27329a38e29708c11304701a"
+  },
+  "d6_summary": {
+    "SUPPORTED_FOR_SCOPE": ["A10-H01", "A10-H02", "A10-H04", "A10-H05", "A10-H07", "A10-H12"],
+    "WEAKENED": [],
+    "REFUTED": [],
+    "INDETERMINATE": [],
+    "NOT_TESTED": ["A10-H03", "A10-H06", "A10-H08", "A10-H09", "A10-H10", "A10-H11"]
+  },
+  "review_outcome": "PROVISIONAL_VALIDATION_REVIEW_COMPLETE",
+  "architecture_position": "STRENGTHENED_FOR_BPV1_SCOPE / STILL_PROVISIONAL",
+  "blocking_internal_contradiction": "NONE_KNOWN_IN_REVIEWED_EVIDENCE_BACKED_SCOPE",
+  "findings": [
+    {
+      "finding_id": "D7-F01",
+      "severity": "STRENGTHENING",
+      "status": "CONFIRMED_FOR_SCOPE",
+      "finding": "The evidence-backed semantic core survived one materially different cross-language bounded realization without requiring the current Event/reducer/Receipt/SQL representation.",
+      "basis": ["A10-H01", "A10-H02", "A10-H04", "A10-H05", "A10-H07", "A10-H12"],
+      "architectural_effect": "Retain the provisional meaning-level obligations, but state support as BPV1-scoped rather than substrate-universal."
+    },
+    {
+      "finding_id": "D7-F02",
+      "severity": "MATERIAL_OPEN_RESEARCH",
+      "status": "OPEN",
+      "finding": "Identity and continuation across an actual representation migration remain unadjudicated.",
+      "basis": ["A10-H03=NOT_TESTED"],
+      "architectural_effect": "Do not claim that cross-representation migration preserves semantic identity until a dedicated migration scenario is preregistered and executed."
+    },
+    {
+      "finding_id": "D7-F03",
+      "severity": "MATERIAL_OPEN_RESEARCH",
+      "status": "OPEN",
+      "finding": "Physical and cryptographic erasure claims remain outside BPV1-001 and therefore cannot be strengthened by D5/D6.",
+      "basis": ["A10-H06=NOT_TESTED"],
+      "architectural_effect": "Keep physical and cryptographic erasure separately scoped and evidence-dependent; logical loss/compaction remains insufficient evidence."
+    },
+    {
+      "finding_id": "D7-F04",
+      "severity": "MATERIAL_OPEN_RESEARCH",
+      "status": "OPEN",
+      "finding": "Analog, neuromorphic and probabilistic computation classes remain untested.",
+      "basis": ["A10-H08=NOT_TESTED", "A10-H09=NOT_TESTED"],
+      "architectural_effect": "Future-substrate language must remain hypothesis-level; BPV1-001 is conventional digital evidence only."
+    },
+    {
+      "finding_id": "D7-F05",
+      "severity": "MATERIAL_OPEN_RESEARCH",
+      "status": "OPEN",
+      "finding": "Storage and computation independence were not isolated as independent experimental axes.",
+      "basis": ["A10-H10=NOT_TESTED"],
+      "architectural_effect": "Do not infer independent storage/computation substitutability from a run that changed several mechanisms together."
+    },
+    {
+      "finding_id": "D7-F06",
+      "severity": "BOUNDARY_CLARIFICATION",
+      "status": "PRESERVED",
+      "finding": "The laboratory-versus-Canon governance boundary remains operationally preserved, but BPV1-001 did not adjudicate A10-H11 as an experimental target.",
+      "basis": ["A10-H11=NOT_TESTED", "P1-C5=BOUNDED_REFERENCE_LABORATORY"],
+      "architectural_effect": "Preserve prior governance evidence without relabelling it as BPV1 substrate evidence."
+    },
+    {
+      "finding_id": "D7-F07",
+      "severity": "MATERIAL_LIMITATION",
+      "status": "OPEN",
+      "finding": "A10-H07 is strengthened only to one same-repository Rust realization on a conventional digital computation model; independent implementation team, custody and computation model remain unestablished.",
+      "basis": ["A10-H07=SUPPORTED_FOR_SCOPE", "independent_team=NOT_ESTABLISHED", "independent_custody=NOT_ESTABLISHED", "independent_computation_model=NOT_ESTABLISHED / CONVENTIONAL_DIGITAL"],
+      "architectural_effect": "Do not describe BPV1-001 as independent implementation validation or universal portability proof; independent team, custody and computation-model validation remain NOT_ESTABLISHED."
+    },
+    {
+      "finding_id": "D7-F08",
+      "severity": "MATERIAL_OPEN_RESEARCH",
+      "status": "OPEN",
+      "finding": "Composition and federation remain a separate capability class outside the single-node BPV1-001 scope.",
+      "basis": ["BPV1-001 single-node scope", "IAR-1-R1 local conformance does not imply composition conformance"],
+      "architectural_effect": "No local conformance result may be promoted to federated/composed conformance."
+    },
+    {
+      "finding_id": "D7-F09",
+      "severity": "GOVERNANCE_CONFIRMATION",
+      "status": "CONFIRMED",
+      "finding": "Neither D5 nor D6 creates automatic Canon or runtime authority.",
+      "basis": ["runtime_expansion=FROZEN", "product_runtime_thaw=false", "automatic_canon_promotion=false"],
+      "architectural_effect": "P1-C5 remains a bounded reference laboratory and the Rust subject remains a falsification instrument only."
+    },
+    {
+      "finding_id": "D7-F10",
+      "severity": "SCOPE_REFINEMENT",
+      "status": "ADOPTED_FOR_PROVISIONAL_INTERPRETATION",
+      "finding": "The strongest defensible substrate-independence statement after BPV1-001 is that selected semantic obligations survived one materially different bounded conventional-digital realization under a frozen external evaluation protocol.",
+      "basis": ["D6 6 SUPPORTED_FOR_SCOPE / 6 NOT_TESTED", "D5-R1 QUALIFIED", "12/12 mandatory fixtures PASS"],
+      "architectural_effect": "Use this scoped statement in D8 synchronization; reject wording that implies arbitrary future-substrate support."
+    }
+  ],
+  "review_conclusions": {
+    "tested_semantic_core_strengthened": true,
+    "a1_a10_final_canon": false,
+    "universal_substrate_independence_proven": false,
+    "independent_implementation_validation_established": false,
+    "independent_computation_model_established": false,
+    "runtime_thaw_authorized": false,
+    "production_authorized": false,
+    "recommended_next_gate": "D8_CONSOLIDATED_AUTHORITATIVE_SYNC"
+  },
+  "next_gate": "D8_CONSOLIDATED_AUTHORITATIVE_SYNC",
+  "notion_sync_allowed_at_next_gate": true,
+  "operator_canon_runtime_decision_after_d8": "SEPARATE / REQUIRED",
+  "runtime_expansion": "FROZEN",
+  "product_runtime_thaw": false,
+  "production_authorized": false
+}
