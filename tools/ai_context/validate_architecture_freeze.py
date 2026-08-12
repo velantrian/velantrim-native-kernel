@@ -455,7 +455,7 @@ def validate(state: Mapping[str, Any], *, repo: Path) -> None:
     _require(EXPECTED_D5_MERGE_SHA in meaning, "Issue #88 must record D5 merge")
     _require(EXPECTED_D5_R1_MERGE_SHA in meaning, "Issue #88 must record D5-R1 qualification merge")
     _require(EXPECTED_D5_R1_OUTCOME in meaning, "Issue #88 must record qualified BPV-1 outcome")
-    _require(EXPECTED_CURRENT_NEXT_CONTENT_SLICE in meaning and "NOT_STARTED" in meaning, "Issue #88 must record D6 as next/not-started")
+    _require("D6 A10 hypothesis classification" in meaning and "NOT_STARTED" in meaning, "Issue #88 must record D6 as next/not-started")
     _require("runtime remain" in meaning.lower() and "frozen" in meaning.lower(), "Issue #88 must preserve runtime freeze")
     verification = issue.get("verification")
     _require(isinstance(verification, Mapping), "Issue #88 verification required")
