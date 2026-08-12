@@ -17,6 +17,7 @@ on:
       - "AGENTS.md"
       - "docs/ai/**"
       - "docs/research/BPV1_D5_R1_QUALIFICATION.md"
+      - "docs/research/BPV1_D5_R1_QUALIFICATION.ru.md"
   push:
     branches: [main]
     paths:
@@ -34,6 +35,7 @@ on:
       - "AGENTS.md"
       - "docs/ai/**"
       - "docs/research/BPV1_D5_R1_QUALIFICATION.md"
+      - "docs/research/BPV1_D5_R1_QUALIFICATION.ru.md"
   workflow_dispatch:
 
 permissions:
@@ -118,6 +120,23 @@ jobs:
           allowed = {'SUPPORTED_FOR_SCOPE', 'WEAKENED', 'REFUTED', 'INDETERMINATE', 'NOT_TESTED'}
           assert report['outcome'] in allowed, report['outcome']
           print('BPV1-D5-R1 outcome:', report['outcome'])
+          PY
+
+      - name: Fresh qualification matches repository evidence
+        run: |
+          diff <(python -m json.tool /tmp/bpv1-d5-r1-qualification.json) \
+               <(python -m json.tool experiments/bpv1/BPV1-001/results/d5-r1/qualification-report.json)
+          diff <(python -m json.tool /tmp/bpv1-d5-r1-observations.json) \
+               <(python -m json.tool experiments/bpv1/BPV1-001/results/d5-r1/observations.json)
+          python - <<'PY'
+          import json
+          report = json.load(open('/tmp/bpv1-d5-r1-evaluation.json'))
+          summary = json.load(open('experiments/bpv1/BPV1-001/results/d5-r1/evaluation-summary.json'))
+          assert report['outcome'] == summary['outcome']
+          statuses = {entry['fixture_id']: entry['status'] for entry in report['fixture_results']}
+          assert statuses == summary['fixture_status']
+          assert sum(value == 'PASS' for value in statuses.values()) == summary['mandatory_fixture_pass_count']
+          assert report['plan_sha256'] == summary['plan_sha256']
           PY
 
       - name: Emit D5-R1 evidence to job log
