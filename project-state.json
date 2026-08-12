@@ -1,7 +1,7 @@
 {
   "protocol": "nk-project-state/2",
   "snapshot_id": "native-kernel/state/2026-08-12-residual-a10-plan-synchronized",
-  "observed_at": "2026-08-12T09:44:18Z",
+  "observed_at": "2026-08-12T09:50:00Z",
   "repository": {
     "full_name": "velantrian/velantrim-native-kernel",
     "visibility": "PUBLIC",
