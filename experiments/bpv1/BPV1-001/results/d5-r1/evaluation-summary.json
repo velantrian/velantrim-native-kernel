@@ -1,0 +1,50 @@
+{
+  "protocol": "nk-bpv1-d5-r1-evaluation-summary/1",
+  "scenario_id": "BPV1-001-cross-lineage-bounded-accountability-v1",
+  "plan_sha256": "7fe8174c604678c6b79d3fdeae83d7c5ab0d2fb15bfe343d41659d05d9496ad0",
+  "frozen_evaluator": "tools/bpv1/evaluate.py",
+  "frozen_fixture_spec": "experiments/bpv1/BPV1-001/admission/fixtures.json",
+  "oracle_authority": "BPV1-ORACLE-001",
+  "qualification_status": "QUALIFIED",
+  "outcome": "SUPPORTED_FOR_SCOPE",
+  "mandatory_fixture_count": 12,
+  "mandatory_fixture_pass_count": 12,
+  "mandatory_fixture_fail_count": 0,
+  "mandatory_fixture_indeterminate_count": 0,
+  "fixture_status": {
+    "BPV1-FX01-UNKNOWN-NOT-FALSE": "PASS",
+    "BPV1-FX02-ROLE-NONCONFLATION": "PASS",
+    "BPV1-FX03-CONTEXT-BINDING": "PASS",
+    "BPV1-FX04-REVISION-SUPERSESSION": "PASS",
+    "BPV1-FX05-UNRESOLVED-PLURALITY": "PASS",
+    "BPV1-FX06-BOUNDED-COMPACTION": "PASS",
+    "BPV1-FX07-TRUNCATION-ROLLBACK": "PASS",
+    "BPV1-FX08-FORGED-AUTHORITY": "PASS",
+    "BPV1-FX09-WITHHELD-COUNTEREVIDENCE": "PASS",
+    "BPV1-FX10-DECLARED-LOSS-AND-UNSUPPORTED": "PASS",
+    "BPV1-FX11-NON-EVENT-HISTORY": "PASS",
+    "BPV1-FX12-HIDDEN-SEMANTIC-DIVERGENCE": "PASS"
+  },
+  "workload": {
+    "mutation_count": 512,
+    "checkpoint_count": 3,
+    "durable_bytes_at_128": 32118,
+    "durable_bytes_at_256": 37530,
+    "durable_bytes_at_512": 42276,
+    "retained_detailed_predecessors": 52,
+    "loss_witness_count": 13,
+    "growth_rule_passed": true
+  },
+  "source_exact_head": "5433ec0e56a2882ddfdd44e1d131cdca1ee1a082",
+  "source_workflow_run": 31549755461,
+  "source_jobs": {
+    "python_3_11": 93969695483,
+    "python_3_12": 93969695477
+  },
+  "full_evaluator_output": "REGENERATED_AND_LOGGED_BY_EXACT_HEAD_CI",
+  "non_claims": [
+    "This summary does not replace the frozen evaluator or fixture specification.",
+    "SUPPORTED_FOR_SCOPE is scoped to BPV1-001 and is not Final Canon, production readiness, or universal substrate portability.",
+    "Independent team, custody, and computation-model evidence remain NOT_ESTABLISHED."
+  ]
+}

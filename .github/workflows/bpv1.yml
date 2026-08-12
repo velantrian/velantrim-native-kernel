@@ -10,6 +10,14 @@ on:
       - "experiments/bpv1/BPV1-001/admission/**"
       - "tools/bpv1/**"
       - "tests/test_bpv1_subject.py"
+      - "project-state.json"
+      - "STATUS.md"
+      - "README.md"
+      - "ROADMAP.md"
+      - "AGENTS.md"
+      - "docs/ai/**"
+      - "docs/research/BPV1_D5_R1_QUALIFICATION.md"
+      - "docs/research/BPV1_D5_R1_QUALIFICATION.ru.md"
   push:
     branches: [main]
     paths:
@@ -20,6 +28,14 @@ on:
       - "experiments/bpv1/BPV1-001/admission/**"
       - "tools/bpv1/**"
       - "tests/test_bpv1_subject.py"
+      - "project-state.json"
+      - "STATUS.md"
+      - "README.md"
+      - "ROADMAP.md"
+      - "AGENTS.md"
+      - "docs/ai/**"
+      - "docs/research/BPV1_D5_R1_QUALIFICATION.md"
+      - "docs/research/BPV1_D5_R1_QUALIFICATION.ru.md"
   workflow_dispatch:
 
 permissions:
@@ -29,7 +45,7 @@ jobs:
   subject:
     name: Python ${{ matrix.python-version }}
     runs-on: ubuntu-24.04
-    timeout-minutes: 12
+    timeout-minutes: 15
     strategy:
       fail-fast: false
       matrix:
@@ -50,8 +66,17 @@ jobs:
       - name: Install pinned Rust toolchain (1.97.1)
         run: rustup toolchain install 1.97.1 --profile minimal
 
-      - name: Audit bounded subject scope
-        run: python tools/bpv1/audit_scope.py --repo . --mode subject --base e2deac859c2a56f29b88c54f1da440f3f04734dc --head HEAD
+      - name: Audit bounded D5-R1 scope
+        run: python tools/bpv1/audit_scope.py --repo . --mode qualification --base a191e9c868c14af34a269dcdfae44406f1013bda --head HEAD
+
+      - name: Prove frozen BPV1 authorities were not edited
+        run: |
+          git diff --exit-code a191e9c868c14af34a269dcdfae44406f1013bda...HEAD -- \
+            docs/research/BPV1_PREREGISTRATION.json \
+            docs/research/BPV1_PREREGISTRATION.md \
+            docs/research/BPV1_PREREGISTRATION.ru.md \
+            experiments/bpv1/BPV1-001/admission \
+            tools/bpv1/evaluate.py
 
       - name: Validate exact preregistered plan digest
         run: |
@@ -61,28 +86,78 @@ jobs:
         working-directory: experiments/bpv1/BPV1-001/subject
         run: rustup run 1.97.1 cargo build --release --locked
 
-      - name: Run subject and regenerate observations
-        run: |
-          experiments/bpv1/BPV1-001/subject/target/release/bpv1-001-subject --output /tmp/bpv1-fresh-observations.json
+      - name: Run Rust integrity and boundedness tests
+        working-directory: experiments/bpv1/BPV1-001/subject
+        run: rustup run 1.97.1 cargo test --release --locked
 
-      - name: Evaluate fresh observations against the frozen oracle
+      - name: Run subject to raw facts
         run: |
-          python tools/bpv1/evaluate.py /tmp/bpv1-fresh-observations.json --output /tmp/bpv1-fresh-evaluation-report.json
+          experiments/bpv1/BPV1-001/subject/target/release/bpv1-001-subject --output /tmp/bpv1-d5-r1-raw.json
+
+      - name: Qualify observations outside the subject
+        run: |
+          python tools/bpv1/qualify_observations.py /tmp/bpv1-d5-r1-raw.json \
+            --repo . \
+            --output /tmp/bpv1-d5-r1-observations.json \
+            --qualification-report /tmp/bpv1-d5-r1-qualification.json
           python - <<'PY'
           import json
-          report = json.load(open("/tmp/bpv1-fresh-evaluation-report.json"))
-          failing = [f for f in report["fixture_results"] if f["mandatory"] and f["status"] == "FAIL"]
-          assert not failing, f"mandatory fixture failure(s): {failing}"
-          assert report["outcome"] != "REFUTED", report["outcome"]
-          print(f"BPV1-001 outcome: {report['outcome']}")
+          report = json.load(open('/tmp/bpv1-d5-r1-qualification.json'))
+          assert report['status'] == 'QUALIFIED', report
+          assert report['oracle_fixture_expectations_read'] is False
+          assert report['implementation_private_runtime_state_read'] is False
+          assert report['subject_self_report_used_for_structural_oracle_fields'] is False
           PY
 
-      - name: Fresh observations match committed reference bundle exactly
+      - name: Evaluate qualified observations against frozen oracle
         run: |
-          diff <(python -m json.tool /tmp/bpv1-fresh-observations.json) <(python -m json.tool experiments/bpv1/BPV1-001/results/observations.json)
+          python tools/bpv1/evaluate.py /tmp/bpv1-d5-r1-observations.json \
+            --spec experiments/bpv1/BPV1-001/admission/fixtures.json \
+            --output /tmp/bpv1-d5-r1-evaluation.json
+          python - <<'PY'
+          import json
+          report = json.load(open('/tmp/bpv1-d5-r1-evaluation.json'))
+          allowed = {'SUPPORTED_FOR_SCOPE', 'WEAKENED', 'REFUTED', 'INDETERMINATE', 'NOT_TESTED'}
+          assert report['outcome'] in allowed, report['outcome']
+          print('BPV1-D5-R1 outcome:', report['outcome'])
+          PY
 
-      - name: Compile subject self-tests
-        run: python -m compileall -q tests/test_bpv1_subject.py
+      - name: Fresh qualification matches repository evidence exactly
+        run: |
+          diff <(python -m json.tool /tmp/bpv1-d5-r1-qualification.json) \
+               <(python -m json.tool experiments/bpv1/BPV1-001/results/d5-r1/qualification-report.json)
+          diff <(python -m json.tool /tmp/bpv1-d5-r1-observations.json) \
+               <(python -m json.tool experiments/bpv1/BPV1-001/results/d5-r1/observations.json)
+          diff <(python -m json.tool /tmp/bpv1-d5-r1-evaluation.json) \
+               <(python -m json.tool experiments/bpv1/BPV1-001/results/d5-r1/evaluation-report.json)
+          python - <<'PY'
+          import json
+          report = json.load(open('/tmp/bpv1-d5-r1-evaluation.json'))
+          summary = json.load(open('experiments/bpv1/BPV1-001/results/d5-r1/evaluation-summary.json'))
+          assert report['outcome'] == summary['outcome']
+          statuses = {entry['fixture_id']: entry['status'] for entry in report['fixture_results']}
+          assert statuses == summary['fixture_status']
+          assert sum(value == 'PASS' for value in statuses.values()) == summary['mandatory_fixture_pass_count']
+          assert report['plan_sha256'] == summary['plan_sha256']
+          PY
 
-      - name: Run subject self-tests
+      - name: Emit D5-R1 evidence to job log
+        run: |
+          echo '=== BPV1_D5_R1_RAW_BEGIN ==='
+          cat /tmp/bpv1-d5-r1-raw.json
+          echo '=== BPV1_D5_R1_RAW_END ==='
+          echo '=== BPV1_D5_R1_QUALIFICATION_BEGIN ==='
+          cat /tmp/bpv1-d5-r1-qualification.json
+          echo '=== BPV1_D5_R1_QUALIFICATION_END ==='
+          echo '=== BPV1_D5_R1_OBSERVATIONS_BEGIN ==='
+          cat /tmp/bpv1-d5-r1-observations.json
+          echo '=== BPV1_D5_R1_OBSERVATIONS_END ==='
+          echo '=== BPV1_D5_R1_EVALUATION_BEGIN ==='
+          cat /tmp/bpv1-d5-r1-evaluation.json
+          echo '=== BPV1_D5_R1_EVALUATION_END ==='
+
+      - name: Compile subject qualification tests
+        run: python -m compileall -q tests/test_bpv1_subject.py tools/bpv1/qualify_observations.py
+
+      - name: Run subject qualification tests
         run: python -m unittest discover -s tests -p 'test_bpv1_subject.py' -v

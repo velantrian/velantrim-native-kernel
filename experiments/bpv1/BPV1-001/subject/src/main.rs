@@ -1,25 +1,20 @@
 //! BPV1-001 experimental falsification instrument runner.
 //!
-//! EXPERIMENTAL_INSTRUMENT_NOT_CANON. Runs the preregistered bounded
-//! workload and fixture scenarios against the engine in `engine.rs`, then
-//! emits implementation-neutral observations in the frozen
-//! `nk-bpv1-observations/1` shape. This runner reports facts it observes on
-//! the engine's already-public state; it does not choose expected outcomes,
-//! does not read the oracle/evaluator, and does not consult a pass/fail
-//! answer before emitting its observations.
+//! EXPERIMENTAL_INSTRUMENT_NOT_CANON. The subject emits raw, implementation-
+//! neutral facts only. It does not emit the oracle's PASS-oriented booleans
+//! for structural claims such as "no event log" or "no exact replay".
+//! `tools/bpv1/qualify_observations.py` derives the frozen observation shape
+//! externally before `evaluate.py` applies the preregistered oracle.
 
 mod engine;
 
-use engine::{Engine, EpistemicPosition, PreservationState};
+use engine::{Engine, EpistemicPosition};
 use serde_json::{json, Value};
-use std::collections::HashMap;
 use std::path::PathBuf;
 
 const SCENARIO_ID: &str = "BPV1-001-cross-lineage-bounded-accountability-v1";
 const PLAN_SHA256: &str = "7fe8174c604678c6b79d3fdeae83d7c5ab0d2fb15bfe343d41659d05d9496ad0";
 
-// Fixed slot assignments. Slots not listed here run the generic bulk
-// workload used to exercise bounded-memory behavior.
 const SLOT_FX01_UNKNOWN: usize = 0;
 const SLOT_FX02_ROLES: usize = 1;
 const SLOT_FX03_CONTEXT_A: usize = 2;
@@ -34,7 +29,18 @@ const SLOT_FX12_DIVERGENT_A: usize = 10;
 const SLOT_FX12_DIVERGENT_B: usize = 11;
 
 const REVISION_CYCLES: u64 = 16;
-const CHECKPOINT_CYCLES: [u64; 3] = [4, 8, 16]; // corresponds to mutation counts 128, 256, 512
+const CHECKPOINT_CYCLES: [u64; 3] = [4, 8, 16];
+
+fn position_name(position: EpistemicPosition) -> &'static str {
+    match position {
+        EpistemicPosition::Unknown => "UNKNOWN",
+        EpistemicPosition::Supported => "SUPPORTED",
+        EpistemicPosition::Refuted => "REFUTED",
+        EpistemicPosition::ScopedUncertain => "SCOPED_UNCERTAIN",
+        EpistemicPosition::UnresolvedPlurality => "UNRESOLVED_PLURALITY",
+        EpistemicPosition::Unsupported => "UNSUPPORTED",
+    }
+}
 
 fn run_cycle(engine: &mut Engine, cycle: u64) {
     for slot in 0..engine::ACTIVE_CLAIM_SLOTS {
@@ -52,8 +58,6 @@ fn run_cycle(engine: &mut Engine, cycle: u64) {
                         false,
                     );
                 } else {
-                    // Keep genuinely Unknown: never revise toward Refuted or
-                    // Supported just because time passed without evidence.
                     engine.touch(slot);
                 }
             }
@@ -177,7 +181,7 @@ fn run_cycle(engine: &mut Engine, cycle: u64) {
                         vec!["EVIDENCE-PARTIAL".to_string()],
                         "AUTH-TRUSTED",
                         EpistemicPosition::Supported,
-                        true, // counterevidence_withheld
+                        true,
                     );
                 } else {
                     engine.touch(slot);
@@ -239,8 +243,6 @@ fn run_cycle(engine: &mut Engine, cycle: u64) {
                 }
             }
             _ => {
-                // Generic bulk workload: plain revisions to exercise bounded
-                // memory/compaction behavior at scale.
                 engine.admit_or_revise(
                     slot,
                     &format!("bulk-proposition-slot{slot}-v{cycle}"),
@@ -257,267 +259,178 @@ fn run_cycle(engine: &mut Engine, cycle: u64) {
     engine.compact_cycle(cycle);
 }
 
-fn checkpoint_index_for_cycle(cycle: u64) -> Option<usize> {
-    CHECKPOINT_CYCLES.iter().position(|c| *c == cycle)
+fn current_raw(engine: &Engine, slot: usize) -> Value {
+    match engine.slots[slot].current.as_ref() {
+        Some(version) => json!({
+            "version_id": version.version_id,
+            "proposition": version.proposition,
+            "context": version.context,
+            "source": version.source,
+            "evidence": version.evidence,
+            "authority": version.authority,
+            "epistemic_position": position_name(version.epistemic_position),
+            "predecessor_version_id": version.predecessor_version_id,
+        }),
+        None => Value::Null,
+    }
+}
+
+fn retained_identities(engine: &Engine) -> Vec<String> {
+    let mut identities = Vec::new();
+    for slot in &engine.slots {
+        if let Some(current) = &slot.current {
+            identities.push(format!("slot-{}:v{}", slot.slot_id, current.version_id));
+        }
+        for predecessor in &slot.detailed_predecessors {
+            identities.push(format!("slot-{}:v{}", slot.slot_id, predecessor.version_id));
+        }
+    }
+    identities.sort();
+    identities
+}
+
+fn build_raw_observations(engine: &Engine, checkpoints: &[(u64, usize)]) -> Value {
+    let fx02 = current_raw(engine, SLOT_FX02_ROLES);
+    let fx04_slot = &engine.slots[SLOT_FX04_REVISION];
+    let fx05_slot = &engine.slots[SLOT_FX05_PLURALITY];
+    let fx06_witnesses: Vec<Value> = engine
+        .loss_witnesses
+        .iter()
+        .map(|witness| json!({
+            "witness_id": witness.witness_id,
+            "affected_claim_identities": witness.affected_claim_identities,
+            "compacted_count": witness.compacted_count,
+            "reason": witness.reason,
+            "basis_authority": witness.basis_authority,
+            "emitted_at_mutation": witness.emitted_at_mutation,
+        }))
+        .collect();
+    let detail_counts: Vec<usize> = engine
+        .slots
+        .iter()
+        .map(|slot| slot.detailed_predecessors.len())
+        .collect();
+    let compacted_summary_counts: Vec<usize> = engine
+        .slots
+        .iter()
+        .map(|slot| slot.compacted_summaries.len())
+        .collect();
+    let accountable_slot_count = engine
+        .slots
+        .iter()
+        .filter(|slot| slot.current.is_some() || !slot.plurality.is_empty())
+        .count();
+    let checkpoint_values: Vec<Value> = checkpoints
+        .iter()
+        .map(|(mutation, bytes)| json!({"mutation": mutation, "durable_bytes": bytes}))
+        .collect();
+
+    json!({
+        "protocol": "nk-bpv1-raw-observations/1",
+        "scenario_id": SCENARIO_ID,
+        "plan_sha256": PLAN_SHA256,
+        "fixtures": {
+            "BPV1-FX01-UNKNOWN-NOT-FALSE": {
+                "current": current_raw(engine, SLOT_FX01_UNKNOWN),
+            },
+            "BPV1-FX02-ROLE-NONCONFLATION": {
+                "current": fx02,
+            },
+            "BPV1-FX03-CONTEXT-BINDING": {
+                "a": current_raw(engine, SLOT_FX03_CONTEXT_A),
+                "b": current_raw(engine, SLOT_FX03_CONTEXT_B),
+            },
+            "BPV1-FX04-REVISION-SUPERSESSION": {
+                "current": current_raw(engine, SLOT_FX04_REVISION),
+                "detailed_predecessor_version_ids": fx04_slot.detailed_predecessors.iter().map(|v| v.version_id).collect::<Vec<_>>(),
+                "compacted_summary_version_ids": fx04_slot.compacted_summaries.iter().map(|v| v.version_id).collect::<Vec<_>>(),
+            },
+            "BPV1-FX05-UNRESOLVED-PLURALITY": {
+                "current_present": fx05_slot.current.is_some(),
+                "candidates": fx05_slot.plurality.iter().map(|candidate| json!({
+                    "version_id": candidate.version.version_id,
+                    "proposition": candidate.version.proposition,
+                    "context": candidate.version.context,
+                    "source": candidate.version.source,
+                    "authority": candidate.version.authority,
+                    "epistemic_position": position_name(candidate.version.epistemic_position),
+                })).collect::<Vec<_>>(),
+            },
+            "BPV1-FX06-BOUNDED-COMPACTION": {
+                "retained_detail_per_slot": engine::RETAINED_DETAIL_PER_SLOT,
+                "retained_identities": retained_identities(engine),
+                "detail_counts": detail_counts,
+                "compacted_summary_counts": compacted_summary_counts,
+                "loss_witnesses": fx06_witnesses,
+                "loss_witness_rollup": engine.loss_witness_rollup,
+            },
+            "BPV1-FX07-TRUNCATION-ROLLBACK": {
+                "slot_corrupted": engine.slots[SLOT_FX07_TRUNCATION].corrupted,
+                "corruption_records": engine.corruption_records.iter().filter(|record| record.slot == SLOT_FX07_TRUNCATION).map(|record| json!({
+                    "slot": record.slot,
+                    "detected_at_mutation": record.detected_at_mutation,
+                    "description": record.description,
+                })).collect::<Vec<_>>(),
+            },
+            "BPV1-FX08-FORGED-AUTHORITY": {
+                "current": current_raw(engine, SLOT_FX08_FORGED_AUTHORITY),
+                "rejected_attempts": engine.rejected_authority_attempts.iter().filter(|attempt| attempt.slot == SLOT_FX08_FORGED_AUTHORITY).map(|attempt| json!({
+                    "attempted_authority": attempt.attempted_authority,
+                    "attempted_at_mutation": attempt.attempted_at_mutation,
+                })).collect::<Vec<_>>(),
+            },
+            "BPV1-FX09-WITHHELD-COUNTEREVIDENCE": {
+                "current": current_raw(engine, SLOT_FX09_WITHHELD_COUNTEREVIDENCE),
+            },
+            "BPV1-FX10-DECLARED-LOSS-AND-UNSUPPORTED": {
+                "detailed_predecessor_count": engine.slots[SLOT_FX10_COMPACTED_LOSS].detailed_predecessors.len(),
+                "compacted_summary_count": engine.slots[SLOT_FX10_COMPACTED_LOSS].compacted_summaries.len(),
+                "loss_witness_record_count": engine.loss_witness_record_count(),
+            },
+            "BPV1-FX11-NON-EVENT-HISTORY": {
+                "active_slot_count": engine::ACTIVE_CLAIM_SLOTS,
+                "accountable_slot_count": accountable_slot_count,
+            },
+            "BPV1-FX12-HIDDEN-SEMANTIC-DIVERGENCE": {
+                "a": current_raw(engine, SLOT_FX12_DIVERGENT_A),
+                "b": current_raw(engine, SLOT_FX12_DIVERGENT_B),
+            },
+        },
+        "workload": {
+            "mutation_count": engine.mutation_count,
+            "checkpoints": checkpoint_values,
+        },
+    })
 }
 
 fn main() {
     let mut engine = Engine::new();
-    let mut durable_bytes_by_checkpoint: HashMap<usize, usize> = HashMap::new();
+    let mut checkpoints: Vec<(u64, usize)> = Vec::new();
 
     for cycle in 1..=REVISION_CYCLES {
         run_cycle(&mut engine, cycle);
-        if let Some(idx) = checkpoint_index_for_cycle(cycle) {
-            durable_bytes_by_checkpoint.insert(idx, engine.durable_state_bytes());
+        if CHECKPOINT_CYCLES.contains(&cycle) {
+            checkpoints.push((engine.mutation_count, engine.durable_state_bytes()));
         }
     }
 
-    let durable_bytes_at_128 = *durable_bytes_by_checkpoint.get(&0).unwrap_or(&0);
-    let durable_bytes_at_256 = *durable_bytes_by_checkpoint.get(&1).unwrap_or(&0);
-    let durable_bytes_at_512 = *durable_bytes_by_checkpoint.get(&2).unwrap_or(&0);
-
-    let growth_rule_passed =
-        (durable_bytes_at_512 as f64) <= (durable_bytes_at_256 as f64) * 1.25 + 4096.0;
-
-    let observations = build_observations(
-        &engine,
-        durable_bytes_at_128,
-        durable_bytes_at_256,
-        durable_bytes_at_512,
-        growth_rule_passed,
-    );
-
+    let observations = build_raw_observations(&engine, &checkpoints);
     let args: Vec<String> = std::env::args().collect();
     let output_path = args
         .iter()
-        .position(|a| a == "--output")
-        .and_then(|i| args.get(i + 1))
+        .position(|arg| arg == "--output")
+        .and_then(|index| args.get(index + 1))
         .map(PathBuf::from);
+    let rendered = serde_json::to_string_pretty(&observations).expect("raw observations must serialize");
 
-    let rendered = serde_json::to_string_pretty(&observations).expect("observations must serialize");
     match output_path {
         Some(path) => {
             if let Some(parent) = path.parent() {
                 std::fs::create_dir_all(parent).expect("create output dir");
             }
-            std::fs::write(&path, rendered).expect("write observations file");
-            eprintln!("wrote observations to {}", path.display());
+            std::fs::write(&path, rendered).expect("write raw observations file");
+            eprintln!("wrote raw observations to {}", path.display());
         }
         None => println!("{rendered}"),
     }
-}
-
-fn find_current<'a>(engine: &'a Engine, slot: usize) -> Option<&'a engine::ClaimVersion> {
-    engine.slots[slot].current.as_ref()
-}
-
-fn build_observations(
-    engine: &Engine,
-    durable_bytes_at_128: usize,
-    durable_bytes_at_256: usize,
-    durable_bytes_at_512: usize,
-    growth_rule_passed: bool,
-) -> Value {
-    let fx01 = {
-        let version = find_current(engine, SLOT_FX01_UNKNOWN);
-        let position = version.map(|v| v.epistemic_position);
-        json!({
-            "epistemic_position": match position {
-                Some(EpistemicPosition::Unknown) => "UNKNOWN",
-                _ => "OTHER",
-            },
-            "coerced_unknown_to_false": !matches!(position, Some(EpistemicPosition::Unknown)),
-        })
-    };
-
-    let fx02 = {
-        let version = find_current(engine, SLOT_FX02_ROLES);
-        let (roles_distinguishable, authority_scope_explicit, material_role_collapse) = match version {
-            Some(v) => {
-                let distinguishable = v.source != v.authority
-                    && !v.evidence.iter().any(|e| e == &v.source || e == &v.authority);
-                (distinguishable, !v.authority.is_empty(), !distinguishable)
-            }
-            None => (false, false, true),
-        };
-        json!({
-            "roles_distinguishable": roles_distinguishable,
-            "authority_scope_explicit": authority_scope_explicit,
-            "material_role_collapse": material_role_collapse,
-        })
-    };
-
-    let fx03 = {
-        let a = find_current(engine, SLOT_FX03_CONTEXT_A);
-        let b = find_current(engine, SLOT_FX03_CONTEXT_B);
-        let preserved = match (a, b) {
-            (Some(a), Some(b)) => {
-                a.proposition == b.proposition
-                    && a.context != b.context
-                    && a.epistemic_position != b.epistemic_position
-            }
-            _ => false,
-        };
-        json!({ "context_distinction_preserved": preserved })
-    };
-
-    let fx04 = {
-        let slot = &engine.slots[SLOT_FX04_REVISION];
-        let retained_lineage_visible = slot.current.as_ref().map_or(false, |c| c.predecessor_version_id.is_some())
-            && (!slot.detailed_predecessors.is_empty() || !slot.compacted_summaries.is_empty());
-        json!({
-            "retained_lineage_visible": retained_lineage_visible,
-            "silent_overwrite": false,
-        })
-    };
-
-    let fx05 = {
-        let slot = &engine.slots[SLOT_FX05_PLURALITY];
-        let unresolved_plurality_visible = slot.plurality.len() >= 2
-            && slot.plurality.iter().all(|c| c.version.epistemic_position == EpistemicPosition::UnresolvedPlurality);
-        json!({
-            "unresolved_plurality_visible": unresolved_plurality_visible,
-            "unauthorized_winner_selected": false,
-        })
-    };
-
-    let fx06 = {
-        let valid_witness = engine.loss_witnesses.iter().find(|w| w.compacted_count > 0);
-        let loss_witness_valid = valid_witness.map_or(false, |w| {
-            !w.affected_claim_identities.is_empty()
-                && w.compacted_count > 0
-                && !w.reason.is_empty()
-                && !w.basis_authority.is_empty()
-        });
-        json!({
-            "compaction_only_outside_retention_scope": true,
-            "loss_witness_present": !engine.loss_witnesses.is_empty(),
-            "loss_witness_valid": loss_witness_valid,
-        })
-    };
-
-    let fx07 = {
-        let slot = &engine.slots[SLOT_FX07_TRUNCATION];
-        let corruption_found = engine.corruption_records.iter().any(|r| r.slot == SLOT_FX07_TRUNCATION);
-        // A bug that detected corruption but failed to flag the slot
-        // corrupted would surface here as `true` (a wrongly intact claim).
-        let intact_claim_despite_corruption = corruption_found && !slot.corrupted;
-        json!({
-            "rollback_or_truncation_surfaced": corruption_found,
-            "intact_accountability_claim_after_corruption": intact_claim_despite_corruption,
-        })
-    };
-
-    let fx08 = {
-        let current_is_forged = find_current(engine, SLOT_FX08_FORGED_AUTHORITY)
-            .map_or(false, |v| v.authority == "AUTH-FORGED-EVIL");
-        let rejected = engine
-            .rejected_authority_attempts
-            .iter()
-            .any(|a| a.slot == SLOT_FX08_FORGED_AUTHORITY && a.attempted_authority == "AUTH-FORGED-EVIL");
-        json!({
-            "forged_authority_accepted": current_is_forged,
-            "unsupported_or_failure_exposed": rejected,
-        })
-    };
-
-    let fx09 = {
-        let version = find_current(engine, SLOT_FX09_WITHHELD_COUNTEREVIDENCE);
-        let position = version.map(|v| v.epistemic_position);
-        json!({
-            "withheld_counterevidence_scoped_uncertainty": matches!(position, Some(EpistemicPosition::ScopedUncertain)),
-            "fabricated_certainty": matches!(position, Some(EpistemicPosition::Supported)),
-        })
-    };
-
-    let fx10 = {
-        let slot = &engine.slots[SLOT_FX10_COMPACTED_LOSS];
-        let has_compacted = !slot.compacted_summaries.is_empty();
-        let preservation_state = if has_compacted {
-            PreservationState::Lossy
-        } else {
-            PreservationState::Full
-        };
-        json!({
-            "preservation_state": match preservation_state {
-                PreservationState::Lossy => "LOSSY",
-                PreservationState::Unsupported => "UNSUPPORTED",
-                PreservationState::Indeterminate => "INDETERMINATE",
-                PreservationState::Full => "FULL",
-            },
-            "full_conformance_claimed": false,
-        })
-    };
-
-    let fx11 = {
-        let any_current = engine.slots.iter().any(|s| s.current.is_some() || !s.plurality.is_empty());
-        json!({
-            "current_accountability_available": any_current,
-            "authoritative_per_operation_append_log": false,
-            "exact_replay_required": false,
-        })
-    };
-
-    let fx12 = {
-        let a = find_current(engine, SLOT_FX12_DIVERGENT_A);
-        let b = find_current(engine, SLOT_FX12_DIVERGENT_B);
-        let (final_values_match, divergence_detected) = match (a, b) {
-            (Some(a), Some(b)) => {
-                let values_match = a.proposition == b.proposition && a.context == b.context;
-                let provenance_diverges = a.source != b.source
-                    || a.authority != b.authority
-                    || a.predecessor_version_id.is_some() != b.predecessor_version_id.is_some();
-                (values_match, values_match && provenance_diverges)
-            }
-            _ => (false, false),
-        };
-        json!({
-            "final_values_match": final_values_match,
-            "material_semantic_divergence_detected": divergence_detected,
-            "full_conformance_claimed": false,
-        })
-    };
-
-    let subject_flags = json!({
-        "authoritative_per_operation_append_log": false,
-        "exact_replay_required": false,
-        "imports_current_native_kernel": false,
-        "reuses_current_event_envelope": false,
-        "reuses_current_reducer": false,
-        "reuses_current_receipt_shape_as_oracle": false,
-        "uses_current_sql_profile": false,
-    });
-
-    let workload = json!({
-        "mutation_count": engine.mutation_count,
-        "checkpoint_count": 3,
-        "durable_bytes_at_128": durable_bytes_at_128,
-        "durable_bytes_at_256": durable_bytes_at_256,
-        "durable_bytes_at_512": durable_bytes_at_512,
-        "retained_detailed_predecessors": engine.total_detailed_predecessors(),
-        "loss_witness_count": engine.loss_witnesses.len(),
-        "growth_rule_passed": growth_rule_passed,
-    });
-
-    json!({
-        "protocol": "nk-bpv1-observations/1",
-        "scenario_id": SCENARIO_ID,
-        "plan_sha256": PLAN_SHA256,
-        "fixtures": {
-            "BPV1-FX01-UNKNOWN-NOT-FALSE": fx01,
-            "BPV1-FX02-ROLE-NONCONFLATION": fx02,
-            "BPV1-FX03-CONTEXT-BINDING": fx03,
-            "BPV1-FX04-REVISION-SUPERSESSION": fx04,
-            "BPV1-FX05-UNRESOLVED-PLURALITY": fx05,
-            "BPV1-FX06-BOUNDED-COMPACTION": fx06,
-            "BPV1-FX07-TRUNCATION-ROLLBACK": fx07,
-            "BPV1-FX08-FORGED-AUTHORITY": fx08,
-            "BPV1-FX09-WITHHELD-COUNTEREVIDENCE": fx09,
-            "BPV1-FX10-DECLARED-LOSS-AND-UNSUPPORTED": fx10,
-            "BPV1-FX11-NON-EVENT-HISTORY": fx11,
-            "BPV1-FX12-HIDDEN-SEMANTIC-DIVERGENCE": fx12,
-        },
-        "workload": workload,
-        "subject": subject_flags,
-    })
 }

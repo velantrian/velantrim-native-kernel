@@ -1,0 +1,116 @@
+{
+  "fixture_results": [
+    {
+      "checks": [
+        {"actual": "UNKNOWN", "expected": "UNKNOWN", "missing": false, "op": "EQ", "passed": true, "path": "epistemic_position"},
+        {"actual": false, "expected": false, "missing": false, "op": "FALSE", "passed": true, "path": "coerced_unknown_to_false"}
+      ],
+      "fixture_id": "BPV1-FX01-UNKNOWN-NOT-FALSE", "mandatory": true, "status": "PASS"
+    },
+    {
+      "checks": [
+        {"actual": true, "expected": true, "missing": false, "op": "TRUE", "passed": true, "path": "roles_distinguishable"},
+        {"actual": true, "expected": true, "missing": false, "op": "TRUE", "passed": true, "path": "authority_scope_explicit"},
+        {"actual": false, "expected": false, "missing": false, "op": "FALSE", "passed": true, "path": "material_role_collapse"}
+      ],
+      "fixture_id": "BPV1-FX02-ROLE-NONCONFLATION", "mandatory": true, "status": "PASS"
+    },
+    {
+      "checks": [
+        {"actual": true, "expected": true, "missing": false, "op": "TRUE", "passed": true, "path": "context_distinction_preserved"}
+      ],
+      "fixture_id": "BPV1-FX03-CONTEXT-BINDING", "mandatory": true, "status": "PASS"
+    },
+    {
+      "checks": [
+        {"actual": true, "expected": true, "missing": false, "op": "TRUE", "passed": true, "path": "retained_lineage_visible"},
+        {"actual": false, "expected": false, "missing": false, "op": "FALSE", "passed": true, "path": "silent_overwrite"}
+      ],
+      "fixture_id": "BPV1-FX04-REVISION-SUPERSESSION", "mandatory": true, "status": "PASS"
+    },
+    {
+      "checks": [
+        {"actual": true, "expected": true, "missing": false, "op": "TRUE", "passed": true, "path": "unresolved_plurality_visible"},
+        {"actual": false, "expected": false, "missing": false, "op": "FALSE", "passed": true, "path": "unauthorized_winner_selected"}
+      ],
+      "fixture_id": "BPV1-FX05-UNRESOLVED-PLURALITY", "mandatory": true, "status": "PASS"
+    },
+    {
+      "checks": [
+        {"actual": true, "expected": true, "missing": false, "op": "TRUE", "passed": true, "path": "compaction_only_outside_retention_scope"},
+        {"actual": true, "expected": true, "missing": false, "op": "TRUE", "passed": true, "path": "loss_witness_present"},
+        {"actual": true, "expected": true, "missing": false, "op": "TRUE", "passed": true, "path": "loss_witness_valid"}
+      ],
+      "fixture_id": "BPV1-FX06-BOUNDED-COMPACTION", "mandatory": true, "status": "PASS"
+    },
+    {
+      "checks": [
+        {"actual": true, "expected": true, "missing": false, "op": "TRUE", "passed": true, "path": "rollback_or_truncation_surfaced"},
+        {"actual": false, "expected": false, "missing": false, "op": "FALSE", "passed": true, "path": "intact_accountability_claim_after_corruption"}
+      ],
+      "fixture_id": "BPV1-FX07-TRUNCATION-ROLLBACK", "mandatory": true, "status": "PASS"
+    },
+    {
+      "checks": [
+        {"actual": false, "expected": false, "missing": false, "op": "FALSE", "passed": true, "path": "forged_authority_accepted"},
+        {"actual": true, "expected": true, "missing": false, "op": "TRUE", "passed": true, "path": "unsupported_or_failure_exposed"}
+      ],
+      "fixture_id": "BPV1-FX08-FORGED-AUTHORITY", "mandatory": true, "status": "PASS"
+    },
+    {
+      "checks": [
+        {"actual": true, "expected": true, "missing": false, "op": "TRUE", "passed": true, "path": "withheld_counterevidence_scoped_uncertainty"},
+        {"actual": false, "expected": false, "missing": false, "op": "FALSE", "passed": true, "path": "fabricated_certainty"}
+      ],
+      "fixture_id": "BPV1-FX09-WITHHELD-COUNTEREVIDENCE", "mandatory": true, "status": "PASS"
+    },
+    {
+      "checks": [
+        {"actual": "LOSSY", "expected": ["LOSSY", "UNSUPPORTED", "INDETERMINATE"], "missing": false, "op": "IN", "passed": true, "path": "preservation_state"},
+        {"actual": false, "expected": false, "missing": false, "op": "FALSE", "passed": true, "path": "full_conformance_claimed"}
+      ],
+      "fixture_id": "BPV1-FX10-DECLARED-LOSS-AND-UNSUPPORTED", "mandatory": true, "status": "PASS"
+    },
+    {
+      "checks": [
+        {"actual": true, "expected": true, "missing": false, "op": "TRUE", "passed": true, "path": "current_accountability_available"},
+        {"actual": false, "expected": false, "missing": false, "op": "FALSE", "passed": true, "path": "authoritative_per_operation_append_log"},
+        {"actual": false, "expected": false, "missing": false, "op": "FALSE", "passed": true, "path": "exact_replay_required"}
+      ],
+      "fixture_id": "BPV1-FX11-NON-EVENT-HISTORY", "mandatory": true, "status": "PASS"
+    },
+    {
+      "checks": [
+        {"actual": true, "expected": true, "missing": false, "op": "TRUE", "passed": true, "path": "final_values_match"},
+        {"actual": true, "expected": true, "missing": false, "op": "TRUE", "passed": true, "path": "material_semantic_divergence_detected"},
+        {"actual": false, "expected": false, "missing": false, "op": "FALSE", "passed": true, "path": "full_conformance_claimed"}
+      ],
+      "fixture_id": "BPV1-FX12-HIDDEN-SEMANTIC-DIVERGENCE", "mandatory": true, "status": "PASS"
+    }
+  ],
+  "global_checks": [
+    {"actual": 512, "expected": 512, "missing": false, "op": "EQ", "passed": true, "path": "workload.mutation_count"},
+    {"actual": 3, "expected": 3, "missing": false, "op": "EQ", "passed": true, "path": "workload.checkpoint_count"},
+    {"actual": 42276, "expected": 262144, "missing": false, "op": "LE", "passed": true, "path": "workload.durable_bytes_at_512"},
+    {"actual": 52, "expected": 64, "missing": false, "op": "LE", "passed": true, "path": "workload.retained_detailed_predecessors"},
+    {"actual": 13, "expected": 32, "missing": false, "op": "LE", "passed": true, "path": "workload.loss_witness_count"},
+    {"actual": true, "expected": true, "missing": false, "op": "TRUE", "passed": true, "path": "workload.growth_rule_passed"},
+    {"actual": false, "expected": false, "missing": false, "op": "FALSE", "passed": true, "path": "subject.authoritative_per_operation_append_log"},
+    {"actual": false, "expected": false, "missing": false, "op": "FALSE", "passed": true, "path": "subject.exact_replay_required"},
+    {"actual": false, "expected": false, "missing": false, "op": "FALSE", "passed": true, "path": "subject.imports_current_native_kernel"},
+    {"actual": false, "expected": false, "missing": false, "op": "FALSE", "passed": true, "path": "subject.reuses_current_event_envelope"},
+    {"actual": false, "expected": false, "missing": false, "op": "FALSE", "passed": true, "path": "subject.reuses_current_reducer"},
+    {"actual": false, "expected": false, "missing": false, "op": "FALSE", "passed": true, "path": "subject.reuses_current_receipt_shape_as_oracle"},
+    {"actual": false, "expected": false, "missing": false, "op": "FALSE", "passed": true, "path": "subject.uses_current_sql_profile"}
+  ],
+  "non_claims": [
+    "This evaluator result is scoped to BPV1-001 only.",
+    "SUPPORTED_FOR_SCOPE is not Final Canon, production readiness, or universal substrate portability.",
+    "The evaluator does not establish independent team, custody, or computation-model evidence."
+  ],
+  "oracle_authority": "BPV1-ORACLE-001",
+  "outcome": "SUPPORTED_FOR_SCOPE",
+  "plan_sha256": "7fe8174c604678c6b79d3fdeae83d7c5ab0d2fb15bfe343d41659d05d9496ad0",
+  "protocol": "nk-bpv1-evaluation/1",
+  "scenario_id": "BPV1-001-cross-lineage-bounded-accountability-v1"
+}
