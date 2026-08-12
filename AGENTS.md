@@ -6,28 +6,30 @@ Before searching code, creating a branch, or proposing architecture changes, rea
 
 1. `project-state.json`
 2. `docs/ai/POST_RESIDUAL_A10_STATE.md`
-3. `docs/research/H11_FAMILY_SELECTION.md`
-4. `docs/research/H11_PREREGISTRATION.md`
-5. `README.md`
-6. `STATUS.md`
-7. `ROADMAP.md`
-8. `docs/ai/README.md`
-9. `docs/ai/CURRENT_STATE.md`
-10. `docs/ai/KNOWN_RISKS.md`
-11. `docs/ARCHITECTURE_REFOUNDATION.md`
-12. `docs/A10_OPEN_QUESTIONS_AND_FALSIFICATION.md`
-13. `docs/research/BPV1_D6_A10_CLASSIFICATION.md`
-14. `docs/research/BPV1_D7_INTEGRATED_REREVIEW.md`
-15. `docs/research/BPV1_D8_CONSOLIDATED_SYNC.md`
-16. `docs/adr/0027-retain-provisional-architecture-and-runtime-freeze-after-option-d.md`
-17. `docs/research/RESIDUAL_A10_VALIDATION_PLAN.md`
-18. affected Canon, contracts, ADRs, source, tests, workflows and evidence
-19. live GitHub PRs/issues/Actions/reviews
-20. corresponding existing Notion pages when synchronization is part of the task
+3. `docs/research/H11_EXECUTION_ADMISSION.json`
+4. `docs/research/H11_REVIEWER_REPRODUCER_QUALIFICATION.json`
+5. `docs/research/H11_PREREGISTRATION.md`
+6. `docs/research/H11_FAMILY_SELECTION.md`
+7. `README.md`
+8. `STATUS.md`
+9. `ROADMAP.md`
+10. `docs/ai/README.md`
+11. `docs/ai/CURRENT_STATE.md`
+12. `docs/ai/KNOWN_RISKS.md`
+13. `docs/ARCHITECTURE_REFOUNDATION.md`
+14. `docs/A10_OPEN_QUESTIONS_AND_FALSIFICATION.md`
+15. `docs/research/BPV1_D6_A10_CLASSIFICATION.md`
+16. `docs/research/BPV1_D7_INTEGRATED_REREVIEW.md`
+17. `docs/research/BPV1_D8_CONSOLIDATED_SYNC.md`
+18. `docs/adr/0027-retain-provisional-architecture-and-runtime-freeze-after-option-d.md`
+19. `docs/research/RESIDUAL_A10_VALIDATION_PLAN.md`
+20. affected Canon, contracts, ADRs, source, tests, workflows and evidence
+21. live GitHub PRs/issues/Actions/reviews
+22. corresponding existing Notion pages when synchronization is part of the task
 
 Do not begin with random repository search. Verify live state first.
 
-If an older current-looking overlay conflicts with `project-state.json` or `docs/ai/POST_RESIDUAL_A10_STATE.md`, preserve the old text as chronology and follow the newer current-truth layer. Old `D6 NEXT`, `RESIDUAL_A10_VALIDATION_PLAN NEXT`, `SEPARATE_FAMILY_PREREGISTRATION_SELECTION`, and `OPERATOR_CANON_RUNTIME_DECISION_REQUIRED` wording is historical after PR #127.
+If an older current-looking overlay conflicts with `project-state.json` or `docs/ai/POST_RESIDUAL_A10_STATE.md`, preserve the old text as chronology and follow the newer current-truth layer. Old `D6 NEXT`, `RESIDUAL_A10_VALIDATION_PLAN NEXT`, `SEPARATE_FAMILY_PREREGISTRATION_SELECTION`, and preregistration-era `EXECUTION_ADMISSION NEXT` wording is historical after PR #129 and its separate current-truth binding checkpoint.
 
 ## Current maturity
 
@@ -62,6 +64,7 @@ R — Architecture Re-foundation and post-blueprint research
   RAVP-001 residual planning complete
   A10-H11 selected and preregistered
   current gate: A10_H11_EXECUTION_ADMISSION
+  gate state: BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER
 ```
 
 Never collapse these tracks.
@@ -73,6 +76,7 @@ planning artifact ≠ experiment evidence
 NOT_TESTED ≠ SUPPORTED
 family selection ≠ preregistration authorization
 preregistration ≠ execution admission
+blocked admission ≠ INDETERMINATE
 execution admission ≠ execution
 ```
 
@@ -94,6 +98,15 @@ PR #127 — H11-001 preregistration
   merge: 4a75ff15542013c033030620bdff61997e365140
   exact-head CI: 6/6 SUCCESS
   post-merge CI: 6/6 SUCCESS
+
+PR #129 — H11 execution-admission package
+  exact head: 702c36237389b43a4e8910c3a4e60cc8f67c6258
+  merge: f7d13fce0104a4c2ce67589e954b09365a82f36f
+  exact-head CI: 6/6 SUCCESS
+  post-merge CI: 6/6 SUCCESS
+  frozen plan SHA-256: 60da649e675b79b3e70bf8a61cf03cb4d57bb989f4934b65ab8d50c925b19914
+  admission: BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER
+  H11 outcome: NOT_TESTED
   Notion: 7/7 READ_BACK_VERIFIED / 0 new pages
 ```
 
@@ -107,7 +120,7 @@ NOT_TESTED:
   A10-H03 / A10-H06 / A10-H08 / A10-H09 / A10-H10 / A10-H11
 ```
 
-H11 therefore remains **`NOT_TESTED`**. Preregistration is not evidence.
+H11 therefore remains **`NOT_TESTED`**. A blocked admission is not experiment evidence and is not `INDETERMINATE`.
 
 ## H11 frozen subject and question
 
@@ -137,19 +150,22 @@ profile-specific mechanism ≠ universal semantic obligation
 
 `UNJUSTIFIED_CANON_DEPENDENCY` is the frozen hard-failure class. Scoped support requires `mandatory_profile_leakage_count == 0` **and** a qualifying `INDEPENDENT_SEMANTIC_ORACLE`.
 
-## Current next gate
+## Current gate — blocked fail closed
 
 ```text
-next gate: A10_H11_EXECUTION_ADMISSION
+current gate: A10_H11_EXECUTION_ADMISSION
 scope: EXECUTION_ADMISSION_ONLY
+admission state: BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER
 selected family: A10-H11
 H11 plan state: PREREGISTERED / EXECUTION_NOT_AUTHORIZED
 H11 outcome: NOT_TESTED
 required oracle: INDEPENDENT_SEMANTIC_ORACLE
-qualifying reviewer/reproducer: NOT_ESTABLISHED / MUST_BE_VERIFIED_AT_EXECUTION_ADMISSION
-no qualifying reviewer outcome: BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER
+qualifying reviewer/reproducer: NOT_ESTABLISHED
+next dependency: QUALIFYING_INDEPENDENT_H11_REVIEWER_REPRODUCER_EVIDENCE
 residual experiment implementation authorized: false
 residual experiment execution authorized: false
+dependency-graph execution authorized: false
+semantic adjudication authorized: false
 architecture: STRENGTHENED_FOR_BPV1_SCOPE / STILL_PROVISIONAL
 Final Canon: DEFERRED / NOT AUTHORIZED
 runtime expansion: FROZEN
@@ -157,13 +173,11 @@ product runtime thaw: false
 production: false
 ```
 
-`A10_H11_EXECUTION_ADMISSION` is an admission gate only. It may freeze an exact plan digest, machine-readable dependency graph schema, raw-observation/adjudication separation and qualifying reviewer/reproducer evidence. It may **not** silently become execution.
+`QUALIFYING_INDEPENDENT_H11_REVIEWER_REPRODUCER_EVIDENCE` is descriptive dependency metadata only. It is **not** a new canonical gate name. The repository-native gate remains `A10_H11_EXECUTION_ADMISSION` until a later authoritative checkpoint legitimately advances it.
 
-If no qualifying independent reviewer/reproducer exists, the correct gate state is:
+The blocked state does not authorize dependency-graph execution, subject implementation, experiment execution, raw findings, or semantic adjudication. Do not convert admission blockage into `INDETERMINATE`; H11 remains `NOT_TESTED` until qualifying execution/adjudication occurs.
 
-`BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER`
-
-Do not use CI, Codex code review, model/session changes, assistant self-audit, operator approval or Notion read-back as substitutes for the preregistered independent semantic reviewer/reproducer.
+Do not use CI, Codex code review, model/session changes, assistant self-audit, repository-owner review, operator approval or Notion read-back as substitutes for the preregistered independent semantic reviewer/reproducer.
 
 ## Fail-closed H11 rules
 
@@ -177,13 +191,26 @@ Do not use CI, Codex code review, model/session changes, assistant self-audit, o
 - failure conditions/oracle/thresholds are frozen before adjudication;
 - post-hoc rescue under the same experiment identity is forbidden;
 - historical evidence/Architecture history cannot be rewritten to rescue H11;
-- `INDETERMINATE` and `NOT_TESTED` remain legitimate outcomes;
+- `INDETERMINATE` is available only after qualifying execution/adjudication, while `NOT_TESTED` is correct before execution;
 - raw facts and semantic qualification remain separate;
 - composition/federation remains D7-F08, not H11.
 
+## Historical preregistration-era markers
+
+These lines preserve the immediately preceding truth checkpoint for chronology and historical validators. They are **not** current instructions.
+
+```text
+POST_H11_PREREGISTRATION_CURRENT
+next gate: A10_H11_EXECUTION_ADMISSION
+qualifying reviewer/reproducer: NOT_ESTABLISHED / MUST_BE_VERIFIED_AT_EXECUTION_ADMISSION
+no qualifying reviewer outcome: BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER
+residual experiment implementation authorized: false
+residual experiment execution authorized: false
+```
+
 ## Historical PR #125 compatibility markers
 
-These exact lines preserve the immediately preceding truth checkpoint for historical validators. They are chronology, **not** current instructions.
+These exact lines preserve the earlier post-RAVP truth checkpoint for historical validators. They are chronology, **not** current instructions.
 
 ```text
 next gate: SEPARATE_FAMILY_PREREGISTRATION_SELECTION
@@ -225,11 +252,14 @@ Allowed while frozen:
 - truth-surface/integrity/security/provenance repairs;
 - evidence preservation;
 - historical recovery work that does not admit operator-controlled sources;
-- research admission/preregistration work only when the active gate authorizes it.
+- reviewer/reproducer qualification evidence work that does not execute H11;
+- later research admission/preregistration work only when the active gate explicitly authorizes it.
 
 Not automatically authorized:
 
 - H11 or other residual experiment implementation/execution;
+- H11 dependency-graph execution or semantic adjudication while admission is blocked;
+- preregistration of A10-H03/H06/H08/H09/H10;
 - product runtime integration;
 - reducer v2/new Event verbs;
 - new product DB/language/hardware profile;
@@ -270,6 +300,7 @@ language difference ≠ computation-model difference
 simulation/emulation ≠ physical substrate evidence
 local scoped conformance ≠ composition/federation conformance
 planning ≠ selection ≠ preregistration ≠ execution admission ≠ execution
+blocked admission ≠ INDETERMINATE
 public repository ≠ open-source license
 SUPPORTED_FOR_SCOPE ≠ universal proof
 NOT_TESTED ≠ SUPPORTED
@@ -285,6 +316,7 @@ python tools/ai_context/validate_architecture_freeze.py --repo .
 python tools/ai_context/validate_residual_a10_plan.py --repo .
 python tools/ai_context/validate_h11_family_selection.py --repo .
 python tools/ai_context/validate_h11_preregistration.py --repo .
+python tools/ai_context/validate_h11_execution_admission.py --repo .
 python tools/ai_context/validate_reconciliation.py --repo .
 python tools/ai_context/validate_context.py --repo .
 python tools/docs/validate_bilingual_parity.py --repo .
