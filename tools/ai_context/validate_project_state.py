@@ -36,9 +36,17 @@ RESIDUAL_TARGETS = (
 
 
 def _pre_sync_view(state: Mapping[str, Any]) -> dict[str, Any]:
-    """Project the completed state back onto the immutable pre-readback layer."""
+    """Project the completed state back onto the immutable pre-readback layer.
+
+    Only the authoritative completed-sync checkpoint is projected back to the
+    D8 checkpoint. Deliberately corrupted test values are preserved so the
+    older validator can still fail on the original historical invariant rather
+    than having the compatibility projection mask the mutation.
+    """
     value = copy.deepcopy(dict(state))
-    value["checkpoints"]["notion_synchronized_through_sha"] = D8_NOTION_SYNC_SHA
+    checkpoints = value["checkpoints"]
+    if checkpoints.get("notion_synchronized_through_sha") == ADR0027_TRUTH_SYNC_SHA:
+        checkpoints["notion_synchronized_through_sha"] = D8_NOTION_SYNC_SHA
     notion = value["notion"]
     notion["synchronization_required"] = True
     return value
