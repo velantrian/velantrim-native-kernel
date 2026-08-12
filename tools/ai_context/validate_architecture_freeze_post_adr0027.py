@@ -22,7 +22,7 @@ RESIDUAL = ["A10-H03", "A10-H06", "A10-H08", "A10-H09", "A10-H10", "A10-H11"]
 D8_NONCLAIMS = [
     "Six A10 hypotheses remain NOT_TESTED.",
     "D6/D7/D8 do not establish universal substrate independence.",
-    "D8 does not authorize product runtime integration.",
+    "D6/D7/D8 do not authorize product runtime integration.",
     "D8 does not authorize or decide the separate OPERATOR_CANON_RUNTIME_DECISION_REQUIRED gate.",
 ]
 
