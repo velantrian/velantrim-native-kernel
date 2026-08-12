@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate current truth after completion and Notion sync of RAVP-001."""
+"""Validate current truth after H11 selection, preregistration and Notion read-back."""
 from __future__ import annotations
 
 import copy
@@ -14,18 +14,26 @@ globals()["__name__"] = _saved_name
 _PRE_PLAN_VALIDATE = validate
 
 ADR0027_DECISION_MERGE = "57993f39906ae7266011f6146c9a485d0587d2bf"
-ADR0027_GITHUB_TRUTH_SHA = "90bcb0fa2a3a2e85a590e9ba79746f3297b55457"
 D8_NOTION_SYNC_SHA = "491ff7b229606d228ca04985b19b146878390e08"
 RESIDUAL_PLAN_MERGE = "edc0501d71a827462aafd1ac4497920a719a4519"
 RESIDUAL_PLAN_HEAD = "918ac46f4d93f085171b03564f9fbe30f543b200"
 RESIDUAL_PLAN_ID = "RAVP-001-residual-a10-validation-plan-v1"
 RESIDUAL_TARGETS = ["A10-H03", "A10-H06", "A10-H08", "A10-H09", "A10-H10", "A10-H11"]
 RECOMMENDED_ORDER = ["A10-H11", "A10-H03", "A10-H10", "A10-H06", "A10-H09", "A10-H08"]
-NEXT_GATE = "SEPARATE_FAMILY_PREREGISTRATION_SELECTION"
+H11_SELECTION_ID = "RFS-001-a10-h11-preregistration-selection-v1"
+H11_SELECTION_HEAD = "d9273a22c411467109112f1fc6ea263ed8819d1d"
+H11_SELECTION_MERGE = "bcd3b3f6c9d898315c93e5d24b5d0e02c95508cc"
+H11_PLAN_ID = "H11-001-c5-lab-canon-separation-v1"
+H11_PLAN_HEAD = "1dca13cdd2759c70d810f44977a227fe1147d4bb"
+H11_PLAN_MERGE = "4a75ff15542013c033030620bdff61997e365140"
+H11_FAMILY_ID = "RAVP-H11-LAB-CANON-SEPARATION"
+H11_NEXT_GATE = "A10_H11_EXECUTION_ADMISSION"
+H11_BLOCKER = "BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER"
+H11_BUNDLE = "native-kernel/c5/2026-08-08-adr0023"
 
 
 def _pre_plan_view(state: Mapping[str, Any]) -> dict[str, Any]:
-    """Project current state onto the preserved post-ADR-0027/pre-readback layer."""
+    """Project current H11 state onto the preserved post-ADR-0027/pre-RAVP layer."""
     value = copy.deepcopy(dict(state))
     value["checkpoints"]["notion_synchronized_through_sha"] = D8_NOTION_SYNC_SHA
     research = value["tracks"]["long_horizon_research"]
@@ -59,37 +67,27 @@ def _validate_current(state: Mapping[str, Any]) -> None:
     _require(isinstance(notion, Mapping), "Notion synchronization state required")
     notion_status = notion.get("status")
     if notion_status == "SYNCED_THROUGH_PUBLICATION_CHECKPOINT":
-        _require(
-            notion_checkpoint == publication,
-            "publication synchronization status requires equal checkpoints",
-        )
+        _require(notion_checkpoint == publication, "publication synchronization status requires equal checkpoints")
     elif notion_status == "SYNCED_THROUGH_DESCENDANT_CHECKPOINT":
-        _require(
-            notion_checkpoint != publication,
-            "descendant synchronization status requires distinct checkpoints",
-        )
+        _require(notion_checkpoint != publication, "descendant synchronization status requires distinct checkpoints")
     else:
         _require(False, "Notion status drift")
-
-    _require(
-        notion_checkpoint == RESIDUAL_PLAN_MERGE,
-        "Residual A10 plan Notion synchronization checkpoint drift",
-    )
+    _require(notion_checkpoint == H11_PLAN_MERGE, "H11 Notion synchronization checkpoint drift")
 
     research = state["tracks"]["long_horizon_research"]
     _require(
-        research.get("status") == "ACTIVE / RESIDUAL A10 PLAN COMPLETE / PREREGISTRATION FAMILY SELECTION NEXT / NO AUTOMATIC PROMOTION",
-        "post-plan research status drift",
+        research.get("status") == "ACTIVE / H11 PREREGISTERED / EXECUTION ADMISSION NEXT / NO AUTOMATIC PROMOTION",
+        "H11 current research status drift",
     )
     _require(research.get("runtime_authorized") is False, "runtime authority must remain frozen")
     ref = research["architecture_refoundation"]
     _require(ref.get("runtime_expansion_frozen") is True, "runtime expansion freeze must remain active")
-    _require(ref.get("next_content_slice") == NEXT_GATE, "post-plan next gate drift")
+    _require(ref.get("next_content_slice") == H11_NEXT_GATE, "H11 next architecture validation gate drift")
 
     validation = research["post_blueprint_validation"]
     _require(
-        validation.get("status") == "COMPLETE / RESIDUAL_A10_VALIDATION_PLAN_COMPLETE / PREREGISTRATION_SELECTION_NEXT",
-        "post-plan validation status drift",
+        validation.get("status") == "COMPLETE / H11_PREREGISTERED / EXECUTION_ADMISSION_NEXT",
+        "H11 post-blueprint validation status drift",
     )
     _require(validation.get("product_runtime_thaw") is False, "product runtime thaw must remain false")
     _require(validation.get("automatic_canon_promotion") is False, "automatic Canon promotion must remain false")
@@ -108,46 +106,64 @@ def _validate_current(state: Mapping[str, Any]) -> None:
     _require(plan.get("protocol") == "nk-residual-a10-validation-plan/1", "residual plan protocol drift")
     _require(plan.get("plan_id") == RESIDUAL_PLAN_ID, "residual plan identity drift")
     _require(plan.get("status") == "COMPLETE / MERGED / NOTION_7_OF_7_READ_BACK_VERIFIED", "residual plan status drift")
-    _require(plan.get("pr") == 124, "residual plan PR drift")
-    _require(plan.get("exact_head_sha") == RESIDUAL_PLAN_HEAD, "residual plan exact-head drift")
-    _require(plan.get("merge_sha") == RESIDUAL_PLAN_MERGE, "residual plan merge drift")
+    _require(plan.get("pr") == 124 and plan.get("exact_head_sha") == RESIDUAL_PLAN_HEAD and plan.get("merge_sha") == RESIDUAL_PLAN_MERGE, "residual plan immutable checkpoint drift")
     _require(plan.get("exact_head_triggered_workflows") == 6 and plan.get("exact_head_successful_workflows") == 6, "residual plan exact-head CI drift")
     _require(plan.get("post_merge_triggered_workflows") == 6 and plan.get("post_merge_successful_workflows") == 6, "residual plan post-merge CI drift")
-    _require(plan.get("notion_surface_count") == 7 and plan.get("notion_read_back_verified_count") == 7 and plan.get("new_notion_pages_created") == 0, "residual plan Notion 7/7 drift")
+    _require(plan.get("notion_surface_count") == 7 and plan.get("notion_read_back_verified_count") == 7 and plan.get("new_notion_pages_created") == 0, "residual plan historical Notion 7/7 drift")
     _require(plan.get("families") == RESIDUAL_TARGETS, "residual family inventory drift")
     _require(plan.get("recommended_order") == RECOMMENDED_ORDER, "residual recommended order drift")
     _require(plan.get("h11_definition") == "LABORATORY_MECHANISMS_REPRODUCIBLE_WITHOUT_BECOMING_ARCHITECTURE_CANON", "H11 definition drift")
     _require(plan.get("composition_federation_is_h11") is False, "composition/federation must remain separate from H11")
-    _require(plan.get("selected_family") is None, "no residual family may be silently selected by sync")
-    _require(plan.get("next_gate") == NEXT_GATE, "residual plan next gate drift")
-    _require(plan.get("next_gate_scope") == "PREREGISTRATION_SELECTION_ONLY", "next gate scope drift")
-    _require(plan.get("family_preregistration_authorized") is False, "family preregistration must not be auto-authorized")
-    _require(plan.get("experiment_implementation_authorized") is False, "residual experiment implementation must remain unauthorized")
-    _require(plan.get("experiment_execution_authorized") is False, "residual experiment execution must remain unauthorized")
+    _require(plan.get("selected_family") == "A10-H11", "selected family drift: only A10-H11 is current")
+    _require(plan.get("selected_family_id") == H11_FAMILY_ID, "selected H11 family identity drift")
+    _require(plan.get("family_preregistration_authorized") is True, "H11 preregistration current binding drift")
+    _require(plan.get("family_preregistration_complete") is True, "H11 preregistration completion drift")
+    _require(plan.get("next_gate") == H11_NEXT_GATE, "H11 residual next gate drift")
+    _require(plan.get("next_gate_scope") == "EXECUTION_ADMISSION_ONLY", "H11 next gate scope drift")
+    _require(plan.get("experiment_implementation_authorized") is False, "H11 implementation must remain unauthorized")
+    _require(plan.get("experiment_execution_authorized") is False, "H11 execution must remain unauthorized")
+
+    selection = plan.get("family_selection")
+    _require(isinstance(selection, Mapping), "H11 family selection binding required")
+    _require(selection.get("protocol") == "nk-residual-family-selection/1", "H11 selection protocol drift")
+    _require(selection.get("selection_id") == H11_SELECTION_ID, "H11 selection identity drift")
+    _require(selection.get("pr") == 126 and selection.get("exact_head_sha") == H11_SELECTION_HEAD and selection.get("merge_sha") == H11_SELECTION_MERGE, "H11 selection checkpoint drift")
+    _require(selection.get("selected_hypothesis") == "A10-H11" and selection.get("selected_family_id") == H11_FAMILY_ID, "H11 selection target drift")
+    _require(selection.get("preregistration_authorized_by_selection_package") is False, "selection package must remain non-self-authorizing")
+
+    h11 = plan.get("h11_preregistration")
+    _require(isinstance(h11, Mapping), "H11 preregistration binding required")
+    _require(h11.get("protocol") == "nk-h11-preregistration/1", "H11 preregistration protocol drift")
+    _require(h11.get("plan_id") == H11_PLAN_ID, "H11 preregistration plan identity drift")
+    _require(h11.get("status") == "PREREGISTERED / EXECUTION_NOT_AUTHORIZED", "H11 preregistration status drift")
+    _require(h11.get("pr") == 127 and h11.get("exact_head_sha") == H11_PLAN_HEAD and h11.get("merge_sha") == H11_PLAN_MERGE, "H11 preregistration checkpoint drift")
+    _require(h11.get("exact_head_successful_workflows") == 6 and h11.get("post_merge_successful_workflows") == 6, "H11 preregistration CI drift")
+    _require(h11.get("notion_read_back_verified_count") == 7 and h11.get("new_notion_pages_created") == 0, "H11 Notion 7/7 drift")
+    _require(h11.get("frozen_laboratory_bundle") == H11_BUNDLE, "H11 frozen laboratory bundle drift")
+    _require(h11.get("required_oracle_class") == "INDEPENDENT_SEMANTIC_ORACLE", "H11 oracle independence drift")
+    _require(h11.get("qualifying_reviewer_reproducer") == "NOT_ESTABLISHED / MUST_BE_VERIFIED_AT_EXECUTION_ADMISSION", "H11 qualifying reviewer status drift")
+    _require(h11.get("no_qualifying_reviewer_outcome") == H11_BLOCKER, "H11 no-reviewer blocker drift")
+    _require(h11.get("current_a10_outcome") == "NOT_TESTED", "H11 must remain NOT_TESTED before qualifying execution")
+    _require(h11.get("implementation_authorized") is False and h11.get("execution_authorized") is False, "H11 preregistration cannot authorize execution")
+    _require(h11.get("next_gate") == H11_NEXT_GATE, "H11 preregistration next gate drift")
 
     _require(notion.get("synchronization_required") is False, "Notion sync must be complete")
     _require(notion.get("decision_sync_status") == "SYNCHRONIZED", "Notion sync status drift")
     _require(notion.get("surface_count") == 7 and notion.get("read_back_verified_count") == 7 and notion.get("new_pages_created") == 0, "Notion 7/7 read-back drift")
     scope = str(notion.get("scope", ""))
-    for marker in (RESIDUAL_PLAN_MERGE, RESIDUAL_PLAN_ID, "7/7", NEXT_GATE, "No family preregistration", "experiment execution"):
-        _require(marker in scope, f"Notion current scope missing marker: {marker}")
+    for marker in (H11_PLAN_MERGE, H11_PLAN_ID, "7/7", H11_NEXT_GATE, "NOT_ESTABLISHED", "NOT_TESTED"):
+        _require(marker in scope, f"Notion H11 current scope missing marker: {marker}")
 
     issue = state.get("issues", {}).get("88")
     _require(isinstance(issue, Mapping) and issue.get("state") == "OPEN", "Issue #88 must remain OPEN")
     meaning = str(issue.get("meaning", ""))
-    for marker in ("RAVP-001", RESIDUAL_PLAN_MERGE, NEXT_GATE, "Final Canon is deferred", "runtime remains frozen"):
-        _require(marker in meaning, f"Issue #88 current meaning missing marker: {marker}")
+    for marker in ("A10-H11", H11_PLAN_ID, H11_PLAN_MERGE, H11_NEXT_GATE, "NOT_TESTED", "Final Canon is deferred", "runtime remains frozen"):
+        _require(marker in meaning, f"Issue #88 H11 meaning missing marker: {marker}")
 
     _require(state["status"]["production_authorized"] is False, "production must remain unauthorized")
 
 
-def validate(
-    state: Mapping[str, Any],
-    *,
-    repo: Path,
-    registry: Mapping[str, Any] | None = None,
-    check_git: bool = True,
-) -> None:
+def validate(state: Mapping[str, Any], *, repo: Path, registry: Mapping[str, Any] | None = None, check_git: bool = True) -> None:
     _validate_current(state)
     _PRE_PLAN_VALIDATE(_pre_plan_view(state), repo=repo, registry=registry, check_git=check_git)
 
@@ -163,9 +179,8 @@ def main() -> int:
     state = _load(state_path, "project state")
     validate(state, repo=repo, check_git=not args.no_git)
     print(
-        "Project-state validation passed; RAVP-001=COMPLETE; Notion=7/7; "
-        "next=SEPARATE_FAMILY_PREREGISTRATION_SELECTION; selected_family=NONE; "
-        "preregistration=NOT_AUTHORIZED; execution=NOT_AUTHORIZED; runtime=FROZEN"
+        "Project-state validation passed; H11=PREREGISTERED/NOT_TESTED; Notion=7/7; "
+        "next=A10_H11_EXECUTION_ADMISSION; reviewer=NOT_ESTABLISHED; execution=NOT_AUTHORIZED; runtime=FROZEN"
     )
     return 0
 
