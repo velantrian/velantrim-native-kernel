@@ -38,6 +38,7 @@ QUALIFICATION_ALLOWED = (
     "tests/test_bpv1_subject.py",
     "tests/test_a9_reference_laboratory_boundary.py",
     "tests/test_a10_open_questions_falsification.py",
+    "tests/test_integrated_a1_a10_review.py",
     "tests/test_architecture_freeze.py",
     "tools/bpv1/qualify_observations.py",
     "tools/bpv1/audit_scope.py",
