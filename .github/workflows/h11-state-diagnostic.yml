@@ -42,6 +42,9 @@ jobs:
         run: python -m unittest discover -s tests -p 'test_h11_execution_admission.py' -v
       - name: AI context validator
         run: python -m unittest discover -s tests -p 'test_ai_context_validator.py' -v
+      - name: Architecture freeze repository baseline
+        run: python -m unittest test_architecture_freeze.ArchitectureFreezeTests.test_repository_freeze_passes -v
+        working-directory: tests
       - name: Architecture freeze validator tests
         run: python -m unittest discover -s tests -p 'test_architecture_freeze.py' -v
       - name: Bilingual parity validator tests
