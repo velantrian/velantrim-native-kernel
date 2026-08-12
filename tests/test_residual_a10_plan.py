@@ -127,7 +127,10 @@ class ResidualA10PlanTests(unittest.TestCase):
             self._copy_fixture(repo)
             english = repo / module.EN_PATH
             text = english.read_text(encoding="utf-8")
-            english.write_text(text.replace("composition/federation", "separate-capability", 1), encoding="utf-8")
+            english.write_text(
+                text.replace("composition/federation", "separate-capability"),
+                encoding="utf-8",
+            )
             with self.assertRaisesRegex(module.ResidualA10PlanError, "composition/federation"):
                 module.validate(repo)
 
