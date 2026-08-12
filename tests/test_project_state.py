@@ -170,10 +170,32 @@ class ProjectStateTests(unittest.TestCase):
         with self.assertRaisesRegex(module.ProjectStateError, "verification method"):
             self.validate(state=state)
 
-    def test_notion_synchronization_remains_complete_after_d8(self) -> None:
+    def test_notion_synchronization_must_remain_complete_after_adr0027(self) -> None:
         state = copy.deepcopy(self.state)
-        state["notion"]["synchronization_required"] = False
-        with self.assertRaisesRegex(module.ProjectStateError, "must remain pending"):
+        state["notion"]["synchronization_required"] = True
+        with self.assertRaisesRegex(module.ProjectStateError, "must be complete"):
+            self.validate(state=state)
+
+    def test_notion_read_back_must_remain_seven_of_seven(self) -> None:
+        state = copy.deepcopy(self.state)
+        state["notion"]["read_back_verified_count"] = 6
+        with self.assertRaisesRegex(module.ProjectStateError, "7/7"):
+            self.validate(state=state)
+
+    def test_notion_sync_checkpoint_must_remain_adr0027_truth_sha(self) -> None:
+        state = copy.deepcopy(self.state)
+        state["checkpoints"]["notion_synchronized_through_sha"] = (
+            "491ff7b229606d228ca04985b19b146878390e08"
+        )
+        with self.assertRaisesRegex(module.ProjectStateError, "checkpoint drift"):
+            self.validate(state=state)
+
+    def test_residual_experiment_execution_cannot_be_authorized_by_sync(self) -> None:
+        state = copy.deepcopy(self.state)
+        state["tracks"]["long_horizon_research"]["post_blueprint_validation"][
+            "post_d8_operator_decision"
+        ]["experiment_execution_authorized"] = True
+        with self.assertRaisesRegex(module.ProjectStateError, "execution"):
             self.validate(state=state)
 
 
