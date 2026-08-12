@@ -69,7 +69,7 @@ C5 не повышает semantic assertions и не разрешает producti
 | Runtime checkpoint | `675aa4b398a2fc0181dc71d38904a2d33a09f5f8` |
 | Runtime integrity checkpoint | `a1cdc6d8f36d67f40f065641809bc6da463c10a4` |
 | Evidence-producing checkpoint | `296981ae84ad5bdab5dabbec9b7b9ebb43af63d7` |
-| Источник manifest / исторический Notion-synchronized descendant | `70acd0da61fee19131947aa56125833adb156ced` |
+| Источник manifest / Notion synchronized descendant | `70acd0da61fee19131947aa56125833adb156ced` |
 | BPV-1 preregistration merge | `a538d7f1e28858a88b9ee777ac7d6e05b85943db` |
 | D5 execution merge | `a191e9c868c14af34a269dcdfae44406f1013bda` |
 | D5-R1 qualification merge | `3856740570620fb2243e2f0da76359281ec4068f` |
