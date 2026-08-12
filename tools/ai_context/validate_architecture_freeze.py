@@ -132,7 +132,7 @@ def _validate_current(state: Mapping[str, Any]) -> None:
     _require(issue.get("state") == "OPEN", "Issue #88 must remain open")
     meaning = str(issue.get("meaning", ""))
     for marker in ("A10-H11", H11_PLAN_ID, H11_ADMISSION_MERGE, H11_CURRENT_GATE, H11_BLOCKER, "NOT_TESTED"):
-        _require(marker in meaning, f"current Issue #88 blocked H11 truth missing: {marker}")
+        _require(marker in meaning, f"Option D selection/current Issue #88 blocked H11 truth missing: {marker}")
     verification = issue.get("verification")
     _require(isinstance(verification, Mapping), "Issue #88 verification required")
     _require(verification.get("status") == "VERIFIED" and verification.get("method") == "GITHUB_API" and verification.get("source") == "issue/88", "Issue #88 verification drift")
