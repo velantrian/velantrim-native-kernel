@@ -1,0 +1,52 @@
+{
+  "derived_structural_facts": {
+    "authoritative_per_operation_append_log": false,
+    "exact_replay_required": false,
+    "imports_current_native_kernel": false,
+    "reuses_current_event_envelope": false,
+    "reuses_current_receipt_shape_as_oracle": false,
+    "reuses_current_reducer": false,
+    "uses_current_sql_profile": false
+  },
+  "implementation_private_runtime_state_read": false,
+  "mode": "EXTERNAL_RAW_FACT_DERIVATION_PLUS_STATIC_SOURCE_AUDIT",
+  "oracle_fixture_expectations_read": false,
+  "plan_sha256": "7fe8174c604678c6b79d3fdeae83d7c5ab0d2fb15bfe343d41659d05d9496ad0",
+  "protocol": "nk-bpv1-external-qualification/1",
+  "scenario_id": "BPV1-001-cross-lineage-bounded-accountability-v1",
+  "status": "QUALIFIED",
+  "structural": {
+    "crash_journal_bounded": true,
+    "direct_current_state_observation": true,
+    "engine_fields": [
+      "corruption_records",
+      "crash_journal",
+      "loss_witness_rollup",
+      "loss_witnesses",
+      "mutation_count",
+      "next_version_id",
+      "next_witness_id",
+      "rejected_authority_attempts",
+      "slots",
+      "trusted_authorities"
+    ],
+    "predecessor_store_bounded": true,
+    "replay_identifiers": [],
+    "source_files": [
+      "experiments/bpv1/BPV1-001/subject/src/engine.rs",
+      "experiments/bpv1/BPV1-001/subject/src/main.rs"
+    ],
+    "structural_facts_established": [
+      "authoritative_per_operation_append_log",
+      "exact_replay_required",
+      "imports_current_native_kernel",
+      "reuses_current_event_envelope",
+      "reuses_current_receipt_shape_as_oracle",
+      "reuses_current_reducer",
+      "uses_current_sql_profile"
+    ],
+    "suspicious_history_fields": [],
+    "witness_store_bounded": true
+  },
+  "subject_self_report_used_for_structural_oracle_fields": false
+}
