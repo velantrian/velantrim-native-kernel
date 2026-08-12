@@ -90,31 +90,41 @@ class A10OpenQuestionsFalsificationTests(unittest.TestCase):
             "A10_OPEN_QUESTIONS_AND_FALSIFICATION",
         ]
         self.assertEqual(expected, refoundation["completed_deliverables"])
-        self.assertEqual("RESIDUAL_A10_VALIDATION_PLAN", refoundation["next_content_slice"])
+        self.assertEqual("SEPARATE_FAMILY_PREREGISTRATION_SELECTION", refoundation["next_content_slice"])
         self.assertEqual("ADR-0026", validation["decision"])
         self.assertEqual("QUALIFYING_REVIEW_COMPLETE", validation["independent_review_status"])
         self.assertEqual(
-            "COMPLETE / OPTION_D_OPERATOR_DECISION_ACCEPTED / RESIDUAL_VALIDATION_PLANNING_AUTHORIZED",
+            "COMPLETE / RESIDUAL_A10_VALIDATION_PLAN_COMPLETE / PREREGISTRATION_SELECTION_NEXT",
             validation["status"],
         )
         self.assertEqual("ADMITTED_FOR_EXPERIMENT_ONLY", validation["bpv1_status"])
         self.assertEqual("a538d7f1e28858a88b9ee777ac7d6e05b85943db", validation["bpv1_plan"]["authoritative_plan_merge_sha"])
         self.assertFalse(validation["bpv1_plan"]["execution_authorized"])
+
         result = validation["bpv1_execution_result"]
         self.assertEqual("COMPLETE", result["status"])
         self.assertEqual("QUALIFIED", result["qualification_status"])
         self.assertEqual("SUPPORTED_FOR_SCOPE", result["oracle_outcome"])
+        # Historical D5 result remains bound to the later residual-planning gate.
         self.assertEqual("RESIDUAL_A10_VALIDATION_PLAN", result["next_gate"])
         self.assertEqual("COMPLETE", result["d6_status"])
         self.assertEqual("COMPLETE", result["d7_status"])
         self.assertEqual("COMPLETE / READ_BACK_VERIFIED", result["d8_status"])
+
         classification = validation["d6_hypothesis_classification"]
         self.assertEqual("COMPLETE", classification["status"])
-        self.assertEqual(6, len(classification["supported_for_scope"]))
-        self.assertEqual(6, len(classification["not_tested"]))
+        self.assertEqual(
+            ["A10-H01", "A10-H02", "A10-H04", "A10-H05", "A10-H07", "A10-H12"],
+            classification["supported_for_scope"],
+        )
+        self.assertEqual(
+            ["A10-H03", "A10-H06", "A10-H08", "A10-H09", "A10-H10", "A10-H11"],
+            classification["not_tested"],
+        )
         self.assertEqual([], classification["weakened"])
         self.assertEqual([], classification["refuted"])
         self.assertEqual([], classification["indeterminate"])
+
         rereview = validation["d7_integrated_rereview"]
         self.assertEqual("COMPLETE", rereview["status"])
         self.assertEqual("STRENGTHENED_FOR_BPV1_SCOPE / STILL_PROVISIONAL", rereview["architecture_position"])
@@ -125,6 +135,24 @@ class A10OpenQuestionsFalsificationTests(unittest.TestCase):
         self.assertEqual(0, sync["new_notion_pages_created"])
         self.assertTrue(sync["operator_decision_required"])
         self.assertFalse(sync["next_gate_authorized_by_d8"])
+
+        decision = validation["post_d8_operator_decision"]
+        self.assertEqual("RESIDUAL_A10_VALIDATION_PLAN", decision["next_gate"])
+        self.assertEqual("RESEARCH_PLANNING_ONLY", decision["next_gate_scope"])
+        self.assertFalse(decision["experiment_execution_authorized"])
+
+        plan = validation["residual_a10_validation_plan"]
+        self.assertEqual("RAVP-001-residual-a10-validation-plan-v1", plan["plan_id"])
+        self.assertEqual("COMPLETE / MERGED / NOTION_7_OF_7_READ_BACK_VERIFIED", plan["status"])
+        self.assertEqual(classification["not_tested"], plan["families"])
+        self.assertEqual("SEPARATE_FAMILY_PREREGISTRATION_SELECTION", plan["next_gate"])
+        self.assertEqual("PREREGISTRATION_SELECTION_ONLY", plan["next_gate_scope"])
+        self.assertIsNone(plan["selected_family"])
+        self.assertFalse(plan["family_preregistration_authorized"])
+        self.assertFalse(plan["experiment_implementation_authorized"])
+        self.assertFalse(plan["experiment_execution_authorized"])
+        self.assertFalse(plan["composition_federation_is_h11"])
+
         self.assertTrue(refoundation["runtime_expansion_frozen"])
         self.assertFalse(validation["product_runtime_thaw"])
         self.assertEqual("BOUNDED_REFERENCE_LABORATORY", self.state["tracks"]["clean_implementation"]["architecture_role"])
