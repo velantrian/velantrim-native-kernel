@@ -52,8 +52,27 @@ def _pre_plan_view(state: Mapping[str, Any]) -> dict[str, Any]:
 def _validate_current(state: Mapping[str, Any]) -> None:
     checkpoints = state.get("checkpoints")
     _require(isinstance(checkpoints, Mapping), "checkpoint inventory required")
+    publication = checkpoints.get("publication_checkpoint_sha")
+    notion_checkpoint = checkpoints.get("notion_synchronized_through_sha")
+
+    notion = state.get("notion")
+    _require(isinstance(notion, Mapping), "Notion synchronization state required")
+    notion_status = notion.get("status")
+    if notion_status == "SYNCED_THROUGH_PUBLICATION_CHECKPOINT":
+        _require(
+            notion_checkpoint == publication,
+            "publication synchronization status requires equal checkpoints",
+        )
+    elif notion_status == "SYNCED_THROUGH_DESCENDANT_CHECKPOINT":
+        _require(
+            notion_checkpoint != publication,
+            "descendant synchronization status requires distinct checkpoints",
+        )
+    else:
+        _require(False, "Notion status drift")
+
     _require(
-        checkpoints.get("notion_synchronized_through_sha") == RESIDUAL_PLAN_MERGE,
+        notion_checkpoint == RESIDUAL_PLAN_MERGE,
         "Residual A10 plan Notion synchronization checkpoint drift",
     )
 
@@ -106,8 +125,6 @@ def _validate_current(state: Mapping[str, Any]) -> None:
     _require(plan.get("experiment_implementation_authorized") is False, "residual experiment implementation must remain unauthorized")
     _require(plan.get("experiment_execution_authorized") is False, "residual experiment execution must remain unauthorized")
 
-    notion = state.get("notion")
-    _require(isinstance(notion, Mapping), "Notion synchronization state required")
     _require(notion.get("synchronization_required") is False, "Notion sync must be complete")
     _require(notion.get("decision_sync_status") == "SYNCHRONIZED", "Notion sync status drift")
     _require(notion.get("surface_count") == 7 and notion.get("read_back_verified_count") == 7 and notion.get("new_pages_created") == 0, "Notion 7/7 read-back drift")
@@ -118,7 +135,7 @@ def _validate_current(state: Mapping[str, Any]) -> None:
     issue = state.get("issues", {}).get("88")
     _require(isinstance(issue, Mapping) and issue.get("state") == "OPEN", "Issue #88 must remain OPEN")
     meaning = str(issue.get("meaning", ""))
-    for marker in (RESIDUAL_PLAN_ID, RESIDUAL_PLAN_MERGE, NEXT_GATE, "Final Canon is deferred", "runtime remains frozen"):
+    for marker in ("RAVP-001", RESIDUAL_PLAN_MERGE, NEXT_GATE, "Final Canon is deferred", "runtime remains frozen"):
         _require(marker in meaning, f"Issue #88 current meaning missing marker: {marker}")
 
     _require(state["status"]["production_authorized"] is False, "production must remain unauthorized")
@@ -131,8 +148,8 @@ def validate(
     registry: Mapping[str, Any] | None = None,
     check_git: bool = True,
 ) -> None:
-    _PRE_PLAN_VALIDATE(_pre_plan_view(state), repo=repo, registry=registry, check_git=check_git)
     _validate_current(state)
+    _PRE_PLAN_VALIDATE(_pre_plan_view(state), repo=repo, registry=registry, check_git=check_git)
 
 
 def main() -> int:
