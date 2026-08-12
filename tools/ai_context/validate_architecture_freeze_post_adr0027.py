@@ -23,6 +23,7 @@ RESIDUAL = ["A10-H03", "A10-H06", "A10-H08", "A10-H09", "A10-H10", "A10-H11"]
 
 def _d8_view(state: Mapping[str, Any]) -> dict[str, Any]:
     value = copy.deepcopy(dict(state))
+    value["checkpoints"]["notion_synchronized_through_sha"] = D8_NOTION_SHA
     research = value["tracks"]["long_horizon_research"]
     research["status"] = CURRENT_RESEARCH_STATUS
     ref = research["architecture_refoundation"]
