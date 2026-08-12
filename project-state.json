@@ -1,7 +1,7 @@
 {
   "protocol": "nk-project-state/2",
-  "snapshot_id": "native-kernel/state/2026-08-12-post-d8-operator-decision",
-  "observed_at": "2026-08-12T08:11:03Z",
+  "snapshot_id": "native-kernel/state/2026-08-12-adr0027-notion-readback-complete",
+  "observed_at": "2026-08-12T09:44:18Z",
   "repository": {
     "full_name": "velantrian/velantrim-native-kernel",
     "visibility": "PUBLIC",
@@ -14,8 +14,8 @@
     "runtime_integrity_checkpoint_sha": "a1cdc6d8f36d67f40f065641809bc6da463c10a4",
     "evidence_producing_sha": "296981ae84ad5bdab5dabbec9b7b9ebb43af63d7",
     "publication_checkpoint_sha": "10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c",
-    "notion_synchronized_through_sha": "491ff7b229606d228ca04985b19b146878390e08",
-    "checkpoint_semantics": "Historical publication, runtime, integrity, evidence-producing and manifest-source role identities remain unchanged. D5 execution merged in PR #114; D5-R1 qualification merged in PR #115; PR #116 reconciled current truth; D6 classification merged in PR #117; D7 integrated re-review merged in PR #118 at 491ff7b229606d228ca04985b19b146878390e08. D8 synchronized seven existing Notion surfaces from that D7 checkpoint with 7/7 read-back verification and PR #119 recorded the synchronization evidence at 9ecb2369edec17a0171b6e965bcb49f9526adf0b. Live HEAD is resolved through Git/GitHub and is never predicted by this file. The next gate is a separate operator Canon/runtime decision; D8 does not authorize its outcome."
+    "notion_synchronized_through_sha": "90bcb0fa2a3a2e85a590e9ba79746f3297b55457",
+    "checkpoint_semantics": "Historical publication, runtime, integrity, evidence-producing and manifest-source role identities remain unchanged. D5 execution merged in PR #114; D5-R1 qualification merged in PR #115; PR #116 reconciled current truth; D6 classification merged in PR #117; D7 integrated re-review merged in PR #118 at 491ff7b229606d228ca04985b19b146878390e08. D8 synchronized seven existing Notion surfaces from that D7 checkpoint with 7/7 read-back verification and PR #119 recorded the D8 synchronization evidence at 9ecb2369edec17a0171b6e965bcb49f9526adf0b. ADR-0027 / OD-POST-D8-001 then merged at 57993f39906ae7266011f6146c9a485d0587d2bf and PR #122 bound that decision into current GitHub truth at 90bcb0fa2a3a2e85a590e9ba79746f3297b55457. The seven existing Native Kernel Notion surfaces were synchronized to that ADR-0027 truth and read back 7/7; no new Notion pages were created. Live HEAD is resolved through Git/GitHub and is never predicted by this file. The current next gate is RESIDUAL_A10_VALIDATION_PLAN in RESEARCH_PLANNING_ONLY scope; residual experiment execution remains unauthorized."
   },
   "status": {
     "repository_status": "RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY",
@@ -437,10 +437,14 @@
     }
   },
   "notion": {
-    "synchronization_required": true,
+    "synchronization_required": false,
     "status": "SYNCED_THROUGH_DESCENDANT_CHECKPOINT",
-    "scope": "Publication checkpoint 10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c and manifest source 70acd0da61fee19131947aa56125833adb156ced remain historical roles. D8 synchronized all seven existing Native Kernel Notion surfaces through D7 checkpoint 491ff7b229606d228ca04985b19b146878390e08 with 7/7 read-back verification; PR #119 merge 9ecb2369edec17a0171b6e965bcb49f9526adf0b records the synchronization evidence. The later synchronization does not rewrite or replace the earlier publication or manifest-source roles. GitHub remains authoritative for current technical state. ADR-0027 / OD-POST-D8-001 merged at 57993f39906ae7266011f6146c9a485d0587d2bf; operator-decision truth is pending Notion synchronization/read-back.",
-    "authority_boundary": "Notion carries synchronized orientation, rationale and history through the D7 source checkpoint; GitHub remains authoritative for technical state, live refs, contracts, tests, workflow results, evidence and the final current-truth descendant. D8 synchronization does not authorize Final Canon, runtime thaw, production, Issue #18, Issue #74/ADR-0024 or Track H admission."
+    "decision_sync_status": "SYNCHRONIZED",
+    "surface_count": 7,
+    "read_back_verified_count": 7,
+    "new_pages_created": 0,
+    "scope": "Publication checkpoint 10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c and manifest source 70acd0da61fee19131947aa56125833adb156ced remain historical roles. D8 synchronized all seven existing Native Kernel Notion surfaces through D7 checkpoint 491ff7b229606d228ca04985b19b146878390e08 with 7/7 read-back verification; PR #119 merge 9ecb2369edec17a0171b6e965bcb49f9526adf0b records the D8 synchronization evidence. ADR-0027 / OD-POST-D8-001 merged at 57993f39906ae7266011f6146c9a485d0587d2bf and current GitHub truth was bound by PR #122 at 90bcb0fa2a3a2e85a590e9ba79746f3297b55457. All seven existing Native Kernel Notion surfaces are synchronized to that ADR-0027 checkpoint and 7/7 read-back verified; no new pages were created. GitHub remains authoritative for live technical state. The current next gate is RESIDUAL_A10_VALIDATION_PLAN in RESEARCH_PLANNING_ONLY scope; experiment execution is not authorized.",
+    "authority_boundary": "Notion carries synchronized orientation, rationale and history through the ADR-0027 truth checkpoint 90bcb0fa2a3a2e85a590e9ba79746f3297b55457; GitHub remains authoritative for technical state, live refs, contracts, tests, workflow results, evidence and future current-truth descendants. Synchronization does not authorize Final Canon, runtime thaw, production, residual experiment execution, Issue #18, Issue #74/ADR-0024 or Track H admission."
   },
   "non_claims": [
     "C5 bounded rehearsal is not production readiness.",
@@ -461,6 +465,7 @@
     "D8 consolidated synchronization does not authorize or decide the separate OPERATOR_CANON_RUNTIME_DECISION_REQUIRED gate.",
     "ADR-0027 retains A1-A10 as STRENGTHENED_FOR_BPV1_SCOPE / STILL_PROVISIONAL; it does not promote Final Canon.",
     "ADR-0027 authorizes RESIDUAL_A10_VALIDATION_PLAN research planning only; it does not authorize residual experiment execution.",
-    "ADR-0027 keeps product runtime expansion frozen and production unauthorized."
+    "ADR-0027 keeps product runtime expansion frozen and production unauthorized.",
+    "ADR-0027 Notion 7/7 read-back is documentation convergence, not architecture proof, execution authorization or product-runtime evidence."
   ]
 }
