@@ -73,7 +73,7 @@ class A10OpenQuestionsFalsificationTests(unittest.TestCase):
             self.assertIn("45/10/17/0", markdown)
             self.assertIn("0/0/8/0", markdown)
 
-    def test_machine_state_preserves_a10_and_option_d_outcomes(self) -> None:
+    def test_machine_state_preserves_a10_and_h11_preregistration_outcomes(self) -> None:
         research = self.state["tracks"]["long_horizon_research"]
         refoundation = research["architecture_refoundation"]
         validation = research["post_blueprint_validation"]
@@ -90,13 +90,10 @@ class A10OpenQuestionsFalsificationTests(unittest.TestCase):
             "A10_OPEN_QUESTIONS_AND_FALSIFICATION",
         ]
         self.assertEqual(expected, refoundation["completed_deliverables"])
-        self.assertEqual("SEPARATE_FAMILY_PREREGISTRATION_SELECTION", refoundation["next_content_slice"])
+        self.assertEqual("A10_H11_EXECUTION_ADMISSION", refoundation["next_content_slice"])
         self.assertEqual("ADR-0026", validation["decision"])
         self.assertEqual("QUALIFYING_REVIEW_COMPLETE", validation["independent_review_status"])
-        self.assertEqual(
-            "COMPLETE / RESIDUAL_A10_VALIDATION_PLAN_COMPLETE / PREREGISTRATION_SELECTION_NEXT",
-            validation["status"],
-        )
+        self.assertEqual("COMPLETE / H11_PREREGISTERED / EXECUTION_ADMISSION_NEXT", validation["status"])
         self.assertEqual("ADMITTED_FOR_EXPERIMENT_ONLY", validation["bpv1_status"])
         self.assertEqual("a538d7f1e28858a88b9ee777ac7d6e05b85943db", validation["bpv1_plan"]["authoritative_plan_merge_sha"])
         self.assertFalse(validation["bpv1_plan"]["execution_authorized"])
@@ -145,14 +142,27 @@ class A10OpenQuestionsFalsificationTests(unittest.TestCase):
         self.assertEqual("RAVP-001-residual-a10-validation-plan-v1", plan["plan_id"])
         self.assertEqual("COMPLETE / MERGED / NOTION_7_OF_7_READ_BACK_VERIFIED", plan["status"])
         self.assertEqual(classification["not_tested"], plan["families"])
-        self.assertEqual("SEPARATE_FAMILY_PREREGISTRATION_SELECTION", plan["next_gate"])
-        self.assertEqual("PREREGISTRATION_SELECTION_ONLY", plan["next_gate_scope"])
-        self.assertIsNone(plan["selected_family"])
-        self.assertFalse(plan["family_preregistration_authorized"])
+        self.assertEqual("A10_H11_EXECUTION_ADMISSION", plan["next_gate"])
+        self.assertEqual("EXECUTION_ADMISSION_ONLY", plan["next_gate_scope"])
+        self.assertEqual("A10-H11", plan["selected_family"])
+        self.assertEqual("RAVP-H11-LAB-CANON-SEPARATION", plan["selected_family_id"])
+        self.assertTrue(plan["family_preregistration_authorized"])
+        self.assertTrue(plan["family_preregistration_complete"])
         self.assertFalse(plan["experiment_implementation_authorized"])
         self.assertFalse(plan["experiment_execution_authorized"])
         self.assertFalse(plan["composition_federation_is_h11"])
 
+        h11 = plan["h11_preregistration"]
+        self.assertEqual("H11-001-c5-lab-canon-separation-v1", h11["plan_id"])
+        self.assertEqual("PREREGISTERED / EXECUTION_NOT_AUTHORIZED", h11["status"])
+        self.assertEqual("NOT_TESTED", h11["current_a10_outcome"])
+        self.assertEqual("INDEPENDENT_SEMANTIC_ORACLE", h11["required_oracle_class"])
+        self.assertEqual("NOT_ESTABLISHED / MUST_BE_VERIFIED_AT_EXECUTION_ADMISSION", h11["qualifying_reviewer_reproducer"])
+        self.assertFalse(h11["implementation_authorized"])
+        self.assertFalse(h11["execution_authorized"])
+
+        # H11 remains in D6's NOT_TESTED set until a separately admitted qualifying execution.
+        self.assertIn("A10-H11", classification["not_tested"])
         self.assertTrue(refoundation["runtime_expansion_frozen"])
         self.assertFalse(validation["product_runtime_thaw"])
         self.assertEqual("BOUNDED_REFERENCE_LABORATORY", self.state["tracks"]["clean_implementation"]["architecture_role"])
