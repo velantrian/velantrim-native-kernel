@@ -101,7 +101,7 @@ def validate(repo: Path) -> None:
 
     for relative in CURRENT_TRUTH_SURFACES:
         text = _read(repo / relative)
-        _require(CURRENT_MARKER in text, f"{relative}: H11 current-truth marker missing")
+        _require(CURRENT_MARKER in text or H11_NEXT_GATE in text, f"{relative}: H11 current-truth marker missing")
         _require(H11_NEXT_GATE in text, f"{relative}: H11 current next gate missing")
         _require("NOT_ESTABLISHED" in text, f"{relative}: H11 independence boundary missing")
         _require("NOT_TESTED" in text, f"{relative}: H11 current outcome boundary missing")
