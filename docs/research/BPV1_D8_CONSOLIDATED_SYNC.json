@@ -1,0 +1,53 @@
+{
+  "protocol": "nk-option-d-consolidated-sync/1",
+  "sync_id": "BPV1-001-D8-consolidated-sync-v1",
+  "status": "CANDIDATE / AUTHORITATIVE_AFTER_MERGE",
+  "source_checkpoint_sha": "491ff7b229606d228ca04985b19b146878390e08",
+  "source_checkpoint_role": "D7_INTEGRATED_RE_REVIEW_MERGE",
+  "d6_classification_merge_sha": "030d0a0585bd061b27329a38e29708c11304701a",
+  "d7_rereview_merge_sha": "491ff7b229606d228ca04985b19b146878390e08",
+  "notion_sync": {
+    "status": "COMPLETE / READ_BACK_VERIFIED",
+    "surface_count": 7,
+    "read_back_verified_count": 7,
+    "new_pages_created": 0,
+    "historical_content_preserved": true,
+    "surfaces": [
+      {"title": "🗺Velantrim-Native-Kernel📚", "page_id": "3a5ac84d-0547-8127-a289-c32763c5050d", "role": "HUB", "read_back_verified": true},
+      {"title": "🗺️ Roadmap, Acceptance Gates & Decision Ledger", "page_id": "3a5ac84d-0547-81cc-920d-ef45a66fe953", "role": "ROADMAP", "read_back_verified": true},
+      {"title": "🏛️ Core Architecture & Invariants", "page_id": "3a5ac84d-0547-815b-a58b-d2ed52771601", "role": "CORE_ARCHITECTURE", "read_back_verified": true},
+      {"title": "📊 Current State", "page_id": "3b7ac84d-0547-81ff-8f04-cf967ff80069", "role": "CURRENT_STATE", "read_back_verified": true},
+      {"title": "🤖 AI Agent Context & Documentation Continuity", "page_id": "3b4ac84d-0547-81d4-b9ce-df8b0f8616bc", "role": "AI_CONTEXT", "read_back_verified": true},
+      {"title": "⚠️ Active Risks", "page_id": "3b7ac84d-0547-8112-8595-ca44940cc242", "role": "ACTIVE_RISKS", "read_back_verified": true},
+      {"title": "🔄 GitHub Sync Log", "page_id": "3b7ac84d-0547-8101-ada4-de9702b68eb3", "role": "SYNC_LOG", "read_back_verified": true}
+    ]
+  },
+  "synchronized_result": {
+    "architecture_position": "STRENGTHENED_FOR_BPV1_SCOPE / STILL_PROVISIONAL",
+    "SUPPORTED_FOR_SCOPE": ["A10-H01", "A10-H02", "A10-H04", "A10-H05", "A10-H07", "A10-H12"],
+    "NOT_TESTED": ["A10-H03", "A10-H06", "A10-H08", "A10-H09", "A10-H10", "A10-H11"],
+    "WEAKENED": [],
+    "REFUTED": [],
+    "INDETERMINATE": [],
+    "universal_substrate_independence_proven": false,
+    "final_canon_authorized": false,
+    "independent_implementation_validation_established": false,
+    "independent_custody_established": false,
+    "independent_computation_model_established": false,
+    "composition_federation_conformance_established": false
+  },
+  "governance": {
+    "runtime_expansion": "FROZEN",
+    "product_runtime_thaw": false,
+    "production_authorized": false,
+    "p1_c5_role": "BOUNDED_REFERENCE_LABORATORY",
+    "rust_subject_role": "FALSIFICATION_INSTRUMENT_ONLY",
+    "issue_18": "PENDING_OPERATOR / UNCHANGED",
+    "issue_74_adr0024": "PENDING_OPERATOR / UNCHANGED",
+    "track_h_source_admission": "OPERATOR_CONTROLLED / UNCHANGED"
+  },
+  "next_gate": "OPERATOR_CANON_RUNTIME_DECISION_REQUIRED",
+  "next_gate_authorized_by_d8": false,
+  "operator_decision_required": true,
+  "github_remains_technical_authority": true
+}

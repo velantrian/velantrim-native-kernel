@@ -1,0 +1,72 @@
+name: BPV1 D8 consolidated synchronization
+
+on:
+  pull_request:
+    paths:
+      - "docs/research/BPV1_D6_A10_CLASSIFICATION.json"
+      - "docs/research/BPV1_D7_INTEGRATED_REREVIEW.json"
+      - "docs/research/BPV1_D8_CONSOLIDATED_SYNC.json"
+      - "docs/research/BPV1_D8_CONSOLIDATED_SYNC.md"
+      - "docs/research/BPV1_D8_CONSOLIDATED_SYNC.ru.md"
+      - "tests/test_bpv1_d6_a10_classification.py"
+      - "tests/test_bpv1_d7_integrated_rereview.py"
+      - "tests/test_bpv1_d8_consolidated_sync.py"
+      - ".github/workflows/bpv1-d8.yml"
+  push:
+    branches: [main]
+    paths:
+      - "docs/research/BPV1_D6_A10_CLASSIFICATION.json"
+      - "docs/research/BPV1_D7_INTEGRATED_REREVIEW.json"
+      - "docs/research/BPV1_D8_CONSOLIDATED_SYNC.json"
+      - "docs/research/BPV1_D8_CONSOLIDATED_SYNC.md"
+      - "docs/research/BPV1_D8_CONSOLIDATED_SYNC.ru.md"
+      - "tests/test_bpv1_d6_a10_classification.py"
+      - "tests/test_bpv1_d7_integrated_rereview.py"
+      - "tests/test_bpv1_d8_consolidated_sync.py"
+      - ".github/workflows/bpv1-d8.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Python ${{ matrix.python-version }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+
+    steps:
+      - name: Check out exact commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Compile D6-D8 guards
+        run: |
+          python -m compileall -q \
+            tests/test_bpv1_d6_a10_classification.py \
+            tests/test_bpv1_d7_integrated_rereview.py \
+            tests/test_bpv1_d8_consolidated_sync.py
+
+      - name: Verify D6 classification
+        run: python -m unittest discover -s tests -p 'test_bpv1_d6_a10_classification.py' -v
+
+      - name: Verify D7 integrated re-review
+        run: python -m unittest discover -s tests -p 'test_bpv1_d7_integrated_rereview.py' -v
+
+      - name: Validate D8 consolidated synchronization record
+        run: python -m unittest discover -s tests -p 'test_bpv1_d8_consolidated_sync.py' -v
+
+      - name: Verify authoritative BPV1 plan digest
+        run: |
+          python tools/bpv1/plan_digest.py --repo . | grep '7fe8174c604678c6b79d3fdeae83d7c5ab0d2fb15bfe343d41659d05d9496ad0'
