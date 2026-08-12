@@ -66,8 +66,8 @@ jobs:
       - name: Install pinned Rust toolchain (1.97.1)
         run: rustup toolchain install 1.97.1 --profile minimal
 
-      - name: Audit bounded D5-R1 scope
-        run: python tools/bpv1/audit_scope.py --repo . --mode qualification --base a191e9c868c14af34a269dcdfae44406f1013bda --head HEAD
+      - name: Audit immutable D5-R1 qualification scope
+        run: python tools/bpv1/audit_scope.py --repo . --mode qualification --base a191e9c868c14af34a269dcdfae44406f1013bda --head 3856740570620fb2243e2f0da76359281ec4068f
 
       - name: Prove frozen BPV1 authorities were not edited
         run: |

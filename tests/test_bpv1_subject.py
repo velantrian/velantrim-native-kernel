@@ -23,6 +23,7 @@ QUALIFIER = ROOT / "tools" / "bpv1" / "qualify_observations.py"
 FIXTURE_SPEC = ROOT / "experiments" / "bpv1" / "BPV1-001" / "admission" / "fixtures.json"
 SOURCE_BOUNDARY = ROOT / "experiments" / "bpv1" / "BPV1-001" / "admission" / "source-boundary.json"
 D5_R1_BASE = "a191e9c868c14af34a269dcdfae44406f1013bda"
+D5_R1_QUALIFICATION = "3856740570620fb2243e2f0da76359281ec4068f"
 REQUIRED_RUST_CHANNEL = "1.97.1"
 
 FORBIDDEN_SOURCE_PATTERNS = (
@@ -132,21 +133,14 @@ class BPV1SourceBoundaryTests(unittest.TestCase):
         self.assertTrue(report["witness_store_bounded"])
         self.assertTrue(report["predecessor_store_bounded"])
 
-    def test_d5_r1_scope_audit_passes_when_history_is_available(self) -> None:
-        if subprocess.run(
-            ["git", "-C", str(ROOT), "cat-file", "-e", f"{D5_R1_BASE}^{{commit}}"],
-            capture_output=True,
-            check=False,
-        ).returncode != 0:
-            self.skipTest("D5-R1 base commit not present in checkout history")
-        diff = subprocess.run(
-            ["git", "-C", str(ROOT), "diff", "--name-only", f"{D5_R1_BASE}...HEAD"],
-            capture_output=True,
-            text=True,
-            check=False,
-        )
-        if not diff.stdout.strip():
-            self.skipTest("no D5-R1 diff yet")
+    def test_historical_d5_r1_scope_audit_passes_when_history_is_available(self) -> None:
+        for commit in (D5_R1_BASE, D5_R1_QUALIFICATION):
+            if subprocess.run(
+                ["git", "-C", str(ROOT), "cat-file", "-e", f"{commit}^{{commit}}"],
+                capture_output=True,
+                check=False,
+            ).returncode != 0:
+                self.skipTest(f"historical D5-R1 commit not present in checkout history: {commit}")
         result = subprocess.run(
             [
                 "python3",
@@ -158,7 +152,7 @@ class BPV1SourceBoundaryTests(unittest.TestCase):
                 "--base",
                 D5_R1_BASE,
                 "--head",
-                "HEAD",
+                D5_R1_QUALIFICATION,
             ],
             capture_output=True,
             text=True,

@@ -50,7 +50,7 @@ class ReconciliationStateTests(unittest.TestCase):
             self.assertEqual("VERIFIED", issue["verification"]["status"])
             self.assertEqual("GITHUB_API", issue["verification"]["method"])
 
-    def test_checkpoint_roles_separate_publication_and_notion(self) -> None:
+    def test_checkpoint_roles_separate_publication_manifest_and_notion(self) -> None:
         checkpoints = self.state["checkpoints"]
         self.assertEqual(
             module.NOTION_SYNC_SHA,
@@ -61,11 +61,15 @@ class ReconciliationStateTests(unittest.TestCase):
             checkpoints["publication_checkpoint_sha"],
         )
         self.assertEqual(
-            module.NOTION_SYNC_SHA,
+            module.D8_NOTION_SYNC_SHA,
             checkpoints["notion_synchronized_through_sha"],
         )
         self.assertNotEqual(
             checkpoints["publication_checkpoint_sha"],
+            checkpoints["notion_synchronized_through_sha"],
+        )
+        self.assertNotEqual(
+            checkpoints["manifest_generated_from_sha"],
             checkpoints["notion_synchronized_through_sha"],
         )
 
@@ -100,7 +104,7 @@ class ReconciliationStateTests(unittest.TestCase):
             state["checkpoints"]["manifest_generated_from_sha"] = module.PUBLICATION_SHA
             state["checkpoints"]["notion_synchronized_through_sha"] = module.PUBLICATION_SHA
             state_path.write_text(json.dumps(state), encoding="utf-8")
-            with self.assertRaisesRegex(module.ReconciliationError, "source|roles collapsed"):
+            with self.assertRaisesRegex(module.ReconciliationError, "source|roles collapsed|Notion"):
                 module.validate(repo)
 
     def test_current_surface_missing_descendant_checkpoint_is_rejected(self) -> None:

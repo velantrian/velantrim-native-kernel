@@ -73,7 +73,7 @@ class A10OpenQuestionsFalsificationTests(unittest.TestCase):
             self.assertIn("45/10/17/0", markdown)
             self.assertIn("0/0/8/0", markdown)
 
-    def test_machine_state_preserves_a10_and_advances_to_d6(self) -> None:
+    def test_machine_state_preserves_a10_and_option_d_outcomes(self) -> None:
         research = self.state["tracks"]["long_horizon_research"]
         refoundation = research["architecture_refoundation"]
         validation = research["post_blueprint_validation"]
@@ -90,11 +90,11 @@ class A10OpenQuestionsFalsificationTests(unittest.TestCase):
             "A10_OPEN_QUESTIONS_AND_FALSIFICATION",
         ]
         self.assertEqual(expected, refoundation["completed_deliverables"])
-        self.assertEqual("D6_A10_HYPOTHESIS_CLASSIFICATION", refoundation["next_content_slice"])
+        self.assertEqual("OPERATOR_CANON_RUNTIME_DECISION_REQUIRED", refoundation["next_content_slice"])
         self.assertEqual("ADR-0026", validation["decision"])
         self.assertEqual("QUALIFYING_REVIEW_COMPLETE", validation["independent_review_status"])
         self.assertEqual(
-            "AUTHORIZED / REVIEW_COMPLETE / RECONCILIATION_COMPLETE / BPV1_PLAN_PREREGISTERED / EXECUTION_ADMITTED_FOR_EXPERIMENT_ONLY / D5_COMPLETE / D5_R1_QUALIFIED",
+            "COMPLETE / OPTION_D_VALIDATION_AND_SYNC_COMPLETE / AWAITING_SEPARATE_OPERATOR_DECISION",
             validation["status"],
         )
         self.assertEqual("ADMITTED_FOR_EXPERIMENT_ONLY", validation["bpv1_status"])
@@ -104,9 +104,29 @@ class A10OpenQuestionsFalsificationTests(unittest.TestCase):
         self.assertEqual("COMPLETE", result["status"])
         self.assertEqual("QUALIFIED", result["qualification_status"])
         self.assertEqual("SUPPORTED_FOR_SCOPE", result["oracle_outcome"])
-        self.assertEqual("D6_A10_HYPOTHESIS_CLASSIFICATION", result["next_gate"])
-        self.assertEqual("NOT_STARTED", result["d6_status"])
+        self.assertEqual("OPERATOR_CANON_RUNTIME_DECISION_REQUIRED", result["next_gate"])
+        self.assertEqual("COMPLETE", result["d6_status"])
+        self.assertEqual("COMPLETE", result["d7_status"])
+        self.assertEqual("COMPLETE / READ_BACK_VERIFIED", result["d8_status"])
+        classification = validation["d6_hypothesis_classification"]
+        self.assertEqual("COMPLETE", classification["status"])
+        self.assertEqual(6, len(classification["supported_for_scope"]))
+        self.assertEqual(6, len(classification["not_tested"]))
+        self.assertEqual([], classification["weakened"])
+        self.assertEqual([], classification["refuted"])
+        self.assertEqual([], classification["indeterminate"])
+        rereview = validation["d7_integrated_rereview"]
+        self.assertEqual("COMPLETE", rereview["status"])
+        self.assertEqual("STRENGTHENED_FOR_BPV1_SCOPE / STILL_PROVISIONAL", rereview["architecture_position"])
+        sync = validation["d8_consolidated_sync"]
+        self.assertEqual("COMPLETE / READ_BACK_VERIFIED", sync["status"])
+        self.assertEqual(7, sync["notion_surface_count"])
+        self.assertEqual(7, sync["notion_read_back_verified_count"])
+        self.assertEqual(0, sync["new_notion_pages_created"])
+        self.assertTrue(sync["operator_decision_required"])
+        self.assertFalse(sync["next_gate_authorized_by_d8"])
         self.assertTrue(refoundation["runtime_expansion_frozen"])
+        self.assertFalse(validation["product_runtime_thaw"])
         self.assertEqual("BOUNDED_REFERENCE_LABORATORY", self.state["tracks"]["clean_implementation"]["architecture_role"])
         self.assertFalse(self.state["status"]["production_authorized"])
         self.assertEqual({"supported": 45, "partial": 10, "unsupported": 17, "failed": 0, "total": 72}, self.state["assertion_map"])

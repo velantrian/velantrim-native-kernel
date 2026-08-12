@@ -52,7 +52,7 @@ class ProjectStateTests(unittest.TestCase):
         with self.assertRaisesRegex(module.ProjectStateError, "relationship"):
             self.validate(state=state)
 
-    def test_manifest_source_must_match_notion_checkpoint(self) -> None:
+    def test_manifest_source_must_match_historical_role(self) -> None:
         state = copy.deepcopy(self.state)
         state["checkpoints"]["manifest_generated_from_sha"] = state["checkpoints"][
             "publication_checkpoint_sha"
@@ -170,10 +170,10 @@ class ProjectStateTests(unittest.TestCase):
         with self.assertRaisesRegex(module.ProjectStateError, "verification method"):
             self.validate(state=state)
 
-    def test_notion_synchronization_remains_required(self) -> None:
+    def test_notion_synchronization_remains_complete_after_d8(self) -> None:
         state = copy.deepcopy(self.state)
-        state["notion"]["synchronization_required"] = False
-        with self.assertRaisesRegex(module.ProjectStateError, "must remain required"):
+        state["notion"]["synchronization_required"] = True
+        with self.assertRaisesRegex(module.ProjectStateError, "must remain complete"):
             self.validate(state=state)
 
 
