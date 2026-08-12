@@ -78,9 +78,9 @@
       "finding_id": "D7-F07",
       "severity": "MATERIAL_LIMITATION",
       "status": "OPEN",
-      "finding": "A10-H07 is strengthened only to one same-repository Rust realization; independent implementation team, custody and computation model remain unestablished.",
+      "finding": "A10-H07 is strengthened only to one same-repository Rust realization on a conventional digital computation model; independent implementation team, custody and computation model remain unestablished.",
       "basis": ["A10-H07=SUPPORTED_FOR_SCOPE", "independent_team=NOT_ESTABLISHED", "independent_custody=NOT_ESTABLISHED", "independent_computation_model=NOT_ESTABLISHED / CONVENTIONAL_DIGITAL"],
-      "architectural_effect": "Do not describe BPV1-001 as independent implementation validation or universal portability proof."
+      "architectural_effect": "Do not describe BPV1-001 as independent implementation validation or universal portability proof; independent team, custody and computation-model validation remain NOT_ESTABLISHED."
     },
     {
       "finding_id": "D7-F08",
