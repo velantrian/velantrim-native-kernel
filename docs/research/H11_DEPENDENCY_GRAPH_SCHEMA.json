@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "nk-h11-dependency-graph/1",
+  "title": "H11 mechanism dependency graph",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol",
+    "experiment_id",
+    "source_plan_id",
+    "source_plan_sha256",
+    "nodes",
+    "edges",
+    "mandatory_profile_mechanisms_covered",
+    "declared_gaps"
+  ],
+  "properties": {
+    "protocol": {"const": "nk-h11-dependency-graph/1"},
+    "experiment_id": {"const": "H11-001"},
+    "source_plan_id": {"const": "H11-001-c5-lab-canon-separation-v1"},
+    "source_plan_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "nodes": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["node_id", "node_class", "label", "source_reference"],
+        "properties": {
+          "node_id": {"type": "string", "minLength": 1},
+          "node_class": {
+            "enum": [
+              "ARCHITECTURE_OBLIGATION",
+              "LABORATORY_EVIDENCE",
+              "PROFILE_MECHANISM",
+              "VALIDATOR_OR_ORACLE"
+            ]
+          },
+          "label": {"type": "string", "minLength": 1},
+          "source_reference": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "edges": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["edge_id", "from", "to", "edge_class", "leakage_class", "justification", "raw_observation_refs"],
+        "properties": {
+          "edge_id": {"type": "string", "minLength": 1},
+          "from": {"type": "string", "minLength": 1},
+          "to": {"type": "string", "minLength": 1},
+          "edge_class": {
+            "enum": [
+              "MEANING_LEVEL_JUSTIFICATION",
+              "LAB_REPRODUCTION_REQUIRES",
+              "PROFILE_REALIZES",
+              "ARCHITECTURE_REQUIRES",
+              "VALIDATOR_DEPENDS_ON"
+            ]
+          },
+          "leakage_class": {
+            "enum": [
+              "LAB_ONLY",
+              "PROFILE_SPECIFIC",
+              "MEANING_LEVEL_JUSTIFIED",
+              "UNJUSTIFIED_CANON_DEPENDENCY",
+              "INDETERMINATE"
+            ]
+          },
+          "justification": {"type": "string", "minLength": 1},
+          "raw_observation_refs": {
+            "type": "array",
+            "minItems": 1,
+            "items": {"type": "string", "minLength": 1}
+          }
+        }
+      }
+    },
+    "mandatory_profile_mechanisms_covered": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "Python 3.11/3.12",
+          "PostgreSQL 16/18",
+          "SQLite 3.51.3",
+          "SQL schema/transactions/locking",
+          "JSON serialization",
+          "ZIP archive representation",
+          "SHA-256 digest verification",
+          "current Event vocabulary/envelope",
+          "reducer v1",
+          "Receipt encoding",
+          "integer sequence/order mechanisms",
+          "current P4/P5/C3/C4/C5 report schemas"
+        ]
+      }
+    },
+    "declared_gaps": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1}
+    }
+  }
+}
