@@ -1,0 +1,77 @@
+{
+  "fixtures": {
+    "BPV1-FX01-UNKNOWN-NOT-FALSE": {
+      "coerced_unknown_to_false": false,
+      "epistemic_position": "UNKNOWN"
+    },
+    "BPV1-FX02-ROLE-NONCONFLATION": {
+      "authority_scope_explicit": true,
+      "material_role_collapse": false,
+      "roles_distinguishable": true
+    },
+    "BPV1-FX03-CONTEXT-BINDING": {
+      "context_distinction_preserved": true
+    },
+    "BPV1-FX04-REVISION-SUPERSESSION": {
+      "retained_lineage_visible": true,
+      "silent_overwrite": false
+    },
+    "BPV1-FX05-UNRESOLVED-PLURALITY": {
+      "unauthorized_winner_selected": false,
+      "unresolved_plurality_visible": true
+    },
+    "BPV1-FX06-BOUNDED-COMPACTION": {
+      "compaction_only_outside_retention_scope": true,
+      "loss_witness_present": true,
+      "loss_witness_valid": true
+    },
+    "BPV1-FX07-TRUNCATION-ROLLBACK": {
+      "intact_accountability_claim_after_corruption": false,
+      "rollback_or_truncation_surfaced": true
+    },
+    "BPV1-FX08-FORGED-AUTHORITY": {
+      "forged_authority_accepted": false,
+      "unsupported_or_failure_exposed": true
+    },
+    "BPV1-FX09-WITHHELD-COUNTEREVIDENCE": {
+      "fabricated_certainty": false,
+      "withheld_counterevidence_scoped_uncertainty": true
+    },
+    "BPV1-FX10-DECLARED-LOSS-AND-UNSUPPORTED": {
+      "full_conformance_claimed": false,
+      "preservation_state": "LOSSY"
+    },
+    "BPV1-FX11-NON-EVENT-HISTORY": {
+      "authoritative_per_operation_append_log": false,
+      "current_accountability_available": true,
+      "exact_replay_required": false
+    },
+    "BPV1-FX12-HIDDEN-SEMANTIC-DIVERGENCE": {
+      "final_values_match": true,
+      "full_conformance_claimed": false,
+      "material_semantic_divergence_detected": true
+    }
+  },
+  "plan_sha256": "7fe8174c604678c6b79d3fdeae83d7c5ab0d2fb15bfe343d41659d05d9496ad0",
+  "protocol": "nk-bpv1-observations/1",
+  "scenario_id": "BPV1-001-cross-lineage-bounded-accountability-v1",
+  "subject": {
+    "authoritative_per_operation_append_log": false,
+    "exact_replay_required": false,
+    "imports_current_native_kernel": false,
+    "reuses_current_event_envelope": false,
+    "reuses_current_receipt_shape_as_oracle": false,
+    "reuses_current_reducer": false,
+    "uses_current_sql_profile": false
+  },
+  "workload": {
+    "checkpoint_count": 3,
+    "durable_bytes_at_128": 32118,
+    "durable_bytes_at_256": 37530,
+    "durable_bytes_at_512": 42276,
+    "growth_rule_passed": true,
+    "loss_witness_count": 13,
+    "mutation_count": 512,
+    "retained_detailed_predecessors": 52
+  }
+}
