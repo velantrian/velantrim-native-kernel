@@ -158,9 +158,9 @@ class ProjectStateTests(unittest.TestCase):
         with self.assertRaisesRegex(module.ProjectStateError, "7/7"):
             self.validate(state=state)
 
-    def test_notion_sync_checkpoint_must_remain_residual_plan_merge(self) -> None:
+    def test_notion_sync_checkpoint_must_remain_h11_preregistration_merge(self) -> None:
         state = copy.deepcopy(self.state)
-        state["checkpoints"]["notion_synchronized_through_sha"] = "90bcb0fa2a3a2e85a590e9ba79746f3297b55457"
+        state["checkpoints"]["notion_synchronized_through_sha"] = "edc0501d71a827462aafd1ac4497920a719a4519"
         with self.assertRaisesRegex(module.ProjectStateError, "checkpoint drift"):
             self.validate(state=state)
 
@@ -170,16 +170,44 @@ class ProjectStateTests(unittest.TestCase):
         with self.assertRaisesRegex(module.ProjectStateError, "execution"):
             self.validate(state=state)
 
-    def test_no_family_can_be_silently_selected_by_sync(self) -> None:
+    def test_selected_family_cannot_drift_from_h11(self) -> None:
         state = copy.deepcopy(self.state)
-        state["tracks"]["long_horizon_research"]["post_blueprint_validation"]["residual_a10_validation_plan"]["selected_family"] = "A10-H11"
-        with self.assertRaisesRegex(module.ProjectStateError, "silently selected"):
+        state["tracks"]["long_horizon_research"]["post_blueprint_validation"]["residual_a10_validation_plan"]["selected_family"] = "A10-H03"
+        with self.assertRaisesRegex(module.ProjectStateError, "selected family drift"):
             self.validate(state=state)
 
-    def test_preregistration_cannot_be_auto_authorized(self) -> None:
+    def test_h11_preregistration_binding_cannot_be_removed(self) -> None:
         state = copy.deepcopy(self.state)
-        state["tracks"]["long_horizon_research"]["post_blueprint_validation"]["residual_a10_validation_plan"]["family_preregistration_authorized"] = True
-        with self.assertRaisesRegex(module.ProjectStateError, "preregistration"):
+        state["tracks"]["long_horizon_research"]["post_blueprint_validation"]["residual_a10_validation_plan"]["family_preregistration_authorized"] = False
+        with self.assertRaisesRegex(module.ProjectStateError, "binding drift"):
+            self.validate(state=state)
+
+    def test_selection_package_cannot_be_rewritten_as_self_authorizing(self) -> None:
+        state = copy.deepcopy(self.state)
+        selection = state["tracks"]["long_horizon_research"]["post_blueprint_validation"]["residual_a10_validation_plan"]["family_selection"]
+        selection["preregistration_authorized_by_selection_package"] = True
+        with self.assertRaisesRegex(module.ProjectStateError, "non-self-authorizing"):
+            self.validate(state=state)
+
+    def test_h11_reviewer_independence_cannot_be_fabricated(self) -> None:
+        state = copy.deepcopy(self.state)
+        h11 = state["tracks"]["long_horizon_research"]["post_blueprint_validation"]["residual_a10_validation_plan"]["h11_preregistration"]
+        h11["qualifying_reviewer_reproducer"] = "QUALIFIED_BY_ASSISTANT_SELF_REVIEW"
+        with self.assertRaisesRegex(module.ProjectStateError, "reviewer status drift"):
+            self.validate(state=state)
+
+    def test_h11_outcome_must_remain_not_tested_before_execution(self) -> None:
+        state = copy.deepcopy(self.state)
+        h11 = state["tracks"]["long_horizon_research"]["post_blueprint_validation"]["residual_a10_validation_plan"]["h11_preregistration"]
+        h11["current_a10_outcome"] = "SUPPORTED_FOR_SCOPE"
+        with self.assertRaisesRegex(module.ProjectStateError, "NOT_TESTED"):
+            self.validate(state=state)
+
+    def test_h11_next_gate_cannot_skip_execution_admission(self) -> None:
+        state = copy.deepcopy(self.state)
+        plan = state["tracks"]["long_horizon_research"]["post_blueprint_validation"]["residual_a10_validation_plan"]
+        plan["next_gate"] = "A10_H11_EXECUTION"
+        with self.assertRaisesRegex(module.ProjectStateError, "next gate drift"):
             self.validate(state=state)
 
     def test_residual_implementation_and_execution_remain_unauthorized(self) -> None:

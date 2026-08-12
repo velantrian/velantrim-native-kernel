@@ -26,11 +26,13 @@ class ReconciliationStateTests(unittest.TestCase):
     def _copy_fixture(self, directory: Path) -> None:
         for rel in (
             "project-state.json",
+            "AGENTS.md",
             "README.md",
             "README.ru.md",
             "STATUS.md",
             "docs/ai/README.md",
             "docs/ai/CURRENT_STATE.md",
+            "docs/ai/POST_RESIDUAL_A10_STATE.md",
             "docs/ai/KNOWN_RISKS.md",
             "docs/ai/ISSUE_RECONCILIATION.md",
             "docs/ai/NOTION_HANDOFF.md",
@@ -52,26 +54,11 @@ class ReconciliationStateTests(unittest.TestCase):
 
     def test_checkpoint_roles_separate_publication_manifest_and_notion(self) -> None:
         checkpoints = self.state["checkpoints"]
-        self.assertEqual(
-            module.NOTION_SYNC_SHA,
-            checkpoints["manifest_generated_from_sha"],
-        )
-        self.assertEqual(
-            module.PUBLICATION_SHA,
-            checkpoints["publication_checkpoint_sha"],
-        )
-        self.assertEqual(
-            module.ADR0027_TRUTH_SYNC_SHA,
-            checkpoints["notion_synchronized_through_sha"],
-        )
-        self.assertNotEqual(
-            checkpoints["publication_checkpoint_sha"],
-            checkpoints["notion_synchronized_through_sha"],
-        )
-        self.assertNotEqual(
-            checkpoints["manifest_generated_from_sha"],
-            checkpoints["notion_synchronized_through_sha"],
-        )
+        self.assertEqual(module.NOTION_SYNC_SHA, checkpoints["manifest_generated_from_sha"])
+        self.assertEqual(module.PUBLICATION_SHA, checkpoints["publication_checkpoint_sha"])
+        self.assertEqual(module.H11_TRUTH_SYNC_SHA, checkpoints["notion_synchronized_through_sha"])
+        self.assertNotEqual(checkpoints["publication_checkpoint_sha"], checkpoints["notion_synchronized_through_sha"])
+        self.assertNotEqual(checkpoints["manifest_generated_from_sha"], checkpoints["notion_synchronized_through_sha"])
 
     def test_closed_foundational_issue_is_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as temp:
@@ -120,10 +107,7 @@ class ReconciliationStateTests(unittest.TestCase):
                 ),
                 encoding="utf-8",
             )
-            with self.assertRaisesRegex(
-                module.ReconciliationError,
-                "CURRENT_STATE.md: manifest source binding missing or ambiguous",
-            ):
+            with self.assertRaisesRegex(module.ReconciliationError, "CURRENT_STATE.md: manifest source binding missing or ambiguous"):
                 module.validate(repo)
 
     def test_yaml_role_collapse_is_rejected_when_sha_remains_in_prose(self) -> None:
@@ -143,10 +127,7 @@ class ReconciliationStateTests(unittest.TestCase):
             )
             self.assertIn(module.NOTION_SYNC_SHA, text)
             current.write_text(text, encoding="utf-8")
-            with self.assertRaisesRegex(
-                module.ReconciliationError,
-                "CURRENT_STATE.md: manifest source binding drift",
-            ):
+            with self.assertRaisesRegex(module.ReconciliationError, "CURRENT_STATE.md: manifest source binding drift"):
                 module.validate(repo)
 
     def test_readme_role_collapse_is_rejected_when_sha_remains_elsewhere(self) -> None:
@@ -161,10 +142,7 @@ class ReconciliationStateTests(unittest.TestCase):
             )
             text += f"\nHistorical prose identity: `{module.NOTION_SYNC_SHA}`.\n"
             readme.write_text(text, encoding="utf-8")
-            with self.assertRaisesRegex(
-                module.ReconciliationError,
-                "README.md: Notion synchronized descendant binding drift",
-            ):
+            with self.assertRaisesRegex(module.ReconciliationError, "README.md: Notion synchronized descendant binding drift"):
                 module.validate(repo)
 
     def test_ai_readme_role_collapse_is_rejected(self) -> None:
@@ -181,10 +159,7 @@ class ReconciliationStateTests(unittest.TestCase):
             )
             text += f"\nHistorical prose identity: `{module.NOTION_SYNC_SHA}`.\n"
             readme.write_text(text, encoding="utf-8")
-            with self.assertRaisesRegex(
-                module.ReconciliationError,
-                "docs/ai/README.md: Notion synchronized descendant binding drift",
-            ):
+            with self.assertRaisesRegex(module.ReconciliationError, "docs/ai/README.md: Notion synchronized descendant binding drift"):
                 module.validate(repo)
 
     def test_duplicate_role_binding_is_rejected_as_ambiguous(self) -> None:
@@ -195,10 +170,7 @@ class ReconciliationStateTests(unittest.TestCase):
             text = status.read_text(encoding="utf-8")
             text += f"\npublication_checkpoint: {module.PUBLICATION_SHA}\n"
             status.write_text(text, encoding="utf-8")
-            with self.assertRaisesRegex(
-                module.ReconciliationError,
-                "STATUS.md: publication checkpoint binding missing or ambiguous",
-            ):
+            with self.assertRaisesRegex(module.ReconciliationError, "STATUS.md: publication checkpoint binding missing or ambiguous"):
                 module.validate(repo)
 
     def test_stale_active_risk_state_is_rejected(self) -> None:
@@ -214,10 +186,7 @@ class ReconciliationStateTests(unittest.TestCase):
                 ),
                 encoding="utf-8",
             )
-            with self.assertRaisesRegex(
-                module.ReconciliationError,
-                "active current-state drift risk state drift",
-            ):
+            with self.assertRaisesRegex(module.ReconciliationError, "active current-state drift risk state drift"):
                 module.validate(repo)
 
     def test_missing_comment_identity_is_rejected(self) -> None:
@@ -225,20 +194,13 @@ class ReconciliationStateTests(unittest.TestCase):
             repo = Path(temp)
             self._copy_fixture(repo)
             record = repo / "docs/ai/ISSUE_RECONCILIATION.md"
-            record.write_text(
-                record.read_text(encoding="utf-8").replace("5231286665", "removed"),
-                encoding="utf-8",
-            )
+            record.write_text(record.read_text(encoding="utf-8").replace("5231286665", "removed"), encoding="utf-8")
             with self.assertRaisesRegex(module.ReconciliationError, "comment identity"):
                 module.validate(repo)
 
     def test_all_comment_and_page_identities_are_recorded(self) -> None:
-        issue_record = (ROOT / "docs/ai/ISSUE_RECONCILIATION.md").read_text(
-            encoding="utf-8"
-        )
-        notion_record = (ROOT / "docs/ai/NOTION_HANDOFF.md").read_text(
-            encoding="utf-8"
-        )
+        issue_record = (ROOT / "docs/ai/ISSUE_RECONCILIATION.md").read_text(encoding="utf-8")
+        notion_record = (ROOT / "docs/ai/NOTION_HANDOFF.md").read_text(encoding="utf-8")
         for comment_id in module.ISSUE_COMMENTS.values():
             self.assertIn(comment_id, issue_record)
         for page_id in module.NOTION_PAGE_IDS:

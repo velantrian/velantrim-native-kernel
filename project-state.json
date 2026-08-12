@@ -1,7 +1,7 @@
 {
   "protocol": "nk-project-state/2",
-  "snapshot_id": "native-kernel/state/2026-08-12-residual-a10-plan-synchronized",
-  "observed_at": "2026-08-12T09:50:00Z",
+  "snapshot_id": "native-kernel/state/2026-08-12-h11-preregistered",
+  "observed_at": "2026-08-12T13:51:31Z",
   "repository": {
     "full_name": "velantrian/velantrim-native-kernel",
     "visibility": "PUBLIC",
@@ -14,8 +14,8 @@
     "runtime_integrity_checkpoint_sha": "a1cdc6d8f36d67f40f065641809bc6da463c10a4",
     "evidence_producing_sha": "296981ae84ad5bdab5dabbec9b7b9ebb43af63d7",
     "publication_checkpoint_sha": "10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c",
-    "notion_synchronized_through_sha": "edc0501d71a827462aafd1ac4497920a719a4519",
-    "checkpoint_semantics": "Historical publication, runtime, integrity, evidence-producing and manifest-source role identities remain unchanged. D5 execution merged in PR #114; D5-R1 qualification merged in PR #115; D6 classification merged in PR #117; D7 integrated re-review merged in PR #118; D8 synchronized seven existing Notion surfaces and PR #119 recorded that evidence. ADR-0027 / OD-POST-D8-001 merged at 57993f39906ae7266011f6146c9a485d0587d2bf and PR #123 completed the seven-surface ADR-0027 synchronization checkpoint at ec421410d6ea5df86adca3a962ad2c5ba699e297. PR #124 then merged the planning-only Residual A10 Validation Plan at edc0501d71a827462aafd1ac4497920a719a4519; all seven existing Native Kernel Notion surfaces were synchronized to that plan result and read back 7/7, with zero new pages. Live HEAD is resolved through Git/GitHub and is never predicted by this file. The current next gate is SEPARATE_FAMILY_PREREGISTRATION_SELECTION; no family is selected by this checkpoint and residual experiment implementation/execution remains unauthorized."
+    "notion_synchronized_through_sha": "4a75ff15542013c033030620bdff61997e365140",
+    "checkpoint_semantics": "Historical publication, runtime, integrity, evidence-producing and manifest-source role identities remain unchanged. D5 execution merged in PR #114; D5-R1 qualification merged in PR #115; D6 classification merged in PR #117; D7 integrated re-review merged in PR #118; D8 synchronized seven existing Notion surfaces and PR #119 recorded that evidence. ADR-0027 / OD-POST-D8-001 merged at 57993f39906ae7266011f6146c9a485d0587d2bf. PR #124 merged RAVP-001 at edc0501d71a827462aafd1ac4497920a719a4519 and PR #125 synchronized its current truth. PR #126 then selected A10-H11 for separate preregistration at bcd3b3f6c9d898315c93e5d24b5d0e02c95508cc without self-authorizing preregistration. PR #127 separately preregistered H11-001-c5-lab-canon-separation-v1 at 4a75ff15542013c033030620bdff61997e365140; all seven existing Native Kernel Notion surfaces were synchronized to the H11 selection/preregistration result and read back 7/7, with zero new pages. Live HEAD is resolved through Git/GitHub and is never predicted by this file. The current next gate is A10_H11_EXECUTION_ADMISSION. H11 remains NOT_TESTED; qualifying independent reviewer/reproducer status is NOT_ESTABLISHED; implementation/execution remains unauthorized and runtime remains frozen."
   },
   "status": {
     "repository_status": "RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY",
@@ -63,13 +63,13 @@
     },
     "long_horizon_research": {
       "id": "R",
-      "status": "ACTIVE / RESIDUAL A10 PLAN COMPLETE / PREREGISTRATION FAMILY SELECTION NEXT / NO AUTOMATIC PROMOTION",
+      "status": "ACTIVE / H11 PREREGISTERED / EXECUTION ADMISSION NEXT / NO AUTOMATIC PROMOTION",
       "runtime_authorized": false,
       "architecture_refoundation": {
         "decision": "ADR-0025",
         "issue": 88,
         "operator_approval": "APPROVED",
-        "status": "BLUEPRINT COMPLETE / PROVISIONAL / RESIDUAL VALIDATION PLAN COMPLETE",
+        "status": "BLUEPRINT COMPLETE / PROVISIONAL / H11 PREREGISTERED",
         "runtime_expansion_frozen": true,
         "existing_reference_runtime_role": "BOUNDED_REFERENCE_LABORATORY",
         "plan_en": "docs/ARCHITECTURE_REFOUNDATION.md",
@@ -87,7 +87,7 @@
           "A10_OPEN_QUESTIONS_AND_FALSIFICATION"
         ],
         "completion_requires_operator_review": true,
-        "next_content_slice": "SEPARATE_FAMILY_PREREGISTRATION_SELECTION",
+        "next_content_slice": "A10_H11_EXECUTION_ADMISSION",
         "completed_deliverables": [
           "A1_KERNEL_PURPOSE_AND_NON_GOALS",
           "A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY",
@@ -106,7 +106,7 @@
         "issue": 88,
         "operator_approval": "APPROVED",
         "selected_option": "D_INDEPENDENT_CHALLENGE_THEN_BOUNDED_CROSS_LINEAGE_FALSIFICATION",
-        "status": "COMPLETE / RESIDUAL_A10_VALIDATION_PLAN_COMPLETE / PREREGISTRATION_SELECTION_NEXT",
+        "status": "COMPLETE / H11_PREREGISTERED / EXECUTION_ADMISSION_NEXT",
         "independent_review_protocol": "nk-independent-architecture-review/1",
         "independent_review_document_en": "docs/INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.md",
         "independent_review_document_ru": "docs/INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.ru.md",
@@ -235,10 +235,46 @@
           "recommended_order": ["A10-H11", "A10-H03", "A10-H10", "A10-H06", "A10-H09", "A10-H08"],
           "h11_definition": "LABORATORY_MECHANISMS_REPRODUCIBLE_WITHOUT_BECOMING_ARCHITECTURE_CANON",
           "composition_federation_is_h11": false,
-          "selected_family": null,
-          "next_gate": "SEPARATE_FAMILY_PREREGISTRATION_SELECTION",
-          "next_gate_scope": "PREREGISTRATION_SELECTION_ONLY",
-          "family_preregistration_authorized": false,
+          "selected_family": "A10-H11",
+          "selected_family_id": "RAVP-H11-LAB-CANON-SEPARATION",
+          "family_selection": {
+            "protocol": "nk-residual-family-selection/1",
+            "selection_id": "RFS-001-a10-h11-preregistration-selection-v1",
+            "status": "MERGED_SELECTION_CANDIDATE / BOUND_BY_SEPARATE_PREREGISTRATION",
+            "pr": 126,
+            "exact_head_sha": "d9273a22c411467109112f1fc6ea263ed8819d1d",
+            "merge_sha": "bcd3b3f6c9d898315c93e5d24b5d0e02c95508cc",
+            "selected_hypothesis": "A10-H11",
+            "selected_family_id": "RAVP-H11-LAB-CANON-SEPARATION",
+            "preregistration_authorized_by_selection_package": false
+          },
+          "family_preregistration_authorized": true,
+          "family_preregistration_complete": true,
+          "family_preregistration_authorization_source": "SEPARATE_PREREGISTRATION_PR_127_AFTER_SELECTION_CHECKPOINT",
+          "h11_preregistration": {
+            "protocol": "nk-h11-preregistration/1",
+            "plan_id": "H11-001-c5-lab-canon-separation-v1",
+            "path": "docs/research/H11_PREREGISTRATION.json",
+            "status": "PREREGISTERED / EXECUTION_NOT_AUTHORIZED",
+            "pr": 127,
+            "exact_head_sha": "1dca13cdd2759c70d810f44977a227fe1147d4bb",
+            "merge_sha": "4a75ff15542013c033030620bdff61997e365140",
+            "exact_head_successful_workflows": 6,
+            "post_merge_successful_workflows": 6,
+            "notion_surface_count": 7,
+            "notion_read_back_verified_count": 7,
+            "new_notion_pages_created": 0,
+            "frozen_laboratory_bundle": "native-kernel/c5/2026-08-08-adr0023",
+            "required_oracle_class": "INDEPENDENT_SEMANTIC_ORACLE",
+            "qualifying_reviewer_reproducer": "NOT_ESTABLISHED / MUST_BE_VERIFIED_AT_EXECUTION_ADMISSION",
+            "no_qualifying_reviewer_outcome": "BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER",
+            "current_a10_outcome": "NOT_TESTED",
+            "implementation_authorized": false,
+            "execution_authorized": false,
+            "next_gate": "A10_H11_EXECUTION_ADMISSION"
+          },
+          "next_gate": "A10_H11_EXECUTION_ADMISSION",
+          "next_gate_scope": "EXECUTION_ADMISSION_ONLY",
           "experiment_implementation_authorized": false,
           "experiment_execution_authorized": false
         }
@@ -282,7 +318,7 @@
     "18": {"state": "OPEN", "meaning": "License and publication terms remain PENDING_OPERATOR; no license, contribution regime or package publication is authorized.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-10T20:36:15Z", "source": "issue/18"}},
     "64": {"state": "CLOSED", "state_reason": "COMPLETED", "meaning": "C5 bounded operational rehearsal implementation issue is complete.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-09T11:31:28Z", "source": "issue/64"}},
     "74": {"state": "OPEN", "meaning": "ADR-0024 remains PROPOSED / PENDING_OPERATOR; reducer v1 is immutable and reducer-v2 runtime is not authorized.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-10T20:36:15Z", "source": "issue/74"}},
-    "88": {"state": "OPEN", "meaning": "Architecture Re-foundation A1-A10 remains provisional. ADR-0027 authorized residual planning only; PR #124 completed RAVP-001 at edc0501d71a827462aafd1ac4497920a719a4519 and all seven existing Notion surfaces are 7/7 read-back verified. The current next gate is SEPARATE_FAMILY_PREREGISTRATION_SELECTION; no family is selected, preregistration is not yet authorized by this checkpoint, and residual experiment implementation/execution remains unauthorized. Final Canon is deferred and runtime remains frozen.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-12T09:50:00Z", "source": "issue/88"}}
+    "88": {"state": "OPEN", "meaning": "Architecture Re-foundation A1-A10 remains provisional. A10-H11 was selected in PR #126 and separately preregistered as H11-001-c5-lab-canon-separation-v1 in PR #127 at 4a75ff15542013c033030620bdff61997e365140; all seven existing Notion surfaces are 7/7 read-back verified. H11 remains NOT_TESTED. The current next gate is A10_H11_EXECUTION_ADMISSION; a qualifying independent semantic reviewer/reproducer is NOT_ESTABLISHED and must be verified before any execution. Final Canon is deferred and runtime remains frozen.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-12T13:51:31Z", "source": "issue/88"}}
   },
   "evidence": {
     "c5_bundle": {"protocol": "nk-evidence-bundle/1", "path": "evidence/c5/2026-08-07/manifest.json", "status": "CAPTURED_REPOSITORY_RESIDENT", "checkpoint_count": 2, "artifact_count": 8, "original_archives_preserved": true, "source_retention_expiry": "2026-09-06"},
@@ -291,7 +327,9 @@
     "bpv1_d6": {"protocol": "nk-a10-hypothesis-classification/1", "path": "docs/research/BPV1_D6_A10_CLASSIFICATION.json", "status": "COMPLETE_REPOSITORY_RESIDENT", "merge_sha": "030d0a0585bd061b27329a38e29708c11304701a", "supported_for_scope": 6, "not_tested": 6},
     "bpv1_d7": {"protocol": "nk-integrated-post-bpv1-rereview/1", "path": "docs/research/BPV1_D7_INTEGRATED_REREVIEW.json", "status": "COMPLETE_REPOSITORY_RESIDENT", "merge_sha": "491ff7b229606d228ca04985b19b146878390e08", "architecture_position": "STRENGTHENED_FOR_BPV1_SCOPE / STILL_PROVISIONAL"},
     "bpv1_d8": {"protocol": "nk-option-d-consolidated-sync/1", "path": "docs/research/BPV1_D8_CONSOLIDATED_SYNC.json", "status": "COMPLETE / READ_BACK_VERIFIED / REPOSITORY_RESIDENT", "merge_sha": "9ecb2369edec17a0171b6e965bcb49f9526adf0b", "source_checkpoint_sha": "491ff7b229606d228ca04985b19b146878390e08", "notion_surfaces": 7, "notion_read_back_verified": 7, "new_notion_pages_created": 0},
-    "residual_a10_plan": {"protocol": "nk-residual-a10-validation-plan/1", "path": "docs/research/RESIDUAL_A10_VALIDATION_PLAN.json", "status": "COMPLETE / MERGED / NOTION_7_OF_7_READ_BACK_VERIFIED", "pr": 124, "merge_sha": "edc0501d71a827462aafd1ac4497920a719a4519", "residual_targets": 6, "experiment_execution_authorized": false}
+    "residual_a10_plan": {"protocol": "nk-residual-a10-validation-plan/1", "path": "docs/research/RESIDUAL_A10_VALIDATION_PLAN.json", "status": "COMPLETE / MERGED / NOTION_7_OF_7_READ_BACK_VERIFIED", "pr": 124, "merge_sha": "edc0501d71a827462aafd1ac4497920a719a4519", "residual_targets": 6, "experiment_execution_authorized": false},
+    "h11_family_selection": {"protocol": "nk-residual-family-selection/1", "path": "docs/research/H11_FAMILY_SELECTION.json", "status": "MERGED_SELECTION_CANDIDATE / BOUND_BY_SEPARATE_PREREGISTRATION", "pr": 126, "merge_sha": "bcd3b3f6c9d898315c93e5d24b5d0e02c95508cc", "selected_hypothesis": "A10-H11", "self_authorized_preregistration": false},
+    "h11_preregistration": {"protocol": "nk-h11-preregistration/1", "path": "docs/research/H11_PREREGISTRATION.json", "status": "PREREGISTERED / EXECUTION_NOT_AUTHORIZED / NOTION_7_OF_7_READ_BACK_VERIFIED", "pr": 127, "merge_sha": "4a75ff15542013c033030620bdff61997e365140", "frozen_laboratory_bundle": "native-kernel/c5/2026-08-08-adr0023", "current_a10_outcome": "NOT_TESTED", "independent_semantic_oracle_required": true, "qualifying_reviewer_reproducer": "NOT_ESTABLISHED", "experiment_execution_authorized": false}
   },
   "notion": {
     "synchronization_required": false,
@@ -300,8 +338,8 @@
     "surface_count": 7,
     "read_back_verified_count": 7,
     "new_pages_created": 0,
-    "scope": "Publication checkpoint 10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c and manifest source 70acd0da61fee19131947aa56125833adb156ced remain historical roles. ADR-0027 remains the authority that allowed RESIDUAL_A10_VALIDATION_PLAN research planning only. PR #124 merged RAVP-001-residual-a10-validation-plan-v1 at edc0501d71a827462aafd1ac4497920a719a4519 after 6/6 exact-head and 6/6 post-merge workflows. All seven existing Native Kernel Notion surfaces are synchronized to that planning result and 7/7 read-back verified; no new pages were created. The current next gate is SEPARATE_FAMILY_PREREGISTRATION_SELECTION. No family preregistration, experiment implementation, or experiment execution is authorized by this synchronization checkpoint.",
-    "authority_boundary": "Notion carries synchronized orientation, rationale and history through the residual-plan result checkpoint edc0501d71a827462aafd1ac4497920a719a4519; GitHub remains authoritative for technical state, live refs, contracts, tests, workflow results, evidence and future current-truth descendants. Synchronization does not authorize family preregistration, residual experiment implementation/execution, Final Canon, runtime thaw, production, Issue #18, Issue #74/ADR-0024 or Track H admission."
+    "scope": "Publication checkpoint 10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c and manifest source 70acd0da61fee19131947aa56125833adb156ced remain historical roles. ADR-0027 remains the authority for residual research planning. RAVP-001 merged at edc0501d71a827462aafd1ac4497920a719a4519. PR #126 selected A10-H11 and PR #127 preregistered H11-001-c5-lab-canon-separation-v1 at 4a75ff15542013c033030620bdff61997e365140 after 6/6 exact-head and 6/6 post-merge workflows. All seven existing Native Kernel Notion surfaces are synchronized to this H11 result and 7/7 read-back verified; no new pages were created. The current next gate is A10_H11_EXECUTION_ADMISSION. Qualifying reviewer/reproducer status is NOT_ESTABLISHED; H11 remains NOT_TESTED; implementation and experiment execution remain unauthorized.",
+    "authority_boundary": "Notion carries synchronized orientation, rationale and history through the H11 preregistration result checkpoint 4a75ff15542013c033030620bdff61997e365140; GitHub remains authoritative for technical state, live refs, contracts, tests, workflows, evidence and future current-truth descendants. Synchronization does not establish H11 support, qualifying independent reviewer/reproducer evidence, execution admission, experiment implementation/execution, Final Canon, runtime thaw, production, Issue #18, Issue #74/ADR-0024 or Track H admission."
   },
   "non_claims": [
     "C5 bounded rehearsal is not production readiness.",
@@ -309,17 +347,21 @@
     "Clean implementation is not recovered v0.1.2.1.",
     "Repository-resident artifacts do not prove live-data safety, compliance, physical deletion, operational equivalence or ecosystem authority.",
     "A descendant HEAD does not silently broaden the proof scope of an earlier runtime, evidence or publication checkpoint.",
-    "A later Notion synchronization checkpoint does not rewrite or replace earlier publication, manifest-source, D8 or ADR-0027 checkpoint roles.",
+    "A later Notion synchronization checkpoint does not rewrite or replace earlier publication, manifest-source, D8, ADR-0027 or RAVP checkpoint roles.",
     "Architecture Re-foundation documentation is not runtime implementation evidence.",
     "A future-facing blueprint does not prove compatibility with arbitrary future substrates.",
-    "A1-A10 remain provisional; D7, ADR-0027 and residual planning do not promote them to Final Canon.",
-    "BPV1-001 SUPPORTED_FOR_SCOPE is scoped falsification evidence only; six A10 hypotheses remain NOT_TESTED.",
+    "A1-A10 remain provisional; D7, ADR-0027, residual planning and H11 preregistration do not promote them to Final Canon.",
+    "BPV1-001 SUPPORTED_FOR_SCOPE is scoped falsification evidence only; A10-H11 remains NOT_TESTED.",
     "D5-R1 removes the identified HR10 subject-self-report adjudication path but does not establish independent implementation team, custody, or computation-model evidence.",
     "RAVP-001 is a planning artifact, not experiment evidence and not an A10 outcome change.",
     "A10-H11 is laboratory/Canon separation; composition/federation is a separate D7-F08 capability class.",
+    "Exact C5/ADR-0023 laboratory bytes, ZIPs, digests, SQL/JSON/Event/reducer/Receipt/report mechanisms are laboratory/profile reproduction requirements and are not automatically Architecture Canon.",
+    "H11 family selection does not self-authorize preregistration; H11 preregistration does not self-authorize execution admission or execution.",
+    "A10_H11_EXECUTION_ADMISSION is an admission-only gate; it does not authorize execution by itself.",
+    "A qualifying independent semantic reviewer/reproducer is NOT_ESTABLISHED; Codex quota notices, CI and assistant self-review are not substitutes.",
+    "If no qualifying independent reviewer/reproducer exists, the correct outcome is BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER, not fabricated validation.",
     "Simulation/emulation does not establish H08 substrate support; stochastic software rehearsal does not establish an H09 physical/probabilistic-substrate claim.",
     "A programming-language change alone is not an independent computation-model change for H10.",
-    "SEPARATE_FAMILY_PREREGISTRATION_SELECTION does not authorize preregistration, implementation, or execution by itself.",
     "Runtime expansion remains frozen and production remains unauthorized."
   ]
 }

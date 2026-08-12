@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate post-RAVP current reconciliation over preserved D8/history guards."""
+"""Validate H11 current reconciliation over preserved D8/history guards."""
 from __future__ import annotations
 
 import json
@@ -13,12 +13,17 @@ exec(compile(_D8_PATH.read_text(encoding="utf-8"), str(_D8_PATH), "exec"), globa
 globals()["__name__"] = _saved
 _D8_VALIDATE = validate
 
-ADR0027_TRUTH_SYNC_SHA = "edc0501d71a827462aafd1ac4497920a719a4519"
+H11_TRUTH_SYNC_SHA = "4a75ff15542013c033030620bdff61997e365140"
 PRE_PLAN_ADR0027_TRUTH_SYNC_SHA = "90bcb0fa2a3a2e85a590e9ba79746f3297b55457"
+RESIDUAL_PLAN_MERGE = "edc0501d71a827462aafd1ac4497920a719a4519"
 RESIDUAL_PLAN_ID = "RAVP-001-residual-a10-validation-plan-v1"
 RESIDUAL_PLAN_HEAD = "918ac46f4d93f085171b03564f9fbe30f543b200"
-NEXT_GATE = "SEPARATE_FAMILY_PREREGISTRATION_SELECTION"
-CURRENT_MARKER = "POST_RESIDUAL_A10_PLAN_CURRENT"
+H11_SELECTION_MERGE = "bcd3b3f6c9d898315c93e5d24b5d0e02c95508cc"
+H11_PLAN_ID = "H11-001-c5-lab-canon-separation-v1"
+H11_PLAN_HEAD = "1dca13cdd2759c70d810f44977a227fe1147d4bb"
+H11_NEXT_GATE = "A10_H11_EXECUTION_ADMISSION"
+H11_BLOCKER = "BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER"
+CURRENT_MARKER = "POST_H11_PREREGISTRATION_CURRENT"
 CURRENT_TRUTH_SURFACES = ("AGENTS.md", "docs/ai/POST_RESIDUAL_A10_STATE.md")
 
 
@@ -27,9 +32,7 @@ def _d8_repo_view(repo: Path) -> None:
     state_path = repo / "project-state.json"
     state = _load_json(state_path)
     original = state_path.read_text(encoding="utf-8")
-    checkpoints = state["checkpoints"]
-    if checkpoints.get("notion_synchronized_through_sha") == ADR0027_TRUTH_SYNC_SHA:
-        checkpoints["notion_synchronized_through_sha"] = D8_NOTION_SYNC_SHA
+    state["checkpoints"]["notion_synchronized_through_sha"] = D8_NOTION_SYNC_SHA
     notion = state["notion"]
     notion["synchronization_required"] = False
     notion["status"] = "SYNCED_THROUGH_DESCENDANT_CHECKPOINT"
@@ -53,24 +56,16 @@ def validate(repo: Path) -> None:
 
     checkpoints = state.get("checkpoints")
     _require(isinstance(checkpoints, Mapping), "checkpoint inventory required")
-    _require(
-        checkpoints.get("notion_synchronized_through_sha") == ADR0027_TRUTH_SYNC_SHA,
-        "Residual A10 plan Notion synchronization checkpoint drift",
-    )
+    _require(checkpoints.get("notion_synchronized_through_sha") == H11_TRUTH_SYNC_SHA, "H11 Notion synchronization checkpoint drift")
 
     notion = state.get("notion")
     _require(isinstance(notion, Mapping), "Notion state required")
-    _require(notion.get("synchronization_required") is False, "post-plan Notion synchronization must be complete")
-    _require(notion.get("decision_sync_status") == "SYNCHRONIZED", "post-plan Notion synchronization status drift")
-    _require(
-        notion.get("surface_count") == 7
-        and notion.get("read_back_verified_count") == 7
-        and notion.get("new_pages_created") == 0,
-        "post-plan Notion read-back must remain 7/7 with zero new pages",
-    )
+    _require(notion.get("synchronization_required") is False, "H11 Notion synchronization must be complete")
+    _require(notion.get("decision_sync_status") == "SYNCHRONIZED", "H11 Notion synchronization status drift")
+    _require(notion.get("surface_count") == 7 and notion.get("read_back_verified_count") == 7 and notion.get("new_pages_created") == 0, "H11 Notion read-back must remain 7/7 with zero new pages")
     scope = str(notion.get("scope", ""))
-    for marker in (ADR0027_TRUTH_SYNC_SHA, RESIDUAL_PLAN_ID, "7/7", NEXT_GATE, "No family preregistration", "experiment execution"):
-        _require(marker in scope, f"Notion scope missing post-plan marker: {marker}")
+    for marker in (H11_TRUTH_SYNC_SHA, H11_PLAN_ID, "7/7", H11_NEXT_GATE, "NOT_ESTABLISHED", "NOT_TESTED"):
+        _require(marker in scope, f"Notion scope missing H11 marker: {marker}")
 
     validation = state["tracks"]["long_horizon_research"]["post_blueprint_validation"]
     decision = validation.get("post_d8_operator_decision")
@@ -82,19 +77,35 @@ def validate(repo: Path) -> None:
     _require(isinstance(plan, Mapping), "RAVP-001 current result required")
     _require(plan.get("plan_id") == RESIDUAL_PLAN_ID, "RAVP-001 identity drift")
     _require(plan.get("exact_head_sha") == RESIDUAL_PLAN_HEAD, "RAVP-001 exact-head drift")
-    _require(plan.get("merge_sha") == ADR0027_TRUTH_SYNC_SHA, "RAVP-001 merge binding drift")
-    _require(plan.get("notion_read_back_verified_count") == 7, "RAVP-001 Notion read-back drift")
-    _require(plan.get("selected_family") is None, "no residual family may be silently selected")
-    _require(plan.get("next_gate") == NEXT_GATE, "RAVP-001 next gate drift")
-    _require(plan.get("family_preregistration_authorized") is False, "family preregistration must remain unauthorized")
-    _require(plan.get("experiment_implementation_authorized") is False, "experiment implementation must remain unauthorized")
-    _require(plan.get("experiment_execution_authorized") is False, "experiment execution must remain unauthorized")
+    _require(plan.get("merge_sha") == RESIDUAL_PLAN_MERGE, "RAVP-001 historical merge binding drift")
+    _require(plan.get("notion_read_back_verified_count") == 7, "RAVP-001 historical Notion read-back drift")
+    _require(plan.get("selected_family") == "A10-H11", "H11 must be the current selected family")
+    _require(plan.get("next_gate") == H11_NEXT_GATE, "H11 current next gate drift")
+    _require(plan.get("next_gate_scope") == "EXECUTION_ADMISSION_ONLY", "H11 current gate scope drift")
+    _require(plan.get("family_preregistration_authorized") is True and plan.get("family_preregistration_complete") is True, "H11 preregistration binding drift")
+    _require(plan.get("experiment_implementation_authorized") is False, "H11 experiment implementation must remain unauthorized")
+    _require(plan.get("experiment_execution_authorized") is False, "H11 experiment execution must remain unauthorized")
+
+    selection = plan.get("family_selection")
+    _require(isinstance(selection, Mapping) and selection.get("merge_sha") == H11_SELECTION_MERGE, "H11 selection binding drift")
+    _require(selection.get("preregistration_authorized_by_selection_package") is False, "selection package self-authorization boundary drift")
+
+    h11 = plan.get("h11_preregistration")
+    _require(isinstance(h11, Mapping), "H11 preregistration current record required")
+    _require(h11.get("plan_id") == H11_PLAN_ID and h11.get("exact_head_sha") == H11_PLAN_HEAD and h11.get("merge_sha") == H11_TRUTH_SYNC_SHA, "H11 preregistration checkpoint drift")
+    _require(h11.get("status") == "PREREGISTERED / EXECUTION_NOT_AUTHORIZED", "H11 preregistration status drift")
+    _require(h11.get("qualifying_reviewer_reproducer") == "NOT_ESTABLISHED / MUST_BE_VERIFIED_AT_EXECUTION_ADMISSION", "H11 reviewer status drift")
+    _require(h11.get("no_qualifying_reviewer_outcome") == H11_BLOCKER, "H11 no-reviewer blocker drift")
+    _require(h11.get("current_a10_outcome") == "NOT_TESTED", "H11 must remain NOT_TESTED")
+    _require(h11.get("implementation_authorized") is False and h11.get("execution_authorized") is False, "H11 preregistration cannot authorize execution")
 
     for relative in CURRENT_TRUTH_SURFACES:
         text = _read(repo / relative)
-        _require(CURRENT_MARKER in text or NEXT_GATE in text, f"{relative}: post-plan current-truth marker missing")
-        _require(NEXT_GATE in text, f"{relative}: current next gate missing")
-        _require("execution" in text.lower(), f"{relative}: execution boundary missing")
+        _require(CURRENT_MARKER in text or H11_NEXT_GATE in text, f"{relative}: H11 current-truth marker missing")
+        _require(H11_NEXT_GATE in text, f"{relative}: H11 current next gate missing")
+        _require("NOT_ESTABLISHED" in text, f"{relative}: H11 independence boundary missing")
+        _require("NOT_TESTED" in text, f"{relative}: H11 current outcome boundary missing")
+        _require("execution" in text.lower(), f"{relative}: H11 execution boundary missing")
 
 
 def main() -> int:
@@ -104,9 +115,8 @@ def main() -> int:
     repo = args.repo.resolve()
     validate(repo)
     print(
-        "Reconciliation validation passed; D8 history preserved; RAVP-001=COMPLETE; "
-        "Notion=7/7; next=SEPARATE_FAMILY_PREREGISTRATION_SELECTION; "
-        "selected_family=NONE; execution=NOT_AUTHORIZED"
+        "Reconciliation validation passed; D8 history preserved; H11=PREREGISTERED/NOT_TESTED; "
+        "Notion=7/7; next=A10_H11_EXECUTION_ADMISSION; reviewer=NOT_ESTABLISHED; execution=NOT_AUTHORIZED"
     )
     return 0
 
