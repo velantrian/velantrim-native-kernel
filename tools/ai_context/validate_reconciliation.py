@@ -30,7 +30,16 @@ def _d8_repo_view(repo: Path) -> None:
     checkpoints = state["checkpoints"]
     if checkpoints.get("notion_synchronized_through_sha") == ADR0027_TRUTH_SYNC_SHA:
         checkpoints["notion_synchronized_through_sha"] = D8_NOTION_SYNC_SHA
-    state["notion"]["synchronization_required"] = False
+    notion = state["notion"]
+    notion["synchronization_required"] = False
+    notion["status"] = "SYNCED_THROUGH_DESCENDANT_CHECKPOINT"
+    notion["scope"] = (
+        "Publication checkpoint " + PUBLICATION_SHA
+        + ", manifest source " + NOTION_SYNC_SHA
+        + ", D8 Notion synchronization checkpoint " + D8_NOTION_SYNC_SHA
+        + ", and D8 consolidated record merge " + D8_RECORD_MERGE_SHA
+        + " remain distinct historical roles."
+    )
     state_path.write_text(json.dumps(state, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     try:
         _D8_VALIDATE(repo)
