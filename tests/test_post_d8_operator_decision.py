@@ -96,6 +96,8 @@ class PostD8OperatorDecisionTests(unittest.TestCase):
             self.assertIn("STRENGTHENED_FOR_BPV1_SCOPE / STILL_PROVISIONAL", text)
             self.assertIn("RESIDUAL_A10_VALIDATION_PLAN", text)
             self.assertIn("FROZEN", text)
+        self.assertIn("A10-H03/H06/H08/H09/H10/H11", self.adr)
+        for text in (self.en, self.ru):
             for hypothesis in NOT_TESTED:
                 self.assertIn(hypothesis, text)
         self.assertIn("does **not** promote A1–A10 to Final Canon", self.adr)
