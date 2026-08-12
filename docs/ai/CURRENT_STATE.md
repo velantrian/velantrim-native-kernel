@@ -95,7 +95,7 @@ Rust subject
 → SUPPORTED_FOR_SCOPE
 ```
 
-The external qualifier records that it does not read fixture expectations, does not read implementation-private runtime state, and does not accept the Rust subject's structural self-report for oracle-facing fields. If the required structural facts cannot be established, they are omitted so the unchanged evaluator can become `INDETERMINATE` rather than receiving fabricated values.
+The external qualifier records that it does not read fixture expectations, does not inspect implementation-private runtime state, and does not accept the Rust subject's structural self-report for oracle-facing fields. If the required structural facts cannot be established, they are omitted so the unchanged evaluator can become `INDETERMINATE` rather than receiving fabricated values.
 
 The same frozen scenario still yields:
 
@@ -157,6 +157,8 @@ Track H source admission: operator-controlled
 - physical/cryptographic erasure execution and production operations remain absent.
 
 ## Notion boundary
+
+Committed checkpoint roles remain distinct: publication checkpoint `10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c` and Notion synchronized descendant `70acd0da61fee19131947aa56125833adb156ced`. The later role does not rewrite the publication checkpoint.
 
 Live Notion remains at the earlier D4.5 admission checkpoint. D5/D5-R1/D6 evidence is intentionally deferred to consolidated Option D D8 synchronization unless live governance changes that rule. GitHub is authoritative for current technical state until that sync/read-back occurs.
 
