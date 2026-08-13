@@ -8,6 +8,7 @@ import json
 import re
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 from typing import Any, Mapping
 
@@ -192,6 +193,20 @@ def _git(repo: Path, *args: str, binary: bool = False):
     return result.stdout
 
 
+def _commit_author_email(repo: Path, commit: str) -> str:
+    """Return the Git author email of a commit, used to authenticate issuer provenance.
+
+    Free-text `evidence_issuer_identity` strings can be invented by whoever writes the
+    JSON; the Git author email of the commit that actually introduced the evidence file
+    is not. It still cannot prove a real-world organizational relationship, but it closes
+    the reproduced bypass where a single process commits both attestations under invented
+    issuer labels while remaining the sole author of record.
+    """
+    email = _git(repo, "log", "-1", "--format=%ae", f"{commit}^{{commit}}").strip()
+    _require(bool(email), f"cannot resolve Git author email for commit {commit}")
+    return email
+
+
 def _reject_authority_true(value: Any, path: str = "root") -> None:
     if isinstance(value, Mapping):
         for key, item in value.items():
@@ -328,18 +343,37 @@ def _json_exact_equal(left: Any, right: Any) -> bool:
     return type(left) is type(right) and left == right
 
 
-def _verify_frozen_bundle(repo: Path) -> int:
-    verifier = repo / "tools/evidence/verify_bundle.py"
-    manifest_path = repo / BUNDLE_MANIFEST
-    _require(verifier.is_file(), "frozen bundle verifier is missing")
-    _require(manifest_path.is_file(), "frozen bundle manifest is missing")
-    result = subprocess.run(
-        [sys.executable, str(verifier), BUNDLE_MANIFEST, "--repo", str(repo)],
-        cwd=repo,
-        check=False,
-        capture_output=True,
-        text=True,
+def _authenticated_verifier_bytes(repo: Path, relative: str) -> bytes:
+    """Resolve verifier bytes from the adjudicated Git HEAD, not the mutable worktree.
+
+    A worktree copy can be replaced with a no-op after evidence is corrupted, so the
+    bytes that are actually executed must be proven identical to the committed HEAD
+    object rather than trusted from disk.
+    """
+    worktree_path = repo / relative
+    _require(worktree_path.is_file(), f"frozen bundle verifier is missing: {relative}")
+    committed = _git(repo, "show", f"HEAD:{relative}", binary=True)
+    _require(
+        worktree_path.read_bytes() == committed,
+        f"frozen bundle verifier worktree bytes do not match the Git-committed HEAD object: {relative}",
     )
+    return committed
+
+
+def _verify_frozen_bundle(repo: Path) -> int:
+    manifest_path = repo / BUNDLE_MANIFEST
+    _require(manifest_path.is_file(), "frozen bundle manifest is missing")
+    verifier_bytes = _authenticated_verifier_bytes(repo, "tools/evidence/verify_bundle.py")
+    with tempfile.TemporaryDirectory() as anchored_dir:
+        anchored_verifier = Path(anchored_dir) / "verify_bundle.py"
+        anchored_verifier.write_bytes(verifier_bytes)
+        result = subprocess.run(
+            [sys.executable, str(anchored_verifier), BUNDLE_MANIFEST, "--repo", str(repo)],
+            cwd=repo,
+            check=False,
+            capture_output=True,
+            text=True,
+        )
     _require(
         result.returncode == 0,
         "frozen bundle verifier failed: " + (result.stderr.strip() or result.stdout.strip()),
@@ -804,6 +838,8 @@ def _validate_reviewer_record(
         basis_types: set[str] = set()
         basis_reference_keys: set[str] = set()
         core_issuers: set[str] = set()
+        core_issuer_commit_authors: set[str] = set()
+        subject_authorship_email = _commit_author_email(repo, PLAN_MERGE)
         evidence_record_schema = _schema_property(
             reviewer_schema,
             "$defs",
@@ -876,6 +912,16 @@ def _validate_reviewer_record(
                     f"qualified reviewer independence basis {index} issuer role mismatch",
                 )
                 core_issuers.add(issuer)
+                commit_author_email = _commit_author_email(
+                    repo, str(evidence_reference.get("git_commit"))
+                )
+                _require(
+                    commit_author_email != subject_authorship_email,
+                    f"qualified reviewer independence basis {index} evidence cannot be "
+                    "authored by the same Git identity that authored the frozen H11 "
+                    "preregistration",
+                )
+                core_issuer_commit_authors.add(commit_author_email)
             _require(
                 not _contains_semantic_verdict(evidence_record),
                 f"qualified reviewer independence basis {index} evidence cannot carry an H11 verdict",
@@ -893,6 +939,11 @@ def _validate_reviewer_record(
         _require(
             len(core_issuers) == 2,
             "organizational-separation and custody attestations require distinct issuers",
+        )
+        _require(
+            len(core_issuer_commit_authors) == 2,
+            "organizational-separation and custody attestations must be committed by two "
+            "distinct Git author identities, not merely labeled with two distinct issuer strings",
         )
         declared_reference_keys = {
             json.dumps(reference, sort_keys=True, separators=(",", ":"))
@@ -1192,6 +1243,11 @@ def validate_h11_evidence_bundle(
         (unjustified_count > 0)
         == (semantic_adjudication.get("outcome") == "REFUTED"),
         "UNJUSTIFIED_CANON_DEPENDENCY and REFUTED must imply each other",
+    )
+    _require(
+        semantic_adjudication.get("outcome") != "NOT_TESTED",
+        "a submitted evidence bundle with a schema-valid, qualified independent adjudicator "
+        "cannot report NOT_TESTED; NOT_TESTED means no qualifying execution/adjudication occurred",
     )
     if semantic_adjudication.get("outcome") == "SUPPORTED_FOR_SCOPE":
         _require(unjustified_count == 0, "SUPPORTED_FOR_SCOPE cannot contain UNJUSTIFIED_CANON_DEPENDENCY")

@@ -41,6 +41,11 @@ def _evidence_schemas() -> dict[str, dict]:
     }
 
 
+def _set_git_identity(root: Path, name: str, email: str) -> None:
+    subprocess.run(["git", "-C", str(root), "config", "user.name", name], check=True)
+    subprocess.run(["git", "-C", str(root), "config", "user.email", email], check=True)
+
+
 def _write_json(root: Path, relative: str, value: dict, artifact_type: str) -> dict:
     path = root / relative
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -90,8 +95,7 @@ def _synthetic_evidence_bundle(root: Path) -> tuple[dict, dict, dict, dict]:
         ["git", "clone", "-q", "--shared", str(ROOT), str(root)],
         check=True,
     )
-    subprocess.run(["git", "-C", str(root), "config", "user.name", "H11 Fixture"], check=True)
-    subprocess.run(["git", "-C", str(root), "config", "user.email", "h11-fixture@example.invalid"], check=True)
+    _set_git_identity(root, "H11 Fixture", "h11-fixture@example.invalid")
     source_ref = _repository_reference(
         root,
         "docs/research/H11_PREREGISTRATION.json",
@@ -251,6 +255,11 @@ def _synthetic_evidence_bundle(root: Path) -> tuple[dict, dict, dict, dict]:
         "attested_private_implementation_state_used": False,
         "attested_repository_visibility": "EVIDENCE_VISIBLE",
     }
+    # The two core independence attestations must be committed by two distinct Git
+    # author identities (both distinct from the fixture's default identity used for
+    # everything else) so the validator's issuer-authentication check has genuine
+    # per-basis provenance to compare, not two JSON string labels from one committer.
+    _set_git_identity(root, "H11 Organizational Attester", "org-attester@example.invalid")
     organization_ref = _write_json(
         root,
         "evidence/reviewer-organization-attestation.json",
@@ -263,6 +272,7 @@ def _synthetic_evidence_bundle(root: Path) -> tuple[dict, dict, dict, dict]:
         },
         "REVIEWER_EVIDENCE",
     )
+    _set_git_identity(root, "H11 Independent Custodian", "independent-custodian@example.invalid")
     custody_ref = _write_json(
         root,
         "evidence/reviewer-custody-attestation.json",
@@ -275,6 +285,7 @@ def _synthetic_evidence_bundle(root: Path) -> tuple[dict, dict, dict, dict]:
         },
         "REVIEWER_EVIDENCE",
     )
+    _set_git_identity(root, "H11 Fixture", "h11-fixture@example.invalid")
     reviewer = {
         "protocol": "nk-h11-reviewer-reproducer-qualification/1",
         "experiment_id": validator.EXPERIMENT_ID,
@@ -790,6 +801,63 @@ class H11ExecutionAdmissionTests(unittest.TestCase):
 
         self.assert_bundle_rejected(mutate)
 
+    def test_core_independence_attestations_committed_by_same_author_is_rejected(self) -> None:
+        def mutate(repo, _graph, _raw, reviewer, semantic) -> None:
+            _set_git_identity(repo, "Single Fixture Process", "single-process@example.invalid")
+            first_ref = reviewer["independence_basis"][0]["evidence_reference"]
+            second_ref = reviewer["independence_basis"][1]["evidence_reference"]
+            first = json.loads((repo / first_ref["path"]).read_text(encoding="utf-8"))
+            second = json.loads((repo / second_ref["path"]).read_text(encoding="utf-8"))
+            new_first_ref = _write_json(
+                repo, "evidence/reviewer-org-same-author.json", first, "REVIEWER_EVIDENCE"
+            )
+            new_second_ref = _write_json(
+                repo, "evidence/reviewer-custody-same-author.json", second, "REVIEWER_EVIDENCE"
+            )
+            reviewer["independence_basis"][0]["evidence_reference"] = new_first_ref
+            reviewer["independence_basis"][1]["evidence_reference"] = new_second_ref
+            reviewer["evidence_references"] = [new_first_ref, new_second_ref]
+            semantic["reviewer_reproducer_qualification_record"] = _write_json(
+                repo,
+                "evidence/reviewer-with-same-author-bases.json",
+                reviewer,
+                "REVIEWER_QUALIFICATION",
+            )
+
+        self.assert_bundle_rejected(mutate)
+
+    def test_independence_evidence_authored_by_subject_is_rejected(self) -> None:
+        def mutate(repo, _graph, _raw, reviewer, semantic) -> None:
+            subject_email = subprocess.run(
+                ["git", "-C", str(repo), "log", "-1", "--format=%ae", validator.PLAN_MERGE],
+                check=True,
+                capture_output=True,
+                text=True,
+            ).stdout.strip()
+            _set_git_identity(repo, "Subject Self-Certifier", subject_email)
+            first_ref = reviewer["independence_basis"][0]["evidence_reference"]
+            first = json.loads((repo / first_ref["path"]).read_text(encoding="utf-8"))
+            new_ref = _write_json(
+                repo, "evidence/reviewer-org-subject-authored.json", first, "REVIEWER_EVIDENCE"
+            )
+            reviewer["independence_basis"][0]["evidence_reference"] = new_ref
+            reviewer["evidence_references"][0] = new_ref
+            semantic["reviewer_reproducer_qualification_record"] = _write_json(
+                repo,
+                "evidence/reviewer-with-subject-authored-basis.json",
+                reviewer,
+                "REVIEWER_QUALIFICATION",
+            )
+
+        self.assert_bundle_rejected(mutate)
+
+    def test_evidence_bundle_cannot_report_not_tested_outcome(self) -> None:
+        def mutate(repo, _graph, _raw, _reviewer, semantic) -> None:
+            semantic["outcome"] = "NOT_TESTED"
+            semantic["rationale"] = "Attempt to record a qualified adjudication as untested."
+
+        self.assert_bundle_rejected(mutate)
+
     def test_supported_outcome_without_qualified_independence_is_rejected(self) -> None:
         def mutate(repo, _graph, _raw, reviewer, semantic) -> None:
             reviewer["qualification_result"] = "NOT_ESTABLISHED"
@@ -953,6 +1021,16 @@ class H11ExecutionAdmissionTests(unittest.TestCase):
             manifest = json.loads((repo / validator.BUNDLE_MANIFEST).read_text(encoding="utf-8"))
             artifact_path = manifest["checkpoints"][0]["artifacts"][0]["path"]
             (repo / artifact_path).write_bytes(b"corrupt fixture artifact")
+
+        self.assert_bundle_rejected(mutate)
+
+    def test_tampered_worktree_verifier_cannot_rescue_corrupted_bundle(self) -> None:
+        def mutate(repo, _graph, _raw, _reviewer, _semantic) -> None:
+            manifest = json.loads((repo / validator.BUNDLE_MANIFEST).read_text(encoding="utf-8"))
+            artifact_path = manifest["checkpoints"][0]["artifacts"][0]["path"]
+            (repo / artifact_path).write_bytes(b"corrupt fixture artifact")
+            verifier_path = repo / "tools/evidence/verify_bundle.py"
+            verifier_path.write_text("raise SystemExit(0)\n", encoding="utf-8")
 
         self.assert_bundle_rejected(mutate)
 
