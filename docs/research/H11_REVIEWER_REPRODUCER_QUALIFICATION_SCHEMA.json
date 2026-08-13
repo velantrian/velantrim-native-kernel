@@ -4,6 +4,88 @@
   "title": "H11 reviewer/reproducer qualification",
   "type": "object",
   "additionalProperties": false,
+  "$defs": {
+    "evidenceReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "artifact_type", "git_commit"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "artifact_type": {"const": "REVIEWER_EVIDENCE"},
+        "git_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"}
+      }
+    },
+    "independenceBasis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["basis_type", "evidence_reference"],
+      "properties": {
+        "basis_type": {
+          "enum": [
+            "ORGANIZATIONAL_SEPARATION",
+            "INDEPENDENT_EVIDENCE_CUSTODY",
+            "NON_AUTHORSHIP",
+            "CONFLICT_SCREEN",
+            "PRIVATE_STATE_EXCLUSION"
+          ]
+        },
+        "evidence_reference": {"$ref": "#/$defs/evidenceReference"}
+      }
+    },
+    "independenceEvidenceRecord": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "protocol",
+        "experiment_id",
+        "source_plan_id",
+        "source_plan_sha256",
+        "reviewer_identity",
+        "evidence_issuer_identity",
+        "evidence_issuer_role",
+        "basis_type",
+        "attested_authorship_relation",
+        "attested_custody_relation",
+        "attested_conflicts",
+        "attested_private_implementation_state_used",
+        "attested_repository_visibility",
+        "statement"
+      ],
+      "properties": {
+        "protocol": {"const": "nk-h11-reviewer-independence-evidence/1"},
+        "experiment_id": {"const": "H11-001"},
+        "source_plan_id": {"const": "H11-001-c5-lab-canon-separation-v1"},
+        "source_plan_sha256": {"const": "60da649e675b79b3e70bf8a61cf03cb4d57bb989f4934b65ab8d50c925b19914"},
+        "reviewer_identity": {"type": "string", "minLength": 1},
+        "evidence_issuer_identity": {"type": "string", "minLength": 1},
+        "evidence_issuer_role": {
+          "enum": [
+            "ORGANIZATIONAL_AUTHORITY",
+            "INDEPENDENT_CUSTODIAN",
+            "AUTHORSHIP_ATTESTER",
+            "CONFLICT_REVIEWER",
+            "PRIVACY_REVIEWER"
+          ]
+        },
+        "basis_type": {
+          "enum": [
+            "ORGANIZATIONAL_SEPARATION",
+            "INDEPENDENT_EVIDENCE_CUSTODY",
+            "NON_AUTHORSHIP",
+            "CONFLICT_SCREEN",
+            "PRIVATE_STATE_EXCLUSION"
+          ]
+        },
+        "attested_authorship_relation": {"const": "NOT_AUTHOR_OF_PREREGISTRATION_OR_FROZEN_RUBRIC"},
+        "attested_custody_relation": {"const": "INDEPENDENT_FOR_DECLARED_SCOPE"},
+        "attested_conflicts": {"type": "array", "maxItems": 0},
+        "attested_private_implementation_state_used": {"const": false},
+        "attested_repository_visibility": {"const": "EVIDENCE_VISIBLE"},
+        "statement": {"type": "string", "minLength": 1}
+      }
+    }
+  },
   "required": [
     "protocol",
     "experiment_id",
@@ -53,11 +135,17 @@
     "private_implementation_state_used": {"const": false},
     "independence_basis": {
       "type": "array",
-      "items": {"type": "string", "minLength": 1}
+      "items": {
+        "oneOf": [
+          {"type": "string", "minLength": 1},
+          {"$ref": "#/$defs/independenceBasis"}
+        ]
+      }
     },
     "evidence_references": {
       "type": "array",
-      "items": {"type": "string", "minLength": 1}
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/evidenceReference"}
     },
     "qualification_result": {"enum": ["QUALIFIED", "NOT_ESTABLISHED", "DISQUALIFIED"]}
   },
@@ -70,9 +158,33 @@
           "reviewer_identity": {"type": "string", "minLength": 1},
           "reviewer_role": {"enum": ["REVIEWER", "REPRODUCER", "REVIEWER_AND_REPRODUCER"]},
           "authorship_relation": {"const": "NOT_AUTHOR_OF_PREREGISTRATION_OR_FROZEN_RUBRIC"},
+          "custody_relation": {"const": "INDEPENDENT_FOR_DECLARED_SCOPE"},
+          "conflicts": {"maxItems": 0},
           "repository_visibility": {"const": "EVIDENCE_VISIBLE"},
-          "independence_basis": {"minItems": 1},
-          "evidence_references": {"minItems": 1}
+          "independence_basis": {
+            "minItems": 2,
+            "uniqueItems": true,
+            "items": {"$ref": "#/$defs/independenceBasis"},
+            "allOf": [
+              {
+                "contains": {
+                  "type": "object",
+                  "properties": {"basis_type": {"const": "ORGANIZATIONAL_SEPARATION"}},
+                  "required": ["basis_type"]
+                },
+                "minContains": 1
+              },
+              {
+                "contains": {
+                  "type": "object",
+                  "properties": {"basis_type": {"const": "INDEPENDENT_EVIDENCE_CUSTODY"}},
+                  "required": ["basis_type"]
+                },
+                "minContains": 1
+              }
+            ]
+          },
+          "evidence_references": {"minItems": 2, "uniqueItems": true}
         }
       }
     }

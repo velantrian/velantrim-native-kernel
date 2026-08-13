@@ -4,6 +4,19 @@
   "title": "H11 mechanism dependency graph",
   "type": "object",
   "additionalProperties": false,
+  "$defs": {
+    "repositoryArtifactReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "artifact_type", "git_commit"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "artifact_type": {"const": "REPOSITORY_SOURCE"},
+        "git_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"}
+      }
+    }
+  },
   "required": [
     "protocol",
     "experiment_id",
@@ -37,12 +50,48 @@
             ]
           },
           "label": {"type": "string", "minLength": 1},
-          "source_reference": {"type": "string", "minLength": 1}
-        }
+          "source_reference": {"$ref": "#/$defs/repositoryArtifactReference"},
+          "obligation_id": {
+            "enum": ["H11-O01", "H11-O02", "H11-O03", "H11-O04"]
+          },
+          "mechanism_name": {
+            "enum": [
+              "Python 3.11/3.12",
+              "PostgreSQL 16/18",
+              "SQLite 3.51.3",
+              "SQL schema/transactions/locking",
+              "JSON serialization",
+              "ZIP archive representation",
+              "SHA-256 digest verification",
+              "current Event vocabulary/envelope",
+              "reducer v1",
+              "Receipt encoding",
+              "integer sequence/order mechanisms",
+              "current P4/P5/C3/C4/C5 report schemas"
+            ]
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {"node_class": {"const": "PROFILE_MECHANISM"}},
+              "required": ["node_class"]
+            },
+            "then": {"required": ["mechanism_name"]}
+          },
+          {
+            "if": {
+              "properties": {"node_class": {"const": "ARCHITECTURE_OBLIGATION"}},
+              "required": ["node_class"]
+            },
+            "then": {"required": ["obligation_id"]}
+          }
+        ]
       }
     },
     "edges": {
       "type": "array",
+      "minItems": 1,
       "items": {
         "type": "object",
         "additionalProperties": false,

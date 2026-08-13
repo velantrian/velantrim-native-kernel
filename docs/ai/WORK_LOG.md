@@ -4,6 +4,77 @@ Re-verify exact SHAs, live issue state, runs and artifacts before treating an en
 
 ---
 
+## 2026-08-13 — H11 evidence-contract hardening after PR #131 review
+
+```text
+Repository baseline:           main@5e6042af44c8a12b71f02cc6e43cbf591f6f49a9
+Open review surface:           PR #131 · head 61f02f7eb3f6c3903fa5662358690457bba4fb9e
+Substantive Codex review:      4923945680 · COMMENTED
+Reviewer qualification:        NOT_ESTABLISHED_FOR_H11_REVIEW_ROLE
+Review findings:               6 · all P1 · unresolved on PR #131
+Candidate classification:      VALIDATION MACHINERY HARDENING ONLY
+Frozen plan bytes/SHA:         UNCHANGED
+H11 execution:                 NOT AUTHORIZED / NOT PERFORMED
+H11 outcome:                   NOT_TESTED
+Runtime expansion:             FROZEN
+Final Canon:                   DEFERRED / NOT AUTHORIZED
+Production:                    false
+Documentation impact:          GITHUB_AND_NOTION
+Notion:                        review-stage sync/read-back 7/7 complete; final merge sync pending; no new pages
+```
+
+Captured the substantive Codex review and all six exact GitHub thread URLs in a
+repository-visible reconciliation record. The reviewer used repository-visible inputs
+and disclosed no private implementation state, but shared Codex custody and organizational
+self-review separation remain unestablished; the qualification record therefore remains
+`NOT_ESTABLISHED`, not `QUALIFIED`.
+
+The candidate strengthens the four H11 schemas and the admission validator without
+editing `H11_PREREGISTRATION.json`: graph coverage must be backed by concrete nodes,
+edges, raw observations and content-addressed sources; qualified reviewers need
+independent custody, zero conflicts and verified evidence; support is conditional on
+qualified independence and zero leakage/hard-failure edges; semantic inputs must be
+distinct existing digest-bound artifacts; private observations and semantic verdicts in
+raw payloads fail closed. Synthetic negative fixtures exercise each review finding but do
+not construct or execute the real H11 experiment.
+
+Independent review and exact-head CI are still required. Even a successful merge leaves
+execution admission blocked until a genuinely qualifying reviewer/reproducer is recorded
+and admission is separately reassessed.
+
+After Draft PR #134 was created at exact head
+`cfc9966ef5e59ea0c9cb92cc57e5758b6e9830a9`, all six triggered exact-head workflows
+completed successfully. The seven existing Native Kernel Notion pages were then updated
+with an explicitly review-stage checkpoint and read back 7/7. The entry records the six
+findings, bounded candidate, green CI, open-thread state and unchanged H11 blocker; it is
+not final merge synchronization and created no new page.
+
+Codex then completed a substantive second-round review of PR #134 at
+`7bb05b5a42acfb7ab37b3f20a3936959e27ed64c` and opened seven additional P1 threads. The
+new findings covered whole-record schema application, Git visibility, structural
+hard-failure derivation, semantic paraphrases, independence substitutes, evidence
+completeness and unreachable conditional schemas. The bounded follow-up candidate now
+applies all four schemas to supplied records, resolves evidence through Git objects
+anchored to the adjudicated `HEAD`, closes raw facts/values to typed observations,
+requires structured independence evidence, makes scoped support depend on exact bundle
+verification and gap-free inputs, and semantically exercises schema conditions. The
+local H11 suite is 59/59 PASS. Final exact-head CI, review reconciliation and an updated
+7/7 Notion read-back remain required; H11 itself remains blocked and `NOT_TESTED`.
+
+A third substantive Codex review of head `1e179d31ed2a7618319ca20dd930a7d562d5fae8`
+then opened seven P1 threads and one P2. The next bounded candidate adds exact coverage of
+the four frozen H11 obligations and all node classes, structured issuer-bound independence
+attestations, actual execution of the frozen bundle verifier, bidirectional
+hard-failure/`REFUTED` mapping, adjudicator-to-reviewer identity binding, immutable
+pre-execution source anchoring, exact JSON type comparison, and string-pattern evaluation.
+Bounded implementation head `9dbab33ff3a8ecfe9383ce861f9bb6168521a6d4` then passed
+74/74 local H11 tests and all six exact-head workflows (C5 #374, C4 #402, P5/C3 #440,
+AI context #569, BPV1 #138 and P4 #471). All 15 PR #134 threads were resolved with
+exact-head evidence, and all seven existing Notion pages were updated/read back without
+creating a page. This documentation reconciliation is a descendant of that tested code
+head and still requires its own exact-head workflows and fresh final review. H11 itself
+remains blocked and `NOT_TESTED`.
+
 ## 2026-08-09 — A2 Knowledge and Memory Ontology (second blueprint content slice)
 
 ```text
