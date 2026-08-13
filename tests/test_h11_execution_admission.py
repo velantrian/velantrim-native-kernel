@@ -622,25 +622,32 @@ class H11ExecutionAdmissionTests(unittest.TestCase):
     def assert_bundle_rejected_downstream(self, mutate, expected_message_fragment: str) -> None:
         """Assert a bundle is rejected by a guard *after* reviewer validation.
 
-        `_validate_reviewer_record` now unconditionally rejects a QUALIFIED
-        reviewer record (see test_qualification_cannot_be_established_via_repository_local_git_identity_switch),
-        which is correct production behavior but means `assert_bundle_rejected`
-        alone can no longer prove that downstream semantic/evidence guards still
-        work: every bundle would be rejected at the reviewer-validation step
-        regardless of what the downstream guard does. This helper patches out
-        only `_validate_reviewer_record` for the duration of the call — the
-        reviewer *data* is unchanged and still schema-valid/QUALIFIED, only its
-        own validation step is skipped — so the mutation under test must be
-        caught by the specific downstream guard it targets. The expected
-        message fragment must actually appear in the raised error, so a test
-        that starts passing vacuously (e.g. because the downstream guard was
-        weakened or removed) fails loudly instead of silently.
+        `_require_externally_authenticated_independence` is the final,
+        unconditional stop in `_validate_reviewer_record`'s QUALIFIED branch
+        (see test_qualification_cannot_be_established_via_repository_local_git_identity_switch
+        for proof that production still hits it with no patching at all). That
+        is correct production behavior, but it means `assert_bundle_rejected`
+        alone can no longer prove that downstream semantic/evidence guards
+        still work: every bundle would be rejected at that stop regardless of
+        what the downstream guard does. This helper patches out only
+        `_require_externally_authenticated_independence` for the duration of
+        the call — every structural reviewer check ahead of it (distinct
+        issuers, distinct commit authors, distinct evidence artifacts, schema
+        shape, non-qualifying substitutes, etc.) still runs for real against
+        the still schema-valid/QUALIFIED reviewer data; only the final,
+        externally-unauthenticatable stop is skipped — so the mutation under
+        test must be caught by the specific downstream guard it targets. The
+        expected message fragment must actually appear in the raised error, so
+        a test that starts passing vacuously (e.g. because the downstream
+        guard was weakened or removed) fails loudly instead of silently.
         """
         with tempfile.TemporaryDirectory() as directory:
             repo = Path(directory)
             graph, raw, reviewer, semantic = _synthetic_evidence_bundle(repo)
             mutate(repo, graph, raw, reviewer, semantic)
-            with mock.patch.object(validator, "_validate_reviewer_record", return_value=None):
+            with mock.patch.object(
+                validator, "_require_externally_authenticated_independence", return_value=None
+            ):
                 with self.assertRaises(validator.H11AdmissionError) as context:
                     validator.validate_h11_evidence_bundle(
                         repo,
@@ -933,7 +940,9 @@ class H11ExecutionAdmissionTests(unittest.TestCase):
                 "DEPENDENCY_GRAPH",
             )
 
-        self.assert_bundle_rejected(mutate)
+        self.assert_bundle_rejected_downstream(
+            mutate, "semantic adjudication violates its declared JSON Schema"
+        )
 
     def test_hard_failure_edge_forces_refuted_outcome(self) -> None:
         def mutate(repo, graph, _raw, _reviewer, semantic) -> None:
@@ -948,13 +957,16 @@ class H11ExecutionAdmissionTests(unittest.TestCase):
                 "DEPENDENCY_GRAPH",
             )
 
-        self.assert_bundle_rejected(mutate)
+        self.assert_bundle_rejected_downstream(
+            mutate, "semantic adjudication violates its declared JSON Schema"
+        )
 
     def test_refuted_outcome_requires_hard_failure_edge(self) -> None:
-        self.assert_bundle_rejected(
+        self.assert_bundle_rejected_downstream(
             lambda _repo, _graph, _raw, _reviewer, semantic: semantic.__setitem__(
                 "outcome", "REFUTED"
-            )
+            ),
+            "semantic adjudication violates its declared JSON Schema",
         )
 
     def test_semantic_adjudicator_must_match_qualified_reviewer(self) -> None:
@@ -963,6 +975,17 @@ class H11ExecutionAdmissionTests(unittest.TestCase):
                 "adjudicator_identity", "different-reviewer"
             ),
             "semantic adjudicator identity must match the qualified reviewer",
+        )
+
+    def test_semantic_adjudicator_role_must_match_qualified_reviewer(self) -> None:
+        # "REVIEWER_AND_REPRODUCER" is schema-valid for adjudicator_role but
+        # mismatches the fixture reviewer's actual reviewer_role ("REVIEWER"),
+        # so this targets the role-binding _require rather than the schema gate.
+        self.assert_bundle_rejected_downstream(
+            lambda _repo, _graph, _raw, _reviewer, semantic: semantic.__setitem__(
+                "adjudicator_role", "REVIEWER_AND_REPRODUCER"
+            ),
+            "semantic adjudicator role must match a qualified reviewer role",
         )
 
     def test_semantic_input_artifacts_must_be_distinct(self) -> None:
@@ -1135,10 +1158,27 @@ class H11ExecutionAdmissionTests(unittest.TestCase):
         )
 
     def test_supported_outcome_rejects_adjudication_gap(self) -> None:
-        self.assert_bundle_rejected(
+        self.assert_bundle_rejected_downstream(
             lambda _repo, _graph, _raw, _reviewer, semantic: semantic.__setitem__(
                 "declared_gaps", ["unresolved semantic evidence"]
-            )
+            ),
+            "semantic adjudication violates its declared JSON Schema",
+        )
+
+    def test_semantic_raw_input_must_exactly_match_supplied_record(self) -> None:
+        def mutate(_repo, _graph, raw, _reviewer, _semantic) -> None:
+            # Mutate the in-memory raw_observations dict *after* it was
+            # committed, without recommitting: the semantic layer's
+            # raw_observation_record reference still resolves to the original
+            # committed (unmutated) bytes, so the freshly loaded record no
+            # longer exactly matches the supplied in-memory `raw` passed to
+            # validate_h11_evidence_bundle. Changing an existing string field
+            # keeps `raw` itself schema-valid, so this targets the exact-match
+            # guard specifically rather than schema validation.
+            raw["observations"][0]["producer_identity"] = "tampered-after-commit"
+
+        self.assert_bundle_rejected_downstream(
+            mutate, "does not match the supplied in-memory record with exact JSON types"
         )
 
     def test_raw_semantic_self_report_in_structured_value_is_rejected(self) -> None:
