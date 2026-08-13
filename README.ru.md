@@ -1,246 +1,75 @@
-<!-- H11_EXECUTION_ADMISSION_BLOCKED_CURRENT -->
-> [!IMPORTANT]
-> **Текущий authoritative overlay — 2026-08-13.** Live `main` нужно определять через GitHub; committed documentation не должна предсказывать SHA собственного будущего merge. Текущая выбранная family — `A10-H11`; текущий repository-native gate — `A10_H11_EXECUTION_ADMISSION`; admission — `BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER`; qualifying reviewer/reproducer — `NOT_ESTABLISHED`; H11 остаётся `NOT_TESTED`. Открытая review surface — PR #131. H11 implementation, execution, dependency-graph execution и semantic adjudication **НЕ РАЗРЕШЕНЫ**. Runtime expansion остаётся `FROZEN`; product runtime thaw — `false`; Final Canon — `DEFERRED / NOT_AUTHORIZED`; production — `false`; Issue #88 остаётся OPEN. PR #129 остаётся immutable H11 execution-admission evidence; PR #130 (`e36b7f45410d74b8a65406bff6fdd6d070fa96b0`) — machine-truth / подтверждённый 7-of-7 Notion synchronization checkpoint. Любые нижние `POST_D8_OPERATOR_DECISION_CURRENT`, `D6 NEXT`, `RESIDUAL_A10_VALIDATION_PLAN NEXT` и другие старые current-looking формулировки сохранены **только как историческая хронология**, а не как текущая инструкция.
-
-<!-- POST_D8_OPERATOR_DECISION_CURRENT -->
-> [!IMPORTANT]
-> **Текущее решение оператора после D8 — 2026-08-12.** ADR-0027 / `OD-POST-D8-001` имеет статус `ACCEPTED / OPERATOR APPROVED`, merge `57993f39906ae7266011f6146c9a485d0587d2bf`. A1–A10 остаётся `STRENGTHENED_FOR_BPV1_SCOPE / STILL_PROVISIONAL`; Final Canon **отложен**, product runtime остаётся `FROZEN`, production — `false`. Единственный текущий gate — `RESIDUAL_A10_VALIDATION_PLAN` для A10-H03, A10-H06, A10-H08, A10-H09, A10-H10, A10-H11; это только **RESEARCH_PLANNING_ONLY**, выполнение нового residual experiment не разрешено. Нижние `D6 NEXT`, `D8 IN_PROGRESS` и `OPERATOR_CANON_RUNTIME_DECISION_REQUIRED` — историческая хронология.
-
 # 🧬 Velantrim Native Kernel
 
-**[English](./README.md) · [Русский](./README.ru.md)**
+**[English](README.md) · [Русский](README.ru.md)**
 
-### Технологически нейтральная архитектура долговечного знания, памяти, изменений и объяснения
+> Технологически нейтральная исследовательская архитектура долговечного смысла, памяти, provenance, изменений и объяснений.
 
-> **Текущее состояние:** `RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY`  
-> **Активная фаза:** `POST-BLUEPRINT VALIDATION / D5-R1 QUALIFIED / D6 A10 HYPOTHESIS CLASSIFICATION NEXT / RUNTIME EXPANSION FROZEN`
+Native Kernel задаёт один главный вопрос: **какие семантические свойства должны сохраняться, если мы заменим базу данных, язык, модель, storage engine или вычислительный substrate?**
 
-Velantrim Native Kernel исследует, какой семантический смысл, identity, provenance, time, uncertainty, conflict, revision и explanation должны сохраняться при смене баз данных, языков, моделей, процессоров и носителей информации.
+Это не ядро ОС, не database product, не vector store и не LLM memory plugin. Текущая кодовая база — **ограниченная reference laboratory**, а не окончательное определение архитектуры.
 
-Это **не** ядро операционной системы, не database product, не LLM memory plugin, не vector store и не определение Python framework.
-
-```text
-сначала определить problem-level смысл и candidate obligations
-        ↓
-заранее зафиксировать scope, observables, threat/grounding assumptions и failure rules
-        ↓
-зафиксировать external oracle и admission boundary
-        ↓
-независимо вывести заменяемую bounded realization
-        ↓
-проверять и пытаться опровергнуть архитектурные claims
-        ↓
-классифицировать только реально проверенные гипотезы
-```
-
-## Архитектурная граница
+## 🧭 Проект одним взглядом
 
 ```text
-Problem-level Purpose and Candidate Semantic Obligations
-→ Preregistered Conformance / Threat / Grounding Boundary
-→ BPV1 Execution Admission
-→ Independently Derived Bounded Realization
-→ External Evidence Qualification
-→ Frozen Oracle Evaluation
-→ A10 Hypothesis Classification
-→ Integrated Re-review
-→ Separate Operator Canon/Runtime Decision
+🏛️ Смысл / invariants
+        ↓
+📐 Абстрактные контракты
+        ↓
+🔌 Заменяемые profiles
+        ↓
+🧪 Ограниченная laboratory
+        ↓
+📊 Evidence / conformance
+        ↓
+🚦 Отдельное решение Canon / runtime
 ```
 
-Python, Rust, JSON, SHA-256, PostgreSQL, SQLite, graphs, vectors, LLM, обычное hardware, event sourcing, exact replay и CI являются заменяемыми research instruments. Они не являются постоянным Canon.
+**Главная дисциплина:** `meaning ≠ implementation` · `implementation ≠ universal proof` · `laboratory success ≠ Final Canon` · `merged code ≠ runtime authority`.
 
-Текущая Python/PostgreSQL/SQLite lineage — **bounded reference laboratory**, а не окончательное определение Native Kernel. IAR-1 показал, что полные A3 transition/outcome machine, A6 lifecycle graph, текущая Event/reducer/Receipt форма и exact reconstruction не обоснованы как universal minimum Kernel form.
-
-## Текущее состояние
+## 🌳 Основные слои
 
 ```text
-clean_runtime_support:      PARTIAL
-kernel_runtime_conformance: C4
-operational_validation:     C5_BOUNDED_REHEARSAL
-production_authorized:      false
-
-assertion map: 45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED / 0 FAILED
-NK-EPI:        0 SUPPORTED / 0 PARTIAL / 8 UNSUPPORTED / 0 FAILED
-runtime expansion: FROZEN
-P1-C5 role: BOUNDED_REFERENCE_LABORATORY
+🧬 Native Kernel
+├── 🏛️ semantic invariants
+├── 📐 architecture contracts
+├── 🔌 replaceable implementation profiles
+├── 🧪 reference laboratory
+├── 📊 evidence & conformance
+├── 🔬 post-blueprint validation
+└── 🚦 explicit Canon/runtime/production gates
 ```
 
-C5 не повышает semantic assertions и не разрешает production.
+## 📚 С чего начать
 
-## Модель checkpoint
-
-Машиночитаемая правда записана в [`project-state.json`](project-state.json) по протоколу `nk-project-state/2`.
-
-| Роль | Checkpoint |
+| Цель | Документ |
 |---|---|
-| Publication checkpoint | `10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c` |
-| Runtime checkpoint | `675aa4b398a2fc0181dc71d38904a2d33a09f5f8` |
-| Runtime integrity checkpoint | `a1cdc6d8f36d67f40f065641809bc6da463c10a4` |
-| Evidence-producing checkpoint | `296981ae84ad5bdab5dabbec9b7b9ebb43af63d7` |
-| Источник manifest / Notion synchronized descendant | `70acd0da61fee19131947aa56125833adb156ced` |
-| BPV-1 preregistration merge | `a538d7f1e28858a88b9ee777ac7d6e05b85943db` |
-| D5 execution merge | `a191e9c868c14af34a269dcdfae44406f1013bda` |
-| D5-R1 qualification merge | `3856740570620fb2243e2f0da76359281ec4068f` |
+| 👤 Понять проект | [PROJECT_OVERVIEW.md](PROJECT_OVERVIEW.md) |
+| 🚦 Узнать текущий authoritative state | [STATUS.md](STATUS.md) |
+| 🧾 Машиночитаемый state | [project-state.json](project-state.json) |
+| 🏛️ Изучить архитектуру | [docs/ARCHITECTURE_REFOUNDATION.ru.md](docs/ARCHITECTURE_REFOUNDATION.ru.md) |
+| 🧪 Запустить laboratory | [docs/QUICKSTART.ru.md](docs/QUICKSTART.ru.md) |
+| 🔬 Исследования | [docs/research/](docs/research/) |
+| 🤖 Вход для AI | [AGENTS.md](AGENTS.md) → [docs/ai/README.md](docs/ai/README.md) |
 
-Эти role checkpoints остаются historical identities. Live `main` определяется через GitHub или checked-out Git ref; committed state не предсказывает SHA собственного будущего merge.
+> [!IMPORTANT]
+> README — это **стабильная карта для человека**, а не live status ledger. Для текущего H11 admission, активных PR, runtime authority и production state используй `STATUS.md`, `project-state.json` и live GitHub.
 
-## Reconciliation правды
+## ⚖️ Что означает evidence
 
-```text
-IAR-1:                    QUALIFYING_REVIEW_COMPLETE
-IAR-1-R1:                 COMPLETE
-BPV-1 plan:               PREREGISTERED / EXECUTION_NOT_AUTHORIZED
-execution admission:      COMPLETE / BPV1-001 ONLY
-D5 execution:             COMPLETE
-D5-R1 qualification:      COMPLETE / QUALIFIED
-qualified oracle outcome: SUPPORTED_FOR_SCOPE / 12-of-12 mandatory fixtures PASS
-next gate:                D6_A10_HYPOTHESIS_CLASSIFICATION
-D6:                       NOT_STARTED
-```
+| Слой | Что подтверждает | Чего не подтверждает |
+|---|---|---|
+| 🏛️ Architecture | заявленный смысл/invariants | обязательность одной реализации |
+| 🧪 Laboratory | bounded reproducible behavior | production readiness |
+| 📊 Evidence | scoped support/refutation | автоматическое продвижение в Canon |
+| 🧾 Receipt | provenance операции | semantic correctness само по себе |
+| 🚦 Runtime gate | явную authority | разрешение только из-за passing tests |
 
-Live Notion нужно читать напрямую. Текущий Option D plan откладывает синхронизацию D5/D5-R1/D6 до consolidated D8; до этого GitHub остаётся authoritative technical truth.
+## 🗂️ Карта репозитория
 
-## Текущая карта evidence
+`README` 👤 вход для человека · `STATUS` 🚦 live human state · `project-state.json` 🧾 machine state · `docs/` 📚 architecture/research · `evidence/` 📊 evidence · `experiments/` 🧪 experiments · `src/` 🔧 reference implementation · `tests/` ✅ conformance · `tools/` 🛠️ validators.
 
-В репозитории сохранены две неизменяемые C5 evidence identities:
+## 🚫 Что проект не утверждает
 
-```text
-evidence/c5/2026-08-07/manifest.json
-evidence/c5/2026-08-08-adr0023/manifest.json
-```
+Репозиторий не утверждает, что текущая реализация — universal Canon, что один storage/model/language обязателен, или что passing tests автоматически разрешают runtime expansion либо production.
 
-BPV1-001 D5-R1 qualification evidence отдельно сохранено в:
-
-```text
-experiments/bpv1/BPV1-001/results/d5-r1/
-```
-
-Историческое D5 evidence из PR #114 не переписано.
-
-ADR-0023 устанавливает linked SQLite `3.51.3` как текущий WAL floor. Исторические SQLite `3.45.1` artifacts остаются неизменными и version-bound.
-
-```text
-repository-resident evidence
-≠ independent custody
-≠ complete authenticity
-≠ live-data safety
-≠ physical deletion
-≠ production readiness
-SUPPORTED_FOR_SCOPE
-≠ universal substrate portability proof
-```
-
-## Три независимые линии
-
-```text
-H — Historical Recovery
-  authentic v0.1.2.1 и оригинальные 44 теста
-  NOT_FOUND_IN_ACCESSIBLE_SOURCES / OPEN / INDEPENDENT
-
-C — Clean Reference Implementation
-  P1–P5 + C4 + C5
-  PRESERVED / PARTIAL / BOUNDED REFERENCE LABORATORY
-
-R — Post-Blueprint Validation
-  A1–A10 + integrated review остаются provisional
-  IAR-1 QUALIFYING / IAR-1-R1 COMPLETE
-  BPV1-001 D5 COMPLETE / D5-R1 QUALIFIED
-  D6 A10 HYPOTHESIS CLASSIFICATION NEXT
-  NO AUTOMATIC PROMOTION
-```
-
-```text
-NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GLOBALLY_LOST
-historical recovery ≠ clean implementation
-reference laboratory ≠ final architecture
-```
-
-## Активная архитектурная фаза — Post-Blueprint Validation
-
-ADR-0025 установил blueprint-before-runtime. ADR-0026 фиксирует operator-approved **Option D** validation route. IAR-1 завершил qualifying independent challenge; IAR-1-R1 reconciled все десять findings; PR #110 опубликовал preregistered BPV-1 plan; PR #112 + PR #113 завершили execution admission; PR #114 выполнил D5; PR #115 квалифицировал evidence path.
-
-```text
-A1–A10 provisional blueprint
-→ integrated review                         COMPLETE / PROVISIONAL
-→ operator post-blueprint decision          OPTION D / ADR-0026 / APPROVED
-→ INDEPENDENT_ARCHITECTURE_REVIEW           COMPLETE / IAR-1 / QUALIFYING
-→ REVIEW_FINDING_RECONCILIATION             COMPLETE / IAR-1-R1
-→ BPV1_PLAN_AND_PREREGISTRATION             COMPLETE / PR #110
-→ BPV1_EXECUTION_ADMISSION                  COMPLETE / PR #112 + #113
-→ BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION COMPLETE / PR #114
-→ D5_R1_EVIDENCE_QUALIFICATION              COMPLETE / PR #115
-→ D6_A10_HYPOTHESIS_CLASSIFICATION          NEXT / NOT STARTED
-→ integrated re-review
-→ consolidated authoritative synchronization
-→ отдельное последующее operator Canon/runtime decision
-```
-
-Текущие boundaries:
-
-```text
-BPV-1 plan: BPV1-001-cross-lineage-bounded-accountability-v1 / PREREGISTERED
-plan merge: a538d7f1e28858a88b9ee777ac7d6e05b85943db
-frozen plan digest: 7fe8174c604678c6b79d3fdeae83d7c5ab0d2fb15bfe343d41659d05d9496ad0
-D5 execution merge: a191e9c868c14af34a269dcdfae44406f1013bda
-D5-R1 qualification merge: 3856740570620fb2243e2f0da76359281ec4068f
-external qualification: QUALIFIED
-frozen-oracle outcome: SUPPORTED_FOR_SCOPE
-mandatory fixtures: 12/12 PASS
-next gate: D6_A10_HYPOTHESIS_CLASSIFICATION
-D6: NOT_STARTED
-runtime expansion: FROZEN
-product runtime thaw: NO
-A1-A10 Final Canon: NOT AUTHORIZED
-production: false
-```
-
-D5-R1 устраняет найденный HR10 subject-self-report adjudication path: Rust-subject теперь выдаёт raw facts, а oracle-facing structural facts выводятся отдельным qualifier, который не читает fixture expectations. Неизменённый frozen evaluator остаётся adjudicator. Integrity coverage теперь включает evidence и epistemic position, а retained loss-witness storage внутренне bounded с bounded rollup.
-
-Это всё ещё **не** устанавливает independent implementation team/custody или independent computation model. BPV1-001 остаётся conventional-digital, single-node, non-composed scoped evidence.
-
-D6 должен классифицировать только реально adjudicated A10 hypotheses. Aggregate `SUPPORTED_FOR_SCOPE` нельзя механически переносить на hypotheses, отмеченные как informative или not tested.
-
-План: [English](docs/ARCHITECTURE_REFOUNDATION.md) · [Русский](docs/ARCHITECTURE_REFOUNDATION.ru.md).  
-BPV-1 preregistration: [English](docs/research/BPV1_PREREGISTRATION.md) · [Русский](docs/research/BPV1_PREREGISTRATION.ru.md) · [JSON](docs/research/BPV1_PREREGISTRATION.json).  
-D5-R1 qualification: [English](docs/research/BPV1_D5_R1_QUALIFICATION.md) · [Русский](docs/research/BPV1_D5_R1_QUALIFICATION.ru.md).  
-Tracking: [Issue #88](https://github.com/velantrian/velantrim-native-kernel/issues/88).
-
-Во время freeze разрешены architecture research, D6/D7/D8 validation work, integrity/security/reproducibility/provenance repair, evidence preservation, truth-surface repair и historical recovery. Product semantic/runtime expansion остаётся unauthorized.
-
-## Pending decisions
-
-```text
-Issue #18 — license/publication
-  PENDING_OPERATOR / selected_option: null
-
-Issue #74 / ADR-0024 — reducer referential semantics
-  PROPOSED / PENDING_OPERATOR / selected_option: null
-```
-
-Ни одно решение не принимается молча через ADR-0026 или BPV-1. Track H source admission остаётся operator-controlled.
-
-## Historical R1 gate markers
-
-Эти exact строки сохраняются только ради publication-time continuity R1-era documentation registry и **не описывают current state**:
-
-```text
-BPV1_PLAN_AND_PREREGISTRATION
-BLOCKED_PENDING_PREREGISTERED_PLAN
-```
-
-## Быстрый старт для человека
-
-Текущая laboratory требует Python 3.11 или 3.12:
-
-```bash
-python -m unittest discover -s tests -p 'test_semantic_core.py' -v
-python -m unittest discover -s tests -p 'test_p1_manifest.py' -v
-python tools/ai_context/validate_project_state.py --repo .
-python tools/ai_context/validate_architecture_freeze.py --repo .
-python tools/ai_context/validate_bpv1_preregistration.py --repo .
-python tools/ai_context/validate_context.py --repo .
-```
-
-> **Предупреждение SQLite profile:** P5/C3/C4/C5 fail closed, если Python-процесс связан с SQLite ниже `3.51.3`. Не трактуй отказ system SQLite как semantic failure. Перед этими profile checks собери/используй pinned safe SQLite library.
-
-Pinned-library setup, PostgreSQL DSN и полные команды P4/P5/C3/C4/C5 находятся в [`docs/QUICKSTART.ru.md`](docs/QUICKSTART.ru.md).
+> **Реализации могут меняться. Семантические обязательства должны либо пережить замену, либо быть явно пересмотрены на основании evidence.**
