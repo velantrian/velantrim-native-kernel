@@ -67,8 +67,13 @@ the four frozen H11 obligations and all node classes, structured issuer-bound in
 attestations, actual execution of the frozen bundle verifier, bidirectional
 hard-failure/`REFUTED` mapping, adjudicator-to-reviewer identity binding, immutable
 pre-execution source anchoring, exact JSON type comparison, and string-pattern evaluation.
-The local H11 suite is now 74/74 PASS. Final exact-head CI, review reconciliation and an
-updated 7/7 Notion read-back remain required; H11 itself remains blocked and `NOT_TESTED`.
+Bounded implementation head `9dbab33ff3a8ecfe9383ce861f9bb6168521a6d4` then passed
+74/74 local H11 tests and all six exact-head workflows (C5 #374, C4 #402, P5/C3 #440,
+AI context #569, BPV1 #138 and P4 #471). All 15 PR #134 threads were resolved with
+exact-head evidence, and all seven existing Notion pages were updated/read back without
+creating a page. This documentation reconciliation is a descendant of that tested code
+head and still requires its own exact-head workflows and fresh final review. H11 itself
+remains blocked and `NOT_TESTED`.
 
 ## 2026-08-09 — A2 Knowledge and Memory Ontology (second blueprint content slice)
 
