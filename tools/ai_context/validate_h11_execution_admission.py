@@ -770,6 +770,42 @@ def _validate_raw_structured_value(observation: Mapping[str, Any], label: str) -
         raise H11AdmissionError(f"{label} unsupported observation kind")
 
 
+def _require_externally_authenticated_independence() -> None:
+    """The final, unconditional independence stop for QUALIFIED_FOR_H11_REVIEW_ROLE.
+
+    Everything checked earlier in `_validate_reviewer_record`'s QUALIFIED branch
+    is repository-local: distinct issuer labels, distinct commit-author
+    identities, distinct evidence artifacts. None of it is proof of a distinct
+    real-world actor. A single operator can set two different
+    `git config user.email` values in the same clone (the prior fixture did
+    exactly this) and satisfy every structural check while remaining the sole
+    author of both attestations; a locally generated GPG/SSH signing key has
+    the identical self-assertion problem. Genuine independence requires
+    provenance the subject cannot self-assert — e.g. a GitHub-verified commit
+    signature or a protected PR review tied to a distinct authenticated GitHub
+    account — which this offline, Git-only validator does not check. Until
+    that externally authenticated binding exists, QUALIFIED_FOR_H11_REVIEW_ROLE
+    must remain unreachable through this evidence contract: the earlier checks
+    are retained as repository-local provenance hygiene (and as the structure
+    a future externally authenticated check would build on), not as proof of
+    independence, so qualification fails closed unconditionally here.
+
+    Kept as its own function and called unconditionally by production code so
+    that tests can isolate it: patching only this stop (instead of all of
+    `_validate_reviewer_record`) lets a test still exercise every structural
+    reviewer check plus this final independence stop, while reaching
+    downstream semantic/evidence guards for its own target assertion.
+    """
+    raise H11AdmissionError(
+        "qualification_result=QUALIFIED cannot be established by this evidence "
+        "contract: repository-local Git authorship (commit author identity or a "
+        "locally generated signing key) is self-assertable by a single actor and "
+        "is not proof of a distinct, externally authenticated independent "
+        "reviewer/custodian. Qualification must remain NOT_ESTABLISHED until "
+        "externally authenticated provenance is added."
+    )
+
+
 def _validate_reviewer_record(
     repo: Path,
     reviewer: Mapping[str, Any],
@@ -958,29 +994,7 @@ def _validate_reviewer_record(
             and not any(substitute in json.dumps(independence_basis) for substitute in NON_QUALIFYING_SUBSTITUTES),
             "qualified reviewer cannot use non-qualifying independence substitutes",
         )
-        # Every check above is repository-local: distinct issuer labels, distinct
-        # commit-author identities, distinct evidence artifacts. None of it is proof
-        # of a distinct real-world actor. A single operator can set two different
-        # `git config user.email` values in the same clone (the prior fixture did
-        # exactly this) and satisfy every structural check above while remaining the
-        # sole author of both attestations; a locally generated GPG/SSH signing key
-        # has the identical self-assertion problem. Genuine independence requires
-        # provenance the subject cannot self-assert — e.g. a GitHub-verified commit
-        # signature or a protected PR review tied to a distinct authenticated GitHub
-        # account — which this offline, Git-only validator does not check. Until that
-        # externally authenticated binding exists, QUALIFIED_FOR_H11_REVIEW_ROLE must
-        # remain unreachable through this evidence contract: the checks above are
-        # retained as repository-local provenance hygiene (and as the structure a
-        # future externally authenticated check would build on), not as proof of
-        # independence, so qualification fails closed unconditionally here.
-        raise H11AdmissionError(
-            "qualification_result=QUALIFIED cannot be established by this evidence "
-            "contract: repository-local Git authorship (commit author identity or a "
-            "locally generated signing key) is self-assertable by a single actor and "
-            "is not proof of a distinct, externally authenticated independent "
-            "reviewer/custodian. Qualification must remain NOT_ESTABLISHED until "
-            "externally authenticated provenance is added."
-        )
+        _require_externally_authenticated_independence()
 
 
 def validate_h11_evidence_bundle(
