@@ -63,7 +63,25 @@ not qualify Codex as the H11 reviewer/reproducer.
 | Scoped support could omit laboratory verification or declare gaps | Support requires exactly one successful exact-bundle observation for the frozen subject, at least eight verified artifacts, and empty missing/gap inventories. |
 | Conditional schema rules were checked only as text | A dependency-free schema-subset evaluator exercises valid and adversarial instances. Conditions made unreachable with `not: {}` fail validation. |
 
-Fifty-nine local unit tests now cover the blocked admission package and the two review
+## PR #134 third-round review hardening
+
+Codex reviewed the next candidate at
+`1e179d31ed2a7618319ca20dd930a7d562d5fae8` and opened seven P1 threads plus one P2.
+The review is captured in `H11_PR134_CODEX_REREVIEW_RECONCILIATION.json`. It remains a
+technical hardening review and has no H11 reviewer-qualification effect.
+
+| Re-review finding | Bounded remediation candidate |
+|---|---|
+| Graph completeness could remain vacuous | The graph must contain exactly one node for each frozen `H11-O01`–`H11-O04` obligation, at least one node of every frozen class, all twelve distinct profile nodes, no self-loops and no disconnected nodes. Historical, Architecture and profile sources are frozen-snapshot-bound. |
+| Generic bytes could pose as independence evidence | Qualified bases now reference closed structured attestations bound to experiment, plan digest, reviewer, issuer, issuer role, basis type, authorship, custody, conflicts, private-state exclusion and repository visibility. The two mandatory bases require distinct non-self issuers and exactly enumerated distinct artifacts. |
+| Bundle success trusted self-report | Scoped support requires `TOOL_OUTPUT` from `AUTOMATED_VALIDATOR`, bound to the frozen manifest. The admission validator runs the repository `verify_bundle.py`, requires success and derives the exact eight-artifact count rather than trusting the observation. |
+| Hard failure could be downgraded | `UNJUSTIFIED_CANON_DEPENDENCY > 0` and `REFUTED` are a bidirectional invariant in both schema and validator. |
+| Subject could author adjudication while citing an unrelated reviewer | Semantic records now carry adjudicator identity, role and `QUALIFYING_INDEPENDENT_REVIEWER` authority; identity and role must exactly match the qualified reviewer record. |
+| Historical sources could be rewritten before citation | Architecture, laboratory and profile references must predate or equal immutable review subject `e36b7f...`, exist there with identical bytes, and remain unchanged through adjudicated `HEAD`. |
+| Python equality could equate `true` with `1` | Referenced records are schema-validated after load and compared recursively with exact JSON type identity; schema `const`/`enum` evaluation uses the same strict comparator. |
+| String patterns were ignored | The dependency-free schema evaluator applies regex patterns to string instances and fails closed on invalid patterns. |
+
+Seventy-four local H11 tests now cover the blocked admission package and all three review
 rounds. This count is local candidate evidence only until the final exact head passes all
 repository workflows and the review threads are reconciled.
 

@@ -61,6 +61,15 @@ verification and gap-free inputs, and semantically exercises schema conditions. 
 local H11 suite is 59/59 PASS. Final exact-head CI, review reconciliation and an updated
 7/7 Notion read-back remain required; H11 itself remains blocked and `NOT_TESTED`.
 
+A third substantive Codex review of head `1e179d31ed2a7618319ca20dd930a7d562d5fae8`
+then opened seven P1 threads and one P2. The next bounded candidate adds exact coverage of
+the four frozen H11 obligations and all node classes, structured issuer-bound independence
+attestations, actual execution of the frozen bundle verifier, bidirectional
+hard-failure/`REFUTED` mapping, adjudicator-to-reviewer identity binding, immutable
+pre-execution source anchoring, exact JSON type comparison, and string-pattern evaluation.
+The local H11 suite is now 74/74 PASS. Final exact-head CI, review reconciliation and an
+updated 7/7 Notion read-back remain required; H11 itself remains blocked and `NOT_TESTED`.
+
 ## 2026-08-09 — A2 Knowledge and Memory Ontology (second blueprint content slice)
 
 ```text

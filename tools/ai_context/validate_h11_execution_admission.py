@@ -16,6 +16,7 @@ PLAN_ID = "H11-001-c5-lab-canon-separation-v1"
 PLAN_PROTOCOL = "nk-h11-preregistration/1"
 PLAN_MERGE = "4a75ff15542013c033030620bdff61997e365140"
 PLAN_SHA256 = "60da649e675b79b3e70bf8a61cf03cb4d57bb989f4934b65ab8d50c925b19914"
+FROZEN_REVIEW_SUBJECT = "e36b7f45410d74b8a65406bff6fdd6d070fa96b0"
 CURRENT_GATE_SOURCE_SHA = "82f5965bca9c44919f8f0c22d5b0862e803ff696"
 TARGET = "A10-H11"
 EXPERIMENT_ID = "H11-001"
@@ -36,6 +37,7 @@ NODE_CLASSES = [
     "PROFILE_MECHANISM",
     "VALIDATOR_OR_ORACLE",
 ]
+FROZEN_OBLIGATION_IDS = ["H11-O01", "H11-O02", "H11-O03", "H11-O04"]
 EDGE_CLASSES = [
     "MEANING_LEVEL_JUSTIFICATION",
     "LAB_REPRODUCTION_REQUIRES",
@@ -111,6 +113,11 @@ INDEPENDENCE_BASIS_TYPES = {
     "NON_AUTHORSHIP",
     "CONFLICT_SCREEN",
     "PRIVATE_STATE_EXCLUSION",
+}
+INDEPENDENCE_EVIDENCE_PROTOCOL = "nk-h11-reviewer-independence-evidence/1"
+CORE_INDEPENDENCE_ISSUER_ROLES = {
+    "ORGANIZATIONAL_SEPARATION": "ORGANIZATIONAL_AUTHORITY",
+    "INDEPENDENT_EVIDENCE_CUSTODY": "INDEPENDENT_CUSTODIAN",
 }
 MANDATORY_MECHANISMS = [
     "Python 3.11/3.12",
@@ -222,6 +229,7 @@ def _validate_repository_reference(
     *,
     expected_type: str,
     label: str,
+    frozen_at: str | None = None,
 ) -> bytes:
     _require(isinstance(reference, Mapping), f"{label} must be a content-addressed object")
     _require(
@@ -254,6 +262,28 @@ def _validate_repository_reference(
     _require(ancestry.returncode == 0, f"{label}.git_commit is not anchored in the adjudicated HEAD")
     committed = _git(repo, "show", f"{git_commit}:{raw_path}", binary=True)
     _require(_sha256(committed) == digest, f"{label}.sha256 mismatch at declared Git commit: {raw_path}")
+    if frozen_at is not None:
+        _git(repo, "cat-file", "-e", f"{frozen_at}^{{commit}}")
+        frozen_ancestry = subprocess.run(
+            ["git", "-C", str(repo), "merge-base", "--is-ancestor", frozen_at, "HEAD"],
+            check=False,
+            capture_output=True,
+        )
+        _require(frozen_ancestry.returncode == 0, f"{label} frozen review subject is not anchored in HEAD")
+        source_ancestry = subprocess.run(
+            ["git", "-C", str(repo), "merge-base", "--is-ancestor", git_commit, frozen_at],
+            check=False,
+            capture_output=True,
+        )
+        _require(
+            source_ancestry.returncode == 0,
+            f"{label}.git_commit postdates the immutable H11 review subject",
+        )
+        frozen_bytes = _git(repo, "show", f"{frozen_at}:{raw_path}", binary=True)
+        _require(
+            frozen_bytes == committed,
+            f"{label} was not present unchanged at the immutable H11 review subject: {raw_path}",
+        )
     head_bytes = _git(repo, "show", f"HEAD:{raw_path}", binary=True)
     _require(head_bytes == committed, f"{label} is not preserved unchanged at adjudicated HEAD: {raw_path}")
     return committed
@@ -278,6 +308,53 @@ def _load_referenced_json(
         raise H11AdmissionError(f"cannot read {label}: {exc}") from exc
     _require(isinstance(value, dict), f"{label} root must be an object")
     return value
+
+
+def _json_exact_equal(left: Any, right: Any) -> bool:
+    """Compare JSON values without Python's bool/int equality coercion."""
+    if isinstance(left, Mapping) or isinstance(right, Mapping):
+        if not isinstance(left, Mapping) or not isinstance(right, Mapping):
+            return False
+        return set(left) == set(right) and all(
+            _json_exact_equal(left[key], right[key]) for key in left
+        )
+    if isinstance(left, list) or isinstance(right, list):
+        return (
+            isinstance(left, list)
+            and isinstance(right, list)
+            and len(left) == len(right)
+            and all(_json_exact_equal(a, b) for a, b in zip(left, right))
+        )
+    return type(left) is type(right) and left == right
+
+
+def _verify_frozen_bundle(repo: Path) -> int:
+    verifier = repo / "tools/evidence/verify_bundle.py"
+    manifest_path = repo / BUNDLE_MANIFEST
+    _require(verifier.is_file(), "frozen bundle verifier is missing")
+    _require(manifest_path.is_file(), "frozen bundle manifest is missing")
+    result = subprocess.run(
+        [sys.executable, str(verifier), BUNDLE_MANIFEST, "--repo", str(repo)],
+        cwd=repo,
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    _require(
+        result.returncode == 0,
+        "frozen bundle verifier failed: " + (result.stderr.strip() or result.stdout.strip()),
+    )
+    manifest = _load(manifest_path, "frozen C5 evidence manifest")
+    _require(manifest.get("bundle_id") == BUNDLE_ID, "frozen bundle verifier subject drift")
+    checkpoints = manifest.get("checkpoints")
+    _require(isinstance(checkpoints, list), "frozen bundle checkpoints required")
+    artifact_count = sum(
+        len(checkpoint.get("artifacts", []))
+        for checkpoint in checkpoints
+        if isinstance(checkpoint, Mapping) and isinstance(checkpoint.get("artifacts"), list)
+    )
+    _require(artifact_count == 8, "frozen bundle verifier must cover exactly eight artifacts")
+    return artifact_count
 
 
 def _schema_accepts(schema: Any, instance: Any, *, root: Mapping[str, Any] | None = None) -> bool:
@@ -340,10 +417,14 @@ def _schema_accepts(schema: Any, instance: Any, *, root: Mapping[str, Any] | Non
 
         if not isinstance(expected_types, list) or not any(matches_type(name) for name in expected_types):
             return False
-    if "const" in schema and instance != schema["const"]:
+    if "const" in schema and not _json_exact_equal(instance, schema["const"]):
         return False
-    if "enum" in schema and instance not in schema["enum"]:
-        return False
+    if "enum" in schema:
+        enum_values = schema["enum"]
+        if not isinstance(enum_values, list) or not any(
+            _json_exact_equal(instance, candidate) for candidate in enum_values
+        ):
+            return False
     if isinstance(instance, str):
         if len(instance) < schema.get("minLength", 0):
             return False
@@ -461,6 +542,10 @@ def _validate_schema_behavior(
     )
 
     reviewer_evidence = _schema_reference("REVIEWER_EVIDENCE")
+    reviewer_evidence_two = {
+        **_schema_reference("REVIEWER_EVIDENCE"),
+        "path": "evidence/example-two.json",
+    }
     qualified_reviewer: dict[str, Any] = {
         "protocol": "nk-h11-reviewer-reproducer-qualification/1",
         "experiment_id": EXPERIMENT_ID,
@@ -481,10 +566,10 @@ def _validate_schema_behavior(
             },
             {
                 "basis_type": "INDEPENDENT_EVIDENCE_CUSTODY",
-                "evidence_reference": reviewer_evidence,
+                "evidence_reference": reviewer_evidence_two,
             },
         ],
-        "evidence_references": [reviewer_evidence],
+        "evidence_references": [reviewer_evidence, reviewer_evidence_two],
         "qualification_result": "QUALIFIED",
     }
     _require(
@@ -525,6 +610,9 @@ def _validate_schema_behavior(
             **_schema_reference(semantic_reference_types[2]),
             "path": "evidence/reviewer.json",
         },
+        "adjudicator_identity": "schema-test-reviewer",
+        "adjudicator_role": "REVIEWER",
+        "adjudicator_authority_class": "QUALIFYING_INDEPENDENT_REVIEWER",
         "subject_private_state_used": False,
         "leakage_rubric": {
             "classes": LEAKAGE_CLASSES,
@@ -555,6 +643,19 @@ def _validate_schema_behavior(
             not _schema_accepts(semantic_schema, invalid_semantic),
             f"semantic schema condition accepts invalid scoped support: {field}",
         )
+    hard_failure = dict(semantic_instance)
+    hard_failure["outcome"] = "WEAKENED"
+    hard_failure["unjustified_canon_dependency_count"] = 1
+    _require(
+        not _schema_accepts(semantic_schema, hard_failure),
+        "semantic schema permits a hard-failure count without REFUTED",
+    )
+    false_refutation = dict(semantic_instance)
+    false_refutation["outcome"] = "REFUTED"
+    _require(
+        not _schema_accepts(semantic_schema, false_refutation),
+        "semantic schema permits REFUTED without a hard-failure count",
+    )
 
 
 def _contains_semantic_verdict(value: Any) -> bool:
@@ -635,7 +736,11 @@ def _validate_raw_structured_value(observation: Mapping[str, Any], label: str) -
         raise H11AdmissionError(f"{label} unsupported observation kind")
 
 
-def _validate_reviewer_record(repo: Path, reviewer: Mapping[str, Any]) -> None:
+def _validate_reviewer_record(
+    repo: Path,
+    reviewer: Mapping[str, Any],
+    reviewer_schema: Mapping[str, Any],
+) -> None:
     required = [
         "protocol",
         "experiment_id",
@@ -695,8 +800,15 @@ def _validate_reviewer_record(repo: Path, reviewer: Mapping[str, Any]) -> None:
         _require(conflicts == [], "qualified reviewer cannot carry unresolved conflicts")
         _require(reviewer.get("repository_visibility") == "EVIDENCE_VISIBLE", "qualified reviewer evidence must be repository-visible")
         _require(len(independence_basis) >= 2, "qualified reviewer requires multiple independent evidence bases")
-        _require(bool(evidence_references), "qualified reviewer evidence references required")
+        _require(len(evidence_references) >= 2, "qualified reviewer requires at least two evidence references")
         basis_types: set[str] = set()
+        basis_reference_keys: set[str] = set()
+        core_issuers: set[str] = set()
+        evidence_record_schema = _schema_property(
+            reviewer_schema,
+            "$defs",
+            "independenceEvidenceRecord",
+        )
         for index, basis in enumerate(independence_basis):
             basis = _require_exact_keys(
                 basis,
@@ -707,15 +819,88 @@ def _validate_reviewer_record(repo: Path, reviewer: Mapping[str, Any]) -> None:
             _require(basis_type in INDEPENDENCE_BASIS_TYPES, f"qualified reviewer independence basis {index} type invalid")
             _require(basis_type not in basis_types, "qualified reviewer independence basis types must be unique")
             basis_types.add(str(basis_type))
-            _validate_repository_reference(
+            evidence_reference = basis.get("evidence_reference")
+            evidence_record = _load_referenced_json(
                 repo,
-                basis.get("evidence_reference"),
+                evidence_reference,
                 expected_type="REVIEWER_EVIDENCE",
                 label=f"qualified reviewer independence basis {index} evidence",
             )
+            _require(
+                _schema_accepts(
+                    evidence_record_schema,
+                    evidence_record,
+                    root=reviewer_schema,
+                ),
+                f"qualified reviewer independence basis {index} evidence is not a structured attestation",
+            )
+            _require(
+                evidence_record.get("protocol") == INDEPENDENCE_EVIDENCE_PROTOCOL,
+                f"qualified reviewer independence basis {index} evidence protocol drift",
+            )
+            _require(
+                evidence_record.get("experiment_id") == EXPERIMENT_ID
+                and evidence_record.get("source_plan_id") == PLAN_ID
+                and evidence_record.get("source_plan_sha256") == PLAN_SHA256,
+                f"qualified reviewer independence basis {index} evidence plan binding drift",
+            )
+            _require(
+                evidence_record.get("reviewer_identity") == reviewer.get("reviewer_identity"),
+                f"qualified reviewer independence basis {index} evidence identity mismatch",
+            )
+            _require(
+                evidence_record.get("basis_type") == basis_type,
+                f"qualified reviewer independence basis {index} evidence type mismatch",
+            )
+            _require(
+                evidence_record.get("attested_authorship_relation") == reviewer.get("authorship_relation")
+                and evidence_record.get("attested_custody_relation") == reviewer.get("custody_relation")
+                and evidence_record.get("attested_conflicts") == conflicts
+                and evidence_record.get("attested_private_implementation_state_used")
+                == reviewer.get("private_implementation_state_used")
+                and evidence_record.get("attested_repository_visibility")
+                == reviewer.get("repository_visibility"),
+                f"qualified reviewer independence basis {index} evidence contradicts the qualification record",
+            )
+            issuer = evidence_record.get("evidence_issuer_identity")
+            _require(
+                isinstance(issuer, str)
+                and issuer
+                and issuer != reviewer.get("reviewer_identity"),
+                f"qualified reviewer independence basis {index} requires a non-self issuer",
+            )
+            required_issuer_role = CORE_INDEPENDENCE_ISSUER_ROLES.get(str(basis_type))
+            if required_issuer_role is not None:
+                _require(
+                    evidence_record.get("evidence_issuer_role") == required_issuer_role,
+                    f"qualified reviewer independence basis {index} issuer role mismatch",
+                )
+                core_issuers.add(issuer)
+            _require(
+                not _contains_semantic_verdict(evidence_record),
+                f"qualified reviewer independence basis {index} evidence cannot carry an H11 verdict",
+            )
+            reference_key = json.dumps(evidence_reference, sort_keys=True, separators=(",", ":"))
+            _require(
+                reference_key not in basis_reference_keys,
+                "qualified reviewer independence evidence artifacts must be distinct",
+            )
+            basis_reference_keys.add(reference_key)
         _require(
             {"ORGANIZATIONAL_SEPARATION", "INDEPENDENT_EVIDENCE_CUSTODY"}.issubset(basis_types),
             "qualified reviewer must prove organizational separation and independent evidence custody",
+        )
+        _require(
+            len(core_issuers) == 2,
+            "organizational-separation and custody attestations require distinct issuers",
+        )
+        declared_reference_keys = {
+            json.dumps(reference, sort_keys=True, separators=(",", ":"))
+            for reference in evidence_references
+        }
+        _require(
+            declared_reference_keys == basis_reference_keys,
+            "qualified reviewer evidence references must exactly enumerate the independence attestations",
         )
         _require(
             not _contains_semantic_verdict(independence_basis)
@@ -820,23 +1005,64 @@ def validate_h11_evidence_bundle(
 
     node_by_id: dict[str, Mapping[str, Any]] = {}
     profile_nodes: dict[str, list[str]] = {mechanism: [] for mechanism in MANDATORY_MECHANISMS}
+    obligation_nodes: dict[str, list[str]] = {
+        obligation_id: [] for obligation_id in FROZEN_OBLIGATION_IDS
+    }
+    class_counts = {node_class: 0 for node_class in NODE_CLASSES}
     for index, node in enumerate(nodes):
         _require(isinstance(node, Mapping), f"dependency node {index} must be an object")
         node_id = node.get("node_id")
         _require(isinstance(node_id, str) and node_id, f"dependency node {index} ID required")
         _require(node_id not in node_by_id, f"duplicate dependency node ID: {node_id}")
-        _require(node.get("node_class") in NODE_CLASSES, f"dependency node {node_id} class invalid")
+        node_class = node.get("node_class")
+        _require(node_class in NODE_CLASSES, f"dependency node {node_id} class invalid")
+        class_counts[str(node_class)] += 1
         _validate_repository_reference(
             repo,
             node.get("source_reference"),
             expected_type="REPOSITORY_SOURCE",
             label=f"dependency node {node_id} source",
+            frozen_at=(
+                FROZEN_REVIEW_SUBJECT
+                if node_class
+                in {
+                    "ARCHITECTURE_OBLIGATION",
+                    "LABORATORY_EVIDENCE",
+                    "PROFILE_MECHANISM",
+                }
+                else None
+            ),
         )
-        if node.get("node_class") == "PROFILE_MECHANISM":
+        if node_class == "ARCHITECTURE_OBLIGATION":
+            obligation_id = node.get("obligation_id")
+            _require(
+                obligation_id in obligation_nodes,
+                f"dependency node {node_id} frozen obligation identity invalid",
+            )
+            obligation_nodes[str(obligation_id)].append(node_id)
+        else:
+            _require(
+                "obligation_id" not in node,
+                f"dependency node {node_id} cannot claim a frozen obligation identity",
+            )
+        if node_class == "PROFILE_MECHANISM":
             mechanism = node.get("mechanism_name")
             _require(mechanism in profile_nodes, f"dependency node {node_id} mechanism invalid")
             profile_nodes[str(mechanism)].append(node_id)
+        else:
+            _require(
+                "mechanism_name" not in node,
+                f"dependency node {node_id} cannot claim a profile mechanism identity",
+            )
         node_by_id[node_id] = node
+
+    for node_class in NODE_CLASSES:
+        _require(class_counts[node_class] > 0, f"dependency graph missing required node class: {node_class}")
+    for obligation_id, obligation_node_ids in obligation_nodes.items():
+        _require(
+            len(obligation_node_ids) == 1,
+            f"dependency graph requires exactly one {obligation_id} Architecture obligation node",
+        )
 
     connected_nodes: set[str] = set()
     edge_ids: set[str] = set()
@@ -851,6 +1077,7 @@ def validate_h11_evidence_bundle(
         from_id = edge.get("from")
         to_id = edge.get("to")
         _require(from_id in node_by_id and to_id in node_by_id, f"dependency edge {edge_id} endpoint missing")
+        _require(from_id != to_id, f"dependency edge {edge_id} cannot be a self-loop")
         connected_nodes.update((str(from_id), str(to_id)))
         edge_class = edge.get("edge_class")
         _require(edge_class in EDGE_CLASSES, f"dependency edge {edge_id} class invalid")
@@ -900,8 +1127,12 @@ def validate_h11_evidence_bundle(
     for mechanism, mechanism_nodes in profile_nodes.items():
         _require(len(mechanism_nodes) == 1, f"covered mechanism {mechanism!r} must have exactly one PROFILE_MECHANISM node")
         _require(mechanism_nodes[0] in connected_nodes, f"covered mechanism {mechanism!r} has no dependency edge")
+    _require(
+        connected_nodes == set(node_by_id),
+        "every dependency node must participate in at least one evidence-bearing edge",
+    )
 
-    _validate_reviewer_record(repo, reviewer_record)
+    _validate_reviewer_record(repo, reviewer_record, reviewer_schema)
     raw_ref = semantic_adjudication.get("raw_observation_record")
     graph_ref = semantic_adjudication.get("dependency_graph_record")
     reviewer_ref = semantic_adjudication.get("reviewer_reproducer_qualification_record")
@@ -909,26 +1140,58 @@ def validate_h11_evidence_bundle(
     reference_paths = [reference.get("path") if isinstance(reference, Mapping) else None for reference in references]
     _require(len(set(reference_paths)) == 3 and None not in reference_paths, "semantic input artifacts must be three distinct paths")
     _require(semantic_adjudication_path not in reference_paths, "semantic adjudication cannot reference itself as an input")
-    _require(
-        _load_referenced_json(repo, raw_ref, expected_type="RAW_OBSERVATIONS", label="semantic raw input") == dict(raw_observations),
-        "semantic raw input does not match supplied raw observations",
+    loaded_raw = _load_referenced_json(
+        repo, raw_ref, expected_type="RAW_OBSERVATIONS", label="semantic raw input"
     )
-    _require(
-        _load_referenced_json(repo, graph_ref, expected_type="DEPENDENCY_GRAPH", label="semantic dependency input") == dict(dependency_graph),
-        "semantic dependency input does not match supplied graph",
+    loaded_graph = _load_referenced_json(
+        repo, graph_ref, expected_type="DEPENDENCY_GRAPH", label="semantic dependency input"
     )
-    _require(
-        _load_referenced_json(repo, reviewer_ref, expected_type="REVIEWER_QUALIFICATION", label="semantic reviewer input") == dict(reviewer_record),
-        "semantic reviewer input does not match supplied qualification",
+    loaded_reviewer = _load_referenced_json(
+        repo,
+        reviewer_ref,
+        expected_type="REVIEWER_QUALIFICATION",
+        label="semantic reviewer input",
     )
+    for label, schema, loaded, supplied in (
+        ("semantic raw input", raw_schema, loaded_raw, raw_observations),
+        ("semantic dependency input", dependency_schema, loaded_graph, dependency_graph),
+        ("semantic reviewer input", reviewer_schema, loaded_reviewer, reviewer_record),
+    ):
+        _require(_schema_accepts(schema, loaded), f"{label} violates its declared JSON Schema")
+        _require(
+            _json_exact_equal(loaded, supplied),
+            f"{label} does not match the supplied in-memory record with exact JSON types",
+        )
     _require(semantic_adjudication.get("input_policy") == "REPOSITORY_VISIBLE_FROZEN_INPUTS_ONLY", "semantic input policy drift")
     _require(semantic_adjudication.get("subject_private_state_used") is False, "semantic adjudication cannot use private subject state")
     _require(reviewer_record.get("qualification_result") == "QUALIFIED", "semantic adjudication requires a qualifying independent reviewer")
     _require(semantic_adjudication.get("independence_qualified") is True, "semantic adjudication independence must be qualified")
+    _require(
+        semantic_adjudication.get("adjudicator_identity")
+        == reviewer_record.get("reviewer_identity"),
+        "semantic adjudicator identity must match the qualified reviewer",
+    )
+    _require(
+        reviewer_record.get("reviewer_role")
+        in {"REVIEWER", "REVIEWER_AND_REPRODUCER"}
+        and semantic_adjudication.get("adjudicator_role")
+        == reviewer_record.get("reviewer_role"),
+        "semantic adjudicator role must match a qualified reviewer role",
+    )
+    _require(
+        semantic_adjudication.get("adjudicator_authority_class")
+        == "QUALIFYING_INDEPENDENT_REVIEWER",
+        "semantic adjudicator authority must be independently qualified",
+    )
     _require(semantic_adjudication.get("unjustified_canon_dependency_count") == unjustified_count, "semantic unjustified dependency count does not match graph")
     _require(
         semantic_adjudication.get("mandatory_profile_leakage_count") == len(unjustified_profile_mechanisms),
         "semantic mandatory-profile leakage count does not match implicated mechanisms",
+    )
+    _require(
+        (unjustified_count > 0)
+        == (semantic_adjudication.get("outcome") == "REFUTED"),
+        "UNJUSTIFIED_CANON_DEPENDENCY and REFUTED must imply each other",
     )
     if semantic_adjudication.get("outcome") == "SUPPORTED_FOR_SCOPE":
         _require(unjustified_count == 0, "SUPPORTED_FOR_SCOPE cannot contain UNJUSTIFIED_CANON_DEPENDENCY")
@@ -947,12 +1210,35 @@ def validate_h11_evidence_bundle(
         ]
         _require(len(bundle_verifications) == 1, "SUPPORTED_FOR_SCOPE requires exactly one bundle-verification observation")
         bundle_value = bundle_verifications[0].get("structured_value")
+        bundle_observation = bundle_verifications[0]
         _require(isinstance(bundle_value, Mapping), "bundle-verification observation value required")
+        _require(
+            bundle_observation.get("observation_type") == "TOOL_OUTPUT"
+            and bundle_observation.get("producer_authority_class") == "AUTOMATED_VALIDATOR",
+            "bundle verification must come from the repository verifier tool",
+        )
+        bundle_source = bundle_observation.get("source_reference")
+        _require(
+            isinstance(bundle_source, Mapping)
+            and bundle_source.get("path") == BUNDLE_MANIFEST,
+            "bundle-verification observation must reference the frozen manifest",
+        )
+        _validate_repository_reference(
+            repo,
+            bundle_source,
+            expected_type="REPOSITORY_SOURCE",
+            label="bundle-verification manifest source",
+            frozen_at=FROZEN_REVIEW_SUBJECT,
+        )
         _require(bundle_value.get("bundle_id") == BUNDLE_ID, "bundle-verification subject ID drift")
         _require(bundle_value.get("manifest_path") == BUNDLE_MANIFEST, "bundle-verification manifest drift")
         _require(bundle_value.get("exact_bundle_verified") is True, "SUPPORTED_FOR_SCOPE requires exact bundle verification")
         _require(bundle_value.get("verifier_exit_code") == 0, "SUPPORTED_FOR_SCOPE requires a successful verifier exit")
-        _require(bundle_value.get("verified_artifact_count", 0) >= 8, "SUPPORTED_FOR_SCOPE requires verification of all eight frozen artifacts")
+        verified_artifact_count = _verify_frozen_bundle(repo)
+        _require(
+            bundle_value.get("verified_artifact_count") == verified_artifact_count,
+            "bundle-verification observation does not match actual verifier output",
+        )
 
 
 def validate(
@@ -1051,11 +1337,14 @@ def validate(
     node_props = _schema_property(dep_props, "nodes", "items", "properties")
     _require(node_props.get("source_reference", {}).get("$ref") == "#/$defs/repositoryArtifactReference", "dependency nodes require content-addressed repository sources")
     _require(node_props.get("mechanism_name", {}).get("enum") == MANDATORY_MECHANISMS, "profile mechanism node inventory drift")
+    _require(node_props.get("obligation_id", {}).get("enum") == FROZEN_OBLIGATION_IDS, "frozen H11 obligation node inventory drift")
     node_rules = _schema_property(dep_props, "nodes", "items", "allOf")
     _require(isinstance(node_rules, list) and node_rules, "PROFILE_MECHANISM nodes must conditionally require mechanism_name")
     node_rule_text = json.dumps(node_rules, sort_keys=True)
     _require('"PROFILE_MECHANISM"' in node_rule_text, "PROFILE_MECHANISM condition drift")
     _require('"then": {"required": ["mechanism_name"]}' in node_rule_text, "PROFILE_MECHANISM must require mechanism_name")
+    _require('"ARCHITECTURE_OBLIGATION"' in node_rule_text, "ARCHITECTURE_OBLIGATION condition drift")
+    _require('"then": {"required": ["obligation_id"]}' in node_rule_text, "ARCHITECTURE_OBLIGATION must require obligation_id")
     dep_reference_required = _schema_property(dependency_schema, "$defs", "repositoryArtifactReference", "required")
     _require("git_commit" in dep_reference_required, "dependency source references must be Git-anchored")
 
@@ -1126,6 +1415,9 @@ def validate(
         "raw_observation_record",
         "dependency_graph_record",
         "reviewer_reproducer_qualification_record",
+        "adjudicator_identity",
+        "adjudicator_role",
+        "adjudicator_authority_class",
         "subject_private_state_used",
         "mandatory_profile_leakage_count",
         "unjustified_canon_dependency_count",
@@ -1159,6 +1451,8 @@ def validate(
         '"mandatory_profile_leakage_count": {"const": 0}',
         '"unjustified_canon_dependency_count": {"const": 0}',
         '"declared_gaps": {"maxItems": 0}',
+        '"outcome": {"const": "REFUTED"}',
+        '"unjustified_canon_dependency_count": {"minimum": 1}',
     ):
         _require(required_literal in support_rule_text, f"semantic support invariant missing: {required_literal}")
 
@@ -1178,13 +1472,20 @@ def validate(
     )
     evidence_items = reviewer_schema_props.get("evidence_references", {}).get("items", {})
     _require(evidence_items.get("$ref") == "#/$defs/evidenceReference", "reviewer evidence must be content-addressed")
+    evidence_record_schema = _schema_property(reviewer_schema, "$defs", "independenceEvidenceRecord")
+    _require(
+        evidence_record_schema.get("additionalProperties") is False
+        and evidence_record_schema.get("properties", {}).get("protocol", {}).get("const")
+        == INDEPENDENCE_EVIDENCE_PROTOCOL,
+        "reviewer independence evidence must be a closed structured attestation",
+    )
     reviewer_rules = reviewer_schema.get("allOf")
     _require(isinstance(reviewer_rules, list) and reviewer_rules, "qualified reviewer conditional constraints required")
     reviewer_rule_text = json.dumps(reviewer_rules, sort_keys=True)
     for required_literal in (
         '"custody_relation": {"const": "INDEPENDENT_FOR_DECLARED_SCOPE"}',
         '"conflicts": {"maxItems": 0}',
-        '"evidence_references": {"minItems": 1}',
+        '"evidence_references": {"minItems": 2, "uniqueItems": true}',
     ):
         _require(required_literal in reviewer_rule_text, f"qualified reviewer invariant missing: {required_literal}")
     reviewer_reference_required = _schema_property(reviewer_schema, "$defs", "evidenceReference", "required")
@@ -1199,7 +1500,7 @@ def validate(
     )
 
     reviewer = _choose(reviewer_override, repo / REVIEWER_RECORD_PATH, "H11 reviewer/reproducer qualification record")
-    _validate_reviewer_record(repo, reviewer)
+    _validate_reviewer_record(repo, reviewer, reviewer_schema)
     _require(reviewer.get("reviewer_identity_status") == "ESTABLISHED", "substantive Codex reviewer identity reconciliation drift")
     _require(reviewer.get("reviewer_identity") == "OpenAI GPT-5.6 Sol / Codex review agent", "Codex reviewer identity drift")
     _require(reviewer.get("reviewer_role") == "REVIEWER", "Codex reviewer role drift")

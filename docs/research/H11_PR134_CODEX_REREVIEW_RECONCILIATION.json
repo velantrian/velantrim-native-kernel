@@ -1,0 +1,79 @@
+{
+  "protocol": "nk-h11-pr134-codex-rereview-reconciliation/1",
+  "captured_at": "2026-08-13T11:30:00+02:00",
+  "repository": "velantrian/velantrim-native-kernel",
+  "pull_request": 134,
+  "pull_request_url": "https://github.com/velantrian/velantrim-native-kernel/pull/134",
+  "review_id": 4925259416,
+  "reviewed_head": "1e179d31ed2a7618319ca20dd930a7d562d5fae8",
+  "review_state": "COMMENTED",
+  "review_role": "TECHNICAL_HARDENING_REVIEW_ONLY",
+  "h11_reviewer_qualification_effect": "NONE",
+  "findings": [
+    {
+      "finding_id": "H11-P1-FROZEN-OBLIGATION-GRAPH",
+      "priority": "P1",
+      "status_at_capture": "OPEN_UNRESOLVED",
+      "title": "Require all four frozen obligations and every required node class",
+      "thread_url": "https://github.com/velantrian/velantrim-native-kernel/pull/134#discussion_r3773918260"
+    },
+    {
+      "finding_id": "H11-P1-INDEPENDENCE-EVIDENCE-SUBSTANCE",
+      "priority": "P1",
+      "status_at_capture": "OPEN_UNRESOLVED",
+      "title": "Validate the subject, issuer and custody substance of independence evidence",
+      "thread_url": "https://github.com/velantrian/velantrim-native-kernel/pull/134#discussion_r3773918262"
+    },
+    {
+      "finding_id": "H11-P1-ACTUAL-BUNDLE-VERIFIER",
+      "priority": "P1",
+      "status_at_capture": "OPEN_UNRESOLVED",
+      "title": "Bind bundle success to the repository verifier output",
+      "thread_url": "https://github.com/velantrian/velantrim-native-kernel/pull/134#discussion_r3773918274"
+    },
+    {
+      "finding_id": "H11-P1-HARD-FAILURE-OUTCOME",
+      "priority": "P1",
+      "status_at_capture": "OPEN_UNRESOLVED",
+      "title": "Map hard-failure edges and REFUTED bidirectionally",
+      "thread_url": "https://github.com/velantrian/velantrim-native-kernel/pull/134#discussion_r3773918280"
+    },
+    {
+      "finding_id": "H11-P1-ADJUDICATOR-BINDING",
+      "priority": "P1",
+      "status_at_capture": "OPEN_UNRESOLVED",
+      "title": "Bind semantic adjudication to the qualified reviewer identity and authority",
+      "thread_url": "https://github.com/velantrian/velantrim-native-kernel/pull/134#discussion_r3773918287"
+    },
+    {
+      "finding_id": "H11-P1-FROZEN-SOURCE-SNAPSHOT",
+      "priority": "P1",
+      "status_at_capture": "OPEN_UNRESOLVED",
+      "title": "Anchor Architecture and historical sources to the immutable review snapshot",
+      "thread_url": "https://github.com/velantrian/velantrim-native-kernel/pull/134#discussion_r3773918293"
+    },
+    {
+      "finding_id": "H11-P1-EXACT-JSON-TYPES",
+      "priority": "P1",
+      "status_at_capture": "OPEN_UNRESOLVED",
+      "title": "Validate referenced JSON and compare it without Python bool/number coercion",
+      "thread_url": "https://github.com/velantrian/velantrim-native-kernel/pull/134#discussion_r3773918295"
+    },
+    {
+      "finding_id": "H11-P2-SCHEMA-STRING-PATTERNS",
+      "priority": "P2",
+      "status_at_capture": "OPEN_UNRESOLVED",
+      "title": "Apply schema pattern constraints to strings",
+      "thread_url": "https://github.com/velantrian/velantrim-native-kernel/pull/134#discussion_r3773918299"
+    }
+  ],
+  "remediation_scope": "VALIDATION_MACHINERY_ONLY",
+  "frozen_plan_sha256": "60da649e675b79b3e70bf8a61cf03cb4d57bb989f4934b65ab8d50c925b19914",
+  "execution_admission": "BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER",
+  "h11_outcome": "NOT_TESTED",
+  "implementation_authorized": false,
+  "execution_authorized": false,
+  "runtime_expansion": "FROZEN",
+  "final_canon": "DEFERRED / NOT_AUTHORIZED",
+  "production_authorized": false
+}

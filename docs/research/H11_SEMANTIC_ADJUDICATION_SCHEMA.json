@@ -32,6 +32,9 @@
     "raw_observation_record",
     "dependency_graph_record",
     "reviewer_reproducer_qualification_record",
+    "adjudicator_identity",
+    "adjudicator_role",
+    "adjudicator_authority_class",
     "subject_private_state_used",
     "leakage_rubric",
     "hard_refutation",
@@ -66,6 +69,9 @@
         {"properties": {"artifact_type": {"const": "REVIEWER_QUALIFICATION"}}}
       ]
     },
+    "adjudicator_identity": {"type": "string", "minLength": 1},
+    "adjudicator_role": {"enum": ["REVIEWER", "REVIEWER_AND_REPRODUCER"]},
+    "adjudicator_authority_class": {"const": "QUALIFYING_INDEPENDENT_REVIEWER"},
     "subject_private_state_used": {"const": false},
     "leakage_rubric": {
       "type": "object",
@@ -121,6 +127,20 @@
           "declared_gaps": {"maxItems": 0}
         }
       }
+    },
+    {
+      "if": {
+        "properties": {"unjustified_canon_dependency_count": {"minimum": 1}},
+        "required": ["unjustified_canon_dependency_count"]
+      },
+      "then": {"properties": {"outcome": {"const": "REFUTED"}}}
+    },
+    {
+      "if": {
+        "properties": {"outcome": {"const": "REFUTED"}},
+        "required": ["outcome"]
+      },
+      "then": {"properties": {"unjustified_canon_dependency_count": {"minimum": 1}}}
     }
   ]
 }

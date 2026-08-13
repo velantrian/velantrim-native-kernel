@@ -8,6 +8,9 @@
 > [!WARNING]
 > **A later PR #134 technical review supersedes that initial review-stage checkpoint.** Codex opened seven additional P1 threads on head `7bb05b5a42acfb7ab37b3f20a3936959e27ed64c`. Their bounded remediation is recorded in GitHub and repository documentation, but the final candidate exact head and workflows must be resolved live after publication. The seven existing Notion pages require another bounded review-stage update/read-back after final CI; no new page is authorized. The review remains non-qualifying for H11 independence, and the gate remains blocked.
 
+> [!WARNING]
+> **A third technical review added seven P1 findings and one P2 on head `1e179d31ed2a7618319ca20dd930a7d562d5fae8`.** The current candidate hardens frozen-obligation coverage, independence attestations, actual bundle verification, hard-failure outcome mapping, adjudicator binding, frozen-source anchoring, exact JSON types and string patterns. Local H11 validation is 74/74 PASS; final exact-head workflows and another 7/7 Notion read-back are still required. This remains validation machinery only and cannot unblock H11 by itself.
+
 <!-- POST_D8_OPERATOR_DECISION_CURRENT -->
 > [!IMPORTANT]
 > **Current post-D8 operator decision — 2026-08-12.** ADR-0027 / `OD-POST-D8-001` is `ACCEPTED / OPERATOR APPROVED` at `57993f39906ae7266011f6146c9a485d0587d2bf`. A1–A10 remains `STRENGTHENED_FOR_BPV1_SCOPE / STILL_PROVISIONAL`; Final Canon is **deferred**, product runtime remains `FROZEN`, production remains `false`. The only current next gate is `RESIDUAL_A10_VALIDATION_PLAN` for A10-H03, A10-H06, A10-H08, A10-H09, A10-H10, A10-H11, and that gate is **RESEARCH_PLANNING_ONLY** — no residual experiment execution is authorized. Any lower `D6 NEXT`, `D8 IN_PROGRESS`, or `OPERATOR_CANON_RUNTIME_DECISION_REQUIRED` wording is historical chronology, not current truth.

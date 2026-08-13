@@ -51,6 +51,9 @@
           },
           "label": {"type": "string", "minLength": 1},
           "source_reference": {"$ref": "#/$defs/repositoryArtifactReference"},
+          "obligation_id": {
+            "enum": ["H11-O01", "H11-O02", "H11-O03", "H11-O04"]
+          },
           "mechanism_name": {
             "enum": [
               "Python 3.11/3.12",
@@ -75,6 +78,13 @@
               "required": ["node_class"]
             },
             "then": {"required": ["mechanism_name"]}
+          },
+          {
+            "if": {
+              "properties": {"node_class": {"const": "ARCHITECTURE_OBLIGATION"}},
+              "required": ["node_class"]
+            },
+            "then": {"required": ["obligation_id"]}
           }
         ]
       }
