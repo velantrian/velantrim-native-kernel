@@ -347,12 +347,19 @@ def _schema_accepts(schema: Any, instance: Any, *, root: Mapping[str, Any] | Non
     if isinstance(instance, str):
         if len(instance) < schema.get("minLength", 0):
             return False
+        pattern = schema.get("pattern")
+        if pattern is not None:
+            if not isinstance(pattern, str):
+                return False
+            try:
+                if re.search(pattern, instance) is None:
+                    return False
+            except re.error:
+                return False
     if isinstance(instance, (int, float)) and not isinstance(instance, bool):
         if "minimum" in schema and instance < schema["minimum"]:
             return False
         if "maximum" in schema and instance > schema["maximum"]:
-            return False
-        if "pattern" in schema and re.fullmatch(schema["pattern"], instance) is None:
             return False
     if isinstance(instance, list):
         if len(instance) < schema.get("minItems", 0):

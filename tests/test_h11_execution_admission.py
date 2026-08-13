@@ -423,6 +423,17 @@ class H11ExecutionAdmissionTests(unittest.TestCase):
         mutated["allOf"][0]["if"]["not"] = {}
         self.assert_rejected(semantic_schema_override=mutated)
 
+    def test_schema_subset_enforces_string_patterns(self) -> None:
+        commit_schema = {"type": "string", "pattern": "^[0-9a-f]{40}$"}
+        self.assertTrue(validator._schema_accepts(commit_schema, "a" * 40))
+        self.assertFalse(validator._schema_accepts(commit_schema, "not-a-commit"))
+        self.assertFalse(
+            validator._schema_accepts(
+                {"type": "string", "pattern": "["},
+                "invalid-regex-must-fail-closed",
+            )
+        )
+
     def test_unjustified_canon_dependency_cannot_be_removed(self) -> None:
         mutated = copy.deepcopy(self.dependency_schema)
         enum = mutated["properties"]["edges"]["items"]["properties"]["leakage_class"]["enum"]
