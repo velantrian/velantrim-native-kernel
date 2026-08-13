@@ -4,6 +4,18 @@
   "title": "H11 reviewer/reproducer qualification",
   "type": "object",
   "additionalProperties": false,
+  "$defs": {
+    "evidenceReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "artifact_type"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "artifact_type": {"const": "REVIEWER_EVIDENCE"}
+      }
+    }
+  },
   "required": [
     "protocol",
     "experiment_id",
@@ -57,7 +69,8 @@
     },
     "evidence_references": {
       "type": "array",
-      "items": {"type": "string", "minLength": 1}
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/evidenceReference"}
     },
     "qualification_result": {"enum": ["QUALIFIED", "NOT_ESTABLISHED", "DISQUALIFIED"]}
   },
@@ -70,6 +83,8 @@
           "reviewer_identity": {"type": "string", "minLength": 1},
           "reviewer_role": {"enum": ["REVIEWER", "REPRODUCER", "REVIEWER_AND_REPRODUCER"]},
           "authorship_relation": {"const": "NOT_AUTHOR_OF_PREREGISTRATION_OR_FROZEN_RUBRIC"},
+          "custody_relation": {"const": "INDEPENDENT_FOR_DECLARED_SCOPE"},
+          "conflicts": {"maxItems": 0},
           "repository_visibility": {"const": "EVIDENCE_VISIBLE"},
           "independence_basis": {"minItems": 1},
           "evidence_references": {"minItems": 1}

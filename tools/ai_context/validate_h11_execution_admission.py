@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -66,6 +67,33 @@ RAW_OBSERVATION_KINDS = [
     "INDEPENDENCE_EVIDENCE",
     "MISSING_DATA",
 ]
+RAW_OBSERVATION_TYPES = [
+    "DIRECT_MEASUREMENT",
+    "REPOSITORY_INSPECTION",
+    "TOOL_OUTPUT",
+    "DECLARED_MISSING_DATA",
+]
+RAW_PRODUCER_AUTHORITY_CLASSES = [
+    "SUBJECT_IMPLEMENTATION",
+    "CI_RUNNER",
+    "AUTOMATED_VALIDATOR",
+    "REPOSITORY_OBSERVER",
+    "QUALIFYING_INDEPENDENT_REVIEWER",
+    "NON_QUALIFYING_REVIEW_BOT",
+]
+SEMANTIC_VERDICT_TOKENS = frozenset(
+    A10_OUTCOMES + ["PASS", "QUALIFIED", "SUPPORTED"]
+)
+SEMANTIC_VERDICT_KEYS = frozenset(
+    {
+        "adjudication",
+        "h11_outcome",
+        "outcome",
+        "qualification_result",
+        "semantic_judgment",
+        "verdict",
+    }
+)
 MANDATORY_MECHANISMS = [
     "Python 3.11/3.12",
     "PostgreSQL 16/18",
@@ -170,6 +198,300 @@ def _schema_property(schema: Mapping[str, Any], *path: str) -> Any:
     return current
 
 
+def _validate_repository_reference(
+    repo: Path,
+    reference: Any,
+    *,
+    expected_type: str,
+    label: str,
+) -> Path:
+    _require(isinstance(reference, Mapping), f"{label} must be a content-addressed object")
+    _require(
+        set(reference) == {"path", "sha256", "artifact_type"},
+        f"{label} must contain only path, sha256, and artifact_type",
+    )
+    raw_path = reference.get("path")
+    digest = reference.get("sha256")
+    _require(isinstance(raw_path, str) and raw_path, f"{label}.path required")
+    _require(
+        not raw_path.startswith("/") and ".." not in Path(raw_path).parts,
+        f"{label}.path must be repository-relative",
+    )
+    _require(
+        isinstance(digest, str) and re.fullmatch(r"[0-9a-f]{64}", digest) is not None,
+        f"{label}.sha256 must be lowercase SHA-256",
+    )
+    _require(reference.get("artifact_type") == expected_type, f"{label}.artifact_type drift")
+    candidate = (repo / raw_path).resolve()
+    _require(candidate.is_relative_to(repo), f"{label}.path escapes repository")
+    _require(candidate.is_file(), f"{label}.path does not exist: {raw_path}")
+    _require(_sha256(candidate.read_bytes()) == digest, f"{label}.sha256 mismatch: {raw_path}")
+    return candidate
+
+
+def _load_referenced_json(
+    repo: Path,
+    reference: Any,
+    *,
+    expected_type: str,
+    label: str,
+) -> dict[str, Any]:
+    path = _validate_repository_reference(
+        repo,
+        reference,
+        expected_type=expected_type,
+        label=label,
+    )
+    return _load(path, label)
+
+
+def _contains_semantic_verdict(value: Any) -> bool:
+    if isinstance(value, Mapping):
+        for key, item in value.items():
+            if str(key).strip().lower() in SEMANTIC_VERDICT_KEYS:
+                return True
+            if _contains_semantic_verdict(item):
+                return True
+        return False
+    if isinstance(value, list):
+        return any(_contains_semantic_verdict(item) for item in value)
+    if isinstance(value, str):
+        upper = value.upper()
+        return any(
+            re.search(rf"(?<![A-Z0-9_]){re.escape(token)}(?![A-Z0-9_])", upper)
+            for token in SEMANTIC_VERDICT_TOKENS
+        )
+    return False
+
+
+def _validate_reviewer_record(repo: Path, reviewer: Mapping[str, Any]) -> None:
+    required = [
+        "protocol",
+        "experiment_id",
+        "source_plan_id",
+        "source_plan_sha256",
+        "reviewer_identity_status",
+        "reviewer_identity",
+        "reviewer_role",
+        "authorship_relation",
+        "custody_relation",
+        "conflicts",
+        "repository_visibility",
+        "private_implementation_state_used",
+        "independence_basis",
+        "evidence_references",
+        "qualification_result",
+    ]
+    for key in required:
+        _require(key in reviewer, f"reviewer/reproducer qualification record missing: {key}")
+    _require(reviewer.get("protocol") == "nk-h11-reviewer-reproducer-qualification/1", "reviewer record protocol drift")
+    _require(reviewer.get("experiment_id") == EXPERIMENT_ID, "reviewer record experiment drift")
+    _require(
+        reviewer.get("source_plan_id") == PLAN_ID
+        and reviewer.get("source_plan_sha256") == PLAN_SHA256,
+        "reviewer record plan binding drift",
+    )
+    _require(reviewer.get("private_implementation_state_used") is False, "reviewer qualification cannot use private implementation state")
+    conflicts = reviewer.get("conflicts")
+    independence_basis = reviewer.get("independence_basis")
+    evidence_references = reviewer.get("evidence_references")
+    _require(isinstance(conflicts, list), "reviewer conflicts must be an array")
+    _require(isinstance(independence_basis, list), "reviewer independence basis must be an array")
+    _require(isinstance(evidence_references, list), "reviewer evidence references must be an array")
+    for index, reference in enumerate(evidence_references):
+        _validate_repository_reference(
+            repo,
+            reference,
+            expected_type="REVIEWER_EVIDENCE",
+            label=f"reviewer evidence reference {index}",
+        )
+
+    result = reviewer.get("qualification_result")
+    _require(result in {"QUALIFIED", "NOT_ESTABLISHED", "DISQUALIFIED"}, "reviewer qualification result invalid")
+    if result == "QUALIFIED":
+        _require(reviewer.get("reviewer_identity_status") == "ESTABLISHED", "qualified reviewer identity must be established")
+        _require(isinstance(reviewer.get("reviewer_identity"), str) and reviewer.get("reviewer_identity"), "qualified reviewer identity required")
+        _require(reviewer.get("reviewer_role") in {"REVIEWER", "REPRODUCER", "REVIEWER_AND_REPRODUCER"}, "qualified reviewer role invalid")
+        _require(
+            reviewer.get("authorship_relation")
+            == "NOT_AUTHOR_OF_PREREGISTRATION_OR_FROZEN_RUBRIC",
+            "qualified reviewer cannot author the frozen H11 plan or rubric",
+        )
+        _require(
+            reviewer.get("custody_relation") == "INDEPENDENT_FOR_DECLARED_SCOPE",
+            "qualified reviewer custody must be independent for the declared scope",
+        )
+        _require(conflicts == [], "qualified reviewer cannot carry unresolved conflicts")
+        _require(reviewer.get("repository_visibility") == "EVIDENCE_VISIBLE", "qualified reviewer evidence must be repository-visible")
+        _require(bool(independence_basis), "qualified reviewer independence basis required")
+        _require(bool(evidence_references), "qualified reviewer evidence references required")
+
+
+def validate_h11_evidence_bundle(
+    repo: Path,
+    *,
+    dependency_graph: Mapping[str, Any],
+    raw_observations: Mapping[str, Any],
+    semantic_adjudication: Mapping[str, Any],
+    reviewer_record: Mapping[str, Any],
+    semantic_adjudication_path: str,
+) -> None:
+    """Validate a future H11 evidence chain without executing or adjudicating H11.
+
+    This is fail-closed validation machinery only. Tests call it with synthetic fixtures;
+    repository admission remains blocked and no real H11 evidence bundle exists yet.
+    """
+    repo = repo.resolve()
+    _require(dependency_graph.get("protocol") == "nk-h11-dependency-graph/1", "dependency graph protocol drift")
+    _require(raw_observations.get("protocol") == "nk-h11-raw-observations/1", "raw observation protocol drift")
+    _require(semantic_adjudication.get("protocol") == "nk-h11-semantic-adjudication/1", "semantic adjudication protocol drift")
+    for label, record in (
+        ("dependency graph", dependency_graph),
+        ("raw observations", raw_observations),
+        ("semantic adjudication", semantic_adjudication),
+        ("reviewer qualification", reviewer_record),
+    ):
+        _require(record.get("experiment_id") == EXPERIMENT_ID, f"{label} experiment drift")
+        _require(record.get("source_plan_id") == PLAN_ID, f"{label} plan ID drift")
+        _require(record.get("source_plan_sha256") == PLAN_SHA256, f"{label} plan digest drift")
+
+    observations = raw_observations.get("observations")
+    _require(isinstance(observations, list) and observations, "raw observations required")
+    observation_by_id: dict[str, Mapping[str, Any]] = {}
+    for index, observation in enumerate(observations):
+        _require(isinstance(observation, Mapping), f"raw observation {index} must be an object")
+        observation_id = observation.get("observation_id")
+        _require(isinstance(observation_id, str) and observation_id, f"raw observation {index} ID required")
+        _require(observation_id not in observation_by_id, f"duplicate raw observation ID: {observation_id}")
+        _require(observation.get("observation_kind") in RAW_OBSERVATION_KINDS, f"raw observation {observation_id} kind invalid")
+        _require(observation.get("observation_type") in RAW_OBSERVATION_TYPES, f"raw observation {observation_id} type invalid")
+        _require(isinstance(observation.get("producer_identity"), str) and observation.get("producer_identity"), f"raw observation {observation_id} producer identity required")
+        _require(observation.get("producer_authority_class") in RAW_PRODUCER_AUTHORITY_CLASSES, f"raw observation {observation_id} producer authority invalid")
+        _validate_repository_reference(
+            repo,
+            observation.get("source_reference"),
+            expected_type="REPOSITORY_SOURCE",
+            label=f"raw observation {observation_id} source",
+        )
+        _require(observation.get("repository_visible") is True, f"raw observation {observation_id} is not repository-visible")
+        _require(not _contains_semantic_verdict(observation.get("fact")), f"raw observation {observation_id} contains a semantic verdict")
+        _require(not _contains_semantic_verdict(observation.get("structured_value")), f"raw observation {observation_id} structured value contains a semantic verdict")
+        observation_by_id[observation_id] = observation
+
+    nodes = dependency_graph.get("nodes")
+    edges = dependency_graph.get("edges")
+    covered = dependency_graph.get("mandatory_profile_mechanisms_covered")
+    _require(isinstance(nodes, list) and nodes, "dependency graph nodes required")
+    _require(isinstance(edges, list) and edges, "dependency graph edges required")
+    _require(isinstance(covered, list), "dependency graph coverage inventory required")
+    _require(len(covered) == len(MANDATORY_MECHANISMS) and set(covered) == set(MANDATORY_MECHANISMS), "dependency graph must cover exactly all mandatory mechanisms")
+
+    node_by_id: dict[str, Mapping[str, Any]] = {}
+    profile_nodes: dict[str, list[str]] = {mechanism: [] for mechanism in MANDATORY_MECHANISMS}
+    for index, node in enumerate(nodes):
+        _require(isinstance(node, Mapping), f"dependency node {index} must be an object")
+        node_id = node.get("node_id")
+        _require(isinstance(node_id, str) and node_id, f"dependency node {index} ID required")
+        _require(node_id not in node_by_id, f"duplicate dependency node ID: {node_id}")
+        _require(node.get("node_class") in NODE_CLASSES, f"dependency node {node_id} class invalid")
+        _validate_repository_reference(
+            repo,
+            node.get("source_reference"),
+            expected_type="REPOSITORY_SOURCE",
+            label=f"dependency node {node_id} source",
+        )
+        if node.get("node_class") == "PROFILE_MECHANISM":
+            mechanism = node.get("mechanism_name")
+            _require(mechanism in profile_nodes, f"dependency node {node_id} mechanism invalid")
+            profile_nodes[str(mechanism)].append(node_id)
+        node_by_id[node_id] = node
+
+    connected_nodes: set[str] = set()
+    edge_ids: set[str] = set()
+    unjustified_count = 0
+    unjustified_profile_mechanisms: set[str] = set()
+    for index, edge in enumerate(edges):
+        _require(isinstance(edge, Mapping), f"dependency edge {index} must be an object")
+        edge_id = edge.get("edge_id")
+        _require(isinstance(edge_id, str) and edge_id, f"dependency edge {index} ID required")
+        _require(edge_id not in edge_ids, f"duplicate dependency edge ID: {edge_id}")
+        edge_ids.add(edge_id)
+        from_id = edge.get("from")
+        to_id = edge.get("to")
+        _require(from_id in node_by_id and to_id in node_by_id, f"dependency edge {edge_id} endpoint missing")
+        connected_nodes.update((str(from_id), str(to_id)))
+        _require(edge.get("edge_class") in EDGE_CLASSES, f"dependency edge {edge_id} class invalid")
+        leakage_class = edge.get("leakage_class")
+        _require(leakage_class in LEAKAGE_CLASSES, f"dependency edge {edge_id} leakage class invalid")
+        if leakage_class == "UNJUSTIFIED_CANON_DEPENDENCY":
+            unjustified_count += 1
+            implicated_mechanisms = {
+                str(node_by_id[node_id]["mechanism_name"])
+                for node_id in (from_id, to_id)
+                if node_by_id[node_id].get("node_class") == "PROFILE_MECHANISM"
+            }
+            _require(
+                implicated_mechanisms,
+                f"unjustified dependency edge {edge_id} must implicate a PROFILE_MECHANISM",
+            )
+            unjustified_profile_mechanisms.update(implicated_mechanisms)
+        raw_refs = edge.get("raw_observation_refs")
+        _require(isinstance(raw_refs, list) and raw_refs, f"dependency edge {edge_id} raw evidence required")
+        _require(len(raw_refs) == len(set(raw_refs)), f"dependency edge {edge_id} raw refs must be unique")
+        for observation_id in raw_refs:
+            _require(observation_id in observation_by_id, f"dependency edge {edge_id} references missing raw observation: {observation_id}")
+            observation = observation_by_id[str(observation_id)]
+            _require(
+                observation.get("observation_kind") == "DEPENDENCY_EDGE",
+                f"dependency edge {edge_id} raw reference {observation_id} is not DEPENDENCY_EDGE evidence",
+            )
+            binding = observation.get("structured_value")
+            _require(
+                isinstance(binding, Mapping)
+                and binding.get("edge_id") == edge_id
+                and binding.get("from") == from_id
+                and binding.get("to") == to_id,
+                f"dependency edge {edge_id} raw reference {observation_id} is not bound to the exact edge",
+            )
+
+    for mechanism, mechanism_nodes in profile_nodes.items():
+        _require(len(mechanism_nodes) == 1, f"covered mechanism {mechanism!r} must have exactly one PROFILE_MECHANISM node")
+        _require(mechanism_nodes[0] in connected_nodes, f"covered mechanism {mechanism!r} has no dependency edge")
+
+    _validate_reviewer_record(repo, reviewer_record)
+    raw_ref = semantic_adjudication.get("raw_observation_record")
+    graph_ref = semantic_adjudication.get("dependency_graph_record")
+    reviewer_ref = semantic_adjudication.get("reviewer_reproducer_qualification_record")
+    references = [raw_ref, graph_ref, reviewer_ref]
+    reference_paths = [reference.get("path") if isinstance(reference, Mapping) else None for reference in references]
+    _require(len(set(reference_paths)) == 3 and None not in reference_paths, "semantic input artifacts must be three distinct paths")
+    _require(semantic_adjudication_path not in reference_paths, "semantic adjudication cannot reference itself as an input")
+    _require(
+        _load_referenced_json(repo, raw_ref, expected_type="RAW_OBSERVATIONS", label="semantic raw input") == dict(raw_observations),
+        "semantic raw input does not match supplied raw observations",
+    )
+    _require(
+        _load_referenced_json(repo, graph_ref, expected_type="DEPENDENCY_GRAPH", label="semantic dependency input") == dict(dependency_graph),
+        "semantic dependency input does not match supplied graph",
+    )
+    _require(
+        _load_referenced_json(repo, reviewer_ref, expected_type="REVIEWER_QUALIFICATION", label="semantic reviewer input") == dict(reviewer_record),
+        "semantic reviewer input does not match supplied qualification",
+    )
+    _require(semantic_adjudication.get("input_policy") == "REPOSITORY_VISIBLE_FROZEN_INPUTS_ONLY", "semantic input policy drift")
+    _require(semantic_adjudication.get("subject_private_state_used") is False, "semantic adjudication cannot use private subject state")
+    _require(reviewer_record.get("qualification_result") == "QUALIFIED", "semantic adjudication requires a qualifying independent reviewer")
+    _require(semantic_adjudication.get("independence_qualified") is True, "semantic adjudication independence must be qualified")
+    _require(semantic_adjudication.get("unjustified_canon_dependency_count") == unjustified_count, "semantic unjustified dependency count does not match graph")
+    _require(
+        semantic_adjudication.get("mandatory_profile_leakage_count") == len(unjustified_profile_mechanisms),
+        "semantic mandatory-profile leakage count does not match implicated mechanisms",
+    )
+    if semantic_adjudication.get("outcome") == "SUPPORTED_FOR_SCOPE":
+        _require(unjustified_count == 0, "SUPPORTED_FOR_SCOPE cannot contain UNJUSTIFIED_CANON_DEPENDENCY")
+        _require(semantic_adjudication.get("mandatory_profile_leakage_count") == 0, "SUPPORTED_FOR_SCOPE requires zero mandatory profile leakage")
+
+
 def validate(
     repo: Path,
     *,
@@ -262,6 +584,15 @@ def validate(
     _require(mechanism_spec.get("minItems") == 12 and mechanism_spec.get("maxItems") == 12, "dependency graph must require all 12 profile mechanisms")
     _require(mechanism_spec.get("uniqueItems") is True, "dependency graph mechanism coverage must be unique")
     _require(mechanism_spec.get("items", {}).get("enum") == MANDATORY_MECHANISMS, "dependency graph mechanism inventory drift")
+    _require(dep_props.get("edges", {}).get("minItems") == 1, "dependency graph must require at least one evidence-bearing edge")
+    node_props = _schema_property(dep_props, "nodes", "items", "properties")
+    _require(node_props.get("source_reference", {}).get("$ref") == "#/$defs/repositoryArtifactReference", "dependency nodes require content-addressed repository sources")
+    _require(node_props.get("mechanism_name", {}).get("enum") == MANDATORY_MECHANISMS, "profile mechanism node inventory drift")
+    node_rules = _schema_property(dep_props, "nodes", "items", "allOf")
+    _require(isinstance(node_rules, list) and node_rules, "PROFILE_MECHANISM nodes must conditionally require mechanism_name")
+    node_rule_text = json.dumps(node_rules, sort_keys=True)
+    _require('"PROFILE_MECHANISM"' in node_rule_text, "PROFILE_MECHANISM condition drift")
+    _require('"then": {"required": ["mechanism_name"]}' in node_rule_text, "PROFILE_MECHANISM must require mechanism_name")
 
     raw_schema = _choose(raw_schema_override, repo / RAW_SCHEMA_PATH, "H11 raw observation schema")
     _require(raw_schema.get("$id") == "nk-h11-raw-observations/1", "raw observation protocol drift")
@@ -274,6 +605,29 @@ def validate(
     )
     raw_kinds = _schema_property(raw_props, "observations", "items", "properties", "observation_kind", "enum")
     _require(raw_kinds == RAW_OBSERVATION_KINDS, "raw observation kind inventory drift")
+    raw_item = _schema_property(raw_props, "observations", "items")
+    raw_required = raw_item.get("required", [])
+    for required_field in (
+        "observation_type",
+        "producer_identity",
+        "producer_authority_class",
+        "source_reference",
+        "repository_visible",
+    ):
+        _require(required_field in raw_required, f"raw observation missing required provenance field: {required_field}")
+    raw_item_props = raw_item.get("properties", {})
+    _require(raw_item_props.get("observation_type", {}).get("enum") == RAW_OBSERVATION_TYPES, "raw observation type inventory drift")
+    _require(raw_item_props.get("producer_authority_class", {}).get("enum") == RAW_PRODUCER_AUTHORITY_CLASSES, "raw producer authority inventory drift")
+    _require(raw_item_props.get("source_reference", {}).get("$ref") == "#/$defs/repositoryArtifactReference", "raw observations require content-addressed sources")
+    raw_item_rules = raw_item.get("allOf")
+    _require(isinstance(raw_item_rules, list) and raw_item_rules, "dependency-edge observations require structured edge binding")
+    raw_rule_text = json.dumps(raw_item_rules, sort_keys=True)
+    for required_literal in (
+        '"DEPENDENCY_EDGE"',
+        '"required": ["structured_value"]',
+        '"required": ["edge_id", "from", "to"]',
+    ):
+        _require(required_literal in raw_rule_text, f"dependency-edge raw binding invariant missing: {required_literal}")
     _require(
         not _contains_key(raw_schema, {"outcome", "h11_outcome", "semantic_judgment", "adjudication"}),
         "raw observation schema must not contain final H11 semantic judgment fields",
@@ -305,9 +659,38 @@ def validate(
         "dependency_graph_record",
         "reviewer_reproducer_qualification_record",
         "subject_private_state_used",
+        "mandatory_profile_leakage_count",
+        "unjustified_canon_dependency_count",
+        "independence_qualified",
         "outcome",
     ):
         _require(required_field in sem_required, f"semantic adjudication missing required field: {required_field}")
+    semantic_types = {
+        "raw_observation_record": "RAW_OBSERVATIONS",
+        "dependency_graph_record": "DEPENDENCY_GRAPH",
+        "reviewer_reproducer_qualification_record": "REVIEWER_QUALIFICATION",
+    }
+    for field, artifact_type in semantic_types.items():
+        spec = sem_props.get(field, {})
+        _require(isinstance(spec.get("allOf"), list), f"semantic {field} must be a structured artifact reference")
+        _require(
+            any(
+                isinstance(rule, Mapping)
+                and rule.get("properties", {}).get("artifact_type", {}).get("const") == artifact_type
+                for rule in spec["allOf"]
+            ),
+            f"semantic {field} artifact type drift",
+        )
+    support_rules = semantic_schema.get("allOf")
+    _require(isinstance(support_rules, list) and support_rules, "semantic support outcome must have conditional invariants")
+    support_rule_text = json.dumps(support_rules, sort_keys=True)
+    for required_literal in (
+        '"SUPPORTED_FOR_SCOPE"',
+        '"independence_qualified": {"const": true}',
+        '"mandatory_profile_leakage_count": {"const": 0}',
+        '"unjustified_canon_dependency_count": {"const": 0}',
+    ):
+        _require(required_literal in support_rule_text, f"semantic support invariant missing: {required_literal}")
 
     reviewer_schema = _choose(
         reviewer_schema_override,
@@ -323,37 +706,26 @@ def validate(
         reviewer_schema_props.get("qualification_result", {}).get("enum") == ["QUALIFIED", "NOT_ESTABLISHED", "DISQUALIFIED"],
         "reviewer qualification result vocabulary drift",
     )
+    evidence_items = reviewer_schema_props.get("evidence_references", {}).get("items", {})
+    _require(evidence_items.get("$ref") == "#/$defs/evidenceReference", "reviewer evidence must be content-addressed")
+    reviewer_rules = reviewer_schema.get("allOf")
+    _require(isinstance(reviewer_rules, list) and reviewer_rules, "qualified reviewer conditional constraints required")
+    reviewer_rule_text = json.dumps(reviewer_rules, sort_keys=True)
+    for required_literal in (
+        '"custody_relation": {"const": "INDEPENDENT_FOR_DECLARED_SCOPE"}',
+        '"conflicts": {"maxItems": 0}',
+        '"evidence_references": {"minItems": 1}',
+    ):
+        _require(required_literal in reviewer_rule_text, f"qualified reviewer invariant missing: {required_literal}")
 
     reviewer = _choose(reviewer_override, repo / REVIEWER_RECORD_PATH, "H11 reviewer/reproducer qualification record")
-    reviewer_required = [
-        "protocol",
-        "experiment_id",
-        "source_plan_id",
-        "source_plan_sha256",
-        "reviewer_identity_status",
-        "reviewer_identity",
-        "reviewer_role",
-        "authorship_relation",
-        "custody_relation",
-        "conflicts",
-        "repository_visibility",
-        "private_implementation_state_used",
-        "independence_basis",
-        "evidence_references",
-        "qualification_result",
-    ]
-    for key in reviewer_required:
-        _require(key in reviewer, f"reviewer/reproducer qualification record missing: {key}")
-    _require(reviewer.get("protocol") == "nk-h11-reviewer-reproducer-qualification/1", "reviewer record protocol drift")
-    _require(reviewer.get("source_plan_id") == PLAN_ID and reviewer.get("source_plan_sha256") == PLAN_SHA256, "reviewer record plan binding drift")
-    _require(reviewer.get("reviewer_identity_status") == "NOT_ESTABLISHED", "blocked admission cannot fabricate an established reviewer identity")
-    _require(reviewer.get("reviewer_identity") is None, "blocked admission must not invent reviewer identity")
-    _require(reviewer.get("reviewer_role") == "NOT_ESTABLISHED", "blocked admission reviewer role must remain unestablished")
-    _require(reviewer.get("authorship_relation") == "UNKNOWN", "authorship relation cannot be asserted without reviewer identity")
-    _require(reviewer.get("custody_relation") == "UNKNOWN", "custody relation cannot be asserted without reviewer identity")
-    _require(reviewer.get("repository_visibility") == "NO_QUALIFYING_EVIDENCE_VISIBLE", "blocked reviewer record repository visibility drift")
-    _require(reviewer.get("private_implementation_state_used") is False, "reviewer qualification cannot use private implementation state")
-    _require(reviewer.get("independence_basis") == [], "blocked admission must not fabricate an independence basis")
+    _validate_reviewer_record(repo, reviewer)
+    _require(reviewer.get("reviewer_identity_status") == "ESTABLISHED", "substantive Codex reviewer identity reconciliation drift")
+    _require(reviewer.get("reviewer_identity") == "OpenAI GPT-5.6 Sol / Codex review agent", "Codex reviewer identity drift")
+    _require(reviewer.get("reviewer_role") == "REVIEWER", "Codex reviewer role drift")
+    _require(reviewer.get("authorship_relation") == "NOT_AUTHOR_OF_PREREGISTRATION_OR_FROZEN_RUBRIC", "Codex reviewer authorship disclosure drift")
+    _require(reviewer.get("custody_relation") == "SHARED_CUSTODY_DISCLOSED", "Codex review shared-custody disclosure drift")
+    _require(reviewer.get("repository_visibility") == "EVIDENCE_VISIBLE", "Codex review evidence visibility drift")
     _require(reviewer.get("qualification_result") == "NOT_ESTABLISHED", "blocked admission cannot self-declare reviewer qualification")
 
     admission = _choose(admission_override, repo / ADMISSION_PATH, "H11 execution admission record")

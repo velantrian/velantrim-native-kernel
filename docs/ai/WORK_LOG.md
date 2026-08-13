@@ -4,6 +4,44 @@ Re-verify exact SHAs, live issue state, runs and artifacts before treating an en
 
 ---
 
+## 2026-08-13 — H11 evidence-contract hardening after PR #131 review
+
+```text
+Repository baseline:           main@5e6042af44c8a12b71f02cc6e43cbf591f6f49a9
+Open review surface:           PR #131 · head 61f02f7eb3f6c3903fa5662358690457bba4fb9e
+Substantive Codex review:      4923945680 · COMMENTED
+Reviewer qualification:        NOT_ESTABLISHED_FOR_H11_REVIEW_ROLE
+Review findings:               6 · all P1 · unresolved on PR #131
+Candidate classification:      VALIDATION MACHINERY HARDENING ONLY
+Frozen plan bytes/SHA:         UNCHANGED
+H11 execution:                 NOT AUTHORIZED / NOT PERFORMED
+H11 outcome:                   NOT_TESTED
+Runtime expansion:             FROZEN
+Final Canon:                   DEFERRED / NOT AUTHORIZED
+Production:                    false
+Documentation impact:          GITHUB_AND_NOTION
+Notion:                        bounded sync pending stable PR checkpoint; no new pages
+```
+
+Captured the substantive Codex review and all six exact GitHub thread URLs in a
+repository-visible reconciliation record. The reviewer used repository-visible inputs
+and disclosed no private implementation state, but shared Codex custody and organizational
+self-review separation remain unestablished; the qualification record therefore remains
+`NOT_ESTABLISHED`, not `QUALIFIED`.
+
+The candidate strengthens the four H11 schemas and the admission validator without
+editing `H11_PREREGISTRATION.json`: graph coverage must be backed by concrete nodes,
+edges, raw observations and content-addressed sources; qualified reviewers need
+independent custody, zero conflicts and verified evidence; support is conditional on
+qualified independence and zero leakage/hard-failure edges; semantic inputs must be
+distinct existing digest-bound artifacts; private observations and semantic verdicts in
+raw payloads fail closed. Synthetic negative fixtures exercise each review finding but do
+not construct or execute the real H11 experiment.
+
+Independent review and exact-head CI are still required. Even a successful merge leaves
+execution admission blocked until a genuinely qualifying reviewer/reproducer is recorded
+and admission is separately reassessed.
+
 ## 2026-08-09 — A2 Knowledge and Memory Ontology (second blueprint content slice)
 
 ```text

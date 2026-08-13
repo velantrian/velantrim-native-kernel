@@ -4,6 +4,18 @@
   "title": "H11 raw observations",
   "type": "object",
   "additionalProperties": false,
+  "$defs": {
+    "repositoryArtifactReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "artifact_type"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "artifact_type": {"const": "REPOSITORY_SOURCE"}
+      }
+    }
+  },
   "required": [
     "protocol",
     "experiment_id",
@@ -21,12 +33,16 @@
     "observation_layer": {"const": "RAW_FACTS_ONLY_NO_H11_SEMANTIC_JUDGMENT"},
     "observations": {
       "type": "array",
+      "minItems": 1,
       "items": {
         "type": "object",
         "additionalProperties": false,
         "required": [
           "observation_id",
           "observation_kind",
+          "observation_type",
+          "producer_identity",
+          "producer_authority_class",
           "source_reference",
           "repository_visible",
           "fact"
@@ -46,14 +62,55 @@
               "MISSING_DATA"
             ]
           },
-          "source_reference": {"type": "string", "minLength": 1},
+          "observation_type": {
+            "enum": [
+              "DIRECT_MEASUREMENT",
+              "REPOSITORY_INSPECTION",
+              "TOOL_OUTPUT",
+              "DECLARED_MISSING_DATA"
+            ]
+          },
+          "producer_identity": {"type": "string", "minLength": 1},
+          "producer_authority_class": {
+            "enum": [
+              "SUBJECT_IMPLEMENTATION",
+              "CI_RUNNER",
+              "AUTOMATED_VALIDATOR",
+              "REPOSITORY_OBSERVER",
+              "QUALIFYING_INDEPENDENT_REVIEWER",
+              "NON_QUALIFYING_REVIEW_BOT"
+            ]
+          },
+          "source_reference": {"$ref": "#/$defs/repositoryArtifactReference"},
           "repository_visible": {"type": "boolean"},
           "fact": {"type": "string", "minLength": 1},
           "structured_value": {
             "type": ["object", "array", "string", "number", "integer", "boolean", "null"]
           },
           "notes": {"type": "string"}
-        }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {"observation_kind": {"const": "DEPENDENCY_EDGE"}},
+              "required": ["observation_kind"]
+            },
+            "then": {
+              "required": ["structured_value"],
+              "properties": {
+                "structured_value": {
+                  "type": "object",
+                  "required": ["edge_id", "from", "to"],
+                  "properties": {
+                    "edge_id": {"type": "string", "minLength": 1},
+                    "from": {"type": "string", "minLength": 1},
+                    "to": {"type": "string", "minLength": 1}
+                  }
+                }
+              }
+            }
+          }
+        ]
       }
     },
     "missing_data": {

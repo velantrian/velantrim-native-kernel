@@ -1,0 +1,78 @@
+{
+  "protocol": "nk-h11-pr131-codex-review-reconciliation/1",
+  "captured_at": "2026-08-13T09:25:21+02:00",
+  "repository": "velantrian/velantrim-native-kernel",
+  "pull_request": 131,
+  "pull_request_url": "https://github.com/velantrian/velantrim-native-kernel/pull/131",
+  "review_id": 4923945680,
+  "reviewed_head": "61f02f7eb3f6c3903fa5662358690457bba4fb9e",
+  "immutable_review_subject": "e36b7f45410d74b8a65406bff6fdd6d070fa96b0",
+  "frozen_plan_id": "H11-001-c5-lab-canon-separation-v1",
+  "frozen_plan_sha256": "60da649e675b79b3e70bf8a61cf03cb4d57bb989f4934b65ab8d50c925b19914",
+  "review_state": "COMMENTED",
+  "reviewer_disclosure": {
+    "identity": "OpenAI GPT-5.6 Sol / Codex review agent",
+    "role": "REVIEWER",
+    "authorship_relation": "NOT_AUTHOR_OF_PREREGISTRATION_OR_FROZEN_RUBRIC",
+    "custody_relation": "SHARED_CUSTODY_DISCLOSED",
+    "conflicts": [
+      "CODEX_REVIEW_OF_CODEX_AUTHORED_REQUEST",
+      "ORGANIZATIONAL_INDEPENDENCE_NOT_ESTABLISHED"
+    ],
+    "input_boundary": "REPOSITORY_VISIBLE_FROZEN_INPUTS_ONLY",
+    "private_implementation_state_used": false,
+    "qualification_conclusion": "NOT_ESTABLISHED_FOR_H11_REVIEW_ROLE"
+  },
+  "findings": [
+    {
+      "finding_id": "H11-P1-DEPENDENCY-COVERAGE",
+      "priority": "P1",
+      "status_at_capture": "OPEN_UNRESOLVED",
+      "title": "Bind every declared mechanism to graph evidence",
+      "thread_url": "https://github.com/velantrian/velantrim-native-kernel/pull/131#discussion_r3772869227"
+    },
+    {
+      "finding_id": "H11-P1-QUALIFICATION-SELF-REVIEW",
+      "priority": "P1",
+      "status_at_capture": "OPEN_UNRESOLVED",
+      "title": "Reject self-reviewed qualification records",
+      "thread_url": "https://github.com/velantrian/velantrim-native-kernel/pull/131#discussion_r3772869231"
+    },
+    {
+      "finding_id": "H11-P1-SUPPORT-INVARIANT",
+      "priority": "P1",
+      "status_at_capture": "OPEN_UNRESOLVED",
+      "title": "Enforce the support threshold as a schema invariant",
+      "thread_url": "https://github.com/velantrian/velantrim-native-kernel/pull/131#discussion_r3772869234"
+    },
+    {
+      "finding_id": "H11-P1-ARTIFACT-SEPARATION",
+      "priority": "P1",
+      "status_at_capture": "OPEN_UNRESOLVED",
+      "title": "Keep raw and adjudication records verifiably distinct",
+      "thread_url": "https://github.com/velantrian/velantrim-native-kernel/pull/131#discussion_r3772869239"
+    },
+    {
+      "finding_id": "H11-P1-REPOSITORY-VISIBILITY",
+      "priority": "P1",
+      "status_at_capture": "OPEN_UNRESOLVED",
+      "title": "Reject non-repository inputs from semantic adjudication",
+      "thread_url": "https://github.com/velantrian/velantrim-native-kernel/pull/131#discussion_r3772869240"
+    },
+    {
+      "finding_id": "H11-P1-RAW-SEMANTIC-SELF-REPORT",
+      "priority": "P1",
+      "status_at_capture": "OPEN_UNRESOLVED",
+      "title": "Block semantic self-reports in raw observation payloads",
+      "thread_url": "https://github.com/velantrian/velantrim-native-kernel/pull/131#discussion_r3772869244"
+    }
+  ],
+  "qualification_effect": "NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER_ESTABLISHED",
+  "execution_admission": "BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER",
+  "h11_outcome": "NOT_TESTED",
+  "implementation_authorized": false,
+  "execution_authorized": false,
+  "runtime_expansion": "FROZEN",
+  "final_canon": "DEFERRED / NOT_AUTHORIZED",
+  "production_authorized": false
+}

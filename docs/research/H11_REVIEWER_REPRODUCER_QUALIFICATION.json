@@ -3,20 +3,27 @@
   "experiment_id": "H11-001",
   "source_plan_id": "H11-001-c5-lab-canon-separation-v1",
   "source_plan_sha256": "60da649e675b79b3e70bf8a61cf03cb4d57bb989f4934b65ab8d50c925b19914",
-  "reviewer_identity_status": "NOT_ESTABLISHED",
-  "reviewer_identity": null,
-  "reviewer_role": "NOT_ESTABLISHED",
-  "authorship_relation": "UNKNOWN",
-  "custody_relation": "UNKNOWN",
+  "reviewer_identity_status": "ESTABLISHED",
+  "reviewer_identity": "OpenAI GPT-5.6 Sol / Codex review agent",
+  "reviewer_role": "REVIEWER",
+  "authorship_relation": "NOT_AUTHOR_OF_PREREGISTRATION_OR_FROZEN_RUBRIC",
+  "custody_relation": "SHARED_CUSTODY_DISCLOSED",
   "conflicts": [
-    "NOT_ASSESSABLE_WITHOUT_ESTABLISHED_REVIEWER_IDENTITY"
+    "CODEX_REVIEW_OF_CODEX_AUTHORED_REQUEST",
+    "ORGANIZATIONAL_INDEPENDENCE_NOT_ESTABLISHED"
   ],
-  "repository_visibility": "NO_QUALIFYING_EVIDENCE_VISIBLE",
+  "repository_visibility": "EVIDENCE_VISIBLE",
   "private_implementation_state_used": false,
-  "independence_basis": [],
+  "independence_basis": [
+    "REPOSITORY_VISIBLE_FROZEN_INPUTS_ONLY",
+    "NOT_AUTHOR_OF_PREREGISTRATION_OR_FROZEN_RUBRIC"
+  ],
   "evidence_references": [
-    "docs/research/H11_PREREGISTRATION.json#reviewer_reproducer_independence_basis",
-    "project-state.json#tracks.long_horizon_research.post_blueprint_validation.residual_a10_validation_plan.h11_preregistration"
+    {
+      "path": "docs/research/H11_PR131_CODEX_REVIEW_RECONCILIATION.json",
+      "sha256": "43fe62d3ce3312376aa39d73fdb55272a64e0726572666b9929dbe822085e4ac",
+      "artifact_type": "REVIEWER_EVIDENCE"
+    }
   ],
   "qualification_result": "NOT_ESTABLISHED"
 }

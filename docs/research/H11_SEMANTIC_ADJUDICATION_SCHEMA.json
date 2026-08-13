@@ -4,6 +4,24 @@
   "title": "H11 semantic adjudication",
   "type": "object",
   "additionalProperties": false,
+  "$defs": {
+    "artifactReference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "artifact_type"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "artifact_type": {
+          "enum": [
+            "RAW_OBSERVATIONS",
+            "DEPENDENCY_GRAPH",
+            "REVIEWER_QUALIFICATION"
+          ]
+        }
+      }
+    }
+  },
   "required": [
     "protocol",
     "experiment_id",
@@ -17,6 +35,7 @@
     "leakage_rubric",
     "hard_refutation",
     "mandatory_profile_leakage_count",
+    "unjustified_canon_dependency_count",
     "independence_qualified",
     "outcome",
     "rationale"
@@ -27,9 +46,24 @@
     "source_plan_id": {"const": "H11-001-c5-lab-canon-separation-v1"},
     "source_plan_sha256": {"const": "60da649e675b79b3e70bf8a61cf03cb4d57bb989f4934b65ab8d50c925b19914"},
     "input_policy": {"const": "REPOSITORY_VISIBLE_FROZEN_INPUTS_ONLY"},
-    "raw_observation_record": {"type": "string", "minLength": 1},
-    "dependency_graph_record": {"type": "string", "minLength": 1},
-    "reviewer_reproducer_qualification_record": {"type": "string", "minLength": 1},
+    "raw_observation_record": {
+      "allOf": [
+        {"$ref": "#/$defs/artifactReference"},
+        {"properties": {"artifact_type": {"const": "RAW_OBSERVATIONS"}}}
+      ]
+    },
+    "dependency_graph_record": {
+      "allOf": [
+        {"$ref": "#/$defs/artifactReference"},
+        {"properties": {"artifact_type": {"const": "DEPENDENCY_GRAPH"}}}
+      ]
+    },
+    "reviewer_reproducer_qualification_record": {
+      "allOf": [
+        {"$ref": "#/$defs/artifactReference"},
+        {"properties": {"artifact_type": {"const": "REVIEWER_QUALIFICATION"}}}
+      ]
+    },
     "subject_private_state_used": {"const": false},
     "leakage_rubric": {
       "type": "object",
@@ -54,6 +88,7 @@
       "const": "Within this preregistered scope, a necessary accepted Architecture obligation cannot remain reproducible/testable unless a profile-specific C5 laboratory mechanism is elevated into universal Architecture solely because historical C5 evidence reproduction depends on that mechanism."
     },
     "mandatory_profile_leakage_count": {"type": "integer", "minimum": 0},
+    "unjustified_canon_dependency_count": {"type": "integer", "minimum": 0},
     "independence_qualified": {"type": "boolean"},
     "outcome": {
       "enum": [
@@ -69,5 +104,20 @@
       "type": "array",
       "items": {"type": "string", "minLength": 1}
     }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {"outcome": {"const": "SUPPORTED_FOR_SCOPE"}},
+        "required": ["outcome"]
+      },
+      "then": {
+        "properties": {
+          "independence_qualified": {"const": true},
+          "mandatory_profile_leakage_count": {"const": 0},
+          "unjustified_canon_dependency_count": {"const": 0}
+        }
+      }
+    }
+  ]
 }
