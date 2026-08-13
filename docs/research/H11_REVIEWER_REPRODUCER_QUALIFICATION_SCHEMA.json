@@ -8,11 +8,29 @@
     "evidenceReference": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["path", "sha256", "artifact_type"],
+      "required": ["path", "sha256", "artifact_type", "git_commit"],
       "properties": {
         "path": {"type": "string", "minLength": 1},
         "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
-        "artifact_type": {"const": "REVIEWER_EVIDENCE"}
+        "artifact_type": {"const": "REVIEWER_EVIDENCE"},
+        "git_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"}
+      }
+    },
+    "independenceBasis": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["basis_type", "evidence_reference"],
+      "properties": {
+        "basis_type": {
+          "enum": [
+            "ORGANIZATIONAL_SEPARATION",
+            "INDEPENDENT_EVIDENCE_CUSTODY",
+            "NON_AUTHORSHIP",
+            "CONFLICT_SCREEN",
+            "PRIVATE_STATE_EXCLUSION"
+          ]
+        },
+        "evidence_reference": {"$ref": "#/$defs/evidenceReference"}
       }
     }
   },
@@ -65,7 +83,12 @@
     "private_implementation_state_used": {"const": false},
     "independence_basis": {
       "type": "array",
-      "items": {"type": "string", "minLength": 1}
+      "items": {
+        "oneOf": [
+          {"type": "string", "minLength": 1},
+          {"$ref": "#/$defs/independenceBasis"}
+        ]
+      }
     },
     "evidence_references": {
       "type": "array",
@@ -86,7 +109,29 @@
           "custody_relation": {"const": "INDEPENDENT_FOR_DECLARED_SCOPE"},
           "conflicts": {"maxItems": 0},
           "repository_visibility": {"const": "EVIDENCE_VISIBLE"},
-          "independence_basis": {"minItems": 1},
+          "independence_basis": {
+            "minItems": 2,
+            "uniqueItems": true,
+            "items": {"$ref": "#/$defs/independenceBasis"},
+            "allOf": [
+              {
+                "contains": {
+                  "type": "object",
+                  "properties": {"basis_type": {"const": "ORGANIZATIONAL_SEPARATION"}},
+                  "required": ["basis_type"]
+                },
+                "minContains": 1
+              },
+              {
+                "contains": {
+                  "type": "object",
+                  "properties": {"basis_type": {"const": "INDEPENDENT_EVIDENCE_CUSTODY"}},
+                  "required": ["basis_type"]
+                },
+                "minContains": 1
+              }
+            ]
+          },
           "evidence_references": {"minItems": 1}
         }
       }

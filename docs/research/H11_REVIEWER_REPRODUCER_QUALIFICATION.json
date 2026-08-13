@@ -22,7 +22,8 @@
     {
       "path": "docs/research/H11_PR131_CODEX_REVIEW_RECONCILIATION.json",
       "sha256": "43fe62d3ce3312376aa39d73fdb55272a64e0726572666b9929dbe822085e4ac",
-      "artifact_type": "REVIEWER_EVIDENCE"
+      "artifact_type": "REVIEWER_EVIDENCE",
+      "git_commit": "7bb05b5a42acfb7ab37b3f20a3936959e27ed64c"
     }
   ],
   "qualification_result": "NOT_ESTABLISHED"

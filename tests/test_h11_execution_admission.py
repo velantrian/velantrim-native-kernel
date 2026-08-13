@@ -4,6 +4,7 @@ import copy
 import hashlib
 import importlib.util
 import json
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -31,26 +32,64 @@ def _load(path: str) -> dict:
     return json.loads((ROOT / path).read_text(encoding="utf-8"))
 
 
+def _evidence_schemas() -> dict[str, dict]:
+    return {
+        "dependency_schema": _load("docs/research/H11_DEPENDENCY_GRAPH_SCHEMA.json"),
+        "raw_schema": _load("docs/research/H11_RAW_OBSERVATION_SCHEMA.json"),
+        "semantic_schema": _load("docs/research/H11_SEMANTIC_ADJUDICATION_SCHEMA.json"),
+        "reviewer_schema": _load("docs/research/H11_REVIEWER_REPRODUCER_QUALIFICATION_SCHEMA.json"),
+    }
+
+
 def _write_json(root: Path, relative: str, value: dict, artifact_type: str) -> dict:
     path = root / relative
     path.parent.mkdir(parents=True, exist_ok=True)
     payload = json.dumps(value, ensure_ascii=False, indent=2, sort_keys=True) + "\n"
     path.write_text(payload, encoding="utf-8")
+    subprocess.run(["git", "-C", str(root), "add", relative], check=True)
+    subprocess.run(
+        ["git", "-C", str(root), "commit", "-m", f"fixture: add {relative}"],
+        check=True,
+        capture_output=True,
+    )
+    git_commit = subprocess.run(
+        ["git", "-C", str(root), "rev-parse", "HEAD"],
+        check=True,
+        capture_output=True,
+        text=True,
+    ).stdout.strip()
     return {
         "path": relative,
         "sha256": hashlib.sha256(payload.encode("utf-8")).hexdigest(),
         "artifact_type": artifact_type,
+        "git_commit": git_commit,
     }
 
 
 def _synthetic_evidence_bundle(root: Path) -> tuple[dict, dict, dict, dict]:
+    subprocess.run(["git", "init", "-q", str(root)], check=True)
+    subprocess.run(["git", "-C", str(root), "config", "user.name", "H11 Fixture"], check=True)
+    subprocess.run(["git", "-C", str(root), "config", "user.email", "h11-fixture@example.invalid"], check=True)
     source = root / "evidence/source.txt"
     source.parent.mkdir(parents=True, exist_ok=True)
     source.write_text("repository-visible synthetic H11 validator fixture\n", encoding="utf-8")
+    subprocess.run(["git", "-C", str(root), "add", "evidence/source.txt"], check=True)
+    subprocess.run(
+        ["git", "-C", str(root), "commit", "-m", "fixture: add repository source"],
+        check=True,
+        capture_output=True,
+    )
+    source_commit = subprocess.run(
+        ["git", "-C", str(root), "rev-parse", "HEAD"],
+        check=True,
+        capture_output=True,
+        text=True,
+    ).stdout.strip()
     source_ref = {
         "path": "evidence/source.txt",
         "sha256": hashlib.sha256(source.read_bytes()).hexdigest(),
         "artifact_type": "REPOSITORY_SOURCE",
+        "git_commit": source_commit,
     }
     architecture_node = {
         "node_id": "architecture-boundary",
@@ -95,14 +134,34 @@ def _synthetic_evidence_bundle(root: Path) -> tuple[dict, dict, dict, dict]:
                 "producer_authority_class": "REPOSITORY_OBSERVER",
                 "source_reference": source_ref,
                 "repository_visible": True,
-                "fact": "A repository-visible dependency edge was recorded.",
+                "fact": "DEPENDENCY_EDGE_OBSERVED",
                 "structured_value": {
                     "edge_id": edge["edge_id"],
                     "from": edge["from"],
                     "to": edge["to"],
+                    "edge_class": edge["edge_class"],
                 },
             }
             for index, edge in enumerate(edges)
+        ]
+        + [
+            {
+                "observation_id": "obs-bundle-verification",
+                "observation_kind": "BUNDLE_VERIFICATION",
+                "observation_type": "TOOL_OUTPUT",
+                "producer_identity": "synthetic-bundle-verifier",
+                "producer_authority_class": "AUTOMATED_VALIDATOR",
+                "source_reference": source_ref,
+                "repository_visible": True,
+                "fact": "BUNDLE_VERIFICATION_OBSERVED",
+                "structured_value": {
+                    "bundle_id": validator.BUNDLE_ID,
+                    "manifest_path": validator.BUNDLE_MANIFEST,
+                    "exact_bundle_verified": True,
+                    "verifier_exit_code": 0,
+                    "verified_artifact_count": 8,
+                },
+            }
         ],
         "missing_data": [],
     }
@@ -129,7 +188,22 @@ def _synthetic_evidence_bundle(root: Path) -> tuple[dict, dict, dict, dict]:
         "conflicts": [],
         "repository_visibility": "EVIDENCE_VISIBLE",
         "private_implementation_state_used": False,
-        "independence_basis": ["SYNTHETIC_TEST_ONLY"],
+        "independence_basis": [
+            {
+                "basis_type": "ORGANIZATIONAL_SEPARATION",
+                "evidence_reference": {
+                    **source_ref,
+                    "artifact_type": "REVIEWER_EVIDENCE",
+                },
+            },
+            {
+                "basis_type": "INDEPENDENT_EVIDENCE_CUSTODY",
+                "evidence_reference": {
+                    **source_ref,
+                    "artifact_type": "REVIEWER_EVIDENCE",
+                },
+            },
+        ],
         "evidence_references": [
             {
                 **source_ref,
@@ -179,6 +253,7 @@ class H11ExecutionAdmissionTests(unittest.TestCase):
         self.dependency_schema = _load("docs/research/H11_DEPENDENCY_GRAPH_SCHEMA.json")
         self.raw_schema = _load("docs/research/H11_RAW_OBSERVATION_SCHEMA.json")
         self.semantic_schema = _load("docs/research/H11_SEMANTIC_ADJUDICATION_SCHEMA.json")
+        self.reviewer_schema = _load("docs/research/H11_REVIEWER_REPRODUCER_QUALIFICATION_SCHEMA.json")
         self.plan = _load("docs/research/H11_PREREGISTRATION.json")
 
     def assert_rejected(self, **overrides) -> None:
@@ -323,10 +398,30 @@ class H11ExecutionAdmissionTests(unittest.TestCase):
         mutated["properties"]["nodes"]["items"]["allOf"] = []
         self.assert_rejected(dependency_schema_override=mutated)
 
+    def test_profile_mechanism_schema_condition_cannot_be_made_unreachable(self) -> None:
+        mutated = copy.deepcopy(self.dependency_schema)
+        mutated["properties"]["nodes"]["items"]["allOf"][0]["if"]["not"] = {}
+        self.assert_rejected(dependency_schema_override=mutated)
+
     def test_dependency_raw_schema_must_require_exact_edge_binding(self) -> None:
         mutated = copy.deepcopy(self.raw_schema)
         mutated["properties"]["observations"]["items"]["allOf"] = []
         self.assert_rejected(raw_schema_override=mutated)
+
+    def test_dependency_raw_schema_condition_cannot_be_made_unreachable(self) -> None:
+        mutated = copy.deepcopy(self.raw_schema)
+        mutated["properties"]["observations"]["items"]["allOf"][0]["if"]["not"] = {}
+        self.assert_rejected(raw_schema_override=mutated)
+
+    def test_reviewer_schema_condition_cannot_be_made_unreachable(self) -> None:
+        mutated = copy.deepcopy(self.reviewer_schema)
+        mutated["allOf"][0]["if"]["not"] = {}
+        self.assert_rejected(reviewer_schema_override=mutated)
+
+    def test_semantic_support_condition_cannot_be_made_unreachable(self) -> None:
+        mutated = copy.deepcopy(self.semantic_schema)
+        mutated["allOf"][0]["if"]["not"] = {}
+        self.assert_rejected(semantic_schema_override=mutated)
 
     def test_unjustified_canon_dependency_cannot_be_removed(self) -> None:
         mutated = copy.deepcopy(self.dependency_schema)
@@ -377,6 +472,7 @@ class H11ExecutionAdmissionTests(unittest.TestCase):
                 semantic_adjudication=semantic,
                 reviewer_record=reviewer,
                 semantic_adjudication_path="evidence/semantic.json",
+                **_evidence_schemas(),
             )
 
     def assert_bundle_rejected(self, mutate) -> None:
@@ -392,7 +488,14 @@ class H11ExecutionAdmissionTests(unittest.TestCase):
                     semantic_adjudication=semantic,
                     reviewer_record=reviewer,
                     semantic_adjudication_path="evidence/semantic.json",
+                    **_evidence_schemas(),
                 )
+
+    def test_supplied_records_are_validated_against_declared_schemas(self) -> None:
+        def mutate(_repo, _graph, _raw, _reviewer, semantic) -> None:
+            semantic["production_authorized"] = True
+
+        self.assert_bundle_rejected(mutate)
 
     def test_claimed_mechanism_without_profile_node_is_rejected(self) -> None:
         self.assert_bundle_rejected(
@@ -422,6 +525,26 @@ class H11ExecutionAdmissionTests(unittest.TestCase):
 
         self.assert_bundle_rejected(mutate)
 
+    def test_architecture_requires_profile_edge_cannot_hide_under_lab_only(self) -> None:
+        def mutate(repo, graph, raw, _reviewer, semantic) -> None:
+            edge = graph["edges"][0]
+            edge["from"] = "architecture-boundary"
+            edge["to"] = "mechanism-0"
+            edge["edge_class"] = "ARCHITECTURE_REQUIRES"
+            edge["leakage_class"] = "LAB_ONLY"
+            binding = raw["observations"][0]["structured_value"]
+            binding["from"] = edge["from"]
+            binding["to"] = edge["to"]
+            binding["edge_class"] = edge["edge_class"]
+            semantic["raw_observation_record"] = _write_json(
+                repo, "evidence/raw-structural-bypass.json", raw, "RAW_OBSERVATIONS"
+            )
+            semantic["dependency_graph_record"] = _write_json(
+                repo, "evidence/graph-structural-bypass.json", graph, "DEPENDENCY_GRAPH"
+            )
+
+        self.assert_bundle_rejected(mutate)
+
     def test_dependency_edge_cannot_use_generic_raw_observation(self) -> None:
         def mutate(repo, _graph, raw, _reviewer, semantic) -> None:
             raw["observations"][0]["observation_kind"] = "SOURCE_REFERENCE"
@@ -441,6 +564,18 @@ class H11ExecutionAdmissionTests(unittest.TestCase):
             semantic["reviewer_reproducer_qualification_record"] = _write_json(
                 repo,
                 "evidence/reviewer-mutated.json",
+                reviewer,
+                "REVIEWER_QUALIFICATION",
+            )
+
+        self.assert_bundle_rejected(mutate)
+
+    def test_qualified_reviewer_cannot_use_ci_as_independence_basis(self) -> None:
+        def mutate(repo, _graph, _raw, reviewer, semantic) -> None:
+            reviewer["independence_basis"] = ["CI_SUCCESS", "AUTOMATED_VALIDATOR"]
+            semantic["reviewer_reproducer_qualification_record"] = _write_json(
+                repo,
+                "evidence/reviewer-substitute.json",
                 reviewer,
                 "REVIEWER_QUALIFICATION",
             )
@@ -491,6 +626,25 @@ class H11ExecutionAdmissionTests(unittest.TestCase):
 
         self.assert_bundle_rejected(mutate)
 
+    def test_semantic_input_must_be_committed_and_head_anchored(self) -> None:
+        def mutate(repo, _graph, raw, _reviewer, semantic) -> None:
+            path = repo / "evidence/untracked-raw.json"
+            payload = json.dumps(raw, sort_keys=True).encode("utf-8")
+            path.write_bytes(payload)
+            semantic["raw_observation_record"] = {
+                "path": "evidence/untracked-raw.json",
+                "sha256": hashlib.sha256(payload).hexdigest(),
+                "artifact_type": "RAW_OBSERVATIONS",
+                "git_commit": subprocess.run(
+                    ["git", "-C", str(repo), "rev-parse", "HEAD"],
+                    check=True,
+                    capture_output=True,
+                    text=True,
+                ).stdout.strip(),
+            }
+
+        self.assert_bundle_rejected(mutate)
+
     def test_non_repository_visible_raw_observation_is_rejected(self) -> None:
         def mutate(repo, _graph, raw, _reviewer, semantic) -> None:
             raw["observations"][0]["repository_visible"] = False
@@ -514,6 +668,62 @@ class H11ExecutionAdmissionTests(unittest.TestCase):
             )
 
         self.assert_bundle_rejected(mutate)
+
+    def test_raw_semantic_paraphrase_in_fact_is_rejected(self) -> None:
+        def mutate(repo, _graph, raw, _reviewer, semantic) -> None:
+            raw["observations"][0]["fact"] = "This dependency appears acceptable for scoped support"
+            semantic["raw_observation_record"] = _write_json(
+                repo,
+                "evidence/raw-paraphrase.json",
+                raw,
+                "RAW_OBSERVATIONS",
+            )
+
+        self.assert_bundle_rejected(mutate)
+
+    def test_supported_outcome_requires_exact_bundle_verification(self) -> None:
+        def mutate(repo, _graph, raw, _reviewer, semantic) -> None:
+            raw["observations"] = [
+                observation
+                for observation in raw["observations"]
+                if observation["observation_kind"] != "BUNDLE_VERIFICATION"
+            ]
+            semantic["raw_observation_record"] = _write_json(
+                repo, "evidence/raw-no-bundle.json", raw, "RAW_OBSERVATIONS"
+            )
+
+        self.assert_bundle_rejected(mutate)
+
+    def test_supported_outcome_rejects_any_declared_gap(self) -> None:
+        def mutate(repo, graph, _raw, _reviewer, semantic) -> None:
+            graph["declared_gaps"] = ["missing dependency evidence"]
+            semantic["dependency_graph_record"] = _write_json(
+                repo, "evidence/graph-with-gap.json", graph, "DEPENDENCY_GRAPH"
+            )
+
+        self.assert_bundle_rejected(mutate)
+
+    def test_supported_outcome_rejects_raw_missing_data(self) -> None:
+        def mutate(repo, _graph, raw, _reviewer, semantic) -> None:
+            raw["missing_data"] = [
+                {
+                    "missing_id": "missing-1",
+                    "description": "synthetic missing evidence",
+                    "effect_on_visibility": "MATERIAL",
+                }
+            ]
+            semantic["raw_observation_record"] = _write_json(
+                repo, "evidence/raw-with-gap.json", raw, "RAW_OBSERVATIONS"
+            )
+
+        self.assert_bundle_rejected(mutate)
+
+    def test_supported_outcome_rejects_adjudication_gap(self) -> None:
+        self.assert_bundle_rejected(
+            lambda _repo, _graph, _raw, _reviewer, semantic: semantic.__setitem__(
+                "declared_gaps", ["unresolved semantic evidence"]
+            )
+        )
 
     def test_raw_semantic_self_report_in_structured_value_is_rejected(self) -> None:
         def mutate(repo, _graph, raw, _reviewer, semantic) -> None:

@@ -49,6 +49,18 @@ with an explicitly review-stage checkpoint and read back 7/7. The entry records 
 findings, bounded candidate, green CI, open-thread state and unchanged H11 blocker; it is
 not final merge synchronization and created no new page.
 
+Codex then completed a substantive second-round review of PR #134 at
+`7bb05b5a42acfb7ab37b3f20a3936959e27ed64c` and opened seven additional P1 threads. The
+new findings covered whole-record schema application, Git visibility, structural
+hard-failure derivation, semantic paraphrases, independence substitutes, evidence
+completeness and unreachable conditional schemas. The bounded follow-up candidate now
+applies all four schemas to supplied records, resolves evidence through Git objects
+anchored to the adjudicated `HEAD`, closes raw facts/values to typed observations,
+requires structured independence evidence, makes scoped support depend on exact bundle
+verification and gap-free inputs, and semantically exercises schema conditions. The
+local H11 suite is 59/59 PASS. Final exact-head CI, review reconciliation and an updated
+7/7 Notion read-back remain required; H11 itself remains blocked and `NOT_TESTED`.
+
 ## 2026-08-09 — A2 Knowledge and Memory Ontology (second blueprint content slice)
 
 ```text

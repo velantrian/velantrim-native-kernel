@@ -8,7 +8,7 @@
     "artifactReference": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["path", "sha256", "artifact_type"],
+      "required": ["path", "sha256", "artifact_type", "git_commit"],
       "properties": {
         "path": {"type": "string", "minLength": 1},
         "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
@@ -18,7 +18,8 @@
             "DEPENDENCY_GRAPH",
             "REVIEWER_QUALIFICATION"
           ]
-        }
+        },
+        "git_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"}
       }
     }
   },
@@ -38,7 +39,8 @@
     "unjustified_canon_dependency_count",
     "independence_qualified",
     "outcome",
-    "rationale"
+    "rationale",
+    "declared_gaps"
   ],
   "properties": {
     "protocol": {"const": "nk-h11-semantic-adjudication/1"},
@@ -115,7 +117,8 @@
         "properties": {
           "independence_qualified": {"const": true},
           "mandatory_profile_leakage_count": {"const": 0},
-          "unjustified_canon_dependency_count": {"const": 0}
+          "unjustified_canon_dependency_count": {"const": 0},
+          "declared_gaps": {"maxItems": 0}
         }
       }
     }

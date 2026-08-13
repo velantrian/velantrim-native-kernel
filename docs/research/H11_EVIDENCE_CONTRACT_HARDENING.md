@@ -39,12 +39,33 @@ of being treated as backward compatible.
 
 | Finding | Fail-closed control | Regression evidence |
 |---|---|---|
-| Claimed mechanism coverage without graph evidence | Every covered mechanism needs exactly one `PROFILE_MECHANISM` node, a content-addressed repository source, at least one connected dependency edge and an existing `DEPENDENCY_EDGE` raw observation whose structured `{edge_id, from, to}` binding matches that exact edge. | Missing node, missing edge, missing raw reference, generic observation and mismatched edge-binding fixtures are rejected. |
-| Self-reviewed qualification | `QUALIFIED` requires established identity, non-authorship, `INDEPENDENT_FOR_DECLARED_SCOPE`, zero conflicts, repository-visible basis and existing content-addressed evidence. | `SAME_CUSTODY` + `SELF_REVIEW` is rejected. |
-| Weak support invariant | `SUPPORTED_FOR_SCOPE` conditionally requires qualified independence, zero mandatory-profile leakage and zero unjustified Canon dependency. The validator independently recounts hard-failure edges and the distinct profile mechanisms they implicate. | Support with unqualified independence or an unjustified edge is rejected. |
-| Arbitrary/collapsed artifact references | Raw, graph and qualification inputs are typed `{path, sha256, artifact_type}` references, must exist in-repository, match bytes, be mutually distinct and cannot point at the adjudication itself. | Collapsed paths and digest mismatch are rejected. |
-| Non-repository observations in adjudication | Every consumed raw observation must be `repository_visible=true` and its source must resolve to content-addressed repository bytes. | A non-visible observation is rejected. |
-| Semantic self-report in raw evidence | Raw observations require producer identity, authority class, observation type and provenance. Verdict keys/tokens in `fact` or `structured_value` are rejected before adjudication. | Text and structured verdict injection plus missing producer identity are rejected. |
+| Claimed mechanism coverage without graph evidence | Every covered mechanism needs exactly one `PROFILE_MECHANISM` node, a Git-anchored repository source, at least one connected dependency edge and an existing `DEPENDENCY_EDGE` raw observation whose structured `{edge_id, from, to, edge_class}` binding matches that exact edge. | Missing node, missing edge, missing raw reference, generic observation and mismatched edge-binding fixtures are rejected. |
+| Self-reviewed qualification | `QUALIFIED` requires established identity, non-authorship, `INDEPENDENT_FOR_DECLARED_SCOPE`, zero conflicts, structured organizational-separation and independent-custody bases, plus Git-anchored evidence. | `SAME_CUSTODY` + `SELF_REVIEW` and CI/validator substitute bases are rejected. |
+| Weak support invariant | `SUPPORTED_FOR_SCOPE` conditionally requires qualified independence, zero mandatory-profile leakage, zero unjustified Canon dependency, exact positive verification of the frozen eight-artifact bundle and no raw/graph/adjudication gaps. The validator independently recounts hard-failure edges and the distinct profile mechanisms they implicate. | Support with unqualified independence, an unjustified edge, absent/failed bundle verification or any declared gap is rejected. |
+| Arbitrary/collapsed artifact references | Raw, graph and qualification inputs are typed `{path, sha256, artifact_type, git_commit}` references. The commit must be an ancestor of the adjudicated `HEAD`; both the declared Git object and `HEAD` path must preserve the digest; inputs must be mutually distinct and cannot point at the adjudication itself. | Untracked input, collapsed paths, moved/deleted Git objects and digest mismatch are rejected. |
+| Non-repository observations in adjudication | Every consumed raw observation must be `repository_visible=true` and its source must resolve to bytes preserved in the adjudicated Git tree. | A non-visible or untracked observation is rejected. |
+| Semantic self-report in raw evidence | Raw observations require producer identity, authority class, observation type, provenance, an observation-kind-specific neutral fact token and a closed typed `structured_value`. Free-form fact/notes channels are not accepted. | Verdict injection, ordinary-language semantic paraphrases, unknown structured fields and missing producer identity are rejected. |
+
+## PR #134 second-round review hardening
+
+A substantive Codex review of PR #134 at `7bb05b5a42acfb7ab37b3f20a3936959e27ed64c`
+found seven additional P1 bypasses. The review is captured in
+`H11_PR134_CODEX_REVIEW_RECONCILIATION.json`. It remains technical review only and does
+not qualify Codex as the H11 reviewer/reproducer.
+
+| PR #134 finding | Bounded remediation candidate |
+|---|---|
+| Supplied records were not validated against their schemas | The graph, raw, reviewer and adjudication objects are now evaluated against their complete bound schemas before cross-record checks; schema-forbidden fields fail closed. |
+| Worktree files could masquerade as repository-visible evidence | Every evidence reference now includes a full `git_commit`; the validator resolves bytes from Git, checks ancestry to `HEAD`, and verifies unchanged preservation at `HEAD`. |
+| A hard Architecture→profile requirement could be mislabeled benign | `ARCHITECTURE_OBLIGATION → PROFILE_MECHANISM` with `ARCHITECTURE_REQUIRES` is structurally forced to `UNJUSTIFIED_CANON_DEPENDENCY`; a benign label is rejected. |
+| Semantic paraphrases bypassed the token blacklist | Raw facts are closed neutral tokens and structured values are observation-kind-specific closed objects; arbitrary prose is no longer an evidence channel. |
+| CI and validators could substitute for reviewer independence | A qualified record needs structured `ORGANIZATIONAL_SEPARATION` and `INDEPENDENT_EVIDENCE_CUSTODY` evidence; frozen non-qualifying substitutes are rejected. |
+| Scoped support could omit laboratory verification or declare gaps | Support requires exactly one successful exact-bundle observation for the frozen subject, at least eight verified artifacts, and empty missing/gap inventories. |
+| Conditional schema rules were checked only as text | A dependency-free schema-subset evaluator exercises valid and adversarial instances. Conditions made unreachable with `not: {}` fail validation. |
+
+Fifty-nine local unit tests now cover the blocked admission package and the two review
+rounds. This count is local candidate evidence only until the final exact head passes all
+repository workflows and the review threads are reconciled.
 
 The synthetic acceptance fixture in `tests/test_h11_execution_admission.py` proves only
 that the validation machinery can accept a structurally complete fabricated test bundle.

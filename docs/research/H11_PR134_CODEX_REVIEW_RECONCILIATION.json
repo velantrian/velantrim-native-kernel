@@ -1,0 +1,72 @@
+{
+  "protocol": "nk-h11-pr134-codex-review-reconciliation/1",
+  "captured_at": "2026-08-13T10:44:23+02:00",
+  "repository": "velantrian/velantrim-native-kernel",
+  "pull_request": 134,
+  "pull_request_url": "https://github.com/velantrian/velantrim-native-kernel/pull/134",
+  "review_id": 4924794155,
+  "reviewed_head": "7bb05b5a42acfb7ab37b3f20a3936959e27ed64c",
+  "review_state": "COMMENTED",
+  "review_role": "TECHNICAL_HARDENING_REVIEW_ONLY",
+  "h11_reviewer_qualification_effect": "NONE",
+  "findings": [
+    {
+      "finding_id": "H11-P1-SCHEMA-APPLICATION",
+      "priority": "P1",
+      "status_at_capture": "OPEN_UNRESOLVED",
+      "title": "Validate evidence records against their declared schemas",
+      "thread_url": "https://github.com/velantrian/velantrim-native-kernel/pull/134#discussion_r3773540521"
+    },
+    {
+      "finding_id": "H11-P1-GIT-VISIBILITY",
+      "priority": "P1",
+      "status_at_capture": "OPEN_UNRESOLVED",
+      "title": "Require referenced artifacts to be Git-visible",
+      "thread_url": "https://github.com/velantrian/velantrim-native-kernel/pull/134#discussion_r3773540533"
+    },
+    {
+      "finding_id": "H11-P1-EDGE-SEMANTICS",
+      "priority": "P1",
+      "status_at_capture": "OPEN_UNRESOLVED",
+      "title": "Derive hard failures from edge semantics",
+      "thread_url": "https://github.com/velantrian/velantrim-native-kernel/pull/134#discussion_r3773540546"
+    },
+    {
+      "finding_id": "H11-P1-RAW-PARAPHRASE",
+      "priority": "P1",
+      "status_at_capture": "OPEN_UNRESOLVED",
+      "title": "Reject semantic claims beyond enumerated verdict tokens",
+      "thread_url": "https://github.com/velantrian/velantrim-native-kernel/pull/134#discussion_r3773540555"
+    },
+    {
+      "finding_id": "H11-P1-INDEPENDENCE-SUBSTITUTES",
+      "priority": "P1",
+      "status_at_capture": "OPEN_UNRESOLVED",
+      "title": "Reject non-qualifying independence substitutes",
+      "thread_url": "https://github.com/velantrian/velantrim-native-kernel/pull/134#discussion_r3773540563"
+    },
+    {
+      "finding_id": "H11-P1-EVIDENCE-COMPLETENESS",
+      "priority": "P1",
+      "status_at_capture": "OPEN_UNRESOLVED",
+      "title": "Require complete evidence before allowing scoped support",
+      "thread_url": "https://github.com/velantrian/velantrim-native-kernel/pull/134#discussion_r3773540573"
+    },
+    {
+      "finding_id": "H11-P1-CONDITIONAL-SCHEMA-SEMANTICS",
+      "priority": "P1",
+      "status_at_capture": "OPEN_UNRESOLVED",
+      "title": "Test conditional schema invariants semantically",
+      "thread_url": "https://github.com/velantrian/velantrim-native-kernel/pull/134#discussion_r3773540577"
+    }
+  ],
+  "remediation_scope": "VALIDATION_MACHINERY_ONLY",
+  "frozen_plan_sha256": "60da649e675b79b3e70bf8a61cf03cb4d57bb989f4934b65ab8d50c925b19914",
+  "execution_admission": "BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER",
+  "h11_outcome": "NOT_TESTED",
+  "implementation_authorized": false,
+  "execution_authorized": false,
+  "runtime_expansion": "FROZEN",
+  "final_canon": "DEFERRED / NOT_AUTHORIZED",
+  "production_authorized": false
+}
