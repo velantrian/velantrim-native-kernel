@@ -56,7 +56,7 @@ class ReconciliationStateTests(unittest.TestCase):
         checkpoints = self.state["checkpoints"]
         self.assertEqual(module.NOTION_SYNC_SHA, checkpoints["manifest_generated_from_sha"])
         self.assertEqual(module.PUBLICATION_SHA, checkpoints["publication_checkpoint_sha"])
-        self.assertEqual(module.H11_TRUTH_SYNC_SHA, checkpoints["notion_synchronized_through_sha"])
+        self.assertEqual(module.H11_STATE_BINDING_MERGE, checkpoints["notion_synchronized_through_sha"])
         self.assertNotEqual(checkpoints["publication_checkpoint_sha"], checkpoints["notion_synchronized_through_sha"])
         self.assertNotEqual(checkpoints["manifest_generated_from_sha"], checkpoints["notion_synchronized_through_sha"])
 
