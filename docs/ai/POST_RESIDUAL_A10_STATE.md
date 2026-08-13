@@ -2,12 +2,12 @@
 
 `POST_H11_EXECUTION_ADMISSION_BLOCKED_CURRENT`
 
-This is the newest human-orientation overlay for the long-horizon research track. GitHub machine truth remains `project-state.json`; live HEAD must still be resolved from GitHub. This checkpoint binds the already-merged H11 execution-admission package; it does not execute H11 and it does not invent a new canonical gate name.
+This is the newest human-orientation overlay for the long-horizon research track. GitHub machine truth remains `project-state.json`; live HEAD must still be resolved from GitHub. PR #129 is the immutable H11 execution-admission package. PR #130 separately bound that blocked admission into repository current truth and was then synchronized to all seven existing Native Kernel Notion surfaces with 7/7 read-back verification. Neither checkpoint executes H11 or invents a new canonical gate name.
 
 ## Current authoritative research checkpoint
 
 ```text
-current_truth_source_sha: f7d13fce0104a4c2ce67589e954b09365a82f36f
+current_truth_source_sha: e36b7f45410d74b8a65406bff6fdd6d070fa96b0
 selected_family: A10-H11
 selected_family_id: RAVP-H11-LAB-CANON-SEPARATION
 family_selection_pr: 126
@@ -19,6 +19,8 @@ h11_plan_sha256: 60da649e675b79b3e70bf8a61cf03cb4d57bb989f4934b65ab8d50c925b1991
 h11_plan_state: PREREGISTERED / EXECUTION_NOT_AUTHORIZED
 h11_execution_admission_pr: 129
 h11_execution_admission_merge: f7d13fce0104a4c2ce67589e954b09365a82f36f
+h11_state_binding_pr: 130
+h11_state_binding_merge: e36b7f45410d74b8a65406bff6fdd6d070fa96b0
 current_gate: A10_H11_EXECUTION_ADMISSION
 current_gate_scope: EXECUTION_ADMISSION_ONLY
 execution_admission_state: BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER
@@ -27,6 +29,7 @@ frozen_laboratory_bundle: native-kernel/c5/2026-08-08-adr0023
 required_oracle: INDEPENDENT_SEMANTIC_ORACLE
 qualifying_reviewer_reproducer: NOT_ESTABLISHED
 next_dependency: QUALIFYING_INDEPENDENT_H11_REVIEWER_REPRODUCER_EVIDENCE
+notion_synchronized_through_sha: e36b7f45410d74b8a65406bff6fdd6d070fa96b0
 notion_read_back: 7/7 VERIFIED
 new_notion_pages: 0
 experiment_implementation_authorized: false
@@ -61,6 +64,18 @@ admission ≠ execution
 ```
 
 `INDETERMINATE` remains an A10 epistemic outcome available only after qualifying execution/adjudication yields insufficient evidence. No qualifying H11 execution has occurred.
+
+## What PR #130 established
+
+PR #130 did not change the frozen H11 experiment or admission result. It separately bound the already-blocked PR #129 admission into machine/current truth at `e36b7f45410d74b8a65406bff6fdd6d070fa96b0`, with exact-head `7/7 SUCCESS` and post-merge `7/7 SUCCESS`. The seven existing Notion surfaces were then synchronized to that current-truth checkpoint and read back `7/7 VERIFIED`; no new pages were created.
+
+```text
+PR #129 = H11 execution-admission evidence
+PR #130 = blocked-admission current-truth binding
+Notion synchronized through = PR #130 checkpoint
+```
+
+These roles are distinct. Advancing the Notion synchronization checkpoint to PR #130 does not rewrite PR #129 evidence and does not unblock H11.
 
 ## Mandatory interpretation
 
