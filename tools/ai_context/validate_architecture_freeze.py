@@ -20,6 +20,7 @@ RESIDUAL_PLAN_MERGE = "edc0501d71a827462aafd1ac4497920a719a4519"
 H11_SELECTION_MERGE = "bcd3b3f6c9d898315c93e5d24b5d0e02c95508cc"
 H11_PLAN_MERGE = "4a75ff15542013c033030620bdff61997e365140"
 H11_ADMISSION_MERGE = "f7d13fce0104a4c2ce67589e954b09365a82f36f"
+H11_STATE_BINDING_MERGE = "e36b7f45410d74b8a65406bff6fdd6d070fa96b0"
 H11_PLAN_SHA256 = "60da649e675b79b3e70bf8a61cf03cb4d57bb989f4934b65ab8d50c925b19914"
 H11_CURRENT_GATE = "A10_H11_EXECUTION_ADMISSION"
 H11_PLAN_ID = "H11-001-c5-lab-canon-separation-v1"
@@ -131,13 +132,13 @@ def _validate_current(state: Mapping[str, Any]) -> None:
     _require(isinstance(issue, Mapping), "Issue #88 snapshot required")
     _require(issue.get("state") == "OPEN", "Issue #88 must remain open")
     meaning = str(issue.get("meaning", ""))
-    for marker in ("A10-H11", H11_PLAN_ID, H11_ADMISSION_MERGE, H11_CURRENT_GATE, H11_BLOCKER, "NOT_TESTED"):
+    for marker in ("A10-H11", H11_PLAN_ID, H11_ADMISSION_MERGE, H11_STATE_BINDING_MERGE, H11_CURRENT_GATE, H11_BLOCKER, "NOT_TESTED"):
         _require(marker in meaning, f"Option D selection/current Issue #88 blocked H11 truth missing: {marker}")
     verification = issue.get("verification")
     _require(isinstance(verification, Mapping), "Issue #88 verification required")
     _require(verification.get("status") == "VERIFIED" and verification.get("method") == "GITHUB_API" and verification.get("source") == "issue/88", "Issue #88 verification drift")
 
-    _require(state["checkpoints"].get("notion_synchronized_through_sha") == H11_ADMISSION_MERGE, "H11 blocked-admission Notion checkpoint drift")
+    _require(state["checkpoints"].get("notion_synchronized_through_sha") == H11_STATE_BINDING_MERGE, "H11 post-130 Notion checkpoint drift")
     _require(state["status"]["production_authorized"] is False, "production must remain unauthorized")
 
 

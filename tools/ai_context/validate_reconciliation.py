@@ -13,7 +13,8 @@ exec(compile(_D8_PATH.read_text(encoding="utf-8"), str(_D8_PATH), "exec"), globa
 globals()["__name__"] = _saved
 _D8_VALIDATE = validate
 
-H11_TRUTH_SYNC_SHA = "f7d13fce0104a4c2ce67589e954b09365a82f36f"
+H11_ADMISSION_MERGE = "f7d13fce0104a4c2ce67589e954b09365a82f36f"
+H11_STATE_BINDING_MERGE = "e36b7f45410d74b8a65406bff6fdd6d070fa96b0"
 H11_PLAN_MERGE = "4a75ff15542013c033030620bdff61997e365140"
 H11_PLAN_SHA256 = "60da649e675b79b3e70bf8a61cf03cb4d57bb989f4934b65ab8d50c925b19914"
 PRE_PLAN_ADR0027_TRUTH_SYNC_SHA = "90bcb0fa2a3a2e85a590e9ba79746f3297b55457"
@@ -58,7 +59,7 @@ def validate(repo: Path) -> None:
 
     checkpoints = state.get("checkpoints")
     _require(isinstance(checkpoints, Mapping), "checkpoint inventory required")
-    _require(checkpoints.get("notion_synchronized_through_sha") == H11_TRUTH_SYNC_SHA, "H11 blocked-admission Notion synchronization checkpoint drift")
+    _require(checkpoints.get("notion_synchronized_through_sha") == H11_STATE_BINDING_MERGE, "H11 post-130 Notion synchronization checkpoint drift")
 
     notion = state.get("notion")
     _require(isinstance(notion, Mapping), "Notion state required")
@@ -66,7 +67,7 @@ def validate(repo: Path) -> None:
     _require(notion.get("decision_sync_status") == "SYNCHRONIZED", "H11 Notion synchronization status drift")
     _require(notion.get("surface_count") == 7 and notion.get("read_back_verified_count") == 7 and notion.get("new_pages_created") == 0, "H11 Notion read-back must remain 7/7 with zero new pages")
     scope = str(notion.get("scope", ""))
-    for marker in (H11_TRUTH_SYNC_SHA, H11_PLAN_ID, H11_BLOCKER, "7/7", H11_CURRENT_GATE, "NOT_ESTABLISHED", "NOT_TESTED"):
+    for marker in (H11_ADMISSION_MERGE, H11_STATE_BINDING_MERGE, H11_PLAN_ID, H11_BLOCKER, "7/7", H11_CURRENT_GATE, "NOT_ESTABLISHED", "NOT_TESTED"):
         _require(marker in scope, f"Notion scope missing blocked H11 marker: {marker}")
 
     validation = state["tracks"]["long_horizon_research"]["post_blueprint_validation"]
@@ -107,7 +108,7 @@ def validate(repo: Path) -> None:
     _require(isinstance(admission, Mapping), "H11 execution-admission binding required")
     _require(admission.get("protocol") == "nk-h11-execution-admission/1", "H11 admission protocol drift")
     _require(admission.get("status") == "BLOCKED", "H11 admission must remain BLOCKED")
-    _require(admission.get("admission_package_pr") == 129 and admission.get("admission_package_merge_sha") == H11_TRUTH_SYNC_SHA, "H11 admission package checkpoint drift")
+    _require(admission.get("admission_package_pr") == 129 and admission.get("admission_package_merge_sha") == H11_ADMISSION_MERGE, "H11 admission package checkpoint drift")
     _require(admission.get("plan_merge_sha") == H11_PLAN_MERGE and admission.get("plan_sha256") == H11_PLAN_SHA256, "H11 frozen plan binding drift")
     _require(admission.get("admission_result") == H11_BLOCKER, "H11 admission blocker drift")
     _require(admission.get("qualifying_reviewer_reproducer") == "NOT_ESTABLISHED", "H11 reviewer/reproducer must remain unestablished")
@@ -116,7 +117,7 @@ def validate(repo: Path) -> None:
 
     evidence = state.get("evidence", {}).get("h11_execution_admission")
     _require(isinstance(evidence, Mapping), "H11 admission evidence binding required")
-    _require(evidence.get("merge_sha") == H11_TRUTH_SYNC_SHA, "H11 admission evidence merge drift")
+    _require(evidence.get("merge_sha") == H11_ADMISSION_MERGE, "H11 admission evidence merge drift")
     _require(evidence.get("admission_result") == H11_BLOCKER and evidence.get("h11_outcome") == "NOT_TESTED", "H11 admission evidence truth drift")
 
     for relative in CURRENT_TRUTH_SURFACES:
