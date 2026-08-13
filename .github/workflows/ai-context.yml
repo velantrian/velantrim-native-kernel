@@ -47,6 +47,7 @@ on:
       - "tests/test_architecture_freeze.py"
       - "tests/test_bilingual_parity_validator.py"
       - "tests/test_project_state.py"
+      - "tests/test_post130_notion_checkpoint.py"
       - "tests/test_reconciliation_state.py"
       - "tests/test_evidence_bundle.py"
       - "tests/test_c5_manifest.py"
@@ -97,6 +98,7 @@ on:
       - "tests/test_architecture_freeze.py"
       - "tests/test_bilingual_parity_validator.py"
       - "tests/test_project_state.py"
+      - "tests/test_post130_notion_checkpoint.py"
       - "tests/test_reconciliation_state.py"
       - "tests/test_evidence_bundle.py"
       - "tests/test_c5_manifest.py"
@@ -156,6 +158,7 @@ jobs:
             tests/test_architecture_freeze.py \
             tests/test_bilingual_parity_validator.py \
             tests/test_project_state.py \
+            tests/test_post130_notion_checkpoint.py \
             tests/test_reconciliation_state.py \
             tests/test_evidence_bundle.py \
             tests/test_c5_manifest.py
@@ -183,6 +186,7 @@ jobs:
           python -m unittest discover -s tests -p 'test_architecture_freeze.py' -v
           python -m unittest discover -s tests -p 'test_bilingual_parity_validator.py' -v
           python -m unittest discover -s tests -p 'test_project_state.py' -v
+          python -m unittest discover -s tests -p 'test_post130_notion_checkpoint.py' -v
           python -m unittest discover -s tests -p 'test_reconciliation_state.py' -v
           python -m unittest discover -s tests -p 'test_evidence_bundle.py' -v
           python -m unittest discover -s tests -p 'test_c5_manifest.py' -v
