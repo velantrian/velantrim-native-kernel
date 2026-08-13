@@ -575,19 +575,32 @@ class H11ExecutionAdmissionTests(unittest.TestCase):
         mutated["separate_post_merge_state_checkpoint_required"] = False
         self.assert_rejected(admission_override=mutated)
 
-    def test_synthetic_hardened_evidence_chain_is_accepted_by_validator_only(self) -> None:
+    def test_qualification_cannot_be_established_via_repository_local_git_identity_switch(
+        self,
+    ) -> None:
+        """A single process switching `git config user.email` mid-build is not independence.
+
+        `_synthetic_evidence_bundle` builds its two core independence attestations by
+        committing under two different Git identities from one process/clone (exactly
+        the bypass: one actor, `user.email` flipped between commits). Distinct commit
+        author identities are retained as repository-local provenance hygiene, but they
+        are not proof of a distinct real-world actor, so this fully schema-valid,
+        structurally self-consistent bundle must still be rejected.
+        """
         with tempfile.TemporaryDirectory() as directory:
             repo = Path(directory)
             graph, raw, reviewer, semantic = _synthetic_evidence_bundle(repo)
-            validator.validate_h11_evidence_bundle(
-                repo,
-                dependency_graph=graph,
-                raw_observations=raw,
-                semantic_adjudication=semantic,
-                reviewer_record=reviewer,
-                semantic_adjudication_path="evidence/semantic.json",
-                **_evidence_schemas(),
-            )
+            with self.assertRaises(validator.H11AdmissionError) as context:
+                validator.validate_h11_evidence_bundle(
+                    repo,
+                    dependency_graph=graph,
+                    raw_observations=raw,
+                    semantic_adjudication=semantic,
+                    reviewer_record=reviewer,
+                    semantic_adjudication_path="evidence/semantic.json",
+                    **_evidence_schemas(),
+                )
+            self.assertIn("externally authenticated", str(context.exception))
 
     def assert_bundle_rejected(self, mutate) -> None:
         with tempfile.TemporaryDirectory() as directory:
