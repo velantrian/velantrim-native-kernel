@@ -29,6 +29,8 @@ H11_PLAN_MERGE = "4a75ff15542013c033030620bdff61997e365140"
 H11_PLAN_SHA256 = "60da649e675b79b3e70bf8a61cf03cb4d57bb989f4934b65ab8d50c925b19914"
 H11_ADMISSION_PR = 129
 H11_ADMISSION_MERGE = "f7d13fce0104a4c2ce67589e954b09365a82f36f"
+H11_STATE_BINDING_PR = 130
+H11_STATE_BINDING_MERGE = "e36b7f45410d74b8a65406bff6fdd6d070fa96b0"
 H11_FAMILY_ID = "RAVP-H11-LAB-CANON-SEPARATION"
 H11_CURRENT_GATE = "A10_H11_EXECUTION_ADMISSION"
 H11_BLOCKER = "BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER"
@@ -75,7 +77,7 @@ def _validate_current(state: Mapping[str, Any]) -> None:
         _require(notion_checkpoint != publication, "descendant synchronization status requires distinct checkpoints")
     else:
         _require(False, "Notion status drift")
-    _require(notion_checkpoint == H11_ADMISSION_MERGE, "H11 blocked-admission Notion synchronization checkpoint drift")
+    _require(notion_checkpoint == H11_STATE_BINDING_MERGE, "H11 post-130 Notion synchronization checkpoint drift")
 
     research = state["tracks"]["long_horizon_research"]
     _require(
@@ -174,13 +176,13 @@ def _validate_current(state: Mapping[str, Any]) -> None:
     _require(notion.get("decision_sync_status") == "SYNCHRONIZED", "Notion sync status drift")
     _require(notion.get("surface_count") == 7 and notion.get("read_back_verified_count") == 7 and notion.get("new_pages_created") == 0, "Notion 7/7 read-back drift")
     scope = str(notion.get("scope", ""))
-    for marker in (H11_ADMISSION_MERGE, H11_PLAN_ID, H11_BLOCKER, "7/7", H11_CURRENT_GATE, "NOT_ESTABLISHED", "NOT_TESTED"):
+    for marker in (H11_ADMISSION_MERGE, H11_STATE_BINDING_MERGE, H11_PLAN_ID, H11_BLOCKER, "7/7", H11_CURRENT_GATE, "NOT_ESTABLISHED", "NOT_TESTED"):
         _require(marker in scope, f"Notion blocked H11 current scope missing marker: {marker}")
 
     issue = state.get("issues", {}).get("88")
     _require(isinstance(issue, Mapping) and issue.get("state") == "OPEN", "Issue #88 must remain OPEN")
     meaning = str(issue.get("meaning", ""))
-    for marker in ("A10-H11", H11_PLAN_ID, H11_ADMISSION_MERGE, H11_CURRENT_GATE, H11_BLOCKER, "NOT_TESTED", "Final Canon is deferred", "runtime remains frozen"):
+    for marker in ("A10-H11", H11_PLAN_ID, H11_ADMISSION_MERGE, H11_STATE_BINDING_MERGE, H11_CURRENT_GATE, H11_BLOCKER, "NOT_TESTED", "Final Canon is deferred", "runtime remains frozen"):
         _require(marker in meaning, f"Issue #88 blocked H11 meaning missing marker: {marker}")
 
     evidence = state.get("evidence", {})
