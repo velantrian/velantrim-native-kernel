@@ -1,0 +1,5 @@
+schema: velantrim-documentation-manifest/1
+human_start: PROJECT_OVERVIEW.md
+ai_start: docs/ai/README.md
+current_state: docs/ai/CURRENT_STATE.md
+machine_state: project-state.json
