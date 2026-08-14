@@ -1,4 +1,7 @@
-schema: velantrim-documentation-manifest/3
+schema: velantrim-documentation-manifest/4
+formal_architecture: ARCHITECTURE.md
+formal_architecture_series_start: docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.md
+formal_architecture_role: semantic_authority
 human_start: README.md
 human_start_ru: README.ru.md
 human_overview: PROJECT_OVERVIEW.md
