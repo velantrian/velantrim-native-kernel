@@ -1,5 +1,11 @@
-schema: velantrim-documentation-manifest/1
-human_start: PROJECT_OVERVIEW.md
+schema: velantrim-documentation-manifest/2
+human_start: README.md
+human_start_ru: README.ru.md
+human_overview: PROJECT_OVERVIEW.md
+human_overview_ru: PROJECT_OVERVIEW.ru.md
 ai_start: docs/ai/README.md
+agent_rules: AGENTS.md
 current_state: docs/ai/CURRENT_STATE.md
+human_status: STATUS.md
 machine_state: project-state.json
+documentation_policy: docs/ai/DOCUMENTATION_STANDARD.md
