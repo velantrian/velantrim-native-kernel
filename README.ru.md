@@ -168,17 +168,22 @@ production: false
 
 ## 🆚 Чем Native Kernel отличается
 
-Это **не рейтинг**. Подходы пересекаются, но их основной архитектурный акцент различается:
+Это **не рейтинг**, а компактное архитектурное сравнение. Ячейки показывают заявленный фокус или характер зависимости каждого подхода и **не** означают, что другая система принципиально не способна реализовать соответствующую функцию.
 
-- 🧠 **Letta / MemGPT** → stateful agents и persistent/advanced memory.
-- 🕸 **Graphiti** → temporal context graphs и retrieval для изменяющегося agent context.
-- 📚 **Vector RAG** → retrieval-augmented доступ к внешнему knowledge.
-- 📜 **Event sourcing** → append-only история изменений и восстановление state.
-- 🧬 **Native Kernel** → semantic obligations, которые должны переживать замену implementations.
+| Критерий | 🧬 Native Kernel | 🧠 Letta / MemGPT | 🕸 Graphiti | 📚 Vector RAG | 📜 Event Sourcing |
+|---|---|---|---|---|---|
+| **Основная сущность** | ⚖️ Семантические обязательства, различия и инварианты между заменяемыми профилями | 💭 Stateful agent + persistent / advanced memory | 🔗 Temporal entities, facts, relationships и source episodes | 📄 Извлекаемые passages / documents, представленные через retrieval index | 📝 Domain events в append-only event stream |
+| **Ответ на вопрос** | 🎯 «Какой смысл обязан оставаться валидным или явно изменённым при замене реализации?» | 🤔 «Как агент сохраняет и использует state / memory во времени?» | 🕵️ «Что истинно сейчас или было истинно раньше и как сущности связаны во времени?» | 🔍 «Какой внешний контекст релевантен текущему запросу?» | ⏳ «Какие изменения произошли и как из них получить текущее состояние?» |
+| **Устойчивость к смене LLM** | 🛡️ Model-independence — design target; текущие evidence bounded и не являются universal proof | 🟢 Letta прямо заявляет model-agnostic позиционирование; точное поведение всё равно зависит от выбранной модели | 🟡 LLM участвует в extraction / reasoning; cross-model semantic equivalence не является заявленным contract | 🟡 Generator можно заменить; exact output не инвариантен, а retriever / index тоже могут меняться | ✅ Сам pattern по своей природе не зависит от LLM |
+| **Устойчивость к смене БД / storage** | 🛡️ Storage-independence — design target; semantic obligations находятся выше конкретного profile | 🟡 Persistent state поддерживает разные deployment modes, но storage-equivalence не является главным публичным contract | 🟡 Есть разные back-end / integration choices; эквивалентность semantics между всеми backends здесь не выводится | 🟡 Index / store заменяемы, но смена embeddings или indexing обычно требует re-indexing | 🟢 Технологию event store можно менять при сохранении порядка, event meaning и migration semantics; при этом pattern всё равно ограничивает storage design |
+| **Временной фокус** | 🕰️ Прошлое + настоящее + будущее lifecycle: validity, lineage, revision, obligations и loss | 🕰️ Long-lived agent state между взаимодействиями | 📜 Прошлое + настоящее temporal validity с изменяющимися facts | 📖 Current retrieval по внешнему corpus; время важно только если оно представлено в данных / metadata | 🗂️ Историческая последовательность events → текущее state |
+| **Сбой / перезапуск** | 🔄 Conforming implementation должна восстанавливать durable semantic state и unresolved obligations; текущая лаборатория не universal proof | ✅ Persistent agent state / memory рассчитаны на сохранение между sessions, если backing state сохранён | ✅ Persisted context graph поддерживает incremental updates; полный rebuild при каждом restart не требуется | ✅ Persisted index переживает restart; conversational / workflow state находится вне plain RAG | ✅ State можно rehydrate из event stream; projections / snapshots позволяют не replay-ить всю историю с genesis каждый раз |
+| **Роль в стеке** | 🏛️ Semantic-contract / «constitution-like» слой | 🧩 Agent runtime + memory / context layer | 🗺️ Temporal context-graph / memory layer | 📇 Retrieval / knowledge-augmentation layer | 📋 Persistence + history architecture pattern |
+| **Что должно переживать замену реализаций?** | 🎯 Заявленные semantic obligations и distinctions — если replacement conforming; потеря должна быть явной | 🟡 Agent-memory abstractions могут переживать model swap, но exact behavioral equivalence публично не гарантируется | 🟡 Сохранённый temporal graph / provenance может переживать замену компонентов; extraction behavior может измениться | 🟡 Source corpus может сохраниться; embeddings / index часто требуют regeneration при смене encoder или indexing semantics | ✅ Event history может переживать замену реализации при сохранении event schema / meaning; business logic автоматически не сохраняется |
 
 Будущая Native Kernel-compatible система может использовать один или несколько таких механизмов, не превращая сам механизм в universal Canon.
 
-📖 **Полное датированное сравнение с источниками:** **[docs/COMPARISONS.ru.md](docs/COMPARISONS.ru.md)** — внешние sources последний раз проверены **2026-08-14**.
+📖 **Подробное датированное сравнение, оговорки и source ledger:** **[docs/COMPARISONS.ru.md](docs/COMPARISONS.ru.md)** — внешние источники последний раз проверены **2026-08-14**.
 
 ## 🧭 Пути чтения
 
