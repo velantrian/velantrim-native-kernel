@@ -168,17 +168,22 @@ production: false
 
 ## 🆚 How Native Kernel differs
 
-This is **not a leaderboard**. The approaches overlap, but their primary architectural emphasis differs:
+This is **not a leaderboard**. It is a compact architectural comparison. Cells describe the declared focus or dependency shape of each approach; they do **not** prove that another system cannot implement a feature.
 
-- 🧠 **Letta / MemGPT** → stateful agents and persistent/advanced memory.
-- 🕸 **Graphiti** → temporal context graphs and retrieval for evolving agent context.
-- 📚 **Vector RAG** → retrieval-augmented access to external knowledge.
-- 📜 **Event sourcing** → append-only change history and state reconstruction.
-- 🧬 **Native Kernel** → semantic obligations that should survive replacement of implementations.
+| Criterion | 🧬 Native Kernel | 🧠 Letta / MemGPT | 🕸 Graphiti | 📚 Vector RAG | 📜 Event Sourcing |
+|---|---|---|---|---|---|
+| **Core entity** | ⚖ Semantic obligations, distinctions and invariants across replaceable profiles | 💭 Stateful agent + persistent / advanced memory | 🔗 Temporal entities, facts, relationships and source episodes | 📄 Retrieved passages / documents represented through a retrieval index | 📝 Domain events in an append-only event stream |
+| **Main question** | 🎯 “What meaning must remain valid or explicit when the implementation changes?” | 🤔 “How does an agent preserve and use state / memory over time?” | 🕵️ “What is or was true, and how are entities related through time?” | 🔍 “Which external context is relevant to the current query?” | ⏳ “What changes happened, and how can current state be derived from them?” |
+| **Changing the LLM** | 🛡 Model-independence is a design target; current evidence is bounded, not universal proof | 🟢 Letta explicitly describes itself as model-agnostic; exact behavior still depends on the selected model | 🟡 LLMs participate in extraction / reasoning; cross-model semantic equivalence is not the declared contract | 🟡 Generator can change; exact output behavior is not invariant, and retriever/index choices may also change | ✅ The pattern itself is not inherently LLM-dependent |
+| **Changing storage / DB** | 🛡 Storage-independence is a design target; semantic obligations sit above a profile | 🟡 Persistent state can use different deployment modes, but storage-equivalence is not the primary public contract | 🟡 Multiple back-end / integration choices exist; equivalent semantics across all back ends are not inferred | 🟡 Index / store is replaceable, but changing embeddings or indexing often requires re-indexing | 🟢 Event-store technology can change if ordering, event meaning and migration semantics are preserved; the pattern still constrains storage design |
+| **Temporal focus** | 🕰 Past + present + future lifecycle: validity, lineage, revision, obligations and loss | 🕰 Long-lived agent state across interactions | 📜 Past + present temporal validity with evolving facts | 📖 Current retrieval over an external corpus; time matters only if represented in data / metadata | 🗂 Historical event sequence → current state |
+| **Restart / recovery** | 🔄 A conforming implementation should reconstruct durable semantic state and unresolved obligations; the current lab is not universal proof | ✅ Persistent agent state / memory is designed to survive sessions when its backing state persists | ✅ Persisted context graph supports incremental updates; Graphiti does not require full graph recomputation on every restart | ✅ A persisted index survives restart; conversational / workflow state is outside plain RAG | ✅ State can be rehydrated from the event stream; projections / snapshots can avoid replaying everything from genesis every time |
+| **Role in a stack** | 🏛 Semantic-contract / “constitution-like” layer | 🧩 Agent runtime + memory / context layer | 🗺 Temporal context-graph / memory layer | 📇 Retrieval / knowledge-augmentation layer | 📋 Persistence + history architecture pattern |
+| **What is intended to survive implementation replacement?** | 🎯 Declared semantic obligations and distinctions — if the replacement conforms; loss must be explicit | 🟡 Agent-memory abstractions can survive model swaps, but exact behavioral equivalence is not guaranteed by the public positioning | 🟡 Stored temporal graph / provenance can persist; extraction behavior may change with components | 🟡 Source corpus can persist; embeddings / index may need regeneration when encoder or indexing semantics change | ✅ Event history can survive implementation changes if event schema / meaning is preserved; business logic is not automatically preserved |
 
-A future Native Kernel-compatible system could use one or more of those mechanisms without treating the mechanism itself as universal Canon.
+A future Native Kernel-compatible system could use one or more of these mechanisms without treating the mechanism itself as universal Canon.
 
-📖 **Full dated, source-backed comparison:** **[docs/COMPARISONS.md](docs/COMPARISONS.md)** — external sources last checked **2026-08-14**.
+📖 **Detailed dated comparison, caveats and source ledger:** **[docs/COMPARISONS.md](docs/COMPARISONS.md)** — external sources last checked **2026-08-14**.
 
 ## 🧭 Reading paths
 
