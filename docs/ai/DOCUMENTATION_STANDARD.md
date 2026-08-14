@@ -1,46 +1,88 @@
-# 📚 Velantrim Documentation Standard v2
+# 📚 Velantrim Documentation Standard v3
 
-`overview != current state != evidence != history`
+`overview != current state != machine state != evidence/history`
 
-This standard defines how Native Kernel documentation must serve **two different readers** without creating two different truths.
+Native Kernel documentation presents **one project truth through four deliberately different layers**. The layers serve different readers and different authority needs; they are not four competing truths.
 
-## 1. Audience split
+```text
+                      🧬 ONE PROJECT TRUTH
+                               │
+          ┌────────────────────┼────────────────────┐
+          │                    │                    │
+          ▼                    ▼                    ▼
+     👤 HUMAN VIEW        🤖 AGENT VIEW        ⚙ MACHINE STATE
+ README / OVERVIEW         docs/ai/**          JSON / YAML state
+          │                    │                    │
+          └────────────────────┴──────────┬─────────┘
+                                          ▼
+                                   📚 EVIDENCE / HISTORY
+                              tests · ADRs · research · checkpoints
+```
 
-### 👤 Human landing surfaces
+The four layers may summarize or constrain the same underlying project, but each has a different role.
+
+## 1. Layer roles
+
+### 👤 Human view
+
+Primary surfaces:
 
 - `README.md` — English human-first landing page.
 - `README.ru.md` — Russian human-first landing page.
 - `PROJECT_OVERVIEW.md` — stable deep human explanation.
 - `PROJECT_OVERVIEW.ru.md` — stable deep human explanation in Russian.
+- `docs/COMPARISONS.md` / `docs/COMPARISONS.ru.md` — dated, source-backed external comparison surfaces.
 
 Human surfaces should optimize for:
 
 - comprehension before chronology;
 - explanation before SHA inventories;
-- diagrams, trees, mindmaps, tables and examples where they clarify;
+- visual forms only when each answers a distinct question;
 - explicit limitations rather than marketing overclaim;
-- links outward to detailed current-state and formal documents.
+- links outward to detailed current-state, machine, formal and evidence documents.
 
-The root README must **not** become a long-running status ledger. Volatile technical chronology belongs in `STATUS.md`, `ROADMAP.md`, research/evidence records, and machine-state surfaces.
+The root README should be a **3–7 minute orientation surface**, not a long-running status ledger or full competitor-analysis document. Volatile technical chronology belongs elsewhere.
 
-### 🤖 Machine / agent surfaces
+### 🤖 Agent view
+
+Primary surfaces:
 
 - `docs/ai/README.md` — mandatory AI/agent entrypoint and reading order.
 - `AGENTS.md` — operating constraints and authority boundaries.
-- `project-state.json` — machine-readable repository state.
 - `docs/ai/CURRENT_STATE.md` — layered current-state context.
 - affected contracts, ADRs, research records and evidence — task-specific authoritative inputs.
 
-Machine surfaces should optimize for:
+Agent surfaces should optimize for:
 
 - deterministic reading order;
 - exact vocabulary;
 - explicit authority and prohibition boundaries;
-- machine-readable state;
 - checkpoint identities and evidence bindings;
-- minimal decorative prose.
+- minimal decorative prose;
+- explicit `never infer` boundaries where ambiguity is dangerous.
 
 An AI agent must not infer authorization from human-friendly presentation text when a machine/current-state surface exists.
+
+### ⚙ Machine state
+
+Primary surfaces:
+
+- `project-state.json` — machine-readable repository state.
+- `docs/ai/project_manifest.yaml` — documentation-routing manifest.
+- validator- and contract-owned JSON/YAML records where applicable.
+
+Machine surfaces should optimize for exact fields, schemas, status semantics and deterministic validation. Emojis and narrative are unnecessary here.
+
+### 📚 Evidence / history
+
+Primary surfaces include:
+
+- `STATUS.md` and `ROADMAP.md` for current/historical human status context;
+- `evidence/**`;
+- `docs/research/**`;
+- ADRs, test reports, evaluation artifacts and historical checkpoints.
+
+Evidence/history surfaces preserve chronology, scoped claims and falsification records. They must not be promoted into architecture authority merely because they are detailed or recent.
 
 ## 2. Authority rule
 
@@ -77,7 +119,7 @@ Required action:
 
 1. review both root READMEs;
 2. review both Project Overviews;
-3. update relevant mindmap/tree/ASCII/diagram/table representations;
+3. update only the visual representations whose function changed;
 4. update `docs/ai/README.md` only if machine reading order or authority changes;
 5. update formal architecture/current-state surfaces that actually own the new truth;
 6. preserve bilingual parity.
@@ -105,22 +147,50 @@ Required action:
 - avoid visual churn in README/Overview;
 - do not manufacture a new architecture claim.
 
-## 4. Visual roles
+## 4. Visual grammar
 
-Use visual forms deliberately:
+Use visual forms deliberately. Each should answer a different question:
 
-- **Mindmap** → relationships between concepts.
+- **Mindmap** → which major concepts exist and how they relate. Keep it compact enough for mobile reading.
 - **ASCII flow** → transformation / authority / information flow.
 - **Tree** → what exists and how it is grouped.
 - **Mermaid diagram** → architecture or process topology.
 - **Table** → comparison, boundary, status or may/must-not distinctions.
 - **Commentary callout** → why a distinction matters.
 
-Emojis are presentation metadata for humans. They must never carry a semantic distinction that is absent from the text.
+Do not keep two large visualizations in the root README if they communicate essentially the same information. Move deeper or alternative representations to the Overview instead.
 
-## 5. Comparison rule
+Emojis are **visual grammar for humans**, not authority. Suggested stable meanings include:
 
-Human documentation may compare Native Kernel with other systems, but comparisons must be scoped to **declared goals and architecture roles**, not unsupported superiority claims.
+- 🧠 concept / knowledge
+- 🛡 authority / safety boundary
+- 🧪 experiment / laboratory
+- ✅ implemented or established for the stated scope
+- 🟡 research / incomplete / conditional
+- ❌ unavailable / not authorized when the text says so
+- 📜 historical
+- 🤖 agent / AI
+- 👤 human
+- ⚙ machine state
+- 🔬 evidence / falsification
+
+The text must remain understandable if emoji rendering is removed.
+
+## 5. External comparison rule
+
+The root README may contain a **short architectural-emphasis summary**, but detailed external comparisons belong in:
+
+- `docs/COMPARISONS.md`
+- `docs/COMPARISONS.ru.md`
+
+Every substantive external comparison must:
+
+1. carry a **Last source check** date;
+2. cite primary or canonical sources;
+3. distinguish a source-backed positive claim from an absence claim;
+4. prefer **“not identified as a primary declared goal in the cited material”** over unsupported statements such as “system X cannot do Y”;
+5. avoid superiority language unless supported by an explicit, reproducible evaluation with matching scope;
+6. be re-checked when an external project changes materially.
 
 Prefer:
 
@@ -130,7 +200,7 @@ Avoid:
 
 > “Native Kernel is better than X.”
 
-If a comparison depends on an external project's current behavior, verify it against the project's primary documentation before updating the table.
+A comparison document is a human orientation aid. It does not create Native Kernel evidence, architecture authority or current-state truth.
 
 ## 6. Anti-drift rules
 
@@ -142,9 +212,10 @@ Do not:
 - convert CI success, owner review, bot review or local identity into independent evidence;
 - turn historical `NEXT` markers into current instructions;
 - remove historical validator bindings merely to make a page shorter;
-- keep a stale human visual summary after a real structural architecture change.
+- keep a stale human visual summary after a real structural architecture change;
+- leave a dated external comparison undated after materially changing its claims.
 
-Prefer collapsible historical sections when a validator requires old role/checkpoint text that would otherwise dominate the landing page.
+Prefer collapsible historical or machine-detail sections when validators require text that would otherwise dominate the human landing page.
 
 ## 7. Maintenance contract for AI agents
 
@@ -161,7 +232,7 @@ update machine reading surface if needed
       ↓
 update Human Overview
       ↓
-update README visual summary
+update only affected README visual summaries
       ↓
 validate bilingual + AI-context + reconciliation
 ```
@@ -173,8 +244,12 @@ If `EVIDENCE_ONLY`, preserve the high-level presentation unless the new evidence
 The goal is:
 
 ```text
-one repository truth
-      │
-      ├── 👤 human interface: understandable
-      └── 🤖 machine interface: precise
+                      one repository truth
+                              │
+          ┌───────────────────┼───────────────────┐
+          ▼                   ▼                   ▼
+     👤 understandable    🤖 deterministic    ⚙ machine-checkable
+                              │
+                              ▼
+                       📚 evidence-preserving
 ```
