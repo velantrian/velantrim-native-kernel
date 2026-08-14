@@ -14,48 +14,64 @@ Native Kernel пересекается с memory-, retrieval-, graph- и history
 
 Это **не рейтинг** и не основание утверждать, что Native Kernel универсально «лучше».
 
-## Как читать обозначения
+## Как читать матрицу
 
-- ✅ — явно центральная функция по cited source или архитектуре.
-- 🟡 — функция присутствует или близка, но это не тот же архитектурный target.
-- ◻️ — **не обнаружено как основная заявленная цель в проверенных материалах**; это не доказывает отсутствие capability.
-- 🔌 — может использоваться как optional implementation mechanism.
-- 🎯 — явная research goal или boundary Native Kernel.
+- ✅ — явное свойство cited architecture или pattern.
+- 🟢 — сильная поддержка в публичном позиционировании с оговорками по scope.
+- 🟡 — условная, component-dependent или смежная характеристика, но не формальный invariant.
+- 🛡 — design target Native Kernel; **не** заявление universal proof.
+- 🎯 — явная research goal / boundary Native Kernel.
+
+Формулировки об отсутствии намеренно консервативны. «Не является заявленным contract» **не** означает «невозможно реализовать».
 
 ## Матрица сравнения
 
-| Критерий | 🧠 Letta / MemGPT | 🕸 Graphiti | 📚 Vector RAG | 📜 Event sourcing | 🧬 Native Kernel |
+| Критерий | 🧬 Native Kernel | 🧠 Letta / MemGPT | 🕸 Graphiti | 📚 Vector RAG | 📜 Event Sourcing |
 |---|---|---|---|---|---|
-| **Основной заявленный фокус** | Stateful agents с advanced/persistent memory | Temporal context graphs для AI agents | Retrieval-augmented generation с внешней non-parametric memory | Append-only история изменений/events с восстановлением текущего state | Сохранение заявленных semantic obligations между заменяемыми реализациями |
-| **Agent memory / retrieval** | ✅ Core | ✅ Core retrieval/context function | ✅ Core retrieval function | ◻️ Не основная задача pattern | 🔌 Optional mechanism, а не сама архитектура |
-| **Temporal relations / provenance** | 🟡 Persistent agent state/history; здесь не приравнивается к тому же provenance contract | ✅ Явные temporal validity и provenance к source episodes | 🟡 Retrieved sources могут давать grounding, но provenance semantics не являются архитектурой исходной RAG-формулировки | ✅ Historical reconstruction/auditability центральны | ✅ Явная архитектурная concern |
-| **Поверхность заменяемости implementation** | 🟡 Letta публично описывает model-agnostic operation; это не считается доказательством cross-substrate semantic equivalence | 🟡 Framework/back-end choices — implementation concern; semantic-equivalence claim здесь не выводится | 🟡 Retriever, index, generator и corpus могут меняться | 🟡 Переиспользуемый architecture pattern, но его adoption ограничивает storage/state design | 🎯 Замена implementation/profile — явная boundary |
-| **Substrate-neutral semantic contract** | ◻️ Не обнаружено как основная заявленная цель в cited source | ◻️ Не обнаружено как основная заявленная цель в cited source | ◻️ Не является целью исходной RAG-формулировки | ◻️ Event history сама по себе не представлена как substrate-neutral knowledge-semantics contract | 🎯 Core research goal |
-| **Falsification-first architecture** | ◻️ Не обнаружено как основная заявленная цель в cited source | ◻️ Не обнаружено как основная заявленная цель в cited source | ◻️ Не является целью исходной RAG-формулировки | ◻️ Не основная задача pattern | 🎯 Core research method |
+| **Основная сущность** | ⚖️ Семантические обязательства, различия и инварианты между заменяемыми профилями | 💭 Stateful agent + persistent / advanced memory | 🔗 Temporal entities, facts, relationships и source episodes | 📄 Извлекаемые passages / documents, представленные через retrieval index | 📝 Domain events в append-only event stream |
+| **Ответ на вопрос** | 🎯 «Какой смысл обязан оставаться валидным или явно изменённым при замене реализации?» | 🤔 «Как агент сохраняет и использует state / memory во времени?» | 🕵️ «Что истинно сейчас или было истинно раньше и как сущности связаны во времени?» | 🔍 «Какой внешний контекст релевантен текущему запросу?» | ⏳ «Какие изменения произошли и как из них получить текущее состояние?» |
+| **Устойчивость к смене LLM** | 🛡️ Model-independence — design target; текущие evidence bounded и не являются universal proof | 🟢 Letta прямо заявляет model-agnostic позиционирование; точное поведение всё равно зависит от выбранной модели | 🟡 LLM участвует в extraction / reasoning; cross-model semantic equivalence не является заявленным contract | 🟡 Generator можно заменить; exact output не инвариантен, а retriever / index тоже могут меняться | ✅ Сам pattern по своей природе не зависит от LLM |
+| **Устойчивость к смене БД / storage** | 🛡️ Storage-independence — design target; semantic obligations находятся выше конкретного profile | 🟡 Persistent state поддерживает разные deployment modes, но storage-equivalence не является главным публичным contract | 🟡 Есть разные back-end / integration choices; эквивалентность semantics между всеми backends здесь не выводится | 🟡 Index / store заменяемы, но смена embeddings или indexing обычно требует re-indexing | 🟢 Технологию event store можно менять при сохранении порядка, event meaning и migration semantics; при этом pattern всё равно ограничивает storage design |
+| **Временной фокус** | 🕰️ Прошлое + настоящее + будущее lifecycle: validity, lineage, revision, obligations и loss | 🕰️ Long-lived agent state между взаимодействиями | 📜 Прошлое + настоящее temporal validity с изменяющимися facts | 📖 Current retrieval по внешнему corpus; время важно только если оно представлено в данных / metadata | 🗂️ Историческая последовательность events → текущее state |
+| **Сбой / перезапуск** | 🔄 Conforming implementation должна восстанавливать durable semantic state и unresolved obligations; текущая лаборатория не universal proof | ✅ Persistent agent state / memory рассчитаны на сохранение между sessions, если backing state сохранён | ✅ Persisted context graph поддерживает incremental updates; полный rebuild при каждом restart не требуется | ✅ Persisted index переживает restart; conversational / workflow state находится вне plain RAG | ✅ State можно rehydrate из event stream; projections / snapshots позволяют не replay-ить всю историю с genesis каждый раз |
+| **Роль в стеке** | 🏛️ Semantic-contract / «constitution-like» слой | 🧩 Agent runtime + memory / context layer | 🗺️ Temporal context-graph / memory layer | 📇 Retrieval / knowledge-augmentation layer | 📋 Persistence + history architecture pattern |
+| **Что должно переживать замену реализаций?** | 🎯 Заявленные semantic obligations и distinctions — если replacement conforming; потеря должна быть явной | 🟡 Agent-memory abstractions могут переживать model swap, но exact behavioral equivalence публично не гарантируется | 🟡 Сохранённый temporal graph / provenance может переживать замену компонентов; extraction behavior может измениться | 🟡 Source corpus может сохраниться; embeddings / index часто требуют regeneration при смене encoder или indexing semantics | ✅ Event history может переживать замену реализации при сохранении event schema / meaning; business logic автоматически не сохраняется |
+
+## Почему некоторые интуитивные сокращения здесь намеренно не используются
+
+Несколько эффектных формулировок слишком сильны для research-facing репозитория:
+
+- **Letta нельзя корректно назвать «слабо устойчивой к смене LLM»**: текущий публичный README прямо называет платформу model-agnostic. Это не означает идентичное поведение всех моделей.
+- **Graphiti не требует общего полного перестроения графа после restart**: публичный README подчёркивает incremental updates без complete graph recomputation.
+- **Persisted Vector RAG index не исчезает при restart агента**: plain RAG просто не определяет более широкий conversational / workflow state агента.
+- **Event sourcing не обязан replay-ить историю от genesis при каждом запросе**: materialized views, projections и snapshots используются, чтобы избегать полного replay.
+- **Native Kernel не утверждает «переживает вообще всё»**: architecture требует сохранения заявленных semantic obligations при conforming replacement либо явной фиксации loss / change. Текущие evidence bounded.
+
+Эти коррекции делают таблицу менее рекламной, но значительно более защищаемой.
 
 ## Что это сравнение реально означает
 
 ### 🧠 Letta / MemGPT
 
-Текущий репозиторий Letta описывает Letta как платформу для **stateful agents** с advanced memory, способной поддерживать learning/self-improvement over time. Также публично заявляется model-agnostic позиционирование.
+Текущий репозиторий Letta описывает Letta как платформу для **stateful agents** с advanced memory, способной поддерживать learning/self-improvement over time. Там же прямо заявляется model-agnostic позиционирование.
 
 Поэтому Native Kernel пересекается с Letta в long-lived state и memory, но задаёт другой архитектурный вопрос: какие semantic obligations должны оставаться валидными, если меняется agent framework, model, storage profile или substrate?
 
 ### 🕸 Graphiti
 
-Graphiti описывает себя как framework для **temporal context graphs for AI agents**. В публичной документации прямо присутствуют temporal validity, изменение фактов, source episodes/provenance и hybrid retrieval.
+Graphiti описывает себя как framework для **temporal context graphs for AI agents**. В публичной документации прямо присутствуют temporal validity, изменение фактов, source episodes/provenance, hybrid retrieval и incremental updates без полного graph recomputation.
 
 По нескольким измерениям это делает Graphiti гораздо ближе к Native Kernel, чем flat vector store. Различие в scope: Native Kernel рассматривает provenance, uncertainty, revision, loss, authority и substrate replacement как части technology-neutral contract, а не выбирает temporal graph как саму архитектуру.
 
 ### 📚 Vector RAG
 
-Исходная RAG-формулировка объединяет parametric model memory с внешней non-parametric memory, доступной через retrieval. Основная задача — retrieval-augmented generation для knowledge-intensive tasks.
+Исходная RAG-формулировка объединяет parametric model memory с внешней non-parametric memory, доступной через retrieval; исходная реализация использует dense vector index и neural retriever. Основная задача — retrieval-augmented generation для knowledge-intensive tasks.
 
 Vector RAG stack может быть полезным механизмом внутри Native Kernel-compatible системы, но retrieval relevance само по себе не устанавливает semantic identity, authority, provenance, lifecycle или revision obligations claim.
 
 ### 📜 Event sourcing
 
-Event-sourcing pattern хранит последовательность изменений/events как append-only system of record и позволяет восстанавливать/materialize текущий state из этой истории.
+Event-sourcing pattern хранит последовательность изменений/events как append-only system of record и позволяет восстанавливать/materialize текущий state из этой истории. Canonical guidance также подчёркивает materialized views и projections, потому что постоянный full replay дорог.
 
 Это полезно для auditability и historical reconstruction. Native Kernel специально не приравнивает «существует event log» к «knowledge semantics сохранены»: event sourcing может быть implementation/profile mechanism, не становясь universal Kernel law.
 
@@ -71,10 +87,10 @@ Event-sourcing pattern хранит последовательность изм�
 
 | Объект | Источник | Что он подтверждает в этом сравнении |
 |---|---|---|
-| Letta / MemGPT | https://github.com/letta-ai/letta | Фокус на stateful agents и advanced memory; текущее публичное model-agnostic позиционирование |
-| Graphiti | https://github.com/getzep/graphiti | Temporal context graphs, temporal validity, source provenance, agent retrieval/context focus |
-| Retrieval-Augmented Generation | https://arxiv.org/abs/2005.11401 | Исходный RAG framing: parametric + non-parametric memory и retrieval-augmented generation |
-| Event sourcing | https://learn.microsoft.com/en-us/azure/architecture/patterns/event-sourcing | Append-only event/change history, system-of-record role, materialized state и trade-offs |
+| Letta / MemGPT | https://github.com/letta-ai/letta | Фокус на stateful agents и advanced memory; текущее публичное model-agnostic позиционирование; persistent/local/self-hosted deployment framing |
+| Graphiti | https://github.com/getzep/graphiti | Temporal context graphs, temporal validity, source provenance, incremental updates, отсутствие требования полного graph recomputation, agent retrieval/context focus |
+| Retrieval-Augmented Generation | https://arxiv.org/abs/2005.11401 | Исходный RAG framing: parametric + non-parametric memory, dense vector index, neural retrieval и retrieval-augmented generation |
+| Event sourcing | https://learn.microsoft.com/en-us/azure/architecture/patterns/event-sourcing | Append-only event/change history, system-of-record role, rehydration, materialized views/projections и migration/design trade-offs |
 | Native Kernel | ../PROJECT_OVERVIEW.ru.md и ../ARCHITECTURE.md | Собственные заявленные architecture, boundaries и non-claims Native Kernel |
 
 ## Правило поддержки
@@ -83,8 +99,9 @@ Event-sourcing pattern хранит последовательность изм�
 
 1. заново проверить внешние primary sources;
 2. обновить **Последнюю проверку источников**;
-3. предпочитать формулировку «не обнаружено как основная заявленная цель» вместо необоснованного «система этого не умеет»;
-4. оставлять root README коротким;
-5. не превращать comparison language в Native Kernel authority, evidence или current-state claim.
+3. предпочитать conditional / scoped формулировки необоснованным «система X не умеет Y»;
+4. держать матрицу в root README достаточно компактной, чтобы она ориентировала, а не заменяла этот документ;
+5. сохранять подробные caveats и source ledger здесь;
+6. не превращать comparison language в Native Kernel authority, evidence или current-state claim.
 
 Если внешний проект изменился, должен измениться этот документ. Stable Native Kernel architecture не должна зависеть от того, что competitor остаётся неизменным.
