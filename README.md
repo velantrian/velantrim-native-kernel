@@ -45,24 +45,19 @@ That separation is the point of the project.
 
 ## 🧠 The idea in one picture
 
-### 🗺️ Mindmap
+### 🗺️ Compact mindmap
 
 ```text
-                              🧬 Native Kernel
-                                     │
-          ┌──────────────────────────┼──────────────────────────┐
-          │                          │                          │
-      🧠 Knowledge               🕰 Identity                🔎 Provenance
-          │                          │                          │
-   claims / evidence           time / lineage            source / custody
-          │                          │                          │
-          ├──────────────┐           │           ┌──────────────┤
-          │              │           │           │              │
-     🌫 Uncertainty   ⚖ Conflict   🔁 Revision  🧾 Explanation  🗑 Loss
-          │              │           │           │              │
-          └──────────────┴───────────┴───────────┴──────────────┘
-                                     │
-                              🌍 Substrate independence
+🧬 Native Kernel
+├── 🧠 Knowledge
+│   └── claims · evidence
+├── 🔎 Provenance
+│   └── source · custody
+├── 🕰 Identity & time
+│   └── lineage · change
+├── ⚖ Uncertainty & conflict
+│   └── revision · loss
+└── 🌍 Substrate independence
 ```
 
 ### ⚙️ ASCII model
@@ -153,7 +148,10 @@ The arrow from evidence to a later decision is deliberate. Passing an experiment
 | 🚀 Product runtime | ❌ Not authorized | Runtime expansion remains frozen |
 | 🏭 Production | ❌ Not authorized | Research evidence is not production approval |
 
-Current machine-facing boundary:
+For live state, use **[STATUS.md](STATUS.md)** and **[project-state.json](project-state.json)**. The open external review surface is **[PR #131](https://github.com/velantrian/velantrim-native-kernel/pull/131)**.
+
+<details>
+<summary>⚙ Exact machine-facing boundary</summary>
 
 ```text
 selected family: A10-H11
@@ -166,24 +164,21 @@ runtime expansion: FROZEN
 production: false
 ```
 
-For live state, use **[STATUS.md](STATUS.md)** and **[project-state.json](project-state.json)**. The open external review surface is **[PR #131](https://github.com/velantrian/velantrim-native-kernel/pull/131)**.
+</details>
 
-## 🆚 How Native Kernel differs from memory systems
+## 🆚 How Native Kernel differs
 
-This is **not a leaderboard**. These projects solve overlapping but different problems. Letta (formerly MemGPT) focuses on stateful agents with persistent memory; Graphiti focuses on temporal context/knowledge graphs for agents. Native Kernel is aimed at the architecture *under* such mechanisms: what semantic obligations should remain valid when the mechanism itself changes.
+This is **not a leaderboard**. The approaches overlap, but their primary architectural emphasis differs:
 
-| Criterion | 🧠 Letta / MemGPT | 🕸 Graphiti | 📚 Vector RAG | 📜 Event sourcing | 🧬 Native Kernel |
-|---|---|---|---|---|---|
-| **Primary job** | Stateful agent memory | Temporal context graph | Semantic retrieval | Ordered change history | Preserve declared meaning across realizations |
-| **Agent memory / retrieval** | ✅ Core | ✅ Core retrieval | ✅ Core retrieval | ◻️ Not specific | 🔌 Optional mechanism |
-| **Temporal relations / provenance** | 🟡 Agent state/history | ✅ Core strength | 🟡 Metadata-dependent | ✅ Strong history | ✅ Architectural concern |
-| **Implementation replaceability** | ✅ Model/runtime can vary | 🟡 Backend/integration dependent | 🟡 Components can vary | 🟡 Pattern-level | 🎯 Required boundary |
-| **Substrate-neutral semantic contract** | ◻️ Not primary goal | ◻️ Not primary goal | ❌ No by itself | ❌ Event log is not such a contract | 🎯 Core research goal |
-| **Falsification-first architecture** | ◻️ Not primary goal | ◻️ Not primary goal | ❌ No by itself | ❌ No by itself | 🎯 Core method |
+- 🧠 **Letta / MemGPT** → stateful agents and persistent/advanced memory.
+- 🕸 **Graphiti** → temporal context graphs and retrieval for evolving agent context.
+- 📚 **Vector RAG** → retrieval-augmented access to external knowledge.
+- 📜 **Event sourcing** → append-only change history and state reconstruction.
+- 🧬 **Native Kernel** → semantic obligations that should survive replacement of implementations.
 
-Native Kernel is therefore not trying to “beat” Letta, Graphiti, RAG, or event sourcing at their own task. A future Native Kernel-compatible system could **use** one or more of them as replaceable implementation mechanisms, provided the declared semantic obligations remain satisfied.
+A future Native Kernel-compatible system could use one or more of those mechanisms without treating the mechanism itself as universal Canon.
 
-Comparison basis: [Letta](https://github.com/letta-ai/letta) and [Graphiti](https://github.com/getzep/graphiti) project descriptions.
+📖 **Full dated, source-backed comparison:** **[docs/COMPARISONS.md](docs/COMPARISONS.md)** — external sources last checked **2026-08-14**.
 
 ## 🧭 Reading paths
 
@@ -200,6 +195,8 @@ README
   ↓
 🔬 research / evidence
 ```
+
+Optional external positioning: **[docs/COMPARISONS.md](docs/COMPARISONS.md)**.
 
 **If you need the current state:**
 
@@ -223,7 +220,7 @@ docs/ai/CURRENT_STATE.md
 required architecture / research / evidence packet
 ```
 
-The human pages explain. The machine pages constrain. Neither is allowed to invent a new source of truth.
+The human pages explain. The agent pages constrain. The machine state is exact. Evidence/history preserves scoped proof and chronology. None is allowed to invent a competing project truth.
 
 ## 🔬 Current research boundary
 
