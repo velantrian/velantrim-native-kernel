@@ -172,13 +172,14 @@ For live state, use **[STATUS.md](STATUS.md)** and **[project-state.json](projec
 
 This is **not a leaderboard**. These projects solve overlapping but different problems. Letta (formerly MemGPT) focuses on stateful agents with persistent memory; Graphiti focuses on temporal context/knowledge graphs for agents. Native Kernel is aimed at the architecture *under* such mechanisms: what semantic obligations should remain valid when the mechanism itself changes.
 
-| Approach | Primary job | Agent memory / retrieval | Temporal relations & provenance | Replaceable implementation | Substrate-neutral semantic contract | Falsification-first architecture |
-|---|---|---:|---:|---:|---:|---:|
-| 🧠 Letta / MemGPT | Stateful agents and persistent memory | ✅ Core focus | 🟡 Present as agent state/history, not the same research target | ✅ Model/runtime choices can vary | ◻️ Not its primary declared goal | ◻️ Not its primary declared goal |
-| 🕸 Graphiti | Temporal context graph for AI agents | ✅ Context retrieval | ✅ Core strength | 🟡 Multiple graph backends / integrations | ◻️ Not its primary declared goal | ◻️ Not its primary declared goal |
-| 📚 Vector RAG | Retrieve semantically relevant chunks | ✅ Retrieval | 🟡 Metadata-dependent | 🟡 Components are replaceable | ❌ Usually no semantic preservation contract by itself | ❌ Usually no |
-| 📜 Event sourcing | Preserve ordered change history | ◻️ Not specifically agent memory | ✅ Strong operation history | 🟡 Implementation pattern | ❌ Event log ≠ universal semantic model | ❌ Not by itself |
-| 🧬 Native Kernel | Preserve declared meaning across changing realizations | 🔌 Optional mechanism | ✅ Architectural concern | 🎯 Required boundary | 🎯 Core research goal | 🎯 Core method |
+| Criterion | 🧠 Letta / MemGPT | 🕸 Graphiti | 📚 Vector RAG | 📜 Event sourcing | 🧬 Native Kernel |
+|---|---|---|---|---|---|
+| **Primary job** | Stateful agent memory | Temporal context graph | Semantic retrieval | Ordered change history | Preserve declared meaning across realizations |
+| **Agent memory / retrieval** | ✅ Core | ✅ Core retrieval | ✅ Core retrieval | ◻️ Not specific | 🔌 Optional mechanism |
+| **Temporal relations / provenance** | 🟡 Agent state/history | ✅ Core strength | 🟡 Metadata-dependent | ✅ Strong history | ✅ Architectural concern |
+| **Implementation replaceability** | ✅ Model/runtime can vary | 🟡 Backend/integration dependent | 🟡 Components can vary | 🟡 Pattern-level | 🎯 Required boundary |
+| **Substrate-neutral semantic contract** | ◻️ Not primary goal | ◻️ Not primary goal | ❌ No by itself | ❌ Event log is not such a contract | 🎯 Core research goal |
+| **Falsification-first architecture** | ◻️ Not primary goal | ◻️ Not primary goal | ❌ No by itself | ❌ No by itself | 🎯 Core method |
 
 Native Kernel is therefore not trying to “beat” Letta, Graphiti, RAG, or event sourcing at their own task. A future Native Kernel-compatible system could **use** one or more of them as replaceable implementation mechanisms, provided the declared semantic obligations remain satisfied.
 
