@@ -1,4 +1,4 @@
-# 📚 Velantrim Documentation Standard v3
+# 📚 Velantrim Documentation Standard v4
 
 `overview != current state != machine state != evidence/history`
 
@@ -41,7 +41,7 @@ Human surfaces should optimize for:
 - explicit limitations rather than marketing overclaim;
 - links outward to detailed current-state, machine, formal and evidence documents.
 
-The root README should be a **3–7 minute orientation surface**, not a long-running status ledger or full competitor-analysis document. Volatile technical chronology belongs elsewhere.
+The root README should be a **3–7 minute orientation surface**, not a long-running status ledger. It may contain one compact comparison matrix when that matrix materially improves human comprehension, but the detailed caveats and source ledger belong in `docs/COMPARISONS*`. Volatile technical chronology belongs elsewhere.
 
 ### 🤖 Agent view
 
@@ -178,19 +178,29 @@ The text must remain understandable if emoji rendering is removed.
 
 ## 5. External comparison rule
 
-The root README may contain a **short architectural-emphasis summary**, but detailed external comparisons belong in:
+The root README may contain **one compact, source-safe comparison matrix** when it helps a human understand architectural positioning. The matrix should normally keep systems in columns and criteria in rows so that each criterion can be scanned across approaches. The detailed explanation belongs in:
 
 - `docs/COMPARISONS.md`
 - `docs/COMPARISONS.ru.md`
 
 Every substantive external comparison must:
 
-1. carry a **Last source check** date;
+1. carry a **Last source check** date in the detailed comparison document;
 2. cite primary or canonical sources;
 3. distinguish a source-backed positive claim from an absence claim;
-4. prefer **“not identified as a primary declared goal in the cited material”** over unsupported statements such as “system X cannot do Y”;
-5. avoid superiority language unless supported by an explicit, reproducible evaluation with matching scope;
-6. be re-checked when an external project changes materially.
+4. prefer conditional / scoped wording over unsupported statements such as “system X cannot do Y”;
+5. distinguish **design target** from **proven universal property** — especially for Native Kernel’s substrate/model/storage independence;
+6. avoid superiority language unless supported by an explicit, reproducible evaluation with matching scope;
+7. correct attractive but false simplifications when primary sources contradict them;
+8. be re-checked when an external project changes materially.
+
+Examples of comparison hygiene:
+
+- if a project explicitly claims model-agnostic operation, do not label it “low resilience to LLM replacement” without narrower evidence;
+- if a graph system supports incremental updates, do not claim restart necessarily requires a complete rebuild;
+- if a persisted retrieval index survives process restart, do not describe plain RAG as losing that index merely because conversational state is out of scope;
+- if event sourcing uses projections/materialized views/snapshots, do not imply every recovery path must replay the complete history from genesis;
+- do not write that Native Kernel “preserves everything”; write that declared obligations are intended to survive a **conforming** replacement, with loss/change made explicit, and keep evidence scope visible.
 
 Prefer:
 
