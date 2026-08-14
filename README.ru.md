@@ -45,24 +45,19 @@ Native Kernel — **не** kernel операционной системы, не 
 
 ## 🧠 Идея в одной картине
 
-### 🗺️ Mindmap
+### 🗺️ Компактная mindmap
 
 ```text
-                              🧬 Native Kernel
-                                     │
-          ┌──────────────────────────┼──────────────────────────┐
-          │                          │                          │
-      🧠 Knowledge               🕰 Identity                🔎 Provenance
-          │                          │                          │
-   claims / evidence           time / lineage            source / custody
-          │                          │                          │
-          ├──────────────┐           │           ┌──────────────┤
-          │              │           │           │              │
-     🌫 Uncertainty   ⚖ Conflict   🔁 Revision  🧾 Explanation  🗑 Loss
-          │              │           │           │              │
-          └──────────────┴───────────┴───────────┴──────────────┘
-                                     │
-                              🌍 Substrate independence
+🧬 Native Kernel
+├── 🧠 Knowledge
+│   └── claims · evidence
+├── 🔎 Provenance
+│   └── source · custody
+├── 🕰 Identity & time
+│   └── lineage · change
+├── ⚖ Uncertainty & conflict
+│   └── revision · loss
+└── 🌍 Substrate independence
 ```
 
 ### ⚙️ ASCII-модель
@@ -153,7 +148,10 @@ flowchart LR
 | 🚀 Product runtime | ❌ Not authorized | Runtime expansion остаётся frozen |
 | 🏭 Production | ❌ Not authorized | Research evidence не является production approval |
 
-Текущая machine-facing граница:
+Для live state используйте **[STATUS.md](STATUS.md)** и **[project-state.json](project-state.json)**. Открытая поверхность внешней проверки — **[PR #131](https://github.com/velantrian/velantrim-native-kernel/pull/131)**.
+
+<details>
+<summary>⚙ Exact machine-facing граница</summary>
 
 ```text
 selected family: A10-H11
@@ -166,24 +164,21 @@ runtime expansion: FROZEN
 production: false
 ```
 
-Для live state используйте **[STATUS.md](STATUS.md)** и **[project-state.json](project-state.json)**. Открытая поверхность внешней проверки — **[PR #131](https://github.com/velantrian/velantrim-native-kernel/pull/131)**.
+</details>
 
-## 🆚 Чем Native Kernel отличается от memory-систем
+## 🆚 Чем Native Kernel отличается
 
-Это **не рейтинг**. Проекты решают пересекающиеся, но разные задачи. Letta (ранее MemGPT) ориентирована на stateful agents с persistent memory; Graphiti — на temporal context/knowledge graphs для агентов. Native Kernel исследует слой *под* такими механизмами: какие semantic obligations должны оставаться истинными, когда сам механизм заменяется.
+Это **не рейтинг**. Подходы пересекаются, но их основной архитектурный акцент различается:
 
-| Критерий | 🧠 Letta / MemGPT | 🕸 Graphiti | 📚 Vector RAG | 📜 Event sourcing | 🧬 Native Kernel |
-|---|---|---|---|---|---|
-| **Главная задача** | Persistent memory для stateful agents | Temporal context graph | Семантический retrieval | Упорядоченная история изменений | Сохранение заявленного смысла между реализациями |
-| **Agent memory / retrieval** | ✅ Core | ✅ Core retrieval | ✅ Core retrieval | ◻️ Не специализация | 🔌 Optional mechanism |
-| **Temporal relations / provenance** | 🟡 Agent state/history | ✅ Core strength | 🟡 Зависит от metadata | ✅ Сильная history-модель | ✅ Архитектурная concern |
-| **Заменяемость implementation** | ✅ Model/runtime могут меняться | 🟡 Зависит от backend/integration | 🟡 Компоненты заменяемы | 🟡 Уровень pattern | 🎯 Обязательная граница |
-| **Substrate-neutral semantic contract** | ◻️ Не основная цель | ◻️ Не основная цель | ❌ Сам по себе нет | ❌ Event log не является таким contract | 🎯 Core research goal |
-| **Falsification-first architecture** | ◻️ Не основная цель | ◻️ Не основная цель | ❌ Сам по себе нет | ❌ Сам по себе нет | 🎯 Core method |
+- 🧠 **Letta / MemGPT** → stateful agents и persistent/advanced memory.
+- 🕸 **Graphiti** → temporal context graphs и retrieval для изменяющегося agent context.
+- 📚 **Vector RAG** → retrieval-augmented доступ к внешнему knowledge.
+- 📜 **Event sourcing** → append-only история изменений и восстановление state.
+- 🧬 **Native Kernel** → semantic obligations, которые должны переживать замену implementations.
 
-Native Kernel не пытается «победить» Letta, Graphiti, RAG или event sourcing в их собственной задаче. Будущая Native Kernel-compatible система может **использовать** один или несколько таких механизмов как заменяемые реализации, если declared semantic obligations сохраняются.
+Будущая Native Kernel-compatible система может использовать один или несколько таких механизмов, не превращая сам механизм в universal Canon.
 
-Основа сравнения: [Letta](https://github.com/letta-ai/letta) и [Graphiti](https://github.com/getzep/graphiti).
+📖 **Полное датированное сравнение с источниками:** **[docs/COMPARISONS.ru.md](docs/COMPARISONS.ru.md)** — внешние sources последний раз проверены **2026-08-14**.
 
 ## 🧭 Пути чтения
 
@@ -200,6 +195,8 @@ README
   ↓
 🔬 research / evidence
 ```
+
+Опциональное внешнее позиционирование: **[docs/COMPARISONS.ru.md](docs/COMPARISONS.ru.md)**.
 
 **Если нужно текущее состояние:**
 
@@ -223,7 +220,7 @@ docs/ai/CURRENT_STATE.md
 required architecture / research / evidence packet
 ```
 
-Human pages объясняют. Machine pages ограничивают. Ни одна из них не должна создавать новый source of truth.
+Human pages объясняют. Agent pages ограничивают. Machine state хранит точные поля. Evidence/history сохраняет scoped proof и chronology. Ни один слой не должен создавать конкурирующую project truth.
 
 ## 🔬 Текущая исследовательская граница
 
