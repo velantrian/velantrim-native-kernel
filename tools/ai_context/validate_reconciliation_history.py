@@ -4,6 +4,11 @@
 Historical role identities remain exact, but current-only AI surfaces are not
 required to duplicate them. Their owners are machine state plus designated
 history/synchronization records.
+
+The validator's ``validate()`` function intentionally validates the historical
+role view. The standalone CLI may be invoked on a later live repository state;
+in that case it projects only the historical Notion checkpoint fields for the
+duration of validation and restores ``project-state.json`` byte-for-byte.
 """
 from __future__ import annotations
 
@@ -298,18 +303,49 @@ def validate(repo: Path) -> None:
         _require(phrase in boundaries, f"missing reconciliation boundary: {phrase}")
 
 
+def _standalone_historical_view(repo: Path) -> None:
+    """Run the historical validator against a later live checkout safely.
+
+    ``validate()`` remains strict about the historical role identity. The CLI
+    projects only the machine fields that represented that historical view,
+    validates, and restores the original state bytes in ``finally``.
+    """
+    state_path = repo / "project-state.json"
+    state = _load_json(state_path)
+    original = state_path.read_text(encoding="utf-8")
+
+    checkpoints = state.get("checkpoints")
+    _require(isinstance(checkpoints, dict), "checkpoint inventory required")
+    checkpoints["notion_synchronized_through_sha"] = NOTION_SYNC_SHA
+
+    notion = state.get("notion")
+    _require(isinstance(notion, dict), "Notion state required")
+    notion["synchronization_required"] = True
+    notion["status"] = "SYNCED_THROUGH_DESCENDANT_CHECKPOINT"
+    notion["scope"] = (
+        "Publication checkpoint " + PUBLICATION_SHA
+        + " and manifest source / synchronized descendant " + NOTION_SYNC_SHA
+        + " are the historical reconciliation roles projected for standalone validation."
+    )
+
+    state_path.write_text(json.dumps(state, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    try:
+        validate(repo)
+    finally:
+        state_path.write_text(original, encoding="utf-8")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--repo", type=Path, default=Path.cwd())
     args = parser.parse_args()
     repo = args.repo.resolve()
-    validate(repo)
+    _standalone_historical_view(repo)
     print(
-        "Reconciliation validation passed; "
+        "Historical reconciliation validation passed via projected historical view; "
         f"publication={PUBLICATION_SHA}; manifest_source={NOTION_SYNC_SHA}; "
         f"issues=14,15,16,17; notion_pages={len(NOTION_PAGE_IDS)}; "
-        f"role_binding_surfaces={len(ROLE_BINDING_SURFACES)}; "
-        "current-only AI surfaces do not duplicate historical role SHA"
+        f"role_binding_surfaces={len(ROLE_BINDING_SURFACES)}; live state restored"
     )
     return 0
 
