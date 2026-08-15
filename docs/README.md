@@ -40,6 +40,18 @@ STATUS + project-state
 → reference runtime/tests/evidence
 ```
 
+## Historical architecture milestones — not current gates
+
+The bilingual documentation contract preserves these historical identities explicitly:
+
+```text
+A1-A10 DRAFTED / PROVISIONAL
+ADR-0026
+INDEPENDENT_ARCHITECTURE_REVIEW
+```
+
+They record completed/provisional milestones in the architecture-refoundation lineage. They do **not** override the H11 current gate below.
+
 ## Current map
 
 ```text
