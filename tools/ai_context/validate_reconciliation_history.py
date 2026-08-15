@@ -91,31 +91,15 @@ def _read(path: Path) -> str:
         raise ReconciliationError(f"cannot read {path}: {exc}") from exc
 
 
-def _single_match(
-    text: str,
-    *,
-    relative: str,
-    role: str,
-    pattern: str,
-) -> str:
+def _single_match(text: str, *, relative: str, role: str, pattern: str) -> str:
     matches = re.findall(pattern, text, flags=re.MULTILINE)
-    _require(
-        len(matches) == 1,
-        f"{relative}: {role} binding missing or ambiguous",
-    )
+    _require(len(matches) == 1, f"{relative}: {role} binding missing or ambiguous")
     value = matches[0]
     _require(isinstance(value, str), f"{relative}: {role} binding malformed")
     return value
 
 
-def _require_yaml_binding(
-    text: str,
-    *,
-    relative: str,
-    field: str,
-    role: str,
-    expected: str,
-) -> None:
+def _require_yaml_binding(text: str, *, relative: str, field: str, role: str, expected: str) -> None:
     value = _single_match(
         text,
         relative=relative,
@@ -125,14 +109,7 @@ def _require_yaml_binding(
     _require(value == expected, f"{relative}: {role} binding drift")
 
 
-def _require_table_binding(
-    text: str,
-    *,
-    relative: str,
-    label: str,
-    role: str,
-    expected: str,
-) -> None:
+def _require_table_binding(text: str, *, relative: str, label: str, role: str, expected: str) -> None:
     value = _single_match(
         text,
         relative=relative,
@@ -145,86 +122,35 @@ def _require_table_binding(
 def _validate_surface_bindings(texts: Mapping[str, str]) -> None:
     """Validate historical role identities only on their designated owners."""
     _require_table_binding(
-        texts["README.md"],
-        relative="README.md",
-        label="Publication checkpoint",
-        role="publication checkpoint",
-        expected=PUBLICATION_SHA,
+        texts["README.md"], relative="README.md", label="Publication checkpoint",
+        role="publication checkpoint", expected=PUBLICATION_SHA,
     )
     _require_table_binding(
-        texts["README.md"],
-        relative="README.md",
-        label="Manifest source / Notion synchronized descendant",
-        role="Notion synchronized descendant",
-        expected=NOTION_SYNC_SHA,
+        texts["README.md"], relative="README.md", label="Manifest source / Notion synchronized descendant",
+        role="Notion synchronized descendant", expected=NOTION_SYNC_SHA,
     )
     _require_table_binding(
-        texts["README.ru.md"],
-        relative="README.ru.md",
-        label="Publication checkpoint",
-        role="publication checkpoint",
-        expected=PUBLICATION_SHA,
+        texts["README.ru.md"], relative="README.ru.md", label="Publication checkpoint",
+        role="publication checkpoint", expected=PUBLICATION_SHA,
     )
     _require_table_binding(
-        texts["README.ru.md"],
-        relative="README.ru.md",
-        label="Источник manifest / Notion synchronized descendant",
-        role="Notion synchronized descendant",
-        expected=NOTION_SYNC_SHA,
+        texts["README.ru.md"], relative="README.ru.md", label="Источник manifest / Notion synchronized descendant",
+        role="Notion synchronized descendant", expected=NOTION_SYNC_SHA,
     )
 
     status = texts["STATUS.md"]
-    _require_yaml_binding(
-        status,
-        relative="STATUS.md",
-        field="publication_checkpoint",
-        role="publication checkpoint",
-        expected=PUBLICATION_SHA,
-    )
-    _require_yaml_binding(
-        status,
-        relative="STATUS.md",
-        field="manifest_generated_from",
-        role="manifest source",
-        expected=NOTION_SYNC_SHA,
-    )
-    _require_yaml_binding(
-        status,
-        relative="STATUS.md",
-        field="notion_synchronized_through",
-        role="Notion synchronized descendant",
-        expected=NOTION_SYNC_SHA,
-    )
+    _require_yaml_binding(status, relative="STATUS.md", field="publication_checkpoint", role="publication checkpoint", expected=PUBLICATION_SHA)
+    _require_yaml_binding(status, relative="STATUS.md", field="manifest_generated_from", role="manifest source", expected=NOTION_SYNC_SHA)
+    _require_yaml_binding(status, relative="STATUS.md", field="notion_synchronized_through", role="Notion synchronized descendant", expected=NOTION_SYNC_SHA)
 
     handoff = texts["docs/ai/NOTION_HANDOFF.md"]
-    _require_yaml_binding(
-        handoff,
-        relative="docs/ai/NOTION_HANDOFF.md",
-        field="publication_checkpoint",
-        role="publication checkpoint",
-        expected=PUBLICATION_SHA,
-    )
-    _require_yaml_binding(
-        handoff,
-        relative="docs/ai/NOTION_HANDOFF.md",
-        field="manifest_generated_from",
-        role="manifest source",
-        expected=NOTION_SYNC_SHA,
-    )
-    _require_yaml_binding(
-        handoff,
-        relative="docs/ai/NOTION_HANDOFF.md",
-        field="latest_synchronized_descendant",
-        role="Notion synchronized descendant",
-        expected=NOTION_SYNC_SHA,
-    )
+    _require_yaml_binding(handoff, relative="docs/ai/NOTION_HANDOFF.md", field="publication_checkpoint", role="publication checkpoint", expected=PUBLICATION_SHA)
+    _require_yaml_binding(handoff, relative="docs/ai/NOTION_HANDOFF.md", field="manifest_generated_from", role="manifest source", expected=NOTION_SYNC_SHA)
+    _require_yaml_binding(handoff, relative="docs/ai/NOTION_HANDOFF.md", field="latest_synchronized_descendant", role="Notion synchronized descendant", expected=NOTION_SYNC_SHA)
 
     risks = texts["docs/ai/KNOWN_RISKS.md"]
     _require(ACTIVE_RISK_MARKER in risks, "active current-state drift risk state drift")
-    _require(
-        OBSOLETE_RISK_MARKER not in risks,
-        "obsolete current-state drift risk state remains present",
-    )
+    _require(OBSOLETE_RISK_MARKER not in risks, "obsolete current-state drift risk state remains present")
 
 
 def validate(repo: Path) -> None:
@@ -233,18 +159,9 @@ def validate(repo: Path) -> None:
 
     checkpoints = state.get("checkpoints")
     _require(isinstance(checkpoints, Mapping), "checkpoint inventory required")
-    _require(
-        checkpoints.get("manifest_generated_from_sha") == NOTION_SYNC_SHA,
-        "reconciliation source checkpoint drift",
-    )
-    _require(
-        checkpoints.get("publication_checkpoint_sha") == PUBLICATION_SHA,
-        "publication checkpoint drift",
-    )
-    _require(
-        checkpoints.get("notion_synchronized_through_sha") == NOTION_SYNC_SHA,
-        "Notion synchronization checkpoint drift",
-    )
+    _require(checkpoints.get("manifest_generated_from_sha") == NOTION_SYNC_SHA, "reconciliation source checkpoint drift")
+    _require(checkpoints.get("publication_checkpoint_sha") == PUBLICATION_SHA, "publication checkpoint drift")
+    _require(checkpoints.get("notion_synchronized_through_sha") == NOTION_SYNC_SHA, "Notion synchronization checkpoint drift")
     _require(
         checkpoints.get("publication_checkpoint_sha") != checkpoints.get("notion_synchronized_through_sha"),
         "publication and descendant synchronization roles collapsed",
@@ -256,10 +173,7 @@ def validate(repo: Path) -> None:
         issue = issues.get(number)
         _require(isinstance(issue, Mapping), f"Issue #{number} snapshot missing")
         _require(issue.get("state") == "OPEN", f"Issue #{number} must remain OPEN")
-        _require(
-            isinstance(issue.get("meaning"), str) and issue["meaning"].strip(),
-            f"Issue #{number} meaning required",
-        )
+        _require(isinstance(issue.get("meaning"), str) and issue["meaning"].strip(), f"Issue #{number} meaning required")
         verification = issue.get("verification")
         _require(isinstance(verification, Mapping), f"Issue #{number} verification required")
         _require(
@@ -274,18 +188,13 @@ def validate(repo: Path) -> None:
     _require(notion.get("synchronization_required") is True, "Notion synchronization must remain required")
     _require(notion.get("status") == "SYNCED_THROUGH_DESCENDANT_CHECKPOINT", "Notion status drift")
     scope = str(notion.get("scope", ""))
-    _require(
-        PUBLICATION_SHA in scope and NOTION_SYNC_SHA in scope,
-        "Notion scope must name publication and synchronized descendant checkpoints",
-    )
+    _require(PUBLICATION_SHA in scope and NOTION_SYNC_SHA in scope, "Notion scope must name publication and synchronized descendant checkpoints")
 
     issue_record = _read(repo / "docs/ai/ISSUE_RECONCILIATION.md")
     notion_record = _read(repo / "docs/ai/NOTION_HANDOFF.md")
-
     for number, comment_id in ISSUE_COMMENTS.items():
         _require(f"Issue #{number}" in issue_record, f"Issue #{number} missing from record")
         _require(comment_id in issue_record, f"Issue #{number} comment identity missing")
-
     for page_id in NOTION_PAGE_IDS:
         _require(page_id in notion_record, f"Notion page identity missing: {page_id}")
 
@@ -293,23 +202,17 @@ def validate(repo: Path) -> None:
     _validate_surface_bindings(boundary_texts)
 
     boundaries = " ".join([issue_record, notion_record, *boundary_texts.values()]).lower()
-    for phrase in (
-        "remain open",
-        "not production readiness",
-        "not runtime evidence",
-        "only then reducer-v2 runtime",
-        "does not rewrite",
-    ):
+    for phrase in ("remain open", "not production readiness", "not runtime evidence", "only then reducer-v2 runtime", "does not rewrite"):
         _require(phrase in boundaries, f"missing reconciliation boundary: {phrase}")
 
 
-def _standalone_historical_view(repo: Path) -> None:
-    """Run the historical validator against a later live checkout safely.
+# Pin the historical callable before this module is embedded into later
+# reconciliation layers that deliberately redefine the global name `validate`.
+validate_historical_view = validate
 
-    ``validate()`` remains strict about the historical role identity. The CLI
-    projects only the machine fields that represented that historical view,
-    validates, and restores the original state bytes in ``finally``.
-    """
+
+def _standalone_historical_view(repo: Path) -> None:
+    """Run the historical validator against a later live checkout safely."""
     state_path = repo / "project-state.json"
     state = _load_json(state_path)
     original = state_path.read_text(encoding="utf-8")
@@ -330,7 +233,7 @@ def _standalone_historical_view(repo: Path) -> None:
 
     state_path.write_text(json.dumps(state, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     try:
-        validate(repo)
+        validate_historical_view(repo)
     finally:
         state_path.write_text(original, encoding="utf-8")
 
