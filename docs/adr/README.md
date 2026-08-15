@@ -1,6 +1,6 @@
-<!-- POST_D8_OPERATOR_DECISION_CURRENT -->
+<!-- H11_EXECUTION_ADMISSION_BLOCKED_CURRENT -->
 > [!IMPORTANT]
-> **Current post-D8 operator decision — 2026-08-12.** ADR-0027 / `OD-POST-D8-001` is `ACCEPTED / OPERATOR APPROVED` at `57993f39906ae7266011f6146c9a485d0587d2bf`. A1–A10 remains `STRENGTHENED_FOR_BPV1_SCOPE / STILL_PROVISIONAL`; Final Canon is **deferred**, product runtime remains `FROZEN`, production remains `false`. The only current next gate is `RESIDUAL_A10_VALIDATION_PLAN` for A10-H03, A10-H06, A10-H08, A10-H09, A10-H10, A10-H11, and that gate is **RESEARCH_PLANNING_ONLY** — no residual experiment execution is authorized. Any lower `D6 NEXT`, `D8 IN_PROGRESS`, or `OPERATOR_CANON_RUNTIME_DECISION_REQUIRED` wording is historical chronology, not current truth.
+> **Current research boundary — 2026-08-15.** Architecture remains provisional and interpreted through Integrated Review / IAR-1 / IAR-1-R1. Final Canon is deferred. The selected residual family is `A10-H11`; current gate `A10_H11_EXECUTION_ADMISSION` is `BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER`; reviewer/reproducer `NOT_ESTABLISHED`; H11 `NOT_TESTED`; runtime `FROZEN`; production `false`. This ADR index does not itself authorize H11, reducer-v2, Final Canon, runtime thaw or production.
 
 # 📝 Architecture Decision Records
 
@@ -46,39 +46,48 @@ Decision status
 | [`0023`](./0023-harden-sqlite-wal-and-event-integrity.md) | Harden SQLite WAL and stored Event integrity | `ACCEPTED` | repository-reproduced; additive evidence captured | merged via PR #69 + follow-up PR #72 | `APPROVED` |
 | [`0024`](./0024-version-reducer-referential-semantics.md) | Version reducer referential semantics without rewriting history | `PROPOSED` | repository gap documented | `NOT_STARTED` | `PENDING` |
 | [`0025`](./0025-blueprint-before-runtime-expansion.md) | Complete the architecture blueprint before further runtime expansion | `ACCEPTED` | `DOCUMENTED` | blueprint drafted/reviewed provisionally; runtime freeze active | `APPROVED` |
-| [`0026`](./0026-independent-challenge-before-bounded-cross-lineage-falsification.md) | Independent challenge before bounded cross-lineage falsification | `ACCEPTED` | IAR-1 + IAR-1-R1 + authoritative BPV-1 preregistration | `GOVERNANCE_PARTIAL` / execution admission next | `APPROVED` |
-| [`0027`](./0027-retain-provisional-architecture-and-runtime-freeze-after-option-d.md) | Retain provisional architecture and runtime freeze after Option D | `ACCEPTED` | `REPOSITORY_REPRODUCED` | governance complete; residual validation planning only | `APPROVED` |
+| [`0026`](./0026-independent-challenge-before-bounded-cross-lineage-falsification.md) | Independent challenge before bounded cross-lineage falsification | `ACCEPTED` | IAR-1 + IAR-1-R1 + BPV-1 / residual-A10 evidence | `GOVERNANCE_PARTIAL` / H11 admission blocked | `APPROVED` |
+| [`0027`](./0027-retain-provisional-architecture-and-runtime-freeze-after-option-d.md) | Retain provisional architecture and runtime freeze after Option D | `ACCEPTED` | `REPOSITORY_REPRODUCED` | governance complete; residual validation active | `APPROVED` |
+
+> **ADR-0024 navigation note:** [`0024-operator-decision-package.md`](./0024-operator-decision-package.md) is a **supporting operator decision package for ADR-0024, not a second ADR**. The normative proposed ADR remains [`0024-version-reducer-referential-semantics.md`](./0024-version-reducer-referential-semantics.md).
 
 ## Current boundary
 
 ```text
-H historical recovery: OPEN / BLOCKED / independent
-C clean implementation: P1–P5 + C4 + C5 / BOUNDED REFERENCE LABORATORY
-R post-blueprint validation: ACTIVE / BPV1-PREREGISTERED / EXECUTION-ADMISSION-NEXT
+H historical recovery: OPEN / BLOCKED / operator-controlled source admission
+C clean implementation: P1–P5 + C4 + C5 / BOUNDED_REFERENCE_LABORATORY
+R post-blueprint validation: ACTIVE / H11 EXECUTION ADMISSION BLOCKED
+selected family: A10-H11
+current gate: A10_H11_EXECUTION_ADMISSION
+admission: BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER
+reviewer/reproducer: NOT_ESTABLISHED
+H11: NOT_TESTED
 kernel_runtime_conformance: C4
 operational_validation: C5_BOUNDED_REHEARSAL
 assertion map: 45 / 10 / 17 / 0
 NK-EPI: 0 SUPPORTED / 0 PARTIAL / 8 UNSUPPORTED / 0 FAILED
+Final Canon: DEFERRED / NOT AUTHORIZED
 production: NOT AUTHORIZED
 runtime expansion: FROZEN
 ```
 
-## Active architecture gate
+## Active architecture / research gate
 
 ```text
 ADR-0025 — Blueprint before Runtime
   ACCEPTED / OPERATOR APPROVED
-  A1-A10 + integrated review complete/provisional
+  A1-A10 first drafts + integrated review complete/provisional
 
 ADR-0026 — Post-Blueprint Validation / Option D
   ACCEPTED / OPERATOR APPROVED
-  independent review: IAR-1 / QUALIFYING_REVIEW_COMPLETE
-  reconciliation: IAR-1-R1 / COMPLETE / open blockers 0 / open material 0
-  BPV-1 plan: BPV1-001-cross-lineage-bounded-accountability-v1 / PREREGISTERED
-  plan merge: a538d7f1e28858a88b9ee777ac7d6e05b85943db
-  execution-admission package merge: 6027eec73f11c4626be5553de7e79f827be2c81d
-  next: BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION
-  BPV-1 execution: ADMITTED_FOR_EXPERIMENT_ONLY
+  independent architecture review: IAR-1 / QUALIFYING_REVIEW_COMPLETE
+  reconciliation: IAR-1-R1 / COMPLETE
+  BPV-1 + D6/D7/D8: COMPLETE for their recorded scope
+  residual A10 plan: RAVP-001 / COMPLETE
+  selected residual family: A10-H11
+  H11 preregistration: COMPLETE / EXECUTION_NOT_AUTHORIZED
+  H11 execution admission: BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER
+  H11 outcome: NOT_TESTED
   product runtime thaw: NO
 
 Issue #18 — license/publication terms
@@ -89,18 +98,22 @@ Issue #74 / ADR-0024
   reducer-v2 unauthorized
 ```
 
-Post-blueprint validation sequence:
+Residual validation order:
 
 ```text
-independent architecture review       COMPLETE / IAR-1
-→ finding reconciliation              COMPLETE / IAR-1-R1
-→ BPV-1 plan and preregistration      COMPLETE / PR #110
-→ BPV-1 execution admission           NEXT
-→ one bounded BPV-1 falsification instrument
-→ A10 outcomes
-→ integrated re-review
-→ separate later operator Canon/runtime decision
+H11  ← selected / admission blocked
+→ H03
+→ H10
+→ H06
+→ H09
+→ H08
+→ integrated residual reassessment
+→ separate Final Canon operator decision
+→ separate runtime-thaw decision
+→ separate production decision
 ```
+
+This order is not automatic authorization. H11 cannot execute until qualifying reviewer/reproducer evidence exists and execution admission is separately reassessed.
 
 ## Operational rules
 
@@ -124,8 +137,8 @@ independent architecture review       COMPLETE / IAR-1
 18. A public repository does not imply an open-source license.
 19. Existing implementation profiles cannot define Canon merely by being implemented first.
 20. ADR-0025 permits maintenance and falsification instruments, not automatic semantic/runtime expansion.
-21. ADR-0026 permits independent challenge and later BPV-1 only under review/reconciliation/preregistration/admission gates; it does not thaw product runtime.
+21. ADR-0026 permits independent challenge and bounded falsification only under explicit review/reconciliation/preregistration/admission gates; it does not thaw product runtime.
 22. A qualifying independent review may not be self-certified by the same authorship lineage.
-23. BPV-1 normative fields are frozen before execution and post-hoc rescoping cannot rescue a run.
-24. Preregistration merge ≠ execution authorization; execution admission is separate.
-25. BPV-1 results use A10 outcomes and may weaken/refute the architecture; they never promote Canon or runtime automatically.
+23. Frozen normative fields cannot be post-hoc respecified to rescue an experiment.
+24. Preregistration ≠ execution authorization; execution admission is separate.
+25. Bounded results may weaken/refute architecture claims; they never promote Canon or runtime automatically.

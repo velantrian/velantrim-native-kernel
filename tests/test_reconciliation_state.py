@@ -45,6 +45,24 @@ class ReconciliationStateTests(unittest.TestCase):
     def test_repository_reconciliation_passes(self) -> None:
         module.validate(ROOT)
 
+    def test_standalone_historical_projection_passes_and_restores_state(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            repo = Path(temp)
+            self._copy_fixture(repo)
+            state_path = repo / "project-state.json"
+            original = state_path.read_bytes()
+            module._standalone_historical_view(repo)
+            self.assertEqual(original, state_path.read_bytes())
+
+    def test_standalone_d8_projection_passes_and_restores_state(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            repo = Path(temp)
+            self._copy_fixture(repo)
+            state_path = repo / "project-state.json"
+            original = state_path.read_bytes()
+            module._standalone_d8_view(repo)
+            self.assertEqual(original, state_path.read_bytes())
+
     def test_foundational_issues_are_present_and_open(self) -> None:
         for number in module.ISSUES:
             issue = self.state["issues"][number]

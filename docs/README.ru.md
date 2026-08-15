@@ -3,70 +3,77 @@
 **[English](./README.md) · [Русский](./README.ru.md)**
 
 > **Текущая граница:** `RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY`  
-> **Активная фаза:** `POST-BLUEPRINT VALIDATION / BPV1 EXECUTION-ADMISSION COMPLETE / SUBJECT-IMPLEMENTATION-NEXT / RUNTIME EXPANSION FROZEN`
+> **Активная фаза:** `POST-BLUEPRINT VALIDATION / A10-H11 SELECTED / EXECUTION ADMISSION BLOCKED / RUNTIME EXPANSION FROZEN`
 
 ## Начать здесь
 
 | Документ | Роль |
 |---|---|
-| [`../STATUS.md`](../STATUS.md) | authoritative human current state |
+| [`../STATUS.md`](../STATUS.md) | primary human current-status summary + явно помеченная история |
 | [`../project-state.json`](../project-state.json) | committed machine state (`nk-project-state/2`) |
-| [`../ROADMAP.md`](../ROADMAP.md) | active sequence и authorization boundaries |
-| [`ARCHITECTURE_REFOUNDATION.ru.md`](./ARCHITECTURE_REFOUNDATION.ru.md) | blueprint/refoundation history и current validation gate |
-| [`INTEGRATED_A1_A10_REVIEW.ru.md`](./INTEGRATED_A1_A10_REVIEW.ru.md) | historical integrated review / provisional reconciliation |
-| [`INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.ru.md`](./INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.ru.md) | normative independent-review protocol; publication-time status является историческим |
-| [`reviews/IAR-1_RESULT.ru.md`](./reviews/IAR-1_RESULT.ru.md) / [`EN`](./reviews/IAR-1_RESULT.md) / [`JSON`](./reviews/IAR-1_RESULT.json) | qualifying independent review result |
-| [`reviews/IAR-1_RECONCILIATION.ru.md`](./reviews/IAR-1_RECONCILIATION.ru.md) / [`EN`](./reviews/IAR-1_RECONCILIATION.md) / [`JSON`](./reviews/IAR-1_RECONCILIATION.json) | provisional architecture reconciliation |
-| [`research/BPV1_PREREGISTRATION.ru.md`](./research/BPV1_PREREGISTRATION.ru.md) / [`EN`](./research/BPV1_PREREGISTRATION.md) / [`JSON`](./research/BPV1_PREREGISTRATION.json) | authoritative BPV-1 preregistration; execution не авторизован |
-| [`adr/0026-independent-challenge-before-bounded-cross-lineage-falsification.md`](./adr/0026-independent-challenge-before-bounded-cross-lineage-falsification.md) | operator-approved Option D decision |
-| [`ai/CURRENT_STATE.md`](./ai/CURRENT_STATE.md) | compact AI current state |
-| [`../AGENTS.md`](../AGENTS.md) | обязательные repository instructions |
+| [`../ROADMAP.md`](../ROADMAP.md) | active residual order и authorization boundaries + помеченная chronology |
+| [`../ARCHITECTURE.md`](../ARCHITECTURE.md) | Formal Architecture entrypoint и current provisional authority route |
+| [`ARCHITECTURE_REFOUNDATION.ru.md`](./ARCHITECTURE_REFOUNDATION.ru.md) | blueprint/refoundation history |
+| [`INTEGRATED_A1_A10_REVIEW.ru.md`](./INTEGRATED_A1_A10_REVIEW.ru.md) | integrated review / provisional architecture evidence |
+| [`reviews/IAR-1_RESULT.ru.md`](./reviews/IAR-1_RESULT.ru.md) / [`EN`](./reviews/IAR-1_RESULT.md) / [`JSON`](./reviews/IAR-1_RESULT.json) | qualifying independent architecture-review result |
+| [`reviews/IAR-1_RECONCILIATION.ru.md`](./reviews/IAR-1_RECONCILIATION.ru.md) / [`EN`](./reviews/IAR-1_RECONCILIATION.md) / [`JSON`](./reviews/IAR-1_RECONCILIATION.json) | current provisional interpretation там, где reconciliation сужает first-draft wording |
+| [`research/RESIDUAL_A10_VALIDATION_PLAN.ru.md`](./research/RESIDUAL_A10_VALIDATION_PLAN.ru.md) / [`JSON`](./research/RESIDUAL_A10_VALIDATION_PLAN.json) | residual A10 research order |
+| [`research/H11_PREREGISTRATION.md`](./research/H11_PREREGISTRATION.md) / [`JSON`](./research/H11_PREREGISTRATION.json) | frozen H11 preregistration |
+| [`research/H11_EXECUTION_ADMISSION.json`](./research/H11_EXECUTION_ADMISSION.json) | текущая fail-closed H11 admission record |
+| [`ai/CURRENT_STATE.md`](./ai/CURRENT_STATE.md) | current-only AI/agent projection |
+| [`../AGENTS.md`](../AGENTS.md) | repository operating constraints |
 
-First-draft документы A1–A10 сохраняются и остаются `DRAFTED / PROVISIONAL / RECONCILED BY OVERLAY`.
+First-draft документы A1–A10 сохраняются и остаются provisional. Они не являются Final Canon; architecture meaning разрешается через Integrated Review / IAR-1 / IAR-1-R1 и более позднюю accepted authority только для явно принадлежащего ей scope.
 
 ## Порядок чтения
 
 ```text
 STATUS + project-state
 → ROADMAP
-→ Architecture Re-foundation
-→ first drafts A1–A10
+→ ARCHITECTURE
+→ first-draft provenance A1–A10
 → Integrated A1–A10 Review
-→ ADR-0026 Option D
-→ Independent Architecture Review Protocol
 → IAR-1 result
 → IAR-1-R1 reconciliation
-→ BPV-1 preregistration
+→ current residual-A10 / H11 records
 → relevant accepted contracts/ADRs
 → reference runtime/tests/evidence
 ```
 
+## Historical architecture milestones — not current gates
+
+Bilingual documentation contract явно сохраняет эти исторические identities:
+
+```text
+A1-A10 DRAFTED / PROVISIONAL
+ADR-0026
+INDEPENDENT_ARCHITECTURE_REVIEW
+```
+
+Они фиксируют завершённые/provisional milestones architecture-refoundation lineage и **не** переопределяют текущий H11 gate ниже.
+
 ## Текущая карта
 
 ```text
-H historical recovery: OPEN / BLOCKED / independent
-C clean implementation: PRESERVED / PARTIAL / BOUNDED REFERENCE LABORATORY
-R post-blueprint validation: ACTIVE / BPV1-EXECUTION-ADMISSION-COMPLETE / SUBJECT-IMPLEMENTATION-NEXT
-blueprint content: A1-A10 DRAFTED / PROVISIONAL / RECONCILED BY OVERLAY
-integrated review: COMPLETED / PROVISIONAL
-operator post-blueprint choice: OPTION D / ADR-0026 / APPROVED
-independent architecture review: IAR-1 / QUALIFYING_REVIEW_COMPLETE
-IAR-1 findings: 10 total / 7 BLOCKING / 3 MATERIAL
-IAR-1-R1: COMPLETE / open blockers 0 / open material 0
-BPV-1 plan: BPV1-001-cross-lineage-bounded-accountability-v1 / PREREGISTERED / EXECUTION_NOT_AUTHORIZED
-plan merge: a538d7f1e28858a88b9ee777ac7d6e05b85943db
-execution-admission package merge: 6027eec73f11c4626be5553de7e79f827be2c81d
-next gate: BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION
-BPV-1 execution: ADMITTED_FOR_EXPERIMENT_ONLY
+H historical recovery: OPEN / BLOCKED / operator-controlled source admission
+C clean implementation: PRESERVED / PARTIAL / BOUNDED_REFERENCE_LABORATORY
+R post-blueprint validation: ACTIVE / H11 EXECUTION ADMISSION BLOCKED
+architecture: PROVISIONAL / interpreted through IAR-1-R1 / Final Canon deferred
+selected family: A10-H11
+current gate: A10_H11_EXECUTION_ADMISSION
+admission: BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER
+reviewer/reproducer: NOT_ESTABLISHED
+H11 outcome: NOT_TESTED
+H11 implementation/execution: NOT AUTHORIZED
+runtime expansion: FROZEN
 kernel runtime: C4
 operational validation: C5_BOUNDED_REHEARSAL
 assertions: 45 / 10 / 17 / 0
 NK-EPI: 0 SUPPORTED / 0 PARTIAL / 8 UNSUPPORTED / 0 FAILED
 production: NOT AUTHORIZED
-runtime expansion: FROZEN
 ```
 
-Integrated review identity: `nk-integrated-blueprint-review/A1-A10-review-1`. Independent-review protocol identity: `nk-independent-architecture-review/1`. Reconciliation identity: `IAR-1-R1`. BPV-1 plan identity: `BPV1-001-cross-lineage-bounded-accountability-v1`.
+Frozen H11 plan identity: `H11-001-c5-lab-canon-separation-v1`; SHA-256 `60da649e675b79b3e70bf8a61cf03cb4d57bb989f4934b65ab8d50c925b19914`. PR #131 остаётся external reviewer/reproducer surface. CI, owner review, model agreement или repository-local identity не могут создать qualifying independence.
 
 ## Current reconciled distinctions
 
@@ -83,15 +90,14 @@ history visibility ≠ mandatory Event sourcing
 local scoped conformance ≠ composition/federation conformance
 A10 outcome protocol = SUPPORTED_FOR_SCOPE / WEAKENED / REFUTED / INDETERMINATE / NOT_TESTED
 NOT_TESTED ≠ SUPPORTED
-reference laboratory ≠ final architecture
+reference laboratory ≠ architecture authority
 existing mechanism ≠ architecture requirement
 substrate-independent specification ≠ universal portability proof
-qualifying independent review ≠ architecture proof
-review reconciliation ≠ BPV-1 execution authorization
-preregistered plan ≠ BPV-1 execution authorization
+qualifying review ≠ execution admission
+blocked admission ≠ INDETERMINATE
 falsification instrument ≠ product runtime
 ```
 
 ## Hard stop
 
-`BPV1_EXECUTION_ADMISSION` — завершён: PR #112 (merge `6027eec73f11c4626be5553de7e79f827be2c81d`) связал frozen plan/digest, machine-readable fixture/oracle package, standalone evaluator tests, pinned Rust toolchain/source boundary и static no-product-integration audit. `BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION` — следующий gate; он допускает только BPV1-001 subject implementation/execution, не product runtime integration. Runtime остаётся `FROZEN`; A1–A10 остаются provisional. Issue #18, Issue #74 / ADR-0024, ADR-0003 и Track H остаются unchanged/operator-controlled.
+`A10_H11_EXECUTION_ADMISSION` — текущий gate, и он fail-closed. H11 остаётся `NOT_TESTED`, пока не установлен qualifying independent reviewer/reproducer и admission не будет отдельно reassessed. Runtime остаётся `FROZEN`; Final Canon и production не авторизованы. Issue #18, Issue #74 / ADR-0024, ADR-0003 и Track H остаются unchanged/operator-controlled.

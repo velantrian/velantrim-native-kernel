@@ -273,7 +273,13 @@ PROJECT_OVERVIEW.ru.md
   ↓
 ARCHITECTURE.md
   ↓
-docs/A1...A10
+docs/A1...A10 first-draft provenance
+  ↓
+docs/INTEGRATED_A1_A10_REVIEW.ru.md
+  ↓
+docs/reviews/IAR-1_RESULT.ru.md
+  ↓
+docs/reviews/IAR-1_RECONCILIATION.ru.md
   ↓
 docs/research/
   ↓
@@ -282,21 +288,20 @@ evidence/
 🤖 Machine / agent continuity
 docs/ai/README.md
   ↓
-AGENTS.md
-  ↓
-project-state.json
-  ↓
-docs/ai/CURRENT_STATE.md
-  ↓
-required contracts / ADRs / research artifacts
+следовать его canonical required reading order
 
 📊 Live state
 STATUS.md + project-state.json
 ```
 
+Если first-draft wording A1–A10 конфликтует с IAR-1-R1, reconciliation является current provisional interpretation. Final Canon остаётся deferred.
+
 Полезные entry points:
 
-- [ARCHITECTURE.md](ARCHITECTURE.md) — архитектурная ориентация.
+- [ARCHITECTURE.md](ARCHITECTURE.md) — formal architecture orientation и authority route.
+- [docs/INTEGRATED_A1_A10_REVIEW.ru.md](docs/INTEGRATED_A1_A10_REVIEW.ru.md) — integrated first-draft review.
+- [docs/reviews/IAR-1_RESULT.ru.md](docs/reviews/IAR-1_RESULT.ru.md) — qualifying architecture challenge result.
+- [docs/reviews/IAR-1_RECONCILIATION.ru.md](docs/reviews/IAR-1_RECONCILIATION.ru.md) — current provisional reconciliation при конфликте.
 - [docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md](docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.ru.md) — purpose и non-goals.
 - [docs/A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md](docs/A2_KNOWLEDGE_AND_MEMORY_ONTOLOGY.ru.md) — ontology.
 - [docs/A8_SUBSTRATE_INDEPENDENCE_CONTRACT.ru.md](docs/A8_SUBSTRATE_INDEPENDENCE_CONTRACT.ru.md) — substrate-independence contract.

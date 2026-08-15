@@ -196,10 +196,18 @@ README
   ↓
 🏛 ARCHITECTURE.md
   ↓
-🧠 A1–A10 architecture documents
+🧠 A1–A10 first-draft architecture documents
+  ↓
+🧾 Integrated A1–A10 Review
+  ↓
+🔍 IAR-1 result
+  ↓
+🧭 IAR-1-R1 reconciliation
   ↓
 🔬 research / evidence
 ```
+
+Where first-draft wording conflicts with IAR-1-R1, the reconciliation is the current provisional interpretation. Final Canon remains deferred.
 
 Optional external positioning: **[docs/COMPARISONS.md](docs/COMPARISONS.md)**.
 
@@ -216,13 +224,7 @@ Optional external positioning: **[docs/COMPARISONS.md](docs/COMPARISONS.md)**.
 ```text
 🤖 docs/ai/README.md
    ↓
-AGENTS.md
-   ↓
-project-state.json
-   ↓
-docs/ai/CURRENT_STATE.md
-   ↓
-required architecture / research / evidence packet
+follow its canonical required reading order
 ```
 
 The human pages explain. The agent pages constrain. The machine state is exact. Evidence/history preserves scoped proof and chronology. None is allowed to invent a competing project truth.
