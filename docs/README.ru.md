@@ -40,6 +40,18 @@ STATUS + project-state
 → reference runtime/tests/evidence
 ```
 
+## Historical architecture milestones — not current gates
+
+Bilingual documentation contract явно сохраняет эти исторические identities:
+
+```text
+A1-A10 DRAFTED / PROVISIONAL
+ADR-0026
+INDEPENDENT_ARCHITECTURE_REVIEW
+```
+
+Они фиксируют завершённые/provisional milestones architecture-refoundation lineage и **не** переопределяют текущий H11 gate ниже.
+
 ## Текущая карта
 
 ```text
