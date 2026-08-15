@@ -15,12 +15,13 @@ from urllib.parse import unquote, urlsplit
 # must remain repository-resident.
 REQUIRED_PATHS = (
     "ARCHITECTURE.md",
-    "AGENTS.md", "STATUS.md", "ROADMAP.md", "project-state.json",
+    "AGENTS.md", "README.md", "README.ru.md", "PROJECT_OVERVIEW.md", "PROJECT_OVERVIEW.ru.md",
+    "STATUS.md", "ROADMAP.md", "project-state.json",
     ".github/copilot-instructions.md", ".github/pull_request_template.md",
     "contracts/project-state-v1.schema.json", "contracts/project-state-v2.schema.json",
     "contracts/evidence-bundle-v1.schema.json", "evidence/c5/README.md",
     "evidence/c5/2026-08-07/manifest.json", "evidence/c5/2026-08-08-adr0023/manifest.json",
-    "docs/ARCHITECTURE_REFOUNDATION.md", "docs/ARCHITECTURE_REFOUNDATION.ru.md",
+    "docs/README.md", "docs/README.ru.md", "docs/ARCHITECTURE_REFOUNDATION.md", "docs/ARCHITECTURE_REFOUNDATION.ru.md",
     "docs/INTEGRATED_A1_A10_REVIEW.md", "docs/INTEGRATED_A1_A10_REVIEW.ru.md",
     "docs/INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.md", "docs/INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.ru.md",
     "docs/reviews/IAR-1_RESULT.md", "docs/reviews/IAR-1_RESULT.ru.md", "docs/reviews/IAR-1_RESULT.json",
@@ -42,7 +43,7 @@ REQUIRED_PATHS = (
     "docs/A8_SUBSTRATE_INDEPENDENCE_CONTRACT.md", "docs/A8_SUBSTRATE_INDEPENDENCE_CONTRACT.ru.md",
     "docs/A9_REFERENCE_LABORATORY_BOUNDARY.md", "docs/A9_REFERENCE_LABORATORY_BOUNDARY.ru.md",
     "docs/A10_OPEN_QUESTIONS_AND_FALSIFICATION.md", "docs/A10_OPEN_QUESTIONS_AND_FALSIFICATION.ru.md",
-    "docs/adr/0025-blueprint-before-runtime-expansion.md",
+    "docs/adr/README.md", "docs/adr/0025-blueprint-before-runtime-expansion.md",
     "docs/adr/0026-independent-challenge-before-bounded-cross-lineage-falsification.md",
     "docs/adr/0027-retain-provisional-architecture-and-runtime-freeze-after-option-d.md",
     "docs/ai/README.md", "docs/ai/CURRENT_STATE.md", "docs/ai/POST_RESIDUAL_A10_STATE.md",
@@ -52,7 +53,7 @@ REQUIRED_PATHS = (
 )
 
 LINK_SCAN_PATHS = REQUIRED_PATHS + (
-    "README.md", "README.ru.md", "CONTRIBUTING.md", "docs/README.md", "docs/README.ru.md", "docs/adr/README.md",
+    "CONTRIBUTING.md",
 )
 
 CURRENT_STATE_CHECKPOINT_RE = re.compile(
@@ -101,11 +102,67 @@ CURRENT_SURFACE_MARKERS = {
         "formal_architecture_reconciliation: docs/reviews/IAR-1_RECONCILIATION.md",
         "formal_architecture_role: semantic_authority",
     ),
+    "STATUS.md": (
+        "document_role: CURRENT_STATE",
+        "current_gate: A10_H11_EXECUTION_ADMISSION",
+        "execution_admission_state: BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER",
+        "HISTORICAL_D5_D6_STATUS_CHECKPOINT_NOT_CURRENT",
+        "Historical hard stop — superseded as current instruction",
+    ),
+    "ROADMAP.md": (
+        "document_role: ACTIVE_ROADMAP",
+        "current_gate: A10_H11_EXECUTION_ADMISSION",
+        "execution_admission_state: BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER",
+        "HISTORICAL_D5_D6_ROADMAP_CHECKPOINT_NOT_CURRENT",
+        "Historical hard stop — superseded as current instruction",
+    ),
+    "README.md": (
+        "A1–A10 first-draft architecture documents",
+        "Integrated A1–A10 Review",
+        "IAR-1-R1 reconciliation",
+        "follow its canonical required reading order",
+    ),
+    "README.ru.md": (
+        "A1–A10 first-draft architecture documents",
+        "Integrated A1–A10 Review",
+        "IAR-1-R1 reconciliation",
+        "следовать его canonical required reading order",
+    ),
+    "PROJECT_OVERVIEW.md": (
+        "docs/A1...A10 first-draft provenance",
+        "docs/INTEGRATED_A1_A10_REVIEW.md",
+        "docs/reviews/IAR-1_RECONCILIATION.md",
+        "follow its canonical required reading order",
+    ),
+    "PROJECT_OVERVIEW.ru.md": (
+        "docs/A1...A10 first-draft provenance",
+        "docs/INTEGRATED_A1_A10_REVIEW.ru.md",
+        "docs/reviews/IAR-1_RECONCILIATION.ru.md",
+        "следовать его canonical required reading order",
+    ),
+    "docs/README.md": (
+        "A10-H11 SELECTED / EXECUTION ADMISSION BLOCKED",
+        "current gate: A10_H11_EXECUTION_ADMISSION",
+        "admission: BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER",
+        "H11 outcome: NOT_TESTED",
+    ),
+    "docs/README.ru.md": (
+        "A10-H11 SELECTED / EXECUTION ADMISSION BLOCKED",
+        "current gate: A10_H11_EXECUTION_ADMISSION",
+        "admission: BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER",
+        "H11 outcome: NOT_TESTED",
+    ),
+    "docs/adr/README.md": (
+        "A10_H11_EXECUTION_ADMISSION",
+        "BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER",
+        "H11: NOT_TESTED",
+        "supporting operator decision package for ADR-0024, not a second ADR",
+    ),
 }
 
 # These strings are valid chronology in designated history/research surfaces,
-# but not in current-only agent surfaces. Their presence there creates the
-# retrieval ambiguity Documentation Standard v5 is intended to prevent.
+# but not when presented as current instructions. Historical documents may keep
+# the underlying facts if the wording is explicitly scoped to the old checkpoint.
 FORBIDDEN_CURRENT_MARKERS = {
     "docs/ai/CURRENT_STATE.md": (
         "next bounded gate: D6_A10_HYPOTHESIS_CLASSIFICATION",
@@ -119,6 +176,26 @@ FORBIDDEN_CURRENT_MARKERS = {
         "D6: NOT_STARTED",
         "The only current next gate is `RESIDUAL_A10_VALIDATION_PLAN`",
         "Notion is intentionally still at the earlier D4.5 checkpoint",
+    ),
+    "STATUS.md": (
+        "The current next gate is `D6_A10_HYPOTHESIS_CLASSIFICATION`",
+        "Live Notion remains synchronized through the earlier D4.5 admission checkpoint",
+    ),
+    "ROADMAP.md": (
+        "The only current next gate is `D6_A10_HYPOTHESIS_CLASSIFICATION`",
+        "## Current architecture checkpoint",
+    ),
+    "docs/README.md": (
+        "SUBJECT-IMPLEMENTATION-NEXT",
+        "next gate: BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION",
+    ),
+    "docs/README.ru.md": (
+        "SUBJECT-IMPLEMENTATION-NEXT",
+        "next gate: BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION",
+    ),
+    "docs/adr/README.md": (
+        "BPV1-PREREGISTERED / EXECUTION-ADMISSION-NEXT",
+        "next: BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION",
     ),
 }
 
@@ -255,6 +332,7 @@ def main(argv: list[str] | None = None) -> int:
         return 1
     print(
         "AI context validation passed; authority routing reaches IAR-1 reconciliation; "
+        "human truth surfaces are H11-current with D5/D6 history labelled; "
         "current gate=A10_H11_EXECUTION_ADMISSION; admission=BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER; "
         "H11=NOT_TESTED; runtime_expansion=FROZEN"
     )
