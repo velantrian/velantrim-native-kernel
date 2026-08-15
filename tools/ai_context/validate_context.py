@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import re
+import subprocess
 import sys
 from dataclasses import dataclass
 from pathlib import Path
@@ -54,6 +55,10 @@ LINK_SCAN_PATHS = REQUIRED_PATHS + (
     "README.md", "README.ru.md", "CONTRIBUTING.md", "docs/README.md", "docs/README.ru.md", "docs/adr/README.md",
 )
 
+CURRENT_STATE_CHECKPOINT_RE = re.compile(
+    r"^h11_state_binding_merge:\s*([0-9a-f]{40})\s*$",
+    re.MULTILINE,
+)
 MARKDOWN_LINK_RE = re.compile(r"(?<!\!)\[[^\]]+\]\(([^)]+)\)")
 IGNORED_SCHEMES = {"http", "https", "mailto", "tel", "data"}
 
@@ -98,9 +103,9 @@ CURRENT_SURFACE_MARKERS = {
     ),
 }
 
-# These strings are valid history elsewhere, but not in current-only agent
-# surfaces. Their presence there creates exactly the retrieval ambiguity that
-# Documentation Standard v5 is meant to prevent.
+# These strings are valid chronology in designated history/research surfaces,
+# but not in current-only agent surfaces. Their presence there creates the
+# retrieval ambiguity Documentation Standard v5 is intended to prevent.
 FORBIDDEN_CURRENT_MARKERS = {
     "docs/ai/CURRENT_STATE.md": (
         "next bounded gate: D6_A10_HYPOTHESIS_CLASSIFICATION",
@@ -125,6 +130,15 @@ class Finding:
 
     def render(self) -> str:
         return f"{self.path}: {self.message}"
+
+
+def _run_git(repo: Path, *args: str) -> subprocess.CompletedProcess[str]:
+    return subprocess.run(
+        ["git", "-C", str(repo), *args],
+        check=False,
+        capture_output=True,
+        text=True,
+    )
 
 
 def validate_required_paths(repo: Path) -> list[Finding]:
@@ -196,10 +210,33 @@ def validate_current_surfaces(repo: Path) -> list[Finding]:
     return findings
 
 
+def read_current_checkpoint(repo: Path) -> tuple[str | None, list[Finding]]:
+    rel = "docs/ai/CURRENT_STATE.md"
+    path = repo / rel
+    if not path.is_file():
+        return None, [Finding(rel, "cannot read H11 state-binding checkpoint because file is missing")]
+    text = path.read_text(encoding="utf-8")
+    match = CURRENT_STATE_CHECKPOINT_RE.search(text)
+    if not match:
+        return None, [Finding(rel, "missing exact 40-character H11 state-binding checkpoint")]
+    return match.group(1), []
+
+
+def validate_checkpoint(repo: Path, checkpoint: str | None) -> list[Finding]:
+    if checkpoint is None or not (repo / ".git").exists():
+        return []
+    if _run_git(repo, "cat-file", "-e", f"{checkpoint}^{{commit}}").returncode != 0:
+        return [Finding("docs/ai/CURRENT_STATE.md", f"checkpoint commit does not exist: {checkpoint}")]
+    return []
+
+
 def validate(repo: Path) -> list[Finding]:
     findings = validate_required_paths(repo)
     findings.extend(validate_links(repo))
     findings.extend(validate_current_surfaces(repo))
+    checkpoint, checkpoint_findings = read_current_checkpoint(repo)
+    findings.extend(checkpoint_findings)
+    findings.extend(validate_checkpoint(repo, checkpoint))
     return findings
 
 
