@@ -1,159 +1,178 @@
 <!-- H11_EXECUTION_ADMISSION_BLOCKED_CURRENT -->
-> [!IMPORTANT]
-> **Current authoritative AI-context overlay — 2026-08-13.** Resolve live `main` through GitHub. Current selected family: `A10-H11`; current repository-native gate: `A10_H11_EXECUTION_ADMISSION`; admission: `BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER`; qualifying reviewer/reproducer: `NOT_ESTABLISHED`; H11: `NOT_TESTED`; open review surface: PR #131. H11 implementation/execution, dependency-graph execution, and semantic adjudication are `NOT AUTHORIZED`. Runtime expansion is `FROZEN`; product runtime thaw `false`; Final Canon `DEFERRED / NOT_AUTHORIZED`; production `false`; Issue #88 remains OPEN. PR #129 remains immutable H11 execution-admission evidence. PR #130 (`e36b7f45410d74b8a65406bff6fdd6d070fa96b0`) is the separate machine-truth / 7-of-7 Notion synchronization checkpoint. Lower post-D8/D6/RAVP/current-looking markers are historical compatibility chronology only. For current continuation, follow `project-state.json`, `POST_RESIDUAL_A10_STATE.md`, H11 admission/qualification artifacts, and live PR #131 state.
-
-<!-- POST_D8_OPERATOR_DECISION_CURRENT -->
-> [!IMPORTANT]
-> **Current post-D8 operator decision — 2026-08-12.** ADR-0027 / `OD-POST-D8-001` is `ACCEPTED / OPERATOR APPROVED` at `57993f39906ae7266011f6146c9a485d0587d2bf`. A1–A10 remains `STRENGTHENED_FOR_BPV1_SCOPE / STILL_PROVISIONAL`; Final Canon is **deferred**, product runtime remains `FROZEN`, production remains `false`. The only current next gate is `RESIDUAL_A10_VALIDATION_PLAN` for A10-H03, A10-H06, A10-H08, A10-H09, A10-H10, A10-H11, and that gate is **RESEARCH_PLANNING_ONLY** — no residual experiment execution is authorized. Any lower `D6 NEXT`, `D8 IN_PROGRESS`, or `OPERATOR_CANON_RUNTIME_DECISION_REQUIRED` wording is historical chronology, not current truth.
-
 # 🤖 Native Kernel AI Context Pack
 
 This directory is the mandatory continuity surface for AI agents, auditors and maintainers.
 
+> [!IMPORTANT]
+> Resolve live GitHub state before mutation. The current repository-native gate is `A10_H11_EXECUTION_ADMISSION`; admission is `BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER`; the qualifying reviewer/reproducer is `NOT_ESTABLISHED`; H11: `NOT_TESTED`; runtime expansion: `FROZEN`; Final Canon remains `DEFERRED / NOT AUTHORIZED`; production remains `false`. PR #131 is the open external review surface. No documentation, CI, owner review, model agreement or Notion read-back may manufacture H11 independence.
+
 ## Required reading order
 
-1. [`../../README.md`](../../README.md)
-2. [`../../STATUS.md`](../../STATUS.md)
-3. [`../../project-state.json`](../../project-state.json)
-4. [`../../AGENTS.md`](../../AGENTS.md)
-5. [`CURRENT_STATE.md`](CURRENT_STATE.md)
-6. [`KNOWN_RISKS.md`](KNOWN_RISKS.md)
-7. [`../../ROADMAP.md`](../../ROADMAP.md)
-8. [`../ARCHITECTURE_REFOUNDATION.md`](../ARCHITECTURE_REFOUNDATION.md)
-9. A1–A10 bilingual first-draft documents
-10. [`../INTEGRATED_A1_A10_REVIEW.md`](../INTEGRATED_A1_A10_REVIEW.md) / [`RU`](../INTEGRATED_A1_A10_REVIEW.ru.md)
-11. [`../INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.md`](../INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.md) / [`RU`](../INDEPENDENT_ARCHITECTURE_REVIEW_PROTOCOL.ru.md)
-12. [`../reviews/IAR-1_RESULT.md`](../reviews/IAR-1_RESULT.md) / [`RU`](../reviews/IAR-1_RESULT.ru.md) + [`JSON`](../reviews/IAR-1_RESULT.json)
-13. [`../reviews/IAR-1_RECONCILIATION.md`](../reviews/IAR-1_RECONCILIATION.md) / [`RU`](../reviews/IAR-1_RECONCILIATION.ru.md) + [`JSON`](../reviews/IAR-1_RECONCILIATION.json)
-14. [`../research/BPV1_PREREGISTRATION.md`](../research/BPV1_PREREGISTRATION.md) / [`RU`](../research/BPV1_PREREGISTRATION.ru.md) + [`JSON`](../research/BPV1_PREREGISTRATION.json)
-15. [`../research/BPV1_D5_R1_QUALIFICATION.md`](../research/BPV1_D5_R1_QUALIFICATION.md) / [`RU`](../research/BPV1_D5_R1_QUALIFICATION.ru.md)
-16. [`../adr/0026-independent-challenge-before-bounded-cross-lineage-falsification.md`](../adr/0026-independent-challenge-before-bounded-cross-lineage-falsification.md)
-17. [`ISSUE_RECONCILIATION.md`](ISSUE_RECONCILIATION.md)
-18. [`NOTION_HANDOFF.md`](NOTION_HANDOFF.md)
-19. affected contracts/ADRs/runtime/tests/evidence plus current GitHub/Notion live state
+`docs/ai/README.md` owns the canonical AI reading order. Other agent-facing files may add operating constraints, but should not invent a competing order.
 
-Do not start from a handoff alone; resolve live GitHub/Notion truth first.
+1. [`../../project-state.json`](../../project-state.json) — exact machine state and checkpoint roles.
+2. [`POST_RESIDUAL_A10_STATE.md`](POST_RESIDUAL_A10_STATE.md) — current long-horizon/H11 orientation overlay.
+3. [`../research/H11_EXECUTION_ADMISSION.json`](../research/H11_EXECUTION_ADMISSION.json) — fail-closed admission record.
+4. [`../research/H11_REVIEWER_REPRODUCER_QUALIFICATION.json`](../research/H11_REVIEWER_REPRODUCER_QUALIFICATION.json) — current qualification result.
+5. [`CURRENT_STATE.md`](CURRENT_STATE.md) — current-only human/agent projection.
+6. [`../../AGENTS.md`](../../AGENTS.md) — operating constraints and reserved decisions.
+7. [`../../ARCHITECTURE.md`](../../ARCHITECTURE.md) — Formal Architecture entrypoint.
+8. A1–A10 first-draft architecture documents under `docs/`.
+9. [`../INTEGRATED_A1_A10_REVIEW.md`](../INTEGRATED_A1_A10_REVIEW.md) / [`RU`](../INTEGRATED_A1_A10_REVIEW.ru.md).
+10. [`../reviews/IAR-1_RESULT.md`](../reviews/IAR-1_RESULT.md) / [`RU`](../reviews/IAR-1_RESULT.ru.md) + [`JSON`](../reviews/IAR-1_RESULT.json).
+11. [`../reviews/IAR-1_RECONCILIATION.md`](../reviews/IAR-1_RECONCILIATION.md) / [`RU`](../reviews/IAR-1_RECONCILIATION.ru.md) + [`JSON`](../reviews/IAR-1_RECONCILIATION.json).
+12. [`KNOWN_RISKS.md`](KNOWN_RISKS.md).
+13. [`../../README.md`](../../README.md), [`../../STATUS.md`](../../STATUS.md) and [`../../ROADMAP.md`](../../ROADMAP.md) for human orientation and chronology.
+14. Affected contracts, ADRs, runtime/tests/evidence, live PRs/issues/Actions/reviews, and corresponding existing Notion pages when synchronization is part of the task.
 
-## Current boundary
+Do not start from a handoff alone. Do not treat an older human/history `NEXT` marker as current authority without reconciling it against live GitHub and machine/current-state surfaces.
+
+## 🏛 Formal Architecture resolution
+
+The Formal Authority Core is not just the first A1–A10 draft sequence. Resolve architecture meaning through the complete accepted chain:
+
+```text
+ARCHITECTURE.md
+→ A1–A10 first-draft provenance
+→ Integrated A1–A10 Review
+→ IAR-1 qualifying challenge
+→ IAR-1 reconciliation
+→ later accepted ADR / operator decisions for their explicit scope
+```
+
+A1–A10 first-draft provenance remains preserved. Where first-draft wording conflicts with IAR-1 reconciliation, `IAR-1-R1` is the current provisional interpretation unless a later accepted architecture authority explicitly supersedes it. Final Canon is still deferred.
+
+The reconciliation deliberately narrowed several early structures:
+
+- full A2 ontology inventory → reference taxonomy, not a universal minimum schema;
+- A3 transition catalogue → reference taxonomy, not one universal machine shape;
+- A5 identity/time inventories → scenario-selected analytical dimensions;
+- A6 lifecycle positions → not a universal state machine;
+- Receipt-shaped accountability → not universal;
+- Event-log-shaped history → not universal;
+- exact replay/reconstruction → optional unless a preregistered scope requires it.
+
+Do not re-promote those first-draft structures merely because the bounded reference laboratory implements them.
+
+## 📍 Current boundary
 
 ```text
 RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY
 production_authorized: false
-assertion map: 45 / 10 / 17 / 0
+assertion map: 45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED / 0 FAILED
 NK-EPI: 0 SUPPORTED / 0 PARTIAL / 8 UNSUPPORTED / 0 FAILED
+P1–C5: BOUNDED_REFERENCE_LABORATORY
+selected family: A10-H11
+current gate: A10_H11_EXECUTION_ADMISSION
+admission: BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER
+reviewer/reproducer: NOT_ESTABLISHED
+H11: NOT_TESTED
+implementation/execution: NOT AUTHORIZED
 runtime expansion: FROZEN
-P1-C5: BOUNDED REFERENCE LABORATORY
-```
-
-## Architecture phase
-
-```text
-ADR-0025: ACCEPTED / OPERATOR APPROVED
-ADR-0026: ACCEPTED / OPERATOR APPROVED
-blueprint content: A1-A10 DRAFTED / PROVISIONAL / RECONCILED BY OVERLAY
-integrated review: COMPLETED / PROVISIONAL
-IAR-1: QUALIFYING_REVIEW_COMPLETE
-IAR-1 findings: 10 total / 7 BLOCKING / 3 MATERIAL
-IAR-1-R1 reconciliation: COMPLETE
-open BLOCKING findings: 0
-open MATERIAL findings: 0
-BPV-1 plan: PREREGISTERED / EXECUTION_NOT_AUTHORIZED
-plan_id: BPV1-001-cross-lineage-bounded-accountability-v1
-plan_merge: a538d7f1e28858a88b9ee777ac7d6e05b85943db
-BPV-1 execution-admission package merge: 6027eec73f11c4626be5553de7e79f827be2c81d
-D5 execution: COMPLETE / a191e9c868c14af34a269dcdfae44406f1013bda
-D5-R1 qualification: COMPLETE / QUALIFIED / 3856740570620fb2243e2f0da76359281ec4068f
-qualified outcome: SUPPORTED_FOR_SCOPE / 12-of-12 mandatory fixtures PASS
-next gate: D6_A10_HYPOTHESIS_CLASSIFICATION
-D6: NOT_STARTED
-BPV-1 execution authorization lane: ADMITTED_FOR_EXPERIMENT_ONLY
-```
-
-The candidate blueprint inventory remains exact A1+A2+A3+A4+A5+A6+A7+A8+A9+A10. Integrated review, operator decision, independent review, reconciliation, preregistration, execution admission, D5 execution and D5-R1 qualification are gates/evidence records, not A11-style blueprint deliverables.
-
-## Current reconciliation hierarchy
-
-```text
-A1-A10 first-draft provenance
-→ integrated review IR-F01..IR-F07
-→ IAR-1 independent challenge
-→ IAR-1-R1 provisional reconciliation overlay
-→ BPV1-001 frozen preregistration
-→ D5 execution evidence
-→ D5-R1 external qualification evidence
-→ D6 A10 hypothesis classification NEXT
-```
-
-IAR-1-R1 intentionally weakens several prior candidate structures: A3/A6 are reference taxonomies; A5 identity/time inventories are scenario-selected analytical dimensions; bounded accountability is separate from exact replay; Source/Evidence/Provenance/Authority is a non-conflation rule rather than mandatory four-field storage; erasure claims require threat-scoped evidence; grounding must terminate explicitly; local conformance does not imply composition/federation.
-
-The qualifying review and scoped BPV1 result do **not** prove the architecture universally correct.
-
-## D5-R1 evidence qualification
-
-The authoritative D5 execution from PR #114 is preserved. PR #115 added a new evidence identity rather than rewriting historical results.
-
-```text
-Rust subject → raw facts
-raw facts + external source audit → external qualifier
-external qualifier → nk-bpv1-observations/1
-unchanged frozen evaluator → SUPPORTED_FOR_SCOPE
-```
-
-The qualifier does not read the frozen fixture expected outcomes, does not inspect implementation-private runtime state, and does not accept structural oracle fields as Rust-subject self-report. The specific HR10 self-report path identified after D5 is therefore removed for this experiment evidence path.
-
-Additional corrective tests cover evidence/epistemic-position corruption and bounded witness storage. The preregistered workload, scenario identity, plan digest, oracle, thresholds and HR01–HR10 remain unchanged.
-
-Rust remains an experimental cross-language falsification instrument only. It is not Canon or a product runtime profile; independent team/custody and independent computation model remain `NOT_ESTABLISHED`.
-
-```text
-runtime thaw: NO
-BPV-1 execution authorization lane: ADMITTED_FOR_EXPERIMENT_ONLY
-D5 execution: COMPLETE
-D5-R1 qualification: QUALIFIED
-D6: NOT_STARTED
-product runtime integration: NOT AUTHORIZED
-reducer v2: NOT AUTHORIZED
-new Event verbs: NOT AUTHORIZED
-NK-EPI runtime: NOT AUTHORIZED
-Final Canon: NOT AUTHORIZED
+Final Canon: DEFERRED / NOT AUTHORIZED
 production: false
 ```
 
-Issue #18, Issue #74/ADR-0024, ADR-0003 and Track H authority remain unchanged.
+The committed H11 current-truth binding is PR #130 / `e36b7f45410d74b8a65406bff6fdd6d070fa96b0`. It is a role-specific checkpoint, not a prediction of live `main`. Later documentation or validation-machinery descendants do not automatically change the H11 gate.
 
-## Checkpoint roles
+## 🔬 H11 frozen boundary
 
 ```text
-publication checkpoint:
-  10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c
-manifest source / Notion synchronized descendant:
-  70acd0da61fee19131947aa56125833adb156ced
-BPV-1 preregistration merge:
-  a538d7f1e28858a88b9ee777ac7d6e05b85943db
-D5 execution merge:
-  a191e9c868c14af34a269dcdfae44406f1013bda
-D5-R1 qualification merge:
-  3856740570620fb2243e2f0da76359281ec4068f
+plan: H11-001-c5-lab-canon-separation-v1
+plan SHA-256: 60da649e675b79b3e70bf8a61cf03cb4d57bb989f4934b65ab8d50c925b19914
+frozen subject: native-kernel/c5/2026-08-08-adr0023
+required oracle: INDEPENDENT_SEMANTIC_ORACLE
+hard failure: UNJUSTIFIED_CANON_DEPENDENCY
 ```
 
-Live HEAD comes from Git/GitHub; committed state does not predict its own future merge/Notion identity.
+H11 asks whether exact laboratory reproducibility can remain dependent on profile-specific mechanisms without those mechanisms being elevated into universal Architecture authority.
 
-## Automated guards
+```text
+exact lab bytes ≠ Architecture Canon
+profile-specific mechanism ≠ universal semantic obligation
+preregistration ≠ execution admission
+blocked admission ≠ INDETERMINATE
+execution admission ≠ execution
+NOT_TESTED ≠ SUPPORTED
+A10-H11 ≠ composition/federation
+```
+
+The existing Codex review is useful technical review but is `NOT_ESTABLISHED_FOR_H11_REVIEW_ROLE`. Qualification requires externally authenticated, repository-visible evidence sufficient to evaluate identity, authorship independence, custody independence, conflicts/material dependence, frozen-input scope and private-state boundaries. A qualifying result would still require a separate execution-admission reassessment before H11 execution.
+
+## 📊 A10 evidence position
+
+```text
+SUPPORTED_FOR_SCOPE:
+  A10-H01 / A10-H02 / A10-H04 / A10-H05 / A10-H07 / A10-H12
+
+NOT_TESTED:
+  A10-H03 / A10-H06 / A10-H08 / A10-H09 / A10-H10 / A10-H11
+```
+
+The BPV-1 Rust subject remains an experimental cross-language falsification instrument only. External qualification removed a specific self-report path for that evidence lineage, but independent team/custody and independent computation-model evidence remain `NOT_ESTABLISHED`.
+
+## 📜 Historical/current separation
+
+Current-facing agent surfaces must not require obsolete gates to masquerade as current state merely to preserve chronology.
+
+Historical D5/D6/D7/D8, ADR-0027, RAVP, family-selection and preregistration checkpoints remain available in:
+
+- `STATUS.md` and `ROADMAP.md` for human chronology;
+- `docs/research/**` and `docs/reviews/**` for research/review records;
+- `evidence/**` for evidence identities;
+- `docs/ai/WORK_LOG.md` and reconciliation/handoff records where applicable;
+- Git history for exact historical repository bytes.
+
+When those files contain old values such as former `NEXT` or `NOT_STARTED` markers, treat them as chronology unless the current machine/current-state surfaces still select them. Do not copy such literals back into current-only files solely for compatibility validation.
+
+## 🔐 Runtime and operator boundary
+
+Allowed while runtime is frozen:
+
+- truth-surface, integrity, security and provenance repair;
+- evidence preservation;
+- reviewer/reproducer qualification work that does not execute H11;
+- historical recovery work that does not admit operator-controlled sources;
+- research admission/preregistration work only when the active gate explicitly authorizes it.
+
+Not automatically authorized:
+
+- H11 implementation/execution, dependency-graph execution or semantic adjudication while admission is blocked;
+- preregistration/execution of H03/H06/H08/H09/H10;
+- reducer v2 or new semantic Event verbs;
+- product runtime integration;
+- new product database/language/hardware profiles;
+- physical/cryptographic deletion claims not backed by their required evidence;
+- Final Canon, runtime thaw or production promotion.
+
+Reserved operator decisions remain:
+
+```text
+Issue #18 — license/publication/contribution regime
+Issue #74 / ADR-0024 — future reducer referential semantics
+Track H recovered-source admission
+Final Canon
+runtime thaw
+production authorization
+```
+
+## ✅ Verification
+
+At minimum for current truth / architecture-routing changes:
 
 ```bash
 python tools/ai_context/validate_project_state.py --repo .
 python tools/ai_context/validate_architecture_freeze.py --repo .
-python tools/ai_context/validate_bpv1_preregistration.py --repo .
+python tools/ai_context/validate_residual_a10_plan.py --repo .
+python tools/ai_context/validate_h11_family_selection.py --repo .
+python tools/ai_context/validate_h11_preregistration.py --repo .
+python tools/ai_context/validate_h11_execution_admission.py --repo .
+python tools/ai_context/validate_reconciliation.py --repo .
 python tools/ai_context/validate_context.py --repo .
 python tools/docs/validate_bilingual_parity.py --repo .
-python -m unittest discover -s tests -p 'test_architecture_freeze.py' -v
-python -m unittest discover -s tests -p 'test_bpv1_preregistration.py' -v
-python -m unittest discover -s tests -p 'test_integrated_a1_a10_review.py' -v
-python -m unittest discover -s tests -p 'test_bpv1_subject.py' -v
+python -m unittest discover -s tests -p 'test_ai_context_validator.py' -v
 ```
 
-Passing these guards proves continuity constraints only; it is not proof that the reconciled architecture or BPV-1 is universally correct.
+Run additional P4/P5/C3/C4/C5/BPV1 gates when changed-file scope triggers them. A skipped test is not PASS. An unavailable environment is `NOT_EXECUTED`.
 
-## Notion boundary
-
-Notion is intentionally still at the earlier D4.5 checkpoint; D5/D5-R1/D6 sync is deferred to Option D D8 unless live governance says otherwise. GitHub remains authoritative for current technical truth.
+Passing continuity/documentation guards proves only that routing and declared boundaries are internally consistent. It does not qualify an H11 reviewer, execute H11, prove universal substrate neutrality, thaw runtime or authorize production.
