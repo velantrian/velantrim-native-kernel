@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-"""Validate Issues #14-#17 and publication/Notion checkpoint roles."""
+"""Validate Issues #14-#17 and publication/Notion checkpoint roles.
+
+Historical role identities remain exact, but current-only AI surfaces are not
+required to duplicate them. Their owners are machine state plus designated
+history/synchronization records.
+"""
 from __future__ import annotations
 
 import argparse
@@ -9,6 +14,8 @@ from pathlib import Path
 from typing import Any, Mapping
 
 PUBLICATION_SHA = "10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c"
+# Historical manifest/source-reconciliation identity. The name is retained for
+# compatibility with the D8/H11 reconciliation wrappers.
 NOTION_SYNC_SHA = "70acd0da61fee19131947aa56125833adb156ced"
 ISSUES = ("14", "15", "16", "17")
 ISSUE_COMMENTS = {
@@ -25,7 +32,20 @@ NOTION_PAGE_IDS = (
     "3b7ac84d-0547-8101-ada4-de9702b68eb3",
     "3b7ac84d-0547-81b6-80a6-f87a05ed6f9e",
 )
-CURRENT_SURFACES = (
+
+# Exact publication/manifest role bindings are deliberately owned by stable
+# human/history synchronization records, not current-only agent orientation.
+ROLE_BINDING_SURFACES = (
+    "README.md",
+    "README.ru.md",
+    "STATUS.md",
+    "docs/ai/NOTION_HANDOFF.md",
+)
+
+# These surfaces still participate in the cross-document non-overclaim scan.
+# Keep the legacy name as an alias because later reconciliation layers import
+# it from this embedded module.
+BOUNDARY_SURFACES = (
     "README.md",
     "README.ru.md",
     "STATUS.md",
@@ -34,7 +54,9 @@ CURRENT_SURFACES = (
     "docs/ai/KNOWN_RISKS.md",
     "docs/ai/NOTION_HANDOFF.md",
 )
-ACTIVE_RISK_MARKER = "**State:** `MITIGATED / RESIDUAL LIVE-STATE RISK OPEN`."
+CURRENT_SURFACES = BOUNDARY_SURFACES
+
+ACTIVE_RISK_MARKER = "**State:** `OPEN / DOCUMENTATION PROCESS RISK`."
 OBSOLETE_RISK_MARKER = "HUMAN AND NOTION RECONCILIATION IN PROGRESS"
 SHA_PATTERN = r"[0-9a-f]{40}"
 
@@ -110,31 +132,13 @@ def _require_table_binding(
         text,
         relative=relative,
         role=role,
-        pattern=(
-            rf"^\|\s*{re.escape(label)}\s*\|\s*`({SHA_PATTERN})`\s*\|\s*$"
-        ),
-    )
-    _require(value == expected, f"{relative}: {role} binding drift")
-
-
-def _require_indented_binding(
-    text: str,
-    *,
-    relative: str,
-    label: str,
-    role: str,
-    expected: str,
-) -> None:
-    value = _single_match(
-        text,
-        relative=relative,
-        role=role,
-        pattern=rf"^{re.escape(label)}:\s*\n\s{{2}}({SHA_PATTERN})\s*$",
+        pattern=rf"^\|\s*{re.escape(label)}\s*\|\s*`({SHA_PATTERN})`\s*\|\s*$",
     )
     _require(value == expected, f"{relative}: {role} binding drift")
 
 
 def _validate_surface_bindings(texts: Mapping[str, str]) -> None:
+    """Validate historical role identities only on their designated owners."""
     _require_table_binding(
         texts["README.md"],
         relative="README.md",
@@ -164,41 +168,25 @@ def _validate_surface_bindings(texts: Mapping[str, str]) -> None:
         expected=NOTION_SYNC_SHA,
     )
 
-    for relative in ("STATUS.md", "docs/ai/CURRENT_STATE.md"):
-        text = texts[relative]
-        _require_yaml_binding(
-            text,
-            relative=relative,
-            field="publication_checkpoint",
-            role="publication checkpoint",
-            expected=PUBLICATION_SHA,
-        )
-        _require_yaml_binding(
-            text,
-            relative=relative,
-            field="manifest_generated_from",
-            role="manifest source",
-            expected=NOTION_SYNC_SHA,
-        )
-        _require_yaml_binding(
-            text,
-            relative=relative,
-            field="notion_synchronized_through",
-            role="Notion synchronized descendant",
-            expected=NOTION_SYNC_SHA,
-        )
-
-    _require_indented_binding(
-        texts["docs/ai/README.md"],
-        relative="docs/ai/README.md",
-        label="publication checkpoint",
+    status = texts["STATUS.md"]
+    _require_yaml_binding(
+        status,
+        relative="STATUS.md",
+        field="publication_checkpoint",
         role="publication checkpoint",
         expected=PUBLICATION_SHA,
     )
-    _require_indented_binding(
-        texts["docs/ai/README.md"],
-        relative="docs/ai/README.md",
-        label="manifest source / Notion synchronized descendant",
+    _require_yaml_binding(
+        status,
+        relative="STATUS.md",
+        field="manifest_generated_from",
+        role="manifest source",
+        expected=NOTION_SYNC_SHA,
+    )
+    _require_yaml_binding(
+        status,
+        relative="STATUS.md",
+        field="notion_synchronized_through",
         role="Notion synchronized descendant",
         expected=NOTION_SYNC_SHA,
     )
@@ -236,10 +224,7 @@ def _validate_surface_bindings(texts: Mapping[str, str]) -> None:
 
 def validate(repo: Path) -> None:
     state = _load_json(repo / "project-state.json")
-    _require(
-        state.get("protocol") == "nk-project-state/2",
-        "project-state protocol drift",
-    )
+    _require(state.get("protocol") == "nk-project-state/2", "project-state protocol drift")
 
     checkpoints = state.get("checkpoints")
     _require(isinstance(checkpoints, Mapping), "checkpoint inventory required")
@@ -256,8 +241,7 @@ def validate(repo: Path) -> None:
         "Notion synchronization checkpoint drift",
     )
     _require(
-        checkpoints.get("publication_checkpoint_sha")
-        != checkpoints.get("notion_synchronized_through_sha"),
+        checkpoints.get("publication_checkpoint_sha") != checkpoints.get("notion_synchronized_through_sha"),
         "publication and descendant synchronization roles collapsed",
     )
 
@@ -272,10 +256,7 @@ def validate(repo: Path) -> None:
             f"Issue #{number} meaning required",
         )
         verification = issue.get("verification")
-        _require(
-            isinstance(verification, Mapping),
-            f"Issue #{number} verification required",
-        )
+        _require(isinstance(verification, Mapping), f"Issue #{number} verification required")
         _require(
             verification.get("status") == "VERIFIED"
             and verification.get("method") == "GITHUB_API"
@@ -285,14 +266,8 @@ def validate(repo: Path) -> None:
 
     notion = state.get("notion")
     _require(isinstance(notion, Mapping), "Notion state required")
-    _require(
-        notion.get("synchronization_required") is True,
-        "Notion synchronization must remain required",
-    )
-    _require(
-        notion.get("status") == "SYNCED_THROUGH_DESCENDANT_CHECKPOINT",
-        "Notion status drift",
-    )
+    _require(notion.get("synchronization_required") is True, "Notion synchronization must remain required")
+    _require(notion.get("status") == "SYNCED_THROUGH_DESCENDANT_CHECKPOINT", "Notion status drift")
     scope = str(notion.get("scope", ""))
     _require(
         PUBLICATION_SHA in scope and NOTION_SYNC_SHA in scope,
@@ -309,14 +284,10 @@ def validate(repo: Path) -> None:
     for page_id in NOTION_PAGE_IDS:
         _require(page_id in notion_record, f"Notion page identity missing: {page_id}")
 
-    current_texts = {
-        relative: _read(repo / relative) for relative in CURRENT_SURFACES
-    }
-    _validate_surface_bindings(current_texts)
+    boundary_texts = {relative: _read(repo / relative) for relative in BOUNDARY_SURFACES}
+    _validate_surface_bindings(boundary_texts)
 
-    boundaries = " ".join(
-        [issue_record, notion_record, *current_texts.values()]
-    ).lower()
+    boundaries = " ".join([issue_record, notion_record, *boundary_texts.values()]).lower()
     for phrase in (
         "remain open",
         "not production readiness",
@@ -335,9 +306,10 @@ def main() -> int:
     validate(repo)
     print(
         "Reconciliation validation passed; "
-        f"publication={PUBLICATION_SHA}; notion={NOTION_SYNC_SHA}; "
+        f"publication={PUBLICATION_SHA}; manifest_source={NOTION_SYNC_SHA}; "
         f"issues=14,15,16,17; notion_pages={len(NOTION_PAGE_IDS)}; "
-        f"current_surfaces={len(CURRENT_SURFACES)}"
+        f"role_binding_surfaces={len(ROLE_BINDING_SURFACES)}; "
+        "current-only AI surfaces do not duplicate historical role SHA"
     )
     return 0
 
