@@ -60,6 +60,14 @@ class ReconciliationStateTests(unittest.TestCase):
         self.assertNotEqual(checkpoints["publication_checkpoint_sha"], checkpoints["notion_synchronized_through_sha"])
         self.assertNotEqual(checkpoints["manifest_generated_from_sha"], checkpoints["notion_synchronized_through_sha"])
 
+    def test_current_only_agent_surfaces_do_not_own_historical_role_bindings(self) -> None:
+        self.assertNotIn("docs/ai/README.md", module.ROLE_BINDING_SURFACES)
+        self.assertNotIn("docs/ai/CURRENT_STATE.md", module.ROLE_BINDING_SURFACES)
+        self.assertIn("STATUS.md", module.ROLE_BINDING_SURFACES)
+        self.assertIn("docs/ai/NOTION_HANDOFF.md", module.ROLE_BINDING_SURFACES)
+        self.assertIn("docs/ai/README.md", module.BOUNDARY_SURFACES)
+        self.assertIn("docs/ai/CURRENT_STATE.md", module.BOUNDARY_SURFACES)
+
     def test_closed_foundational_issue_is_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as temp:
             repo = Path(temp)
@@ -94,40 +102,36 @@ class ReconciliationStateTests(unittest.TestCase):
             with self.assertRaisesRegex(module.ReconciliationError, "source|roles collapsed|Notion"):
                 module.validate(repo)
 
-    def test_current_surface_missing_descendant_checkpoint_is_rejected(self) -> None:
+    def test_history_owner_missing_manifest_source_is_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as temp:
             repo = Path(temp)
             self._copy_fixture(repo)
-            current = repo / "docs/ai/CURRENT_STATE.md"
-            current.write_text(
-                current.read_text(encoding="utf-8").replace(
+            status = repo / "STATUS.md"
+            status.write_text(
+                status.read_text(encoding="utf-8").replace(
                     f"manifest_generated_from: {module.NOTION_SYNC_SHA}",
-                    "manifest_generated_from: removed-descendant-checkpoint",
+                    "manifest_generated_from: removed-manifest-source",
                     1,
                 ),
                 encoding="utf-8",
             )
-            with self.assertRaisesRegex(module.ReconciliationError, "CURRENT_STATE.md: manifest source binding missing or ambiguous"):
+            with self.assertRaisesRegex(module.ReconciliationError, "STATUS.md: manifest source binding missing or ambiguous"):
                 module.validate(repo)
 
-    def test_yaml_role_collapse_is_rejected_when_sha_remains_in_prose(self) -> None:
+    def test_history_owner_role_collapse_is_rejected_when_sha_remains_elsewhere(self) -> None:
         with tempfile.TemporaryDirectory() as temp:
             repo = Path(temp)
             self._copy_fixture(repo)
-            current = repo / "docs/ai/CURRENT_STATE.md"
-            text = current.read_text(encoding="utf-8")
+            status = repo / "STATUS.md"
+            text = status.read_text(encoding="utf-8")
             text = text.replace(
                 f"manifest_generated_from: {module.NOTION_SYNC_SHA}",
                 f"manifest_generated_from: {module.PUBLICATION_SHA}",
                 1,
-            ).replace(
-                f"notion_synchronized_through: {module.NOTION_SYNC_SHA}",
-                f"notion_synchronized_through: {module.PUBLICATION_SHA}",
-                1,
             )
             self.assertIn(module.NOTION_SYNC_SHA, text)
-            current.write_text(text, encoding="utf-8")
-            with self.assertRaisesRegex(module.ReconciliationError, "CURRENT_STATE.md: manifest source binding drift"):
+            status.write_text(text, encoding="utf-8")
+            with self.assertRaisesRegex(module.ReconciliationError, "STATUS.md: manifest source binding drift"):
                 module.validate(repo)
 
     def test_readme_role_collapse_is_rejected_when_sha_remains_elsewhere(self) -> None:
@@ -143,23 +147,6 @@ class ReconciliationStateTests(unittest.TestCase):
             text += f"\nHistorical prose identity: `{module.NOTION_SYNC_SHA}`.\n"
             readme.write_text(text, encoding="utf-8")
             with self.assertRaisesRegex(module.ReconciliationError, "README.md: Notion synchronized descendant binding drift"):
-                module.validate(repo)
-
-    def test_ai_readme_role_collapse_is_rejected(self) -> None:
-        with tempfile.TemporaryDirectory() as temp:
-            repo = Path(temp)
-            self._copy_fixture(repo)
-            readme = repo / "docs/ai/README.md"
-            text = readme.read_text(encoding="utf-8").replace(
-                "manifest source / Notion synchronized descendant:\n"
-                f"  {module.NOTION_SYNC_SHA}",
-                "manifest source / Notion synchronized descendant:\n"
-                f"  {module.PUBLICATION_SHA}",
-                1,
-            )
-            text += f"\nHistorical prose identity: `{module.NOTION_SYNC_SHA}`.\n"
-            readme.write_text(text, encoding="utf-8")
-            with self.assertRaisesRegex(module.ReconciliationError, "docs/ai/README.md: Notion synchronized descendant binding drift"):
                 module.validate(repo)
 
     def test_duplicate_role_binding_is_rejected_as_ambiguous(self) -> None:
