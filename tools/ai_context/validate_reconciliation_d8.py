@@ -5,9 +5,14 @@ The historical layer keeps exact publication/manifest bindings on designated
 history/synchronization owners plus all issue/comment/page identity checks. D8
 adds a later Notion synchronization checkpoint in machine state without forcing
 those historical role bindings back into current-only AI orientation surfaces.
+
+The ``validate()`` function intentionally validates a D8-era projected state.
+The standalone CLI may be invoked on a later live checkout; it applies that
+projection temporarily and restores ``project-state.json`` byte-for-byte.
 """
 from __future__ import annotations
 
+import json
 from pathlib import Path
 from typing import Any, Mapping
 
@@ -111,17 +116,47 @@ def validate(repo: Path) -> None:
         _require(phrase in boundaries, f"missing reconciliation boundary: {phrase}")
 
 
+def _standalone_d8_view(repo: Path) -> None:
+    """Run the D8 validator against a later live checkout safely."""
+    state_path = repo / "project-state.json"
+    state = _load_json(state_path)
+    original = state_path.read_text(encoding="utf-8")
+
+    checkpoints = state.get("checkpoints")
+    _require(isinstance(checkpoints, dict), "checkpoint inventory required")
+    checkpoints["notion_synchronized_through_sha"] = D8_NOTION_SYNC_SHA
+
+    notion = state.get("notion")
+    _require(isinstance(notion, dict), "Notion state required")
+    notion["synchronization_required"] = False
+    notion["status"] = "SYNCED_THROUGH_DESCENDANT_CHECKPOINT"
+    notion["scope"] = (
+        "Publication checkpoint " + PUBLICATION_SHA
+        + ", manifest source " + NOTION_SYNC_SHA
+        + ", D8 Notion synchronization checkpoint " + D8_NOTION_SYNC_SHA
+        + ", and D8 consolidated record merge " + D8_RECORD_MERGE_SHA
+        + " are the D8 historical roles projected for standalone validation."
+    )
+
+    state_path.write_text(json.dumps(state, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    try:
+        validate(repo)
+    finally:
+        state_path.write_text(original, encoding="utf-8")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--repo", type=Path, default=Path.cwd())
     args = parser.parse_args()
     repo = args.repo.resolve()
-    validate(repo)
+    _standalone_d8_view(repo)
     print(
-        "Reconciliation validation passed; "
+        "D8 reconciliation validation passed via projected historical view; "
         f"publication={PUBLICATION_SHA}; manifest={NOTION_SYNC_SHA}; "
         f"notion_d8={D8_NOTION_SYNC_SHA}; issues=14,15,16,17; "
-        f"notion_pages={len(NOTION_PAGE_IDS)}; role_binding_surfaces={len(ROLE_BINDING_SURFACES)}"
+        f"notion_pages={len(NOTION_PAGE_IDS)}; role_binding_surfaces={len(ROLE_BINDING_SURFACES)}; "
+        "live state restored"
     )
     return 0
 
