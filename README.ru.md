@@ -179,7 +179,7 @@ production: false
 | **Временной фокус** | 🕰️ Прошлое + настоящее + будущее lifecycle: validity, lineage, revision, obligations и loss | 🕰️ Long-lived agent state между взаимодействиями | 📜 Прошлое + настоящее temporal validity с изменяющимися facts | 📖 Current retrieval по внешнему corpus; время важно только если оно представлено в данных / metadata | 🗂️ Историческая последовательность events → текущее state |
 | **Сбой / перезапуск** | 🔄 Conforming implementation должна восстанавливать durable semantic state и unresolved obligations; текущая лаборатория не universal proof | ✅ Persistent agent state / memory рассчитаны на сохранение между sessions, если backing state сохранён | ✅ Persisted context graph поддерживает incremental updates; полный rebuild при каждом restart не требуется | ✅ Persisted index переживает restart; conversational / workflow state находится вне plain RAG | ✅ State можно rehydrate из event stream; projections / snapshots позволяют не replay-ить всю историю с genesis каждый раз |
 | **Роль в стеке** | 🏛️ Semantic-contract / «constitution-like» слой | 🧩 Agent runtime + memory / context layer | 🗺️ Temporal context-graph / memory layer | 📇 Retrieval / knowledge-augmentation layer | 📋 Persistence + history architecture pattern |
-| **Что должно переживать замену реализаций?** | 🎯 Заявленные semantic obligations и distinctions — если replacement conforming; потеря должна быть явной | 🟡 Agent-memory abstractions могут переживать model swap, но exact behavioral equivalence публично не гарантируется | 🟡 Сохранённый temporal graph / provenance может переживать замену компонентов; extraction behavior может измениться | 🟡 Source corpus может сохраниться; embeddings / index часто требуют regeneration при смене encoder или indexing semantics | ✅ Event history может переживать замену реализации при сохранении event schema / meaning; business logic автоматически не сохраняется |
+| **Что должно переживать замену реализаций?** | 🎯 Заявленные semantic obligations и distinctions — если replacement conforming; потеря должна быть явной | 🟡 Agent-memory abstractions могут переживать model swap, но exact behavioral equivalence публично не гарантируется | 🟡 Сохранённый temporal graph / provenance может пережить замену компонентов; extraction behavior может измениться | 🟡 Source corpus может сохраниться; embeddings / index часто требуют regeneration при смене encoder или indexing semantics | ✅ Event history может пережить замену реализации при сохранении event schema / meaning; business logic автоматически не сохраняется |
 
 Будущая Native Kernel-compatible система может использовать один или несколько таких механизмов, не превращая сам механизм в universal Canon.
 
@@ -196,10 +196,18 @@ README
   ↓
 🏛 ARCHITECTURE.md
   ↓
-🧠 A1–A10 architecture documents
+🧠 A1–A10 first-draft architecture documents
+  ↓
+🧾 Integrated A1–A10 Review
+  ↓
+🔍 IAR-1 result
+  ↓
+🧭 IAR-1-R1 reconciliation
   ↓
 🔬 research / evidence
 ```
+
+Если first-draft wording конфликтует с IAR-1-R1, reconciliation является current provisional interpretation. Final Canon остаётся deferred.
 
 Опциональное внешнее позиционирование: **[docs/COMPARISONS.ru.md](docs/COMPARISONS.ru.md)**.
 
@@ -216,13 +224,7 @@ README
 ```text
 🤖 docs/ai/README.md
    ↓
-AGENTS.md
-   ↓
-project-state.json
-   ↓
-docs/ai/CURRENT_STATE.md
-   ↓
-required architecture / research / evidence packet
+следовать его canonical required reading order
 ```
 
 Human pages объясняют. Agent pages ограничивают. Machine state хранит точные поля. Evidence/history сохраняет scoped proof и chronology. Ни один слой не должен создавать конкурирующую project truth.
