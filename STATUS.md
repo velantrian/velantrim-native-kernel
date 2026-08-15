@@ -1,15 +1,88 @@
 <!-- H11_EXECUTION_ADMISSION_BLOCKED_CURRENT -->
 > [!IMPORTANT]
-> **Current authoritative overlay — 2026-08-13.** Resolve live `main` through GitHub; this file does not predict its own merge SHA. Current selected family: `A10-H11`. Current gate: `A10_H11_EXECUTION_ADMISSION`. Admission: `BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER`. Reviewer/reproducer: `NOT_ESTABLISHED`. H11: `NOT_TESTED`. Open review surface: PR #131. Implementation, experiment execution, dependency-graph execution, and semantic adjudication are `NOT AUTHORIZED`. Runtime expansion is `FROZEN`; product runtime thaw `false`; Final Canon `DEFERRED / NOT_AUTHORIZED`; production `false`; Issue #88 remains OPEN. PR #129 remains immutable H11 execution-admission evidence; PR #130 (`e36b7f45410d74b8a65406bff6fdd6d070fa96b0`) is the separate current machine-truth / verified 7-of-7 Notion synchronization checkpoint. All lower D5/D6/D8/ADR-0027/RAVP and older current-looking sections are retained as historical compatibility chronology and are superseded for current orientation by this overlay plus `project-state.json` / `docs/ai/POST_RESIDUAL_A10_STATE.md`.
-
-<!-- POST_D8_OPERATOR_DECISION_CURRENT -->
-> [!IMPORTANT]
-> **Current post-D8 operator decision — 2026-08-12.** ADR-0027 / `OD-POST-D8-001` is `ACCEPTED / OPERATOR APPROVED` at `57993f39906ae7266011f6146c9a485d0587d2bf`. A1–A10 remains `STRENGTHENED_FOR_BPV1_SCOPE / STILL_PROVISIONAL`; Final Canon is **deferred**, product runtime remains `FROZEN`, production remains `false`. The only current next gate is `RESIDUAL_A10_VALIDATION_PLAN` for A10-H03, A10-H06, A10-H08, A10-H09, A10-H10, A10-H11, and that gate is **RESEARCH_PLANNING_ONLY** — no residual experiment execution is authorized. Any lower `D6 NEXT`, `D8 IN_PROGRESS`, or `OPERATOR_CANON_RUNTIME_DECISION_REQUIRED` wording is historical chronology, not current truth.
+> **Current authoritative overlay — 2026-08-15.** Resolve live `main` through GitHub; this file does not predict its own merge SHA. Current selected family: `A10-H11`. Current gate: `A10_H11_EXECUTION_ADMISSION`. Admission: `BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER`. Reviewer/reproducer: `NOT_ESTABLISHED`. H11: `NOT_TESTED`. Open review surface: PR #131. Implementation, experiment execution, dependency-graph execution, and semantic adjudication are `NOT AUTHORIZED`. Runtime expansion is `FROZEN`; product runtime thaw `false`; Final Canon `DEFERRED / NOT_AUTHORIZED`; production `false`; Issue #88 remains OPEN. PR #129 remains immutable H11 execution-admission evidence; PR #130 (`e36b7f45410d74b8a65406bff6fdd6d070fa96b0`) is the separate H11 state-binding / verified 7-of-7 Notion checkpoint. Historical checkpoints below are provenance, not current instructions.
 
 # Current Status
 
 ```yaml
 document_role: CURRENT_STATE
+status_as_of: 2026-08-15
+authoritative_machine_source: project-state.json (nk-project-state/2)
+live_head_source: GitHub API or checked-out Git ref
+repository_status: RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY
+selected_family: A10-H11
+current_gate: A10_H11_EXECUTION_ADMISSION
+execution_admission_state: BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER
+qualifying_reviewer_reproducer: NOT_ESTABLISHED
+h11_outcome: NOT_TESTED
+implementation_authorized: false
+execution_authorized: false
+dependency_graph_execution_authorized: false
+semantic_adjudication_authorized: false
+runtime_expansion: FROZEN
+product_runtime_thaw: false
+final_canon: DEFERRED / NOT_AUTHORIZED
+production_authorized: false
+active_architecture_issue: 88
+open_external_review_surface: PR #131
+```
+
+## Current implementation boundary
+
+```text
+clean_runtime_support:      PARTIAL
+kernel_runtime_conformance: C4
+operational_validation:     C5_BOUNDED_REHEARSAL
+production_authorized:      false
+assertion map: 45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED / 0 FAILED
+NK-EPI:        0 SUPPORTED / 0 PARTIAL / 8 UNSUPPORTED / 0 FAILED
+runtime expansion: FROZEN
+P1-C5 role: BOUNDED_REFERENCE_LABORATORY
+```
+
+## Current architecture / validation boundary
+
+A1–A10 remain first-draft provenance interpreted through the Integrated Review and IAR-1-R1 reconciliation. The architecture remains provisional; Final Canon is deferred. The selected residual family is H11, but H11 cannot advance from execution admission until a qualifying independent reviewer/reproducer is established through externally authenticated, repository-visible evidence and admission is reassessed.
+
+```text
+A1–A10 first-draft provenance
+→ Integrated A1–A10 Review
+→ IAR-1 qualifying challenge
+→ IAR-1-R1 reconciliation
+→ current provisional architecture
+
+Residual A10 order:
+H11  ← selected / admission BLOCKED
+→ H03
+→ H10
+→ H06
+→ H09
+→ H08
+→ integrated residual reassessment
+→ separate Final Canon decision
+→ separate runtime-thaw decision
+→ separate production decision
+```
+
+Current H11 plan: `H11-001-c5-lab-canon-separation-v1`; SHA-256 `60da649e675b79b3e70bf8a61cf03cb4d57bb989f4934b65ab8d50c925b19914`.
+
+```text
+blocked admission ≠ INDETERMINATE
+NOT_TESTED ≠ SUPPORTED
+CI success ≠ qualifying independence
+reference laboratory ≠ architecture authority
+Final Canon deferred ≠ runtime thaw
+```
+
+<details>
+<summary>📜 Historical D5/D6 checkpoint — preserved provenance, NOT CURRENT</summary>
+
+<!-- HISTORICAL_D5_D6_STATUS_CHECKPOINT_NOT_CURRENT -->
+> [!CAUTION]
+> **Historical checkpoint only.** The fields and prose in this section record the D5/D6-era repository view. Any `NEXT`, `NOT_STARTED`, old Notion checkpoint or phrase such as “current next gate” inside this section is superseded for present orientation by the current H11 block above plus `project-state.json` and `docs/ai/CURRENT_STATE.md`.
+
+```yaml
+document_role: HISTORICAL_D5_D6_STATUS_CHECKPOINT
 status_as_of: 2026-08-12
 authoritative_machine_source: project-state.json (nk-project-state/2)
 live_head_source: GitHub API or checked-out Git ref
@@ -32,25 +105,12 @@ bpv1_d5_merge: a191e9c868c14af34a269dcdfae44406f1013bda
 bpv1_d5_r1_qualification_merge: 3856740570620fb2243e2f0da76359281ec4068f
 ```
 
-> **Repository status:** `RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY`  
-> **Architecture state:** `A1-A10 DRAFTED / PROVISIONAL · INTEGRATED REVIEW COMPLETE / PROVISIONAL · IAR-1 QUALIFYING REVIEW COMPLETE · IAR-1-R1 COMPLETE · BPV-1 PLAN PREREGISTERED · EXECUTION ADMISSION COMPLETE · D5 EXECUTION COMPLETE · D5-R1 QUALIFIED / SUPPORTED_FOR_SCOPE · D6 NOT STARTED`.
+> **Historical repository status:** `RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY`  
+> **Historical architecture state:** `A1-A10 DRAFTED / PROVISIONAL · INTEGRATED REVIEW COMPLETE / PROVISIONAL · IAR-1 QUALIFYING REVIEW COMPLETE · IAR-1-R1 COMPLETE · BPV-1 PLAN PREREGISTERED · EXECUTION ADMISSION COMPLETE · D5 EXECUTION COMPLETE · D5-R1 QUALIFIED / SUPPORTED_FOR_SCOPE · D6 NOT STARTED`.
 
-Committed checkpoint SHAs above remain historical role identities, not automatic live HEAD. Resolve live `main` through GitHub/Git.
+Committed checkpoint SHAs above are historical role identities, not automatic live HEAD.
 
-## Current implementation boundary
-
-```text
-clean_runtime_support:      PARTIAL
-kernel_runtime_conformance: C4
-operational_validation:     C5_BOUNDED_REHEARSAL
-production_authorized:      false
-assertion map: 45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED / 0 FAILED
-NK-EPI:        0 SUPPORTED / 0 PARTIAL / 8 UNSUPPORTED / 0 FAILED
-runtime expansion: FROZEN
-P1-C5 role: BOUNDED_REFERENCE_LABORATORY
-```
-
-## Architecture Re-foundation and validation
+## 📜 Historical Architecture Re-foundation and validation checkpoint
 
 Blueprint decision: [ADR-0025](docs/adr/0025-blueprint-before-runtime-expansion.md).  
 Post-blueprint decision: [ADR-0026](docs/adr/0026-independent-challenge-before-bounded-cross-lineage-falsification.md).  
@@ -78,43 +138,43 @@ BPV-1 execution-admission package merge: 6027eec73f11c4626be5553de7e79f827be2c81
 BPV-1 D5 execution: COMPLETE / historical merge a191e9c868c14af34a269dcdfae44406f1013bda
 BPV-1 D5-R1 qualification: COMPLETE / QUALIFIED / merge 3856740570620fb2243e2f0da76359281ec4068f
 BPV-1 qualified outcome: SUPPORTED_FOR_SCOPE / 12-of-12 mandatory fixtures PASS
-next content gate: D6_A10_HYPOTHESIS_CLASSIFICATION
-D6: NOT_STARTED
+historical next content gate: D6_A10_HYPOTHESIS_CLASSIFICATION
+historical D6 state: NOT_STARTED
 BPV-1 execution authorization lane: ADMITTED_FOR_EXPERIMENT_ONLY
 runtime expansion: FROZEN
 ```
 
 IAR-1 materially weakened the provisional architecture. The complete A3 transition/outcome machine, A6 lifecycle graph, full A5 identity/time inventory, Receipt-shaped accountability and Event-log-shaped history are reference taxonomies/capabilities rather than universal minimum Kernel form.
 
-The current provisional minimum remains problem-level: non-conflation of representation/Claim with reality/truth; explicit scope/Context/warrant/Authority assumptions where material; explicit Unknown/uncertainty/unsupported states; accountable change/retention/loss for the declared scope; and preregistered equivalence/degradation/refutation conditions.
+The provisional minimum at this checkpoint remained problem-level: non-conflation of representation/Claim with reality/truth; explicit scope/Context/warrant/Authority assumptions where material; explicit Unknown/uncertainty/unsupported states; accountable change/retention/loss for the declared scope; and preregistered equivalence/degradation/refutation conditions.
 
-Exact reconstructability, exact replay, permanent predecessor visibility, global total order and distributed-composition semantics are **not** universal requirements.
+Exact reconstructability, exact replay, permanent predecessor visibility, global total order and distributed-composition semantics were **not** universal requirements.
 
-## BPV-1 preregistered plan
+## 📜 Historical BPV-1 plan and D5/D5-R1 evidence
 
 Scenario: `BPV1-001-cross-lineage-bounded-accountability-v1`.
 
-The authoritative preregistration remains byte-frozen under plan merge `a538d7f1e28858a88b9ee777ac7d6e05b85943db` and SHA-256 `7fe8174c604678c6b79d3fdeae83d7c5ab0d2fb15bfe343d41659d05d9496ad0`. Its twelve normative fields, fixture semantics, failure thresholds, target hypotheses and HR01-HR10 were not changed by D5 or D5-R1.
+The authoritative preregistration is byte-frozen under plan merge `a538d7f1e28858a88b9ee777ac7d6e05b85943db` and SHA-256 `7fe8174c604678c6b79d3fdeae83d7c5ab0d2fb15bfe343d41659d05d9496ad0`. Rust remains a single-node conventional-digital `EXPERIMENTAL_INSTRUMENT_NOT_CANON`; independent team/custody and independent computation model remain `NOT_ESTABLISHED`.
 
-Rust remains a single-node conventional-digital `EXPERIMENTAL_INSTRUMENT_NOT_CANON`; independent team/custody and independent computation model remain `NOT_ESTABLISHED`.
+PR #114 executed the preregistered BPV1-001 workload and PR #115 added the D5-R1 qualification layer without changing the frozen plan/oracle. The unchanged frozen evaluator returned `SUPPORTED_FOR_SCOPE` with all 12 mandatory fixtures PASS over the 512-mutation workload.
 
-## D5 execution and D5-R1 qualification
+`SUPPORTED_FOR_SCOPE` was scoped evidence only. It did **not** establish Final Canon, universal substrate portability, production readiness, independent custody/team, an independent computation model, analog/neuromorphic/probabilistic/quantum support, or product runtime suitability.
 
-PR #114 executed the preregistered BPV1-001 workload and produced the historical D5 evidence. PR #115 then corrected evidence-quality weaknesses without changing the frozen plan/oracle:
+## 📜 Historical D6 next-stage description
 
-- subject output is raw facts rather than oracle-facing structural self-report;
-- external qualifier derives implementation-neutral observations without reading fixture expectations or private runtime state;
-- the unchanged frozen evaluator returns `SUPPORTED_FOR_SCOPE` with all 12 mandatory fixtures PASS;
-- the 512-mutation workload and checkpoints 128/256/512 are unchanged;
-- semantic corruption coverage now includes `evidence` and epistemic position;
-- retained loss-witness storage is intrinsically bounded, with bounded rollup rather than silent loss or an unbounded replacement log;
-- the specific HR10 subject-self-report adjudication path is removed.
+At this historical checkpoint, D6 was the next bounded classification stage. It used these outcomes:
 
-The D5-R1 repository evidence is under `experiments/bpv1/BPV1-001/results/d5-r1/`. Historical PR #114 evidence remains preserved unchanged.
+```text
+SUPPORTED_FOR_SCOPE
+WEAKENED
+REFUTED
+INDETERMINATE
+NOT_TESTED
+```
 
-`SUPPORTED_FOR_SCOPE` is scoped evidence only. It does **not** establish Final Canon, universal substrate portability, production readiness, independent custody/team, an independent computation model, analog/neuromorphic/probabilistic/quantum support, or product runtime suitability.
+D6 later completed in PR #117. This section is retained to preserve what the repository expected immediately before that execution; it is **not** the current gate.
 
-## Required non-equivalences
+## Required non-equivalences preserved across checkpoints
 
 ```text
 NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GLOBALLY_LOST
@@ -153,17 +213,19 @@ SUPPORTED_FOR_SCOPE ≠ universal proof
 D5 outcome ≠ D6 hypothesis classification
 ```
 
-## Independent pending decisions
+## 📜 Historical pending decisions at that checkpoint
 
 - Issue #18 license/publication: `PENDING_OPERATOR`; no selection made.
 - Issue #74 / ADR-0024: `PROPOSED / PENDING_OPERATOR`; reducer-v2 unauthorized.
 - ADR-0003: `PROPOSED / NOT_STARTED`.
-- Track H source admission remains operator-controlled.
+- Track H source admission remained operator-controlled.
 
-## Notion synchronization boundary
+## 📜 Historical Notion synchronization boundary
 
-Live Notion remains synchronized through the earlier D4.5 admission checkpoint. D5/D5-R1/D6 evidence is intentionally deferred to the consolidated Option D D8 synchronization unless live governance changes that rule. GitHub is authoritative for current technical state in the meantime.
+At this checkpoint Notion was still bound to an earlier synchronization role while later D5/D5-R1/D6 evidence awaited the subsequent D8 consolidation. This paragraph is preserved as chronology; it is not a statement about current Notion state.
 
-## Hard stop
+## 📜 Historical hard stop — superseded as current instruction
 
-The current next gate is `D6_A10_HYPOTHESIS_CLASSIFICATION`. D5 execution and D5-R1 qualification are complete; D6 is **NOT_STARTED** and must classify the preregistered target hypotheses without silently generalizing `SUPPORTED_FOR_SCOPE`. Product runtime integration remains unauthorized, runtime expansion remains `FROZEN`, product runtime thaw remains `NO`, Final Canon remains unauthorized and production authorization remains `false`.
+At this historical checkpoint the next gate was `D6_A10_HYPOTHESIS_CLASSIFICATION`; D6 was **NOT_STARTED**. D6 subsequently completed and this statement must not be used as current routing. Product runtime integration was unauthorized, runtime expansion was `FROZEN`, Final Canon was unauthorized and production authorization was `false`.
+
+</details>
