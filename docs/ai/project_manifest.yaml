@@ -1,6 +1,9 @@
 schema: velantrim-documentation-manifest/4
 formal_architecture: ARCHITECTURE.md
 formal_architecture_series_start: docs/A1_KERNEL_PURPOSE_AND_NON_GOALS.md
+formal_architecture_integrated_review: docs/INTEGRATED_A1_A10_REVIEW.md
+formal_architecture_review_result: docs/reviews/IAR-1_RESULT.md
+formal_architecture_reconciliation: docs/reviews/IAR-1_RECONCILIATION.md
 formal_architecture_role: semantic_authority
 human_start: README.md
 human_start_ru: README.ru.md
