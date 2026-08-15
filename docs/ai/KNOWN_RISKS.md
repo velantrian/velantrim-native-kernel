@@ -1,42 +1,21 @@
 <!-- H11_EXECUTION_ADMISSION_BLOCKED_CURRENT -->
-> [!IMPORTANT]
-> **Current authoritative risk overlay — 2026-08-13.** Current selected family is `A10-H11`; current gate is `A10_H11_EXECUTION_ADMISSION`; admission remains `BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER`; reviewer/reproducer remains `NOT_ESTABLISHED`; H11 remains `NOT_TESTED`; PR #131 is the open review surface. The immediate P0 research risk is false independence/self-certification: CI success, owner/self review, automated validators, Codex quota `BOT_NOTICE`, LLM agreement, or same-agent relabeling are not qualifying `INDEPENDENT_SEMANTIC_ORACLE` evidence. H11 implementation/execution, dependency-graph execution, and semantic adjudication remain `NOT AUTHORIZED`. Runtime expansion remains `FROZEN`; Final Canon `DEFERRED / NOT_AUTHORIZED`; production `false`; Issue #88 OPEN. PR #129 remains immutable admission evidence; PR #130 (`e36b7f45410d74b8a65406bff6fdd6d070fa96b0`) is the separate machine-truth / verified 7-of-7 Notion synchronization checkpoint. Lower D5/D6/D8/RAVP risk snapshots are historical chronology only.
-
-> [!WARNING]
-> **New P1 evidence-chain risk set.** PR #131's substantive Codex review found six open validation weaknesses: mechanism coverage could be claimed without graph evidence; self-review could be self-declared qualified; support was not a conditional invariant; input artifacts were arbitrary strings; private/non-repository observations could enter adjudication; and raw payloads could carry semantic verdict self-reports. The current bounded candidate hardens these paths and adds negative fixtures, but is not yet merged. Codex itself remains non-qualifying for H11 because organizational/self-review independence is not established.
-
-> [!WARNING]
-> **PR #134 second-round P1 set remains review-stage until exact-head evidence.** Codex found seven further bypasses in the first hardening candidate: records were not applied to their declared schemas, worktree-only evidence could appear repository-visible, hard-failure edge semantics trusted a label, semantic paraphrases bypassed a token blacklist, CI could stand in for independence, support could omit exact bundle verification or retain gaps, and conditional schemas could be rendered unreachable. A bounded follow-up candidate closes these paths without modifying the frozen plan, but it is not authoritative `main` state until protected merge and post-merge reconciliation. Codex's useful technical review still does not qualify it for H11 independence.
-
-> [!WARNING]
-> **PR #134 third-round findings are remediated on a tested implementation head but remain non-authoritative until protected merge.** Seven P1 and one P2 exposed further ways to omit frozen obligations/classes, label generic bytes as independence proof, self-report bundle verification, downgrade hard failure, detach adjudication from reviewer identity, cite post-hoc rewritten sources, exploit Python bool/number coercion or bypass string regexes. Implementation head `9dbab33ff3a8ecfe9383ce861f9bb6168521a6d4` closes these paths with 74/74 local H11 tests, 6/6 workflows, 15/15 PR #134 threads resolved and 7/7 Notion read-back. The docs-reconciliation descendant still needs exact-head CI and fresh review. This does not establish a real independent reviewer, execute H11 or change the frozen plan.
-
-<!-- POST_D8_OPERATOR_DECISION_CURRENT -->
-> [!IMPORTANT]
-> **Current post-D8 operator decision — 2026-08-12.** ADR-0027 / `OD-POST-D8-001` is `ACCEPTED / OPERATOR APPROVED` at `57993f39906ae7266011f6146c9a485d0587d2bf`. A1–A10 remains `STRENGTHENED_FOR_BPV1_SCOPE / STILL_PROVISIONAL`; Final Canon is **deferred**, product runtime remains `FROZEN`, production remains `false`. The only current next gate is `RESIDUAL_A10_VALIDATION_PLAN` for A10-H03, A10-H06, A10-H08, A10-H09, A10-H10, A10-H11, and that gate is **RESEARCH_PLANNING_ONLY** — no residual experiment execution is authorized. Any lower `D6 NEXT`, `D8 IN_PROGRESS`, or `OPERATOR_CANON_RUNTIME_DECISION_REQUIRED` wording is historical chronology, not current truth.
-
 # ⚠️ Native Kernel Known Risks and Required Proof
+
+This file is the **active-risk register**. Historical defect chronology remains in its original reviews, research/evidence records, `STATUS.md`, `ROADMAP.md`, work/reconciliation logs and Git history; current risks must not be lost merely to make the document shorter.
 
 ```yaml
 document_role: ACTIVE_RISKS
-status_as_of: 2026-08-12
+status_as_of: 2026-08-15
 authoritative_machine_source: ../../project-state.json
 repository_status: RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY
-blueprint_decision: ADR-0025
-post_blueprint_decision: ADR-0026
-independent_review: IAR-1 / QUALIFYING_REVIEW_COMPLETE
-review_reconciliation: IAR-1-R1 / COMPLETE
-bpv1_plan: BPV1-001-cross-lineage-bounded-accountability-v1 / PREREGISTERED
-bpv1_plan_merge: a538d7f1e28858a88b9ee777ac7d6e05b85943db
-bpv1_d5_merge: a191e9c868c14af34a269dcdfae44406f1013bda
-bpv1_d5_r1_qualification_merge: 3856740570620fb2243e2f0da76359281ec4068f
-bpv1_qualified_outcome: SUPPORTED_FOR_SCOPE
-next_gate: D6_A10_HYPOTHESIS_CLASSIFICATION
-D6: NOT_STARTED
-bpv1_execution_authorization_lane: ADMITTED_FOR_EXPERIMENT_ONLY
+selected_family: A10-H11
+current_gate: A10_H11_EXECUTION_ADMISSION
+admission: BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER
+reviewer_reproducer: NOT_ESTABLISHED
+h11_outcome: NOT_TESTED
+runtime_expansion: FROZEN
+production_authorized: false
 ```
-
-This page lists current risks. Historical defects and prior gate states remain available through Git history and their original evidence/review records; they are not rewritten as current truth.
 
 ## Risk-state vocabulary
 
@@ -48,12 +27,58 @@ HISTORICAL_BOUNDARY  retained evidence remains valid only for original version/s
 PROPOSED             research or decision work, not runtime protection
 ```
 
-## P0 — Production overclaim
+## 🔴 P0 — False independence / self-certification
+
+**State:** `OPEN / CURRENT H11 BLOCKER`.
+
+H11 requires a genuinely qualifying `INDEPENDENT_SEMANTIC_ORACLE`. The current Codex qualification record remains `NOT_ESTABLISHED`; shared-custody/self-review and organizational-independence concerns remain material.
+
+```text
+CI success ≠ independent review
+owner/self review ≠ independent review
+LLM agreement / model-session change / same-agent relabeling ≠ independent review
+Notion read-back ≠ independent review
+```
+
+PR #131 remains the external review surface. A future qualifying reviewer/reproducer still requires a separate `A10_H11_EXECUTION_ADMISSION` reassessment before execution.
+
+## 🔴 P0 — Formal Authority misrouting / stale first-draft interpretation
+
+**State:** `MITIGATION IN PROGRESS / MUST REMAIN FAIL-CLOSED`.
+
+A1–A10 are preserved first-draft provenance, while IAR-1-R1 deliberately narrows several first-draft structures. A reading route that stops at A1–A10 can therefore overstate the current provisional architecture.
+
+```text
+ARCHITECTURE.md
+→ A1–A10 first-draft provenance
+→ Integrated A1–A10 Review
+→ IAR-1
+→ IAR-1-R1 reconciliation
+→ later accepted ADR / operator decisions for their explicit scope
+```
+
+Where first-draft wording conflicts with IAR-1-R1, the reconciliation is the current provisional interpretation. Final Canon remains deferred.
+
+## 🔴 P0 — Historical/current state confusion
+
+**State:** `MITIGATION IN PROGRESS`.
+
+Historical D5/D6/D7/D8, ADR-0027, RAVP, family-selection and preregistration records contain values that were once current. Requiring those exact literals inside current-only AI surfaces creates a retrieval hazard even when a newer overlay exists.
+
+```text
+historical NEXT ≠ current next gate
+historical NOT_STARTED ≠ current state
+old Notion checkpoint ≠ live GitHub HEAD
+```
+
+Current-only surfaces must carry current H11 state; chronology remains in designated history/evidence surfaces.
+
+## 🔴 P0 — Production overclaim
 
 **State:** `OPEN / PRIMARY COMMUNICATION AND GOVERNANCE RISK`.
 
 ```text
-C5 + BPV1-001 scoped evidence
+C5 + BPV1 scoped evidence
 ≠ production deployment
 ≠ live user traffic
 ≠ sustained operations
@@ -61,7 +86,7 @@ C5 + BPV1-001 scoped evidence
 
 Production authorization remains `false`.
 
-## P0 — Semantic assertion overclaim
+## 🔴 P0 — Semantic assertion overclaim
 
 **State:** `OPEN`.
 
@@ -72,108 +97,62 @@ assertion map:              45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED / 0 FAILE
 NK-EPI:                     0 SUPPORTED / 0 PARTIAL / 8 UNSUPPORTED / 0 FAILED
 ```
 
-Operational success and BPV1-001 `SUPPORTED_FOR_SCOPE` cannot promote unsupported semantic assertions or silently classify A10 hypotheses.
+Operational success and scoped BPV1/A10 evidence cannot promote unsupported assertions or universalize bounded findings.
 
-## P0 — Reference implementation may capture the Canon
+## 🔴 P0 — Reference implementation may capture architecture authority
 
-**State:** `MITIGATED BY ADR-0025 + ADR-0026 + IAR-1-R1 + BPV1-001 D5/D5-R1 / RESIDUAL OPEN`.
+**State:** `MITIGATED / RESIDUAL OPEN`.
 
-Current controls:
+Controls already present:
 
 - P1–C5 remains `BOUNDED_REFERENCE_LABORATORY`;
-- A1–A10 remain provisional;
-- IAR-1 completed as a qualifying adversarial review;
-- IAR-1-R1 demoted over-shaped taxonomies from universal minimum to reference structures;
-- BPV1-001 forbids current Python/Event/reducer/Receipt/SQL forms as semantic oracle;
-- Rust subject was derived as a separate bounded experimental realization;
-- D5-R1 externally qualifies structural evidence rather than accepting subject self-report;
-- runtime remains frozen.
+- A1–A10 remains provisional first-draft provenance;
+- IAR-1-R1 demotes over-shaped taxonomies from universal minimum to reference structures;
+- BPV1/H11 separate profile mechanisms from meaning-level obligations;
+- runtime remains frozen;
+- Final Canon remains deferred.
 
-Residual risk: one Rust realization can still share conceptual assumptions with the repository authors. D6/D7 must preserve this limitation rather than presenting one cross-language success as universal architectural proof.
+Residual risk remains because the same repository and conventional-digital machinery dominate most evidence. One cross-language realization is not independent-computation-model proof.
 
-## P0 — False independence / self-confirming validation
-
-**State:** `MITIGATED FOR IAR-1 AND D5-R1 SELF-REPORT PATH / RESIDUAL OPEN`.
-
-BPV1-001 still declares:
-
-```text
-independent language: APPLICABLE / RUST
-same repository custody: DECLARED_LIMITATION
-independent team: NOT_ESTABLISHED
-independent computation model: NOT_ESTABLISHED / CONVENTIONAL_DIGITAL
-```
-
-PR #115 removed the specific HR10 problem found after D5: the Rust subject no longer supplies structural oracle-facing PASS booleans. The external qualifier derives structural facts without reading frozen fixture expectations or private runtime state; if it cannot establish a required fact, the unchanged evaluator can become `INDETERMINATE`.
-
-This fixes that adjudication path, but it does **not** establish independent team, custody or computation-model evidence.
-
-## P0 — Oracle leakage / post-hoc rescoping
+## 🔴 P0 — Oracle leakage / post-hoc rescoping
 
 **State:** `MITIGATED / MUST REMAIN FAIL-CLOSED`.
 
-The frozen preregistration, machine-readable fixture/oracle package and evaluator remain unchanged across D5 and D5-R1. The twelve normative fields, scenario identity, expected fixture semantics, thresholds and HR01-HR10 cannot be changed to rescue a result under the same scenario identity.
+Frozen preregistration, scenario identity, mandatory obligations, expected fixture semantics, thresholds and hard-refutation conditions cannot be changed post-execution to rescue a result under the same evidence identity. A semantic change requires the appropriate new admitted evidence/scenario identity.
 
-D5-R1 has a dedicated scope guard that rejects changes to:
+## 🔴 P0 — Bounded accountability boundary
 
-```text
-docs/research/BPV1_PREREGISTRATION.*
-experiments/bpv1/BPV1-001/admission/**
-tools/bpv1/evaluate.py
-```
+**State:** `MITIGATED FOR BPV1 FIXED SCOPE / RESIDUAL OPEN OUTSIDE SCOPE`.
 
-A semantic change there requires a new admitted evidence identity or new scenario identity as applicable.
+The fixed 512-mutation BPV1 run preserves current accountability, explicit retention scope and loss witnesses within its preregistered bounds. Additional engineering stress tests exercise bounded witness retention.
 
-## P0 — Bounded accountability boundary
+This is not proof of bounded behavior for arbitrary workloads, distributions or future substrates.
 
-**State:** `MITIGATED FOR BPV1-001 FIXED SCOPE / RESIDUAL OPEN OUTSIDE SCOPE`.
+## 🔴 P0 — Bounded-state thresholds may be misleading
 
-The fixed 512-mutation BPV1-001 run preserves current accountability, explicit retention scope and valid loss witnesses while remaining within the preregistered state bounds. D5-R1 also fixes the earlier implementation weakness where witness storage itself could grow without an internal cap.
+**State:** `MITIGATED FOR FIXED BPV1 SCOPE / RESIDUAL OPEN`.
 
-A separate 96-cycle engineering stress test verifies retained witness records remain bounded and older witness detail folds into a bounded per-slot rollup rather than silently disappearing or becoming an unbounded replacement log.
+Recorded BPV1 thresholds and observations are experiment parameters/evidence, not universal architecture constants, capacity/SLO claims or performance targets.
 
-Residual risk: this is not a proof of bounded behavior for arbitrary workloads, data distributions or future substrates.
+## 🔴 P0 — Semantic corruption coverage is scoped
 
-## P0 — Bounded-state thresholds may be misleading
+**State:** `MITIGATED FOR BPV1 CLAIM FIELDS / RESIDUAL OPEN`.
 
-**State:** `MITIGATED FOR FIXED BPV1-001 / RESIDUAL OPEN`.
+Corrective tests cover corruption of evidence/epistemic-position fields for the bounded BPV1 evidence path. The local digest remains an experiment corruption detector, not a universal cryptographic authenticity scheme.
 
-Observed qualified run:
-
-```text
-scripted_mutations: 512
-durable_state_byte_cap: 262144
-durable_bytes_at_512: 42276
-retained_detailed_predecessor_cap: 64
-retained_detailed_predecessors: 52
-loss_witness_cap: 32
-retained_loss_witness_records: 13
-growth_rule: PASS
-```
-
-These are experiment thresholds, not universal architecture constants, capacity claims or performance targets.
-
-## P0 — Semantic corruption coverage
-
-**State:** `MITIGATED FOR BPV1-001 CLAIM FIELDS / RESIDUAL OPEN`.
-
-The original D5 content digest omitted `evidence` and `epistemic_position`; D5-R1 corrected this and added adversarial tests that mutate each without recomputing the digest and require corruption detection.
-
-Residual risk: this local digest is an experiment corruption detector, not a cryptographic authenticity scheme or universal storage-integrity architecture.
-
-## P0 — Threat/authenticity boundary is provisional
+## 🔴 P0 — Threat/authenticity boundary remains provisional
 
 **State:** `MITIGATED FOR PREREGISTERED NEGATIVE FIXTURES / RESIDUAL OPEN`.
 
-BPV1-001 executed its scoped negative fixtures for truncation/corruption, forged Authority and withheld counterevidence. This is not a cybersecurity benchmark and does not establish OS security, distributed consensus, production key management, cryptographic authenticity or arbitrary adversarial resilience.
+Scoped negative fixtures cover selected corruption, forged-Authority and withheld-counterevidence cases. They do not establish OS security, distributed consensus, key management, independent custody, cryptographic authenticity or arbitrary adversarial resilience.
 
-## P0 — Context/Provenance/Authority grounding can hide assumptions
+## 🔴 P0 — Context / Provenance / Authority grounding can hide assumptions
 
-**State:** `OPEN / SCOPED BPV1 EVIDENCE ONLY`.
+**State:** `OPEN / SCOPED EVIDENCE ONLY`.
 
-BPV1-001 preserves the material Context/Source/Evidence/Authority distinctions required by its fixtures and detects hidden semantic divergence despite matching visible final values. It does not exhaust grounding problems across all knowledge systems or substrates.
+The reconciled architecture requires finite/declared grounding where these relations are material. Existing fixtures do not exhaust grounding problems across all knowledge systems or substrates.
 
-## P0 — Historical and clean lineages may be collapsed
+## 🔴 P0 — Historical and clean lineages may be collapsed
 
 **State:** `OPEN / GOVERNANCE BOUNDARY`.
 
@@ -184,15 +163,17 @@ clean P1–P5 + C4 + C5
 NOT_FOUND_IN_ACCESSIBLE_SOURCES ≠ GLOBALLY_LOST
 ```
 
-Issue #1 remains independent.
+Issue #1 remains independent. Track H source admission remains operator-controlled.
 
-## P0 — Reducer referential semantics are incomplete
+## 🔴 P0 — Reducer referential semantics remain incomplete
 
 **State:** `OPEN / ISSUE #74 / ADR-0024 PENDING / RUNTIME FROZEN`.
 
-Reducer v1 must not be rewritten in place. Option D, D5 and D5-R1 do not accept ADR-0024 or authorize reducer v2.
+Reducer v1 historically permits referential cases a stricter future policy may reject, including dangling/unknown references and insufficiently constrained supersession relations.
 
-## P0 — Event/history commitment is not complete authenticity
+Do **not** repair reducer v1 in place; that would reinterpret historical P1–C5 evidence. Any stricter semantics must use the existing operator-controlled versioning/ADR path.
+
+## 🔴 P0 — Event/history commitment is not complete authenticity
 
 **State:** `OPEN`.
 
@@ -202,89 +183,152 @@ signature over incomplete commitment ≠ complete integrity
 history visibility ≠ mandatory Event sourcing
 ```
 
-BPV1-001 produced scoped evidence that current accountability can survive without a canonical per-operation Event log or exact replay in this one realization. D6 must decide what that supports or weakens among the preregistered hypotheses; no universal conclusion is automatic.
+The reconciled architecture no longer treats Event-log-shaped history or exact replay as universal minimum requirements. Existing Event-integrity evidence remains profile-scoped.
 
-## P0 — Physical deletion remains absent
+## 🔴 P0 — Physical / cryptographic erasure is not established
 
-**State:** `OPEN / OUTSIDE BPV1-001 SCOPE`.
+**State:** `OPEN`.
 
-Logical `ERASED`, restriction and Receipts must not be represented as global physical deletion. Physical/cryptographic erasure remains outside BPV1-001 because independent physical substrate observability is absent.
+Logical restriction/`ERASED` does not prove physical deletion, cryptographic erasure or global forgetting.
 
-## P0 — License and contribution rights are unresolved
+The reconciled architecture distinguishes:
+
+1. logical disposition claim;
+2. substrate-condition claim under a threat/observation boundary;
+3. epistemic accessibility / forgetting-loss claim.
+
+Do not upgrade one layer into another without required evidence and Authority.
+
+## 🔴 P0 — License and contribution rights are unresolved
 
 **State:** `OPEN / ISSUE #18 / OPERATOR DECISION REQUIRED`.
 
 ```text
-publicly readable source ≠ permission to copy, modify or redistribute
+publicly readable repository ≠ permission to copy, modify or redistribute
 ```
 
-BPV-1 work does not select a license or contribution regime.
+No AI agent may choose the license, contribution regime, patent/trademark terms or recovered-source rights for the operator.
 
-## P0 — Research may be mistaken for authorization
+## 🔴 P0 — Research may be mistaken for authorization
 
 **State:** `OPEN / GOVERNANCE BOUNDARY`.
 
-Qualifying review, reconciliation, preregistration, execution admission, D5/D5-R1 `SUPPORTED_FOR_SCOPE`, or later A10 outcome classification do not automatically create Final Canon, product runtime behavior, production authority, or universal substrate claims.
+Qualifying review, reconciliation, preregistration, execution admission, bounded support or later A10 outcomes do not automatically create Final Canon, product runtime behavior, production authority or universal substrate claims.
 
-## P1 — Independent implementation evidence remains limited
+## 🟠 P1 — H11 qualification evidence must be operationally bindable
+
+**State:** `OPEN / PRE-EXECUTION OPERATIONAL RISK`.
+
+The fail-closed qualification contract correctly prevents repository-local self-certification. When a genuine external reviewer/reproducer appears, externally authenticated identity/evidence must be bindable into the **existing** qualification record without weakening frozen criteria.
+
+This is not permission to invent a substitute reviewer, protocol or gate. It keeps the existing PR #131 → qualification record → admission reassessment path executable.
+
+## 🟠 P1 — Independent implementation evidence remains limited
 
 **State:** `PARTIAL / CROSS-LANGUAGE EVIDENCE EXISTS / BROADER INDEPENDENCE ABSENT`.
 
-BPV1-001 now provides one executed Rust, non-event-sourced, bounded-memory realization. This is materially stronger than PostgreSQL↔SQLite storage-profile evidence, but still lacks:
+```text
+independent team: NOT_ESTABLISHED
+independent custody: NOT_ESTABLISHED
+independent computation model: NOT_ESTABLISHED / CONVENTIONAL_DIGITAL
+```
 
-- independent implementation team/custody;
-- independent computation model;
-- probabilistic/neuromorphic/analog/non-classical implementation evidence;
-- composition/federation evidence.
+Cross-language evidence is materially useful but cannot be described as fully independent merely because the language differs.
 
-Do not call it fully independent merely because the language differs.
-
-## P1 — Composition/federation remains outside base conformance
+## 🟠 P1 — Composition/federation remains outside base conformance
 
 **State:** `OPEN / SEPARATE CAPABILITY CLASS`.
 
 ```text
-local conformance ≠ federation/composition conformance
+local scoped conformance ≠ federation/composition conformance
+A10-H11 ≠ composition/federation
 ```
 
-BPV1-001 is explicitly single-node/non-composed and cannot be generalized to federation.
+Do not import composition authority or mechanisms from Titan, Crystal, Mentaury or another project into Native Kernel.
 
-## P1 — Operational equivalence remains absent
+## 🟠 P1 — Operational equivalence remains absent
 
 **State:** `OPEN`.
 
-PostgreSQL and SQLite bounded semantic comparison is not full operational equivalence. BPV1-001 does not attempt to prove operational parity or performance superiority.
+PostgreSQL↔SQLite bounded semantic comparison is not full operational equivalence. BPV1 does not prove performance/operational parity.
 
-## P1 — Durable evidence lacks independent custody
+## 🟠 P1 — Durable evidence lacks independent custody
 
 **State:** `MITIGATED / RESIDUAL OPEN`.
 
-Repository-resident C5 and BPV1 artifacts are not independent third-party custody, signed timestamping, or disaster recovery.
+Repository-resident C5/BPV1 artifacts are not independent third-party custody, signed timestamping or disaster recovery.
 
-## P1 — Scale and environment scope are narrow
+## 🟠 P1 — Scale and environment scope remain narrow
 
 **State:** `OPEN`.
 
-Passing C5 or BPV1-001 thresholds is not a capacity, SLO, cost, architecture, hardware-portability or universal substrate claim.
+Passing C5/BPV1 bounds is not a capacity, SLO, cost, hardware-portability or universal substrate claim.
 
-## P1 — Current-state surfaces can drift
+## 🟠 P1 — Evidence/checkpoint identity can be misread after squash merges
 
-**State:** `MITIGATED / RESIDUAL LIVE-STATE RISK OPEN`.
+**State:** `MITIGATED / RESIDUAL PROCESS RISK`.
 
-GitHub refs, issue states, Actions and Notion can change after committed snapshots. Live state requires GitHub verification. Notion currently remains at D4.5 by deliberate Option D synchronization policy; D5/D5-R1/D6 are deferred to D8.
+PR #138 repaired one post-squash evidence anchor. Preserve the distinction:
 
-## P1 — Repository governance enforcement
+```text
+pre-merge candidate identity: exact PR head
+post-merge authoritative repository identity: main-reachable merge/commit + verified bytes/digest
+```
 
-**State:** `OPEN / SEPARATE FROM BPV1 SEMANTICS`.
+A PR-head SHA must not silently become the durable main-reachable evidence anchor after a squash merge.
 
-Live repository inspection has shown the main branch as protected while enforcement/settings may still be disabled. This is a repository governance risk, not evidence that BPV1 semantics failed. It must not be conflated with D5/D5-R1 qualification.
+## 🟠 P1 — Current-state / Notion surfaces can drift
 
-## Closed/historical boundaries
+**State:** `OPEN / DOCUMENTATION PROCESS RISK`.
 
-Historical Event-comparison, evidence-schema, workflow-trigger, SQLite-version, D5 subject-self-report, semantic-digest coverage and unbounded witness-retention defects remain preserved in their original PR/evidence histories. D5-R1 corrects the latter three in a new evidence identity rather than rewriting PR #114 evidence.
+GitHub refs, PRs, Actions and Notion can change after committed snapshots. Notion is a human/navigation projection, not stronger authority than GitHub.
+
+Different Notion pages have different roles; copying one volatile live SHA/gate block across all pages creates churn and stale truth. Use role-specific updates and read-back:
+
+```text
+Hub → stable portrait/navigation
+Core Architecture → architecture meaning/invariants
+Current State → current state projection
+Roadmap → active gate/order
+Active Risks → active risk register
+AI Context → continuation/routing
+GitHub Sync Log → PR/SHA/CI synchronization chronology
+```
+
+## 🟠 P1 — Repository governance enforcement can be weaker than methodology
+
+**State:** `OPEN / SEPARATE FROM RESEARCH SEMANTICS`.
+
+The active default-branch ruleset requires PR-based integration and protects destructive/non-fast-forward changes. Required status checks/review/thread-resolution policy may still be weaker than the repository's methodological discipline.
+
+This is governance hardening, not evidence that BPV1/H11 semantics failed.
+
+## 🟡 P2 — Local SQLite environment may be unable to execute P5 safely
+
+**State:** `EXPECTED ENVIRONMENT LIMITATION / NOT A REASON TO LOWER THE SAFETY FLOOR`.
+
+The SQLite profile intentionally fails closed below the evidenced WAL-safe floor. CI builds the pinned safe SQLite version. A local environment with older linked SQLite may be `NOT_EXECUTED` for affected P5 tests rather than a Kernel regression.
+
+Do not weaken the WAL safety floor merely to make an unsafe local environment green.
+
+## Closed / historical boundaries
+
+Historical Event-comparison, evidence-schema, workflow-trigger, SQLite-version, D5 subject-self-report, semantic-digest coverage, witness-retention and H11 validation-bypass defects remain preserved in their original PR/review/evidence histories. Later remediation adds a new evidence/validation identity rather than rewriting old evidence.
+
+## Required non-claims
+
+```text
+bounded evidence ≠ universal proof
+cross-language ≠ independent computation model
+repository-visible ≠ independent custody
+logical ERASED ≠ physical deletion
+physical deletion ≠ global forgetting
+Final Canon deferred ≠ architecture absent
+runtime frozen ≠ research stopped
+Notion synchronized ≠ H11 qualified
+CI green ≠ independent validation
+```
 
 ## Update rule
 
-For every risk transition record exact contract/decision, exact SHA/workflow runs, affected evidence identity, residual risk, proof boundary, and whether operator approval is required.
-
-Never convert a bounded PASS, retained archive, closed bug, accepted research priority, operator approval, qualifying independent review, reconciliation, preregistration or BPV1 result into production, truth, compliance, deletion, Final Canon, universal neutrality, future-substrate support or ecosystem-authority claims.
+For every risk transition record exact governing contract/decision, exact evidence identity, residual risk, proof boundary and whether operator approval is required. Do not convert a bounded PASS, closed defect, accepted research priority, operator approval, qualifying review, reconciliation, preregistration or scoped experiment result into production, truth, compliance, deletion, Final Canon, universal neutrality, future-substrate support or ecosystem-authority claims.

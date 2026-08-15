@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Validate current reconciliation while preserving historical surface guards.
+"""Validate current reconciliation while preserving historical role guards.
 
-The historical layer keeps the exact publication/manifest surface bindings and
-all issue/comment/page identity checks. D8 adds a later Notion synchronization
-checkpoint in machine state without rewriting those historical bindings.
+The historical layer keeps exact publication/manifest bindings on designated
+history/synchronization owners plus all issue/comment/page identity checks. D8
+adds a later Notion synchronization checkpoint in machine state without forcing
+those historical role bindings back into current-only AI orientation surfaces.
 """
 from __future__ import annotations
 
@@ -16,9 +17,9 @@ globals()["__name__"] = "validate_reconciliation_history_embedded"
 exec(compile(_HISTORY_PATH.read_text(encoding="utf-8"), str(_HISTORY_PATH), "exec"), globals(), globals())
 globals()["__name__"] = _saved_name
 
-# Historical surface/manifest identity retained from the embedded validator:
+# Historical manifest/source identity retained from the embedded validator:
 # NOTION_SYNC_SHA == 70acd0... . It is deliberately not renamed here because
-# existing surface-collapse tests bind that historical role.
+# downstream D8/H11 reconciliation guards bind that historical role.
 D8_NOTION_SYNC_SHA = "491ff7b229606d228ca04985b19b146878390e08"
 D8_RECORD_MERGE_SHA = "9ecb2369edec17a0171b6e965bcb49f9526adf0b"
 
@@ -93,14 +94,13 @@ def validate(repo: Path) -> None:
     for page_id in NOTION_PAGE_IDS:
         _require(page_id in notion_record, f"Notion page identity missing: {page_id}")
 
-    # Current GitHub human surfaces still carry the historical publication /
-    # manifest-source bindings. Preserve their exact role guards here; D8's
-    # later Notion descendant is machine truth and is not allowed to rewrite
-    # those publication-time bindings silently.
-    current_texts = {relative: _read(repo / relative) for relative in CURRENT_SURFACES}
-    _validate_surface_bindings(current_texts)
+    # Read the full boundary set for non-overclaim checks, while the embedded
+    # historical validator applies exact role-SHA bindings only to its
+    # ROLE_BINDING_SURFACES owners.
+    boundary_texts = {relative: _read(repo / relative) for relative in BOUNDARY_SURFACES}
+    _validate_surface_bindings(boundary_texts)
 
-    boundaries = " ".join([issue_record, notion_record, *current_texts.values()]).lower()
+    boundaries = " ".join([issue_record, notion_record, *boundary_texts.values()]).lower()
     for phrase in (
         "remain open",
         "not production readiness",
@@ -121,7 +121,7 @@ def main() -> int:
         "Reconciliation validation passed; "
         f"publication={PUBLICATION_SHA}; manifest={NOTION_SYNC_SHA}; "
         f"notion_d8={D8_NOTION_SYNC_SHA}; issues=14,15,16,17; "
-        f"notion_pages={len(NOTION_PAGE_IDS)}; current_surfaces={len(CURRENT_SURFACES)}"
+        f"notion_pages={len(NOTION_PAGE_IDS)}; role_binding_surfaces={len(ROLE_BINDING_SURFACES)}"
     )
     return 0
 

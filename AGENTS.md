@@ -1,53 +1,66 @@
 # 🤖 Velantrim Native Kernel repository guidance
 
-## Required reading order
+## Canonical reading order
 
-Before searching code, creating a branch, or proposing architecture changes, read:
+`docs/ai/README.md` owns the mandatory AI/agent reading order.
 
-1. `project-state.json`
-2. `docs/ai/POST_RESIDUAL_A10_STATE.md`
-3. `docs/research/H11_EXECUTION_ADMISSION.json`
-4. `docs/research/H11_REVIEWER_REPRODUCER_QUALIFICATION.json`
-5. `docs/research/H11_PREREGISTRATION.md`
-6. `docs/research/H11_FAMILY_SELECTION.md`
-7. `README.md`
-8. `STATUS.md`
-9. `ROADMAP.md`
-10. `docs/ai/README.md`
-11. `docs/ai/CURRENT_STATE.md`
-12. `docs/ai/KNOWN_RISKS.md`
-13. `docs/ARCHITECTURE_REFOUNDATION.md`
-14. `docs/A10_OPEN_QUESTIONS_AND_FALSIFICATION.md`
-15. `docs/research/BPV1_D6_A10_CLASSIFICATION.md`
-16. `docs/research/BPV1_D7_INTEGRATED_REREVIEW.md`
-17. `docs/research/BPV1_D8_CONSOLIDATED_SYNC.md`
-18. `docs/adr/0027-retain-provisional-architecture-and-runtime-freeze-after-option-d.md`
-19. `docs/research/RESIDUAL_A10_VALIDATION_PLAN.md`
-20. affected Canon, contracts, ADRs, source, tests, workflows and evidence
-21. live GitHub PRs/issues/Actions/reviews
-22. corresponding existing Notion pages when synchronization is part of the task
+Before searching code, creating a branch, proposing architecture changes or mutating repository/Notion state:
 
-Do not begin with random repository search. Verify live state first.
+1. resolve live GitHub state;
+2. open [`docs/ai/README.md`](docs/ai/README.md);
+3. follow its reading order exactly;
+4. then apply the operating constraints in this file.
 
-If an older current-looking overlay conflicts with `project-state.json` or `docs/ai/POST_RESIDUAL_A10_STATE.md`, preserve the old text as chronology and follow the newer current-truth layer. Old `D6 NEXT`, `RESIDUAL_A10_VALIDATION_PLAN NEXT`, `SEPARATE_FAMILY_PREREGISTRATION_SELECTION`, and preregistration-era `EXECUTION_ADMISSION NEXT` wording is historical after PR #129 and its separate current-truth binding checkpoint.
+A handoff, old checkpoint, model memory, README summary, Notion page or historical `NEXT` marker is not a substitute for live repository truth.
 
-## Current maturity
+## Current safety boundary
 
 ```text
 RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY
-clean_runtime_support:      PARTIAL
-kernel_runtime_conformance: C4
-operational_validation:     C5_BOUNDED_REHEARSAL
-production_authorized:      false
-
-assertions: 45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED / 0 FAILED
-NK-EPI:    0 SUPPORTED / 0 PARTIAL / 8 UNSUPPORTED / 0 FAILED
+P1–C5: BOUNDED_REFERENCE_LABORATORY
+selected family: A10-H11
+current gate: A10_H11_EXECUTION_ADMISSION
+admission: BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER
+reviewer/reproducer: NOT_ESTABLISHED
+H11: NOT_TESTED
+implementation/execution: NOT AUTHORIZED
 runtime expansion: FROZEN
+product runtime thaw: false
+Final Canon: DEFERRED / NOT AUTHORIZED
+production: false
+Issue #88: OPEN
 ```
 
-Current machine truth uses `project-state.json` protocol `nk-project-state/2`. Live HEAD must be resolved through Git/GitHub; committed checkpoint metadata never predicts its own future merge SHA.
+The frozen H11 plan is `H11-001-c5-lab-canon-separation-v1`, SHA-256 `60da649e675b79b3e70bf8a61cf03cb4d57bb989f4934b65ab8d50c925b19914`. PR #131 is the repository-visible external review surface.
+
+The committed H11 state-binding checkpoint is PR #130 / `e36b7f45410d74b8a65406bff6fdd6d070fa96b0`. Live HEAD must always be resolved separately through Git/GitHub; committed checkpoint metadata never predicts its own future merge SHA.
+
+## Architecture authority
+
+Do not treat A1–A10 first-draft wording as Final Canon or as the last interpretation when later reconciliation narrows it.
+
+```text
+ARCHITECTURE.md
+→ A1–A10 first-draft provenance
+→ Integrated A1–A10 Review
+→ IAR-1 qualifying challenge
+→ IAR-1-R1 reconciliation
+→ later accepted ADR / operator decisions for their explicit scope
+```
+
+Where first-draft wording conflicts with IAR-1-R1, the reconciliation is the current provisional interpretation unless a later accepted architecture authority explicitly supersedes that scope.
+
+Reference-laboratory mechanisms do not become universal architecture merely because current evidence depends on them.
+
+```text
+reference laboratory ≠ Architecture authority
+exact lab reproduction ≠ Final Canon
+profile-specific mechanism ≠ universal semantic obligation
+```
 
 ## Independent tracks
+
+Never collapse these tracks:
 
 ```text
 H — Historical Recovery
@@ -58,229 +71,66 @@ C — Clean Reference Implementation
   PARTIAL / BOUNDED_REFERENCE_LABORATORY
 
 R — Architecture Re-foundation and post-blueprint research
-  A1-A10 blueprint complete / provisional
-  Option D complete through D8
+  A1–A10 first drafts complete / provisional
+  integrated review + IAR-1 + IAR-1-R1 complete
+  Option D / BPV-1 / D6–D8 complete for their recorded scope
   ADR-0027 accepted
-  RAVP-001 residual planning complete
+  RAVP-001 complete
   A10-H11 selected and preregistered
-  current gate: A10_H11_EXECUTION_ADMISSION
-  gate state: BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER
+  current admission BLOCKED pending genuine independent reviewer/reproducer evidence
 ```
 
-Never collapse these tracks.
+## H11 fail-closed rules
 
-```text
-historical recovery ≠ clean implementation
-reference laboratory ≠ Architecture Canon
-planning artifact ≠ experiment evidence
-NOT_TESTED ≠ SUPPORTED
-family selection ≠ preregistration authorization
-preregistration ≠ execution admission
-blocked admission ≠ INDETERMINATE
-execution admission ≠ execution
-```
-
-## Current authoritative research state
-
-The residual research lineage is now:
-
-```text
-PR #124 — RAVP-001 planning
-  merge: edc0501d71a827462aafd1ac4497920a719a4519
-
-PR #126 — A10-H11 selection candidate
-  merge: bcd3b3f6c9d898315c93e5d24b5d0e02c95508cc
-  selection package self-authorized preregistration: false
-
-PR #127 — H11-001 preregistration
-  plan: H11-001-c5-lab-canon-separation-v1
-  exact head: 1dca13cdd2759c70d810f44977a227fe1147d4bb
-  merge: 4a75ff15542013c033030620bdff61997e365140
-  exact-head CI: 6/6 SUCCESS
-  post-merge CI: 6/6 SUCCESS
-
-PR #129 — H11 execution-admission package
-  exact head: 702c36237389b43a4e8910c3a4e60cc8f67c6258
-  merge: f7d13fce0104a4c2ce67589e954b09365a82f36f
-  exact-head CI: 6/6 SUCCESS
-  post-merge CI: 6/6 SUCCESS
-  frozen plan SHA-256: 60da649e675b79b3e70bf8a61cf03cb4d57bb989f4934b65ab8d50c925b19914
-  admission: BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER
-  H11 outcome: NOT_TESTED
-  Notion: 7/7 READ_BACK_VERIFIED / 0 new pages
-```
-
-The D6 classification is unchanged:
-
-```text
-SUPPORTED_FOR_SCOPE:
-  A10-H01 / A10-H02 / A10-H04 / A10-H05 / A10-H07 / A10-H12
-
-NOT_TESTED:
-  A10-H03 / A10-H06 / A10-H08 / A10-H09 / A10-H10 / A10-H11
-```
-
-H11 therefore remains **`NOT_TESTED`**. A blocked admission is not experiment evidence and is not `INDETERMINATE`.
-
-## H11 frozen subject and question
-
-Selected family:
-
-```text
-A10-H11 / RAVP-H11-LAB-CANON-SEPARATION
-```
-
-Frozen laboratory subject:
-
-```text
-native-kernel/c5/2026-08-08-adr0023
-manifest: evidence/c5/2026-08-08-adr0023/manifest.json
-checkpoints: 2
-artifacts: 8 ZIPs
-exact bundle verification: tools/evidence/verify_bundle.py
-```
-
-H11 asks whether exact laboratory reproducibility can depend on profile mechanisms without promoting those mechanisms into universal Architecture Canon.
-
-```text
-A10-H11 ≠ composition/federation
-exact lab bytes ≠ Architecture Canon
-profile-specific mechanism ≠ universal semantic obligation
-```
-
-`UNJUSTIFIED_CANON_DEPENDENCY` is the frozen hard-failure class. Scoped support requires `mandatory_profile_leakage_count == 0` **and** a qualifying `INDEPENDENT_SEMANTIC_ORACLE`.
-
-## Current gate — blocked fail closed
-
-```text
-current gate: A10_H11_EXECUTION_ADMISSION
-scope: EXECUTION_ADMISSION_ONLY
-admission state: BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER
-selected family: A10-H11
-H11 plan state: PREREGISTERED / EXECUTION_NOT_AUTHORIZED
-H11 outcome: NOT_TESTED
-required oracle: INDEPENDENT_SEMANTIC_ORACLE
-qualifying reviewer/reproducer: NOT_ESTABLISHED
-next dependency: QUALIFYING_INDEPENDENT_H11_REVIEWER_REPRODUCER_EVIDENCE
-residual experiment implementation authorized: false
-residual experiment execution authorized: false
-dependency-graph execution authorized: false
-semantic adjudication authorized: false
-architecture: STRENGTHENED_FOR_BPV1_SCOPE / STILL_PROVISIONAL
-Final Canon: DEFERRED / NOT AUTHORIZED
-runtime expansion: FROZEN
-product runtime thaw: false
-production: false
-```
-
-`QUALIFYING_INDEPENDENT_H11_REVIEWER_REPRODUCER_EVIDENCE` is descriptive dependency metadata only. It is **not** a new canonical gate name. The repository-native gate remains `A10_H11_EXECUTION_ADMISSION` until a later authoritative checkpoint legitimately advances it.
-
-The blocked state does not authorize dependency-graph execution, subject implementation, experiment execution, raw findings, or semantic adjudication. Do not convert admission blockage into `INDETERMINATE`; H11 remains `NOT_TESTED` until qualifying execution/adjudication occurs.
-
-Do not use CI, Codex code review, model/session changes, assistant self-audit, repository-owner review, operator approval or Notion read-back as substitutes for the preregistered independent semantic reviewer/reproducer.
-
-## Fail-closed H11 rules
-
-- Architecture/preregistration authors may not self-certify H11;
-- subject self-PASS is forbidden;
-- implementation self-report is not semantic truth;
-- private implementation state is not mandatory oracle input;
-- profile-byte exactness for historical lab reproduction does not create Architecture authority;
-- dependency-graph omissions cannot hide a profile→Canon edge;
-- `UNJUSTIFIED_CANON_DEPENDENCY` remains the hard failure class;
-- failure conditions/oracle/thresholds are frozen before adjudication;
-- post-hoc rescue under the same experiment identity is forbidden;
-- historical evidence/Architecture history cannot be rewritten to rescue H11;
-- `INDETERMINATE` is available only after qualifying execution/adjudication, while `NOT_TESTED` is correct before execution;
-- raw facts and semantic qualification remain separate;
-- composition/federation remains D7-F08, not H11.
-
-## Historical preregistration-era markers
-
-These lines preserve the immediately preceding truth checkpoint for chronology and historical validators. They are **not** current instructions.
-
-```text
-POST_H11_PREREGISTRATION_CURRENT
-next gate: A10_H11_EXECUTION_ADMISSION
-qualifying reviewer/reproducer: NOT_ESTABLISHED / MUST_BE_VERIFIED_AT_EXECUTION_ADMISSION
-no qualifying reviewer outcome: BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER
-residual experiment implementation authorized: false
-residual experiment execution authorized: false
-```
-
-## Historical PR #125 compatibility markers
-
-These exact lines preserve the earlier post-RAVP truth checkpoint for historical validators. They are chronology, **not** current instructions.
-
-```text
-next gate: SEPARATE_FAMILY_PREREGISTRATION_SELECTION
-selected family: NONE
-family preregistration authorized: false
-residual experiment implementation authorized: false
-residual experiment execution authorized: false
-A10-H11 ≠ composition/federation
-```
-
-## Frozen BPV-1 authority
-
-The frozen historical BPV1 plan remains:
-
-```text
-plan_id: BPV1-001-cross-lineage-bounded-accountability-v1
-plan merge: a538d7f1e28858a88b9ee777ac7d6e05b85943db
-plan SHA-256: 7fe8174c604678c6b79d3fdeae83d7c5ab0d2fb15bfe343d41659d05d9496ad0
-```
-
-Do not use the old erroneous digest `15c830ed...`.
-
-Historical D5 and D5-R1 remain distinct:
-
-```text
-D5 PR #114 merge: a191e9c868c14af34a269dcdfae44406f1013bda
-D5-R1 PR #115 merge: 3856740570620fb2243e2f0da76359281ec4068f
-external qualification: QUALIFIED
-frozen evaluator: SUPPORTED_FOR_SCOPE
-mandatory fixtures: 12/12 PASS
-```
-
-Do not rewrite frozen preregistration/oracle semantics or historical evidence to fit future runs.
+- Architecture/preregistration authors may not self-certify H11.
+- Subject self-PASS is forbidden.
+- CI success, owner review, automated validators, LLM agreement, model/session changes or same-agent relabeling are not qualifying independence.
+- The existing Codex technical review is useful but remains `NOT_ESTABLISHED_FOR_H11_REVIEW_ROLE`.
+- Raw observations and semantic adjudication remain separate.
+- Private implementation state is not mandatory semantic-oracle input.
+- `UNJUSTIFIED_CANON_DEPENDENCY` remains the frozen hard-failure class.
+- Frozen failure conditions, oracle and thresholds may not be changed post hoc to rescue the run.
+- Historical evidence/architecture history may not be rewritten to rescue H11.
+- `INDETERMINATE` is an A10 outcome available only after qualifying execution/adjudication; blocked pre-execution admission remains `NOT_TESTED`.
+- Qualification is not execution admission; a future qualifying reviewer still requires a separate admission reassessment before execution.
+- `A10-H11 ≠ composition/federation`.
 
 ## Runtime freeze
 
 Allowed while frozen:
 
-- truth-surface/integrity/security/provenance repairs;
+- truth-surface, documentation-authority, integrity, security and provenance repairs;
 - evidence preservation;
-- historical recovery work that does not admit operator-controlled sources;
 - reviewer/reproducer qualification evidence work that does not execute H11;
+- historical recovery work that does not admit operator-controlled sources;
 - later research admission/preregistration work only when the active gate explicitly authorizes it.
 
 Not automatically authorized:
 
-- H11 or other residual experiment implementation/execution;
-- H11 dependency-graph execution or semantic adjudication while admission is blocked;
-- preregistration of A10-H03/H06/H08/H09/H10;
+- H11 implementation/execution, dependency-graph execution or semantic adjudication while admission is blocked;
+- preregistration/execution of A10-H03/H06/H08/H09/H10;
 - product runtime integration;
-- reducer v2/new Event verbs;
-- new product DB/language/hardware profile;
+- reducer v2 or new semantic Event verbs;
+- new product database/language/model/hardware profile;
 - executable NK-EPI/Temporal/deletion expansion;
-- Final Canon or production promotion.
+- Final Canon promotion;
+- runtime thaw;
+- production authorization.
 
 ## Reserved operator decisions
 
+No AI agent may make these decisions without explicit operator authority:
+
 ```text
 Issue #18 — license/publication/contribution regime
-  PENDING_OPERATOR
-
-Issue #74 / ADR-0024 — reducer referential semantics
-  PROPOSED / PENDING_OPERATOR
-  reducer-v2 NOT AUTHORIZED
-
-Track H source admission
-  OPERATOR-CONTROLLED
+Issue #74 / ADR-0024 — future reducer referential semantics
+Track H recovered-source admission
+Final Canon
+runtime thaw
+production authorization
 ```
 
-No AI agent may choose the license, accept ADR-0024, admit recovered Track H sources, thaw runtime, promote Final Canon, or authorize production without explicit operator authority.
+Reducer v1 historical semantics must not be rewritten in place. Logical `ERASED` must not be presented as physical or cryptographic erasure without the required evidence boundary.
 
 ## Required distinctions
 
@@ -288,10 +138,9 @@ No AI agent may choose the license, accept ADR-0024, admit recovered Track H sou
 Claim ≠ truth
 admission ≠ objective truth
 Unknown ≠ False
-Architecture Canon ≠ implementation profile
-reference implementation ≠ architectural authority
+reference laboratory ≠ architecture authority
 operator approval ≠ independent validation
-qualifying independent review ≠ architecture proof
+qualifying review ≠ universal architecture proof
 falsification instrument ≠ product runtime
 logical ERASED ≠ physical deletion
 cryptographic erasure ≠ physical erasure
@@ -306,9 +155,17 @@ SUPPORTED_FOR_SCOPE ≠ universal proof
 NOT_TESTED ≠ SUPPORTED
 ```
 
+## Historical/current discipline
+
+Do not restore obsolete current-looking state into current-only agent surfaces merely to satisfy an old literal-string validator.
+
+Historical D5/D6/D7/D8, ADR-0027, RAVP, family-selection and preregistration checkpoints remain available in `STATUS.md`, `ROADMAP.md`, `docs/research/**`, `docs/reviews/**`, evidence records, work/reconciliation logs and Git history.
+
+If a historical document contains an old `NEXT`, `NOT_STARTED`, merge SHA or Notion checkpoint, preserve it as provenance but do not treat it as a present instruction when machine/current-state authority has advanced.
+
 ## Verification
 
-At minimum for current truth/H11 research changes:
+At minimum for current truth / architecture-routing changes:
 
 ```bash
 python tools/ai_context/validate_project_state.py --repo .
@@ -320,12 +177,13 @@ python tools/ai_context/validate_h11_execution_admission.py --repo .
 python tools/ai_context/validate_reconciliation.py --repo .
 python tools/ai_context/validate_context.py --repo .
 python tools/docs/validate_bilingual_parity.py --repo .
+python -m unittest discover -s tests -p 'test_ai_context_validator.py' -v
 ```
 
-Run any additional P4/P5/C4/C5/BPV1 gates triggered by changed-file scope. A skipped test is not PASS. An unavailable environment is `NOT_EXECUTED`.
+Run additional P4/P5/C3/C4/C5/BPV1 gates when changed-file scope triggers them. A skipped test is not PASS. An unavailable environment is `NOT_EXECUTED`.
 
 ## Review discipline
 
 Distinguish `BOT_NOTICE`, `AUTOMATED_FINDING`, `HUMAN_REVIEW`, `QUALIFYING_INDEPENDENT_ARCHITECTURE_REVIEW`, `QUALIFYING_INDEPENDENT_H11_REVIEWER_REPRODUCER`, `OPERATOR_DECISION`, and `EVIDENCE`.
 
-A Codex usage-limit notice is not review approval. Actionable findings must be reproduced and resolved or rejected with evidence; unresolved review threads block readiness where applicable.
+A Codex usage-limit notice is not review approval. Actionable findings must be reproduced and resolved or rejected with evidence. Do not merge PR #131 as a substitute for independent qualification.
