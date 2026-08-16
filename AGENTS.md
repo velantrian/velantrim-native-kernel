@@ -13,6 +13,67 @@ Before searching code, creating a branch, proposing architecture changes or muta
 
 A handoff, old checkpoint, model memory, README summary, Notion page or historical `NEXT` marker is not a substitute for live repository truth.
 
+## 🟢 START HERE — execution card
+
+1. **Verify live truth first.** Resolve current `main`, signature status, open PRs, relevant reviews/threads, open issues, Actions, `project-state.json`, the active gate, and the existing Native Kernel Notion surfaces when synchronization is in scope.
+2. **Follow live state, not the handoff.** If a dated handoff/checkpoint disagrees with live repository evidence, record the divergence and use live state. Never restore old state mechanically.
+3. **Keep project scope strict.** Work only on `velantrian/velantrim-native-kernel`. External projects are read-only, cited, non-authoritative references and may be consulted only when Native Kernel evidence cannot answer a concrete scoped question.
+4. **Fail closed on H11.** Unless live evidence establishes otherwise, H11 remains blocked at `A10_H11_EXECUTION_ADMISSION`; owner/AI/CI/self-review does not establish independent reviewer/reproducer provenance.
+5. **Default to read-only before mutation.** Live verification, evidence gathering, reconciliation matrices and exact proposed patches do not require a branch.
+6. **Separate audit from write.** A finding may justify a proposed change without authorizing that change.
+7. **Require explicit operator approval for the exact write set.** Branch creation, commits, PRs, Issue/PR metadata changes, Notion edits, runtime/config changes and other repository mutations are writes. Do not perform them until the operator explicitly approves the proposed bounded change set.
+8. **Do not advance research implicitly.** Documentation maintenance does not authorize H11 execution, another residual A10 family, Final Canon, runtime thaw, reducer-v2 semantics, licensing or production.
+
+## Write-authorization gate
+
+The pre-write phases are **read-only by default**. Before any mutation, provide or establish all of the following:
+
+1. exact source evidence and live checkpoint;
+2. the current wording/state being challenged;
+3. the current controlling interpretation/authority;
+4. the smallest proposed change set;
+5. why the change is maintenance/clarification rather than a new architecture, semantic contract, H11 decision, runtime change or acceptance-criteria change;
+6. the expected validation/read-back plan;
+7. explicit operator approval for that bounded change set.
+
+Approval applies only to the change set actually described. If scope grows materially, return to read-only mode and obtain fresh approval before continuing.
+
+A branch is permitted only after this gate is satisfied. Read-only audit work should not create a branch merely as a workspace placeholder.
+
+Green CI, mergeability, an automated review, absence of objections, a prior broad handoff, a stale approval for a different change set, or a model's judgment that a patch is "safe" are not substitutes for explicit operator approval.
+
+## Audit closure and drift definitions
+
+For bounded reconciliation/audit work, classify every target with exactly one action result:
+
+- `NO_ACTION` — current wording remains compatible with controlling authority for its declared scope;
+- `CLARIFICATION_CANDIDATE` — a minimal scope/authority annotation would remove real drift without changing outcome, acceptance criteria or semantics;
+- `OPERATOR_DECISION_REQUIRED` — the proposed change would select or alter architecture, contract, acceptance criteria, policy/version boundary, H11, license, Canon, runtime or another reserved decision.
+
+Use these definitions:
+
+- **Real drift** exists only when current wording both (a) prescribes, requires or evaluates an implementation/profile mechanism as if it were a universal Kernel requirement and (b) conflicts with the current controlling interpretation for the same scope. Mere use of terms such as Event, reducer, JSON, replay, Claim encoding or SQL does not prove drift.
+- **Safe clarification** is a dated scope/authority annotation that does not change issue outcome, acceptance condition, priority, ownership, implementation semantics, frozen evidence, H11 status, Final Canon status or runtime authorization.
+- **Substantive operator decision** is required when a proposed change selects or changes a universal architecture requirement, semantic contract, acceptance criterion, versioning/policy boundary, reducer semantics, H11 subject/plan/admission, license, Canon, runtime thaw, production status or issue closure based on new acceptance.
+
+Preserve historical issue/document intent. Prefer a clearly separated dated addendum/current-scope overlay over rewriting historical acceptance text when the old wording is useful provenance.
+
+A completed bounded audit should leave an evidence-backed record containing: target, source evidence, old wording/state, current controlling interpretation, drift decision, smallest proposed clarification if any, action class, owner/authority if escalation is required, and validation/read-back result.
+
+## H11 qualification evidence rule
+
+The canonical H11 reviewer/reproducer qualification mechanism is the existing machine contract:
+
+- `docs/research/H11_REVIEWER_REPRODUCER_QUALIFICATION_SCHEMA.json`;
+- `docs/research/H11_REVIEWER_REPRODUCER_QUALIFICATION.json`;
+- `tools/ai_context/validate_h11_execution_admission.py`.
+
+A prose qualification matrix may summarize evidence, but it cannot substitute for the schema/record/validator or weaken their fail-closed rules.
+
+At minimum, qualification evidence must make identity/role, authorship relation, custody relation, conflicts/material dependence/self-review, frozen-input boundary, private-state boundary, repository visibility and externally authenticated independence provenance evaluable. The qualification-facing result must map to `QUALIFIED`, `NOT_ESTABLISHED` or `DISQUALIFIED` under the machine contract.
+
+Do not manually assert `QUALIFIED` because a narrative matrix looks complete. Qualification must satisfy the machine contract and its external-authentication boundary; even then, qualification is not execution admission.
+
 ## Current safety boundary
 
 ```text
