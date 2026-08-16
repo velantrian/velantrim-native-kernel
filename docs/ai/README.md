@@ -109,6 +109,10 @@ NOT_TESTED:
   A10-H03 / A10-H06 / A10-H08 / A10-H09 / A10-H10 / A10-H11
 ```
 
+RAVP-001 records the recommended research order `H11 → H03 → H10 → H06 → H09 → H08`. That order is planning guidance only: it does not automatically authorize the next family when the previous family completes. Each residual family remains subject to the bounded plan/admission/authorization required for its own scope.
+
+Residual-family outcomes feed a later integrated reassessment, not a predetermined Canon result. Final Canon remains a separate operator decision and may be frozen for a bounded version, kept provisional, narrowed, revised, require additional evidence, or reject a claim for the relevant scope.
+
 The BPV-1 Rust subject remains an experimental cross-language falsification instrument only. External qualification removed a specific self-report path for that evidence lineage, but independent team/custody and independent computation-model evidence remain `NOT_ESTABLISHED`.
 
 ## 📜 Historical/current separation
