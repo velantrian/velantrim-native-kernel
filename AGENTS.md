@@ -11,6 +11,8 @@ Before searching code, creating a branch, proposing architecture changes or muta
 3. follow its reading order exactly;
 4. then apply the operating constraints in this file.
 
+For durable future-work orientation, use [`docs/ai/AUDIT_AND_FUTURE_WORK.md`](docs/ai/AUDIT_AND_FUTURE_WORK.md) only after reconciling it against live state. It is not an authorization surface and does not auto-select the next milestone.
+
 A handoff, old checkpoint, model memory, README summary, Notion page or historical `NEXT` marker is not a substitute for live repository truth.
 
 ## 🟢 START HERE — execution card
