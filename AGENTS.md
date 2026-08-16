@@ -60,6 +60,16 @@ Preserve historical issue/document intent. Prefer a clearly separated dated adde
 
 A completed bounded audit should leave an evidence-backed record containing: target, source evidence, old wording/state, current controlling interpretation, drift decision, smallest proposed clarification if any, action class, owner/authority if escalation is required, and validation/read-back result.
 
+## External outreach evidence and research-order reporting
+
+Keep external communication evidence and research authorization separate and fail closed on stronger claims.
+
+- Treat `SENT`, `DELIVERED_OR_PUBLISHED`, `RESPONSE_RECEIVED`, `CANDIDATE_IDENTIFIED`, and `QUALIFIED` as distinct states. Never infer a later state from an earlier one.
+- A repository/Notion summary is not primary transport evidence. When reporting an external outreach action as verified, retain or reference the channel/recipient, UTC send time, exact message body or stable hash, Message-ID or public permalink when available, and the observed delivery/bounce/response state. Absence of an observed bounce is not proof of delivery.
+- `recommended_order` in RAVP-001 is planning guidance, not execution authorization. Every residual A10 family remains subject to its own bounded planning/admission/authorization requirements; completion of one family does not automatically authorize the next.
+- Residual-family evidence feeds a later integrated reassessment. It does not predetermine Final Canon. A later operator decision may freeze a Canon version, keep the architecture provisional, narrow or revise claims, require more evidence, or reject a claim for the relevant scope.
+- Do not publish percentage/probability-style readiness or channel-fit scores unless the denominator, weighting and reproducible calculation rule are explicit. Prefer evidence states and countable ratios such as `2/2 sends recorded` or `0/6 residual outcomes complete`.
+
 ## H11 qualification evidence rule
 
 The canonical H11 reviewer/reproducer qualification mechanism is the existing machine contract:
