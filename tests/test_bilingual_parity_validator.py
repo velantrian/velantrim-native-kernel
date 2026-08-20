@@ -146,17 +146,16 @@ class CurrentGateLiteralRegistryTests(unittest.TestCase):
         cls.english = (ROOT / "docs" / "README.md").read_text(encoding="utf-8")
         cls.russian = (ROOT / "docs" / "README.ru.md").read_text(encoding="utf-8")
         cls.expected = [
-            "POST-BLUEPRINT VALIDATION / BPV1 EXECUTION-ADMISSION COMPLETE / SUBJECT-IMPLEMENTATION-NEXT / RUNTIME EXPANSION FROZEN",
-            "R post-blueprint validation: ACTIVE / BPV1-EXECUTION-ADMISSION-COMPLETE / SUBJECT-IMPLEMENTATION-NEXT",
-            "blueprint content: A1-A10 DRAFTED / PROVISIONAL / RECONCILED BY OVERLAY",
-            "independent architecture review: IAR-1 / QUALIFYING_REVIEW_COMPLETE",
-            "IAR-1-R1: COMPLETE / open blockers 0 / open material 0",
-            "BPV-1 plan: BPV1-001-cross-lineage-bounded-accountability-v1 / PREREGISTERED / EXECUTION_NOT_AUTHORIZED",
-            "plan merge: a538d7f1e28858a88b9ee777ac7d6e05b85943db",
-            "execution-admission package merge: 6027eec73f11c4626be5553de7e79f827be2c81d",
-            "next gate: BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION",
-            "BPV-1 execution: ADMITTED_FOR_EXPERIMENT_ONLY",
+            "POST-BLUEPRINT VALIDATION / A10-H11 SELECTED / EXECUTION ADMISSION BLOCKED / RUNTIME EXPANSION FROZEN",
+            "R post-blueprint validation: ACTIVE / H11 EXECUTION ADMISSION BLOCKED",
+            "selected family: A10-H11",
+            "current gate: A10_H11_EXECUTION_ADMISSION",
+            "admission: BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER",
+            "reviewer/reproducer: NOT_ESTABLISHED",
+            "H11 outcome: NOT_TESTED",
+            "H11 implementation/execution: NOT AUTHORIZED",
             "runtime expansion: FROZEN",
+            "production: NOT AUTHORIZED",
         ]
         cls.forbidden = [
             "independent architectural validation: NOT ESTABLISHED",
@@ -170,6 +169,12 @@ class CurrentGateLiteralRegistryTests(unittest.TestCase):
             "R post-blueprint validation: ACTIVE / BPV1-PREREGISTERED / EXECUTION-ADMISSION-NEXT",
             "next gate: BPV1_EXECUTION_ADMISSION",
             "BPV-1 execution: BLOCKED_PENDING_EXECUTION_ADMISSION",
+            "POST-BLUEPRINT VALIDATION / BPV1 EXECUTION-ADMISSION COMPLETE / SUBJECT-IMPLEMENTATION-NEXT / RUNTIME EXPANSION FROZEN",
+            "R post-blueprint validation: ACTIVE / BPV1-EXECUTION-ADMISSION-COMPLETE / SUBJECT-IMPLEMENTATION-NEXT",
+            "next gate: BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION",
+            "BPV1_SUBJECT_IMPLEMENTATION_AND_EXECUTION",
+            "next gate: D6_A10_HYPOTHESIS_CLASSIFICATION",
+            "D6: NOT_STARTED",
         ]
 
     def test_docs_index_current_gate_registry_is_exact(self) -> None:
