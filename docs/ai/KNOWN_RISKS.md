@@ -221,6 +221,23 @@ Qualifying review, reconciliation, preregistration, execution admission, bounded
 
 The fail-closed qualification contract correctly prevents repository-local self-certification. When a genuine external reviewer/reproducer appears, externally authenticated identity/evidence must be bindable into the **existing** qualification record without weakening frozen criteria.
 
+Current machine nuance:
+
+- the existing qualification vocabulary already contains `QUALIFIED`, `NOT_ESTABLISHED`, and `DISQUALIFIED`, with structural requirements for a qualifying record;
+- repository-local Git identities or locally generated keys are still insufficient to establish externally authenticated independence;
+- the current top-level H11 admission validator validates the present Codex / `NOT_ESTABLISHED` / `BLOCKED` package, not a generic future positive-candidate path;
+- no external-authentication binding, sufficient-evidence policy, issuer/profile choice, generic evaluator, or positive qualification-transition behavior is selected or implemented by the current repository state.
+
+```text
+authenticated account/action ≠ real-world identity
+real-world identity ≠ organizational independence
+organizational independence ≠ independent evidence custody
+qualification ≠ execution admission
+execution admission ≠ H11 execution
+```
+
+Any future positive qualification path requires a separate operator-approved, versioned, candidate-neutral design before implementation, followed by a separate `A10_H11_EXECUTION_ADMISSION` reassessment. Until then, `NOT_ESTABLISHED / BLOCKED / NOT_TESTED` remains the authoritative boundary.
+
 This is not permission to invent a substitute reviewer, protocol or gate. It keeps the existing PR #131 → qualification record → admission reassessment path executable.
 
 ## 🟠 P1 — Independent implementation evidence remains limited
