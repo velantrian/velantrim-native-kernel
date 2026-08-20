@@ -1,7 +1,7 @@
 # H11-001 — Independent Boundary Review Request
 
 **Request identity:** `nk-h11-independent-review/H11-001-request-v1`  
-**Request revision:** `2026-08-14-external-reviewer-generalization`  
+**Request revision:** `2026-08-20-stage-a-qualification-clarification`  
 **Frozen H11 plan:** `H11-001-c5-lab-canon-separation-v1`  
 **Frozen plan SHA-256:** `60da649e675b79b3e70bf8a61cf03cb4d57bb989f4934b65ab8d50c925b19914`  
 **Immutable review subject:** `e36b7f45410d74b8a65406bff6fdd6d070fa96b0`  
@@ -69,7 +69,25 @@ The frozen H11 plan digest must remain exactly:
 
 ## 4. Qualification questions
 
-Answer each explicitly:
+### Current machine qualification boundary
+
+The current repository already defines the qualification-result vocabulary `QUALIFIED | NOT_ESTABLISHED | DISQUALIFIED`. For a structurally `QUALIFIED` record, the current schema/validator requires an established reviewer identity, non-authorship of the frozen H11 preregistration/rubric, independent custody for the declared scope, no unresolved conflicts, repository-visible structured evidence, and multiple distinct independence bases/evidence references including organizational separation and independent evidence custody.
+
+Those structural requirements are **not sufficient proof of external independence**. One actor can self-assert multiple repository-local Git identities or locally generated signing keys. The current offline validator therefore intentionally keeps repository-local `QUALIFIED` unreachable until provenance exists that cannot be self-asserted by the H11 subject/owner lineage.
+
+The current top-level `validate()` path is also a validator for the **present blocked Codex / `NOT_ESTABLISHED` package**; it is not a generic future positive-candidate evaluator. This request does not select or implement an external-authentication provider, sufficient-evidence policy, issuer/profile topology, generic evaluator, or qualification-transition design. Any such positive path requires a separate operator-approved, versioned, candidate-neutral design before implementation.
+
+Required distinctions:
+
+```text
+authenticated account/action ≠ real-world identity
+real-world identity ≠ organizational independence
+organizational independence ≠ independent evidence custody
+qualification ≠ execution admission
+execution admission ≠ H11 execution
+```
+
+Until a qualifying decision is established under a separately approved future path **and** `A10_H11_EXECUTION_ADMISSION` is separately reassessed, the repository remains `NOT_ESTABLISHED / BLOCKED`, H11 remains `NOT_TESTED`, and Stage B remains unauthorized.
 
 ### Q1 — Identity and authenticated role
 What reviewer/reproducer identity is making this review, what role is claimed, and what externally authenticated repository-visible evidence binds that identity to the review?
