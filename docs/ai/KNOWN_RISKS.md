@@ -5,7 +5,7 @@ This file is the **active-risk register**. Historical defect chronology remains 
 
 ```yaml
 document_role: ACTIVE_RISKS
-status_as_of: 2026-08-15
+status_as_of: 2026-08-21
 authoritative_machine_source: ../../project-state.json
 repository_status: RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY
 selected_family: A10-H11
@@ -172,6 +172,21 @@ Issue #1 remains independent. Track H source admission remains operator-controll
 Reducer v1 historically permits referential cases a stricter future policy may reject, including dangling/unknown references and insufficiently constrained supersession relations.
 
 Do **not** repair reducer v1 in place; that would reinterpret historical P1–C5 evidence. Any stricter semantics must use the existing operator-controlled versioning/ADR path.
+
+### RVT-01 — reducer-v1 evidence-lineage boundary
+
+A bounded read-only trace on 2026-08-21 found that the current C3 support evidence is materially produced under reducer-v1 permissive referential semantics:
+
+```text
+27 / 45 SUPPORTED → direct evidence-path coupling to C3 workload/replay containing dangling LINK and/or SUPERSEDED targets
+16 / 45 SUPPORTED → indirect artifact-generation coupling through P4/P5 profile-report compatibility
+ 2 / 45 SUPPORTED → no assertion-level referential-workload dependency
+45 / 45 current C3 artifact pipeline → operationally produced with reducer-v1 profile reports
+```
+
+This trace did **not** show that any current SUPPORTED assertion is semantically false, did **not** reproduce `Unknown → False`, and does **not** change the `45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED / 0 FAILED` map. The narrower gap is that referential absence can remain unclassified by reducer v1 rather than being materialized as an explicit `UNKNOWN` / provenance-gap state.
+
+Therefore existing C3/C4/C5 support is **historical reducer-v1-bounded evidence**. It must not be silently reused as proof of a future strict-referential / reducer-v2 policy. A future reducer version requires its own admitted fixtures/evidence cycle. Issue #74 contains the detailed RVT-01 trace.
 
 ## 🔴 P0 — Event/history commitment is not complete authenticity
 
