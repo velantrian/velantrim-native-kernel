@@ -54,8 +54,6 @@ class ProjectStateTests(unittest.TestCase):
         state = copy.deepcopy(self.state)
         publication = state["checkpoints"]["publication_checkpoint_sha"]
         state["notion"]["status"] = "SYNCED_THROUGH_DESCENDANT_CHECKPOINT"
-        state["notion"]["synchronization_required"] = False
-        state["notion"]["decision_sync_status"] = "SYNCHRONIZED"
         state["checkpoints"]["manifest_generated_from_sha"] = publication
         state["checkpoints"]["notion_synchronized_through_sha"] = publication
         with self.assertRaisesRegex(module.ProjectStateError, "distinct checkpoints"):
@@ -149,16 +147,24 @@ class ProjectStateTests(unittest.TestCase):
         with self.assertRaisesRegex(module.ProjectStateError, "verification method"):
             self.validate(state=state)
 
-    def test_adr0028_notion_synchronization_must_remain_pending(self) -> None:
+    def test_adr0028_notion_synchronization_must_remain_complete(self) -> None:
         state = copy.deepcopy(self.state)
-        state["notion"]["synchronization_required"] = False
-        with self.assertRaisesRegex(module.ProjectStateError, "must remain required"):
+        state["notion"]["synchronization_required"] = True
+        with self.assertRaisesRegex(module.ProjectStateError, "must be complete"):
+            self.validate(state=state)
+        state = copy.deepcopy(self.state)
+        state["notion"]["decision_sync_status"] = "PENDING_POST_RECONCILIATION_SYNC"
+        with self.assertRaisesRegex(module.ProjectStateError, "sync status drift"):
             self.validate(state=state)
 
-    def test_notion_read_back_must_remain_seven_of_seven(self) -> None:
+    def test_notion_read_back_must_remain_eight_of_eight(self) -> None:
         state = copy.deepcopy(self.state)
-        state["notion"]["read_back_verified_count"] = 6
-        with self.assertRaisesRegex(module.ProjectStateError, "7/7"):
+        state["notion"]["read_back_verified_count"] = 7
+        with self.assertRaisesRegex(module.ProjectStateError, "8/8"):
+            self.validate(state=state)
+        state = copy.deepcopy(self.state)
+        state["notion"]["surface_count"] = 7
+        with self.assertRaisesRegex(module.ProjectStateError, "8/8"):
             self.validate(state=state)
 
     def test_notion_sync_checkpoint_must_remain_h11_preregistration_merge(self) -> None:
