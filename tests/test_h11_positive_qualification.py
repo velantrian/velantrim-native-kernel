@@ -37,6 +37,8 @@ ORG_URL = "https://api.github.com/repos/org-one/h11-attestations/issues/comments
 CUSTODY_URL = "https://api.github.com/repos/org-two/h11-custody/pulls/7/reviews/3001"
 ORG_REPO_URL = "https://api.github.com/repos/org-one/h11-attestations"
 CUSTODY_REPO_URL = "https://api.github.com/repos/org-two/h11-custody"
+ORG_META_URL = "https://api.github.com/orgs/org-one"
+CUSTODY_META_URL = "https://api.github.com/orgs/org-two"
 
 
 def _declaration(**overrides) -> dict:
@@ -46,10 +48,12 @@ def _declaration(**overrides) -> dict:
         "source_plan_id": evaluator.PLAN_ID,
         "source_plan_sha256": evaluator.PLAN_SHA256,
         "reviewer_login": "external-reviewer",
+        "known_aliases": [],
         "reviewer_role": "REVIEWER",
         "authorship_relation": "NOT_AUTHOR_OF_PREREGISTRATION_OR_FROZEN_RUBRIC",
         "custody_relation": "INDEPENDENT_FOR_DECLARED_SCOPE",
         "conflicts": [],
+        "material_dependence": [],
         "repository_visible_frozen_inputs_only": True,
         "private_implementation_state_used": False,
         "statement": "I declare my H11 review-role relationship for the frozen inputs.",
@@ -67,9 +71,11 @@ def _attestation(basis_type: str, **overrides) -> dict:
         "reviewer_login": "external-reviewer",
         "basis_type": basis_type,
         "issuer_role": evaluator.BASIS_ROLES[basis_type],
+        "attested_known_aliases": [],
         "attested_authorship_relation": "NOT_AUTHOR_OF_PREREGISTRATION_OR_FROZEN_RUBRIC",
         "attested_custody_relation": "INDEPENDENT_FOR_DECLARED_SCOPE",
         "attested_conflicts": [],
+        "attested_material_dependence": [],
         "attested_repository_visible_frozen_inputs_only": True,
         "attested_private_implementation_state_used": False,
         "statement": "Independent H11 role attestation for the frozen plan.",
@@ -115,6 +121,8 @@ def _bundle() -> dict[str, dict]:
             "private": False,
             "owner": {"login": "org-two", "id": 7002, "type": "Organization"},
         },
+        ORG_META_URL: {"login": "org-one", "id": 7001, "is_verified": True},
+        CUSTODY_META_URL: {"login": "org-two", "id": 7002, "is_verified": True},
         ORG_URL: {
             "url": ORG_URL,
             "id": 2001,
@@ -153,6 +161,8 @@ class H11PositiveQualificationTests(unittest.TestCase):
         self.assertEqual(result["qualification_result"], "QUALIFIED")
         self.assertTrue(result["basis_1_verified"])
         self.assertTrue(result["basis_2_verified"])
+        self.assertIn("ALIASES_DISCLOSED", result["reasons"])
+        self.assertIn("NO_MATERIAL_DEPENDENCE", result["reasons"])
         self.assertTrue(result["stop_required_if_qualified"])
         self.assertEqual(
             result["next_action"],
@@ -175,60 +185,59 @@ class H11PositiveQualificationTests(unittest.TestCase):
             "login": "velantrian",
             "id": evaluator.REPOSITORY_OWNER_ID,
         }
-        bundle[CANDIDATE_URL]["body"] = json.dumps(
-            _declaration(reviewer_login="velantrian")
-        )
+        bundle[CANDIDATE_URL]["body"] = json.dumps(_declaration(reviewer_login="velantrian"))
         result = self.evaluate(bundle=bundle)
         self.assertEqual(result["qualification_result"], "DISQUALIFIED")
         self.assertEqual(result["reasons"], ["OWNER_OR_SELF_REVIEW"])
 
-    def test_frozen_plan_author_is_disqualified(self) -> None:
+    def test_repository_owner_alias_is_disqualified(self) -> None:
         bundle = _bundle()
-        bundle[CANDIDATE_URL]["body"] = json.dumps(
-            _declaration(authorship_relation="AUTHOR_OF_PREREGISTRATION")
-        )
+        bundle[CANDIDATE_URL]["body"] = json.dumps(_declaration(known_aliases=["velantrian"]))
         result = self.evaluate(bundle=bundle)
         self.assertEqual(result["qualification_result"], "DISQUALIFIED")
-        self.assertEqual(
-            result["reasons"],
-            ["AUTHOR_OF_PREREGISTRATION_OR_FROZEN_RUBRIC"],
-        )
+        self.assertEqual(result["reasons"], ["OWNER_ALIAS_DISCLOSED"])
+
+    def test_frozen_plan_author_is_disqualified(self) -> None:
+        bundle = _bundle()
+        bundle[CANDIDATE_URL]["body"] = json.dumps(_declaration(authorship_relation="AUTHOR_OF_PREREGISTRATION"))
+        result = self.evaluate(bundle=bundle)
+        self.assertEqual(result["qualification_result"], "DISQUALIFIED")
+        self.assertEqual(result["reasons"], ["AUTHOR_OF_PREREGISTRATION_OR_FROZEN_RUBRIC"])
 
     def test_same_custody_is_disqualified(self) -> None:
         bundle = _bundle()
-        bundle[CANDIDATE_URL]["body"] = json.dumps(
-            _declaration(custody_relation="SAME_CUSTODY")
-        )
+        bundle[CANDIDATE_URL]["body"] = json.dumps(_declaration(custody_relation="SAME_CUSTODY"))
         result = self.evaluate(bundle=bundle)
         self.assertEqual(result["qualification_result"], "DISQUALIFIED")
         self.assertEqual(result["reasons"], ["SAME_CUSTODY"])
 
     def test_private_implementation_state_is_disqualified(self) -> None:
         bundle = _bundle()
-        bundle[CANDIDATE_URL]["body"] = json.dumps(
-            _declaration(private_implementation_state_used=True)
-        )
+        bundle[CANDIDATE_URL]["body"] = json.dumps(_declaration(private_implementation_state_used=True))
         result = self.evaluate(bundle=bundle)
         self.assertEqual(result["qualification_result"], "DISQUALIFIED")
         self.assertEqual(result["reasons"], ["PRIVATE_IMPLEMENTATION_STATE_USED"])
 
     def test_frozen_input_violation_is_disqualified(self) -> None:
         bundle = _bundle()
-        bundle[CANDIDATE_URL]["body"] = json.dumps(
-            _declaration(repository_visible_frozen_inputs_only=False)
-        )
+        bundle[CANDIDATE_URL]["body"] = json.dumps(_declaration(repository_visible_frozen_inputs_only=False))
         result = self.evaluate(bundle=bundle)
         self.assertEqual(result["qualification_result"], "DISQUALIFIED")
         self.assertEqual(result["reasons"], ["FROZEN_INPUT_BOUNDARY_VIOLATED"])
 
     def test_unresolved_conflict_remains_not_established(self) -> None:
         bundle = _bundle()
-        bundle[CANDIDATE_URL]["body"] = json.dumps(
-            _declaration(conflicts=["MATERIAL_DEPENDENCE"])
-        )
+        bundle[CANDIDATE_URL]["body"] = json.dumps(_declaration(conflicts=["DISCLOSED_CONFLICT"]))
         result = self.evaluate(bundle=bundle)
         self.assertEqual(result["qualification_result"], "NOT_ESTABLISHED")
         self.assertEqual(result["reasons"], ["UNRESOLVED_CONFLICTS"])
+
+    def test_material_dependence_remains_not_established(self) -> None:
+        bundle = _bundle()
+        bundle[CANDIDATE_URL]["body"] = json.dumps(_declaration(material_dependence=["SHARED_EMPLOYER_DEPENDENCE"]))
+        result = self.evaluate(bundle=bundle)
+        self.assertEqual(result["qualification_result"], "NOT_ESTABLISHED")
+        self.assertEqual(result["reasons"], ["MATERIAL_DEPENDENCE"])
 
     def test_stale_candidate_review_remains_not_established(self) -> None:
         bundle = _bundle()
@@ -258,9 +267,26 @@ class H11PositiveQualificationTests(unittest.TestCase):
         self.assertEqual(result["qualification_result"], "NOT_ESTABLISHED")
         self.assertEqual(result["reasons"], ["UNVERIFIABLE_EVIDENCE"])
 
+    def test_second_basis_organization_must_be_github_verified(self) -> None:
+        bundle = _bundle()
+        bundle[ORG_META_URL]["is_verified"] = False
+        result = self.evaluate(bundle=bundle)
+        self.assertEqual(result["qualification_result"], "NOT_ESTABLISHED")
+        self.assertEqual(result["reasons"], ["UNVERIFIABLE_EVIDENCE"])
+
     def test_second_basis_issuer_must_have_repository_association(self) -> None:
         bundle = _bundle()
         bundle[ORG_URL]["author_association"] = "NONE"
+        result = self.evaluate(bundle=bundle)
+        self.assertEqual(result["qualification_result"], "NOT_ESTABLISHED")
+        self.assertEqual(result["reasons"], ["UNVERIFIABLE_EVIDENCE"])
+
+    def test_disclosed_alias_cannot_issue_second_basis(self) -> None:
+        bundle = _bundle()
+        aliases = ["org-authority"]
+        bundle[CANDIDATE_URL]["body"] = json.dumps(_declaration(known_aliases=aliases))
+        bundle[ORG_URL]["body"] = json.dumps(_attestation("ORGANIZATIONAL_SEPARATION", attested_known_aliases=aliases))
+        bundle[CUSTODY_URL]["body"] = json.dumps(_attestation("INDEPENDENT_EVIDENCE_CUSTODY", attested_known_aliases=aliases))
         result = self.evaluate(bundle=bundle)
         self.assertEqual(result["qualification_result"], "NOT_ESTABLISHED")
         self.assertEqual(result["reasons"], ["UNVERIFIABLE_EVIDENCE"])
@@ -273,16 +299,11 @@ class H11PositiveQualificationTests(unittest.TestCase):
         self.assertEqual(result["reasons"], ["NON_DISTINCT_ISSUERS"])
 
     def test_second_basis_repositories_must_be_distinct(self) -> None:
-        second_url = (
-            "https://api.github.com/repos/org-one/h11-attestations/"
-            "pulls/7/reviews/3001"
-        )
+        second_url = "https://api.github.com/repos/org-one/h11-attestations/pulls/7/reviews/3001"
         bundle = _bundle()
         bundle[second_url] = copy.deepcopy(bundle[CUSTODY_URL])
         bundle[second_url]["url"] = second_url
-        bundle[second_url]["pull_request_url"] = (
-            "https://api.github.com/repos/org-one/h11-attestations/pulls/7"
-        )
+        bundle[second_url]["pull_request_url"] = "https://api.github.com/repos/org-one/h11-attestations/pulls/7"
         request = _request(second_basis_api_urls=[ORG_URL, second_url])
         result = self.evaluate(bundle=bundle, request=request)
         self.assertEqual(result["qualification_result"], "NOT_ESTABLISHED")
@@ -290,12 +311,14 @@ class H11PositiveQualificationTests(unittest.TestCase):
 
     def test_contradictory_attestation_remains_not_established(self) -> None:
         bundle = _bundle()
-        bundle[ORG_URL]["body"] = json.dumps(
-            _attestation(
-                "ORGANIZATIONAL_SEPARATION",
-                attested_custody_relation="UNKNOWN",
-            )
-        )
+        bundle[ORG_URL]["body"] = json.dumps(_attestation("ORGANIZATIONAL_SEPARATION", attested_custody_relation="UNKNOWN"))
+        result = self.evaluate(bundle=bundle)
+        self.assertEqual(result["qualification_result"], "NOT_ESTABLISHED")
+        self.assertEqual(result["reasons"], ["CONTRADICTORY_ATTESTATIONS"])
+
+    def test_contradictory_alias_attestation_remains_not_established(self) -> None:
+        bundle = _bundle()
+        bundle[ORG_URL]["body"] = json.dumps(_attestation("ORGANIZATIONAL_SEPARATION", attested_known_aliases=["other-alias"]))
         result = self.evaluate(bundle=bundle)
         self.assertEqual(result["qualification_result"], "NOT_ESTABLISHED")
         self.assertEqual(result["reasons"], ["CONTRADICTORY_ATTESTATIONS"])
