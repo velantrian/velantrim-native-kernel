@@ -1,0 +1,102 @@
+{
+  "protocol": "nk-h11-positive-qualification-policy/1",
+  "decision": "ADR-0028",
+  "selected_option": "OPTION_C_HYBRID_TWO_BASIS",
+  "scope": "H11_REVIEWER_REPRODUCER_ONLY",
+  "experiment_id": "H11-001",
+  "source_plan_id": "H11-001-c5-lab-canon-separation-v1",
+  "source_plan_sha256": "60da649e675b79b3e70bf8a61cf03cb4d57bb989f4934b65ab8d50c925b19914",
+  "review_surface": {
+    "repository": "velantrian/velantrim-native-kernel",
+    "pull_request": 131,
+    "accepted_action": "PULL_REQUEST_REVIEW",
+    "candidate_must_not_equal_repository_owner": true
+  },
+  "basis_1": {
+    "name": "AUTHENTICATED_GITHUB_CANDIDATE_ACTION_AND_DECLARATION",
+    "verification_method": "LIVE_GITHUB_API",
+    "required": true,
+    "max_age_days": 30,
+    "declaration_protocol": "nk-h11-reviewer-declaration/1",
+    "required_fields": [
+      "protocol",
+      "experiment_id",
+      "source_plan_id",
+      "source_plan_sha256",
+      "reviewer_login",
+      "reviewer_role",
+      "authorship_relation",
+      "custody_relation",
+      "conflicts",
+      "repository_visible_frozen_inputs_only",
+      "private_implementation_state_used",
+      "statement"
+    ]
+  },
+  "basis_2": {
+    "name": "SEPARATE_REPOSITORY_VISIBLE_INDEPENDENTLY_VERIFIABLE_EVIDENCE",
+    "verification_method": "LIVE_GITHUB_API",
+    "required": true,
+    "max_age_days": 90,
+    "attestation_protocol": "nk-h11-independent-attestation/1",
+    "required_basis_types": [
+      "ORGANIZATIONAL_SEPARATION",
+      "INDEPENDENT_EVIDENCE_CUSTODY"
+    ],
+    "required_issuer_roles": {
+      "ORGANIZATIONAL_SEPARATION": "ORGANIZATIONAL_AUTHORITY",
+      "INDEPENDENT_EVIDENCE_CUSTODY": "INDEPENDENT_CUSTODIAN"
+    },
+    "minimum_distinct_issuers": 2,
+    "minimum_distinct_public_repositories": 2,
+    "issuer_must_not_equal_candidate": true,
+    "issuer_must_not_equal_repository_owner": true,
+    "evidence_repository_owner_must_not_equal_candidate": true,
+    "evidence_repository_owner_must_not_equal_repository_owner": true
+  },
+  "qualification": {
+    "result_vocabulary": [
+      "QUALIFIED",
+      "NOT_ESTABLISHED",
+      "DISQUALIFIED"
+    ],
+    "qualified_requires": [
+      "BASIS_1_VERIFIED",
+      "BASIS_2_VERIFIED",
+      "NOT_AUTHOR_OF_PREREGISTRATION_OR_FROZEN_RUBRIC",
+      "INDEPENDENT_FOR_DECLARED_SCOPE",
+      "NO_UNRESOLVED_CONFLICTS",
+      "REPOSITORY_VISIBLE_FROZEN_INPUTS_ONLY",
+      "PRIVATE_IMPLEMENTATION_STATE_NOT_USED",
+      "NO_CONTRADICTIONS",
+      "DETERMINISTIC_PLAN_BINDING"
+    ],
+    "not_established_on": [
+      "MISSING_EVIDENCE",
+      "STALE_EVIDENCE",
+      "UNVERIFIABLE_EVIDENCE",
+      "MALFORMED_EVIDENCE",
+      "AMBIGUOUS_EVIDENCE",
+      "NON_DISTINCT_ISSUERS",
+      "NON_DISTINCT_EVIDENCE_REPOSITORIES",
+      "CONTRADICTORY_ATTESTATIONS"
+    ],
+    "disqualified_on": [
+      "OWNER_OR_SELF_REVIEW",
+      "AUTHOR_OF_PREREGISTRATION_OR_FROZEN_RUBRIC",
+      "SAME_CUSTODY",
+      "PRIVATE_IMPLEMENTATION_STATE_USED",
+      "FROZEN_INPUT_BOUNDARY_VIOLATED"
+    ]
+  },
+  "authority_boundary": {
+    "qualification_changes_execution_admission": false,
+    "qualification_authorizes_h11_execution": false,
+    "qualification_authorizes_dependency_graph_execution": false,
+    "qualification_authorizes_semantic_adjudication": false,
+    "qualification_thaws_runtime": false,
+    "qualification_promotes_final_canon": false,
+    "qualification_authorizes_production": false,
+    "qualified_next_action": "SEPARATE_A10_H11_EXECUTION_ADMISSION_REASSESSMENT"
+  }
+}
