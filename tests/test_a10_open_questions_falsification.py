@@ -138,7 +138,7 @@ class A10OpenQuestionsFalsificationTests(unittest.TestCase):
         self.assertEqual("A10_H11_EXECUTION_ADMISSION", plan["next_gate"])
         self.assertEqual("EXECUTION_ADMISSION_ONLY", plan["next_gate_scope"])
         self.assertEqual("BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER", plan["execution_admission_state"])
-        self.assertEqual("QUALIFYING_INDEPENDENT_H11_REVIEWER_REPRODUCER_EVIDENCE", plan["next_dependency"])
+        self.assertEqual("IMPLEMENT_ADR0028_POSITIVE_QUALIFICATION_PATH_THEN_ESTABLISH_GENUINELY_EXTERNAL_CANDIDATE", plan["next_dependency"])
         self.assertEqual("A10-H11", plan["selected_family"])
         self.assertEqual("RAVP-H11-LAB-CANON-SEPARATION", plan["selected_family_id"])
         self.assertTrue(plan["family_preregistration_authorized"])
