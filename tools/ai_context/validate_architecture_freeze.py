@@ -134,8 +134,19 @@ def _validate_current(state: Mapping[str, Any]) -> None:
     _require(isinstance(issue, Mapping), "Issue #88 snapshot required")
     _require(issue.get("state") == "OPEN", "Issue #88 must remain open")
     meaning = str(issue.get("meaning", ""))
-    for marker in ("A10-H11", H11_PLAN_ID, H11_ADMISSION_MERGE, H11_STATE_BINDING_MERGE, H11_CURRENT_GATE, H11_BLOCKER, "NOT_TESTED"):
-        _require(marker in meaning, f"Option D selection/current Issue #88 blocked H11 truth missing: {marker}")
+    for marker in (
+        "Architecture Re-foundation A1-A10 remains provisional",
+        H11_CURRENT_GATE,
+        H11_BLOCKER,
+        "ADR-0028",
+        "OPTION_C_HYBRID_TWO_BASIS",
+        "NOT_STARTED",
+        "NOT_ESTABLISHED",
+        "NOT_TESTED",
+        "Final Canon is deferred",
+        "runtime remains frozen",
+    ):
+        _require(marker in meaning, f"Issue #88 ADR-0028/current H11 truth missing: {marker}")
     verification = issue.get("verification")
     _require(isinstance(verification, Mapping), "Issue #88 verification required")
     _require(verification.get("status") == "VERIFIED" and verification.get("method") == "GITHUB_API" and verification.get("source") == "issue/88", "Issue #88 verification drift")
