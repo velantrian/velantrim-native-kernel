@@ -19,16 +19,20 @@
     "required": true,
     "max_age_days": 30,
     "declaration_protocol": "nk-h11-reviewer-declaration/1",
+    "aliases_must_be_disclosed": true,
+    "material_dependence_must_be_empty": true,
     "required_fields": [
       "protocol",
       "experiment_id",
       "source_plan_id",
       "source_plan_sha256",
       "reviewer_login",
+      "known_aliases",
       "reviewer_role",
       "authorship_relation",
       "custody_relation",
       "conflicts",
+      "material_dependence",
       "repository_visible_frozen_inputs_only",
       "private_implementation_state_used",
       "statement"
@@ -51,6 +55,7 @@
     "minimum_distinct_issuers": 2,
     "minimum_distinct_public_repositories": 2,
     "repository_owner_type": "Organization",
+    "repository_owner_github_verified": true,
     "issuer_author_association": [
       "MEMBER",
       "OWNER"
@@ -71,7 +76,9 @@
       "BASIS_2_VERIFIED",
       "NOT_AUTHOR_OF_PREREGISTRATION_OR_FROZEN_RUBRIC",
       "INDEPENDENT_FOR_DECLARED_SCOPE",
+      "ALIASES_DISCLOSED",
       "NO_UNRESOLVED_CONFLICTS",
+      "NO_MATERIAL_DEPENDENCE",
       "REPOSITORY_VISIBLE_FROZEN_INPUTS_ONLY",
       "PRIVATE_IMPLEMENTATION_STATE_NOT_USED",
       "NO_CONTRADICTIONS",
@@ -84,12 +91,14 @@
       "MALFORMED_EVIDENCE",
       "AMBIGUOUS_EVIDENCE",
       "UNRESOLVED_CONFLICTS",
+      "MATERIAL_DEPENDENCE",
       "NON_DISTINCT_ISSUERS",
       "NON_DISTINCT_EVIDENCE_REPOSITORIES",
       "CONTRADICTORY_ATTESTATIONS"
     ],
     "disqualified_on": [
       "OWNER_OR_SELF_REVIEW",
+      "OWNER_ALIAS_DISCLOSED",
       "AUTHOR_OF_PREREGISTRATION_OR_FROZEN_RUBRIC",
       "SAME_CUSTODY",
       "PRIVATE_IMPLEMENTATION_STATE_USED",
