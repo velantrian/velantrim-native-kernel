@@ -39,6 +39,10 @@ class Post130NotionCheckpointTests(unittest.TestCase):
             self.state["checkpoints"]["notion_synchronized_through_sha"],
             H11_STATE_BINDING_MERGE,
         )
+        self.assertEqual(
+            self.state["checkpoints"]["qualification_design_decision_sha"],
+            ADR0028_DECISION_MERGE,
+        )
         self.assertFalse(self.state["notion"]["synchronization_required"])
         self.assertEqual(
             self.state["notion"]["status"],
@@ -51,7 +55,6 @@ class Post130NotionCheckpointTests(unittest.TestCase):
         self.assertEqual(self.state["notion"]["surface_count"], 8)
         self.assertEqual(self.state["notion"]["read_back_verified_count"], 8)
         self.assertEqual(self.state["notion"]["new_pages_created"], 0)
-        self.assertIn(ADR0028_DECISION_MERGE, self.state["notion"]["scope"])
         self.assertIn(ADR0028_RECONCILIATION_MERGE, self.state["notion"]["scope"])
         self.assertIn("updated and read back", self.state["notion"]["scope"])
         self.validate(copy.deepcopy(self.state))
