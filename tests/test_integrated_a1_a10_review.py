@@ -92,7 +92,7 @@ class IntegratedA1A10ReviewTests(unittest.TestCase):
         self.assertEqual("A10_H11_EXECUTION_ADMISSION", plan["next_gate"])
         self.assertEqual("EXECUTION_ADMISSION_ONLY", plan["next_gate_scope"])
         self.assertEqual("BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER", plan["execution_admission_state"])
-        self.assertEqual("QUALIFYING_INDEPENDENT_H11_REVIEWER_REPRODUCER_EVIDENCE", plan["next_dependency"])
+        self.assertEqual("IMPLEMENT_ADR0028_POSITIVE_QUALIFICATION_PATH_THEN_ESTABLISH_GENUINELY_EXTERNAL_CANDIDATE", plan["next_dependency"])
         self.assertFalse(plan["experiment_implementation_authorized"])
         self.assertFalse(plan["experiment_execution_authorized"])
         self.assertFalse(plan["composition_federation_is_h11"])

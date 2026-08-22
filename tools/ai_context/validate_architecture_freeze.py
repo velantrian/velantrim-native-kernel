@@ -25,6 +25,7 @@ H11_PLAN_SHA256 = "60da649e675b79b3e70bf8a61cf03cb4d57bb989f4934b65ab8d50c925b19
 H11_CURRENT_GATE = "A10_H11_EXECUTION_ADMISSION"
 H11_PLAN_ID = "H11-001-c5-lab-canon-separation-v1"
 H11_BLOCKER = "BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER"
+H11_NEXT_DEPENDENCY = "IMPLEMENT_ADR0028_POSITIVE_QUALIFICATION_PATH_THEN_ESTABLISH_GENUINELY_EXTERNAL_CANDIDATE"
 RESIDUAL_TARGETS = ["A10-H03", "A10-H06", "A10-H08", "A10-H09", "A10-H10", "A10-H11"]
 
 
@@ -42,6 +43,7 @@ def _pre_plan_view(state: Mapping[str, Any]) -> dict[str, Any]:
     validation.pop("residual_a10_validation_plan", None)
     notion = value["notion"]
     notion["synchronization_required"] = True
+    notion["status"] = "SYNCED_THROUGH_DESCENDANT_CHECKPOINT"
     notion["decision_sync_status"] = "PENDING_READ_BACK_VERIFICATION"
     notion["surface_count"] = 7
     notion["read_back_verified_count"] = 3
@@ -85,7 +87,7 @@ def _validate_current(state: Mapping[str, Any]) -> None:
     _require(plan.get("next_gate") == H11_CURRENT_GATE, "H11 current gate drift")
     _require(plan.get("next_gate_scope") == "EXECUTION_ADMISSION_ONLY", "H11 current gate scope drift")
     _require(plan.get("execution_admission_state") == H11_BLOCKER, "H11 execution admission blocker drift")
-    _require(plan.get("next_dependency") == "QUALIFYING_INDEPENDENT_H11_REVIEWER_REPRODUCER_EVIDENCE", "H11 next dependency drift")
+    _require(plan.get("next_dependency") == H11_NEXT_DEPENDENCY, "H11 next dependency drift")
     _require(plan.get("experiment_implementation_authorized") is False, "experiment implementation must remain unauthorized")
     _require(plan.get("experiment_execution_authorized") is False, "experiment execution must remain unauthorized")
     _require(plan.get("composition_federation_is_h11") is False, "composition/federation must remain distinct from H11")
@@ -132,8 +134,19 @@ def _validate_current(state: Mapping[str, Any]) -> None:
     _require(isinstance(issue, Mapping), "Issue #88 snapshot required")
     _require(issue.get("state") == "OPEN", "Issue #88 must remain open")
     meaning = str(issue.get("meaning", ""))
-    for marker in ("A10-H11", H11_PLAN_ID, H11_ADMISSION_MERGE, H11_STATE_BINDING_MERGE, H11_CURRENT_GATE, H11_BLOCKER, "NOT_TESTED"):
-        _require(marker in meaning, f"Option D selection/current Issue #88 blocked H11 truth missing: {marker}")
+    for marker in (
+        "Architecture Re-foundation A1-A10 remains provisional",
+        H11_CURRENT_GATE,
+        H11_BLOCKER,
+        "ADR-0028",
+        "OPTION_C_HYBRID_TWO_BASIS",
+        "NOT_STARTED",
+        "NOT_ESTABLISHED",
+        "NOT_TESTED",
+        "Final Canon is deferred",
+        "runtime remains frozen",
+    ):
+        _require(marker in meaning, f"Option D selection / Issue #88 ADR-0028 current truth missing: {marker}")
     verification = issue.get("verification")
     _require(isinstance(verification, Mapping), "Issue #88 verification required")
     _require(verification.get("status") == "VERIFIED" and verification.get("method") == "GITHUB_API" and verification.get("source") == "issue/88", "Issue #88 verification drift")
