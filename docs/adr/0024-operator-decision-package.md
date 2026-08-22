@@ -12,6 +12,9 @@ decision_state: OPERATOR_APPROVED
 selected_option: ACCEPT_WITH_CHANGES
 operator: '@velantrian'
 decision_date: 2026-08-22
+operator_decision_comment_id: 5379224144
+operator_decision_url: https://github.com/velantrian/velantrim-native-kernel/issues/74#issuecomment-5379224144
+operator_decision_block_sha256: c1fc11af41d3bed1088040bfbfbb31e1d840e4c860d36972b865e4ec86c3394c
 runtime_effect: REDUCER_V2_NOT_AUTHORIZED
 ```
 
