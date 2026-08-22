@@ -35,7 +35,7 @@ CANDIDATE_URL_RE = re.compile(
 SECOND_URL_RE = re.compile(
     r"^https://api\.github\.com/repos/(?P<owner>[^/]+)/(?P<repo>[^/]+)/(?:(?:issues/comments/(?P<comment_id>[0-9]+))|(?:pulls/(?P<pr>[0-9]+)/reviews/(?P<review_id>[0-9]+)))$"
 )
-DECLARATION_KEYS = {
+DECLARATION_FIELD_ORDER = [
     "protocol",
     "experiment_id",
     "source_plan_id",
@@ -48,7 +48,8 @@ DECLARATION_KEYS = {
     "repository_visible_frozen_inputs_only",
     "private_implementation_state_used",
     "statement",
-}
+]
+DECLARATION_KEYS = set(DECLARATION_FIELD_ORDER)
 ATTESTATION_KEYS = {
     "protocol",
     "experiment_id",
@@ -193,6 +194,11 @@ def _validate_policy(policy: Mapping[str, Any]) -> None:
     )
     _require(policy.get("scope") == "H11_REVIEWER_REPRODUCER_ONLY", "MALFORMED_EVIDENCE", "policy scope drift")
     _require(
+        isinstance(policy.get("claim_boundary"), str) and bool(policy.get("claim_boundary")),
+        "MALFORMED_EVIDENCE",
+        "policy claim boundary required",
+    )
+    _require(
         policy.get("experiment_id") == EXPERIMENT_ID
         and policy.get("source_plan_id") == PLAN_ID
         and policy.get("source_plan_sha256") == PLAN_SHA256,
@@ -204,7 +210,8 @@ def _validate_policy(policy: Mapping[str, Any]) -> None:
     _require(
         surface.get("repository") == REPOSITORY
         and surface.get("pull_request") == REVIEW_PR
-        and surface.get("accepted_action") == "PULL_REQUEST_REVIEW",
+        and surface.get("accepted_action") == "PULL_REQUEST_REVIEW"
+        and surface.get("candidate_must_not_equal_repository_owner") is True,
         "MALFORMED_EVIDENCE",
         "review surface drift",
     )
@@ -214,14 +221,17 @@ def _validate_policy(policy: Mapping[str, Any]) -> None:
     _require(
         basis1.get("required") is True
         and basis1.get("verification_method") == "LIVE_GITHUB_API"
-        and basis1.get("declaration_protocol") == DECLARATION_PROTOCOL,
+        and basis1.get("declaration_protocol") == DECLARATION_PROTOCOL
+        and basis1.get("max_age_days") == 30
+        and basis1.get("required_fields") == DECLARATION_FIELD_ORDER,
         "MALFORMED_EVIDENCE",
         "basis 1 policy drift",
     )
     _require(
         basis2.get("required") is True
         and basis2.get("verification_method") == "LIVE_GITHUB_API"
-        and basis2.get("attestation_protocol") == ATTESTATION_PROTOCOL,
+        and basis2.get("attestation_protocol") == ATTESTATION_PROTOCOL
+        and basis2.get("max_age_days") == 90,
         "MALFORMED_EVIDENCE",
         "basis 2 policy drift",
     )
@@ -231,8 +241,29 @@ def _validate_policy(policy: Mapping[str, Any]) -> None:
         "basis 2 required types drift",
     )
     _require(basis2.get("required_issuer_roles") == BASIS_ROLES, "MALFORMED_EVIDENCE", "basis 2 issuer roles drift")
+    _require(
+        basis2.get("minimum_distinct_issuers") == 2
+        and basis2.get("minimum_distinct_public_repositories") == 2,
+        "MALFORMED_EVIDENCE",
+        "basis 2 distinctness floor drift",
+    )
     _require(basis2.get("repository_owner_type") == "Organization", "MALFORMED_EVIDENCE", "basis 2 repository owner type drift")
     _require(basis2.get("issuer_author_association") == ["MEMBER", "OWNER"], "MALFORMED_EVIDENCE", "basis 2 issuer association drift")
+    for key in (
+        "issuer_must_not_equal_candidate",
+        "issuer_must_not_equal_repository_owner",
+        "evidence_repository_owner_must_not_equal_candidate",
+        "evidence_repository_owner_must_not_equal_repository_owner",
+    ):
+        _require(basis2.get(key) is True, "MALFORMED_EVIDENCE", f"basis 2 separation rule {key} must remain true")
+    qualification = policy.get("qualification")
+    _require(isinstance(qualification, Mapping), "MALFORMED_EVIDENCE", "qualification policy required")
+    _require(
+        qualification.get("result_vocabulary")
+        == ["QUALIFIED", "NOT_ESTABLISHED", "DISQUALIFIED"],
+        "MALFORMED_EVIDENCE",
+        "qualification result vocabulary drift",
+    )
     boundary = policy.get("authority_boundary")
     _require(isinstance(boundary, Mapping), "MALFORMED_EVIDENCE", "authority boundary required")
     for key in (
