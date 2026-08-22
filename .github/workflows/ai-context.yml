@@ -43,6 +43,7 @@ on:
       - "tests/test_h11_family_selection.py"
       - "tests/test_h11_preregistration.py"
       - "tests/test_h11_execution_admission.py"
+      - "tests/test_operator_decisions.py"
       - "tests/test_ai_context_validator.py"
       - "tests/test_architecture_freeze.py"
       - "tests/test_bilingual_parity_validator.py"
@@ -94,6 +95,7 @@ on:
       - "tests/test_h11_family_selection.py"
       - "tests/test_h11_preregistration.py"
       - "tests/test_h11_execution_admission.py"
+      - "tests/test_operator_decisions.py"
       - "tests/test_ai_context_validator.py"
       - "tests/test_architecture_freeze.py"
       - "tests/test_bilingual_parity_validator.py"
@@ -154,6 +156,7 @@ jobs:
             tests/test_h11_family_selection.py \
             tests/test_h11_preregistration.py \
             tests/test_h11_execution_admission.py \
+            tests/test_operator_decisions.py \
             tests/test_ai_context_validator.py \
             tests/test_architecture_freeze.py \
             tests/test_bilingual_parity_validator.py \
@@ -182,6 +185,7 @@ jobs:
           python -m unittest discover -s tests -p 'test_h11_family_selection.py' -v
           python -m unittest discover -s tests -p 'test_h11_preregistration.py' -v
           python -m unittest discover -s tests -p 'test_h11_execution_admission.py' -v
+          python -m unittest discover -s tests -p 'test_operator_decisions.py' -v
           python -m unittest discover -s tests -p 'test_ai_context_validator.py' -v
           python -m unittest discover -s tests -p 'test_architecture_freeze.py' -v
           python -m unittest discover -s tests -p 'test_bilingual_parity_validator.py' -v
@@ -226,6 +230,9 @@ jobs:
 
       - name: Validate H11 execution admission
         run: python tools/ai_context/validate_h11_execution_admission.py --repo .
+
+      - name: Validate operator decisions
+        run: python tools/ai_context/validate_operator_decisions.py --repo .
 
       - name: Validate reconciliation state
         run: python tools/ai_context/validate_reconciliation.py --repo .
