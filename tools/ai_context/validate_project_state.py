@@ -82,7 +82,7 @@ def _validate_current(state: Mapping[str, Any]) -> None:
     elif notion_status == "SYNCED_THROUGH_DESCENDANT_CHECKPOINT":
         _require(notion_checkpoint != publication, "descendant synchronization status requires distinct checkpoints")
     elif transitional_adr0028:
-        _require(notion_checkpoint == H11_STATE_BINDING_MERGE, "ADR-0028 pending-sync checkpoint must remain at last verified H11 Notion checkpoint")
+        _require(notion_checkpoint == H11_STATE_BINDING_MERGE, "checkpoint drift: ADR-0028 pending-sync checkpoint must remain at last verified H11 Notion checkpoint")
         _require(notion.get("synchronization_required") is True, "ADR-0028 Notion synchronization must remain required before post-merge sync")
         _require(notion.get("decision_sync_status") == ADR0028_NOTION_DECISION_STATUS, "ADR-0028 Notion decision sync status drift")
     else:
@@ -185,9 +185,9 @@ def _validate_current(state: Mapping[str, Any]) -> None:
     _require(notion.get("surface_count") == 7 and notion.get("read_back_verified_count") == 7 and notion.get("new_pages_created") == 0, "Notion 7/7 baseline drift")
     scope = str(notion.get("scope", ""))
     if transitional_adr0028:
-        _require(notion.get("synchronization_required") is True, "ADR-0028 Notion synchronization must remain pending before reconciliation sync")
+        _require(notion.get("synchronization_required") is True, "ADR-0028 Notion synchronization must remain required before reconciliation sync")
         _require(notion.get("decision_sync_status") == ADR0028_NOTION_DECISION_STATUS, "ADR-0028 Notion sync status drift")
-        for marker in (ADR0028_DECISION_MERGE, "GitHub reconciliation must merge first", H11_BLOCKER, "NOT_ESTABLISHED", "NOT_TESTED", "FROZEN"):
+        for marker in (ADR0028_DECISION_MERGE, "GitHub reconciliation must merge first", "H11 admission remains BLOCKED", "NOT_ESTABLISHED", "NOT_TESTED", "FROZEN"):
             _require(marker in scope, f"ADR-0028 pending Notion scope missing marker: {marker}")
     else:
         _require(notion.get("synchronization_required") is False, "Notion sync must be complete")
