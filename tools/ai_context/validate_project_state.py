@@ -85,20 +85,14 @@ def _validate_current(state: Mapping[str, Any]) -> None:
     _require(notion_checkpoint == H11_STATE_BINDING_MERGE, "H11 post-130 Notion synchronization checkpoint drift")
 
     research = state["tracks"]["long_horizon_research"]
-    _require(
-        research.get("status") == "ACTIVE / H11 EXECUTION ADMISSION BLOCKED / NO AUTOMATIC PROMOTION",
-        "H11 blocked-admission research status drift",
-    )
+    _require(research.get("status") == "ACTIVE / H11 EXECUTION ADMISSION BLOCKED / NO AUTOMATIC PROMOTION", "H11 blocked-admission research status drift")
     _require(research.get("runtime_authorized") is False, "runtime authority must remain frozen")
     ref = research["architecture_refoundation"]
     _require(ref.get("runtime_expansion_frozen") is True, "runtime expansion freeze must remain active")
     _require(ref.get("next_content_slice") == H11_CURRENT_GATE, "H11 current architecture validation gate drift")
 
     validation = research["post_blueprint_validation"]
-    _require(
-        validation.get("status") == "COMPLETE / H11_EXECUTION_ADMISSION_BLOCKED / NO_AUTOMATIC_PROMOTION",
-        "H11 blocked-admission post-blueprint validation status drift",
-    )
+    _require(validation.get("status") == "COMPLETE / H11_EXECUTION_ADMISSION_BLOCKED / NO_AUTOMATIC_PROMOTION", "H11 blocked-admission post-blueprint validation status drift")
     _require(validation.get("product_runtime_thaw") is False, "product runtime thaw must remain false")
     _require(validation.get("automatic_canon_promotion") is False, "automatic Canon promotion must remain false")
     _require(validation.get("automatic_runtime_promotion") is False, "automatic runtime promotion must remain false")
@@ -150,7 +144,7 @@ def _validate_current(state: Mapping[str, Any]) -> None:
     _require(h11.get("status") == "PREREGISTERED / EXECUTION_NOT_AUTHORIZED", "H11 preregistration status drift")
     _require(h11.get("pr") == 127 and h11.get("exact_head_sha") == H11_PLAN_HEAD and h11.get("merge_sha") == H11_PLAN_MERGE, "H11 preregistration checkpoint drift")
     _require(h11.get("exact_head_successful_workflows") == 6 and h11.get("post_merge_successful_workflows") == 6, "H11 preregistration CI drift")
-    _require(h11.get("notion_read_back_verified_count") == 7 and h11.get("new_pages_created") == 0, "H11 preregistration Notion 7/7 drift")
+    _require(h11.get("notion_read_back_verified_count") == 7 and h11.get("new_notion_pages_created") == 0, "H11 preregistration Notion 7/7 drift")
     _require(h11.get("frozen_laboratory_bundle") == H11_BUNDLE, "H11 frozen laboratory bundle drift")
     _require(h11.get("required_oracle_class") == "INDEPENDENT_SEMANTIC_ORACLE", "H11 oracle independence drift")
     _require(h11.get("qualifying_reviewer_reproducer") == "NOT_ESTABLISHED / MUST_BE_VERIFIED_AT_EXECUTION_ADMISSION", "historical H11 preregistration reviewer status drift")
@@ -177,42 +171,17 @@ def _validate_current(state: Mapping[str, Any]) -> None:
     _require(admission.get("final_canon") == "DEFERRED / NOT_AUTHORIZED", "H11 admission cannot promote Final Canon")
     _require(admission.get("production_authorized") is False, "H11 admission cannot authorize production")
 
-    _require(
-        notion.get("surface_count") == 8
-        and notion.get("read_back_verified_count") == 8
-        and notion.get("new_pages_created") == 0,
-        "ADR-0028 Notion 8/8 read-back drift",
-    )
+    _require(notion.get("surface_count") == 8 and notion.get("read_back_verified_count") == 8 and notion.get("new_pages_created") == 0, "ADR-0028 Notion 8/8 read-back drift")
     _require(notion.get("synchronization_required") is False, "ADR-0028 Notion sync must be complete")
     _require(notion.get("decision_sync_status") == ADR0028_NOTION_DECISION_STATUS, "ADR-0028 Notion sync status drift")
     scope = str(notion.get("scope", ""))
-    for marker in (
-        ADR0028_DECISION_MERGE,
-        ADR0028_RECONCILIATION_MERGE,
-        "Eight existing Native Kernel Notion projections",
-        "zero new pages",
-        "H11 admission remains BLOCKED",
-        "NOT_ESTABLISHED",
-        "NOT_TESTED",
-        "FROZEN",
-    ):
+    for marker in (ADR0028_DECISION_MERGE, ADR0028_RECONCILIATION_MERGE, "Eight existing Native Kernel Notion projections", "zero new pages", "H11 admission remains BLOCKED", "NOT_ESTABLISHED", "NOT_TESTED", "FROZEN"):
         _require(marker in scope, f"ADR-0028 completed Notion scope missing marker: {marker}")
 
     issue = state.get("issues", {}).get("88")
     _require(isinstance(issue, Mapping) and issue.get("state") == "OPEN", "Issue #88 must remain OPEN")
     meaning = str(issue.get("meaning", ""))
-    for marker in (
-        "Architecture Re-foundation A1-A10 remains provisional",
-        H11_CURRENT_GATE,
-        H11_BLOCKER,
-        "ADR-0028",
-        "OPTION_C_HYBRID_TWO_BASIS",
-        "NOT_STARTED",
-        "NOT_ESTABLISHED",
-        "NOT_TESTED",
-        "Final Canon is deferred",
-        "runtime remains frozen",
-    ):
+    for marker in ("Architecture Re-foundation A1-A10 remains provisional", H11_CURRENT_GATE, H11_BLOCKER, "ADR-0028", "OPTION_C_HYBRID_TWO_BASIS", "NOT_STARTED", "NOT_ESTABLISHED", "NOT_TESTED", "Final Canon is deferred", "runtime remains frozen"):
         _require(marker in meaning, f"Issue #88 ADR-0028/current H11 meaning missing marker: {marker}")
 
     evidence = state.get("evidence", {})
@@ -222,7 +191,6 @@ def _validate_current(state: Mapping[str, Any]) -> None:
     _require(admission_evidence.get("merge_sha") == H11_ADMISSION_MERGE, "H11 admission evidence merge drift")
     _require(admission_evidence.get("admission_result") == H11_BLOCKER, "H11 admission evidence blocker drift")
     _require(admission_evidence.get("h11_outcome") == "NOT_TESTED", "H11 admission evidence must preserve NOT_TESTED")
-
     _require(state["status"]["production_authorized"] is False, "production must remain unauthorized")
 
 
@@ -241,11 +209,7 @@ def main() -> int:
     state_path = args.state if args.state.is_absolute() else repo / args.state
     state = _load(state_path, "project state")
     validate(state, repo=repo, check_git=not args.no_git)
-    print(
-        "Project-state validation passed; ADR-0028=OPTION_C_HYBRID_TWO_BASIS; "
-        "H11 admission=BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER; "
-        "H11=NOT_TESTED; reviewer=NOT_ESTABLISHED; execution=NOT_AUTHORIZED; runtime=FROZEN; Notion=READ_BACK_VERIFIED"
-    )
+    print("Project-state validation passed; ADR-0028=OPTION_C_HYBRID_TWO_BASIS; H11 admission=BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER; H11=NOT_TESTED; reviewer=NOT_ESTABLISHED; execution=NOT_AUTHORIZED; runtime=FROZEN; Notion=READ_BACK_VERIFIED")
     return 0
 
 
