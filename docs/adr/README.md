@@ -1,6 +1,6 @@
 <!-- H11_EXECUTION_ADMISSION_BLOCKED_CURRENT -->
 > [!IMPORTANT]
-> **Current research boundary — 2026-08-15.** Architecture remains provisional and interpreted through Integrated Review / IAR-1 / IAR-1-R1. Final Canon is deferred. The selected residual family is `A10-H11`; current gate `A10_H11_EXECUTION_ADMISSION` is `BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER`; reviewer/reproducer `NOT_ESTABLISHED`; H11 `NOT_TESTED`; runtime `FROZEN`; production `false`. This ADR index does not itself authorize H11, reducer-v2, Final Canon, runtime thaw or production.
+> **Current research boundary — 2026-08-22.** Architecture remains provisional and interpreted through Integrated Review / IAR-1 / IAR-1-R1. Final Canon is deferred. The selected residual family is `A10-H11`; current gate `A10_H11_EXECUTION_ADMISSION` is `BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER`; reviewer/reproducer `NOT_ESTABLISHED`; H11 `NOT_TESTED`; runtime `FROZEN`; production `false`. ADR-0024 is accepted for its bounded abstract-contract scope but does not authorize reducer-v2 runtime.
 
 # 📝 Architecture Decision Records
 
@@ -44,12 +44,12 @@ Decision status
 | [`0021`](./0021-authorize-c5-bounded-operational-rehearsal.md) | Authorize C5 bounded operational rehearsal | `ACCEPTED` | two passing checkpoints + retained ZIPs | `PARTIAL — C5` | `APPROVED` |
 | [`0022`](./0022-preserve-c5-evidence-and-declare-project-state.md) | Preserve C5 evidence and declare project state | `ACCEPTED` | repository and post-merge validation passed | implemented; current state uses `nk-project-state/2` | `APPROVED` |
 | [`0023`](./0023-harden-sqlite-wal-and-event-integrity.md) | Harden SQLite WAL and stored Event integrity | `ACCEPTED` | repository-reproduced; additive evidence captured | merged via PR #69 + follow-up PR #72 | `APPROVED` |
-| [`0024`](./0024-version-reducer-referential-semantics.md) | Version reducer referential semantics without rewriting history | `PROPOSED` | repository gap documented | `NOT_STARTED` | `PENDING` |
+| [`0024`](./0024-version-reducer-referential-semantics.md) | Version reducer referential semantics without rewriting history | `ACCEPTED` | `DOCUMENTED`; reducer-v1 lineage trace retained | `NOT_STARTED` | `APPROVED — ACCEPT_WITH_CHANGES` |
 | [`0025`](./0025-blueprint-before-runtime-expansion.md) | Complete the architecture blueprint before further runtime expansion | `ACCEPTED` | `DOCUMENTED` | blueprint drafted/reviewed provisionally; runtime freeze active | `APPROVED` |
 | [`0026`](./0026-independent-challenge-before-bounded-cross-lineage-falsification.md) | Independent challenge before bounded cross-lineage falsification | `ACCEPTED` | IAR-1 + IAR-1-R1 + BPV-1 / residual-A10 evidence | `GOVERNANCE_PARTIAL` / H11 admission blocked | `APPROVED` |
 | [`0027`](./0027-retain-provisional-architecture-and-runtime-freeze-after-option-d.md) | Retain provisional architecture and runtime freeze after Option D | `ACCEPTED` | `REPOSITORY_REPRODUCED` | governance complete; residual validation active | `APPROVED` |
 
-> **ADR-0024 navigation note:** [`0024-operator-decision-package.md`](./0024-operator-decision-package.md) is a **supporting operator decision package for ADR-0024, not a second ADR**. The normative proposed ADR remains [`0024-version-reducer-referential-semantics.md`](./0024-version-reducer-referential-semantics.md).
+> **ADR-0024 navigation note:** [`0024-operator-decision-package.md`](./0024-operator-decision-package.md) is the supporting operator-decision package and provenance for the accepted `ACCEPT_WITH_CHANGES` decision, not a second ADR. The normative accepted contract is [`0024-version-reducer-referential-semantics.md`](./0024-version-reducer-referential-semantics.md).
 
 ## Current boundary
 
@@ -74,6 +74,12 @@ runtime expansion: FROZEN
 ## Active architecture / research gate
 
 ```text
+ADR-0024 — Version reducer referential semantics
+  ACCEPTED / OPERATOR APPROVED / ACCEPT_WITH_CHANGES
+  implementation: NOT_STARTED
+  reducer-v2 runtime: NOT AUTHORIZED
+  reducer-v1 historical semantics: IMMUTABLE
+
 ADR-0025 — Blueprint before Runtime
   ACCEPTED / OPERATOR APPROVED
   A1-A10 first drafts + integrated review complete/provisional
@@ -92,28 +98,9 @@ ADR-0026 — Post-Blueprint Validation / Option D
 
 Issue #18 — license/publication terms
   PENDING_OPERATOR
-
-Issue #74 / ADR-0024
-  PROPOSED / PENDING_OPERATOR
-  reducer-v2 unauthorized
 ```
 
-Residual validation order:
-
-```text
-H11  ← selected / admission blocked
-→ H03
-→ H10
-→ H06
-→ H09
-→ H08
-→ integrated residual reassessment
-→ separate Final Canon operator decision
-→ separate runtime-thaw decision
-→ separate production decision
-```
-
-This order is not automatic authorization. H11 cannot execute until qualifying reviewer/reproducer evidence exists and execution admission is separately reassessed.
+Residual validation order remains planning guidance only. H11 cannot execute until qualifying reviewer/reproducer evidence exists and execution admission is separately reassessed.
 
 ## Operational rules
 
@@ -142,3 +129,4 @@ This order is not automatic authorization. H11 cannot execute until qualifying r
 23. Frozen normative fields cannot be post-hoc respecified to rescue an experiment.
 24. Preregistration ≠ execution authorization; execution admission is separate.
 25. Bounded results may weaken/refute architecture claims; they never promote Canon or runtime automatically.
+26. ADR-0024 acceptance authorizes its abstract contract only; reducer-v2 implementation requires a separate explicit authorization gate.
