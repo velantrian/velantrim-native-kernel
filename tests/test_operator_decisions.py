@@ -25,13 +25,14 @@ class OperatorDecisionTests(unittest.TestCase):
             module.LICENSE_RU,
             module.ADR_EN,
             module.ADR_RU,
+            module.ADR_NORMATIVE,
         ):
             source = ROOT / rel
             target = directory / rel
             target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(source, target)
 
-    def test_repository_packages_remain_pending(self) -> None:
+    def test_repository_decision_state_is_valid(self) -> None:
         module.validate(ROOT)
 
     def test_license_selection_without_operator_is_rejected(self) -> None:
@@ -56,6 +57,17 @@ class OperatorDecisionTests(unittest.TestCase):
             with self.assertRaisesRegex(module.OperatorDecisionError, "runtime effect"):
                 module.validate(repo)
 
+    def test_wrong_adr_operator_decision_reference_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            repo = Path(temp)
+            self._copy_fixture(repo)
+            manifest_path = repo / module.MANIFEST_PATH
+            manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+            manifest["adr_0024"]["operator_decision_ref"] = "issue-18-wrong-decision"
+            manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+            with self.assertRaisesRegex(module.OperatorDecisionError, "operator decision reference drift"):
+                module.validate(repo)
+
     def test_missing_license_option_is_rejected(self) -> None:
         with tempfile.TemporaryDirectory() as temp:
             repo = Path(temp)
@@ -71,16 +83,19 @@ class OperatorDecisionTests(unittest.TestCase):
             with self.assertRaisesRegex(module.OperatorDecisionError, "missing option"):
                 module.validate(repo)
 
-    def test_missing_adr_decision_option_is_rejected(self) -> None:
+    def test_adr_selected_option_marker_is_required(self) -> None:
         with tempfile.TemporaryDirectory() as temp:
             repo = Path(temp)
             self._copy_fixture(repo)
             package = repo / module.ADR_EN
             package.write_text(
-                package.read_text(encoding="utf-8").replace("### `REJECT`", "### removed"),
+                package.read_text(encoding="utf-8").replace(
+                    "selected_option: ACCEPT_WITH_CHANGES",
+                    "selected_option: REMOVED",
+                ),
                 encoding="utf-8",
             )
-            with self.assertRaisesRegex(module.OperatorDecisionError, "REJECT"):
+            with self.assertRaisesRegex(module.OperatorDecisionError, "decision marker"):
                 module.validate(repo)
 
     def test_silent_upgrade_boundary_is_required(self) -> None:
