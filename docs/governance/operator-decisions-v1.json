@@ -1,8 +1,8 @@
 {
   "protocol": "nk-operator-decisions/1",
-  "status_as_of": "2026-08-09",
-  "repository_checkpoint": "cdf559a3a32decd538e4cab3dd7fb591fc6e9322",
-  "overall_state": "PENDING_OPERATOR",
+  "status_as_of": "2026-08-22",
+  "repository_checkpoint": "94b71d70c6d03cda172ad0e337c3c05ef7d38ca8",
+  "overall_state": "PARTIALLY_DECIDED",
   "license_publication": {
     "issue": 18,
     "state": "PENDING_OPERATOR",
@@ -13,17 +13,30 @@
   "adr_0024": {
     "issue": 74,
     "adr": "ADR-0024",
-    "state": "PENDING_OPERATOR",
-    "selected_option": null,
-    "operator_decision_ref": null,
+    "state": "OPERATOR_APPROVED",
+    "selected_option": "ACCEPT_WITH_CHANGES",
+    "operator_decision_ref": "issue-74-operator-decision-2026-08-22",
+    "operator_decision_provenance": {
+      "source_type": "GITHUB_ISSUE_COMMENT",
+      "repository": "velantrian/velantrim-native-kernel",
+      "issue": 74,
+      "comment_id": 5379224144,
+      "canonical_url": "https://github.com/velantrian/velantrim-native-kernel/issues/74#issuecomment-5379224144",
+      "operator_login": "velantrian",
+      "decision_date": "2026-08-22",
+      "decision_block_sha256": "c1fc11af41d3bed1088040bfbfbb31e1d840e4c860d36972b865e4ec86c3394c"
+    },
+    "decision_date": "2026-08-22",
     "runtime_effect": "REDUCER_V2_NOT_AUTHORIZED"
   },
   "non_authorizations": [
     "No license is selected by this manifest.",
     "No external contribution policy is activated.",
-    "ADR-0024 remains proposed.",
+    "ADR-0024 acceptance does not authorize reducer v2 runtime implementation.",
     "Reducer v2 runtime is not authorized.",
     "No semantic assertion is promoted.",
+    "No H11 execution is authorized.",
+    "No Final Canon adoption is authorized.",
     "No production authorization is granted."
   ]
 }

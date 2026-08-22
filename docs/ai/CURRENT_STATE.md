@@ -6,7 +6,7 @@
 
 ```yaml
 document_role: CURRENT_STATE
-status_as_of: 2026-08-15
+status_as_of: 2026-08-22
 authoritative_machine_source: ../../project-state.json
 machine_protocol: nk-project-state/2
 live_head_source: GitHub API or checked-out Git ref
@@ -25,6 +25,9 @@ production: false
 Final Canon: DEFERRED / NOT AUTHORIZED
 open_review_surface: PR #131
 active_architecture_issue: 88
+adr_0024: ACCEPTED / ACCEPT_WITH_CHANGES
+adr_0024_implementation: NOT_STARTED
+reducer_v2_runtime: NOT_AUTHORIZED
 ```
 
 The committed H11 state-binding checkpoint above is not a prediction of live `main`. Later documentation, validation-machinery or presentation commits may be descendants without changing the H11 semantic gate.
@@ -103,16 +106,22 @@ NK-EPI:
 
 P1–C5 remains a `BOUNDED_REFERENCE_LABORATORY`. Truth-surface, integrity, security, provenance and evidence-preservation maintenance is allowed while the runtime is frozen; semantic/runtime expansion is not automatically authorized.
 
-Reserved operator decisions remain unchanged:
+Reserved operator decisions / boundaries now read:
 
 ```text
 Issue #18 — license/publication/contribution regime: PENDING_OPERATOR
-Issue #74 / ADR-0024 — reducer referential semantics: PROPOSED / PENDING_OPERATOR
+Issue #74 / ADR-0024 — ACCEPTED / ACCEPT_WITH_CHANGES
+  reducer v1: IMMUTABLE HISTORICAL CONTRACT
+  existing P1-C5 evidence: REDUCER-V1-BOUNDED
+  reducer-v2 implementation: NOT_STARTED
+  reducer-v2 runtime: NOT_AUTHORIZED
 Track H source admission: OPERATOR-CONTROLLED
 Final Canon: DEFERRED / NOT AUTHORIZED
 runtime thaw: false
 production: false
 ```
+
+ADR-0024 acceptance is contract/governance authority only. It does not authorize reducer-v2 code, schema changes, automatic migration, H11 execution, Final Canon, runtime thaw, production, or reinterpretation of historical evidence.
 
 Do not alter reducer v1 semantics in place. Do not infer physical/cryptographic erasure from logical `ERASED`. Do not infer composition/federation conformance from local conformance.
 
