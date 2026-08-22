@@ -56,7 +56,7 @@ class ProjectStateTests(unittest.TestCase):
         state["notion"]["status"] = "SYNCED_THROUGH_DESCENDANT_CHECKPOINT"
         state["checkpoints"]["manifest_generated_from_sha"] = publication
         state["checkpoints"]["notion_synchronized_through_sha"] = publication
-        with self.assertRaisesRegex(module.ProjectStateError, "Notion status drift|distinct checkpoints"):
+        with self.assertRaisesRegex(module.ProjectStateError, "Notion status drift|distinct checkpoints|H11 post-130 Notion synchronization checkpoint drift"):
             self.validate(state=state)
 
     def test_publication_notion_status_mutation_is_rejected(self) -> None:
