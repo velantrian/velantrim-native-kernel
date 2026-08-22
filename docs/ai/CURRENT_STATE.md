@@ -18,6 +18,8 @@ qualifying_reviewer_reproducer: NOT_ESTABLISHED
 h11_outcome: NOT_TESTED
 h11_execution_admission_merge: f7d13fce0104a4c2ce67589e954b09365a82f36f
 h11_state_binding_merge: e36b7f45410d74b8a65406bff6fdd6d070fa96b0
+notion_synchronized_through: e36b7f45410d74b8a65406bff6fdd6d070fa96b0
+notion_sync_state: SYNC_REQUIRED_AFTER_ADR0028_GITHUB_RECONCILIATION
 runtime_expansion: FROZEN
 product_runtime_thaw: false
 production: false
