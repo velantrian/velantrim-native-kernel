@@ -157,14 +157,14 @@ class ProjectStateTests(unittest.TestCase):
         with self.assertRaisesRegex(module.ProjectStateError, "sync status drift"):
             self.validate(state=state)
 
-    def test_notion_read_back_must_remain_eight_of_eight(self) -> None:
+    def test_notion_read_back_must_remain_seven_of_seven(self) -> None:
         state = copy.deepcopy(self.state)
-        state["notion"]["read_back_verified_count"] = 7
-        with self.assertRaisesRegex(module.ProjectStateError, "8/8"):
+        state["notion"]["read_back_verified_count"] = 8
+        with self.assertRaisesRegex(module.ProjectStateError, "7/7"):
             self.validate(state=state)
         state = copy.deepcopy(self.state)
-        state["notion"]["surface_count"] = 7
-        with self.assertRaisesRegex(module.ProjectStateError, "8/8"):
+        state["notion"]["surface_count"] = 8
+        with self.assertRaisesRegex(module.ProjectStateError, "7/7"):
             self.validate(state=state)
 
     def test_notion_sync_checkpoint_must_remain_h11_preregistration_merge(self) -> None:

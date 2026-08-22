@@ -70,9 +70,9 @@ def validate(repo: Path) -> None:
     _require(notion.get("synchronization_required") is False, "ADR-0028 Notion synchronization must remain complete after read-back")
     _require(notion.get("status") == "SYNCED_THROUGH_DESCENDANT_CHECKPOINT", "ADR-0028 Notion completed-sync status drift")
     _require(notion.get("decision_sync_status") == "COMPLETE / READ_BACK_VERIFIED", "ADR-0028 Notion decision-sync status drift")
-    _require(notion.get("surface_count") == 8 and notion.get("read_back_verified_count") == 8 and notion.get("new_pages_created") == 0, "ADR-0028 Notion surface/read-back counts must remain 8/8 with zero new pages")
+    _require(notion.get("surface_count") == 7 and notion.get("read_back_verified_count") == 7 and notion.get("new_pages_created") == 0, "ADR-0028 Notion surface/read-back counts must remain 7/7 with zero new pages")
     scope = str(notion.get("scope", ""))
-    for marker in (ADR0028_RECONCILIATION_MERGE, "Eight existing Native Kernel Notion projections", "zero new pages", "H11 admission remains BLOCKED", "NOT_ESTABLISHED", "NOT_TESTED", "FROZEN"):
+    for marker in (ADR0028_RECONCILIATION_MERGE, "Seven existing role-specific Native Kernel Notion projections", "zero new pages", "H11 admission remains BLOCKED", "NOT_ESTABLISHED", "NOT_TESTED", "FROZEN"):
         _require(marker in scope, f"Notion completed ADR-0028 scope missing marker: {marker}")
 
     validation = state["tracks"]["long_horizon_research"]["post_blueprint_validation"]

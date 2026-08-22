@@ -383,10 +383,10 @@
     "synchronization_required": false,
     "status": "SYNCED_THROUGH_DESCENDANT_CHECKPOINT",
     "decision_sync_status": "COMPLETE / READ_BACK_VERIFIED",
-    "surface_count": 8,
-    "read_back_verified_count": 8,
+    "surface_count": 7,
+    "read_back_verified_count": 7,
     "new_pages_created": 0,
-    "scope": "ADR-0028 / OPTION_C_HYBRID_TWO_BASIS was reconciled into GitHub current truth by PR #157 at 5ebb33f5a74a81a7a49dae36ed29247d9b71db87. Eight existing Native Kernel Notion projections were then updated and read back, including the separate Decision Ledger, with zero new pages created. The preserved notion_synchronized_through_sha remains the historical H11 post-130 machine checkpoint and is not redefined as the ADR-0028 decision identity. H11 admission remains BLOCKED, reviewer/reproducer remains NOT_ESTABLISHED, H11 remains NOT_TESTED and runtime remains FROZEN.",
+    "scope": "ADR-0028 / OPTION_C_HYBRID_TWO_BASIS was reconciled into GitHub current truth by PR #157 at 5ebb33f5a74a81a7a49dae36ed29247d9b71db87. Seven existing role-specific Native Kernel Notion projections were then updated and read back with zero new pages created. The Roadmap, Acceptance Gates & Decision Ledger is one combined Notion page, not two surfaces. The preserved notion_synchronized_through_sha remains the historical H11 post-130 machine checkpoint and is not redefined as the ADR-0028 decision identity. H11 admission remains BLOCKED, reviewer/reproducer remains NOT_ESTABLISHED, H11 remains NOT_TESTED and runtime remains FROZEN.",
     "authority_boundary": "GitHub remains authoritative for technical state, live refs, contracts, tests, workflows, evidence and current-truth descendants. This completed Notion synchronization records ADR-0028 only; it does not establish qualification, execution admission, H11 support, Final Canon, runtime thaw, production, reducer-v2 or Issue #18 policy."
   },
   "non_claims": [
