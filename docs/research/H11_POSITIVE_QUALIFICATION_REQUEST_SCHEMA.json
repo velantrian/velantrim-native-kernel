@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "nk-h11-positive-qualification-request/1",
+  "title": "H11 positive reviewer/reproducer qualification evaluation request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "protocol",
+    "experiment_id",
+    "source_plan_id",
+    "source_plan_sha256",
+    "evaluated_at",
+    "candidate_review_api_url",
+    "second_basis_api_urls"
+  ],
+  "properties": {
+    "protocol": {"const": "nk-h11-positive-qualification-request/1"},
+    "experiment_id": {"const": "H11-001"},
+    "source_plan_id": {"const": "H11-001-c5-lab-canon-separation-v1"},
+    "source_plan_sha256": {"const": "60da649e675b79b3e70bf8a61cf03cb4d57bb989f4934b65ab8d50c925b19914"},
+    "evaluated_at": {"type": "string", "format": "date-time"},
+    "candidate_review_api_url": {
+      "type": "string",
+      "pattern": "^https://api\\.github\\.com/repos/velantrian/velantrim-native-kernel/pulls/131/reviews/[0-9]+$"
+    },
+    "second_basis_api_urls": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^https://api\\.github\\.com/repos/[^/]+/[^/]+/(issues/comments/[0-9]+|pulls/[0-9]+/reviews/[0-9]+)$"
+      }
+    }
+  }
+}
