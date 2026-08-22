@@ -18,7 +18,6 @@ qualifying_reviewer_reproducer: NOT_ESTABLISHED
 h11_outcome: NOT_TESTED
 h11_execution_admission_merge: f7d13fce0104a4c2ce67589e954b09365a82f36f
 h11_state_binding_merge: e36b7f45410d74b8a65406bff6fdd6d070fa96b0
-notion_synchronized_through: e36b7f45410d74b8a65406bff6fdd6d070fa96b0
 runtime_expansion: FROZEN
 product_runtime_thaw: false
 production: false
@@ -28,13 +27,17 @@ active_architecture_issue: 88
 adr_0024: ACCEPTED / ACCEPT_WITH_CHANGES
 adr_0024_implementation: NOT_STARTED
 reducer_v2_runtime: NOT_AUTHORIZED
+adr_0028: ACCEPTED / OPTION_C_HYBRID_TWO_BASIS
+adr_0028_merge: 4a13d2b4ee8001a43f7e3e701dbe9025dbcfd0df
+positive_qualification_implementation: NOT_STARTED
+positive_qualification_design: HYBRID_TWO_BASIS
 ```
 
 The committed H11 state-binding checkpoint above is not a prediction of live `main`. Later documentation, validation-machinery or presentation commits may be descendants without changing the H11 semantic gate.
 
 ## 🏛 Architecture authority resolution
 
-Native Kernel now resolves architecture meaning through the full accepted authority chain rather than treating the A1–A10 first drafts as the final word:
+Native Kernel resolves architecture meaning through the accepted authority chain rather than treating the A1–A10 first drafts as the final word:
 
 ```text
 ARCHITECTURE.md
@@ -71,6 +74,8 @@ current gate: A10_H11_EXECUTION_ADMISSION
 admission: BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER
 reviewer/reproducer: NOT_ESTABLISHED
 H11: NOT_TESTED
+positive qualification design: ADR-0028 / OPTION_C_HYBRID_TWO_BASIS
+positive qualification implementation: NOT_STARTED
 implementation: NOT AUTHORIZED
 execution: NOT AUTHORIZED
 dependency-graph execution: NOT AUTHORIZED
@@ -80,7 +85,11 @@ Final Canon: DEFERRED / NOT AUTHORIZED
 production: false
 ```
 
-The only admissible continuation dependency is repository-visible, externally authenticated evidence for a genuinely qualifying independent H11 reviewer/reproducer. CI success, owner review, automated validators, Codex/LLM agreement, same-agent relabeling and Notion read-back do not establish that independence.
+ADR-0028 resolves the **design-selection ambiguity** for a future positive qualification path. A positive qualification may be evaluated only through the selected hybrid two-basis model: (1) a distinct authenticated GitHub candidate action/declaration and (2) a separate repository-visible, independently verifiable evidence basis for organizational separation and/or independent custody under a narrow versioned sufficient-evidence policy. Neither basis is sufficient alone.
+
+This design choice does **not** qualify a reviewer. The sufficient-evidence policy, candidate-neutral evaluator/schema and adversarial fail-closed implementation remain `NOT_STARTED`, and a genuinely external candidate remains `NOT_ESTABLISHED`.
+
+CI success, owner review, automated validators, Codex/LLM agreement, same-agent relabeling and Notion read-back do not establish independence.
 
 Qualification is not execution admission. If a reviewer/reproducer is eventually qualified, `A10_H11_EXECUTION_ADMISSION` must be separately reassessed before any H11 execution.
 
@@ -110,11 +119,16 @@ Reserved operator decisions / boundaries now read:
 
 ```text
 Issue #18 — license/publication/contribution regime: PENDING_OPERATOR
-Issue #74 / ADR-0024 — ACCEPTED / ACCEPT_WITH_CHANGES
+Issue #74 / ADR-0024 — ACCEPTED / ACCEPT_WITH_CHANGES / ISSUE CLOSED
   reducer v1: IMMUTABLE HISTORICAL CONTRACT
   existing P1-C5 evidence: REDUCER-V1-BOUNDED
   reducer-v2 implementation: NOT_STARTED
   reducer-v2 runtime: NOT_AUTHORIZED
+Issue #154 / ADR-0028 — ACCEPTED / OPTION_C_HYBRID_TWO_BASIS / ISSUE CLOSED
+  qualification design: SELECTED
+  positive qualification implementation: NOT_STARTED
+  qualifying reviewer/reproducer: NOT_ESTABLISHED
+  H11 execution admission: BLOCKED
 Track H source admission: OPERATOR-CONTROLLED
 Final Canon: DEFERRED / NOT AUTHORIZED
 runtime thaw: false
@@ -122,6 +136,8 @@ production: false
 ```
 
 ADR-0024 acceptance is contract/governance authority only. It does not authorize reducer-v2 code, schema changes, automatic migration, H11 execution, Final Canon, runtime thaw, production, or reinterpretation of historical evidence.
+
+ADR-0028 acceptance is qualification-design authority only. It does not implement a sufficient-evidence policy/evaluator, qualify any reviewer, change H11 execution admission, execute H11, authorize reducer-v2, thaw runtime, promote Final Canon, authorize production, or decide Issue #18.
 
 Do not alter reducer v1 semantics in place. Do not infer physical/cryptographic erasure from logical `ERASED`. Do not infer composition/federation conformance from local conformance.
 
