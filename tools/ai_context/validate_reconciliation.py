@@ -27,6 +27,7 @@ H11_PLAN_HEAD = "1dca13cdd2759c70d810f44977a227fe1147d4bb"
 H11_CURRENT_GATE = "A10_H11_EXECUTION_ADMISSION"
 H11_BLOCKER = "BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER"
 ADR0028_MERGE = "4a13d2b4ee8001a43f7e3e701dbe9025dbcfd0df"
+ADR0028_RECONCILIATION_MERGE = "5ebb33f5a74a81a7a49dae36ed29247d9b71db87"
 H11_NEXT_DEPENDENCY = "IMPLEMENT_ADR0028_POSITIVE_QUALIFICATION_PATH_THEN_ESTABLISH_GENUINELY_EXTERNAL_CANDIDATE"
 CURRENT_MARKER = "POST_H11_EXECUTION_ADMISSION_BLOCKED_CURRENT"
 CURRENT_TRUTH_SURFACES = ("AGENTS.md", "docs/ai/POST_RESIDUAL_A10_STATE.md")
@@ -66,13 +67,13 @@ def validate(repo: Path) -> None:
 
     notion = state.get("notion")
     _require(isinstance(notion, Mapping), "Notion state required")
-    _require(notion.get("synchronization_required") is True, "ADR-0028 Notion synchronization must remain pending until post-reconciliation sync")
-    _require(notion.get("status") == "SYNC_REQUIRED_AFTER_ADR0028_GITHUB_RECONCILIATION", "ADR-0028 Notion pending-sync status drift")
-    _require(notion.get("decision_sync_status") == "PENDING_POST_RECONCILIATION_SYNC", "ADR-0028 Notion decision-sync status drift")
-    _require(notion.get("surface_count") == 7 and notion.get("read_back_verified_count") == 7 and notion.get("new_pages_created") == 0, "historical Notion surface/read-back counts must remain 7/7 with zero new pages")
+    _require(notion.get("synchronization_required") is False, "ADR-0028 Notion synchronization must remain complete after read-back")
+    _require(notion.get("status") == "SYNCED_THROUGH_DESCENDANT_CHECKPOINT", "ADR-0028 Notion completed-sync status drift")
+    _require(notion.get("decision_sync_status") == "COMPLETE / READ_BACK_VERIFIED", "ADR-0028 Notion decision-sync status drift")
+    _require(notion.get("surface_count") == 8 and notion.get("read_back_verified_count") == 8 and notion.get("new_pages_created") == 0, "ADR-0028 Notion surface/read-back counts must remain 8/8 with zero new pages")
     scope = str(notion.get("scope", ""))
-    for marker in (ADR0028_MERGE, "GitHub reconciliation must merge first", "H11 admission remains BLOCKED", "NOT_ESTABLISHED", "NOT_TESTED", "FROZEN"):
-        _require(marker in scope, f"Notion pending ADR-0028 scope missing marker: {marker}")
+    for marker in (ADR0028_RECONCILIATION_MERGE, "Eight existing Native Kernel Notion projections", "zero new pages", "H11 admission remains BLOCKED", "NOT_ESTABLISHED", "NOT_TESTED", "FROZEN"):
+        _require(marker in scope, f"Notion completed ADR-0028 scope missing marker: {marker}")
 
     validation = state["tracks"]["long_horizon_research"]["post_blueprint_validation"]
     decision = validation.get("post_d8_operator_decision")
@@ -150,7 +151,7 @@ def main() -> int:
     print(
         "Reconciliation validation passed; D8 history preserved; ADR-0028 design selected; "
         "H11 admission=BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER; "
-        "H11=NOT_TESTED; reviewer=NOT_ESTABLISHED; execution=NOT_AUTHORIZED; Notion=SYNC_REQUIRED"
+        "H11=NOT_TESTED; reviewer=NOT_ESTABLISHED; execution=NOT_AUTHORIZED; Notion=READ_BACK_VERIFIED"
     )
     return 0
 
