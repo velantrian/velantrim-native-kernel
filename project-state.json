@@ -1,7 +1,7 @@
 {
   "protocol": "nk-project-state/2",
-  "snapshot_id": "native-kernel/state/2026-08-22-adr0028-qualification-design-selected",
-  "observed_at": "2026-08-22T16:47:00Z",
+  "snapshot_id": "native-kernel/state/2026-08-22-adr0028-notion-sync-complete",
+  "observed_at": "2026-08-22T19:05:00Z",
   "repository": {
     "full_name": "velantrian/velantrim-native-kernel",
     "visibility": "PUBLIC",
@@ -16,7 +16,7 @@
     "publication_checkpoint_sha": "10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c",
     "notion_synchronized_through_sha": "e36b7f45410d74b8a65406bff6fdd6d070fa96b0",
     "qualification_design_decision_sha": "4a13d2b4ee8001a43f7e3e701dbe9025dbcfd0df",
-    "checkpoint_semantics": "Historical publication, runtime, integrity, evidence-producing and manifest-source role identities remain unchanged. D5 execution merged in PR #114; D5-R1 qualification merged in PR #115; D6 classification merged in PR #117; D7 integrated re-review merged in PR #118; D8 synchronized seven existing Notion surfaces and PR #119 recorded that evidence. ADR-0027 / OD-POST-D8-001 merged at 57993f39906ae7266011f6146c9a485d0587d2bf. PR #124 merged RAVP-001 at edc0501d71a827462aafd1ac4497920a719a4519. PR #126 selected A10-H11; PR #127 preregistered H11-001-c5-lab-canon-separation-v1; PR #129 merged the fail-closed H11 execution-admission package; PR #130 bound that blocked admission into current truth. ADR-0024 / Issue #74 was accepted as ACCEPT_WITH_CHANGES and closed without reducer-v2 implementation. ADR-0028 / Issue #154 selected OPTION_C_HYBRID_TWO_BASIS via PR #155 at 4a13d2b4ee8001a43f7e3e701dbe9025dbcfd0df. ADR-0028 selects qualification design only: positive qualification implementation remains NOT_STARTED, qualifying reviewer/reproducer remains NOT_ESTABLISHED, A10_H11_EXECUTION_ADMISSION remains BLOCKED, H11 remains NOT_TESTED, and runtime remains frozen. Live HEAD is resolved through Git/GitHub and is never predicted by this file."
+    "checkpoint_semantics": "Historical publication, runtime, integrity, evidence-producing and manifest-source role identities remain unchanged. D5 execution merged in PR #114; D5-R1 qualification merged in PR #115; D6 classification merged in PR #117; D7 integrated re-review merged in PR #118; D8 synchronized seven existing Notion surfaces and PR #119 recorded that evidence. ADR-0027 / OD-POST-D8-001 merged at 57993f39906ae7266011f6146c9a485d0587d2bf. PR #124 merged RAVP-001 at edc0501d71a827462aafd1ac4497920a719a4519. PR #126 selected A10-H11; PR #127 preregistered H11-001-c5-lab-canon-separation-v1; PR #129 merged the fail-closed H11 execution-admission package; PR #130 bound that blocked admission into current truth. ADR-0024 / Issue #74 was accepted as ACCEPT_WITH_CHANGES and closed without reducer-v2 implementation. ADR-0028 / Issue #154 selected OPTION_C_HYBRID_TWO_BASIS via PR #155 at 4a13d2b4ee8001a43f7e3e701dbe9025dbcfd0df. PR #157 reconciled ADR-0028 into GitHub current truth at 5ebb33f5a74a81a7a49dae36ed29247d9b71db87. The ADR-0028 Notion projection was subsequently synchronized and read back without changing H11 admission, qualification, runtime, Canon or production authority. Live HEAD is resolved through Git/GitHub and is never predicted by this file."
   },
   "status": {
     "repository_status": "RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY",
@@ -364,7 +364,7 @@
     "74": {"state": "CLOSED", "state_reason": "COMPLETED", "meaning": "ADR-0024 is ACCEPTED / ACCEPT_WITH_CHANGES; reducer v1 remains an immutable historical contract; existing P1-C5 evidence remains reducer-v1-bounded; reducer-v2 implementation is NOT_STARTED and reducer-v2 runtime is NOT_AUTHORIZED.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-22T13:11:54Z", "source": "issue/74"}},
     "88": {"state": "OPEN", "meaning": "Architecture Re-foundation A1-A10 remains provisional. The current repository-native gate remains A10_H11_EXECUTION_ADMISSION with state BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER. ADR-0028 selected OPTION_C_HYBRID_TWO_BASIS for a future positive qualification path, but implementation remains NOT_STARTED and a qualifying reviewer/reproducer is NOT_ESTABLISHED. H11 remains NOT_TESTED; implementation/execution are unauthorized; Final Canon is deferred and runtime remains frozen.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-22T16:47:00Z", "source": "issue/88"}},
     "154": {"state": "CLOSED", "state_reason": "COMPLETED", "meaning": "ADR-0028 selected OPTION_C_HYBRID_TWO_BASIS for the future H11 positive reviewer/reproducer qualification design. This completed only the design decision; implementation, reviewer qualification and H11 execution remain unauthorized/not established.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-22T15:21:47Z", "source": "issue/154"}},
-    "156": {"state": "OPEN", "meaning": "Reconcile ADR-0028 into machine state and AI current surfaces without changing H11 admission/runtime authority.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-22T15:22:26Z", "source": "issue/156"}}
+    "156": {"state": "CLOSED", "state_reason": "COMPLETED", "meaning": "ADR-0028 reconciliation merged in PR #157; post-merge Notion projection synchronization and read-back are complete without changing H11 admission/runtime authority.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-22T17:34:28Z", "source": "issue/156"}}
   },
   "evidence": {
     "c5_bundle": {"protocol": "nk-evidence-bundle/1", "path": "evidence/c5/2026-08-07/manifest.json", "status": "CAPTURED_REPOSITORY_RESIDENT", "checkpoint_count": 2, "artifact_count": 8, "original_archives_preserved": true, "source_retention_expiry": "2026-09-06"},
@@ -380,14 +380,14 @@
     "adr_0028_qualification_design": {"protocol": "nk-h11-positive-qualification-design/1", "path": "docs/adr/0028-h11-hybrid-two-basis-positive-qualification.md", "status": "ACCEPTED / REPOSITORY_RESIDENT / IMPLEMENTATION_NOT_STARTED", "issue": 154, "pr": 155, "merge_sha": "4a13d2b4ee8001a43f7e3e701dbe9025dbcfd0df", "selected_option": "OPTION_C_HYBRID_TWO_BASIS", "qualifying_reviewer_reproducer": "NOT_ESTABLISHED", "h11_outcome": "NOT_TESTED", "execution_authorized": false}
   },
   "notion": {
-    "synchronization_required": true,
-    "status": "SYNC_REQUIRED_AFTER_ADR0028_GITHUB_RECONCILIATION",
-    "decision_sync_status": "PENDING_POST_RECONCILIATION_SYNC",
-    "surface_count": 7,
-    "read_back_verified_count": 7,
+    "synchronization_required": false,
+    "status": "SYNCED_THROUGH_DESCENDANT_CHECKPOINT",
+    "decision_sync_status": "COMPLETE / READ_BACK_VERIFIED",
+    "surface_count": 8,
+    "read_back_verified_count": 8,
     "new_pages_created": 0,
-    "scope": "Existing Notion surfaces predate the authoritative ADR-0028 decision merge at 4a13d2b4ee8001a43f7e3e701dbe9025dbcfd0df. GitHub reconciliation must merge first; then existing role-specific Native Kernel Notion projections should be updated and read back without creating new pages. The current H11 admission remains BLOCKED, reviewer/reproducer remains NOT_ESTABLISHED, H11 remains NOT_TESTED and runtime remains FROZEN.",
-    "authority_boundary": "GitHub remains authoritative for technical state, live refs, contracts, tests, workflows, evidence and current-truth descendants. Notion synchronization may project ADR-0028 and the unchanged H11 blocked boundary only after GitHub reconciliation; it must not establish qualification, execution admission, H11 support, Final Canon, runtime thaw, production, reducer-v2 or Issue #18 policy."
+    "scope": "ADR-0028 / OPTION_C_HYBRID_TWO_BASIS was reconciled into GitHub current truth by PR #157 at 5ebb33f5a74a81a7a49dae36ed29247d9b71db87. Eight existing Native Kernel Notion projections were then updated and read back, including the separate Decision Ledger, with zero new pages created. The preserved notion_synchronized_through_sha remains the historical H11 post-130 machine checkpoint and is not redefined as the ADR-0028 decision identity. H11 admission remains BLOCKED, reviewer/reproducer remains NOT_ESTABLISHED, H11 remains NOT_TESTED and runtime remains FROZEN.",
+    "authority_boundary": "GitHub remains authoritative for technical state, live refs, contracts, tests, workflows, evidence and current-truth descendants. This completed Notion synchronization records ADR-0028 only; it does not establish qualification, execution admission, H11 support, Final Canon, runtime thaw, production, reducer-v2 or Issue #18 policy."
   },
   "non_claims": [
     "C5 bounded rehearsal is not production readiness.",
