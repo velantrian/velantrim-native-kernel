@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate that prepared operator decision packages remain pending and non-authorizing."""
+"""Validate operator decision packages without allowing implicit runtime authorization."""
 from __future__ import annotations
 
 import argparse
@@ -12,10 +12,11 @@ LICENSE_EN = Path("docs/governance/LICENSE_PUBLICATION_DECISION_OPTIONS.md")
 LICENSE_RU = Path("docs/governance/LICENSE_PUBLICATION_DECISION_OPTIONS.ru.md")
 ADR_EN = Path("docs/adr/0024-operator-decision-package.md")
 ADR_RU = Path("docs/adr/0024-operator-decision-package.ru.md")
+ADR_NORMATIVE = Path("docs/adr/0024-version-reducer-referential-semantics.md")
 
 
 class OperatorDecisionError(RuntimeError):
-    """Raised when a decision package silently selects or authorizes work."""
+    """Raised when a decision package drifts from its bounded operator state."""
 
 
 def _require(condition: bool, message: str) -> None:
@@ -39,39 +40,28 @@ def _read(path: Path) -> str:
         raise OperatorDecisionError(f"cannot read {path}: {exc}") from exc
 
 
-def _validate_decision(
-    decision: Mapping[str, Any],
-    *,
-    label: str,
-    runtime_effect: str,
-) -> None:
-    _require(decision.get("state") == "PENDING_OPERATOR", f"{label} state drift")
-    _require(decision.get("selected_option") is None, f"{label} option selected without operator decision")
-    _require(decision.get("operator_decision_ref") is None, f"{label} decision reference set prematurely")
-    _require(decision.get("runtime_effect") == runtime_effect, f"{label} runtime effect drift")
-
-
 def validate(repo: Path) -> None:
     manifest = _load_json(repo / MANIFEST_PATH)
     _require(manifest.get("protocol") == "nk-operator-decisions/1", "operator decision protocol drift")
-    _require(manifest.get("overall_state") == "PENDING_OPERATOR", "overall decision state drift")
+    _require(manifest.get("overall_state") == "PARTIALLY_DECIDED", "overall decision state drift")
 
     license_decision = manifest.get("license_publication")
     adr_decision = manifest.get("adr_0024")
     _require(isinstance(license_decision, Mapping), "license decision object required")
     _require(isinstance(adr_decision, Mapping), "ADR-0024 decision object required")
-    _validate_decision(
-        license_decision,
-        label="license/publication",
-        runtime_effect="NO_LICENSE_OR_PUBLICATION_POLICY_CHANGE",
-    )
-    _validate_decision(
-        adr_decision,
-        label="ADR-0024",
-        runtime_effect="REDUCER_V2_NOT_AUTHORIZED",
-    )
+
+    _require(license_decision.get("state") == "PENDING_OPERATOR", "license/publication state drift")
+    _require(license_decision.get("selected_option") is None, "license selected without operator decision")
+    _require(license_decision.get("operator_decision_ref") is None, "license decision reference set prematurely")
+    _require(license_decision.get("runtime_effect") == "NO_LICENSE_OR_PUBLICATION_POLICY_CHANGE", "license runtime effect drift")
     _require(license_decision.get("issue") == 18, "license issue binding drift")
+
     _require(adr_decision.get("issue") == 74 and adr_decision.get("adr") == "ADR-0024", "ADR issue binding drift")
+    _require(adr_decision.get("state") == "OPERATOR_APPROVED", "ADR-0024 approval state drift")
+    _require(adr_decision.get("selected_option") == "ACCEPT_WITH_CHANGES", "ADR-0024 selected option drift")
+    _require(bool(adr_decision.get("operator_decision_ref")), "ADR-0024 decision reference required")
+    _require(adr_decision.get("decision_date") == "2026-08-22", "ADR-0024 decision date drift")
+    _require(adr_decision.get("runtime_effect") == "REDUCER_V2_NOT_AUTHORIZED", "ADR-0024 runtime effect drift")
 
     non_authorizations = manifest.get("non_authorizations")
     _require(isinstance(non_authorizations, list), "non-authorizations required")
@@ -79,9 +69,10 @@ def validate(repo: Path) -> None:
     for phrase in (
         "no license is selected",
         "no external contribution policy is activated",
-        "adr-0024 remains proposed",
         "reducer v2 runtime is not authorized",
         "no semantic assertion is promoted",
+        "no h11 execution is authorized",
+        "no final canon adoption is authorized",
         "no production authorization is granted",
     ):
         _require(phrase in joined, f"missing non-authorization: {phrase}")
@@ -90,17 +81,11 @@ def validate(repo: Path) -> None:
     license_ru = _read(repo / LICENSE_RU)
     adr_en = _read(repo / ADR_EN)
     adr_ru = _read(repo / ADR_RU)
-
-    for text, label in (
-        (license_en, "English license package"),
-        (license_ru, "Russian license package"),
-        (adr_en, "English ADR package"),
-        (adr_ru, "Russian ADR package"),
-    ):
-        _require("decision_state: PENDING_OPERATOR" in text, f"{label} pending marker missing")
-        _require("selected_option: null" in text, f"{label} unselected marker missing")
+    normative = _read(repo / ADR_NORMATIVE)
 
     for text, label in ((license_en, "English license package"), (license_ru, "Russian license package")):
+        _require("decision_state: PENDING_OPERATOR" in text, f"{label} pending marker missing")
+        _require("selected_option: null" in text, f"{label} unselected marker missing")
         for option in (
             "Apache License 2.0",
             "MIT License",
@@ -114,21 +99,32 @@ def validate(repo: Path) -> None:
         _require("package publication" in text.lower(), f"{label} package boundary missing")
 
     for text, label in ((adr_en, "English ADR package"), (adr_ru, "Russian ADR package")):
-        for option in ("ACCEPT", "ACCEPT_WITH_CHANGES", "REVISE", "REJECT"):
-            _require(option in text, f"{label} missing decision option: {option}")
+        _require("decision_state: OPERATOR_APPROVED" in text, f"{label} approved marker missing")
+        _require("selected_option: ACCEPT_WITH_CHANGES" in text, f"{label} decision marker missing")
         _require("REDUCER_V2_NOT_AUTHORIZED" in text, f"{label} runtime boundary missing")
         _require("CONTINUE_V1" in text and "START_NEW_V2_INSTANCE" in text, f"{label} migration boundary missing")
         _require("SILENT_V1_TO_V2_UPGRADE" in text, f"{label} silent-upgrade prohibition missing")
 
-    combined = " ".join((license_en, license_ru, adr_en, adr_ru)).lower()
+    for marker in (
+        "**Decision status:** `ACCEPTED`",
+        "**Implementation status:** `NOT_STARTED`",
+        "**Operator approval:** `APPROVED`",
+        "**Operator decision:** `ACCEPT_WITH_CHANGES`",
+        "runtime_authorized_after_decision: false",
+        "SILENT_V1_TO_V2_UPGRADE",
+        "REDUCER_V2_NOT_AUTHORIZED",
+    ):
+        _require(marker in normative or marker in adr_en, f"ADR-0024 accepted-boundary marker missing: {marker}")
+
+    combined = " ".join((license_en, license_ru, adr_en, adr_ru, normative)).lower()
     for forbidden in (
-        "decision_state: accepted",
         "selected_option: apache",
         "selected_option: mit",
         "selected_option: mpl",
         "runtime_effect: reducer_v2_authorized",
+        "runtime_authorized_after_decision: true",
     ):
-        _require(forbidden not in combined, f"forbidden implicit decision marker: {forbidden}")
+        _require(forbidden not in combined, f"forbidden implicit authorization marker: {forbidden}")
 
 
 def main() -> int:
@@ -136,7 +132,7 @@ def main() -> int:
     parser.add_argument("--repo", type=Path, default=Path.cwd())
     args = parser.parse_args()
     validate(args.repo.resolve())
-    print("Operator decision packages validation passed; state=PENDING_OPERATOR; selections=0; runtime_authorizations=0")
+    print("Operator decision validation passed; ADR-0024=ACCEPT_WITH_CHANGES; reducer-v2-runtime=NOT_AUTHORIZED")
     return 0
 
 
