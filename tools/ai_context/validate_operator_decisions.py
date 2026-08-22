@@ -13,6 +13,7 @@ LICENSE_RU = Path("docs/governance/LICENSE_PUBLICATION_DECISION_OPTIONS.ru.md")
 ADR_EN = Path("docs/adr/0024-operator-decision-package.md")
 ADR_RU = Path("docs/adr/0024-operator-decision-package.ru.md")
 ADR_NORMATIVE = Path("docs/adr/0024-version-reducer-referential-semantics.md")
+ADR0024_OPERATOR_DECISION_REF = "issue-74-operator-decision-2026-08-22"
 
 
 class OperatorDecisionError(RuntimeError):
@@ -59,7 +60,10 @@ def validate(repo: Path) -> None:
     _require(adr_decision.get("issue") == 74 and adr_decision.get("adr") == "ADR-0024", "ADR issue binding drift")
     _require(adr_decision.get("state") == "OPERATOR_APPROVED", "ADR-0024 approval state drift")
     _require(adr_decision.get("selected_option") == "ACCEPT_WITH_CHANGES", "ADR-0024 selected option drift")
-    _require(bool(adr_decision.get("operator_decision_ref")), "ADR-0024 decision reference required")
+    _require(
+        adr_decision.get("operator_decision_ref") == ADR0024_OPERATOR_DECISION_REF,
+        "ADR-0024 operator decision reference drift",
+    )
     _require(adr_decision.get("decision_date") == "2026-08-22", "ADR-0024 decision date drift")
     _require(adr_decision.get("runtime_effect") == "REDUCER_V2_NOT_AUTHORIZED", "ADR-0024 runtime effect drift")
 
