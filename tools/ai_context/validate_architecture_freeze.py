@@ -34,7 +34,7 @@ def _pre_plan_view(state: Mapping[str, Any]) -> dict[str, Any]:
     value = copy.deepcopy(dict(state))
     value["checkpoints"]["notion_synchronized_through_sha"] = ADR0027_TRUTH_SYNC_SHA
     research = value["tracks"]["long_horizon_research"]
-    research["status"] = "ACTIVE / POST-D8 RESIDUAL VALIDATION PLANNING / NO AUTOMATIC_PROMOTION"
+    research["status"] = "ACTIVE / POST-D8 RESIDUAL VALIDATION PLANNING / NO AUTOMATIC PROMOTION"
     ref = research["architecture_refoundation"]
     ref["status"] = "BLUEPRINT COMPLETE / PROVISIONAL / RESIDUAL VALIDATION PLANNING AUTHORIZED"
     ref["next_content_slice"] = "RESIDUAL_A10_VALIDATION_PLAN"
