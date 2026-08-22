@@ -136,7 +136,8 @@ def validate(repo: Path) -> None:
         _require(marker in normative or marker in adr_en, f"ADR-0024 accepted-boundary marker missing: {marker}")
 
     issue74 = ((project_state.get("issues") or {}).get("74") or {})
-    _require(issue74.get("state") == "OPEN", "Issue #74 current state drift")
+    _require(issue74.get("state") == "CLOSED", "Issue #74 current state drift")
+    _require(issue74.get("state_reason") == "COMPLETED", "Issue #74 completion reason drift")
     issue74_meaning = str(issue74.get("meaning", ""))
     for marker in (
         "ACCEPTED / ACCEPT_WITH_CHANGES",
@@ -186,7 +187,7 @@ def main() -> int:
     parser.add_argument("--repo", type=Path, default=Path.cwd())
     args = parser.parse_args()
     validate(args.repo.resolve())
-    print("Operator decision validation passed; ADR-0024=ACCEPT_WITH_CHANGES; provenance=pinned; reducer-v2-runtime=NOT_AUTHORIZED")
+    print("Operator decision validation passed; ADR-0024=ACCEPT_WITH_CHANGES; issue74=CLOSED/COMPLETED; provenance=pinned; reducer-v2-runtime=NOT_AUTHORIZED")
     return 0
 
 
