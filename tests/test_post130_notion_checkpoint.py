@@ -17,6 +17,7 @@ SPEC.loader.exec_module(module)
 
 H11_ADMISSION_MERGE = "f7d13fce0104a4c2ce67589e954b09365a82f36f"
 H11_STATE_BINDING_MERGE = "e36b7f45410d74b8a65406bff6fdd6d070fa96b0"
+ADR0028_DECISION_MERGE = "4a13d2b4ee8001a43f7e3e701dbe9025dbcfd0df"
 
 
 class Post130NotionCheckpointTests(unittest.TestCase):
@@ -37,14 +38,19 @@ class Post130NotionCheckpointTests(unittest.TestCase):
             self.state["checkpoints"]["notion_synchronized_through_sha"],
             H11_STATE_BINDING_MERGE,
         )
-        self.assertIn(H11_ADMISSION_MERGE, self.state["notion"]["scope"])
-        self.assertIn(H11_STATE_BINDING_MERGE, self.state["notion"]["scope"])
+        self.assertTrue(self.state["notion"]["synchronization_required"])
+        self.assertEqual(
+            self.state["notion"]["status"],
+            "SYNC_REQUIRED_AFTER_ADR0028_GITHUB_RECONCILIATION",
+        )
+        self.assertIn(ADR0028_DECISION_MERGE, self.state["notion"]["scope"])
+        self.assertIn("GitHub reconciliation must merge first", self.state["notion"]["scope"])
         self.validate(copy.deepcopy(self.state))
 
     def test_old_pr129_checkpoint_is_rejected_as_current_notion_truth(self) -> None:
         state = copy.deepcopy(self.state)
         state["checkpoints"]["notion_synchronized_through_sha"] = H11_ADMISSION_MERGE
-        with self.assertRaisesRegex(module.ProjectStateError, "post-130 Notion synchronization checkpoint drift"):
+        with self.assertRaisesRegex(module.ProjectStateError, "checkpoint drift"):
             self.validate(state)
 
 
