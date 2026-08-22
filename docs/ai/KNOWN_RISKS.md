@@ -5,7 +5,7 @@ This file is the **active-risk register**. Historical defect chronology remains 
 
 ```yaml
 document_role: ACTIVE_RISKS
-status_as_of: 2026-08-21
+status_as_of: 2026-08-22
 authoritative_machine_source: ../../project-state.json
 repository_status: RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY
 selected_family: A10-H11
@@ -167,11 +167,13 @@ Issue #1 remains independent. Track H source admission remains operator-controll
 
 ## 🔴 P0 — Reducer referential semantics remain incomplete
 
-**State:** `OPEN / ISSUE #74 / ADR-0024 PENDING / RUNTIME FROZEN`.
+**State:** `OPEN / ISSUE #74 / ADR-0024 ACCEPTED / IMPLEMENTATION NOT_STARTED / RUNTIME FROZEN`.
 
 Reducer v1 historically permits referential cases a stricter future policy may reject, including dangling/unknown references and insufficiently constrained supersession relations.
 
-Do **not** repair reducer v1 in place; that would reinterpret historical P1–C5 evidence. Any stricter semantics must use the existing operator-controlled versioning/ADR path.
+The operator selected `ACCEPT_WITH_CHANGES` on 2026-08-22. ADR-0024 now freezes the future versioned referential contract direction while preserving reducer v1 as an immutable historical contract. This acceptance is contract/governance authority only: reducer-v2 implementation remains `NOT_STARTED` and reducer-v2 runtime remains `NOT_AUTHORIZED`.
+
+Do **not** repair reducer v1 in place; that would reinterpret historical P1–C5 evidence. Any stricter implementation must use a separately authorized reducer-v2 path and new evidence identity under the accepted ADR-0024 boundary.
 
 ### RVT-01 — reducer-v1 evidence-lineage boundary
 
