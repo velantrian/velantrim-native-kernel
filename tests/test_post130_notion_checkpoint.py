@@ -52,8 +52,8 @@ class Post130NotionCheckpointTests(unittest.TestCase):
             self.state["notion"]["decision_sync_status"],
             "COMPLETE / READ_BACK_VERIFIED",
         )
-        self.assertEqual(self.state["notion"]["surface_count"], 7)
-        self.assertEqual(self.state["notion"]["read_back_verified_count"], 7)
+        self.assertEqual(self.state["notion"]["surface_count"], 8)
+        self.assertEqual(self.state["notion"]["read_back_verified_count"], 8)
         self.assertEqual(self.state["notion"]["new_pages_created"], 0)
         self.assertIn(ADR0028_RECONCILIATION_MERGE, self.state["notion"]["scope"])
         self.assertIn("updated and read back", self.state["notion"]["scope"])

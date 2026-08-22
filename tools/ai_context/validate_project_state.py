@@ -172,11 +172,11 @@ def _validate_current(state: Mapping[str, Any]) -> None:
     _require(admission.get("final_canon") == "DEFERRED / NOT_AUTHORIZED", "H11 admission cannot promote Final Canon")
     _require(admission.get("production_authorized") is False, "H11 admission cannot authorize production")
 
-    _require(notion.get("surface_count") == 7 and notion.get("read_back_verified_count") == 7 and notion.get("new_pages_created") == 0, "ADR-0028 Notion 7/7 read-back drift")
+    _require(notion.get("surface_count") == 8 and notion.get("read_back_verified_count") == 8 and notion.get("new_pages_created") == 0, "ADR-0028 Notion 8/8 read-back drift")
     _require(notion.get("synchronization_required") is False, "ADR-0028 Notion sync must be complete")
     _require(notion.get("decision_sync_status") == ADR0028_NOTION_DECISION_STATUS, "ADR-0028 Notion sync status drift")
     scope = str(notion.get("scope", ""))
-    for marker in (ADR0028_RECONCILIATION_MERGE, "Seven existing role-specific Native Kernel Notion projections", "zero new pages", "H11 admission remains BLOCKED", "NOT_ESTABLISHED", "NOT_TESTED", "FROZEN"):
+    for marker in (ADR0028_RECONCILIATION_MERGE, "Eight existing Native Kernel Notion projections", "zero new pages", "H11 admission remains BLOCKED", "NOT_ESTABLISHED", "NOT_TESTED", "FROZEN"):
         _require(marker in scope, f"ADR-0028 completed Notion scope missing marker: {marker}")
 
     issue = state.get("issues", {}).get("88")
