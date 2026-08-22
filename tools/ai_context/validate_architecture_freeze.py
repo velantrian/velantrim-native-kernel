@@ -25,6 +25,7 @@ H11_PLAN_SHA256 = "60da649e675b79b3e70bf8a61cf03cb4d57bb989f4934b65ab8d50c925b19
 H11_CURRENT_GATE = "A10_H11_EXECUTION_ADMISSION"
 H11_PLAN_ID = "H11-001-c5-lab-canon-separation-v1"
 H11_BLOCKER = "BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER"
+H11_NEXT_DEPENDENCY = "IMPLEMENT_ADR0028_POSITIVE_QUALIFICATION_PATH_THEN_ESTABLISH_GENUINELY_EXTERNAL_CANDIDATE"
 RESIDUAL_TARGETS = ["A10-H03", "A10-H06", "A10-H08", "A10-H09", "A10-H10", "A10-H11"]
 
 
@@ -33,7 +34,7 @@ def _pre_plan_view(state: Mapping[str, Any]) -> dict[str, Any]:
     value = copy.deepcopy(dict(state))
     value["checkpoints"]["notion_synchronized_through_sha"] = ADR0027_TRUTH_SYNC_SHA
     research = value["tracks"]["long_horizon_research"]
-    research["status"] = "ACTIVE / POST-D8 RESIDUAL VALIDATION PLANNING / NO AUTOMATIC PROMOTION"
+    research["status"] = "ACTIVE / POST-D8 RESIDUAL VALIDATION PLANNING / NO AUTOMATIC_PROMOTION"
     ref = research["architecture_refoundation"]
     ref["status"] = "BLUEPRINT COMPLETE / PROVISIONAL / RESIDUAL VALIDATION PLANNING AUTHORIZED"
     ref["next_content_slice"] = "RESIDUAL_A10_VALIDATION_PLAN"
@@ -42,6 +43,7 @@ def _pre_plan_view(state: Mapping[str, Any]) -> dict[str, Any]:
     validation.pop("residual_a10_validation_plan", None)
     notion = value["notion"]
     notion["synchronization_required"] = True
+    notion["status"] = "SYNCED_THROUGH_DESCENDANT_CHECKPOINT"
     notion["decision_sync_status"] = "PENDING_READ_BACK_VERIFICATION"
     notion["surface_count"] = 7
     notion["read_back_verified_count"] = 3
@@ -85,7 +87,7 @@ def _validate_current(state: Mapping[str, Any]) -> None:
     _require(plan.get("next_gate") == H11_CURRENT_GATE, "H11 current gate drift")
     _require(plan.get("next_gate_scope") == "EXECUTION_ADMISSION_ONLY", "H11 current gate scope drift")
     _require(plan.get("execution_admission_state") == H11_BLOCKER, "H11 execution admission blocker drift")
-    _require(plan.get("next_dependency") == "QUALIFYING_INDEPENDENT_H11_REVIEWER_REPRODUCER_EVIDENCE", "H11 next dependency drift")
+    _require(plan.get("next_dependency") == H11_NEXT_DEPENDENCY, "H11 next dependency drift")
     _require(plan.get("experiment_implementation_authorized") is False, "experiment implementation must remain unauthorized")
     _require(plan.get("experiment_execution_authorized") is False, "experiment execution must remain unauthorized")
     _require(plan.get("composition_federation_is_h11") is False, "composition/federation must remain distinct from H11")
