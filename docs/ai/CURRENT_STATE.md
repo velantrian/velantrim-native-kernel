@@ -21,7 +21,7 @@ h11_state_binding_merge: e36b7f45410d74b8a65406bff6fdd6d070fa96b0
 notion_synchronized_through: e36b7f45410d74b8a65406bff6fdd6d070fa96b0
 notion_sync_state: SYNCED_THROUGH_DESCENDANT_CHECKPOINT / ADR0028_READ_BACK_VERIFIED
 notion_sync_source: 5ebb33f5a74a81a7a49dae36ed29247d9b71db87
-notion_sync_surfaces: 7
+notion_sync_surfaces: 8
 runtime_expansion: FROZEN
 product_runtime_thaw: false
 production: false
@@ -37,7 +37,7 @@ positive_qualification_implementation: NOT_STARTED
 positive_qualification_design: HYBRID_TWO_BASIS
 ```
 
-The ADR-0028 Notion projection has been synchronized and read back across seven existing role-specific Native Kernel pages with zero new pages created. `Roadmap, Acceptance Gates & Decision Ledger` is one combined Notion page, not two surfaces. The preserved `notion_synchronized_through` SHA remains the historical H11 post-130 machine checkpoint; the ADR-0028 sync source is recorded separately above so a later documentation descendant is not confused with the frozen H11 state-binding identity.
+The ADR-0028 Notion projection has been synchronized and read back across eight existing Native Kernel pages with zero new pages created. The preserved `notion_synchronized_through` SHA remains the historical H11 post-130 machine checkpoint; the ADR-0028 sync source is recorded separately above so a later documentation descendant is not confused with the frozen H11 state-binding identity.
 
 The committed H11 state-binding checkpoint above is not a prediction of live `main`. Later documentation, validation-machinery or presentation commits may be descendants without changing the H11 semantic gate.
 
