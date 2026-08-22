@@ -49,7 +49,7 @@ Decision status
 | [`0026`](./0026-independent-challenge-before-bounded-cross-lineage-falsification.md) | Independent challenge before bounded cross-lineage falsification | `ACCEPTED` | IAR-1 + IAR-1-R1 + BPV-1 / residual-A10 evidence | `GOVERNANCE_PARTIAL` / H11 admission blocked | `APPROVED` |
 | [`0027`](./0027-retain-provisional-architecture-and-runtime-freeze-after-option-d.md) | Retain provisional architecture and runtime freeze after Option D | `ACCEPTED` | `REPOSITORY_REPRODUCED` | governance complete; residual validation active | `APPROVED` |
 
-> **ADR-0024 navigation note:** [`0024-operator-decision-package.md`](./0024-operator-decision-package.md) is the supporting operator-decision package and provenance for the accepted `ACCEPT_WITH_CHANGES` decision, not a second ADR. The normative accepted contract is [`0024-version-reducer-referential-semantics.md`](./0024-version-reducer-referential-semantics.md).
+> **ADR-0024 navigation note:** [`0024-operator-decision-package.md`](./0024-operator-decision-package.md) is the supporting operator decision package for ADR-0024, not a second ADR. It also preserves the provenance for the accepted `ACCEPT_WITH_CHANGES` decision. The normative accepted contract is [`0024-version-reducer-referential-semantics.md`](./0024-version-reducer-referential-semantics.md).
 
 ## Current boundary
 
