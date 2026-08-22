@@ -1,316 +1,265 @@
 # ADR-0024: Version reducer referential semantics without rewriting history
 
-- **Decision status:** `PROPOSED`
+- **Decision status:** `ACCEPTED`
 - **Evidence level:** `DOCUMENTED`
 - **Implementation status:** `NOT_STARTED`
-- **Operator approval:** `PENDING`
+- **Operator approval:** `APPROVED`
 - **Date:** `2026-08-08`
-- **Deciders:** pending `@velantrian` decision
+- **Accepted:** `2026-08-22`
+- **Deciders:** `@velantrian`
+- **Operator decision:** `ACCEPT_WITH_CHANGES`
 - **Track:** `Abstract Contract / Clean Implementation`
 - **Related:** Issue #74, ADR-0003, ADR-0006, ADR-0012, ADR-0015, PR #72, PR #73
 - **Tags:** `reducer, referential-integrity, replay, compatibility, supersession, links`
 
 > [!IMPORTANT]
-> The current `nk-p1-reducer/1` is part of published P1–C5 evidence. Tightening it in place would reinterpret old Event histories. This proposal separates a future strict reducer contract from historical reducer v1 and does not authorize runtime changes.
+> ADR-0024 is accepted as an abstract versioning and referential-semantics contract only. Acceptance does **not** authorize reducer-v2 implementation or runtime expansion. `nk-p1-reducer/1` remains immutable in meaning and remains the interpretation contract for published P1-C5 evidence.
 
-## Context 🧭
+## Decision
 
-The current reducer validates Event schema version and contiguous sequence, then applies structurally valid payloads to immutable state. It does not require referenced Claims to have been admitted and does not constrain supersession topology.
-
-Observed reducer-v1 behavior:
+Select the versioned strict-reducer direction with the operator-selected `ACCEPT_WITH_CHANGES` clarifications below.
 
 ```text
-LINK unknown source or target              accepted
-UTILIZED unknown or erased Claim           accepted
-SUPERSEDED unknown source or successor      accepted
-SUPERSEDED self-reference or cycle          not rejected
-SUPERSEDED different second successor       replaces prior mapping
-ERASED unknown Claim                        accepted
-generic LINK self-reference or cycle        not classified
+published reducer-v1 history
+!= silently upgraded reducer-v2 history
 ```
 
-Existing tests intentionally admit Claim `a`, then link and supersede it to Claim `b` without first admitting `b`. That is repository evidence for reducer v1 and cannot be silently changed after publication.
+A future strict reducer uses a distinct contract/version (`nk-p1-reducer/2` is the reserved candidate identifier) and is bound explicitly to a Kernel instance/history. Selection must never be inferred from date, deployment version, database profile, process-global default, or replay under newer software.
 
-PostgreSQL and SQLite replay currently import one process-wide `REDUCER_VERSION`. Changing that constant would replay all histories under new semantics without an instance-level compatibility declaration.
+Existing histories, projections, Receipts, reports, archives and evidence remain interpreted under reducer v1. A v1 history may be valid under v1 while non-migratable to v2. Existing P1-C5 evidence is not relabelled as reducer-v2 evidence.
 
-- **Problem:** define honest referential semantics without rewriting already evidenced history.
-- **Constraints:** deterministic replay, technology neutrality, explicit versioning, no silent migration, generic relation extensibility and fail-closed strict behavior.
-- **Non-goals:** implement runtime v2, add Event verbs, implement conflict resolution, implement NK-EPI-004, define causal truth or integrate another Velantrim project.
-- **Current implementation boundary:** only `nk-p1-reducer/1` exists; no strict reducer or per-history version selection exists.
-- **Open uncertainty:** profile schema, migration protocol, relation registry, restoration after logical erasure and Receipt shape for validation/migration.
+## Accepted compatibility boundary
 
-## Inputs considered 🔍
+1. `nk-p1-reducer/1` remains readable, replayable and immutable in meaning.
+2. Reducer semantics are selected explicitly per Kernel instance/history or equivalent authoritative history boundary.
+3. A committed history cannot silently change reducer interpretation.
+4. Mixed reducer semantics inside one history are forbidden unless a separately accepted migration contract defines the boundary and replay algorithm.
+5. A final projection that resembles a v2 state does not make a v1 history v2-conformant.
+6. Reducer-v2 implementation requires a separate authorization after the dependencies and contract surfaces below are complete.
 
-```text
-Repository evidence:
-- semantic_core/reducer.py performs no referential validation
-- test_semantic_core.py relies on a not-yet-admitted target
-- PostgreSQL and SQLite replay bind to one imported REDUCER_VERSION
-- ADR-0012 already requires explicit reducer versions
-- ADR-0003 rejects silent semantic resolution
-- ADR-0006 permits typed directed relation graphs and defers relation-specific rules
+## Accepted reducer-v2 first scope
 
-Codex review lessons from PRs #69/#70:
-- integrity comparisons must be exact
-- later fixes must not relabel earlier artifacts as proof
-
-External AI-generated inputs supplied by the operator:
-- several audits recommended explicit dangling/self/cycle rules
-- repository review narrowed generic cycle handling to relation-specific topology and supersession cycles
-
-Operator interpretation:
-- current instruction authorizes continued investigation and proposal drafting
-- final acceptance remains a separate operator decision
-```
-
-AI-generated inputs are design inputs, not evidence or approval.
-
-## Decision drivers 🎯
-
-- preserve historical replay and evidence identity;
-- prevent unknown or erased references from becoming silent current state;
-- prevent supersession cycles and last-write overwrite;
-- avoid false acyclicity for generic typed relations;
-- keep relation meaning independent of storage technology;
-- make failures deterministic and cross-profile testable;
-- require explicit migration rather than inference from code version or date.
-
-## Considered options 🧪
-
-### Option A — Tighten reducer v1 in place
-
-**Advantages:** smallest implementation change; every replay receives strict checks.
-
-**Disadvantages:** changes existing history meaning, breaks fixtures/evidence boundaries and makes interpretation depend on installed code.
-
-### Option B — Validate only outside the reducer
-
-**Advantages:** append-time rejection can fail early while v1 remains unchanged.
-
-**Disadvantages:** imported/corrupted history can bypass checks, replay cannot verify independently, and profile behavior may diverge.
-
-### Option C — Version the strict reducer and require explicit selection
-
-**Advantages:** preserves v1 exactly, makes append/replay deterministic, supports cross-profile fixtures and makes migration auditable.
-
-**Disadvantages:** requires version metadata and dispatch; multiple reducer versions increase maintenance and test cost.
-
-## Proposed decision 💭
-
-Select **Option C** if approved.
-
-### Compatibility boundary
-
-1. `nk-p1-reducer/1` remains readable with its published behavior.
-2. Existing histories, projections, Receipts, reports and ZIPs are not relabelled as strict-reducer evidence.
-3. A future strict contract uses a new identifier; candidate: `nk-p1-reducer/2`.
-4. Reducer version is selected explicitly per Kernel instance or equivalent authoritative history boundary.
-5. Selection is not inferred from date, software release, database type, current default or first replay after upgrade.
-6. Mixed semantics inside one history are prohibited unless a separate migration contract defines the boundary and replay algorithm.
-7. A v1 history is not v2-conformant merely because its final projection resembles a v2 state.
-
-## Proposed strict Event rules
+Reducer v2 is limited to referential semantics for already-authorized Event roles. It does not add or execute a full Admission workflow, truth evaluation, Temporal semantics, typed relation ontology, causal reasoning, operational deletion, distributed multi-writer behavior, or ecosystem authority.
 
 ### `ADMIT`
 
-- first admission adds the Claim;
-- repeated admission of the same live Claim is a deterministic no-op while the Event remains in history;
-- admission of a logically erased Claim fails closed;
-- admission does not establish truth or authenticity.
+- first valid admission creates the admitted Claim state;
+- duplicate identical admission is deterministic and idempotent;
+- conflicting admission fails;
+- admission of an erased or restricted Claim fails unless a future explicit restoration contract permits it;
+- reducer v2 may validate an existing admission decision/reference but does not own the full Admission lifecycle.
 
 ### `LINK`
 
-- source and target must already be admitted and live at that Event position;
-- an identical repeated edge is a deterministic no-op;
-- the base reducer does **not** reject self-links or generic graph cycles globally;
-- reflexivity, symmetry, transitivity, acyclicity, evidence and other relation meaning require a separate typed-relation contract;
-- relation existence is not causal proof or truth.
+- source and target must already exist and be admitted;
+- erased references fail;
+- restricted references fail by default unless an accepted contract explicitly authorizes the reference scope;
+- identical repeated edges are deterministic no-ops;
+- generic self-links and generic graph cycles remain allowed by the base reducer;
+- relation-specific topology belongs to a separate typed-relation contract.
 
 ### `UTILIZED`
 
-- the Claim must already be admitted and live;
-- unknown or erased Claim utilization fails closed;
-- utilization count is operational history, not epistemic promotion.
+- unknown or erased Claim utilization fails;
+- restricted Claim utilization fails by default unless an accepted compatible scope exists;
+- historical reporting of prior utilization is a separate role, not current `UTILIZED`;
+- utilization is operational history, not epistemic promotion.
 
 ### `SUPERSEDED`
 
-- source and successor must already be admitted and live;
-- source and successor must differ;
-- repeated identical source/successor is a deterministic no-op;
-- a different second successor for the same source fails closed; no last-write overwrite;
-- the new edge must not create a cycle in the `superseded_by` chain;
-- successor chains such as `A → B → C` are allowed;
-- supersession does not erase the source or prove the successor true.
+- predecessor and successor must exist, be admitted and be referenceable;
+- predecessor and successor must differ;
+- repeated identical predecessor-to-successor is deterministic and idempotent;
+- a different second successor fails; no last-write overwrite;
+- self-supersession fails;
+- two-node and longer successor cycles fail;
+- successor chains such as `A -> B -> C` remain valid;
+- supersession does not establish truth.
 
 ### `ERASED`
 
-- the Claim must already be admitted;
-- repeated erasure is a deterministic no-op;
-- erasure does not rewrite earlier Events, links, utilization or supersession records;
-- later LINK, UTILIZED, SUPERSEDED or ADMIT operations involving the erased Claim fail closed;
-- this remains logical erasure, not physical or cryptographic deletion.
+- unknown Claim erasure fails;
+- first valid erase moves the Claim to logical-erasure state;
+- repeated identical logical erase is deterministic and idempotent while the Event remains in history;
+- restriction/retention-held cases follow the accepted deletion-state contract;
+- reducer v2 never claims physical or cryptographic deletion.
 
-## Deterministic failure surface
+## Stable failure contract
 
-A future implementation should expose a bounded failure class, such as `ReferentialIntegrityViolation`, derived from `ContractViolation`, with stable machine-readable reasons. Candidate reasons:
+The following machine-readable failure-code families are accepted for reducer v2 contract finalization:
 
 ```text
-CLAIM_NOT_ADMITTED
-CLAIM_ERASED
-SELF_SUPERSESSION
-SUPERSESSION_CONFLICT
-SUPERSESSION_CYCLE
-REDUCER_VERSION_UNDECLARED
-REDUCER_VERSION_UNSUPPORTED
-MIXED_REDUCER_HISTORY
+NK-RED-UNKNOWN-SOURCE
+NK-RED-UNKNOWN-TARGET
+NK-RED-UNKNOWN-CLAIM
+NK-RED-ERASED-REFERENCE
+NK-RED-RESTRICTED-REFERENCE
+NK-RED-ADMISSION-CONFLICT
+NK-RED-SELF-SUPERSESSION
+NK-RED-SUCCESSOR-CONFLICT
+NK-RED-SUPERSESSION-CYCLE
+NK-RED-UNKNOWN-ERASE
+NK-RED-REDUCER-VERSION-MISMATCH
+NK-RED-ENCODING-PROFILE-MISMATCH
 ```
 
-Exact names remain implementation details until separately authorized, but profiles must preserve equivalent meaning.
+Within reducer-v2, rejected histories must expose a stable machine failure surface containing:
 
-## Required fixture matrix before runtime authorization 🧪
+```text
+failure_code
+failure_location
+Event index
+global_seq, when committed
+reducer contract/version
+state-before-failure digest
+proof boundary
+```
 
-| Event | Case | Proposed strict result |
-|---|---|---|
-| ADMIT | first admission | PASS / add |
-| ADMIT | duplicate live Claim | PASS / no-op |
-| ADMIT | erased Claim | FAIL |
-| LINK | both admitted/live | PASS |
-| LINK | unknown endpoint | FAIL |
-| LINK | erased endpoint | FAIL |
-| LINK | duplicate exact edge | PASS / no-op |
-| LINK | self-link | PRESERVE / relation policy deferred |
-| LINK | generic graph cycle | PRESERVE / relation policy deferred |
-| UTILIZED | admitted/live Claim | PASS / increment |
-| UTILIZED | unknown or erased Claim | FAIL |
-| SUPERSEDED | admitted/live A → B | PASS |
-| SUPERSEDED | duplicate A → B | PASS / no-op |
-| SUPERSEDED | A → A | FAIL |
-| SUPERSEDED | unknown or erased endpoint | FAIL |
-| SUPERSEDED | A → B after A → C | FAIL |
-| SUPERSEDED | edge completing a successor cycle | FAIL |
-| ERASED | admitted Claim | PASS / mark erased |
-| ERASED | duplicate erase | PASS / no-op |
-| ERASED | unknown Claim | FAIL |
+Human-readable message text may evolve without changing the stable machine meaning.
 
-Fixtures must prove identical results and equivalent failure reasons in the semantic core, PostgreSQL, SQLite, replay, projection rebuild and cross-profile comparison before any support claim changes.
+## Version/history binding
 
-## Consequences 📌
+Minimum declared binding for a reducer-v2 history:
+
+```text
+instance_id
+reducer_contract
+reducer_version
+Event contract/version
+identity contract
+encoding profile
+```
+
+The binding must be part of the authoritative history/instance interpretation context rather than a process-local default.
+
+## Migration boundary
+
+The accepted first migration scope is only:
+
+```text
+CONTINUE_V1
+START_NEW_V2_INSTANCE
+ASSESS_V1_MIGRATABILITY
+```
+
+Explicitly forbidden in the first scope:
+
+```text
+SILENT_V1_TO_V2_UPGRADE
+AUTOMATIC_HISTORY_REWRITE
+AUTOMATIC_EVENT_TRANSFORMATION
+```
+
+Migration assessment may return:
+
+```text
+VALID_UNDER_V1_AND_MIGRATABLE
+VALID_UNDER_V1_WITH_DECLARED_V2_FAILURES
+VALID_UNDER_V1_NON_MIGRATABLE_TO_V2
+INVALID_UNDER_DECLARED_V1_CONTRACT
+UNDETERMINED
+```
+
+`NON_MIGRATABLE_TO_V2` does not invalidate a history that is valid under reducer v1.
+
+## Dependencies before reducer-v2 runtime authorization
+
+Acceptance of this ADR is not implementation authorization. Reducer-v2 runtime remains blocked until a separately reviewable contract-finalization/authorization path establishes:
+
+1. NK-SAM and named equivalence profiles sufficient for the intended cross-profile claim;
+2. portable Event/history commitment separated from operational/profile Receipts;
+3. reducer, identity, encoding and schema versions inside the declared commitment boundary;
+4. stable failure-location semantics;
+5. exact positive/negative conformance fixtures and new evidence identity;
+6. explicit rollback/migration behavior that cannot reinterpret historical v1 evidence.
+
+These dependencies are gates for reducer-v2 runtime authorization, not authorization to broaden NK-SAM, Event vocabulary, H11, Final Canon or production scope in this ADR.
+
+## Required fixture matrix before runtime authorization
+
+Positive fixtures include first/duplicate admission, valid/duplicate LINK, valid utilization, valid/repeated supersession, valid/repeated logical erase.
+
+Negative fixtures include conflicting admission; missing, erased or restricted LINK references; unknown/erased/restricted utilization; unknown supersession endpoints; self-supersession; successor overwrite; successor cycles; unknown erase; reducer-version substitution; encoding-profile substitution; and cross-profile failure-location disagreement.
+
+PostgreSQL, SQLite and any future independent implementation must preserve equivalent successful state and equivalent rejected-history failure meaning under named profiles. Shared Python code can support profile comparison but does not establish independent implementation neutrality.
+
+## Evidence-lineage boundary
+
+A bounded read-only trace recorded after the original proposal found that current C3 support evidence is materially produced under reducer-v1 permissive referential semantics. This does not show that current supported assertions are false and does not change the existing assertion arithmetic. It means current C3/C4/C5 support is historical reducer-v1-bounded evidence and cannot be silently reused as proof of reducer-v2 semantics. Issue #74 and `docs/ai/KNOWN_RISKS.md` retain the detailed trace.
+
+## Consequences
 
 ### Positive
 
-- old evidence remains honest and replayable;
-- strict histories cannot silently accumulate dangling current references;
-- supersession becomes a deterministic acyclic successor relation;
-- generic relation graphs remain extensible;
-- append and replay can share one explicit contract;
-- migration becomes auditable.
+- historical replay/evidence identity remains honest;
+- strict future histories cannot silently accumulate the accepted classes of dangling current references;
+- supersession gains deterministic conflict/cycle rules;
+- generic relation topology remains extensible;
+- append/replay can share an explicit versioned contract;
+- migration becomes explicit and auditable.
 
-### Negative / accepted trade-offs
+### Costs
 
 - v1 and a future v2 must coexist;
-- profiles need explicit reducer-version metadata and dispatch;
-- a v1 history with dangling references cannot be silently promoted;
-- logical erasure may leave historical edges pointing to an erased Claim;
-- relation-specific validity remains deferred.
+- profiles need explicit reducer-version binding and dispatch;
+- some valid v1 histories may be non-migratable;
+- relation-specific validity remains outside this reducer contract.
 
-### Neutral
+## Invariants
 
-- assertion map, NK-EPI, C4/C5, production, deletion and ecosystem status do not change;
-- Event vocabulary does not change;
-- Track H remains independent.
-
-## Invariants 🔒
-
-1. Published reducer-v1 history is never replayed under v2 semantics without explicit authorization and migration evidence.
+1. Published reducer-v1 history is never replayed under v2 semantics without a separately accepted migration path.
 2. Reducer version is authoritative interpretation context, not a process-local default.
-3. Strict validation runs during replay as well as append/admission.
-4. Unknown and erased references fail closed under the strict contract.
-5. Supersession never uses last-write overwrite and never forms a cycle.
-6. Generic relation topology is not declared acyclic by the base reducer.
+3. Strict validation applies during replay as well as append/admission.
+4. Referential failure means invalid under the declared reducer contract; it does not prove the represented statement false.
+5. Profile technology does not change semantic result.
+6. Generic relation topology is not globally declared acyclic by the base reducer.
 7. Logical erasure does not rewrite history or claim physical deletion.
-8. Referential failure does not prove a represented statement false; it only marks the Event invalid under the declared reducer.
-9. Profile technology does not change the result.
-10. Acceptance of this ADR does not authorize implementation.
+8. Existing reducer-v1 evidence remains reducer-v1-bounded evidence.
+9. Acceptance does not authorize implementation.
+10. H11, Final Canon, runtime thaw and production remain governed by their existing independent gates.
 
 ## Architecture-layer placement
 
 | Question | Answer |
 |---|---|
 | Architecture Canon changed? | `no` |
-| Abstract contract changed? | `proposed` |
+| Abstract contract changed? | `accepted for ADR-0024 scope` |
 | Implementation profile selected? | `no` |
 | Runtime code exists? | `no strict reducer` |
+| Reducer-v2 runtime authorized? | `no` |
 | Production evidence exists? | `no` |
 
-## Implementation notes 🔧
+## Operator decision record
 
-A separate authorization ADR/PR must define:
-
-- authoritative reducer-version storage per instance/history;
-- default for existing and new instances;
-- semantic-core version dispatcher;
-- PostgreSQL and SQLite schema migration;
-- append-time and replay-time validation;
-- projection and Receipt binding to exact reducer version;
-- v1 validation report and optional migration protocol;
-- stable failure representation;
-- exact conformance fixtures and assertion-map impact;
-- rollback without reinterpreting history.
-
-Safest initial implementation candidate:
-
-```text
-existing instances → explicit v1
-new opt-in test instances → explicit v2
-no automatic conversion
-no mixed history
+```yaml
+operator_decision: ACCEPT_WITH_CHANGES
+operator: '@velantrian'
+decision_date: 2026-08-22
+v1_immutability: REQUIRED
+v2_instance_history_binding: REQUIRED
+duplicate_admit_policy: IDEMPOTENT_NO_STATE_CHANGE
+restricted_reference_policy: FAILURE_BY_DEFAULT
+same_successor_repetition: IDEMPOTENT_NO_STATE_CHANGE
+different_successor_overwrite: FAILURE
+repeated_erase_policy: IDEMPOTENT_NO_STATE_CHANGE
+stable_failure_codes: REQUIRED
+migration_scope:
+  - CONTINUE_V1
+  - START_NEW_V2_INSTANCE
+  - ASSESS_V1_MIGRATABILITY
+nk_sam_dependency: REQUIRED_BEFORE_RUNTIME_AUTHORIZATION
+event_commitment_dependency: REQUIRED_BEFORE_RUNTIME_AUTHORIZATION
+runtime_authorized_after_decision: false
 ```
 
-This is a recommendation, not authorization.
+## Non-authorizations
 
-## Validation and evidence 🧪
+This acceptance does **not** authorize reducer-v2 code, PostgreSQL/SQLite schema changes, automatic migration, Event-vocabulary expansion, Admission runtime ownership, H11 execution, Final Canon, runtime thaw, production, or changes to historical evidence/assertion status.
 
-| Evidence | Artifact / command | Result | Required for next level |
-|---|---|---|---|
-| Repository review | reducer, tests and replay paths | gap reproduced | Issue #74 |
-| Documentation | ADR-0024, ADR index, Roadmap and Notion handoff | proposal recorded | independent review + operator decision |
-| Repository CI | PR #75 workflows | required before merge | exact-head PASS |
-| Unit/replay/cross-profile tests | none in this slice | `NOT_STARTED` | required for runtime authorization |
-| Operator approval | pending | `PENDING` | explicit accept/reject/revise |
-
-## Failure cases 🚨
-
-- changing `REDUCER_VERSION` and replaying old histories as v2;
-- treating existing instances as strict merely because deployment was upgraded;
-- validating append but not replay;
-- prohibiting every LINK cycle without a relation contract;
-- allowing a second successor to overwrite the first;
-- removing historical edges when a Claim is erased;
-- reporting referential failure as semantic falsehood;
-- claiming earlier P1–C5 artifacts prove the future reducer;
-- introducing Titan, Crystal or Mentaury semantics into this contract.
-
-## Rollback / supersession
-
-This slice is documentation-only and may be revised or removed before acceptance. A later superseding ADR must preserve reducer-v1 readability and explain migration. Runtime rollback must select a declared version compatible with the history; it must not reinterpret v2 history as v1 by changing a default.
-
-## Consistency checklist 🔱
-
-- [x] Event history remains authoritative about recorded changes.
-- [x] History is not equated with truth.
-- [x] Projection/cache is not promoted to Canon.
-- [x] Relevance/utility is not equated with truth.
-- [x] Candidate conflict is not described as resolved conflict.
-- [x] Current technology is not silently promoted to permanent architecture.
-- [x] Titan and Crystal boundaries remain explicit.
-- [x] Issue #1 import scope is not silently expanded.
-- [x] Decision, evidence, implementation and approval remain separate.
-
-## References 📚
+## References
 
 - [Issue #74](https://github.com/velantrian/velantrim-native-kernel/issues/74)
-- [`native_kernel/semantic_core/reducer.py`](../../native_kernel/semantic_core/reducer.py)
-- [`tests/test_semantic_core.py`](../../tests/test_semantic_core.py)
+- [`0024-operator-decision-package.md`](./0024-operator-decision-package.md)
 - [`ADR-0003`](./0003-semantic-conflicts-require-explicit-resolution.md)
 - [`ADR-0006`](./0006-causal-links-are-relations.md)
 - [`ADR-0012`](./0012-single-writer-append-and-replay-contract-v1.md)
