@@ -52,6 +52,16 @@ class H11PositiveQualificationPolicyGuardTests(unittest.TestCase):
             lambda policy: policy["basis_1"].__setitem__("max_age_days", 3650)
         )
 
+    def test_alias_disclosure_cannot_be_disabled(self) -> None:
+        self.assert_policy_rejected(
+            lambda policy: policy["basis_1"].__setitem__("aliases_must_be_disclosed", False)
+        )
+
+    def test_material_dependence_rule_cannot_be_disabled(self) -> None:
+        self.assert_policy_rejected(
+            lambda policy: policy["basis_1"].__setitem__("material_dependence_must_be_empty", False)
+        )
+
     def test_second_basis_freshness_cannot_be_weakened(self) -> None:
         self.assert_policy_rejected(
             lambda policy: policy["basis_2"].__setitem__("max_age_days", 3650)
@@ -72,6 +82,13 @@ class H11PositiveQualificationPolicyGuardTests(unittest.TestCase):
     def test_org_owner_requirement_cannot_be_removed(self) -> None:
         self.assert_policy_rejected(
             lambda policy: policy["basis_2"].__setitem__("repository_owner_type", "User")
+        )
+
+    def test_org_verification_requirement_cannot_be_removed(self) -> None:
+        self.assert_policy_rejected(
+            lambda policy: policy["basis_2"].__setitem__(
+                "repository_owner_github_verified", False
+            )
         )
 
     def test_issuer_membership_requirement_cannot_be_weakened(self) -> None:
