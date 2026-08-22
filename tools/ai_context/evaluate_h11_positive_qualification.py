@@ -41,10 +41,12 @@ DECLARATION_FIELD_ORDER = [
     "source_plan_id",
     "source_plan_sha256",
     "reviewer_login",
+    "known_aliases",
     "reviewer_role",
     "authorship_relation",
     "custody_relation",
     "conflicts",
+    "material_dependence",
     "repository_visible_frozen_inputs_only",
     "private_implementation_state_used",
     "statement",
@@ -58,9 +60,11 @@ ATTESTATION_KEYS = {
     "reviewer_login",
     "basis_type",
     "issuer_role",
+    "attested_known_aliases",
     "attested_authorship_relation",
     "attested_custody_relation",
     "attested_conflicts",
+    "attested_material_dependence",
     "attested_repository_visible_frozen_inputs_only",
     "attested_private_implementation_state_used",
     "statement",
@@ -184,6 +188,18 @@ def _body_json(event: Mapping[str, Any], *, keys: set[str], label: str) -> dict[
     return value
 
 
+def _string_list(value: Any, label: str) -> list[str]:
+    _require(
+        isinstance(value, list)
+        and all(isinstance(item, str) and item.strip() for item in value),
+        "MALFORMED_EVIDENCE",
+        f"{label} must be a string array",
+    )
+    normalized = [item.strip() for item in value]
+    _require(len({item.lower() for item in normalized}) == len(normalized), "MALFORMED_EVIDENCE", f"{label} must not contain duplicates")
+    return normalized
+
+
 def _validate_policy(policy: Mapping[str, Any]) -> None:
     _require(policy.get("protocol") == POLICY_PROTOCOL, "MALFORMED_EVIDENCE", "policy protocol drift")
     _require(
@@ -223,6 +239,8 @@ def _validate_policy(policy: Mapping[str, Any]) -> None:
         and basis1.get("verification_method") == "LIVE_GITHUB_API"
         and basis1.get("declaration_protocol") == DECLARATION_PROTOCOL
         and basis1.get("max_age_days") == 30
+        and basis1.get("aliases_must_be_disclosed") is True
+        and basis1.get("material_dependence_must_be_empty") is True
         and basis1.get("required_fields") == DECLARATION_FIELD_ORDER,
         "MALFORMED_EVIDENCE",
         "basis 1 policy drift",
@@ -248,6 +266,7 @@ def _validate_policy(policy: Mapping[str, Any]) -> None:
         "basis 2 distinctness floor drift",
     )
     _require(basis2.get("repository_owner_type") == "Organization", "MALFORMED_EVIDENCE", "basis 2 repository owner type drift")
+    _require(basis2.get("repository_owner_github_verified") is True, "MALFORMED_EVIDENCE", "basis 2 GitHub organization verification requirement drift")
     _require(basis2.get("issuer_author_association") == ["MEMBER", "OWNER"], "MALFORMED_EVIDENCE", "basis 2 issuer association drift")
     for key in (
         "issuer_must_not_equal_candidate",
@@ -376,6 +395,14 @@ def _validate_candidate_event(
         "UNVERIFIABLE_EVIDENCE",
         "candidate declaration login does not match authenticated GitHub actor",
     )
+    aliases = _string_list(declaration.get("known_aliases"), "candidate known_aliases")
+    _require(login.lower() not in {alias.lower() for alias in aliases}, "MALFORMED_EVIDENCE", "primary reviewer login must not be repeated as an alias")
+    if REPOSITORY_OWNER in {alias.lower() for alias in aliases}:
+        raise EvidenceFailure(
+            "OWNER_ALIAS_DISCLOSED",
+            "candidate disclosed the repository owner login as an alias",
+            disqualified=True,
+        )
     _require(declaration.get("reviewer_role") in REVIEWER_ROLES, "MALFORMED_EVIDENCE", "candidate reviewer role invalid")
     authorship = declaration.get("authorship_relation")
     custody = declaration.get("custody_relation")
@@ -391,13 +418,10 @@ def _validate_candidate_event(
     if custody == "SAME_CUSTODY":
         raise EvidenceFailure("SAME_CUSTODY", "candidate shares prohibited H11 custody", disqualified=True)
     _require(custody == "INDEPENDENT_FOR_DECLARED_SCOPE", "AMBIGUOUS_EVIDENCE", "candidate custody independence is not established")
-    conflicts = declaration.get("conflicts")
-    _require(
-        isinstance(conflicts, list) and all(isinstance(item, str) and item for item in conflicts),
-        "MALFORMED_EVIDENCE",
-        "candidate conflicts must be a string array",
-    )
-    _require(conflicts == [], "UNRESOLVED_CONFLICTS", "candidate has unresolved conflicts/material dependence")
+    conflicts = _string_list(declaration.get("conflicts"), "candidate conflicts")
+    _require(conflicts == [], "UNRESOLVED_CONFLICTS", "candidate has unresolved conflicts")
+    material_dependence = _string_list(declaration.get("material_dependence"), "candidate material_dependence")
+    _require(material_dependence == [], "MATERIAL_DEPENDENCE", "candidate has material dependence for the H11 review role")
     if declaration.get("repository_visible_frozen_inputs_only") is not True:
         raise EvidenceFailure(
             "FROZEN_INPUT_BOUNDARY_VIOLATED",
@@ -432,6 +456,7 @@ def _validate_public_evidence_repository(
     owner: str,
     candidate_login: str,
     candidate_actor_id: int,
+    candidate_aliases: list[str],
     fetch_json: Callable[[str], Mapping[str, Any]],
 ) -> dict[str, Any]:
     api_url = f"https://api.github.com/repos/{repository}"
@@ -454,23 +479,36 @@ def _validate_public_evidence_repository(
         "evidence repository owner mismatch",
     )
     _require(owner_type == "Organization", "UNVERIFIABLE_EVIDENCE", "second-basis repository owner must be a GitHub Organization")
+    forbidden_logins = {REPOSITORY_OWNER, candidate_login.lower(), *(alias.lower() for alias in candidate_aliases)}
     _require(
-        owner_login.lower() not in {REPOSITORY_OWNER, candidate_login.lower()},
+        owner_login.lower() not in forbidden_logins,
         "UNVERIFIABLE_EVIDENCE",
-        "evidence repository owner conflicts with subject owner/candidate",
+        "evidence repository owner conflicts with subject owner/candidate/known alias",
     )
     _require(
         isinstance(owner_id, int) and owner_id not in {REPOSITORY_OWNER_ID, candidate_actor_id},
         "UNVERIFIABLE_EVIDENCE",
         "evidence repository owner id conflicts with subject owner/candidate",
     )
+    org_api_url = f"https://api.github.com/orgs/{owner_login}"
+    org = fetch_json(org_api_url)
+    _require(isinstance(org, Mapping), "UNVERIFIABLE_EVIDENCE", "GitHub organization metadata required")
+    _require(
+        str(org.get("login", "")).lower() == owner_login.lower()
+        and org.get("id") == owner_id,
+        "UNVERIFIABLE_EVIDENCE",
+        "GitHub organization identity does not match repository owner",
+    )
+    _require(org.get("is_verified") is True, "UNVERIFIABLE_EVIDENCE", "second-basis GitHub Organization must be verified")
     return {
         "api_url": api_url,
-        "event_type": "PUBLIC_REPOSITORY_METADATA",
+        "organization_api_url": org_api_url,
+        "event_type": "PUBLIC_VERIFIED_ORGANIZATION_REPOSITORY_METADATA",
         "repository": repository,
         "owner_login": owner_login,
         "owner_id": owner_id,
         "owner_type": owner_type,
+        "github_organization_verified": True,
         "private": False,
     }
 
@@ -513,15 +551,18 @@ def _validate_second_basis_event(
             "second-basis comment issue binding mismatch",
         )
     issuer_login, issuer_id = _event_actor(event, "second-basis evidence")
+    aliases = {alias.lower() for alias in declaration.get("known_aliases", [])}
     _require(
         issuer_login.lower() != REPOSITORY_OWNER and issuer_id != REPOSITORY_OWNER_ID,
         "UNVERIFIABLE_EVIDENCE",
         "repository owner cannot issue the independent second basis",
     )
     _require(
-        issuer_login.lower() != candidate_login.lower() and issuer_id != candidate_actor_id,
+        issuer_login.lower() != candidate_login.lower()
+        and issuer_login.lower() not in aliases
+        and issuer_id != candidate_actor_id,
         "UNVERIFIABLE_EVIDENCE",
-        "candidate cannot issue their own second-basis attestation",
+        "candidate or disclosed alias cannot issue their own second-basis attestation",
     )
     _require(
         event.get("author_association") in {"MEMBER", "OWNER"},
@@ -556,9 +597,11 @@ def _validate_second_basis_event(
         "independent attestation issuer role mismatch",
     )
     _require(
-        attestation.get("attested_authorship_relation") == declaration.get("authorship_relation")
+        attestation.get("attested_known_aliases") == declaration.get("known_aliases")
+        and attestation.get("attested_authorship_relation") == declaration.get("authorship_relation")
         and attestation.get("attested_custody_relation") == declaration.get("custody_relation")
         and attestation.get("attested_conflicts") == declaration.get("conflicts")
+        and attestation.get("attested_material_dependence") == declaration.get("material_dependence")
         and attestation.get("attested_repository_visible_frozen_inputs_only")
         == declaration.get("repository_visible_frozen_inputs_only")
         and attestation.get("attested_private_implementation_state_used")
@@ -643,6 +686,7 @@ def evaluate(
         )
         candidate_login = str(declaration["reviewer_login"])
         candidate_actor_id = int(candidate_evidence["actor_id"])
+        candidate_aliases = list(declaration["known_aliases"])
         basis1_verified = True
         evidence.append(candidate_evidence)
 
@@ -650,20 +694,22 @@ def evaluate(
         issuer_logins: set[str] = set()
         issuer_ids: set[int] = set()
         repositories: set[str] = set()
+        repository_owner_ids: set[int] = set()
         for raw_url in request["second_basis_api_urls"]:
             url = str(raw_url)
             match = SECOND_URL_RE.fullmatch(url)
             _require(match is not None, "MALFORMED_EVIDENCE", "unsupported second-basis URL")
             repository = f"{match.group('owner')}/{match.group('repo')}"
-            evidence.append(
-                _validate_public_evidence_repository(
-                    repository,
-                    str(match.group("owner")),
-                    candidate_login,
-                    candidate_actor_id,
-                    fetch_json,
-                )
+            repository_evidence = _validate_public_evidence_repository(
+                repository,
+                str(match.group("owner")),
+                candidate_login,
+                candidate_actor_id,
+                candidate_aliases,
+                fetch_json,
             )
+            repository_owner_ids.add(int(repository_evidence["owner_id"]))
+            evidence.append(repository_evidence)
             event = fetch_json(url)
             basis_type, issuer_login, issuer_id, repository, verified = _validate_second_basis_event(
                 url,
@@ -696,16 +742,20 @@ def evaluate(
             "NON_DISTINCT_ISSUERS",
             "second-basis issuers must be distinct",
         )
+        minimum_repositories = int(basis2_policy["minimum_distinct_public_repositories"])
         _require(
-            len(repositories) >= int(basis2_policy["minimum_distinct_public_repositories"]),
+            len(repositories) >= minimum_repositories
+            and len(repository_owner_ids) >= minimum_repositories,
             "NON_DISTINCT_EVIDENCE_REPOSITORIES",
-            "second-basis evidence repositories must be distinct",
+            "second-basis evidence repositories and Organization owners must be distinct",
         )
         return _result(
             "QUALIFIED",
             [
                 "BASIS_1_VERIFIED",
                 "BASIS_2_VERIFIED",
+                "ALIASES_DISCLOSED",
+                "NO_MATERIAL_DEPENDENCE",
                 "NO_CONTRADICTIONS",
                 "SEPARATE_ADMISSION_REASSESSMENT_REQUIRED",
             ],
