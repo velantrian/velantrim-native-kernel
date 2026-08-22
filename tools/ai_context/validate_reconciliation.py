@@ -71,7 +71,7 @@ def validate(repo: Path) -> None:
     _require(notion.get("decision_sync_status") == "PENDING_POST_RECONCILIATION_SYNC", "ADR-0028 Notion decision-sync status drift")
     _require(notion.get("surface_count") == 7 and notion.get("read_back_verified_count") == 7 and notion.get("new_pages_created") == 0, "historical Notion surface/read-back counts must remain 7/7 with zero new pages")
     scope = str(notion.get("scope", ""))
-    for marker in (ADR0028_MERGE, "GitHub reconciliation must merge first", H11_BLOCKER, "NOT_ESTABLISHED", "NOT_TESTED", "FROZEN"):
+    for marker in (ADR0028_MERGE, "GitHub reconciliation must merge first", "H11 admission remains BLOCKED", "NOT_ESTABLISHED", "NOT_TESTED", "FROZEN"):
         _require(marker in scope, f"Notion pending ADR-0028 scope missing marker: {marker}")
 
     validation = state["tracks"]["long_horizon_research"]["post_blueprint_validation"]
