@@ -16,6 +16,16 @@
     "state": "OPERATOR_APPROVED",
     "selected_option": "ACCEPT_WITH_CHANGES",
     "operator_decision_ref": "issue-74-operator-decision-2026-08-22",
+    "operator_decision_provenance": {
+      "source_type": "GITHUB_ISSUE_COMMENT",
+      "repository": "velantrian/velantrim-native-kernel",
+      "issue": 74,
+      "comment_id": 5379224144,
+      "canonical_url": "https://github.com/velantrian/velantrim-native-kernel/issues/74#issuecomment-5379224144",
+      "operator_login": "velantrian",
+      "decision_date": "2026-08-22",
+      "decision_block_sha256": "c1fc11af41d3bed1088040bfbfbb31e1d840e4c860d36972b865e4ec86c3394c"
+    },
     "decision_date": "2026-08-22",
     "runtime_effect": "REDUCER_V2_NOT_AUTHORIZED"
   },
