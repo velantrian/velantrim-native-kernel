@@ -146,7 +146,7 @@ def _validate_current(state: Mapping[str, Any]) -> None:
         "Final Canon is deferred",
         "runtime remains frozen",
     ):
-        _require(marker in meaning, f"Issue #88 ADR-0028/current H11 truth missing: {marker}")
+        _require(marker in meaning, f"Option D selection / Issue #88 ADR-0028 current truth missing: {marker}")
     verification = issue.get("verification")
     _require(isinstance(verification, Mapping), "Issue #88 verification required")
     _require(verification.get("status") == "VERIFIED" and verification.get("method") == "GITHUB_API" and verification.get("source") == "issue/88", "Issue #88 verification drift")
