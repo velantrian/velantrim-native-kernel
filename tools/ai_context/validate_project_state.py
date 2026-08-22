@@ -72,6 +72,7 @@ def _validate_current(state: Mapping[str, Any]) -> None:
     _require(isinstance(checkpoints, Mapping), "checkpoint inventory required")
     publication = checkpoints.get("publication_checkpoint_sha")
     notion_checkpoint = checkpoints.get("notion_synchronized_through_sha")
+    _require(checkpoints.get("qualification_design_decision_sha") == ADR0028_DECISION_MERGE, "ADR-0028 decision checkpoint drift")
 
     notion = state.get("notion")
     _require(isinstance(notion, Mapping), "Notion synchronization state required")
@@ -175,7 +176,7 @@ def _validate_current(state: Mapping[str, Any]) -> None:
     _require(notion.get("synchronization_required") is False, "ADR-0028 Notion sync must be complete")
     _require(notion.get("decision_sync_status") == ADR0028_NOTION_DECISION_STATUS, "ADR-0028 Notion sync status drift")
     scope = str(notion.get("scope", ""))
-    for marker in (ADR0028_DECISION_MERGE, ADR0028_RECONCILIATION_MERGE, "Eight existing Native Kernel Notion projections", "zero new pages", "H11 admission remains BLOCKED", "NOT_ESTABLISHED", "NOT_TESTED", "FROZEN"):
+    for marker in (ADR0028_RECONCILIATION_MERGE, "Eight existing Native Kernel Notion projections", "zero new pages", "H11 admission remains BLOCKED", "NOT_ESTABLISHED", "NOT_TESTED", "FROZEN"):
         _require(marker in scope, f"ADR-0028 completed Notion scope missing marker: {marker}")
 
     issue = state.get("issues", {}).get("88")
