@@ -6,6 +6,7 @@
   "experiment_id": "H11-001",
   "source_plan_id": "H11-001-c5-lab-canon-separation-v1",
   "source_plan_sha256": "60da649e675b79b3e70bf8a61cf03cb4d57bb989f4934b65ab8d50c925b19914",
+  "claim_boundary": "This policy establishes sufficient repository-visible evidence for the bounded H11 review role only. It is not KYC, legal identity proof, employment verification, execution admission, or H11 execution authority.",
   "review_surface": {
     "repository": "velantrian/velantrim-native-kernel",
     "pull_request": 131,
@@ -49,6 +50,11 @@
     },
     "minimum_distinct_issuers": 2,
     "minimum_distinct_public_repositories": 2,
+    "repository_owner_type": "Organization",
+    "issuer_author_association": [
+      "MEMBER",
+      "OWNER"
+    ],
     "issuer_must_not_equal_candidate": true,
     "issuer_must_not_equal_repository_owner": true,
     "evidence_repository_owner_must_not_equal_candidate": true,
@@ -77,6 +83,7 @@
       "UNVERIFIABLE_EVIDENCE",
       "MALFORMED_EVIDENCE",
       "AMBIGUOUS_EVIDENCE",
+      "UNRESOLVED_CONFLICTS",
       "NON_DISTINCT_ISSUERS",
       "NON_DISTINCT_EVIDENCE_REPOSITORIES",
       "CONTRADICTORY_ATTESTATIONS"
