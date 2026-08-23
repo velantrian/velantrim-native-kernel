@@ -147,13 +147,13 @@ class ProjectStateTests(unittest.TestCase):
         with self.assertRaisesRegex(module.ProjectStateError, "verification method"):
             self.validate(state=state)
 
-    def test_adr0028_post_implementation_notion_sync_must_remain_pending(self) -> None:
+    def test_adr0028_post_implementation_notion_sync_must_remain_complete(self) -> None:
         state = copy.deepcopy(self.state)
-        state["notion"]["synchronization_required"] = False
-        with self.assertRaisesRegex(module.ProjectStateError, "must remain pending"):
+        state["notion"]["synchronization_required"] = True
+        with self.assertRaisesRegex(module.ProjectStateError, "must remain complete"):
             self.validate(state=state)
         state = copy.deepcopy(self.state)
-        state["notion"]["decision_sync_status"] = "COMPLETE / READ_BACK_VERIFIED"
+        state["notion"]["decision_sync_status"] = "PENDING_POST_IMPLEMENTATION_SYNC"
         with self.assertRaisesRegex(module.ProjectStateError, "decision status drift"):
             self.validate(state=state)
 
