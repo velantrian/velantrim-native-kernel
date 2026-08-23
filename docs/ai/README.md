@@ -15,16 +15,17 @@ This directory is the mandatory continuity surface for AI agents, auditors and m
 3. [`../research/H11_EXECUTION_ADMISSION.json`](../research/H11_EXECUTION_ADMISSION.json) — fail-closed admission record.
 4. [`../research/H11_REVIEWER_REPRODUCER_QUALIFICATION.json`](../research/H11_REVIEWER_REPRODUCER_QUALIFICATION.json) — current qualification result.
 5. [`CURRENT_STATE.md`](CURRENT_STATE.md) — current-only human/agent projection.
-6. [`AUDIT_AND_FUTURE_WORK.md`](AUDIT_AND_FUTURE_WORK.md) — durable audit/future-work orientation; reconcile against live evidence before selecting work. It is not implementation authorization.
-7. [`../../AGENTS.md`](../../AGENTS.md) — operating constraints and reserved decisions.
-8. [`../../ARCHITECTURE.md`](../../ARCHITECTURE.md) — Formal Architecture entrypoint.
-9. A1–A10 first-draft architecture documents under `docs/`.
-10. [`../INTEGRATED_A1_A10_REVIEW.md`](../INTEGRATED_A1_A10_REVIEW.md) / [`RU`](../INTEGRATED_A1_A10_REVIEW.ru.md).
-11. [`../reviews/IAR-1_RESULT.md`](../reviews/IAR-1_RESULT.md) / [`RU`](../reviews/IAR-1_RESULT.ru.md) + [`JSON`](../reviews/IAR-1_RESULT.json).
-12. [`../reviews/IAR-1_RECONCILIATION.md`](../reviews/IAR-1_RECONCILIATION.md) / [`RU`](../reviews/IAR-1_RECONCILIATION.ru.md) + [`JSON`](../reviews/IAR-1_RECONCILIATION.json).
-13. [`KNOWN_RISKS.md`](KNOWN_RISKS.md).
-14. [`../../README.md`](../../README.md), [`../../STATUS.md`](../../STATUS.md) and [`../../ROADMAP.md`](../../ROADMAP.md) for human orientation and chronology.
-15. Affected contracts, ADRs, runtime/tests/evidence, live PRs/issues/Actions/reviews, and corresponding existing Notion pages when synchronization is part of the task.
+6. [`HUMAN_OPERATOR_ROUTING.md`](HUMAN_OPERATOR_ROUTING.md) — human-facing interaction entrypoint; use it when the user asks for Human / Operator / Engineer explanation or the human interaction layer.
+7. [`AUDIT_AND_FUTURE_WORK.md`](AUDIT_AND_FUTURE_WORK.md) — durable audit/future-work orientation; reconcile against live evidence before selecting work. It is not implementation authorization.
+8. [`../../AGENTS.md`](../../AGENTS.md) — operating constraints and reserved decisions.
+9. [`../../ARCHITECTURE.md`](../../ARCHITECTURE.md) — Formal Architecture entrypoint.
+10. A1–A10 first-draft architecture documents under `docs/`.
+11. [`../INTEGRATED_A1_A10_REVIEW.md`](../INTEGRATED_A1_A10_REVIEW.md) / [`RU`](../INTEGRATED_A1_A10_REVIEW.ru.md).
+12. [`../reviews/IAR-1_RESULT.md`](../reviews/IAR-1_RESULT.md) / [`RU`](../reviews/IAR-1_RESULT.ru.md) + [`JSON`](../reviews/IAR-1_RESULT.json).
+13. [`../reviews/IAR-1_RECONCILIATION.md`](../reviews/IAR-1_RECONCILIATION.md) / [`RU`](../reviews/IAR-1_RECONCILIATION.ru.md) + [`JSON`](../reviews/IAR-1_RECONCILIATION.json).
+14. [`KNOWN_RISKS.md`](KNOWN_RISKS.md).
+15. [`../../README.md`](../../README.md), [`../../STATUS.md`](../../STATUS.md) and [`../../ROADMAP.md`](../../ROADMAP.md) for human orientation and chronology.
+16. Affected contracts, ADRs, runtime/tests/evidence, live PRs/issues/Actions/reviews, and corresponding existing Notion pages when synchronization is part of the task.
 
 Do not start from a handoff alone. Do not treat an older human/history `NEXT` marker as current authority without reconciling it against live GitHub and machine/current-state surfaces.
 
