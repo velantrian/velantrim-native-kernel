@@ -131,7 +131,13 @@ class IndependentArchitectureReviewProtocolTests(unittest.TestCase):
         self.assertEqual("A10_H11_EXECUTION_ADMISSION", plan["next_gate"])
         self.assertEqual("EXECUTION_ADMISSION_ONLY", plan["next_gate_scope"])
         self.assertEqual("BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER", plan["execution_admission_state"])
-        self.assertEqual("IMPLEMENT_ADR0028_POSITIVE_QUALIFICATION_PATH_THEN_ESTABLISH_GENUINELY_EXTERNAL_CANDIDATE", plan["next_dependency"])
+        self.assertEqual("ESTABLISH_GENUINELY_EXTERNAL_CANDIDATE_THEN_EVALUATE_ADR0028_QUALIFICATION", plan["next_dependency"])
+        qualification = plan["h11_positive_qualification_design"]
+        self.assertEqual("IMPLEMENTED / NO_CANDIDATE_EVALUATED", qualification["positive_qualification_implementation"])
+        self.assertEqual("NO_CANDIDATE_EVALUATED", qualification["qualification_evaluation_state"])
+        self.assertEqual("NOT_ESTABLISHED", qualification["qualifying_reviewer_reproducer"])
+        self.assertFalse(qualification["changes_execution_admission"])
+        self.assertFalse(qualification["h11_execution_authorized"])
         self.assertFalse(plan["experiment_implementation_authorized"])
         self.assertFalse(plan["experiment_execution_authorized"])
 

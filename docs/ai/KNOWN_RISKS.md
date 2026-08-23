@@ -5,7 +5,7 @@ This file is the **active-risk register**. Historical defect chronology remains 
 
 ```yaml
 document_role: ACTIVE_RISKS
-status_as_of: 2026-08-22
+status_as_of: 2026-08-23
 authoritative_machine_source: ../../project-state.json
 repository_status: RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY
 selected_family: A10-H11
@@ -14,7 +14,7 @@ admission: BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER
 reviewer_reproducer: NOT_ESTABLISHED
 h11_outcome: NOT_TESTED
 positive_qualification_design: ADR-0028 / OPTION_C_HYBRID_TWO_BASIS
-positive_qualification_implementation: NOT_STARTED
+positive_qualification_implementation: IMPLEMENTED / NO_CANDIDATE_EVALUATED
 runtime_expansion: FROZEN
 production_authorized: false
 ```
@@ -40,9 +40,10 @@ CI success ≠ independent review
 owner/self review ≠ independent review
 LLM agreement / model-session change / same-agent relabeling ≠ independent review
 Notion read-back ≠ independent review
+implemented evaluator ≠ independent reviewer
 ```
 
-PR #131 remains the external review surface. ADR-0028 defines how a future positive candidate may be evaluated, but no candidate is thereby qualified. A future qualifying reviewer/reproducer still requires a separate `A10_H11_EXECUTION_ADMISSION` reassessment before execution.
+PR #131 remains the external review surface. ADR-0028 is now operationally materialized by a narrow positive-qualification policy/request/evaluator, but **no candidate has been evaluated** and no external evidence has been established. A future candidate must satisfy both independent evidence bases. Even if the evaluator returns `QUALIFIED`, the repository must stop and separately reassess `A10_H11_EXECUTION_ADMISSION` before any H11 execution.
 
 ## 🔴 P0 — Formal Authority misrouting / stale first-draft interpretation
 
@@ -234,42 +235,38 @@ No AI agent may choose the license, contribution regime, patent/trademark terms 
 
 Qualifying review, reconciliation, preregistration, execution admission, bounded support or later A10 outcomes do not automatically create Final Canon, product runtime behavior, production authority or universal substrate claims.
 
-## 🟠 P1 — H11 positive qualification path must be implemented and operationally bindable
+## 🟠 P1 — H11 positive qualification implementation complete; external evidence remains absent
 
-**State:** `OPEN / ADR-0028 DESIGN SELECTED / IMPLEMENTATION NOT_STARTED / PRE-EXECUTION OPERATIONAL RISK`.
+**State:** `IMPLEMENTED / NO_CANDIDATE_EVALUATED / EXTERNAL DEPENDENCY OPEN`.
 
-ADR-0028, merged via PR #155 at `4a13d2b4ee8001a43f7e3e701dbe9025dbcfd0df`, resolves the prior design-selection ambiguity by selecting `OPTION_C_HYBRID_TWO_BASIS`.
+ADR-0028, merged via PR #155 at `4a13d2b4ee8001a43f7e3e701dbe9025dbcfd0df`, selected `OPTION_C_HYBRID_TWO_BASIS`. Issue #163 / PR #164 now materializes the bounded pre-admission path as:
 
-A future positive qualification requires both:
+- `nk-h11-positive-qualification-policy/1`;
+- `nk-h11-positive-qualification-request/1`;
+- `nk-h11-positive-qualification-evaluation/1`;
+- live GitHub event/repository verification;
+- fail-closed adversarial fixtures and policy-weakening guards.
 
-1. a distinct authenticated GitHub candidate action/declaration; and
-2. a separate repository-visible, independently verifiable evidence basis for organizational separation and/or independent custody under a narrow versioned sufficient-evidence policy.
+A positive qualification requires both:
 
-Neither basis is sufficient alone.
+1. a distinct authenticated GitHub candidate review/declaration on PR #131; and
+2. separate repository-visible organizational-separation and independent-evidence-custody attestations from distinct external public Organization-owned repositories and distinct authenticated organization-associated issuers.
 
-The design is selected, but the operational path is still incomplete:
+Neither basis is sufficient alone. Missing, stale, malformed, ambiguous, contradictory or non-distinct evidence resolves to `NOT_ESTABLISHED`; prohibited owner/self review, preregistration/rubric authorship, same custody, private-state use or frozen-input violation can resolve to `DISQUALIFIED`.
 
-- the existing qualification vocabulary contains `QUALIFIED`, `NOT_ESTABLISHED`, and `DISQUALIFIED`;
-- repository-local Git identities or locally generated keys remain insufficient to establish externally authenticated independence;
-- the current top-level H11 admission validator still validates the present Codex / `NOT_ESTABLISHED` / `BLOCKED` package, not a generic future positive candidate;
-- the narrow sufficient-evidence policy, candidate-neutral positive evaluator/schema, evidence-binding mechanics and adversarial fail-closed implementation remain `NOT_STARTED`;
-- no genuinely qualifying external reviewer/reproducer is established.
+The implementation is deliberately narrower than KYC or a general identity subsystem. It establishes only whether repository-visible evidence is sufficient for the bounded H11 reviewer/reproducer role under ADR-0028.
 
 ```text
-authenticated account/action ≠ real-world identity
-real-world identity ≠ organizational independence
-organizational independence ≠ independent evidence custody
-design selected ≠ implementation
+authenticated account/action ≠ legal/real-world identity proof
+bounded sufficient evidence ≠ universal organizational-independence proof
 implementation ≠ qualification
 qualification ≠ execution admission
 execution admission ≠ H11 execution
 ```
 
-Any implementation requires a separate bounded PR under ADR-0028. Missing, ambiguous, unverifiable, stale or contradictory evidence must fail closed; ambiguity resolves to `NOT_ESTABLISHED`, not `QUALIFIED`.
+No candidate has been evaluated. The authoritative reviewer state remains `NOT_ESTABLISHED`; H11 admission remains `BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER`; H11 remains `NOT_TESTED`.
 
-Even after a future candidate reaches `QUALIFIED`, the repository must stop and separately reassess `A10_H11_EXECUTION_ADMISSION`. Until then, `NOT_ESTABLISHED / BLOCKED / NOT_TESTED` remains authoritative.
-
-This is not permission to invent a substitute reviewer, external issuer, KYC/PKI subsystem, protocol or gate beyond ADR-0028.
+A future `QUALIFIED` result is a hard **STOP**: the evaluator keeps every authority flag false and routes only to `SEPARATE_A10_H11_EXECUTION_ADMISSION_REASSESSMENT`.
 
 ## 🟠 P1 — Independent implementation evidence remains limited
 
@@ -340,8 +337,11 @@ Current State → current state projection
 Roadmap → active gate/order
 Active Risks → active risk register
 AI Context → continuation/routing
+Decision Ledger → operator/ADR decision projection
 GitHub Sync Log → PR/SHA/CI synchronization chronology
 ```
+
+The ADR-0028 design projection has a previous 8/8 read-back. The positive-qualification implementation requires a new post-merge update/read-back of the same eight existing pages; it must not create a ninth page or reinterpret the frozen H11 state-binding checkpoint.
 
 ## 🟠 P1 — Repository governance enforcement can be weaker than methodology
 
@@ -376,7 +376,9 @@ runtime frozen ≠ research stopped
 Notion synchronized ≠ H11 qualified
 CI green ≠ independent validation
 ADR-0028 accepted ≠ reviewer qualified
-qualification design selected ≠ H11 execution authorized
+positive qualification implemented ≠ reviewer qualified
+qualification ≠ execution admission
+execution admission ≠ H11 execution
 ```
 
 ## Update rule

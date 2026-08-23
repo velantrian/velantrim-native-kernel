@@ -28,7 +28,9 @@ H11_CURRENT_GATE = "A10_H11_EXECUTION_ADMISSION"
 H11_BLOCKER = "BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER"
 ADR0028_MERGE = "4a13d2b4ee8001a43f7e3e701dbe9025dbcfd0df"
 ADR0028_RECONCILIATION_MERGE = "5ebb33f5a74a81a7a49dae36ed29247d9b71db87"
-H11_NEXT_DEPENDENCY = "IMPLEMENT_ADR0028_POSITIVE_QUALIFICATION_PATH_THEN_ESTABLISH_GENUINELY_EXTERNAL_CANDIDATE"
+H11_NEXT_DEPENDENCY = "ESTABLISH_GENUINELY_EXTERNAL_CANDIDATE_THEN_EVALUATE_ADR0028_QUALIFICATION"
+ADR0028_NOTION_STATUS = "SYNC_REQUIRED_AFTER_ADR0028_POSITIVE_QUALIFICATION_IMPLEMENTATION"
+ADR0028_NOTION_DECISION_STATUS = "PENDING_POST_IMPLEMENTATION_SYNC"
 CURRENT_MARKER = "POST_H11_EXECUTION_ADMISSION_BLOCKED_CURRENT"
 CURRENT_TRUTH_SURFACES = ("AGENTS.md", "docs/ai/POST_RESIDUAL_A10_STATE.md")
 
@@ -67,13 +69,13 @@ def validate(repo: Path) -> None:
 
     notion = state.get("notion")
     _require(isinstance(notion, Mapping), "Notion state required")
-    _require(notion.get("synchronization_required") is False, "ADR-0028 Notion synchronization must remain complete after read-back")
-    _require(notion.get("status") == "SYNCED_THROUGH_DESCENDANT_CHECKPOINT", "ADR-0028 Notion completed-sync status drift")
-    _require(notion.get("decision_sync_status") == "COMPLETE / READ_BACK_VERIFIED", "ADR-0028 Notion decision-sync status drift")
-    _require(notion.get("surface_count") == 8 and notion.get("read_back_verified_count") == 8 and notion.get("new_pages_created") == 0, "ADR-0028 Notion surface/read-back counts must remain 8/8 with zero new pages")
+    _require(notion.get("synchronization_required") is True, "ADR-0028 implementation must remain pending Notion synchronization")
+    _require(notion.get("status") == ADR0028_NOTION_STATUS, "ADR-0028 post-implementation Notion status drift")
+    _require(notion.get("decision_sync_status") == ADR0028_NOTION_DECISION_STATUS, "ADR-0028 post-implementation Notion decision-sync status drift")
+    _require(notion.get("surface_count") == 8 and notion.get("read_back_verified_count") == 8 and notion.get("new_pages_created") == 0, "prior ADR-0028 Notion surface/read-back inventory must remain 8/8 with zero new pages")
     scope = str(notion.get("scope", ""))
-    for marker in (ADR0028_RECONCILIATION_MERGE, "Eight existing Native Kernel Notion projections", "zero new pages", "H11 admission remains BLOCKED", "NOT_ESTABLISHED", "NOT_TESTED", "FROZEN"):
-        _require(marker in scope, f"Notion completed ADR-0028 scope missing marker: {marker}")
+    for marker in ("PR #164", "eight existing Native Kernel Notion surfaces", "No candidate has been evaluated", "H11 admission remains BLOCKED", "NOT_ESTABLISHED", "NOT_TESTED", "FROZEN"):
+        _require(marker in scope, f"Notion pending ADR-0028 implementation scope missing marker: {marker}")
 
     validation = state["tracks"]["long_horizon_research"]["post_blueprint_validation"]
     decision = validation.get("post_d8_operator_decision")
@@ -120,6 +122,14 @@ def validate(repo: Path) -> None:
     _require(admission.get("h11_outcome") == "NOT_TESTED", "blocked admission must not be rewritten as INDETERMINATE")
     _require(admission.get("implementation_authorized") is False and admission.get("execution_authorized") is False, "blocked admission cannot authorize execution")
 
+    qualification = plan.get("h11_positive_qualification_design")
+    _require(isinstance(qualification, Mapping), "ADR-0028 positive qualification implementation required")
+    _require(qualification.get("positive_qualification_implementation") == "IMPLEMENTED / NO_CANDIDATE_EVALUATED", "ADR-0028 positive qualification implementation drift")
+    _require(qualification.get("qualification_evaluation_state") == "NO_CANDIDATE_EVALUATED", "ADR-0028 candidate evaluation state drift")
+    _require(qualification.get("qualifying_reviewer_reproducer") == "NOT_ESTABLISHED", "ADR-0028 implementation must not fabricate reviewer qualification")
+    _require(qualification.get("changes_execution_admission") is False and qualification.get("h11_execution_authorized") is False, "ADR-0028 implementation must not grant H11 authority")
+    _require(qualification.get("runtime_expansion") == "FROZEN", "ADR-0028 implementation must not thaw runtime")
+
     evidence = state.get("evidence", {})
     admission_evidence = evidence.get("h11_execution_admission")
     _require(isinstance(admission_evidence, Mapping), "H11 admission evidence binding required")
@@ -129,8 +139,16 @@ def validate(repo: Path) -> None:
     _require(isinstance(adr0028, Mapping), "ADR-0028 qualification-design evidence binding required")
     _require(adr0028.get("merge_sha") == ADR0028_MERGE, "ADR-0028 evidence merge drift")
     _require(adr0028.get("selected_option") == "OPTION_C_HYBRID_TWO_BASIS", "ADR-0028 selected option drift")
+    _require(adr0028.get("positive_qualification_implementation") == "IMPLEMENTED / NO_CANDIDATE_EVALUATED", "ADR-0028 design evidence implementation drift")
     _require(adr0028.get("qualifying_reviewer_reproducer") == "NOT_ESTABLISHED", "ADR-0028 must not fabricate reviewer qualification")
     _require(adr0028.get("h11_outcome") == "NOT_TESTED" and adr0028.get("execution_authorized") is False, "ADR-0028 must preserve blocked H11 authority")
+
+    implementation = evidence.get("adr_0028_positive_qualification_implementation")
+    _require(isinstance(implementation, Mapping), "ADR-0028 implementation evidence required")
+    _require(implementation.get("status") == "IMPLEMENTED / NO_CANDIDATE_EVALUATED / EXECUTION_ADMISSION_UNCHANGED", "ADR-0028 implementation status drift")
+    _require(implementation.get("issue") == 163 and implementation.get("pr") == 164, "ADR-0028 implementation routing drift")
+    _require(implementation.get("qualifying_reviewer_reproducer") == "NOT_ESTABLISHED" and implementation.get("h11_outcome") == "NOT_TESTED", "ADR-0028 implementation evidence must preserve blocked H11 truth")
+    _require(implementation.get("execution_admission_changed") is False and implementation.get("h11_execution_authorized") is False and implementation.get("runtime_expansion") == "FROZEN", "ADR-0028 implementation evidence authority drift")
 
     for relative in CURRENT_TRUTH_SURFACES:
         text = _read(repo / relative)
@@ -149,9 +167,9 @@ def main() -> int:
     repo = args.repo.resolve()
     validate(repo)
     print(
-        "Reconciliation validation passed; D8 history preserved; ADR-0028 design selected; "
+        "Reconciliation validation passed; D8 history preserved; ADR-0028 qualification=IMPLEMENTED/NO_CANDIDATE_EVALUATED; "
         "H11 admission=BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER; "
-        "H11=NOT_TESTED; reviewer=NOT_ESTABLISHED; execution=NOT_AUTHORIZED; Notion=READ_BACK_VERIFIED"
+        "H11=NOT_TESTED; reviewer=NOT_ESTABLISHED; execution=NOT_AUTHORIZED; Notion=SYNC_REQUIRED"
     )
     return 0
 

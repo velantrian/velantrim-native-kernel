@@ -18,7 +18,6 @@ SPEC.loader.exec_module(module)
 H11_ADMISSION_MERGE = "f7d13fce0104a4c2ce67589e954b09365a82f36f"
 H11_STATE_BINDING_MERGE = "e36b7f45410d74b8a65406bff6fdd6d070fa96b0"
 ADR0028_DECISION_MERGE = "4a13d2b4ee8001a43f7e3e701dbe9025dbcfd0df"
-ADR0028_RECONCILIATION_MERGE = "5ebb33f5a74a81a7a49dae36ed29247d9b71db87"
 
 
 class Post130NotionCheckpointTests(unittest.TestCase):
@@ -34,7 +33,7 @@ class Post130NotionCheckpointTests(unittest.TestCase):
             check_git=False,
         )
 
-    def test_current_notion_checkpoint_preserves_h11_binding_and_records_adr0028_sync(self) -> None:
+    def test_current_notion_checkpoint_preserves_h11_binding_while_implementation_sync_is_pending(self) -> None:
         self.assertEqual(
             self.state["checkpoints"]["notion_synchronized_through_sha"],
             H11_STATE_BINDING_MERGE,
@@ -43,20 +42,21 @@ class Post130NotionCheckpointTests(unittest.TestCase):
             self.state["checkpoints"]["qualification_design_decision_sha"],
             ADR0028_DECISION_MERGE,
         )
-        self.assertFalse(self.state["notion"]["synchronization_required"])
+        self.assertTrue(self.state["notion"]["synchronization_required"])
         self.assertEqual(
             self.state["notion"]["status"],
-            "SYNCED_THROUGH_DESCENDANT_CHECKPOINT",
+            "SYNC_REQUIRED_AFTER_ADR0028_POSITIVE_QUALIFICATION_IMPLEMENTATION",
         )
         self.assertEqual(
             self.state["notion"]["decision_sync_status"],
-            "COMPLETE / READ_BACK_VERIFIED",
+            "PENDING_POST_IMPLEMENTATION_SYNC",
         )
         self.assertEqual(self.state["notion"]["surface_count"], 8)
         self.assertEqual(self.state["notion"]["read_back_verified_count"], 8)
         self.assertEqual(self.state["notion"]["new_pages_created"], 0)
-        self.assertIn(ADR0028_RECONCILIATION_MERGE, self.state["notion"]["scope"])
-        self.assertIn("updated and read back", self.state["notion"]["scope"])
+        self.assertIn("PR #164", self.state["notion"]["scope"])
+        self.assertIn("eight existing Native Kernel Notion surfaces", self.state["notion"]["scope"])
+        self.assertIn("No candidate has been evaluated", self.state["notion"]["scope"])
         self.validate(copy.deepcopy(self.state))
 
     def test_old_pr129_checkpoint_is_rejected_as_current_notion_truth(self) -> None:
