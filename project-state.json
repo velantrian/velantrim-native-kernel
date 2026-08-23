@@ -389,14 +389,14 @@
     "adr_0028_positive_qualification_implementation": {"protocol": "nk-h11-positive-qualification-policy/1", "policy_path": "docs/research/H11_POSITIVE_QUALIFICATION_POLICY.json", "request_schema_protocol": "nk-h11-positive-qualification-request/1", "request_schema_path": "docs/research/H11_POSITIVE_QUALIFICATION_REQUEST_SCHEMA.json", "evaluator_protocol": "nk-h11-positive-qualification-evaluation/1", "evaluator_path": "tools/ai_context/evaluate_h11_positive_qualification.py", "status": "IMPLEMENTED / NO_CANDIDATE_EVALUATED / EXECUTION_ADMISSION_UNCHANGED", "issue": 163, "pr": 164, "qualifying_reviewer_reproducer": "NOT_ESTABLISHED", "h11_outcome": "NOT_TESTED", "execution_admission_changed": false, "h11_execution_authorized": false, "runtime_expansion": "FROZEN"}
   },
   "notion": {
-    "synchronization_required": true,
-    "status": "SYNC_REQUIRED_AFTER_ADR0028_POSITIVE_QUALIFICATION_IMPLEMENTATION",
-    "decision_sync_status": "PENDING_POST_IMPLEMENTATION_SYNC",
+    "synchronization_required": false,
+    "status": "SYNCED_THROUGH_DESCENDANT_CHECKPOINT",
+    "decision_sync_status": "COMPLETE / READ_BACK_VERIFIED",
     "surface_count": 8,
     "read_back_verified_count": 8,
     "new_pages_created": 0,
-    "scope": "The previous ADR-0028 design projection was synchronized and read back across eight existing Native Kernel Notion surfaces. PR #164 now implements the bounded positive qualification policy/schema/evaluator in GitHub current truth, so those existing eight role-specific projections require a post-merge implementation-status update and read-back. No candidate has been evaluated; reviewer/reproducer remains NOT_ESTABLISHED; H11 admission remains BLOCKED; H11 remains NOT_TESTED and runtime remains FROZEN.",
-    "authority_boundary": "GitHub remains authoritative for technical state, live refs, contracts, tests, workflows, evidence and current-truth descendants. Post-implementation Notion synchronization may project only IMPLEMENTED / NO_CANDIDATE_EVALUATED and the unchanged H11 blocker; it must not establish qualification, change execution admission, execute H11, promote Final Canon, thaw runtime, authorize production, reducer-v2 or Issue #18 policy."
+    "scope": "PR #164 is merged and the bounded ADR-0028 positive qualification implementation projection has been synchronized and read back across eight existing Native Kernel Notion surfaces with zero new pages. No candidate has been evaluated; reviewer/reproducer remains NOT_ESTABLISHED; H11 admission remains BLOCKED; H11 remains NOT_TESTED and runtime remains FROZEN. The preserved H11 post-130 checkpoint role remains historical and is not redefined by this descendant synchronization.",
+    "authority_boundary": "GitHub remains authoritative for technical state, live refs, contracts, tests, workflows, evidence and current-truth descendants. The completed post-implementation Notion synchronization projects only IMPLEMENTED / NO_CANDIDATE_EVALUATED and the unchanged H11 blocker; it does not establish qualification, change execution admission, execute H11, promote Final Canon, thaw runtime, authorize production, reducer-v2 or Issue #18 policy."
   },
   "non_claims": [
     "C5 bounded rehearsal is not production readiness.",
