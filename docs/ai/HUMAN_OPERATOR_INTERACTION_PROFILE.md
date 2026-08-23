@@ -2,9 +2,23 @@
 
 ## Status
 
-Non-authoritative interaction profile.
+Non-authoritative Native Kernel project-specific projection of the ecosystem-level Human Operator Interaction Contract currently recorded in the Google Drive document **Velantrim System OS — Current & Research Bridge — 2026-08-23**.
 
 This document defines how AI assistants and operator-facing tooling should explain Native Kernel state to a human operator. It does **not** create architecture authority, change repository truth, move gates, alter evidence status, authorize execution, or replace ADRs/specifications/machine state.
+
+## Ecosystem relationship
+
+The ecosystem-level concept lives in Velantrim System OS as a research/system interaction contract. This Native Kernel document is the first bounded project-specific projection.
+
+```text
+Velantrim System OS
+  Human Operator Interaction Contract
+            ↓
+Native Kernel
+  Human Operator Interaction Profile
+```
+
+This projection may specialize terminology, gates, evidence boundaries, and examples for Native Kernel, but it must not redefine the ecosystem-level interaction concept or create a competing source of authority.
 
 ## Purpose
 
@@ -164,6 +178,18 @@ Human View:
 ```
 
 Engineer View may then be requested separately for the exact policy, schemas, evaluator, event IDs, and gate transitions.
+
+## Research linkage
+
+The ecosystem-level System OS contract keeps adaptive-depth behavior in research until it is measured. Native Kernel should not invent an independent adaptation engine.
+
+Relevant research questions include:
+
+- whether progressive disclosure improves operator comprehension;
+- whether Focus Guard reduces omission risk or attention loss;
+- how uncertainty should be shown without hiding material disagreement;
+- when automatic escalation from Human View to Operator View is justified;
+- how learned interaction preferences preserve privacy, reversibility, and authority boundaries.
 
 ## Design principle
 
