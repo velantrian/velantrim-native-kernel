@@ -16,8 +16,8 @@ _PRE_PLAN_VALIDATE = validate
 ADR0027_DECISION_MERGE = "57993f39906ae7266011f6146c9a485d0587d2bf"
 ADR0028_DECISION_MERGE = "4a13d2b4ee8001a43f7e3e701dbe9025dbcfd0df"
 ADR0028_RECONCILIATION_MERGE = "5ebb33f5a74a81a7a49dae36ed29247d9b71db87"
-ADR0028_NOTION_DECISION_STATUS = "PENDING_POST_IMPLEMENTATION_SYNC"
-ADR0028_NOTION_STATUS = "SYNC_REQUIRED_AFTER_ADR0028_POSITIVE_QUALIFICATION_IMPLEMENTATION"
+ADR0028_NOTION_DECISION_STATUS = "COMPLETE / READ_BACK_VERIFIED"
+ADR0028_NOTION_STATUS = "SYNCED_THROUGH_DESCENDANT_CHECKPOINT"
 ADR0028_POLICY_PROTOCOL = "nk-h11-positive-qualification-policy/1"
 ADR0028_POLICY_PATH = "docs/research/H11_POSITIVE_QUALIFICATION_POLICY.json"
 ADR0028_REQUEST_PROTOCOL = "nk-h11-positive-qualification-request/1"
@@ -84,12 +84,12 @@ def _validate_current(state: Mapping[str, Any]) -> None:
     notion = state.get("notion")
     _require(isinstance(notion, Mapping), "Notion synchronization state required")
     _require(notion.get("status") == ADR0028_NOTION_STATUS, "ADR-0028 positive-qualification Notion status drift")
-    _require(notion.get("synchronization_required") is True, "post-implementation Notion synchronization must remain pending")
+    _require(notion.get("synchronization_required") is False, "post-implementation Notion synchronization must remain complete")
     _require(notion.get("decision_sync_status") == ADR0028_NOTION_DECISION_STATUS, "ADR-0028 post-implementation Notion decision status drift")
-    _require(notion.get("surface_count") == 8 and notion.get("read_back_verified_count") == 8 and notion.get("new_pages_created") == 0, "prior ADR-0028 Notion 8/8 inventory drift")
+    _require(notion.get("surface_count") == 8 and notion.get("read_back_verified_count") == 8 and notion.get("new_pages_created") == 0, "ADR-0028 Notion 8/8 inventory drift")
     notion_scope = str(notion.get("scope", ""))
     for marker in ("PR #164", "eight existing Native Kernel Notion surfaces", "No candidate has been evaluated", "NOT_ESTABLISHED", "H11 admission remains BLOCKED", "NOT_TESTED", "FROZEN"):
-        _require(marker in notion_scope, f"ADR-0028 post-implementation Notion scope missing marker: {marker}")
+        _require(marker in notion_scope, f"ADR-0028 completed Notion scope missing marker: {marker}")
 
     research = state["tracks"]["long_horizon_research"]
     _require(research.get("status") == "ACTIVE / H11 EXECUTION ADMISSION BLOCKED / NO AUTOMATIC PROMOTION", "H11 blocked-admission research status drift")
@@ -242,7 +242,7 @@ def main() -> int:
     state_path = args.state if args.state.is_absolute() else repo / args.state
     state = _load(state_path, "project state")
     validate(state, repo=repo, check_git=not args.no_git)
-    print("Project-state validation passed; ADR-0028 qualification=IMPLEMENTED/NO_CANDIDATE_EVALUATED; H11 admission=BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER; H11=NOT_TESTED; reviewer=NOT_ESTABLISHED; execution=NOT_AUTHORIZED; runtime=FROZEN; Notion=SYNC_REQUIRED")
+    print("Project-state validation passed; ADR-0028 qualification=IMPLEMENTED/NO_CANDIDATE_EVALUATED; H11 admission=BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER; H11=NOT_TESTED; reviewer=NOT_ESTABLISHED; execution=NOT_AUTHORIZED; runtime=FROZEN; Notion=8_OF_8_READ_BACK_VERIFIED")
     return 0
 
 
