@@ -8,17 +8,23 @@ This document defines how AI assistants and operator-facing tooling should expla
 
 ## Ecosystem relationship
 
-The ecosystem-level concept lives in Velantrim System OS as a research/system interaction contract. This Native Kernel document is the first bounded project-specific projection.
+Human-facing interpretation and cognition semantics belong to **Mentaury Soul**. Velantrim System OS owns the cross-project routing/integration of the Human Operator contract. Titan is the natural runtime host for bounded interaction orchestration when separately authorized. This Native Kernel document is only a project-specific projection.
 
 ```text
+Mentaury Soul
+  human interpretation / cognition semantics
+            ↓
 Velantrim System OS
-  Human Operator Interaction Contract
+  cross-project routing / integration
+            ↓
+Titan
+  bounded runtime interaction orchestration
             ↓
 Native Kernel
-  Human Operator Interaction Profile
+  project-specific Human Operator projection
 ```
 
-This projection may specialize terminology, gates, evidence boundaries, and examples for Native Kernel, but it must not redefine the ecosystem-level interaction concept or create a competing source of authority.
+This projection may specialize terminology, gates, evidence boundaries, and examples for Native Kernel, but it must not redefine Soul-owned human interpretation semantics, System OS routing, or create a competing source of authority.
 
 ## Purpose
 
@@ -181,7 +187,7 @@ Engineer View may then be requested separately for the exact policy, schemas, ev
 
 ## Research linkage
 
-The ecosystem-level System OS contract keeps adaptive-depth behavior in research until it is measured. Native Kernel should not invent an independent adaptation engine.
+Soul and related cognition research own questions about human interpretation, cognitive load, perspective-sensitive explanation, and adaptive communication semantics. System OS integrates those semantics across projects. Titan may later implement bounded adaptive interaction behavior when explicitly authorized. Native Kernel should not invent an independent adaptation engine.
 
 Relevant research questions include:
 
