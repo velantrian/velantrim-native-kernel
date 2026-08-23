@@ -33,7 +33,7 @@ class Post130NotionCheckpointTests(unittest.TestCase):
             check_git=False,
         )
 
-    def test_current_notion_checkpoint_preserves_h11_binding_while_implementation_sync_is_pending(self) -> None:
+    def test_current_notion_checkpoint_preserves_h11_binding_while_implementation_sync_is_complete(self) -> None:
         self.assertEqual(
             self.state["checkpoints"]["notion_synchronized_through_sha"],
             H11_STATE_BINDING_MERGE,
@@ -42,14 +42,14 @@ class Post130NotionCheckpointTests(unittest.TestCase):
             self.state["checkpoints"]["qualification_design_decision_sha"],
             ADR0028_DECISION_MERGE,
         )
-        self.assertTrue(self.state["notion"]["synchronization_required"])
+        self.assertFalse(self.state["notion"]["synchronization_required"])
         self.assertEqual(
             self.state["notion"]["status"],
-            "SYNC_REQUIRED_AFTER_ADR0028_POSITIVE_QUALIFICATION_IMPLEMENTATION",
+            "SYNCED_THROUGH_DESCENDANT_CHECKPOINT",
         )
         self.assertEqual(
             self.state["notion"]["decision_sync_status"],
-            "PENDING_POST_IMPLEMENTATION_SYNC",
+            "COMPLETE / READ_BACK_VERIFIED",
         )
         self.assertEqual(self.state["notion"]["surface_count"], 8)
         self.assertEqual(self.state["notion"]["read_back_verified_count"], 8)

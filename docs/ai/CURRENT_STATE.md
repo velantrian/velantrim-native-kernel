@@ -19,7 +19,7 @@ h11_outcome: NOT_TESTED
 h11_execution_admission_merge: f7d13fce0104a4c2ce67589e954b09365a82f36f
 h11_state_binding_merge: e36b7f45410d74b8a65406bff6fdd6d070fa96b0
 notion_synchronized_through: e36b7f45410d74b8a65406bff6fdd6d070fa96b0
-notion_sync_state: SYNC_REQUIRED_AFTER_ADR0028_POSITIVE_QUALIFICATION_IMPLEMENTATION
+notion_sync_state: SYNCED_THROUGH_DESCENDANT_CHECKPOINT / 8_OF_8_READ_BACK_VERIFIED
 previous_notion_sync_source: 5ebb33f5a74a81a7a49dae36ed29247d9b71db87
 previous_notion_sync_surfaces: 8
 runtime_expansion: FROZEN
@@ -41,7 +41,7 @@ positive_qualification_evaluator: nk-h11-positive-qualification-evaluation/1
 next_dependency: ESTABLISH_GENUINELY_EXTERNAL_CANDIDATE_THEN_EVALUATE_ADR0028_QUALIFICATION
 ```
 
-The previous ADR-0028 **design** projection was synchronized and read back across eight existing Native Kernel pages with zero new pages created. The positive-qualification policy/schema/evaluator implementation is now repository-resident on the current implementation branch and requires a post-merge update/read-back of those same eight pages. The preserved `notion_synchronized_through` SHA remains the historical H11 post-130 machine checkpoint; it is not redefined by this implementation.
+The ADR-0028 positive-qualification implementation projection has now been synchronized and read back across the same eight existing Native Kernel pages with zero new pages created. This synchronization records only repository-resident implementation status; no candidate was evaluated and no H11 authority changed. The preserved `notion_synchronized_through` SHA remains the historical H11 post-130 machine checkpoint; it is not redefined by this descendant synchronization.
 
 The committed H11 state-binding checkpoint above is not a prediction of live `main`. Later documentation, validation-machinery or presentation commits may be descendants without changing the H11 semantic gate.
 
