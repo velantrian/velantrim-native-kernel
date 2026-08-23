@@ -1,0 +1,34 @@
+# Documentation Audit — 2026-08-23
+
+**Scope:** accuracy/currency (точность и актуальность) and completeness/structure (полнота и структура) of this repository's documentation (`*.md`, README, `docs/`), assessed against a snapshot of the default branch on 2026-08-23. This is a documentation snapshot audit, not a code-quality or security review, and does not cover unmerged branches.
+
+## Overall Health Assessment
+
+**Fair.** The repository's core machine/agent surfaces (`project-state.json`, `docs/ai/CURRENT_STATE.md`, `docs/ai/KNOWN_RISKS.md`, `docs/adr/*`) are exceptionally rigorous and factually accurate — every script, config path, and command sampled across root docs, `docs/ai/`, ADRs, and tool READMEs actually exists, and the extensive cross-referenced status literals are internally consistent almost everywhere. However, the project's own five-layer documentation model (Human/Agent/Machine/Formal/Evidence) has visible seams: the "Human view" (`STATUS.md`, `ROADMAP.md`) and the governance package have measurably fallen behind the latest accepted decisions, and several structurally important documents are completely unreachable via any in-repo link. These are exactly the failure modes the repo's own `DOCUMENTATION_SYNC_PROTOCOL.md` warns against ("a merged change with stale public documentation is not finished").
+
+## Findings
+
+1. **docs/governance/README.md** | accuracy | high | Governance index directly contradicts the machine record sitting in the same directory about whether ADR-0024 is accepted. | README states `ADR-0024 reducer referential semantics | #74 | PENDING_OPERATOR` and "ADR-0024 accepted: NO", while `docs/governance/operator-decisions-v1.json` (same `status_as_of: 2026-08-22`) records `"adr_0024": {"state": "OPERATOR_APPROVED", "selected_option": "ACCEPT_WITH_CHANGES"}`. Same defect in README.ru.md.
+
+2. **docs/adr/README.md** | accuracy | high | The ADR index table (the navigable status ledger for the ADR set) omits ADR-0028 entirely. | Table only lists `0001`–`0027`; `docs/adr/0028-h11-hybrid-two-basis-positive-qualification.md` exists, dated 2026-08-22, status `ACCEPTED / OPERATOR APPROVED`, referenced extensively in `project-state.json`/`docs/ai/CURRENT_STATE.md`, but has zero inbound markdown links anywhere in the repo.
+
+3. **STATUS.md / ROADMAP.md** | accuracy | high | Both files' "current" overlay is a week stale and omits the most recent accepted ADR entirely. | Both carry `Current authoritative overlay — 2026-08-15` vs. `docs/ai/CURRENT_STATE.md` and `docs/ai/KNOWN_RISKS.md` at `2026-08-22`; neither mentions "0028" or Issue #154/PR #155/#157.
+
+4. **docs/contracts/NORMATIVE_CONTRACTS_V1.md** | structure | medium | The "Identity and Canonical Encoding Contract v1" (protocol `nk-id/1.0`, tied to ADR-0011) has no inbound reference from anywhere in the repository, including from ARCHITECTURE.md's own "Abstract Contracts" section and from the ADR that supposedly establishes it. Same for the `.ru.md` pair.
+
+5. **docs/ai/AUDIT_AND_FUTURE_WORK.md** | completeness | medium | The durable "future-work ledger" never lists the project's own declared next dependency. | File (406 lines) has zero occurrences of "0028" or "154", while `project-state.json` explicitly states `"next_dependency": "IMPLEMENT_ADR0028_POSITIVE_QUALIFICATION_PATH_THEN_ESTABLISH_GENUINELY_EXTERNAL_CANDIDATE"`.
+
+6. **docs/ai/DOCUMENTATION_STANDARD.md** | structure | medium | The canonical explanation of the whole documentation-layering system is itself orphaned, not even listed in `docs/ai/README.md`'s "required reading order." `docs/ai/AUDIT_PLAYBOOK.md` has the identical problem.
+
+7. **docs/ai/C4_IMPLEMENTATION_RECORD.md, C5_IMPLEMENTATION_RECORD.md, docs/ai/P3_IMPLEMENTATION_RECORD.md** | structure | low | Three of five phase "implementation record" files are never referenced by name anywhere else, unlike siblings P4/P5 which are cited from other docs.
+
+8. **docs/adr/0024-operator-decision-package.md** | accuracy | low | Two files share ADR number 0024 (`operator-decision-package` and `version-reducer-referential-semantics`), deviating from the one-ADR-per-number convention used everywhere else.
+
+9. **docs/reviews/IAR-1_LATE_REVIEW_FOLLOWUP.md** | accuracy | low | Status header still reads `CORRECTIVE FOLLOW-UP ACTIVE` tied to PR #107/#108 (pre-D5/D6/D7/D8/ADR-0027/ADR-0028 era) with no resolution marker despite many later milestones completing; zero inbound links repo-wide.
+
+10. **tools/docs/bilingual-pairs-v1.json** | structure | low | The automated EN/RU parity validator only covers 17 of the repo's actual 43 `*.ru.md` files — 26 translations fall outside the declared/validated scope and can drift undetected.
+
+**Not found (checked, clean):** no broken relative markdown links anywhere in the 178 files; no ADR with a "PROPOSED" status silently superseded by a later one; no empty/stub files; all sampled scripts/configs/paths cited in docs actually exist on disk.
+
+---
+*Generated by an automated documentation audit (Claude Code).*
