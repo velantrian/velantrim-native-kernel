@@ -148,7 +148,7 @@ flowchart LR
 | 🚀 Product runtime | ❌ Not authorized | Runtime expansion остаётся frozen |
 | 🏭 Production | ❌ Not authorized | Research evidence не является production approval |
 
-Для live state используйте **[STATUS.md](STATUS.md)** и **[project-state.json](project-state.json)**. Открытая поверхность внешней проверки — **[PR #131](https://github.com/velantrian/velantrim-native-kernel/pull/131)**.
+Для live state используйте **[docs/ai/CURRENT_STATE.md](docs/ai/CURRENT_STATE.md)** вместе с machine-readable **[project-state.json](project-state.json)** и live GitHub. **[STATUS.md](STATUS.md)** и **[ROADMAP.md](ROADMAP.md)** используйте для human orientation и chronology, а не как конкурирующую live authority. Открытая поверхность внешней проверки — **[PR #131](https://github.com/velantrian/velantrim-native-kernel/pull/131)**.
 
 <details>
 <summary>⚙ Exact machine-facing граница</summary>
@@ -214,9 +214,13 @@ README
 **Если нужно текущее состояние:**
 
 ```text
-📊 STATUS.md
+🌐 live GitHub
    +
 ⚙ project-state.json
+   +
+📍 docs/ai/CURRENT_STATE.md
+
+📚 STATUS.md / ROADMAP.md → orientation + chronology
 ```
 
 **Если вы AI agent или automated auditor:**
@@ -263,7 +267,7 @@ python tools/ai_context/validate_context.py --repo .
 
 ## 📎 Технические и исторические детали
 
-Landing page намеренно не помещает volatile chronology в основной поток чтения. Подробный current/historical материал остаётся в **[STATUS.md](STATUS.md)**, **[ROADMAP.md](ROADMAP.md)**, **[docs/](docs/)**, **[evidence/](evidence/)** и machine context pack.
+Landing page намеренно не помещает volatile chronology в основной поток чтения. Current state маршрутизируется через **[docs/ai/CURRENT_STATE.md](docs/ai/CURRENT_STATE.md)** плюс **[project-state.json](project-state.json)** и live GitHub; подробная chronology остаётся в **[STATUS.md](STATUS.md)**, **[ROADMAP.md](ROADMAP.md)**, **[docs/](docs/)** и **[evidence/](evidence/)**.
 
 ### Текущая карта evidence
 
