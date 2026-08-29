@@ -34,7 +34,7 @@ class BranchPreservationTests(unittest.TestCase):
             }],
         }
 
-    def _run(self, data, actual=SHA, citation_text=None, create_citations=True):
+    def _run(self, data, actual=SHA, citation_text=None, create_citations=True, required=None):
         with tempfile.TemporaryDirectory() as tmp:
             repo = Path(tmp)
             path = repo / "manifest.json"
@@ -53,11 +53,14 @@ class BranchPreservationTests(unittest.TestCase):
                             text = item["tip_sha"][:12]
                         citation.write_text(text, encoding="utf-8")
             old_git = module._git
+            old_required = module.FROZEN_REF_TIPS
             module._git = lambda *_args: actual
+            module.FROZEN_REF_TIPS = required or {"agent/example": SHA}
             try:
                 module.validate(repo, path)
             finally:
                 module._git = old_git
+                module.FROZEN_REF_TIPS = old_required
 
     def test_valid_manifest_passes(self):
         self._run(self._manifest())
@@ -75,6 +78,22 @@ class BranchPreservationTests(unittest.TestCase):
     def test_ref_tip_drift_fails_closed(self):
         with self.assertRaisesRegex(module.BranchPreservationError, "tip drift"):
             self._run(self._manifest(), actual="b" * 40)
+
+    def test_frozen_tip_drift_fails_closed(self):
+        data = self._manifest()
+        data["protected_refs"][0]["tip_sha"] = "b" * 40
+        with self.assertRaisesRegex(module.BranchPreservationError, "frozen protected tip drift"):
+            self._run(data, actual="b" * 40)
+
+    def test_unexpected_ref_requires_validator_update(self):
+        data = self._manifest()
+        data["protected_refs"][0]["ref"] = "agent/unexpected"
+        with self.assertRaisesRegex(module.BranchPreservationError, "explicit validator update"):
+            self._run(data)
+
+    def test_missing_frozen_ref_fails_closed(self):
+        with self.assertRaisesRegex(module.BranchPreservationError, "inventory incomplete"):
+            self._run(self._manifest(), required={"agent/example": SHA, "agent/missing": "b" * 40})
 
     def test_missing_cited_by_fails_closed(self):
         data = self._manifest()
