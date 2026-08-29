@@ -45,6 +45,8 @@ class BranchPreservationTests(unittest.TestCase):
                         if not isinstance(raw, str) or raw.startswith("/") or ".." in Path(raw).parts:
                             continue
                         citation = repo / raw
+                        if citation.resolve() == path.resolve():
+                            continue
                         citation.parent.mkdir(parents=True, exist_ok=True)
                         text = citation_text
                         if text is None:
