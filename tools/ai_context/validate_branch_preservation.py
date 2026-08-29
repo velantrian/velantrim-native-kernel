@@ -12,6 +12,7 @@ PROTOCOL = "nk-branch-preservation/1"
 MANIFEST = Path("evidence/branch-preservation-v1.json")
 FULL_SHA = re.compile(r"^[0-9a-f]{40}$")
 ALLOWED_MIGRATION = {"PENDING_MAIN_REACHABLE_ANCHOR", "INTENTIONAL_LONG_LIVED_LINEAGE"}
+MIN_CITATION_PREFIX = 12
 
 
 class BranchPreservationError(RuntimeError):
@@ -30,17 +31,22 @@ def _git(repo: Path, *args: str) -> str:
     return proc.stdout.strip()
 
 
-def _current_main_files(repo: Path) -> list[Path]:
-    return [p for p in repo.rglob("*") if p.is_file() and ".git" not in p.parts]
+def _current_repo_files(repo: Path, excluded: Path) -> list[Path]:
+    excluded = excluded.resolve()
+    return [
+        p for p in repo.rglob("*")
+        if p.is_file() and ".git" not in p.parts and p.resolve() != excluded
+    ]
 
 
-def _sha_is_cited(repo: Path, sha: str) -> bool:
-    for path in _current_main_files(repo):
+def _sha_is_cited(repo: Path, sha: str, manifest_path: Path) -> bool:
+    needle = sha[:MIN_CITATION_PREFIX]
+    for path in _current_repo_files(repo, manifest_path):
         try:
             text = path.read_text(encoding="utf-8")
         except (UnicodeDecodeError, OSError):
             continue
-        if sha in text:
+        if needle in text:
             return True
     return False
 
@@ -62,7 +68,6 @@ def validate(repo: Path, manifest_path: Path | None = None) -> None:
     refs = data.get("protected_refs")
     _require(isinstance(refs, list) and refs, "protected_refs must be non-empty")
     names: set[str] = set()
-    shas: set[tuple[str, str]] = set()
 
     for item in refs:
         _require(isinstance(item, dict), "protected ref entry must be an object")
@@ -84,10 +89,10 @@ def validate(repo: Path, manifest_path: Path | None = None) -> None:
         _require(actual == sha, f"protected ref tip drift: {ref}: expected {sha}, got {actual}")
 
         if state == "PENDING_MAIN_REACHABLE_ANCHOR":
-            _require(_sha_is_cited(repo, sha), f"protected historical SHA is no longer cited by repository content: {ref}")
-        shas.add((ref, sha))
-
-    _require(len(shas) == len(refs), "duplicate ref/SHA entries are not allowed")
+            _require(
+                _sha_is_cited(repo, sha, path),
+                f"protected historical SHA prefix is no longer cited outside the preservation manifest: {ref}",
+            )
 
 
 if __name__ == "__main__":
