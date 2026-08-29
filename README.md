@@ -148,7 +148,7 @@ The arrow from evidence to a later decision is deliberate. Passing an experiment
 | 🚀 Product runtime | ❌ Not authorized | Runtime expansion remains frozen |
 | 🏭 Production | ❌ Not authorized | Research evidence is not production approval |
 
-For live state, use **[STATUS.md](STATUS.md)** and **[project-state.json](project-state.json)**. The open external review surface is **[PR #131](https://github.com/velantrian/velantrim-native-kernel/pull/131)**.
+For live state, use **[docs/ai/CURRENT_STATE.md](docs/ai/CURRENT_STATE.md)** together with machine-readable **[project-state.json](project-state.json)** and live GitHub. Use **[STATUS.md](STATUS.md)** and **[ROADMAP.md](ROADMAP.md)** for human orientation and chronology, not as competing live authority. The open external review surface is **[PR #131](https://github.com/velantrian/velantrim-native-kernel/pull/131)**.
 
 <details>
 <summary>⚙ Exact machine-facing boundary</summary>
@@ -214,9 +214,13 @@ Optional external positioning: **[docs/COMPARISONS.md](docs/COMPARISONS.md)**.
 **If you need the current state:**
 
 ```text
-📊 STATUS.md
+🌐 live GitHub
    +
 ⚙ project-state.json
+   +
+📍 docs/ai/CURRENT_STATE.md
+
+📚 STATUS.md / ROADMAP.md → orientation + chronology
 ```
 
 **If you are an AI agent or automated auditor:**
@@ -263,7 +267,7 @@ For PostgreSQL/SQLite setup and the full P4/P5/C3/C4/C5 checks, use **[docs/QUIC
 
 ## 📎 Technical and historical details
 
-The landing page intentionally keeps volatile chronology out of the main reading flow. Detailed current and historical material remains available in **[STATUS.md](STATUS.md)**, **[ROADMAP.md](ROADMAP.md)**, **[docs/](docs/)**, **[evidence/](evidence/)** and the machine context pack.
+The landing page intentionally keeps volatile chronology out of the main reading flow. Current state is routed through **[docs/ai/CURRENT_STATE.md](docs/ai/CURRENT_STATE.md)** plus **[project-state.json](project-state.json)** and live GitHub; detailed chronology remains available in **[STATUS.md](STATUS.md)**, **[ROADMAP.md](ROADMAP.md)**, **[docs/](docs/)** and **[evidence/](evidence/)**.
 
 ### Current evidence
 
