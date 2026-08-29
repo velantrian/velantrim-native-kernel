@@ -1,0 +1,59 @@
+name: H11 positive qualification guards
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'tools/ai_context/evaluate_h11_positive_qualification.py'
+      - 'tests/test_h11_positive_qualification.py'
+      - 'tests/test_h11_positive_qualification_policy_guard.py'
+      - '.github/workflows/h11-positive-qualification.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'tools/ai_context/evaluate_h11_positive_qualification.py'
+      - 'tests/test_h11_positive_qualification.py'
+      - 'tests/test_h11_positive_qualification_policy_guard.py'
+      - '.github/workflows/h11-positive-qualification.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  qualification-guards:
+    name: Python ${{ matrix.python-version }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.11', '3.12']
+
+    steps:
+      - name: Check out exact commit with complete history
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Compile H11 positive qualification evaluator and guards
+        run: |
+          python -m compileall -q \
+            tools/ai_context/evaluate_h11_positive_qualification.py \
+            tests/test_h11_positive_qualification.py \
+            tests/test_h11_positive_qualification_policy_guard.py
+
+      - name: Run H11 positive qualification tests
+        run: |
+          python -m unittest discover -s tests -p 'test_h11_positive_qualification.py' -v
+          python -m unittest discover -s tests -p 'test_h11_positive_qualification_policy_guard.py' -v
+
+      - name: Preserve authority boundary
+        run: |
+          echo 'This workflow validates qualification mechanics only.'
+          echo 'CI success does not establish a qualifying candidate, pass H11, thaw runtime, admit Final Canon, or authorize production.'
