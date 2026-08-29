@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 import re
 import subprocess
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 from typing import Any
 
 PROTOCOL = "nk-branch-preservation/1"
@@ -31,24 +31,29 @@ def _git(repo: Path, *args: str) -> str:
     return proc.stdout.strip()
 
 
-def _current_repo_files(repo: Path, excluded: Path) -> list[Path]:
-    excluded = excluded.resolve()
-    return [
-        p for p in repo.rglob("*")
-        if p.is_file() and ".git" not in p.parts and p.resolve() != excluded
-    ]
+def _resolve_citation(repo: Path, raw: str, manifest_path: Path) -> Path:
+    _require(isinstance(raw, str) and raw.strip(), "citation path must be a non-empty string")
+    relative = PurePosixPath(raw)
+    _require(not relative.is_absolute(), f"citation path must be repository-relative: {raw}")
+    _require(".." not in relative.parts, f"citation path escapes repository: {raw}")
+    candidate = (repo / Path(*relative.parts)).resolve()
+    try:
+        candidate.relative_to(repo)
+    except ValueError as exc:
+        raise BranchPreservationError(f"citation path escapes repository: {raw}") from exc
+    _require(candidate != manifest_path.resolve(), "preservation manifest cannot self-satisfy a citation")
+    _require(candidate.is_file(), f"citation file required: {raw}")
+    return candidate
 
 
-def _sha_is_cited(repo: Path, sha: str, manifest_path: Path) -> bool:
-    needle = sha[:MIN_CITATION_PREFIX]
-    for path in _current_repo_files(repo, manifest_path):
-        try:
-            text = path.read_text(encoding="utf-8")
-        except (UnicodeDecodeError, OSError):
-            continue
-        if needle in text:
-            return True
-    return False
+def _citation_contains_anchor(path: Path, sha: str, ref: str, state: str) -> bool:
+    try:
+        text = path.read_text(encoding="utf-8")
+    except (UnicodeDecodeError, OSError) as exc:
+        raise BranchPreservationError(f"citation file must be readable UTF-8 text: {path}") from exc
+    if state == "PENDING_MAIN_REACHABLE_ANCHOR":
+        return sha[:MIN_CITATION_PREFIX] in text
+    return sha[:MIN_CITATION_PREFIX] in text or ref in text
 
 
 def validate(repo: Path, manifest_path: Path | None = None) -> None:
@@ -75,11 +80,16 @@ def validate(repo: Path, manifest_path: Path | None = None) -> None:
         sha = item.get("tip_sha")
         state = item.get("migration_state")
         reason = item.get("reason")
+        cited_by = item.get("cited_by")
+
         _require(isinstance(ref, str) and ref and ref not in names, f"duplicate/invalid ref: {ref}")
         names.add(ref)
         _require(isinstance(sha, str) and FULL_SHA.fullmatch(sha) is not None, f"full 40-char SHA required: {ref}")
         _require(isinstance(reason, str) and reason.strip(), f"reason required: {ref}")
         _require(state in ALLOWED_MIGRATION, f"invalid migration_state: {ref}")
+        _require(isinstance(cited_by, list) and cited_by, f"cited_by must be non-empty: {ref}")
+        _require(all(isinstance(value, str) and value.strip() for value in cited_by), f"invalid cited_by path: {ref}")
+        _require(len(set(cited_by)) == len(cited_by), f"duplicate cited_by path: {ref}")
 
         remote = f"refs/remotes/origin/{ref}"
         try:
@@ -88,10 +98,11 @@ def validate(repo: Path, manifest_path: Path | None = None) -> None:
             actual = _git(repo, "rev-parse", f"refs/heads/{ref}")
         _require(actual == sha, f"protected ref tip drift: {ref}: expected {sha}, got {actual}")
 
-        if state == "PENDING_MAIN_REACHABLE_ANCHOR":
+        for citation in cited_by:
+            citation_path = _resolve_citation(repo, citation, path)
             _require(
-                _sha_is_cited(repo, sha, path),
-                f"protected historical SHA prefix is no longer cited outside the preservation manifest: {ref}",
+                _citation_contains_anchor(citation_path, sha, ref, state),
+                f"citation anchor missing for {ref}: {citation}",
             )
 
 
