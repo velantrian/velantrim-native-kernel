@@ -16,6 +16,7 @@ on:
     branches: [main]
     paths:
       - 'native_kernel/postgresql_profile/**'
+      - 'native_kernel/semantic_core/**'
       - 'profiles/postgresql-reference-v0/p2-manifest.json'
       - 'profiles/postgresql-reference-v0/requirements-p2-ci.txt'
       - 'tools/profiles/validate_p2_manifest.py'
