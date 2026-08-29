@@ -1,11 +1,12 @@
 <!-- H11_EXECUTION_ADMISSION_BLOCKED_CURRENT -->
 > [!IMPORTANT]
-> **Current authoritative overlay — 2026-08-15.** Resolve live `main` through GitHub; this file does not predict its own merge SHA. Current selected family: `A10-H11`. Current gate: `A10_H11_EXECUTION_ADMISSION`. Admission: `BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER`. Reviewer/reproducer: `NOT_ESTABLISHED`. H11: `NOT_TESTED`. Open review surface: PR #131. Implementation, experiment execution, dependency-graph execution, and semantic adjudication are `NOT AUTHORIZED`. Runtime expansion is `FROZEN`; product runtime thaw `false`; Final Canon `DEFERRED / NOT_AUTHORIZED`; production `false`; Issue #88 remains OPEN. PR #129 remains immutable H11 execution-admission evidence; PR #130 (`e36b7f45410d74b8a65406bff6fdd6d070fa96b0`) is the separate H11 state-binding / verified 7-of-7 Notion checkpoint. Historical checkpoints below are provenance, not current instructions.
+> **Orientation snapshot — 2026-08-15; not live authority.** Resolve live state through GitHub, `project-state.json`, and `docs/ai/CURRENT_STATE.md`. This file preserves human orientation and chronology and does not predict its own merge SHA. The snapshot below records: selected family `A10-H11`; gate `A10_H11_EXECUTION_ADMISSION`; admission `BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER`; reviewer/reproducer `NOT_ESTABLISHED`; H11 `NOT_TESTED`; runtime expansion `FROZEN`; Final Canon `DEFERRED / NOT_AUTHORIZED`; production `false`. Historical checkpoints below are provenance, not current instructions.
 
-# Current Status
+# Status orientation and chronology
 
 ```yaml
-document_role: CURRENT_STATE
+document_role: CHRONOLOGY_ORIENTATION
+current_authority: docs/ai/CURRENT_STATE.md + project-state.json + live GitHub
 status_as_of: 2026-08-15
 authoritative_machine_source: project-state.json (nk-project-state/2)
 live_head_source: GitHub API or checked-out Git ref
