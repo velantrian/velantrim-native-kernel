@@ -20,7 +20,7 @@ jobs:
           ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
           fetch-depth: 0
       - name: Fetch all branch refs needed by preservation validation
-        run: git fetch --no-tags origin '+refs/heads/*:refs/remotes/origin/*'
+        run: git fetch --prune --no-tags origin '+refs/heads/*:refs/remotes/origin/*'
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
