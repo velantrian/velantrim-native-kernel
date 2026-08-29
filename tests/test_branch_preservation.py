@@ -14,7 +14,7 @@ SHA = "a" * 40
 
 
 class BranchPreservationTests(unittest.TestCase):
-    def _manifest(self):
+    def _manifest(self, state="PENDING_MAIN_REACHABLE_ANCHOR"):
         return {
             "protocol": "nk-branch-preservation/1",
             "authority_boundary": {
@@ -28,26 +28,41 @@ class BranchPreservationTests(unittest.TestCase):
             "protected_refs": [{
                 "ref": "agent/example",
                 "tip_sha": SHA,
+                "cited_by": ["docs/evidence.md"],
                 "reason": "historical evidence anchor",
-                "migration_state": "PENDING_MAIN_REACHABLE_ANCHOR",
+                "migration_state": state,
             }],
         }
 
-    def _run(self, data, actual=SHA, cited=True):
+    def _run(self, data, actual=SHA, citation_text=None, create_citations=True):
         with tempfile.TemporaryDirectory() as tmp:
             repo = Path(tmp)
             path = repo / "manifest.json"
             path.write_text(json.dumps(data), encoding="utf-8")
-            old_git, old_cited = module._git, module._sha_is_cited
+            if create_citations:
+                for item in data.get("protected_refs", []):
+                    for raw in item.get("cited_by", []):
+                        if not isinstance(raw, str) or raw.startswith("/") or ".." in Path(raw).parts:
+                            continue
+                        citation = repo / raw
+                        citation.parent.mkdir(parents=True, exist_ok=True)
+                        text = citation_text
+                        if text is None:
+                            text = item["tip_sha"][:12]
+                        citation.write_text(text, encoding="utf-8")
+            old_git = module._git
             module._git = lambda *_args: actual
-            module._sha_is_cited = lambda *_args: cited
             try:
                 module.validate(repo, path)
             finally:
-                module._git, module._sha_is_cited = old_git, old_cited
+                module._git = old_git
 
     def test_valid_manifest_passes(self):
         self._run(self._manifest())
+
+    def test_intentional_lineage_can_bind_by_ref_name(self):
+        data = self._manifest("INTENTIONAL_LONG_LIVED_LINEAGE")
+        self._run(data, citation_text="preserve agent/example")
 
     def test_authority_promotion_fails_closed(self):
         data = self._manifest()
@@ -59,9 +74,37 @@ class BranchPreservationTests(unittest.TestCase):
         with self.assertRaisesRegex(module.BranchPreservationError, "tip drift"):
             self._run(self._manifest(), actual="b" * 40)
 
-    def test_missing_external_citation_fails_closed(self):
-        with self.assertRaisesRegex(module.BranchPreservationError, "no longer cited"):
-            self._run(self._manifest(), cited=False)
+    def test_missing_cited_by_fails_closed(self):
+        data = self._manifest()
+        data["protected_refs"][0]["cited_by"] = []
+        with self.assertRaisesRegex(module.BranchPreservationError, "cited_by must be non-empty"):
+            self._run(data)
+
+    def test_missing_citation_file_fails_closed(self):
+        with self.assertRaisesRegex(module.BranchPreservationError, "citation file required"):
+            self._run(self._manifest(), create_citations=False)
+
+    def test_wrong_citation_content_fails_closed(self):
+        with self.assertRaisesRegex(module.BranchPreservationError, "citation anchor missing"):
+            self._run(self._manifest(), citation_text="unrelated text")
+
+    def test_duplicate_citation_path_fails_closed(self):
+        data = self._manifest()
+        data["protected_refs"][0]["cited_by"].append("docs/evidence.md")
+        with self.assertRaisesRegex(module.BranchPreservationError, "duplicate cited_by path"):
+            self._run(data)
+
+    def test_citation_path_escape_fails_closed(self):
+        data = self._manifest()
+        data["protected_refs"][0]["cited_by"] = ["../outside.md"]
+        with self.assertRaisesRegex(module.BranchPreservationError, "escapes repository"):
+            self._run(data)
+
+    def test_manifest_cannot_self_satisfy_citation(self):
+        data = self._manifest()
+        data["protected_refs"][0]["cited_by"] = ["manifest.json"]
+        with self.assertRaisesRegex(module.BranchPreservationError, "cannot self-satisfy"):
+            self._run(data)
 
     def test_duplicate_ref_fails_closed(self):
         data = self._manifest()
