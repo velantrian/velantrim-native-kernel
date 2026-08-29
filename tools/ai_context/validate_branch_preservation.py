@@ -14,6 +14,27 @@ FULL_SHA = re.compile(r"^[0-9a-f]{40}$")
 ALLOWED_MIGRATION = {"PENDING_MAIN_REACHABLE_ANCHOR", "INTENTIONAL_LONG_LIVED_LINEAGE"}
 MIN_CITATION_PREFIX = 12
 
+# Deliberately duplicated from the manifest. Changing/removing one of these
+# preservation obligations must therefore be an explicit validator change,
+# not a manifest-only weakening hidden inside an unrelated PR.
+FROZEN_REF_TIPS = {
+    "agent/adr0023-evidence-finalization": "c9d3944627b40619002428d2a37b8621b2cbfe3b",
+    "agent/c4-offline-shadow": "b7786c088ef2cfd203c02625a5e0c40129cbf148",
+    "agent/iar-1-review-request": "3ca47783cf1b4bde46158bce5aa183ceed82d0f5",
+    "agent/iar1-late-review-followup": "157be487a6727cf0ec2a36988ad5ab203ba5e0b2",
+    "agent/operator-decision-packages": "57c14742f705f96e33e929e7e206f14169d42fc0",
+    "agent/p3-replay-projections": "7e615bc633cbf966211d3b2815f51b8ff9eb9716",
+    "agent/p4-conformance-adapter": "0e7adf71475d37d5c096718762cbc08086c5e465",
+    "agent/p5-sqlite-c3": "6483c9a229aea7d49929745b7652e67f1c39949c",
+    "agent/pr85-post-merge-review-fixes": "c3b8695bf3d7207ac4c6b19dcb5e9e2bda92f764",
+    "agent/sqlite-integrity-wal-safety": "ab7a203ce7ed8ec46c341bc4da9063d56f023338",
+    "archive/bootstrap-v0.1.2.1-docs-lineage": "d64855afc4b34bcfb0ed8f1c3766925d287b07c6",
+    "bootstrap/research-kernel-v0.1.2.1": "d64855afc4b34bcfb0ed8f1c3766925d287b07c6",
+    "research/h11-family-selection": "d9273a22c411467109112f1fc6ea263ed8819d1d",
+    "research/h11-preregistration": "1dca13cdd2759c70d810f44977a227fe1147d4bb",
+    "research/residual-a10-validation-plan": "918ac46f4d93f085171b03564f9fbe30f543b200",
+}
+
 
 class BranchPreservationError(RuntimeError):
     pass
@@ -84,7 +105,9 @@ def validate(repo: Path, manifest_path: Path | None = None) -> None:
 
         _require(isinstance(ref, str) and ref and ref not in names, f"duplicate/invalid ref: {ref}")
         names.add(ref)
+        _require(ref in FROZEN_REF_TIPS, f"unexpected protected ref requires explicit validator update: {ref}")
         _require(isinstance(sha, str) and FULL_SHA.fullmatch(sha) is not None, f"full 40-char SHA required: {ref}")
+        _require(sha == FROZEN_REF_TIPS[ref], f"frozen protected tip drift: {ref}")
         _require(isinstance(reason, str) and reason.strip(), f"reason required: {ref}")
         _require(state in ALLOWED_MIGRATION, f"invalid migration_state: {ref}")
         _require(isinstance(cited_by, list) and cited_by, f"cited_by must be non-empty: {ref}")
@@ -104,6 +127,9 @@ def validate(repo: Path, manifest_path: Path | None = None) -> None:
                 _citation_contains_anchor(citation_path, sha, ref, state),
                 f"citation anchor missing for {ref}: {citation}",
             )
+
+    missing = set(FROZEN_REF_TIPS) - names
+    _require(not missing, "protected ref inventory incomplete: " + ", ".join(sorted(missing)))
 
 
 if __name__ == "__main__":
