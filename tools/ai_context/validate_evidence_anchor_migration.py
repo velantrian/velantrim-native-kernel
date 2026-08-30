@@ -13,7 +13,6 @@ STATUS = "BOUNDED_PROVENANCE_MIGRATION"
 MANIFEST = Path("evidence/evidence-anchor-migration-v1.json")
 MAIN_REF = "refs/remotes/origin/main"
 FULL_SHA = re.compile(r"^[0-9a-f]{40}$")
-MIN_CITATION_PREFIX = 12
 
 TOP_LEVEL_KEYS = {"protocol", "status", "authority_boundary", "policy", "migrations"}
 AUTHORITY_KEYS = {
@@ -102,7 +101,7 @@ def _contains_historical_identity(path: Path, sha: str) -> bool:
         text = path.read_text(encoding="utf-8")
     except (UnicodeDecodeError, OSError) as exc:
         raise EvidenceAnchorMigrationError(f"citation file must be readable UTF-8 text: {path}") from exc
-    return sha[:MIN_CITATION_PREFIX] in text
+    return sha in text
 
 
 def _exact_keys(value: dict[str, Any], expected: set[str], label: str) -> None:
