@@ -17,6 +17,7 @@ class BranchPreservationTests(unittest.TestCase):
     def _manifest(self, state="PENDING_MAIN_REACHABLE_ANCHOR"):
         return {
             "protocol": "nk-branch-preservation/1",
+            "status": "BOUNDED_REPOSITORY_HYGIENE_SAFETY_CONTRACT",
             "authority_boundary": {
                 "h11_outcome_changed": False,
                 "runtime_authorized": False,
@@ -24,6 +25,11 @@ class BranchPreservationTests(unittest.TestCase):
                 "production_authorized": False,
                 "branch_deletion_authorized": False,
                 "auto_delete_authorized": False,
+            },
+            "policy": {
+                "purpose": "Prevent deletion of refs that currently keep repository-cited historical evidence commits reachable until durable main-reachable anchors are recorded.",
+                "default_action": "NO_DELETION_FROM_THIS_MANIFEST",
+                "migration_rule": "Preserve the historical PR-head identity and add a durable main-reachable checkpoint before a protected ref may leave this manifest.",
             },
             "protected_refs": [{
                 "ref": "agent/example",
@@ -34,7 +40,16 @@ class BranchPreservationTests(unittest.TestCase):
             }],
         }
 
-    def _run(self, data, actual=SHA, citation_text=None, create_citations=True, required=None):
+    def _frozen(self, state="PENDING_MAIN_REACHABLE_ANCHOR", cited_by=("docs/evidence.md",)):
+        return {
+            "agent/example": {
+                "tip_sha": SHA,
+                "migration_state": state,
+                "cited_by": cited_by,
+            }
+        }
+
+    def _run(self, data, remote=SHA, citation_text=None, create_citations=True, required=None):
         with tempfile.TemporaryDirectory() as tmp:
             repo = Path(tmp)
             path = repo / "manifest.json"
@@ -52,22 +67,31 @@ class BranchPreservationTests(unittest.TestCase):
                         if text is None:
                             text = item["tip_sha"][:12]
                         citation.write_text(text, encoding="utf-8")
-            old_git = module._git
-            old_required = module.FROZEN_REF_TIPS
-            module._git = lambda *_args: actual
-            module.FROZEN_REF_TIPS = required or {"agent/example": SHA}
+            old_remote = module._remote_branch_sha
+            old_required = module.FROZEN_CONTRACT
+            if isinstance(remote, Exception):
+                def fail_remote(*_args):
+                    raise remote
+                module._remote_branch_sha = fail_remote
+            else:
+                module._remote_branch_sha = lambda *_args: remote
+            module.FROZEN_CONTRACT = required or self._frozen(state=data["protected_refs"][0]["migration_state"])
             try:
                 module.validate(repo, path)
             finally:
-                module._git = old_git
-                module.FROZEN_REF_TIPS = old_required
+                module._remote_branch_sha = old_remote
+                module.FROZEN_CONTRACT = old_required
 
     def test_valid_manifest_passes(self):
         self._run(self._manifest())
 
     def test_intentional_lineage_can_bind_by_ref_name(self):
         data = self._manifest("INTENTIONAL_LONG_LIVED_LINEAGE")
-        self._run(data, citation_text="preserve agent/example")
+        self._run(
+            data,
+            citation_text="preserve agent/example",
+            required=self._frozen("INTENTIONAL_LONG_LIVED_LINEAGE"),
+        )
 
     def test_authority_promotion_fails_closed(self):
         data = self._manifest()
@@ -75,15 +99,43 @@ class BranchPreservationTests(unittest.TestCase):
         with self.assertRaisesRegex(module.BranchPreservationError, "runtime_authorized"):
             self._run(data)
 
+    def test_unknown_authority_key_fails_closed(self):
+        data = self._manifest()
+        data["authority_boundary"]["branch_cleanup_authorized"] = True
+        with self.assertRaisesRegex(module.BranchPreservationError, "authority_boundary keys drift"):
+            self._run(data)
+
+    def test_policy_default_action_drift_fails_closed(self):
+        data = self._manifest()
+        data["policy"]["default_action"] = "DELETE_PROTECTED_REFS"
+        with self.assertRaisesRegex(module.BranchPreservationError, "no-deletion policy drift"):
+            self._run(data)
+
+    def test_unknown_ref_semantic_field_fails_closed(self):
+        data = self._manifest()
+        data["protected_refs"][0]["deletion_authorized"] = True
+        with self.assertRaisesRegex(module.BranchPreservationError, "protected ref entry keys drift"):
+            self._run(data)
+
+    def test_remote_missing_fails_even_if_local_state_could_match(self):
+        error = module.BranchPreservationError("remote branch missing")
+        with self.assertRaisesRegex(module.BranchPreservationError, "remote branch missing"):
+            self._run(self._manifest(), remote=error)
+
     def test_ref_tip_drift_fails_closed(self):
-        with self.assertRaisesRegex(module.BranchPreservationError, "tip drift"):
-            self._run(self._manifest(), actual="b" * 40)
+        with self.assertRaisesRegex(module.BranchPreservationError, "remote ref tip drift"):
+            self._run(self._manifest(), remote="b" * 40)
 
     def test_frozen_tip_drift_fails_closed(self):
         data = self._manifest()
         data["protected_refs"][0]["tip_sha"] = "b" * 40
         with self.assertRaisesRegex(module.BranchPreservationError, "frozen protected tip drift"):
-            self._run(data, actual="b" * 40)
+            self._run(data, remote="b" * 40)
+
+    def test_migration_state_drift_fails_closed(self):
+        data = self._manifest("INTENTIONAL_LONG_LIVED_LINEAGE")
+        with self.assertRaisesRegex(module.BranchPreservationError, "frozen migration_state drift"):
+            self._run(data, required=self._frozen("PENDING_MAIN_REACHABLE_ANCHOR"))
 
     def test_unexpected_ref_requires_validator_update(self):
         data = self._manifest()
@@ -92,8 +144,14 @@ class BranchPreservationTests(unittest.TestCase):
             self._run(data)
 
     def test_missing_frozen_ref_fails_closed(self):
+        required = self._frozen()
+        required["agent/missing"] = {
+            "tip_sha": "b" * 40,
+            "migration_state": "PENDING_MAIN_REACHABLE_ANCHOR",
+            "cited_by": ("docs/missing.md",),
+        }
         with self.assertRaisesRegex(module.BranchPreservationError, "inventory incomplete"):
-            self._run(self._manifest(), required={"agent/example": SHA, "agent/missing": "b" * 40})
+            self._run(self._manifest(), required=required)
 
     def test_missing_cited_by_fails_closed(self):
         data = self._manifest()
@@ -109,11 +167,20 @@ class BranchPreservationTests(unittest.TestCase):
         with self.assertRaisesRegex(module.BranchPreservationError, "citation anchor missing"):
             self._run(self._manifest(), citation_text="unrelated text")
 
-    def test_duplicate_citation_path_fails_closed(self):
+    def test_duplicate_normalized_citation_path_fails_closed(self):
         data = self._manifest()
-        data["protected_refs"][0]["cited_by"].append("docs/evidence.md")
-        with self.assertRaisesRegex(module.BranchPreservationError, "duplicate cited_by path"):
-            self._run(data)
+        data["protected_refs"][0]["cited_by"] = ["docs/evidence.md", "docs/./evidence.md"]
+        with self.assertRaisesRegex(module.BranchPreservationError, "duplicate normalized cited_by path"):
+            self._run(
+                data,
+                required=self._frozen(cited_by=("docs/evidence.md", "docs/./evidence.md")),
+            )
+
+    def test_cited_by_inventory_drift_fails_closed(self):
+        data = self._manifest()
+        data["protected_refs"][0]["cited_by"] = ["docs/other.md"]
+        with self.assertRaisesRegex(module.BranchPreservationError, "frozen cited_by drift"):
+            self._run(data, required=self._frozen())
 
     def test_citation_path_escape_fails_closed(self):
         data = self._manifest()
