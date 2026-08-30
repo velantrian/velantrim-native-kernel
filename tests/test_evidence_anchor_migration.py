@@ -55,7 +55,7 @@ class EvidenceAnchorMigrationTests(unittest.TestCase):
             }
         }
 
-    def _run(self, data, ancestor=True, citation_text=None, frozen=None):
+    def _run(self, data, ancestor=True, citation_text=None, frozen=None, expected_descendant=None):
         with tempfile.TemporaryDirectory() as tmp:
             repo = Path(tmp)
             manifest = repo / "migration.json"
@@ -71,16 +71,31 @@ class EvidenceAnchorMigrationTests(unittest.TestCase):
                     path.write_text(citation_text if citation_text is not None else item["historical_head_sha"][:12], encoding="utf-8")
             old_ancestor = module._is_ancestor
             old_frozen = module.FROZEN_MIGRATIONS
-            module._is_ancestor = lambda *_args: ancestor
+            old_git = module._git
+            seen_descendants = []
+
+            def fake_ancestor(_repo, _ancestor, descendant):
+                seen_descendants.append(descendant)
+                return ancestor
+
+            module._is_ancestor = fake_ancestor
+            module._git = lambda *_args: "f" * 40
             module.FROZEN_MIGRATIONS = frozen or self._frozen()
             try:
                 module.validate(repo, manifest)
+                if expected_descendant is not None:
+                    self.assertTrue(seen_descendants)
+                    self.assertTrue(all(value == expected_descendant for value in seen_descendants))
             finally:
                 module._is_ancestor = old_ancestor
                 module.FROZEN_MIGRATIONS = old_frozen
+                module._git = old_git
 
     def test_valid_migration_passes(self):
         self._run(self._manifest())
+
+    def test_durable_checkpoint_is_proved_against_origin_main(self):
+        self._run(self._manifest(), expected_descendant=module.MAIN_REF)
 
     def test_deletion_authority_fails_closed(self):
         data = self._manifest()
@@ -118,8 +133,8 @@ class EvidenceAnchorMigrationTests(unittest.TestCase):
         with self.assertRaisesRegex(module.EvidenceAnchorMigrationError, "durable main checkpoint drift"):
             self._run(data)
 
-    def test_durable_checkpoint_must_be_ancestor(self):
-        with self.assertRaisesRegex(module.EvidenceAnchorMigrationError, "not main-reachable"):
+    def test_durable_checkpoint_must_be_main_ancestor(self):
+        with self.assertRaisesRegex(module.EvidenceAnchorMigrationError, "not reachable from origin/main"):
             self._run(self._manifest(), ancestor=False)
 
     def test_historical_identity_must_remain_cited(self):
