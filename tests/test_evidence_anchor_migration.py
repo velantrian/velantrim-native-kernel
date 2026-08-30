@@ -68,7 +68,7 @@ class EvidenceAnchorMigrationTests(unittest.TestCase):
                     if path.resolve() == manifest.resolve():
                         continue
                     path.parent.mkdir(parents=True, exist_ok=True)
-                    path.write_text(citation_text if citation_text is not None else item["historical_head_sha"][:12], encoding="utf-8")
+                    path.write_text(citation_text if citation_text is not None else item["historical_head_sha"], encoding="utf-8")
             old_ancestor = module._is_ancestor
             old_frozen = module.FROZEN_MIGRATIONS
             old_git = module._git
@@ -140,6 +140,10 @@ class EvidenceAnchorMigrationTests(unittest.TestCase):
     def test_historical_identity_must_remain_cited(self):
         with self.assertRaisesRegex(module.EvidenceAnchorMigrationError, "historical identity missing"):
             self._run(self._manifest(), citation_text="unrelated")
+
+    def test_short_historical_identity_prefix_fails_closed(self):
+        with self.assertRaisesRegex(module.EvidenceAnchorMigrationError, "historical identity missing"):
+            self._run(self._manifest(), citation_text=HIST[:12])
 
     def test_manifest_cannot_self_satisfy(self):
         data = self._manifest()
