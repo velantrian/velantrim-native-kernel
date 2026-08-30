@@ -11,6 +11,7 @@ from typing import Any
 PROTOCOL = "nk-evidence-anchor-migration/1"
 STATUS = "BOUNDED_PROVENANCE_MIGRATION"
 MANIFEST = Path("evidence/evidence-anchor-migration-v1.json")
+MAIN_REF = "refs/remotes/origin/main"
 FULL_SHA = re.compile(r"^[0-9a-f]{40}$")
 MIN_CITATION_PREFIX = 12
 
@@ -76,7 +77,7 @@ def _git(repo: Path, *args: str) -> str:
     return proc.stdout.strip()
 
 
-def _is_ancestor(repo: Path, ancestor: str, descendant: str = "HEAD") -> bool:
+def _is_ancestor(repo: Path, ancestor: str, descendant: str) -> bool:
     proc = subprocess.run(["git", "-C", str(repo), "merge-base", "--is-ancestor", ancestor, descendant], text=True, capture_output=True)
     return proc.returncode == 0
 
@@ -129,6 +130,8 @@ def validate(repo: Path, manifest_path: Path | None = None) -> None:
     _exact_keys(policy, POLICY_KEYS, "policy")
     _require(policy == EXPECTED_POLICY, "migration policy drift")
 
+    _require(_git(repo, "rev-parse", MAIN_REF), f"main ref required: {MAIN_REF}")
+
     migrations = data.get("migrations")
     _require(isinstance(migrations, list) and migrations, "migrations must be non-empty")
     names: set[str] = set()
@@ -164,7 +167,7 @@ def validate(repo: Path, manifest_path: Path | None = None) -> None:
             citation_paths.append(citation_path)
         _require(len(set(normalized)) == len(normalized), f"duplicate normalized cited_by path: {ref}")
         _require(tuple(normalized) == tuple(frozen["cited_by"]), f"frozen cited_by drift: {ref}")
-        _require(_is_ancestor(repo, durable, "HEAD"), f"durable checkpoint is not main-reachable from current HEAD: {ref}")
+        _require(_is_ancestor(repo, durable, MAIN_REF), f"durable checkpoint is not reachable from origin/main: {ref}")
         for citation, citation_path in zip(cited_by, citation_paths):
             _require(_contains_historical_identity(citation_path, historical), f"historical identity missing from citation for {ref}: {citation}")
 
