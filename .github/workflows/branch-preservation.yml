@@ -1,0 +1,35 @@
+name: Branch preservation guards
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  delete:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+      - name: Fetch all branch refs needed by preservation validation
+        run: git fetch --prune --no-tags origin '+refs/heads/*:refs/remotes/origin/*'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile preservation validator and tests
+        run: python -m compileall -q tools/ai_context/validate_branch_preservation.py tests/test_branch_preservation.py
+      - name: Run preservation unit tests
+        run: python -m unittest tests.test_branch_preservation -v
+      - name: Validate protected refs and declared historical anchors
+        run: python tools/ai_context/validate_branch_preservation.py
+      - name: Authority boundary
+        run: |
+          echo 'Green branch-preservation CI does not authorize branch deletion, auto-delete, H11 execution, runtime thaw, Canon promotion, reducer-v2, or production.'

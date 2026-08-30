@@ -1,0 +1,34 @@
+{
+  "protocol": "nk-branch-preservation/1",
+  "status": "BOUNDED_REPOSITORY_HYGIENE_SAFETY_CONTRACT",
+  "authority_boundary": {
+    "h11_outcome_changed": false,
+    "runtime_authorized": false,
+    "canon_authorized": false,
+    "production_authorized": false,
+    "branch_deletion_authorized": false,
+    "auto_delete_authorized": false
+  },
+  "policy": {
+    "purpose": "Prevent deletion of refs that currently keep repository-cited historical evidence commits reachable until durable main-reachable anchors are recorded.",
+    "default_action": "NO_DELETION_FROM_THIS_MANIFEST",
+    "migration_rule": "Preserve the historical PR-head identity and add a durable main-reachable checkpoint before a protected ref may leave this manifest."
+  },
+  "protected_refs": [
+    {"ref":"agent/adr0023-evidence-finalization","tip_sha":"c9d3944627b40619002428d2a37b8621b2cbfe3b","cited_by":["docs/ai/WORK_LOG.md"],"reason":"current-main evidence cites this branch-only historical commit","migration_state":"PENDING_MAIN_REACHABLE_ANCHOR"},
+    {"ref":"agent/c4-offline-shadow","tip_sha":"b7786c088ef2cfd203c02625a5e0c40129cbf148","cited_by":["docs/ai/C4_IMPLEMENTATION_RECORD.md"],"reason":"C4 implementation evidence cites this historical PR head","migration_state":"PENDING_MAIN_REACHABLE_ANCHOR"},
+    {"ref":"agent/iar-1-review-request","tip_sha":"3ca47783cf1b4bde46158bce5aa183ceed82d0f5","cited_by":["docs/reviews/IAR-1_LATE_REVIEW_FOLLOWUP.md"],"reason":"IAR-1 evidence lineage cites this historical review commit","migration_state":"PENDING_MAIN_REACHABLE_ANCHOR"},
+    {"ref":"agent/iar1-late-review-followup","tip_sha":"157be487a6727cf0ec2a36988ad5ab203ba5e0b2","cited_by":["docs/reviews/IAR-1_LATE_REVIEW_FOLLOWUP.md"],"reason":"IAR-1 late-review evidence cites this historical commit","migration_state":"PENDING_MAIN_REACHABLE_ANCHOR"},
+    {"ref":"agent/operator-decision-packages","tip_sha":"57c14742f705f96e33e929e7e206f14169d42fc0","cited_by":["docs/ai/ISSUE_RECONCILIATION.md"],"reason":"governance reconciliation evidence cites this historical commit","migration_state":"PENDING_MAIN_REACHABLE_ANCHOR"},
+    {"ref":"agent/p3-replay-projections","tip_sha":"7e615bc633cbf966211d3b2815f51b8ff9eb9716","cited_by":["docs/ai/P3_IMPLEMENTATION_RECORD.md"],"reason":"P3 implementation evidence cites this historical PR head","migration_state":"PENDING_MAIN_REACHABLE_ANCHOR"},
+    {"ref":"agent/p4-conformance-adapter","tip_sha":"0e7adf71475d37d5c096718762cbc08086c5e465","cited_by":["docs/ai/P4_IMPLEMENTATION_RECORD.md"],"reason":"P4 implementation evidence cites this historical PR head","migration_state":"PENDING_MAIN_REACHABLE_ANCHOR"},
+    {"ref":"agent/p5-sqlite-c3","tip_sha":"6483c9a229aea7d49929745b7652e67f1c39949c","cited_by":["docs/ai/P5_IMPLEMENTATION_RECORD.md"],"reason":"P5/C3 implementation evidence cites this historical PR head","migration_state":"PENDING_MAIN_REACHABLE_ANCHOR"},
+    {"ref":"agent/pr85-post-merge-review-fixes","tip_sha":"c3b8695bf3d7207ac4c6b19dcb5e9e2bda92f764","cited_by":["docs/ai/NOTION_HANDOFF.md"],"reason":"source-recovery/Notion handoff lineage cites this historical commit","migration_state":"PENDING_MAIN_REACHABLE_ANCHOR"},
+    {"ref":"agent/sqlite-integrity-wal-safety","tip_sha":"ab7a203ce7ed8ec46c341bc4da9063d56f023338","cited_by":["docs/ai/P5_IMPLEMENTATION_RECORD.md"],"reason":"multiple C5/P5/H11 evidence surfaces cite this ADR-0023 remediation head","migration_state":"PENDING_MAIN_REACHABLE_ANCHOR"},
+    {"ref":"archive/bootstrap-v0.1.2.1-docs-lineage","tip_sha":"d64855afc4b34bcfb0ed8f1c3766925d287b07c6","cited_by":["docs/source-recovery/2026-08-09-bootstrap-branch-resweep.md"],"reason":"explicit source-recovery preservation ref","migration_state":"INTENTIONAL_LONG_LIVED_LINEAGE"},
+    {"ref":"bootstrap/research-kernel-v0.1.2.1","tip_sha":"d64855afc4b34bcfb0ed8f1c3766925d287b07c6","cited_by":["docs/source-recovery/2026-08-09-bootstrap-branch-resweep.md"],"reason":"explicit retained bootstrap source-recovery ref","migration_state":"INTENTIONAL_LONG_LIVED_LINEAGE"},
+    {"ref":"research/h11-family-selection","tip_sha":"d9273a22c411467109112f1fc6ea263ed8819d1d","cited_by":["project-state.json","tools/ai_context/validate_project_state.py"],"reason":"current project-state validators bind the frozen H11 family selection head","migration_state":"PENDING_MAIN_REACHABLE_ANCHOR"},
+    {"ref":"research/h11-preregistration","tip_sha":"1dca13cdd2759c70d810f44977a227fe1147d4bb","cited_by":["project-state.json","tools/ai_context/validate_project_state.py"],"reason":"current project-state validators bind the frozen H11 preregistration head","migration_state":"PENDING_MAIN_REACHABLE_ANCHOR"},
+    {"ref":"research/residual-a10-validation-plan","tip_sha":"918ac46f4d93f085171b03564f9fbe30f543b200","cited_by":["project-state.json","tools/ai_context/validate_project_state.py"],"reason":"current project-state validators bind the residual A10 validation plan head","migration_state":"PENDING_MAIN_REACHABLE_ANCHOR"}
+  ]
+}
