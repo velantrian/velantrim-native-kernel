@@ -24,12 +24,17 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Compile preservation validator and tests
-        run: python -m compileall -q tools/ai_context/validate_branch_preservation.py tests/test_branch_preservation.py
+      - name: Compile preservation and migration validators/tests
+        run: python -m compileall -q tools/ai_context/validate_branch_preservation.py tools/ai_context/validate_evidence_anchor_migration.py tests/test_branch_preservation.py tests/test_evidence_anchor_migration.py
       - name: Run preservation unit tests
         run: python -m unittest tests.test_branch_preservation -v
+      - name: Run evidence-anchor migration unit tests
+        run: python -m unittest tests.test_evidence_anchor_migration -v
       - name: Validate protected refs and declared historical anchors
         run: python tools/ai_context/validate_branch_preservation.py
+      - name: Validate migrated historical anchors and durable main checkpoints
+        run: python tools/ai_context/validate_evidence_anchor_migration.py
       - name: Authority boundary
         run: |
           echo 'Green branch-preservation CI does not authorize branch deletion, auto-delete, H11 execution, runtime thaw, Canon promotion, reducer-v2, or production.'
+          echo 'Evidence-anchor migration records provenance continuity only; deletion remains a separate owner action.'

@@ -31,25 +31,17 @@ EXPECTED_POLICY = {
     "migration_rule": "Preserve the historical PR-head identity and add a durable main-reachable checkpoint before a protected ref may leave this manifest.",
 }
 
-# Deliberately duplicated from the manifest. Any change to a protected ref,
-# frozen tip, preservation classification, or declared citation inventory must
-# be an explicit validator change rather than a manifest-only weakening.
 FROZEN_CONTRACT = {
-    "agent/adr0023-evidence-finalization": {"tip_sha": "c9d3944627b40619002428d2a37b8621b2cbfe3b", "migration_state": "PENDING_MAIN_REACHABLE_ANCHOR", "cited_by": ("docs/ai/WORK_LOG.md",)},
-    "agent/c4-offline-shadow": {"tip_sha": "b7786c088ef2cfd203c02625a5e0c40129cbf148", "migration_state": "PENDING_MAIN_REACHABLE_ANCHOR", "cited_by": ("docs/ai/C4_IMPLEMENTATION_RECORD.md",)},
-    "agent/iar-1-review-request": {"tip_sha": "3ca47783cf1b4bde46158bce5aa183ceed82d0f5", "migration_state": "PENDING_MAIN_REACHABLE_ANCHOR", "cited_by": ("docs/reviews/IAR-1_LATE_REVIEW_FOLLOWUP.md",)},
-    "agent/iar1-late-review-followup": {"tip_sha": "157be487a6727cf0ec2a36988ad5ab203ba5e0b2", "migration_state": "PENDING_MAIN_REACHABLE_ANCHOR", "cited_by": ("docs/reviews/IAR-1_LATE_REVIEW_FOLLOWUP.md",)},
-    "agent/operator-decision-packages": {"tip_sha": "57c14742f705f96e33e929e7e206f14169d42fc0", "migration_state": "PENDING_MAIN_REACHABLE_ANCHOR", "cited_by": ("docs/ai/ISSUE_RECONCILIATION.md",)},
-    "agent/p3-replay-projections": {"tip_sha": "7e615bc633cbf966211d3b2815f51b8ff9eb9716", "migration_state": "PENDING_MAIN_REACHABLE_ANCHOR", "cited_by": ("docs/ai/P3_IMPLEMENTATION_RECORD.md",)},
-    "agent/p4-conformance-adapter": {"tip_sha": "0e7adf71475d37d5c096718762cbc08086c5e465", "migration_state": "PENDING_MAIN_REACHABLE_ANCHOR", "cited_by": ("docs/ai/P4_IMPLEMENTATION_RECORD.md",)},
-    "agent/p5-sqlite-c3": {"tip_sha": "6483c9a229aea7d49929745b7652e67f1c39949c", "migration_state": "PENDING_MAIN_REACHABLE_ANCHOR", "cited_by": ("docs/ai/P5_IMPLEMENTATION_RECORD.md",)},
-    "agent/pr85-post-merge-review-fixes": {"tip_sha": "c3b8695bf3d7207ac4c6b19dcb5e9e2bda92f764", "migration_state": "PENDING_MAIN_REACHABLE_ANCHOR", "cited_by": ("docs/ai/NOTION_HANDOFF.md",)},
-    "agent/sqlite-integrity-wal-safety": {"tip_sha": "ab7a203ce7ed8ec46c341bc4da9063d56f023338", "migration_state": "PENDING_MAIN_REACHABLE_ANCHOR", "cited_by": ("docs/ai/P5_IMPLEMENTATION_RECORD.md",)},
-    "archive/bootstrap-v0.1.2.1-docs-lineage": {"tip_sha": "d64855afc4b34bcfb0ed8f1c3766925d287b07c6", "migration_state": "INTENTIONAL_LONG_LIVED_LINEAGE", "cited_by": ("docs/source-recovery/2026-08-09-bootstrap-branch-resweep.md",)},
-    "bootstrap/research-kernel-v0.1.2.1": {"tip_sha": "d64855afc4b34bcfb0ed8f1c3766925d287b07c6", "migration_state": "INTENTIONAL_LONG_LIVED_LINEAGE", "cited_by": ("docs/source-recovery/2026-08-09-bootstrap-branch-resweep.md",)},
-    "research/h11-family-selection": {"tip_sha": "d9273a22c411467109112f1fc6ea263ed8819d1d", "migration_state": "PENDING_MAIN_REACHABLE_ANCHOR", "cited_by": ("project-state.json", "tools/ai_context/validate_project_state.py")},
-    "research/h11-preregistration": {"tip_sha": "1dca13cdd2759c70d810f44977a227fe1147d4bb", "migration_state": "PENDING_MAIN_REACHABLE_ANCHOR", "cited_by": ("project-state.json", "tools/ai_context/validate_project_state.py")},
-    "research/residual-a10-validation-plan": {"tip_sha": "918ac46f4d93f085171b03564f9fbe30f543b200", "migration_state": "PENDING_MAIN_REACHABLE_ANCHOR", "cited_by": ("project-state.json", "tools/ai_context/validate_project_state.py")},
+    "archive/bootstrap-v0.1.2.1-docs-lineage": {
+        "tip_sha": "d64855afc4b34bcfb0ed8f1c3766925d287b07c6",
+        "migration_state": "INTENTIONAL_LONG_LIVED_LINEAGE",
+        "cited_by": ("docs/source-recovery/2026-08-09-bootstrap-branch-resweep.md",),
+    },
+    "bootstrap/research-kernel-v0.1.2.1": {
+        "tip_sha": "d64855afc4b34bcfb0ed8f1c3766925d287b07c6",
+        "migration_state": "INTENTIONAL_LONG_LIVED_LINEAGE",
+        "cited_by": ("docs/source-recovery/2026-08-09-bootstrap-branch-resweep.md",),
+    },
 }
 
 
@@ -94,13 +86,11 @@ def _resolve_citation(repo: Path, raw: str, manifest_path: Path) -> tuple[Path, 
     return candidate, normalized
 
 
-def _citation_contains_anchor(path: Path, sha: str, ref: str, state: str) -> bool:
+def _citation_contains_anchor(path: Path, sha: str, ref: str) -> bool:
     try:
         text = path.read_text(encoding="utf-8")
     except (UnicodeDecodeError, OSError) as exc:
         raise BranchPreservationError(f"citation file must be readable UTF-8 text: {path}") from exc
-    if state == "PENDING_MAIN_REACHABLE_ANCHOR":
-        return sha[:MIN_CITATION_PREFIX] in text
     return sha[:MIN_CITATION_PREFIX] in text or ref in text
 
 
@@ -152,7 +142,6 @@ def validate(repo: Path, manifest_path: Path | None = None) -> None:
         _require(state == frozen["migration_state"], f"frozen migration_state drift: {ref}")
         _require(isinstance(reason, str) and reason.strip(), f"reason required: {ref}")
         _require(isinstance(cited_by, list) and cited_by, f"cited_by must be non-empty: {ref}")
-        _require(all(isinstance(value, str) and value.strip() for value in cited_by), f"invalid cited_by path: {ref}")
 
         normalized: list[str] = []
         citation_paths: list[Path] = []
@@ -167,10 +156,7 @@ def validate(repo: Path, manifest_path: Path | None = None) -> None:
         _require(actual == sha, f"protected remote ref tip drift: {ref}: expected {sha}, got {actual}")
 
         for citation, citation_path in zip(cited_by, citation_paths):
-            _require(
-                _citation_contains_anchor(citation_path, sha, ref, state),
-                f"citation anchor missing for {ref}: {citation}",
-            )
+            _require(_citation_contains_anchor(citation_path, sha, ref), f"citation anchor missing for {ref}: {citation}")
 
     missing = set(FROZEN_CONTRACT) - names
     _require(not missing, "protected ref inventory incomplete: " + ", ".join(sorted(missing)))
