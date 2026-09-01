@@ -6,7 +6,7 @@
 
 ```yaml
 document_role: CURRENT_STATE
-status_as_of: 2026-08-15
+status_as_of: 2026-08-23
 authoritative_machine_source: ../../project-state.json
 machine_protocol: nk-project-state/2
 live_head_source: GitHub API or checked-out Git ref
@@ -19,19 +19,35 @@ h11_outcome: NOT_TESTED
 h11_execution_admission_merge: f7d13fce0104a4c2ce67589e954b09365a82f36f
 h11_state_binding_merge: e36b7f45410d74b8a65406bff6fdd6d070fa96b0
 notion_synchronized_through: e36b7f45410d74b8a65406bff6fdd6d070fa96b0
+notion_sync_state: SYNCED_THROUGH_DESCENDANT_CHECKPOINT / 8_OF_8_READ_BACK_VERIFIED
+previous_notion_sync_source: 5ebb33f5a74a81a7a49dae36ed29247d9b71db87
+previous_notion_sync_surfaces: 8
 runtime_expansion: FROZEN
 product_runtime_thaw: false
 production: false
 Final Canon: DEFERRED / NOT AUTHORIZED
 open_review_surface: PR #131
 active_architecture_issue: 88
+adr_0024: ACCEPTED / ACCEPT_WITH_CHANGES
+adr_0024_implementation: NOT_STARTED
+reducer_v2_runtime: NOT_AUTHORIZED
+adr_0028: ACCEPTED / OPTION_C_HYBRID_TWO_BASIS
+adr_0028_merge: 4a13d2b4ee8001a43f7e3e701dbe9025dbcfd0df
+positive_qualification_design: HYBRID_TWO_BASIS
+positive_qualification_implementation: IMPLEMENTED / NO_CANDIDATE_EVALUATED
+positive_qualification_policy: nk-h11-positive-qualification-policy/1
+positive_qualification_request: nk-h11-positive-qualification-request/1
+positive_qualification_evaluator: nk-h11-positive-qualification-evaluation/1
+next_dependency: ESTABLISH_GENUINELY_EXTERNAL_CANDIDATE_THEN_EVALUATE_ADR0028_QUALIFICATION
 ```
+
+The ADR-0028 positive-qualification implementation projection has now been synchronized and read back across the same eight existing Native Kernel pages with zero new pages created. This synchronization records only repository-resident implementation status; no candidate was evaluated and no H11 authority changed. The preserved `notion_synchronized_through` SHA remains the historical H11 post-130 machine checkpoint; it is not redefined by this descendant synchronization.
 
 The committed H11 state-binding checkpoint above is not a prediction of live `main`. Later documentation, validation-machinery or presentation commits may be descendants without changing the H11 semantic gate.
 
 ## 🏛 Architecture authority resolution
 
-Native Kernel now resolves architecture meaning through the full accepted authority chain rather than treating the A1–A10 first drafts as the final word:
+Native Kernel resolves architecture meaning through the accepted authority chain rather than treating the A1–A10 first drafts as the final word:
 
 ```text
 ARCHITECTURE.md
@@ -68,8 +84,10 @@ current gate: A10_H11_EXECUTION_ADMISSION
 admission: BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER
 reviewer/reproducer: NOT_ESTABLISHED
 H11: NOT_TESTED
-implementation: NOT AUTHORIZED
-execution: NOT AUTHORIZED
+positive qualification design: ADR-0028 / OPTION_C_HYBRID_TWO_BASIS
+positive qualification implementation: IMPLEMENTED / NO_CANDIDATE_EVALUATED
+H11 experiment implementation: NOT AUTHORIZED
+H11 execution: NOT AUTHORIZED
 dependency-graph execution: NOT AUTHORIZED
 semantic adjudication: NOT AUTHORIZED
 runtime expansion: FROZEN
@@ -77,9 +95,20 @@ Final Canon: DEFERRED / NOT AUTHORIZED
 production: false
 ```
 
-The only admissible continuation dependency is repository-visible, externally authenticated evidence for a genuinely qualifying independent H11 reviewer/reproducer. CI success, owner review, automated validators, Codex/LLM agreement, same-agent relabeling and Notion read-back do not establish that independence.
+ADR-0028 selected the hybrid two-basis qualification design. The bounded implementation now provides:
 
-Qualification is not execution admission. If a reviewer/reproducer is eventually qualified, `A10_H11_EXECUTION_ADMISSION` must be separately reassessed before any H11 execution.
+1. `nk-h11-positive-qualification-policy/1` — a narrow sufficient-evidence policy for the H11 reviewer/reproducer role only;
+2. `nk-h11-positive-qualification-request/1` — a frozen-plan-bound evaluation request;
+3. `nk-h11-positive-qualification-evaluation/1` — a candidate-neutral fail-closed evaluator using live GitHub evidence;
+4. adversarial guards for owner/self review, preregistration authorship, shared custody, private-state use, frozen-input violation, stale/malformed/contradictory evidence, non-distinct issuers/repositories, and policy weakening.
+
+A positive qualification still requires both: (1) a distinct authenticated GitHub candidate review/declaration on PR #131 and (2) separately verifiable organizational-separation and independent-evidence-custody attestations from distinct external public Organization-owned repositories and authenticated organization-associated issuers. Neither basis alone is sufficient.
+
+**No candidate has been evaluated.** Therefore reviewer/reproducer remains `NOT_ESTABLISHED` and H11 remains blocked / `NOT_TESTED`.
+
+A `QUALIFIED` evaluator result is explicitly a **stop condition**, not execution authority. It can only route to `SEPARATE_A10_H11_EXECUTION_ADMISSION_REASSESSMENT`; it cannot change admission, execute the dependency graph, adjudicate H11, thaw runtime, promote Final Canon or authorize production.
+
+CI success, owner review, automated validators, Codex/LLM agreement, same-agent relabeling and Notion read-back do not establish independence.
 
 ## 📊 Evidence position that remains unchanged
 
@@ -103,16 +132,31 @@ NK-EPI:
 
 P1–C5 remains a `BOUNDED_REFERENCE_LABORATORY`. Truth-surface, integrity, security, provenance and evidence-preservation maintenance is allowed while the runtime is frozen; semantic/runtime expansion is not automatically authorized.
 
-Reserved operator decisions remain unchanged:
+Reserved operator decisions / boundaries now read:
 
 ```text
 Issue #18 — license/publication/contribution regime: PENDING_OPERATOR
-Issue #74 / ADR-0024 — reducer referential semantics: PROPOSED / PENDING_OPERATOR
+Issue #74 / ADR-0024 — ACCEPTED / ACCEPT_WITH_CHANGES / ISSUE CLOSED
+  reducer v1: IMMUTABLE HISTORICAL CONTRACT
+  existing P1-C5 evidence: REDUCER-V1-BOUNDED
+  reducer-v2 implementation: NOT_STARTED
+  reducer-v2 runtime: NOT_AUTHORIZED
+Issue #154 / ADR-0028 — ACCEPTED / OPTION_C_HYBRID_TWO_BASIS / ISSUE CLOSED
+  qualification design: SELECTED
+Issue #163 — positive qualification implementation
+  policy/schema/evaluator: IMPLEMENTED
+  candidate evaluation: NONE
+  qualifying reviewer/reproducer: NOT_ESTABLISHED
+  H11 execution admission: BLOCKED
 Track H source admission: OPERATOR-CONTROLLED
 Final Canon: DEFERRED / NOT AUTHORIZED
 runtime thaw: false
 production: false
 ```
+
+ADR-0024 acceptance is contract/governance authority only. It does not authorize reducer-v2 code, schema changes, automatic migration, H11 execution, Final Canon, runtime thaw, production, or reinterpretation of historical evidence.
+
+ADR-0028 acceptance selected the qualification design. The bounded Issue #163 / PR #164 implementation materializes that design as a pre-admission evaluator only. It does not qualify any reviewer, change H11 execution admission, execute H11, authorize reducer-v2, thaw runtime, promote Final Canon, authorize production, or decide Issue #18.
 
 Do not alter reducer v1 semantics in place. Do not infer physical/cryptographic erasure from logical `ERASED`. Do not infer composition/federation conformance from local conformance.
 

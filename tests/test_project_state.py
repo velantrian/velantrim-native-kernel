@@ -50,18 +50,19 @@ class ProjectStateTests(unittest.TestCase):
         with self.assertRaisesRegex(module.ProjectStateError, "manifest/Notion"):
             self.validate(state=state)
 
-    def test_descendant_notion_status_requires_distinct_checkpoint(self) -> None:
+    def test_descendant_notion_status_mutation_is_rejected(self) -> None:
         state = copy.deepcopy(self.state)
         publication = state["checkpoints"]["publication_checkpoint_sha"]
+        state["notion"]["status"] = "SYNCED_THROUGH_DESCENDANT_CHECKPOINT"
         state["checkpoints"]["manifest_generated_from_sha"] = publication
         state["checkpoints"]["notion_synchronized_through_sha"] = publication
-        with self.assertRaisesRegex(module.ProjectStateError, "distinct checkpoints"):
+        with self.assertRaisesRegex(module.ProjectStateError, "Notion status drift|distinct checkpoints|H11 post-130 Notion synchronization checkpoint drift"):
             self.validate(state=state)
 
-    def test_publication_notion_status_requires_equal_checkpoint(self) -> None:
+    def test_publication_notion_status_mutation_is_rejected(self) -> None:
         state = copy.deepcopy(self.state)
         state["notion"]["status"] = "SYNCED_THROUGH_PUBLICATION_CHECKPOINT"
-        with self.assertRaisesRegex(module.ProjectStateError, "equal checkpoints"):
+        with self.assertRaisesRegex(module.ProjectStateError, "Notion status drift|equal checkpoints"):
             self.validate(state=state)
 
     def test_historical_recovery_cannot_block_clean_lineage(self) -> None:
@@ -146,16 +147,24 @@ class ProjectStateTests(unittest.TestCase):
         with self.assertRaisesRegex(module.ProjectStateError, "verification method"):
             self.validate(state=state)
 
-    def test_notion_synchronization_must_remain_complete(self) -> None:
+    def test_adr0028_post_implementation_notion_sync_must_remain_complete(self) -> None:
         state = copy.deepcopy(self.state)
         state["notion"]["synchronization_required"] = True
-        with self.assertRaisesRegex(module.ProjectStateError, "must be complete"):
+        with self.assertRaisesRegex(module.ProjectStateError, "must remain complete"):
+            self.validate(state=state)
+        state = copy.deepcopy(self.state)
+        state["notion"]["decision_sync_status"] = "PENDING_POST_IMPLEMENTATION_SYNC"
+        with self.assertRaisesRegex(module.ProjectStateError, "decision status drift"):
             self.validate(state=state)
 
-    def test_notion_read_back_must_remain_seven_of_seven(self) -> None:
+    def test_prior_notion_read_back_inventory_must_remain_eight_of_eight(self) -> None:
         state = copy.deepcopy(self.state)
-        state["notion"]["read_back_verified_count"] = 6
-        with self.assertRaisesRegex(module.ProjectStateError, "7/7"):
+        state["notion"]["read_back_verified_count"] = 7
+        with self.assertRaisesRegex(module.ProjectStateError, "8/8"):
+            self.validate(state=state)
+        state = copy.deepcopy(self.state)
+        state["notion"]["surface_count"] = 7
+        with self.assertRaisesRegex(module.ProjectStateError, "8/8"):
             self.validate(state=state)
 
     def test_notion_sync_checkpoint_must_remain_h11_preregistration_merge(self) -> None:
@@ -222,6 +231,13 @@ class ProjectStateTests(unittest.TestCase):
         plan = state["tracks"]["long_horizon_research"]["post_blueprint_validation"]["residual_a10_validation_plan"]
         plan["composition_federation_is_h11"] = True
         with self.assertRaisesRegex(module.ProjectStateError, "composition/federation"):
+            self.validate(state=state)
+
+    def test_positive_qualification_implementation_cannot_grant_h11_authority(self) -> None:
+        state = copy.deepcopy(self.state)
+        qualification = state["tracks"]["long_horizon_research"]["post_blueprint_validation"]["residual_a10_validation_plan"]["h11_positive_qualification_design"]
+        qualification["h11_execution_authorized"] = True
+        with self.assertRaisesRegex(module.ProjectStateError, "cannot change H11 authority"):
             self.validate(state=state)
 
 

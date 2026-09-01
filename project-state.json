@@ -1,7 +1,7 @@
 {
   "protocol": "nk-project-state/2",
-  "snapshot_id": "native-kernel/state/2026-08-12-h11-execution-admission-blocked",
-  "observed_at": "2026-08-12T18:27:53Z",
+  "snapshot_id": "native-kernel/state/2026-08-23-adr0028-positive-qualification-implemented",
+  "observed_at": "2026-08-22T23:07:57Z",
   "repository": {
     "full_name": "velantrian/velantrim-native-kernel",
     "visibility": "PUBLIC",
@@ -15,7 +15,8 @@
     "evidence_producing_sha": "296981ae84ad5bdab5dabbec9b7b9ebb43af63d7",
     "publication_checkpoint_sha": "10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c",
     "notion_synchronized_through_sha": "e36b7f45410d74b8a65406bff6fdd6d070fa96b0",
-    "checkpoint_semantics": "Historical publication, runtime, integrity, evidence-producing and manifest-source role identities remain unchanged. D5 execution merged in PR #114; D5-R1 qualification merged in PR #115; D6 classification merged in PR #117; D7 integrated re-review merged in PR #118; D8 synchronized seven existing Notion surfaces and PR #119 recorded that evidence. ADR-0027 / OD-POST-D8-001 merged at 57993f39906ae7266011f6146c9a485d0587d2bf. PR #124 merged RAVP-001 at edc0501d71a827462aafd1ac4497920a719a4519 and PR #125 synchronized its current truth. PR #126 selected A10-H11 at bcd3b3f6c9d898315c93e5d24b5d0e02c95508cc without self-authorizing preregistration. PR #127 preregistered H11-001-c5-lab-canon-separation-v1 at 4a75ff15542013c033030620bdff61997e365140. PR #129 merged the fail-closed H11 execution-admission package at f7d13fce0104a4c2ce67589e954b09365a82f36f. PR #130 then bound that blocked admission into repository current truth at e36b7f45410d74b8a65406bff6fdd6d070fa96b0, after which all seven existing Native Kernel Notion surfaces were synchronized to the PR #130 checkpoint and read back 7/7, with zero new pages. Live HEAD is resolved through Git/GitHub and is never predicted by this file. The current repository-native gate remains A10_H11_EXECUTION_ADMISSION, but its admission state is BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER. H11 remains NOT_TESTED; implementation/execution remains unauthorized and runtime remains frozen."
+    "qualification_design_decision_sha": "4a13d2b4ee8001a43f7e3e701dbe9025dbcfd0df",
+    "checkpoint_semantics": "Historical publication, runtime, integrity, evidence-producing and manifest-source role identities remain unchanged. D5 execution merged in PR #114; D5-R1 qualification merged in PR #115; D6 classification merged in PR #117; D7 integrated re-review merged in PR #118; D8 synchronized seven existing Notion surfaces and PR #119 recorded that evidence. ADR-0027 / OD-POST-D8-001 merged at 57993f39906ae7266011f6146c9a485d0587d2bf. PR #124 merged RAVP-001 at edc0501d71a827462aafd1ac4497920a719a4519. PR #126 selected A10-H11; PR #127 preregistered H11-001-c5-lab-canon-separation-v1; PR #129 merged the fail-closed H11 execution-admission package; PR #130 bound that blocked admission into current truth. ADR-0024 / Issue #74 was accepted as ACCEPT_WITH_CHANGES and closed without reducer-v2 implementation. ADR-0028 / Issue #154 selected OPTION_C_HYBRID_TWO_BASIS via PR #155 at 4a13d2b4ee8001a43f7e3e701dbe9025dbcfd0df. PR #157 reconciled ADR-0028 into GitHub current truth at 5ebb33f5a74a81a7a49dae36ed29247d9b71db87. The ADR-0028 Notion projection was subsequently synchronized and read back without changing H11 admission, qualification, runtime, Canon or production authority. PR #164 implements the bounded positive qualification policy/schema/evaluator but evaluates no candidate and grants no H11 authority. Live HEAD is resolved through Git/GitHub and is never predicted by this file."
   },
   "status": {
     "repository_status": "RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY",
@@ -294,10 +295,37 @@
             "final_canon": "DEFERRED / NOT_AUTHORIZED",
             "production_authorized": false
           },
+          "h11_positive_qualification_design": {
+            "protocol": "nk-h11-positive-qualification-design/1",
+            "decision": "ADR-0028",
+            "issue": 154,
+            "decision_status": "ACCEPTED",
+            "selected_option": "OPTION_C_HYBRID_TWO_BASIS",
+            "decision_pr": 155,
+            "decision_merge_sha": "4a13d2b4ee8001a43f7e3e701dbe9025dbcfd0df",
+            "basis_1": "DISTINCT_AUTHENTICATED_GITHUB_CANDIDATE_ACTION_AND_DECLARATION",
+            "basis_2": "SEPARATE_REPOSITORY_VISIBLE_INDEPENDENTLY_VERIFIABLE_ORGANIZATIONAL_OR_CUSTODY_EVIDENCE",
+            "both_bases_required": true,
+            "either_basis_alone_sufficient": false,
+            "sufficient_evidence_policy": "IMPLEMENTED / nk-h11-positive-qualification-policy/1",
+            "sufficient_evidence_policy_path": "docs/research/H11_POSITIVE_QUALIFICATION_POLICY.json",
+            "qualification_request_schema": "IMPLEMENTED / nk-h11-positive-qualification-request/1",
+            "qualification_request_schema_path": "docs/research/H11_POSITIVE_QUALIFICATION_REQUEST_SCHEMA.json",
+            "candidate_neutral_evaluator": "IMPLEMENTED / nk-h11-positive-qualification-evaluation/1",
+            "candidate_neutral_evaluator_path": "tools/ai_context/evaluate_h11_positive_qualification.py",
+            "positive_qualification_implementation": "IMPLEMENTED / NO_CANDIDATE_EVALUATED",
+            "qualification_evaluation_state": "NO_CANDIDATE_EVALUATED",
+            "implementation_issue": 163,
+            "implementation_pr": 164,
+            "qualifying_reviewer_reproducer": "NOT_ESTABLISHED",
+            "changes_execution_admission": false,
+            "h11_execution_authorized": false,
+            "runtime_expansion": "FROZEN"
+          },
           "next_gate": "A10_H11_EXECUTION_ADMISSION",
           "next_gate_scope": "EXECUTION_ADMISSION_ONLY",
           "execution_admission_state": "BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER",
-          "next_dependency": "QUALIFYING_INDEPENDENT_H11_REVIEWER_REPRODUCER_EVIDENCE",
+          "next_dependency": "ESTABLISH_GENUINELY_EXTERNAL_CANDIDATE_THEN_EVALUATE_ADR0028_QUALIFICATION",
           "experiment_implementation_authorized": false,
           "experiment_execution_authorized": false
         }
@@ -333,15 +361,18 @@
     "promotion_authorized": false
   },
   "issues": {
-    "1": {"state": "OPEN", "meaning": "Historical source recovery remains independent from the clean implementation.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-09T11:31:28Z", "source": "issue/1"}},
-    "14": {"state": "OPEN", "meaning": "Canonical identity has a partial executable reference profile; independent encoding, migration and collision-response scope remains open.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-09T11:31:28Z", "source": "issue/14"}},
-    "15": {"state": "OPEN", "meaning": "Append, idempotency, ordering and replay have a partial clean runtime; portable history commitment and broader threat cases remain open.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-09T11:31:28Z", "source": "issue/15"}},
-    "16": {"state": "OPEN", "meaning": "Deletion and restriction have a semantic state machine; execution across actual locations and physical or cryptographic deletion remain open.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-09T11:31:28Z", "source": "issue/16"}},
-    "17": {"state": "OPEN", "meaning": "Fixtures, runners and evidence exist through C5; NK-EPI, Temporal, reducer-v2 and broader independent-substrate conformance remain open.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-09T11:31:28Z", "source": "issue/17"}},
-    "18": {"state": "OPEN", "meaning": "License and publication terms remain PENDING_OPERATOR; no license, contribution regime or package publication is authorized.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-10T20:36:15Z", "source": "issue/18"}},
+    "1": {"state": "OPEN", "meaning": "Historical source recovery remains independent from the clean implementation; completion triage classifies it EXTERNALLY_BLOCKED / PRESERVE_OPEN.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-09T11:31:28Z", "source": "issue/1"}},
+    "14": {"state": "OPEN", "meaning": "Canonical identity remains optional future profile research rather than current-version completion debt.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-09T11:31:28Z", "source": "issue/14"}},
+    "15": {"state": "OPEN", "meaning": "Event Integrity append/idempotency/ordering/replay remains optional future profile research rather than current-version completion debt.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-09T11:31:28Z", "source": "issue/15"}},
+    "16": {"state": "OPEN", "meaning": "Deletion/restriction/retention/crypto-erasure remains optional future deployment/profile research rather than current-version completion debt.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-09T11:31:28Z", "source": "issue/16"}},
+    "17": {"state": "OPEN", "meaning": "Cross-profile conformance fixtures/runner remain optional future research rather than the current H11 dependency.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-09T11:31:28Z", "source": "issue/17"}},
+    "18": {"state": "OPEN", "meaning": "License and publication terms remain PENDING_OPERATOR and block external reuse/collaboration/package publication, not current bounded research-version completion.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-10T20:36:15Z", "source": "issue/18"}},
     "64": {"state": "CLOSED", "state_reason": "COMPLETED", "meaning": "C5 bounded operational rehearsal implementation issue is complete.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-09T11:31:28Z", "source": "issue/64"}},
-    "74": {"state": "OPEN", "meaning": "ADR-0024 remains PROPOSED / PENDING_OPERATOR; reducer v1 is immutable and reducer-v2 runtime is not authorized.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-10T20:36:15Z", "source": "issue/74"}},
-    "88": {"state": "OPEN", "meaning": "Architecture Re-foundation A1-A10 remains provisional. A10-H11 was selected in PR #126 and preregistered as H11-001-c5-lab-canon-separation-v1 in PR #127. PR #129 merged the fail-closed execution-admission package at f7d13fce0104a4c2ce67589e954b09365a82f36f. PR #130 bound the blocked admission into current machine truth at e36b7f45410d74b8a65406bff6fdd6d070fa96b0; all seven existing Notion surfaces are synchronized through that PR #130 checkpoint and 7/7 read-back verified. The current repository-native gate remains A10_H11_EXECUTION_ADMISSION, with state BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER because a qualifying independent semantic reviewer/reproducer is NOT_ESTABLISHED. H11 remains NOT_TESTED; implementation/execution are unauthorized. Final Canon is deferred and runtime remains frozen.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-12T18:27:53Z", "source": "issue/88"}}
+    "74": {"state": "CLOSED", "state_reason": "COMPLETED", "meaning": "ADR-0024 is ACCEPTED / ACCEPT_WITH_CHANGES; reducer v1 remains an immutable historical contract; existing P1-C5 evidence remains reducer-v1-bounded; reducer-v2 implementation is NOT_STARTED and reducer-v2 runtime is NOT_AUTHORIZED.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-22T13:11:54Z", "source": "issue/74"}},
+    "88": {"state": "OPEN", "meaning": "Architecture Re-foundation A1-A10 remains provisional. The current repository-native gate remains A10_H11_EXECUTION_ADMISSION with state BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER. ADR-0028 positive qualification policy/schema/evaluator are implemented, but NO_CANDIDATE_EVALUATED and a qualifying reviewer/reproducer is NOT_ESTABLISHED. H11 remains NOT_TESTED; H11 implementation/execution remain unauthorized; Final Canon is deferred and runtime remains frozen.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-22T16:47:00Z", "source": "issue/88"}},
+    "154": {"state": "CLOSED", "state_reason": "COMPLETED", "meaning": "ADR-0028 selected OPTION_C_HYBRID_TWO_BASIS for the H11 positive reviewer/reproducer qualification design; bounded implementation is tracked separately without changing H11 admission.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-22T15:21:47Z", "source": "issue/154"}},
+    "156": {"state": "CLOSED", "state_reason": "COMPLETED", "meaning": "ADR-0028 design reconciliation merged in PR #157; its Notion projection synchronization/read-back completed without changing H11 admission/runtime authority.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-22T17:34:28Z", "source": "issue/156"}},
+    "163": {"state": "OPEN", "meaning": "Bounded ADR-0028 positive qualification policy/schema/evaluator is implemented in PR #164; no candidate has been evaluated and post-merge GitHub/Notion reconciliation remains before issue closure.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-22T22:51:26Z", "source": "issue/163"}}
   },
   "evidence": {
     "c5_bundle": {"protocol": "nk-evidence-bundle/1", "path": "evidence/c5/2026-08-07/manifest.json", "status": "CAPTURED_REPOSITORY_RESIDENT", "checkpoint_count": 2, "artifact_count": 8, "original_archives_preserved": true, "source_retention_expiry": "2026-09-06"},
@@ -353,17 +384,19 @@
     "residual_a10_plan": {"protocol": "nk-residual-a10-validation-plan/1", "path": "docs/research/RESIDUAL_A10_VALIDATION_PLAN.json", "status": "COMPLETE / MERGED / NOTION_7_OF_7_READ_BACK_VERIFIED", "pr": 124, "merge_sha": "edc0501d71a827462aafd1ac4497920a719a4519", "residual_targets": 6, "experiment_execution_authorized": false},
     "h11_family_selection": {"protocol": "nk-residual-family-selection/1", "path": "docs/research/H11_FAMILY_SELECTION.json", "status": "MERGED_SELECTION_CANDIDATE / BOUND_BY_SEPARATE_PREREGISTRATION", "pr": 126, "merge_sha": "bcd3b3f6c9d898315c93e5d24b5d0e02c95508cc", "selected_hypothesis": "A10-H11", "self_authorized_preregistration": false},
     "h11_preregistration": {"protocol": "nk-h11-preregistration/1", "path": "docs/research/H11_PREREGISTRATION.json", "status": "PREREGISTERED / EXECUTION_NOT_AUTHORIZED / HISTORICAL_NOTION_7_OF_7_READ_BACK_VERIFIED", "pr": 127, "merge_sha": "4a75ff15542013c033030620bdff61997e365140", "frozen_laboratory_bundle": "native-kernel/c5/2026-08-08-adr0023", "current_a10_outcome": "NOT_TESTED", "independent_semantic_oracle_required": true, "qualifying_reviewer_reproducer": "NOT_ESTABLISHED", "experiment_execution_authorized": false},
-    "h11_execution_admission": {"protocol": "nk-h11-execution-admission/1", "path": "docs/research/H11_EXECUTION_ADMISSION.json", "status": "BLOCKED / REPOSITORY_RESIDENT / NOTION_7_OF_7_READ_BACK_VERIFIED", "pr": 129, "merge_sha": "f7d13fce0104a4c2ce67589e954b09365a82f36f", "plan_sha256": "60da649e675b79b3e70bf8a61cf03cb4d57bb989f4934b65ab8d50c925b19914", "admission_result": "BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER", "qualifying_reviewer_reproducer": "NOT_ESTABLISHED", "h11_outcome": "NOT_TESTED", "implementation_authorized": false, "execution_authorized": false, "runtime_expansion": "FROZEN"}
+    "h11_execution_admission": {"protocol": "nk-h11-execution-admission/1", "path": "docs/research/H11_EXECUTION_ADMISSION.json", "status": "BLOCKED / REPOSITORY_RESIDENT / NOTION_7_OF_7_READ_BACK_VERIFIED", "pr": 129, "merge_sha": "f7d13fce0104a4c2ce67589e954b09365a82f36f", "plan_sha256": "60da649e675b79b3e70bf8a61cf03cb4d57bb989f4934b65ab8d50c925b19914", "admission_result": "BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER", "qualifying_reviewer_reproducer": "NOT_ESTABLISHED", "h11_outcome": "NOT_TESTED", "implementation_authorized": false, "execution_authorized": false, "runtime_expansion": "FROZEN"},
+    "adr_0028_qualification_design": {"protocol": "nk-h11-positive-qualification-design/1", "path": "docs/adr/0028-h11-hybrid-two-basis-positive-qualification.md", "status": "ACCEPTED / REPOSITORY_RESIDENT / POSITIVE_QUALIFICATION_IMPLEMENTED", "issue": 154, "pr": 155, "merge_sha": "4a13d2b4ee8001a43f7e3e701dbe9025dbcfd0df", "selected_option": "OPTION_C_HYBRID_TWO_BASIS", "positive_qualification_implementation": "IMPLEMENTED / NO_CANDIDATE_EVALUATED", "qualifying_reviewer_reproducer": "NOT_ESTABLISHED", "h11_outcome": "NOT_TESTED", "execution_authorized": false},
+    "adr_0028_positive_qualification_implementation": {"protocol": "nk-h11-positive-qualification-policy/1", "policy_path": "docs/research/H11_POSITIVE_QUALIFICATION_POLICY.json", "request_schema_protocol": "nk-h11-positive-qualification-request/1", "request_schema_path": "docs/research/H11_POSITIVE_QUALIFICATION_REQUEST_SCHEMA.json", "evaluator_protocol": "nk-h11-positive-qualification-evaluation/1", "evaluator_path": "tools/ai_context/evaluate_h11_positive_qualification.py", "status": "IMPLEMENTED / NO_CANDIDATE_EVALUATED / EXECUTION_ADMISSION_UNCHANGED", "issue": 163, "pr": 164, "qualifying_reviewer_reproducer": "NOT_ESTABLISHED", "h11_outcome": "NOT_TESTED", "execution_admission_changed": false, "h11_execution_authorized": false, "runtime_expansion": "FROZEN"}
   },
   "notion": {
     "synchronization_required": false,
     "status": "SYNCED_THROUGH_DESCENDANT_CHECKPOINT",
-    "decision_sync_status": "SYNCHRONIZED",
-    "surface_count": 7,
-    "read_back_verified_count": 7,
+    "decision_sync_status": "COMPLETE / READ_BACK_VERIFIED",
+    "surface_count": 8,
+    "read_back_verified_count": 8,
     "new_pages_created": 0,
-    "scope": "Publication checkpoint 10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c and manifest source 70acd0da61fee19131947aa56125833adb156ced remain historical roles. ADR-0027 remains the authority for residual research planning. RAVP-001 merged at edc0501d71a827462aafd1ac4497920a719a4519. PR #126 selected A10-H11; PR #127 preregistered H11-001-c5-lab-canon-separation-v1; PR #129 merged the fail-closed H11 admission package at f7d13fce0104a4c2ce67589e954b09365a82f36f after 6/6 exact-head and 6/6 post-merge workflows. PR #130 bound that blocked admission into repository current truth at e36b7f45410d74b8a65406bff6fdd6d070fa96b0 after 7/7 exact-head and 7/7 post-merge workflows. All seven existing Native Kernel Notion surfaces are synchronized through that PR #130 checkpoint and 7/7 read-back verified; no new pages were created. The current repository-native gate remains A10_H11_EXECUTION_ADMISSION with admission state BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER. Qualifying reviewer/reproducer status is NOT_ESTABLISHED; H11 remains NOT_TESTED; implementation and experiment execution remain unauthorized.",
-    "authority_boundary": "Notion carries synchronized orientation, rationale and history through the PR #130 blocked-admission machine-truth checkpoint e36b7f45410d74b8a65406bff6fdd6d070fa96b0; PR #129 at f7d13fce0104a4c2ce67589e954b09365a82f36f remains the authoritative H11 execution-admission package. GitHub remains authoritative for technical state, live refs, contracts, tests, workflows, evidence and future current-truth descendants. Synchronization records a blocked admission, not H11 support or an A10 INDETERMINATE outcome. It does not establish a qualifying independent reviewer/reproducer, experiment implementation/execution, Final Canon, runtime thaw, production, Issue #18, Issue #74/ADR-0024 or Track H admission."
+    "scope": "PR #164 is merged and the bounded ADR-0028 positive qualification implementation projection has been synchronized and read back across eight existing Native Kernel Notion surfaces with zero new pages. No candidate has been evaluated; reviewer/reproducer remains NOT_ESTABLISHED; H11 admission remains BLOCKED; H11 remains NOT_TESTED and runtime remains FROZEN. The preserved H11 post-130 checkpoint role remains historical and is not redefined by this descendant synchronization.",
+    "authority_boundary": "GitHub remains authoritative for technical state, live refs, contracts, tests, workflows, evidence and current-truth descendants. The completed post-implementation Notion synchronization projects only IMPLEMENTED / NO_CANDIDATE_EVALUATED and the unchanged H11 blocker; it does not establish qualification, change execution admission, execute H11, promote Final Canon, thaw runtime, authorize production, reducer-v2 or Issue #18 policy."
   },
   "non_claims": [
     "C5 bounded rehearsal is not production readiness.",
@@ -382,7 +415,9 @@
     "Exact C5/ADR-0023 laboratory bytes, ZIPs, digests, SQL/JSON/Event/reducer/Receipt/report mechanisms are laboratory/profile reproduction requirements and are not automatically Architecture Canon.",
     "H11 family selection does not self-authorize preregistration; H11 preregistration does not self-authorize execution admission or execution.",
     "A10_H11_EXECUTION_ADMISSION remains the current repository-native admission-only gate; its blocked state does not authorize execution.",
-    "The descriptive next dependency QUALIFYING_INDEPENDENT_H11_REVIEWER_REPRODUCER_EVIDENCE is not a new canonical gate name.",
+    "ADR-0028 positive qualification policy/schema/evaluator implementation does not qualify a reviewer; no candidate has been evaluated.",
+    "Authenticated GitHub action alone is not qualifying independence; the ADR-0028 second evidence basis is also required.",
+    "Qualification implementation is not qualification; qualification is not execution admission; execution admission is not H11 execution.",
     "A qualifying independent semantic reviewer/reproducer is NOT_ESTABLISHED; Codex quota notices, CI, owner review and assistant self-review are not substitutes.",
     "The correct current admission state is BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER; this is not an A10 INDETERMINATE outcome and H11 remains NOT_TESTED.",
     "Simulation/emulation does not establish H08 substrate support; stochastic software rehearsal does not establish an H09 physical/probabilistic-substrate claim.",

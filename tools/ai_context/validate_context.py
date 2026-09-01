@@ -103,7 +103,8 @@ CURRENT_SURFACE_MARKERS = {
         "formal_architecture_role: semantic_authority",
     ),
     "STATUS.md": (
-        "document_role: CURRENT_STATE",
+        "document_role: CHRONOLOGY_ORIENTATION",
+        "current_authority: docs/ai/CURRENT_STATE.md + project-state.json + live GitHub",
         "current_gate: A10_H11_EXECUTION_ADMISSION",
         "execution_admission_state: BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER",
         "HISTORICAL_D5_D6_STATUS_CHECKPOINT_NOT_CURRENT",
@@ -178,6 +179,7 @@ FORBIDDEN_CURRENT_MARKERS = {
         "Notion is intentionally still at the earlier D4.5 checkpoint",
     ),
     "STATUS.md": (
+        "document_role: CURRENT_STATE",
         "The current next gate is `D6_A10_HYPOTHESIS_CLASSIFICATION`",
         "Live Notion remains synchronized through the earlier D4.5 admission checkpoint",
     ),
@@ -332,7 +334,7 @@ def main(argv: list[str] | None = None) -> int:
         return 1
     print(
         "AI context validation passed; authority routing reaches IAR-1 reconciliation; "
-        "human truth surfaces are H11-current with D5/D6 history labelled; "
+        "current-only routing and labelled chronology surfaces are consistent; "
         "current gate=A10_H11_EXECUTION_ADMISSION; admission=BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER; "
         "H11=NOT_TESTED; runtime_expansion=FROZEN"
     )

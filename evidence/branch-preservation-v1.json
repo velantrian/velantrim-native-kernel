@@ -1,0 +1,21 @@
+{
+  "protocol": "nk-branch-preservation/1",
+  "status": "BOUNDED_REPOSITORY_HYGIENE_SAFETY_CONTRACT",
+  "authority_boundary": {
+    "h11_outcome_changed": false,
+    "runtime_authorized": false,
+    "canon_authorized": false,
+    "production_authorized": false,
+    "branch_deletion_authorized": false,
+    "auto_delete_authorized": false
+  },
+  "policy": {
+    "purpose": "Prevent deletion of refs that currently keep repository-cited historical evidence commits reachable until durable main-reachable anchors are recorded.",
+    "default_action": "NO_DELETION_FROM_THIS_MANIFEST",
+    "migration_rule": "Preserve the historical PR-head identity and add a durable main-reachable checkpoint before a protected ref may leave this manifest."
+  },
+  "protected_refs": [
+    {"ref":"archive/bootstrap-v0.1.2.1-docs-lineage","tip_sha":"d64855afc4b34bcfb0ed8f1c3766925d287b07c6","cited_by":["docs/source-recovery/2026-08-09-bootstrap-branch-resweep.md"],"reason":"explicit source-recovery preservation ref","migration_state":"INTENTIONAL_LONG_LIVED_LINEAGE"},
+    {"ref":"bootstrap/research-kernel-v0.1.2.1","tip_sha":"d64855afc4b34bcfb0ed8f1c3766925d287b07c6","cited_by":["docs/source-recovery/2026-08-09-bootstrap-branch-resweep.md"],"reason":"explicit retained bootstrap source-recovery ref","migration_state":"INTENTIONAL_LONG_LIVED_LINEAGE"}
+  ]
+}
