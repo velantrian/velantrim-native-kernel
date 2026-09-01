@@ -5,7 +5,7 @@ This file is the **active-risk register**. Historical defect chronology remains 
 
 ```yaml
 document_role: ACTIVE_RISKS
-status_as_of: 2026-08-15
+status_as_of: 2026-08-23
 authoritative_machine_source: ../../project-state.json
 repository_status: RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY
 selected_family: A10-H11
@@ -13,6 +13,8 @@ current_gate: A10_H11_EXECUTION_ADMISSION
 admission: BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER
 reviewer_reproducer: NOT_ESTABLISHED
 h11_outcome: NOT_TESTED
+positive_qualification_design: ADR-0028 / OPTION_C_HYBRID_TWO_BASIS
+positive_qualification_implementation: IMPLEMENTED / NO_CANDIDATE_EVALUATED
 runtime_expansion: FROZEN
 production_authorized: false
 ```
@@ -38,9 +40,10 @@ CI success ≠ independent review
 owner/self review ≠ independent review
 LLM agreement / model-session change / same-agent relabeling ≠ independent review
 Notion read-back ≠ independent review
+implemented evaluator ≠ independent reviewer
 ```
 
-PR #131 remains the external review surface. A future qualifying reviewer/reproducer still requires a separate `A10_H11_EXECUTION_ADMISSION` reassessment before execution.
+PR #131 remains the external review surface. ADR-0028 is now operationally materialized by a narrow positive-qualification policy/request/evaluator, but **no candidate has been evaluated** and no external evidence has been established. A future candidate must satisfy both independent evidence bases. Even if the evaluator returns `QUALIFIED`, the repository must stop and separately reassess `A10_H11_EXECUTION_ADMISSION` before any H11 execution.
 
 ## 🔴 P0 — Formal Authority misrouting / stale first-draft interpretation
 
@@ -167,11 +170,28 @@ Issue #1 remains independent. Track H source admission remains operator-controll
 
 ## 🔴 P0 — Reducer referential semantics remain incomplete
 
-**State:** `OPEN / ISSUE #74 / ADR-0024 PENDING / RUNTIME FROZEN`.
+**State:** `OPEN / ISSUE #74 CLOSED / ADR-0024 ACCEPTED / IMPLEMENTATION NOT_STARTED / RUNTIME FROZEN`.
 
 Reducer v1 historically permits referential cases a stricter future policy may reject, including dangling/unknown references and insufficiently constrained supersession relations.
 
-Do **not** repair reducer v1 in place; that would reinterpret historical P1–C5 evidence. Any stricter semantics must use the existing operator-controlled versioning/ADR path.
+The operator selected `ACCEPT_WITH_CHANGES` on 2026-08-22. ADR-0024 freezes the future versioned referential contract direction while preserving reducer v1 as an immutable historical contract. Issue #74 is complete as a decision gate, but the implementation risk remains open: reducer-v2 implementation is `NOT_STARTED` and reducer-v2 runtime remains `NOT_AUTHORIZED`.
+
+Do **not** repair reducer v1 in place; that would reinterpret historical P1–C5 evidence. Any stricter implementation must use a separately authorized reducer-v2 path and new evidence identity under the accepted ADR-0024 boundary.
+
+### RVT-01 — reducer-v1 evidence-lineage boundary
+
+A bounded read-only trace on 2026-08-21 found that the current C3 support evidence is materially produced under reducer-v1 permissive referential semantics:
+
+```text
+27 / 45 SUPPORTED → direct evidence-path coupling to C3 workload/replay containing dangling LINK and/or SUPERSEDED targets
+16 / 45 SUPPORTED → indirect artifact-generation coupling through P4/P5 profile-report compatibility
+ 2 / 45 SUPPORTED → no assertion-level referential-workload dependency
+45 / 45 current C3 artifact pipeline → operationally produced with reducer-v1 profile reports
+```
+
+This trace did **not** show that any current SUPPORTED assertion is semantically false, did **not** reproduce `Unknown → False`, and does **not** change the `45 SUPPORTED / 10 PARTIAL / 17 UNSUPPORTED / 0 FAILED` map. The narrower gap is that referential absence can remain unclassified by reducer v1 rather than being materialized as an explicit `UNKNOWN` / provenance-gap state.
+
+Therefore existing C3/C4/C5 support is **historical reducer-v1-bounded evidence**. It must not be silently reused as proof of a future strict-referential / reducer-v2 policy. A future reducer version requires its own admitted fixtures/evidence cycle.
 
 ## 🔴 P0 — Event/history commitment is not complete authenticity
 
@@ -215,30 +235,38 @@ No AI agent may choose the license, contribution regime, patent/trademark terms 
 
 Qualifying review, reconciliation, preregistration, execution admission, bounded support or later A10 outcomes do not automatically create Final Canon, product runtime behavior, production authority or universal substrate claims.
 
-## 🟠 P1 — H11 qualification evidence must be operationally bindable
+## 🟠 P1 — H11 positive qualification implementation complete; external evidence remains absent
 
-**State:** `OPEN / PRE-EXECUTION OPERATIONAL RISK`.
+**State:** `IMPLEMENTED / NO_CANDIDATE_EVALUATED / EXTERNAL DEPENDENCY OPEN`.
 
-The fail-closed qualification contract correctly prevents repository-local self-certification. When a genuine external reviewer/reproducer appears, externally authenticated identity/evidence must be bindable into the **existing** qualification record without weakening frozen criteria.
+ADR-0028, merged via PR #155 at `4a13d2b4ee8001a43f7e3e701dbe9025dbcfd0df`, selected `OPTION_C_HYBRID_TWO_BASIS`. Issue #163 / PR #164 now materializes the bounded pre-admission path as:
 
-Current machine nuance:
+- `nk-h11-positive-qualification-policy/1`;
+- `nk-h11-positive-qualification-request/1`;
+- `nk-h11-positive-qualification-evaluation/1`;
+- live GitHub event/repository verification;
+- fail-closed adversarial fixtures and policy-weakening guards.
 
-- the existing qualification vocabulary already contains `QUALIFIED`, `NOT_ESTABLISHED`, and `DISQUALIFIED`, with structural requirements for a qualifying record;
-- repository-local Git identities or locally generated keys are still insufficient to establish externally authenticated independence;
-- the current top-level H11 admission validator validates the present Codex / `NOT_ESTABLISHED` / `BLOCKED` package, not a generic future positive-candidate path;
-- no external-authentication binding, sufficient-evidence policy, issuer/profile choice, generic evaluator, or positive qualification-transition behavior is selected or implemented by the current repository state.
+A positive qualification requires both:
+
+1. a distinct authenticated GitHub candidate review/declaration on PR #131; and
+2. separate repository-visible organizational-separation and independent-evidence-custody attestations from distinct external public Organization-owned repositories and distinct authenticated organization-associated issuers.
+
+Neither basis is sufficient alone. Missing, stale, malformed, ambiguous, contradictory or non-distinct evidence resolves to `NOT_ESTABLISHED`; prohibited owner/self review, preregistration/rubric authorship, same custody, private-state use or frozen-input violation can resolve to `DISQUALIFIED`.
+
+The implementation is deliberately narrower than KYC or a general identity subsystem. It establishes only whether repository-visible evidence is sufficient for the bounded H11 reviewer/reproducer role under ADR-0028.
 
 ```text
-authenticated account/action ≠ real-world identity
-real-world identity ≠ organizational independence
-organizational independence ≠ independent evidence custody
+authenticated account/action ≠ legal/real-world identity proof
+bounded sufficient evidence ≠ universal organizational-independence proof
+implementation ≠ qualification
 qualification ≠ execution admission
 execution admission ≠ H11 execution
 ```
 
-Any future positive qualification path requires a separate operator-approved, versioned, candidate-neutral design before implementation, followed by a separate `A10_H11_EXECUTION_ADMISSION` reassessment. Until then, `NOT_ESTABLISHED / BLOCKED / NOT_TESTED` remains the authoritative boundary.
+No candidate has been evaluated. The authoritative reviewer state remains `NOT_ESTABLISHED`; H11 admission remains `BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER`; H11 remains `NOT_TESTED`.
 
-This is not permission to invent a substitute reviewer, protocol or gate. It keeps the existing PR #131 → qualification record → admission reassessment path executable.
+A future `QUALIFIED` result is a hard **STOP**: the evaluator keeps every authority flag false and routes only to `SEPARATE_A10_H11_EXECUTION_ADMISSION_REASSESSMENT`.
 
 ## 🟠 P1 — Independent implementation evidence remains limited
 
@@ -309,8 +337,11 @@ Current State → current state projection
 Roadmap → active gate/order
 Active Risks → active risk register
 AI Context → continuation/routing
+Decision Ledger → operator/ADR decision projection
 GitHub Sync Log → PR/SHA/CI synchronization chronology
 ```
+
+The ADR-0028 design projection has a previous 8/8 read-back. The positive-qualification implementation requires a new post-merge update/read-back of the same eight existing pages; it must not create a ninth page or reinterpret the frozen H11 state-binding checkpoint.
 
 ## 🟠 P1 — Repository governance enforcement can be weaker than methodology
 
@@ -344,6 +375,10 @@ Final Canon deferred ≠ architecture absent
 runtime frozen ≠ research stopped
 Notion synchronized ≠ H11 qualified
 CI green ≠ independent validation
+ADR-0028 accepted ≠ reviewer qualified
+positive qualification implemented ≠ reviewer qualified
+qualification ≠ execution admission
+execution admission ≠ H11 execution
 ```
 
 ## Update rule
