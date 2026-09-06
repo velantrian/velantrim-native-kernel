@@ -73,7 +73,7 @@ NK-EPI: 0 SUPPORTED / 0 PARTIAL / 8 UNSUPPORTED / 0 FAILED
 production: NOT AUTHORIZED
 ```
 
-Frozen H11 plan identity: `H11-001-c5-lab-canon-separation-v1`; SHA-256 `60da649e675b79b3e70bf8a61cf03cb4d57bb989f4934b65ab8d50c925b19914`. PR #131 остаётся external reviewer/reproducer surface. CI, owner review, model agreement или repository-local identity не могут создать qualifying independence.
+Frozen H11 plan identity: `H11-001-c5-lab-canon-separation-v1`; SHA-256 `60da649e675b79b3e70bf8a61cf03cb4d57bb989f4934b65ab8d50c925b19914`. Issue #178 — текущая external reviewer/reproducer acquisition surface; PR #131 — merged historical predecessor artifact. CI, owner review, model agreement или repository-local identity не могут создать qualifying independence.
 
 ## Current reconciled distinctions
 

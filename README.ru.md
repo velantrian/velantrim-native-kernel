@@ -148,7 +148,7 @@ flowchart LR
 | 🚀 Product runtime | ❌ Not authorized | Runtime expansion остаётся frozen |
 | 🏭 Production | ❌ Not authorized | Research evidence не является production approval |
 
-Для live state используйте **[docs/ai/CURRENT_STATE.md](docs/ai/CURRENT_STATE.md)** вместе с machine-readable **[project-state.json](project-state.json)** и live GitHub. **[STATUS.md](STATUS.md)** и **[ROADMAP.md](ROADMAP.md)** используйте для human orientation и chronology, а не как конкурирующую live authority. Открытая поверхность внешней проверки — **[PR #131](https://github.com/velantrian/velantrim-native-kernel/pull/131)**.
+Для live state используйте **[docs/ai/CURRENT_STATE.md](docs/ai/CURRENT_STATE.md)** вместе с machine-readable **[project-state.json](project-state.json)** и live GitHub. **[STATUS.md](STATUS.md)** и **[ROADMAP.md](ROADMAP.md)** используйте для human orientation и chronology, а не как конкурирующую live authority. Текущая поверхность привлечения внешнего рецензента/репродюсера — **[Issue #178](https://github.com/velantrian/velantrim-native-kernel/issues/178)**; **[PR #131](https://github.com/velantrian/velantrim-native-kernel/pull/131)** — merged historical predecessor artifact.
 
 <details>
 <summary>⚙ Exact machine-facing граница</summary>

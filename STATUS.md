@@ -25,7 +25,8 @@ product_runtime_thaw: false
 final_canon: DEFERRED / NOT_AUTHORIZED
 production_authorized: false
 active_architecture_issue: 88
-open_external_review_surface: PR #131
+open_external_review_surface: Issue #178
+historical_acquisition_artifact: PR #131 (MERGED / CLOSED, 2026-09-01)
 ```
 
 ## Current implementation boundary
