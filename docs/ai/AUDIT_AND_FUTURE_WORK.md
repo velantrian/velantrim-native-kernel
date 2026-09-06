@@ -63,7 +63,7 @@ production: false
 
 The current H11 plan is `H11-001-c5-lab-canon-separation-v1`, SHA-256 `60da649e675b79b3e70bf8a61cf03cb4d57bb989f4934b65ab8d50c925b19914`. The immutable H11 review subject is `e36b7f45410d74b8a65406bff6fdd6d070fa96b0`.
 
-PR #131 is the repository-visible external review surface. It must not be merged or treated as qualification merely because it exists, is green, or receives owner/AI activity.
+Issue #178 is the current repository-visible external review acquisition surface; PR #131 is a merged historical predecessor artifact. Neither must be treated as qualification merely because it exists, is green, is commented on, or receives owner/AI activity.
 
 ## 3. Current stable checkpoint
 
@@ -81,7 +81,7 @@ The committed H11 state-binding checkpoint remains PR #130 / `e36b7f45410d74b8a6
 **Priority:** `P1`  
 **Implementation authorized:** `NO`  
 **Runtime capability change:** `NO`  
-**Known issue / surface:** Issue #88, PR #131  
+**Known issue / surface:** Issue #88, Issue #178 (current acquisition surface); PR #131 (merged historical predecessor artifact)  
 **Last verified:** ledger creation checkpoint; re-resolve live evidence before use.
 
 #### Question
@@ -95,12 +95,12 @@ This is the current explicit execution-admission blocker for H11.
 - `docs/research/H11_REVIEWER_REPRODUCER_QUALIFICATION.json`
 - `docs/research/H11_EXECUTION_ADMISSION.json`
 - `tools/ai_context/validate_h11_execution_admission.py`
-- PR #131 and `docs/reviews/H11-001_INDEPENDENT_REVIEW_REQUEST.md`
+- Issue #178 (current acquisition surface) and PR #131 (merged historical predecessor artifact) and `docs/reviews/H11-001_INDEPENDENT_REVIEW_REQUEST.md`
 
 Current Codex/AI evidence is non-qualifying for H11 independence. External outreach/contact/reply is not qualification by itself.
 
 #### Files / components to inspect
-The frozen PR #131 packet and the qualification/admission machine contract above.
+Issue #178 (current acquisition surface), the frozen PR #131 packet, and the qualification/admission machine contract above.
 
 #### Required audit
 Evaluate authenticated identity/role, authorship independence, custody independence, conflicts/material dependence/self-review, frozen-input boundary, repository visibility and private-state exclusion.
@@ -338,7 +338,7 @@ For a future fresh audit, use this order without treating it as work authorizati
 
 1. live `main`, signature, PRs, reviews, issues and Actions;
 2. `project-state.json` and current machine gate;
-3. H11 qualification/admission contract and PR #131;
+3. H11 qualification/admission contract, Issue #178 (current acquisition surface), and PR #131 (merged historical predecessor artifact);
 4. current architecture authority route through IAR-1-R1;
 5. open issues #1, #14, #15, #16, #17, #18, #74, #88;
 6. RAVP-001 residual targets and whether any state/authorization changed;

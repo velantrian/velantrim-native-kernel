@@ -104,7 +104,7 @@ production: false
 Issue #88: OPEN
 ```
 
-The frozen H11 plan is `H11-001-c5-lab-canon-separation-v1`, SHA-256 `60da649e675b79b3e70bf8a61cf03cb4d57bb989f4934b65ab8d50c925b19914`. PR #131 is the repository-visible external review surface.
+The frozen H11 plan is `H11-001-c5-lab-canon-separation-v1`, SHA-256 `60da649e675b79b3e70bf8a61cf03cb4d57bb989f4934b65ab8d50c925b19914`. Issue #178 is the current repository-visible external review/acquisition surface. PR #131 is a merged historical predecessor artifact; per ADR-0028 Basis 1, a candidate's authenticated declaration review is still made on PR #131 itself.
 
 The committed H11 state-binding checkpoint is PR #130 / `e36b7f45410d74b8a65406bff6fdd6d070fa96b0`. Live HEAD must always be resolved separately through Git/GitHub; committed checkpoint metadata never predicts its own future merge SHA.
 
@@ -259,4 +259,4 @@ Run additional P4/P5/C3/C4/C5/BPV1 gates when changed-file scope triggers them. 
 
 Distinguish `BOT_NOTICE`, `AUTOMATED_FINDING`, `HUMAN_REVIEW`, `QUALIFYING_INDEPENDENT_ARCHITECTURE_REVIEW`, `QUALIFYING_INDEPENDENT_H11_REVIEWER_REPRODUCER`, `OPERATOR_DECISION`, and `EVIDENCE`.
 
-A Codex usage-limit notice is not review approval. Actionable findings must be reproduced and resolved or rejected with evidence. Do not merge PR #131 as a substitute for independent qualification.
+A Codex usage-limit notice is not review approval. Actionable findings must be reproduced and resolved or rejected with evidence. Do not treat Issue #178 or a review left on the merged PR #131 as a substitute for independent qualification merely because it exists, is commented on, or receives owner/AI activity.

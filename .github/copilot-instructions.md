@@ -90,7 +90,7 @@ runtime expansion: FROZEN
 production: false
 ```
 
-PR #131 is the open repository-visible external review surface. Do not merge it merely because CI is green or the PR is mergeable.
+Issue #178 is the open repository-visible external review acquisition surface; PR #131 is a merged historical predecessor artifact. Do not close Issue #178, or treat a review left on PR #131, as a substitute for independent qualification merely because CI is green, the issue/PR is commented on, or it receives owner/AI activity.
 
 ### Independence rule
 

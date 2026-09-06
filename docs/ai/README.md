@@ -4,7 +4,7 @@
 This directory is the mandatory continuity surface for AI agents, auditors and maintainers.
 
 > [!IMPORTANT]
-> Resolve live GitHub state before mutation. The current repository-native gate is `A10_H11_EXECUTION_ADMISSION`; admission is `BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER`; the qualifying reviewer/reproducer is `NOT_ESTABLISHED`; H11: `NOT_TESTED`; runtime expansion: `FROZEN`; Final Canon remains `DEFERRED / NOT AUTHORIZED`; production remains `false`. PR #131 is the open external review surface. No documentation, CI, owner review, model agreement or Notion read-back may manufacture H11 independence.
+> Resolve live GitHub state before mutation. The current repository-native gate is `A10_H11_EXECUTION_ADMISSION`; admission is `BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER`; the qualifying reviewer/reproducer is `NOT_ESTABLISHED`; H11: `NOT_TESTED`; runtime expansion: `FROZEN`; Final Canon remains `DEFERRED / NOT AUTHORIZED`; production remains `false`. Issue #178 is the open external review acquisition surface; PR #131 is a merged historical predecessor artifact. No documentation, CI, owner review, model agreement or Notion read-back may manufacture H11 independence.
 
 ## Required reading order
 

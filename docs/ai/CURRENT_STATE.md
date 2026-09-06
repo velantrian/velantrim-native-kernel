@@ -26,7 +26,8 @@ runtime_expansion: FROZEN
 product_runtime_thaw: false
 production: false
 Final Canon: DEFERRED / NOT AUTHORIZED
-open_review_surface: PR #131
+open_review_surface: Issue #178
+historical_acquisition_artifact: PR #131 (MERGED / CLOSED, 2026-09-01)
 active_architecture_issue: 88
 adr_0024: ACCEPTED / ACCEPT_WITH_CHANGES
 adr_0024_implementation: NOT_STARTED

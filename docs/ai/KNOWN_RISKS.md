@@ -43,7 +43,7 @@ Notion read-back ≠ independent review
 implemented evaluator ≠ independent reviewer
 ```
 
-PR #131 remains the external review surface. ADR-0028 is now operationally materialized by a narrow positive-qualification policy/request/evaluator, but **no candidate has been evaluated** and no external evidence has been established. A future candidate must satisfy both independent evidence bases. Even if the evaluator returns `QUALIFIED`, the repository must stop and separately reassess `A10_H11_EXECUTION_ADMISSION` before any H11 execution.
+Issue #178 is the current external review acquisition surface; PR #131 is a merged historical predecessor artifact. ADR-0028 is now operationally materialized by a narrow positive-qualification policy/request/evaluator, but **no candidate has been evaluated** and no external evidence has been established. A future candidate must satisfy both independent evidence bases. Even if the evaluator returns `QUALIFIED`, the repository must stop and separately reassess `A10_H11_EXECUTION_ADMISSION` before any H11 execution.
 
 ## 🔴 P0 — Formal Authority misrouting / stale first-draft interpretation
 

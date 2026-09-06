@@ -148,7 +148,7 @@ The arrow from evidence to a later decision is deliberate. Passing an experiment
 | 🚀 Product runtime | ❌ Not authorized | Runtime expansion remains frozen |
 | 🏭 Production | ❌ Not authorized | Research evidence is not production approval |
 
-For live state, use **[docs/ai/CURRENT_STATE.md](docs/ai/CURRENT_STATE.md)** together with machine-readable **[project-state.json](project-state.json)** and live GitHub. Use **[STATUS.md](STATUS.md)** and **[ROADMAP.md](ROADMAP.md)** for human orientation and chronology, not as competing live authority. The open external review surface is **[PR #131](https://github.com/velantrian/velantrim-native-kernel/pull/131)**.
+For live state, use **[docs/ai/CURRENT_STATE.md](docs/ai/CURRENT_STATE.md)** together with machine-readable **[project-state.json](project-state.json)** and live GitHub. Use **[STATUS.md](STATUS.md)** and **[ROADMAP.md](ROADMAP.md)** for human orientation and chronology, not as competing live authority. The current external reviewer/reproducer acquisition surface is **[Issue #178](https://github.com/velantrian/velantrim-native-kernel/issues/178)**; **[PR #131](https://github.com/velantrian/velantrim-native-kernel/pull/131)** is a merged historical predecessor artifact.
 
 <details>
 <summary>⚙ Exact machine-facing boundary</summary>
