@@ -161,6 +161,74 @@ class BPV1SourceBoundaryTests(unittest.TestCase):
         self.assertEqual(0, result.returncode, result.stdout + result.stderr)
 
 
+
+class BPV1StructuralEvidenceAdversarialTests(unittest.TestCase):
+    """A comment or string literal must never count as implementation evidence.
+
+    ``derive_structural_facts`` establishes bounded-store claims by matching
+    marker strings in the subject's Rust source. Matching raw source text lets a
+    marker that appears only inside a comment or a string literal satisfy a
+    structural check, so the qualification report would assert bounded storage
+    the subject does not implement.
+    """
+
+    #: Real code in engine.rs that ``crash_journal_bounded`` depends on.
+    CRASH_JOURNAL_MARKER = "self.crash_journal.pop_front()"
+
+    def _subject_with_engine(self, engine_text: str) -> Path:
+        root = Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, root, ignore_errors=True)
+        subject = root / "experiments" / "bpv1" / "BPV1-001" / "subject"
+        shutil.copytree(SUBJECT_ROOT / "src", subject / "src")
+        shutil.copy(SUBJECT_ROOT / "Cargo.toml", subject / "Cargo.toml")
+        (subject / "src" / "engine.rs").write_text(engine_text, encoding="utf-8")
+        return root
+
+    def _crash_journal_bounded(self, engine_text: str) -> bool:
+        qualifier = _load_qualifier_module()
+        _, report = qualifier.derive_structural_facts(self._subject_with_engine(engine_text))
+        return report["crash_journal_bounded"]
+
+    def _engine_source(self) -> str:
+        text = (SUBJECT_ROOT / "src" / "engine.rs").read_text(encoding="utf-8")
+        self.assertEqual(
+            text.count(self.CRASH_JOURNAL_MARKER),
+            1,
+            "adversarial fixture assumes exactly one real marker occurrence",
+        )
+        return text
+
+    def test_unmodified_subject_still_establishes_bounded_crash_journal(self) -> None:
+        self.assertTrue(self._crash_journal_bounded(self._engine_source()))
+
+    def test_marker_only_in_a_line_comment_is_not_evidence(self) -> None:
+        text = self._engine_source().replace(
+            self.CRASH_JOURNAL_MARKER, f"// {self.CRASH_JOURNAL_MARKER}"
+        )
+        self.assertFalse(
+            self._crash_journal_bounded(text),
+            "a commented-out bound was accepted as implementation evidence",
+        )
+
+    def test_marker_only_in_a_string_literal_is_not_evidence(self) -> None:
+        text = self._engine_source().replace(
+            self.CRASH_JOURNAL_MARKER, f'let _mention = "{self.CRASH_JOURNAL_MARKER}";'
+        )
+        self.assertFalse(
+            self._crash_journal_bounded(text),
+            "a marker inside a string literal was accepted as implementation evidence",
+        )
+
+    def test_marker_only_in_a_block_comment_is_not_evidence(self) -> None:
+        text = self._engine_source().replace(
+            self.CRASH_JOURNAL_MARKER, f"/* {self.CRASH_JOURNAL_MARKER} */"
+        )
+        self.assertFalse(
+            self._crash_journal_bounded(text),
+            "a block-commented bound was accepted as implementation evidence",
+        )
+
+
 @unittest.skipUnless(_rust_toolchain_available(), f"Rust {REQUIRED_RUST_CHANNEL} toolchain not available")
 class BPV1SubjectExecutionTests(unittest.TestCase):
     @classmethod

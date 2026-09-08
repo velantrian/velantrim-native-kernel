@@ -8,10 +8,10 @@ from pathlib import Path
 from typing import Any, Mapping
 
 _PRE_PLAN_PATH = Path(__file__).with_name("validate_architecture_freeze_post_adr0027.py")
-_saved_name = __name__
+_af_current_module_name = __name__
 globals()["__name__"] = "validate_architecture_freeze_post_adr0027_embedded"
 exec(compile(_PRE_PLAN_PATH.read_text(encoding="utf-8"), str(_PRE_PLAN_PATH), "exec"), globals(), globals())
-globals()["__name__"] = _saved_name
+globals()["__name__"] = _af_current_module_name
 _PRE_PLAN_VALIDATE = validate
 
 ADR0027_TRUTH_SYNC_SHA = "90bcb0fa2a3a2e85a590e9ba79746f3297b55457"

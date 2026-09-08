@@ -5,9 +5,9 @@ import copy
 from pathlib import Path
 from typing import Any, Mapping
 _D8_PATH=Path(__file__).with_name("validate_project_state_d8.py")
-_saved=__name__; globals()["__name__"]="validate_project_state_d8_embedded"
+_ps_post_adr0027_module_name=__name__; globals()["__name__"]="validate_project_state_d8_embedded"
 exec(compile(_D8_PATH.read_text(encoding="utf-8"),str(_D8_PATH),"exec"),globals(),globals())
-globals()["__name__"]=_saved
+globals()["__name__"]=_ps_post_adr0027_module_name
 _D8_VALIDATE=validate
 DECISION_MERGE="57993f39906ae7266011f6146c9a485d0587d2bf"
 
