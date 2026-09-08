@@ -52,6 +52,7 @@ on:
       - "tests/test_reconciliation_state.py"
       - "tests/test_evidence_bundle.py"
       - "tests/test_c5_manifest.py"
+      - "tests/test_verification_pr_a0.py"
   push:
     branches: [main]
     paths:
@@ -104,6 +105,7 @@ on:
       - "tests/test_reconciliation_state.py"
       - "tests/test_evidence_bundle.py"
       - "tests/test_c5_manifest.py"
+      - "tests/test_verification_pr_a0.py"
   workflow_dispatch:
 
 permissions:
@@ -164,7 +166,8 @@ jobs:
             tests/test_post130_notion_checkpoint.py \
             tests/test_reconciliation_state.py \
             tests/test_evidence_bundle.py \
-            tests/test_c5_manifest.py
+            tests/test_c5_manifest.py \
+            tests/test_verification_pr_a0.py
 
       - name: Run continuity, evidence and documentation unit tests
         run: |
@@ -194,6 +197,7 @@ jobs:
           python -m unittest discover -s tests -p 'test_reconciliation_state.py' -v
           python -m unittest discover -s tests -p 'test_evidence_bundle.py' -v
           python -m unittest discover -s tests -p 'test_c5_manifest.py' -v
+          python -m unittest discover -s tests -p 'test_verification_pr_a0.py' -v
 
       - name: Report BPV-1 authoritative plan SHA-256
         run: python tools/bpv1/plan_digest.py --repo .
