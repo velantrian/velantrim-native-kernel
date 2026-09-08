@@ -7,10 +7,10 @@ from pathlib import Path
 from typing import Any, Mapping
 
 _D8_PATH = Path(__file__).with_name("validate_architecture_freeze_d8.py")
-_saved_name = __name__
+_af_post_adr0027_module_name = __name__
 globals()["__name__"] = "validate_architecture_freeze_d8_embedded"
 exec(compile(_D8_PATH.read_text(encoding="utf-8"), str(_D8_PATH), "exec"), globals(), globals())
-globals()["__name__"] = _saved_name
+globals()["__name__"] = _af_post_adr0027_module_name
 _D8_VALIDATE = validate
 
 POST_DECISION_GATE = "RESIDUAL_A10_VALIDATION_PLAN"

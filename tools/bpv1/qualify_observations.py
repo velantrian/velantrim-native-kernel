@@ -152,7 +152,10 @@ def derive_structural_facts(repo: Path) -> tuple[dict[str, bool], dict[str, Any]
 
     engine_text = (subject / "src" / "engine.rs").read_text(encoding="utf-8")
     main_text = (subject / "src" / "main.rs").read_text(encoding="utf-8")
-    cleaned_engine = _strip_rust_comments_and_strings(engine_text).lower()
+    # Structural evidence must come from code, not from a comment or string
+    # literal that merely mentions a marker. Comments/strings are blanked here
+    # while column positions are preserved, so exact marker matching stays valid.
+    stripped_engine = _strip_rust_comments_and_strings(engine_text)
     cleaned_main = _strip_rust_comments_and_strings(main_text).lower()
 
     suspicious_history_fields = {
@@ -161,7 +164,7 @@ def derive_structural_facts(repo: Path) -> tuple[dict[str, bool], dict[str, Any]
         if any(marker in field.lower() for marker in ("event_log", "operation_log", "append_log", "history_log", "mutation_log"))
     }
     crash_journal_bounded = all(
-        marker in engine_text
+        marker in stripped_engine
         for marker in (
             "CRASH_JOURNAL_MAX_ENTRIES",
             "self.crash_journal.len() >= CRASH_JOURNAL_MAX_ENTRIES",
@@ -169,7 +172,7 @@ def derive_structural_facts(repo: Path) -> tuple[dict[str, bool], dict[str, Any]
         )
     )
     witness_store_bounded = all(
-        marker in engine_text
+        marker in stripped_engine
         for marker in (
             "LOSS_WITNESS_MAX_RECORDS",
             "fn push_loss_witness",
@@ -178,7 +181,7 @@ def derive_structural_facts(repo: Path) -> tuple[dict[str, bool], dict[str, Any]
         )
     )
     predecessor_store_bounded = all(
-        marker in engine_text
+        marker in stripped_engine
         for marker in (
             "RETAINED_DETAIL_PER_SLOT",
             "while slot.detailed_predecessors.len() > RETAINED_DETAIL_PER_SLOT",
