@@ -141,6 +141,18 @@ class ProjectStateTests(unittest.TestCase):
         with self.assertRaisesRegex(module.ProjectStateError, "Issue #64"):
             self.validate(state=state)
 
+    def test_issue_163_matches_completed_github_state(self) -> None:
+        issue = self.state["issues"]["163"]
+        self.assertEqual(issue["state"], "CLOSED")
+        self.assertEqual(issue["state_reason"], "COMPLETED")
+        self.assertIn("Issue #178", issue["meaning"])
+
+    def test_issue_163_cannot_reopen_after_reconciliation(self) -> None:
+        state = copy.deepcopy(self.state)
+        state["issues"]["163"]["state"] = "OPEN"
+        with self.assertRaisesRegex(module.ProjectStateError, "Issue #163"):
+            self.validate(state=state)
+
     def test_issue_verification_must_remain_direct(self) -> None:
         state = copy.deepcopy(self.state)
         state["issues"]["1"]["verification"]["method"] = "SUMMARY"

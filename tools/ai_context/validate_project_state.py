@@ -202,8 +202,13 @@ def _validate_current(state: Mapping[str, Any]) -> None:
         _require(marker in meaning, f"Issue #88 ADR-0028/current H11 meaning missing marker: {marker}")
 
     issue163 = state.get("issues", {}).get("163")
-    _require(isinstance(issue163, Mapping) and issue163.get("state") == "OPEN", "Issue #163 must remain OPEN pending post-merge reconciliation")
-    for marker in ("PR #164", "no candidate", "post-merge GitHub/Notion reconciliation"):
+    _require(
+        isinstance(issue163, Mapping)
+        and issue163.get("state") == "CLOSED"
+        and issue163.get("state_reason") == "COMPLETED",
+        "Issue #163 must remain CLOSED/COMPLETED after post-merge reconciliation",
+    )
+    for marker in ("PR #164", "no candidate", "reconciliation is complete", "Issue #178"):
         _require(marker in str(issue163.get("meaning", "")), f"Issue #163 meaning missing marker: {marker}")
 
     evidence = state.get("evidence", {})
