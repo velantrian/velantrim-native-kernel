@@ -141,6 +141,27 @@ class ProjectStateTests(unittest.TestCase):
         with self.assertRaisesRegex(module.ProjectStateError, "Issue #64"):
             self.validate(state=state)
 
+    def test_issue_163_must_remain_closed_completed(self) -> None:
+        state = copy.deepcopy(self.state)
+        state["issues"]["163"]["state"] = "OPEN"
+        with self.assertRaisesRegex(module.ProjectStateError, "Issue #163"):
+            self.validate(state=state)
+        state = copy.deepcopy(self.state)
+        state["issues"]["163"].pop("state_reason")
+        with self.assertRaisesRegex(module.ProjectStateError, "Issue #163"):
+            self.validate(state=state)
+
+    def test_issue_163_closure_cannot_promote_h11(self) -> None:
+        """Closing the implementation issue is bookkeeping, not qualification."""
+        for marker in ("NOT_ESTABLISHED", "NOT_TESTED", "FROZEN"):
+            with self.subTest(marker=marker):
+                state = copy.deepcopy(self.state)
+                state["issues"]["163"]["meaning"] = state["issues"]["163"]["meaning"].replace(
+                    marker, "REDACTED"
+                )
+                with self.assertRaisesRegex(module.ProjectStateError, "Issue #163 meaning"):
+                    self.validate(state=state)
+
     def test_issue_verification_must_remain_direct(self) -> None:
         state = copy.deepcopy(self.state)
         state["issues"]["1"]["verification"]["method"] = "SUMMARY"

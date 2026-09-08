@@ -1,7 +1,7 @@
 {
   "protocol": "nk-project-state/2",
-  "snapshot_id": "native-kernel/state/2026-09-06-h11-acquisition-surface-routing-correction",
-  "observed_at": "2026-09-06T18:53:17Z",
+  "snapshot_id": "native-kernel/state/2026-09-08-issue-163-closure-reconciliation",
+  "observed_at": "2026-09-08T17:24:32Z",
   "repository": {
     "full_name": "velantrian/velantrim-native-kernel",
     "visibility": "PUBLIC",
@@ -372,7 +372,7 @@
     "88": {"state": "OPEN", "meaning": "Architecture Re-foundation A1-A10 remains provisional. The current repository-native gate remains A10_H11_EXECUTION_ADMISSION with state BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER. ADR-0028 positive qualification policy/schema/evaluator are implemented, but NO_CANDIDATE_EVALUATED and a qualifying reviewer/reproducer is NOT_ESTABLISHED. H11 remains NOT_TESTED; H11 implementation/execution remain unauthorized; Final Canon is deferred and runtime remains frozen.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-22T16:47:00Z", "source": "issue/88"}},
     "154": {"state": "CLOSED", "state_reason": "COMPLETED", "meaning": "ADR-0028 selected OPTION_C_HYBRID_TWO_BASIS for the H11 positive reviewer/reproducer qualification design; bounded implementation is tracked separately without changing H11 admission.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-22T15:21:47Z", "source": "issue/154"}},
     "156": {"state": "CLOSED", "state_reason": "COMPLETED", "meaning": "ADR-0028 design reconciliation merged in PR #157; its Notion projection synchronization/read-back completed without changing H11 admission/runtime authority.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-22T17:34:28Z", "source": "issue/156"}},
-    "163": {"state": "OPEN", "meaning": "Bounded ADR-0028 positive qualification policy/schema/evaluator is implemented in PR #164; no candidate has been evaluated and post-merge GitHub/Notion reconciliation remains before issue closure.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-08-22T22:51:26Z", "source": "issue/163"}},
+    "163": {"state": "CLOSED", "state_reason": "COMPLETED", "meaning": "Bounded ADR-0028 positive qualification policy/schema/evaluator was implemented in PR #164 and the post-merge GitHub/Notion 8/8 read-back reconciliation completed in PR #165, which was the sole stated closure condition; the issue is CLOSED as completed bookkeeping. No candidate has been evaluated; qualifying reviewer/reproducer remains NOT_ESTABLISHED; H11 admission remains BLOCKED; H11 remains NOT_TESTED and runtime remains FROZEN. Closure is bookkeeping only and grants no qualification, execution admission, Canon or production authority.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-09-08T17:24:32Z", "source": "issue/163"}},
     "178": {"state": "OPEN", "meaning": "Current repository-visible H11 external reviewer/reproducer acquisition/coordination surface, opened as successor routing after PR #131 merged/closed. Does not itself establish a candidate, change qualification, or change H11 admission/runtime/Canon/production authority. PR #131 is preserved as a merged historical predecessor artifact; the ADR-0028 Basis 1 candidate declaration mechanism on PR #131 is unchanged.", "verification": {"status": "VERIFIED", "method": "GITHUB_API", "observed_at": "2026-09-06T18:53:17Z", "source": "issue/178"}}
   },
   "evidence": {

@@ -144,8 +144,9 @@ Issue #74 / ADR-0024 — ACCEPTED / ACCEPT_WITH_CHANGES / ISSUE CLOSED
   reducer-v2 runtime: NOT_AUTHORIZED
 Issue #154 / ADR-0028 — ACCEPTED / OPTION_C_HYBRID_TWO_BASIS / ISSUE CLOSED
   qualification design: SELECTED
-Issue #163 — positive qualification implementation
+Issue #163 — positive qualification implementation / ISSUE CLOSED
   policy/schema/evaluator: IMPLEMENTED
+  post-merge 8/8 reconciliation: COMPLETE (PR #165)
   candidate evaluation: NONE
   qualifying reviewer/reproducer: NOT_ESTABLISHED
   H11 execution admission: BLOCKED

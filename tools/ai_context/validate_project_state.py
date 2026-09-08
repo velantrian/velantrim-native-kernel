@@ -7,10 +7,10 @@ from pathlib import Path
 from typing import Any, Mapping
 
 _PRE_PLAN_PATH = Path(__file__).with_name("validate_project_state_post_adr0027.py")
-_saved_name = __name__
+_ps_current_module_name = __name__
 globals()["__name__"] = "validate_project_state_post_adr0027_embedded"
 exec(compile(_PRE_PLAN_PATH.read_text(encoding="utf-8"), str(_PRE_PLAN_PATH), "exec"), globals(), globals())
-globals()["__name__"] = _saved_name
+globals()["__name__"] = _ps_current_module_name
 _PRE_PLAN_VALIDATE = validate
 
 ADR0027_DECISION_MERGE = "57993f39906ae7266011f6146c9a485d0587d2bf"
@@ -202,8 +202,9 @@ def _validate_current(state: Mapping[str, Any]) -> None:
         _require(marker in meaning, f"Issue #88 ADR-0028/current H11 meaning missing marker: {marker}")
 
     issue163 = state.get("issues", {}).get("163")
-    _require(isinstance(issue163, Mapping) and issue163.get("state") == "OPEN", "Issue #163 must remain OPEN pending post-merge reconciliation")
-    for marker in ("PR #164", "no candidate", "post-merge GitHub/Notion reconciliation"):
+    _require(isinstance(issue163, Mapping), "Issue #163 record required")
+    _require(issue163.get("state") == "CLOSED" and issue163.get("state_reason") == "COMPLETED", "Issue #163 post-merge reconciliation completed in PR #165; the record must stay CLOSED/COMPLETED")
+    for marker in ("PR #164", "PR #165", "No candidate has been evaluated", "NOT_ESTABLISHED", "NOT_TESTED", "FROZEN"):
         _require(marker in str(issue163.get("meaning", "")), f"Issue #163 meaning missing marker: {marker}")
 
     evidence = state.get("evidence", {})

@@ -17,10 +17,10 @@ from pathlib import Path
 from typing import Any, Mapping
 
 _HISTORY_PATH = Path(__file__).with_name("validate_reconciliation_history.py")
-_saved_name = __name__
+_rec_d8_module_name = __name__
 globals()["__name__"] = "validate_reconciliation_history_embedded"
 exec(compile(_HISTORY_PATH.read_text(encoding="utf-8"), str(_HISTORY_PATH), "exec"), globals(), globals())
-globals()["__name__"] = _saved_name
+globals()["__name__"] = _rec_d8_module_name
 
 # Historical manifest/source identity retained from the embedded validator:
 # NOTION_SYNC_SHA == 70acd0... . It is deliberately not renamed here because
