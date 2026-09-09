@@ -22,6 +22,7 @@ Canon, or authorize production.
 
 from __future__ import annotations
 
+import ast
 import hashlib
 import importlib.util
 import json
@@ -133,7 +134,15 @@ class ValidatorCLIReachabilityTests(unittest.TestCase):
         for script in COMPOSED_VALIDATORS:
             with self.subTest(script=script):
                 text = (AI_CONTEXT / script).read_text(encoding="utf-8")
-                self.assertNotIn("exec(compile(", text)
+                tree = ast.parse(text, filename=script)
+                exec_calls = [
+                    node
+                    for node in ast.walk(tree)
+                    if isinstance(node, ast.Call)
+                    and isinstance(node.func, ast.Name)
+                    and node.func.id == "exec"
+                ]
+                self.assertEqual([], exec_calls, f"{script} reintroduced an exec() call")
                 self.assertNotIn('globals()["__name__"]', text)
                 self.assertNotIn("globals()['__name__']", text)
 
