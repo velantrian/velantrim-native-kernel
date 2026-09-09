@@ -1,18 +1,17 @@
 """Executable fail-closed guards for composed validator CLIs and BPV1 stripping.
 
 Importing ``validate()`` directly is not sufficient coverage. The historical
-validator layers are composed with ``exec(compile(...))`` into shared globals
-and temporarily rebind ``__name__``. If two layers reuse the same restore
-variable, the outermost module ends with a non-``__main__`` name, its
-``if __name__ == "__main__"`` guard never fires, and the CLI exits ``0``
-without validating anything. Both ``ai-context.yml`` steps and the manual
-verification commands documented in ``README.md``, ``AGENTS.md`` and
-``docs/ai/README.md`` would then be silently dead.
+validator wrappers used to compose layers with ``exec(compile(...))`` in shared
+globals while temporarily rebinding ``__name__``. That mechanism once allowed
+a nested layer to clobber the outer module name, silently preventing the CLI
+``main()`` guard from executing.
 
-These tests therefore drive the CLIs as subprocesses and assert that a valid
-state reports and exits ``0`` while a forbidden state exits non-zero. They
-also pin BPV1 structural checks to stripped source so comment/string/char
-markers cannot satisfy bounded-store claims.
+The wrappers now load preserved layers through isolated ``runpy.run_path``
+namespaces and copy the established non-dunder compatibility surface. These
+tests drive every CLI as a subprocess, forbid the old shared-source execution
+mechanism from returning, and assert that forbidden machine states still fail
+closed. They also pin BPV1 structural checks to stripped source so
+comment/string/char markers cannot satisfy bounded-store claims.
 
 This is the canonical PR-A1 regression surface (successor of
 ``tests/test_verification_pr_a0.py``). It asserts executable mechanics only.
@@ -23,6 +22,7 @@ Canon, or authorize production.
 
 from __future__ import annotations
 
+import ast
 import hashlib
 import importlib.util
 import json
@@ -39,7 +39,6 @@ BPV1_PLAN = ROOT / "docs" / "research" / "BPV1_PREREGISTRATION.json"
 FROZEN_BPV1_PLAN_SHA256 = "7fe8174c604678c6b79d3fdeae83d7c5ab0d2fb15bfe343d41659d05d9496ad0"
 
 #: Every layer of the composed chains, including the documented entrypoints.
-#: A reintroduced ``__name__`` collision in any layer removes its ``main()``.
 COMPOSED_VALIDATORS = (
     "validate_project_state.py",
     "validate_project_state_post_adr0027.py",
@@ -52,6 +51,18 @@ COMPOSED_VALIDATORS = (
     "validate_reconciliation.py",
     "validate_reconciliation_d8.py",
     "validate_reconciliation_history.py",
+)
+
+#: The eight compatibility wrappers that compose a preserved predecessor layer.
+COMPOSED_WRAPPERS = (
+    "validate_project_state.py",
+    "validate_project_state_post_adr0027.py",
+    "validate_project_state_d8.py",
+    "validate_architecture_freeze.py",
+    "validate_architecture_freeze_post_adr0027.py",
+    "validate_architecture_freeze_d8.py",
+    "validate_reconciliation.py",
+    "validate_reconciliation_d8.py",
 )
 
 #: Checkpoint SHA that is well-formed but cannot exist as a commit.
@@ -99,6 +110,10 @@ def _load_module(path: Path, name: str):
 QUALIFY_OBSERVATIONS = _load_module(
     ROOT / "tools/bpv1/qualify_observations.py", "qualify_observations_pr_a1"
 )
+ARCHITECTURE_FREEZE = _load_module(
+    AI_CONTEXT / "validate_architecture_freeze.py",
+    "validate_architecture_freeze_pr185_compatibility",
+)
 
 
 class ValidatorCLIReachabilityTests(unittest.TestCase):
@@ -115,32 +130,108 @@ class ValidatorCLIReachabilityTests(unittest.TestCase):
                 )
                 self.assertTrue(
                     result.stdout.startswith("usage:"),
-                    f"{script} did not reach main(); "
-                    f"a composed layer probably clobbered the restored __name__. "
-                    f"stdout={result.stdout!r}",
+                    f"{script} did not reach main(); stdout={result.stdout!r}",
                 )
 
-    def test_composed_layers_use_distinct_module_name_restore_variables(self) -> None:
-        """Two layers sharing one restore variable is the exact prior defect."""
-        seen: dict[str, str] = {}
+    def test_composed_layers_do_not_exec_source_into_shared_globals(self) -> None:
+        """The prior exec/__name__ composition defect class must stay removed."""
         for script in COMPOSED_VALIDATORS:
-            text = (AI_CONTEXT / script).read_text(encoding="utf-8")
-            for line in text.splitlines():
-                stripped = line.strip()
-                if "= __name__" not in stripped and "=__name__" not in stripped:
-                    continue
-                if stripped.startswith("globals()"):
-                    continue
-                variable = stripped.split("=", 1)[0].strip()
-                if not variable.startswith("_"):
-                    continue
-                previous = seen.get(variable)
-                self.assertIsNone(
-                    previous,
-                    f"{script} reuses restore variable {variable!r} already used by "
-                    f"{previous}; a nested layer would clobber the outer saved __name__",
+            with self.subTest(script=script):
+                text = (AI_CONTEXT / script).read_text(encoding="utf-8")
+                tree = ast.parse(text, filename=script)
+                exec_calls = [
+                    node
+                    for node in ast.walk(tree)
+                    if isinstance(node, ast.Call)
+                    and isinstance(node.func, ast.Name)
+                    and node.func.id == "exec"
+                ]
+                self.assertEqual([], exec_calls, f"{script} reintroduced an exec() call")
+                self.assertNotIn('globals()["__name__"]', text)
+                self.assertNotIn("globals()['__name__']", text)
+
+    def test_wrappers_use_isolated_runpy_composition(self) -> None:
+        for script in COMPOSED_WRAPPERS:
+            with self.subTest(script=script):
+                text = (AI_CONTEXT / script).read_text(encoding="utf-8")
+                self.assertIn("runpy.run_path", text)
+                self.assertIn("run_name=", text)
+
+
+class ArchitectureCompatibilityBoundaryTests(unittest.TestCase):
+    """PR185-1: compatibility must not become a hidden shared-global channel."""
+
+    def test_compatibility_allowlist_is_exact(self) -> None:
+        self.assertEqual(
+            (
+                "INTEGRATED_REVIEW_DOCS",
+                "INDEPENDENT_REVIEW_DOCS",
+                "IAR1_RESULT_JSON",
+                "_load_json_record",
+            ),
+            ARCHITECTURE_FREEZE._LEGACY_REBIND_COMPATIBILITY,
+        )
+        self.assertNotIn("validate", ARCHITECTURE_FREEZE._LEGACY_REBIND_COMPATIBILITY)
+        self.assertNotIn(
+            "_sync_composed_layer_globals",
+            ARCHITECTURE_FREEZE._LEGACY_REBIND_COMPATIBILITY,
+        )
+
+    def test_new_current_symbol_is_not_propagated_to_predecessors(self) -> None:
+        namespaces = ARCHITECTURE_FREEZE._composed_predecessor_namespaces()
+        probe_name = "PR185_NEW_CURRENT_ONLY_SYMBOL"
+        probe = object()
+        setattr(ARCHITECTURE_FREEZE, probe_name, probe)
+        try:
+            ARCHITECTURE_FREEZE._sync_composed_layer_globals()
+            for namespace in namespaces:
+                self.assertNotIn(
+                    probe_name,
+                    namespace,
+                    "new current-only symbol leaked into a predecessor namespace",
                 )
-                seen[variable] = script
+        finally:
+            delattr(ARCHITECTURE_FREEZE, probe_name)
+
+    def test_predecessor_validate_bindings_keep_identity(self) -> None:
+        namespaces = ARCHITECTURE_FREEZE._composed_predecessor_namespaces()
+        before = [namespace.get("validate") for namespace in namespaces]
+        self.assertTrue(all(callable(value) for value in before))
+
+        ARCHITECTURE_FREEZE._sync_composed_layer_globals()
+
+        after = [namespace.get("validate") for namespace in namespaces]
+        for index, (original, observed) in enumerate(zip(before, after, strict=True)):
+            self.assertIs(
+                original,
+                observed,
+                f"predecessor namespace {index} validate binding was overwritten",
+            )
+            self.assertIsNot(
+                ARCHITECTURE_FREEZE.validate,
+                observed,
+                f"predecessor namespace {index} resolved current validate",
+            )
+
+    def test_allowlisted_rebinding_reaches_existing_historical_symbol_only(self) -> None:
+        namespaces = ARCHITECTURE_FREEZE._composed_predecessor_namespaces()
+        original = ARCHITECTURE_FREEZE._load_json_record
+
+        def fake_load(*args, **kwargs):
+            return original(*args, **kwargs)
+
+        ARCHITECTURE_FREEZE._load_json_record = fake_load
+        try:
+            ARCHITECTURE_FREEZE._sync_composed_layer_globals()
+            touched = 0
+            for namespace in namespaces:
+                if "_load_json_record" in namespace:
+                    touched += 1
+                    self.assertIs(fake_load, namespace["_load_json_record"])
+            self.assertGreater(touched, 0)
+        finally:
+            ARCHITECTURE_FREEZE._load_json_record = original
+            ARCHITECTURE_FREEZE._sync_composed_layer_globals()
 
 
 class ValidatorCLIFailClosedTests(unittest.TestCase):

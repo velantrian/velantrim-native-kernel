@@ -8,16 +8,18 @@ the later Notion-synchronized descendant checkpoint.
 from __future__ import annotations
 
 import copy
+import runpy
 from pathlib import Path
 from typing import Any, Mapping
 
 _HISTORY_PATH = Path(__file__).with_name("validate_project_state_history.py")
-_ps_d8_module_name = __name__
-globals()["__name__"] = "validate_project_state_history_embedded"
-exec(compile(_HISTORY_PATH.read_text(encoding="utf-8"), str(_HISTORY_PATH), "exec"), globals(), globals())
-globals()["__name__"] = _ps_d8_module_name
-
-_HISTORICAL_VALIDATE = validate
+_ps_d8_layer = runpy.run_path(
+    str(_HISTORY_PATH), run_name="validate_project_state_history_embedded"
+)
+globals().update({
+    name: value for name, value in _ps_d8_layer.items() if not name.startswith("__")
+})
+_HISTORICAL_VALIDATE = _ps_d8_layer["validate"]
 
 PUBLICATION_SHA = "10ffd6f9d8e7e588a07d7815205f7c3d50b3cb5c"
 MANIFEST_SOURCE_SHA = "70acd0da61fee19131947aa56125833adb156ced"

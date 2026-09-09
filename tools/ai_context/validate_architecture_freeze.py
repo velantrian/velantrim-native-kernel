@@ -3,16 +3,75 @@
 from __future__ import annotations
 
 import copy
+import runpy
 import sys
 from pathlib import Path
 from typing import Any, Mapping
 
 _PRE_PLAN_PATH = Path(__file__).with_name("validate_architecture_freeze_post_adr0027.py")
-_af_current_module_name = __name__
-globals()["__name__"] = "validate_architecture_freeze_post_adr0027_embedded"
-exec(compile(_PRE_PLAN_PATH.read_text(encoding="utf-8"), str(_PRE_PLAN_PATH), "exec"), globals(), globals())
-globals()["__name__"] = _af_current_module_name
-_PRE_PLAN_VALIDATE = validate
+_af_current_layer = runpy.run_path(
+    str(_PRE_PLAN_PATH), run_name="validate_architecture_freeze_post_adr0027_embedded"
+)
+globals().update({
+    name: value for name, value in _af_current_layer.items() if not name.startswith("__")
+})
+_PRE_PLAN_VALIDATE = _af_current_layer["validate"]
+
+# Exact legacy rebinding surface exercised by the architecture adversarial tests.
+# In-place mutations of shared list objects (for example EXPECTED_* inventories)
+# do not need rebinding because runpy composition preserves their object identity.
+_LEGACY_REBIND_COMPATIBILITY = (
+    "INTEGRATED_REVIEW_DOCS",
+    "INDEPENDENT_REVIEW_DOCS",
+    "IAR1_RESULT_JSON",
+    "_load_json_record",
+)
+
+
+def _composed_predecessor_namespaces() -> tuple[dict[str, object], ...]:
+    """Return the three explicit predecessor namespaces in validation order.
+
+    The chain is intentionally structural rather than discovered by scanning all
+    current functions. This prevents newly introduced helpers from silently
+    becoming part of the historical compatibility interface.
+    """
+    post_adr0027_namespace = _PRE_PLAN_VALIDATE.__globals__
+    d8_validate = post_adr0027_namespace.get("_D8_VALIDATE")
+    if not callable(d8_validate) or not hasattr(d8_validate, "__globals__"):
+        raise RuntimeError("architecture composition missing _D8_VALIDATE predecessor")
+
+    d8_namespace = d8_validate.__globals__
+    historical_validate = d8_namespace.get("_HISTORICAL_VALIDATE")
+    if not callable(historical_validate) or not hasattr(historical_validate, "__globals__"):
+        raise RuntimeError("architecture composition missing _HISTORICAL_VALIDATE predecessor")
+
+    historical_namespace = historical_validate.__globals__
+    return post_adr0027_namespace, d8_namespace, historical_namespace
+
+
+def _sync_composed_layer_globals() -> None:
+    """Propagate only the established legacy rebinding compatibility surface.
+
+    Historical adversarial tests intentionally rebind four symbols on the
+    current wrapper module. The old shared-global composition made those exact
+    rebindings visible to preserved guards. ``runpy`` isolates the predecessor
+    namespaces, so this bridge copies only those four established names and only
+    into predecessor namespaces that already define them. It never propagates
+    new current-layer symbols and never overwrites predecessor ``validate``.
+    """
+    current_globals = globals()
+    missing = [name for name in _LEGACY_REBIND_COMPATIBILITY if name not in current_globals]
+    if missing:
+        raise RuntimeError(
+            "architecture compatibility surface missing current symbols: "
+            + ", ".join(missing)
+        )
+
+    for namespace in _composed_predecessor_namespaces():
+        for name in _LEGACY_REBIND_COMPATIBILITY:
+            if name in namespace:
+                namespace[name] = current_globals[name]
+
 
 ADR0027_TRUTH_SYNC_SHA = "90bcb0fa2a3a2e85a590e9ba79746f3297b55457"
 ADR0027_DECISION_MERGE = "57993f39906ae7266011f6146c9a485d0587d2bf"
@@ -164,6 +223,7 @@ def _validate_current(state: Mapping[str, Any]) -> None:
 
 
 def validate(state: Mapping[str, Any], *, repo: Path) -> None:
+    _sync_composed_layer_globals()
     _PRE_PLAN_VALIDATE(_pre_plan_view(state), repo=repo)
     _validate_current(state)
 

@@ -2,13 +2,13 @@
 """Validate post-ADR-0027 project state before Notion read-back completion."""
 from __future__ import annotations
 import copy
+import runpy
 from pathlib import Path
 from typing import Any, Mapping
 _D8_PATH=Path(__file__).with_name("validate_project_state_d8.py")
-_ps_post_adr0027_module_name=__name__; globals()["__name__"]="validate_project_state_d8_embedded"
-exec(compile(_D8_PATH.read_text(encoding="utf-8"),str(_D8_PATH),"exec"),globals(),globals())
-globals()["__name__"]=_ps_post_adr0027_module_name
-_D8_VALIDATE=validate
+_ps_post_adr0027_layer=runpy.run_path(str(_D8_PATH),run_name="validate_project_state_d8_embedded")
+globals().update({name:value for name,value in _ps_post_adr0027_layer.items() if not name.startswith("__")})
+_D8_VALIDATE=_ps_post_adr0027_layer["validate"]
 DECISION_MERGE="57993f39906ae7266011f6146c9a485d0587d2bf"
 
 def _d8_view(state: Mapping[str,Any])->dict[str,Any]:
