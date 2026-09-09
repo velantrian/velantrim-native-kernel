@@ -2,16 +2,19 @@
 """Validate ADR-0027 current truth before completed Notion read-back."""
 from __future__ import annotations
 import copy
+import runpy
 import sys
 from pathlib import Path
 from typing import Any, Mapping
 
 _D8_PATH = Path(__file__).with_name("validate_architecture_freeze_d8.py")
-_af_post_adr0027_module_name = __name__
-globals()["__name__"] = "validate_architecture_freeze_d8_embedded"
-exec(compile(_D8_PATH.read_text(encoding="utf-8"), str(_D8_PATH), "exec"), globals(), globals())
-globals()["__name__"] = _af_post_adr0027_module_name
-_D8_VALIDATE = validate
+_af_post_adr0027_layer = runpy.run_path(
+    str(_D8_PATH), run_name="validate_architecture_freeze_d8_embedded"
+)
+globals().update({
+    name: value for name, value in _af_post_adr0027_layer.items() if not name.startswith("__")
+})
+_D8_VALIDATE = _af_post_adr0027_layer["validate"]
 
 POST_DECISION_GATE = "RESIDUAL_A10_VALIDATION_PLAN"
 POST_DECISION_MERGE = "57993f39906ae7266011f6146c9a485d0587d2bf"
