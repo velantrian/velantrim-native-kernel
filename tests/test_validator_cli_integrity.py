@@ -110,6 +110,10 @@ def _load_module(path: Path, name: str):
 QUALIFY_OBSERVATIONS = _load_module(
     ROOT / "tools/bpv1/qualify_observations.py", "qualify_observations_pr_a1"
 )
+ARCHITECTURE_FREEZE = _load_module(
+    AI_CONTEXT / "validate_architecture_freeze.py",
+    "validate_architecture_freeze_pr185_compatibility",
+)
 
 
 class ValidatorCLIReachabilityTests(unittest.TestCase):
@@ -152,6 +156,82 @@ class ValidatorCLIReachabilityTests(unittest.TestCase):
                 text = (AI_CONTEXT / script).read_text(encoding="utf-8")
                 self.assertIn("runpy.run_path", text)
                 self.assertIn("run_name=", text)
+
+
+class ArchitectureCompatibilityBoundaryTests(unittest.TestCase):
+    """PR185-1: compatibility must not become a hidden shared-global channel."""
+
+    def test_compatibility_allowlist_is_exact(self) -> None:
+        self.assertEqual(
+            (
+                "INTEGRATED_REVIEW_DOCS",
+                "INDEPENDENT_REVIEW_DOCS",
+                "IAR1_RESULT_JSON",
+                "_load_json_record",
+            ),
+            ARCHITECTURE_FREEZE._LEGACY_REBIND_COMPATIBILITY,
+        )
+        self.assertNotIn("validate", ARCHITECTURE_FREEZE._LEGACY_REBIND_COMPATIBILITY)
+        self.assertNotIn(
+            "_sync_composed_layer_globals",
+            ARCHITECTURE_FREEZE._LEGACY_REBIND_COMPATIBILITY,
+        )
+
+    def test_new_current_symbol_is_not_propagated_to_predecessors(self) -> None:
+        namespaces = ARCHITECTURE_FREEZE._composed_predecessor_namespaces()
+        probe_name = "PR185_NEW_CURRENT_ONLY_SYMBOL"
+        probe = object()
+        setattr(ARCHITECTURE_FREEZE, probe_name, probe)
+        try:
+            ARCHITECTURE_FREEZE._sync_composed_layer_globals()
+            for namespace in namespaces:
+                self.assertNotIn(
+                    probe_name,
+                    namespace,
+                    "new current-only symbol leaked into a predecessor namespace",
+                )
+        finally:
+            delattr(ARCHITECTURE_FREEZE, probe_name)
+
+    def test_predecessor_validate_bindings_keep_identity(self) -> None:
+        namespaces = ARCHITECTURE_FREEZE._composed_predecessor_namespaces()
+        before = [namespace.get("validate") for namespace in namespaces]
+        self.assertTrue(all(callable(value) for value in before))
+
+        ARCHITECTURE_FREEZE._sync_composed_layer_globals()
+
+        after = [namespace.get("validate") for namespace in namespaces]
+        for index, (original, observed) in enumerate(zip(before, after, strict=True)):
+            self.assertIs(
+                original,
+                observed,
+                f"predecessor namespace {index} validate binding was overwritten",
+            )
+            self.assertIsNot(
+                ARCHITECTURE_FREEZE.validate,
+                observed,
+                f"predecessor namespace {index} resolved current validate",
+            )
+
+    def test_allowlisted_rebinding_reaches_existing_historical_symbol_only(self) -> None:
+        namespaces = ARCHITECTURE_FREEZE._composed_predecessor_namespaces()
+        original = ARCHITECTURE_FREEZE._load_json_record
+
+        def fake_load(*args, **kwargs):
+            return original(*args, **kwargs)
+
+        ARCHITECTURE_FREEZE._load_json_record = fake_load
+        try:
+            ARCHITECTURE_FREEZE._sync_composed_layer_globals()
+            touched = 0
+            for namespace in namespaces:
+                if "_load_json_record" in namespace:
+                    touched += 1
+                    self.assertIs(fake_load, namespace["_load_json_record"])
+            self.assertGreater(touched, 0)
+        finally:
+            ARCHITECTURE_FREEZE._load_json_record = original
+            ARCHITECTURE_FREEZE._sync_composed_layer_globals()
 
 
 class ValidatorCLIFailClosedTests(unittest.TestCase):
