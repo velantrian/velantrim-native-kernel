@@ -1,18 +1,17 @@
 """Executable fail-closed guards for composed validator CLIs and BPV1 stripping.
 
 Importing ``validate()`` directly is not sufficient coverage. The historical
-validator layers are composed with ``exec(compile(...))`` into shared globals
-and temporarily rebind ``__name__``. If two layers reuse the same restore
-variable, the outermost module ends with a non-``__main__`` name, its
-``if __name__ == "__main__"`` guard never fires, and the CLI exits ``0``
-without validating anything. Both ``ai-context.yml`` steps and the manual
-verification commands documented in ``README.md``, ``AGENTS.md`` and
-``docs/ai/README.md`` would then be silently dead.
+validator wrappers used to compose layers with ``exec(compile(...))`` in shared
+globals while temporarily rebinding ``__name__``. That mechanism once allowed
+a nested layer to clobber the outer module name, silently preventing the CLI
+``main()`` guard from executing.
 
-These tests therefore drive the CLIs as subprocesses and assert that a valid
-state reports and exits ``0`` while a forbidden state exits non-zero. They
-also pin BPV1 structural checks to stripped source so comment/string/char
-markers cannot satisfy bounded-store claims.
+The wrappers now load preserved layers through isolated ``runpy.run_path``
+namespaces and copy the established non-dunder compatibility surface. These
+tests drive every CLI as a subprocess, forbid the old shared-source execution
+mechanism from returning, and assert that forbidden machine states still fail
+closed. They also pin BPV1 structural checks to stripped source so
+comment/string/char markers cannot satisfy bounded-store claims.
 
 This is the canonical PR-A1 regression surface (successor of
 ``tests/test_verification_pr_a0.py``). It asserts executable mechanics only.
@@ -39,7 +38,6 @@ BPV1_PLAN = ROOT / "docs" / "research" / "BPV1_PREREGISTRATION.json"
 FROZEN_BPV1_PLAN_SHA256 = "7fe8174c604678c6b79d3fdeae83d7c5ab0d2fb15bfe343d41659d05d9496ad0"
 
 #: Every layer of the composed chains, including the documented entrypoints.
-#: A reintroduced ``__name__`` collision in any layer removes its ``main()``.
 COMPOSED_VALIDATORS = (
     "validate_project_state.py",
     "validate_project_state_post_adr0027.py",
@@ -52,6 +50,18 @@ COMPOSED_VALIDATORS = (
     "validate_reconciliation.py",
     "validate_reconciliation_d8.py",
     "validate_reconciliation_history.py",
+)
+
+#: The eight compatibility wrappers that compose a preserved predecessor layer.
+COMPOSED_WRAPPERS = (
+    "validate_project_state.py",
+    "validate_project_state_post_adr0027.py",
+    "validate_project_state_d8.py",
+    "validate_architecture_freeze.py",
+    "validate_architecture_freeze_post_adr0027.py",
+    "validate_architecture_freeze_d8.py",
+    "validate_reconciliation.py",
+    "validate_reconciliation_d8.py",
 )
 
 #: Checkpoint SHA that is well-formed but cannot exist as a commit.
@@ -115,32 +125,24 @@ class ValidatorCLIReachabilityTests(unittest.TestCase):
                 )
                 self.assertTrue(
                     result.stdout.startswith("usage:"),
-                    f"{script} did not reach main(); "
-                    f"a composed layer probably clobbered the restored __name__. "
-                    f"stdout={result.stdout!r}",
+                    f"{script} did not reach main(); stdout={result.stdout!r}",
                 )
 
-    def test_composed_layers_use_distinct_module_name_restore_variables(self) -> None:
-        """Two layers sharing one restore variable is the exact prior defect."""
-        seen: dict[str, str] = {}
+    def test_composed_layers_do_not_exec_source_into_shared_globals(self) -> None:
+        """The prior exec/__name__ composition defect class must stay removed."""
         for script in COMPOSED_VALIDATORS:
-            text = (AI_CONTEXT / script).read_text(encoding="utf-8")
-            for line in text.splitlines():
-                stripped = line.strip()
-                if "= __name__" not in stripped and "=__name__" not in stripped:
-                    continue
-                if stripped.startswith("globals()"):
-                    continue
-                variable = stripped.split("=", 1)[0].strip()
-                if not variable.startswith("_"):
-                    continue
-                previous = seen.get(variable)
-                self.assertIsNone(
-                    previous,
-                    f"{script} reuses restore variable {variable!r} already used by "
-                    f"{previous}; a nested layer would clobber the outer saved __name__",
-                )
-                seen[variable] = script
+            with self.subTest(script=script):
+                text = (AI_CONTEXT / script).read_text(encoding="utf-8")
+                self.assertNotIn("exec(compile(", text)
+                self.assertNotIn('globals()["__name__"]', text)
+                self.assertNotIn("globals()['__name__']", text)
+
+    def test_wrappers_use_isolated_runpy_composition(self) -> None:
+        for script in COMPOSED_WRAPPERS:
+            with self.subTest(script=script):
+                text = (AI_CONTEXT / script).read_text(encoding="utf-8")
+                self.assertIn("runpy.run_path", text)
+                self.assertIn("run_name=", text)
 
 
 class ValidatorCLIFailClosedTests(unittest.TestCase):
