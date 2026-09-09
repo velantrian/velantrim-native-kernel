@@ -5,6 +5,7 @@ from __future__ import annotations
 import copy
 import runpy
 import sys
+import types
 from pathlib import Path
 from typing import Any, Mapping
 
@@ -16,6 +17,30 @@ globals().update({
     name: value for name, value in _af_current_layer.items() if not name.startswith("__")
 })
 _PRE_PLAN_VALIDATE = _af_current_layer["validate"]
+
+
+def _sync_composed_layer_globals() -> None:
+    """Preserve legacy shared-symbol fail-closed semantics without source exec.
+
+    Historical adversarial tests intentionally monkeypatch symbols on the
+    current wrapper module. The old exec-based composition made every preserved
+    layer resolve those symbols from one shared globals dictionary. ``runpy``
+    isolates each layer, so before validation we synchronize every composed
+    function namespace with the current non-dunder symbol surface. This keeps
+    the observable legacy contract while avoiding ``exec(compile(...))`` and
+    ``__name__`` rebinding.
+    """
+    current_globals = globals()
+    shared = {
+        name: value for name, value in current_globals.items() if not name.startswith("__")
+    }
+    namespaces: dict[int, dict[str, object]] = {}
+    for value in shared.values():
+        if isinstance(value, types.FunctionType) and value.__globals__ is not current_globals:
+            namespaces[id(value.__globals__)] = value.__globals__
+    for namespace in namespaces.values():
+        namespace.update(shared)
+
 
 ADR0027_TRUTH_SYNC_SHA = "90bcb0fa2a3a2e85a590e9ba79746f3297b55457"
 ADR0027_DECISION_MERGE = "57993f39906ae7266011f6146c9a485d0587d2bf"
@@ -167,6 +192,7 @@ def _validate_current(state: Mapping[str, Any]) -> None:
 
 
 def validate(state: Mapping[str, Any], *, repo: Path) -> None:
+    _sync_composed_layer_globals()
     _PRE_PLAN_VALIDATE(_pre_plan_view(state), repo=repo)
     _validate_current(state)
 
