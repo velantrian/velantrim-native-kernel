@@ -13,14 +13,17 @@ projection temporarily and restores ``project-state.json`` byte-for-byte.
 from __future__ import annotations
 
 import json
+import runpy
 from pathlib import Path
 from typing import Any, Mapping
 
 _HISTORY_PATH = Path(__file__).with_name("validate_reconciliation_history.py")
-_rec_d8_module_name = __name__
-globals()["__name__"] = "validate_reconciliation_history_embedded"
-exec(compile(_HISTORY_PATH.read_text(encoding="utf-8"), str(_HISTORY_PATH), "exec"), globals(), globals())
-globals()["__name__"] = _rec_d8_module_name
+_rec_d8_layer = runpy.run_path(
+    str(_HISTORY_PATH), run_name="validate_reconciliation_history_embedded"
+)
+globals().update({
+    name: value for name, value in _rec_d8_layer.items() if not name.startswith("__")
+})
 
 # Historical manifest/source identity retained from the embedded validator:
 # NOTION_SYNC_SHA == 70acd0... . It is deliberately not renamed here because
@@ -87,8 +90,8 @@ def validate(repo: Path) -> None:
         _require(phrase in boundaries, f"missing reconciliation boundary: {phrase}")
 
 
-# Pin the D8 callable before the H11/current reconciliation wrapper embeds this
-# module and deliberately redefines the global name `validate`.
+# Pin the D8 callable before the H11/current reconciliation wrapper loads this
+# module and deliberately defines its own global name `validate`.
 validate_d8_view = validate
 
 
