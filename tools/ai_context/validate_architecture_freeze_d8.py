@@ -2,24 +2,26 @@
 """Validate post-D8 current truth without weakening historical freeze guards.
 
 The byte-preserved history layer contains the D5-R1-era validator and all of
-its adversarial IAR/reconciliation/preregistration checks. This module executes
-that layer in the current module namespace, validates a normalized historical
-view, then independently validates the authoritative D6/D7/D8 live state.
+its adversarial IAR/reconciliation/preregistration checks. This module loads
+that layer in an isolated namespace, validates a normalized historical view,
+then independently validates the authoritative D6/D7/D8 live state.
 """
 from __future__ import annotations
 
 import copy
+import runpy
 import sys
 from pathlib import Path
 from typing import Any, Mapping
 
 _HISTORY_PATH = Path(__file__).with_name("validate_architecture_freeze_history.py")
-_af_d8_module_name = __name__
-globals()["__name__"] = "validate_architecture_freeze_history_embedded"
-exec(compile(_HISTORY_PATH.read_text(encoding="utf-8"), str(_HISTORY_PATH), "exec"), globals(), globals())
-globals()["__name__"] = _af_d8_module_name
-
-_HISTORICAL_VALIDATE = validate
+_af_d8_layer = runpy.run_path(
+    str(_HISTORY_PATH), run_name="validate_architecture_freeze_history_embedded"
+)
+globals().update({
+    name: value for name, value in _af_d8_layer.items() if not name.startswith("__")
+})
+_HISTORICAL_VALIDATE = _af_d8_layer["validate"]
 
 CURRENT_NEXT_GATE = "OPERATOR_CANON_RUNTIME_DECISION_REQUIRED"
 CURRENT_RESEARCH_STATUS = "ACTIVE / OPTION D VALIDATION COMPLETE / OPERATOR DECISION REQUIRED / NO AUTOMATIC PROMOTION"
