@@ -11,7 +11,13 @@ on:
       - "tools/bpv1/**"
       - "tools/docs/bpv1-admission-bilingual-pair-v1.json"
       - "tests/test_bpv1_execution_admission.py"
+      - "tests/test_bpv1_admission_scope.py"
       - "project-state.json"
+      - "native_kernel/**"
+      - "contracts/**"
+      - "profiles/**"
+      - "migrations/**"
+      - "evidence/c5/**"
   push:
     branches: [main]
     paths:
@@ -23,7 +29,13 @@ on:
       - "tools/bpv1/**"
       - "tools/docs/bpv1-admission-bilingual-pair-v1.json"
       - "tests/test_bpv1_execution_admission.py"
+      - "tests/test_bpv1_admission_scope.py"
       - "project-state.json"
+      - "native_kernel/**"
+      - "contracts/**"
+      - "profiles/**"
+      - "migrations/**"
+      - "evidence/c5/**"
   workflow_dispatch:
 
 permissions:
@@ -53,20 +65,31 @@ jobs:
 
       - name: Compile BPV-1 admission tooling
         run: |
-          python -m compileall -q tools/bpv1 tests/test_bpv1_execution_admission.py
+          python -m compileall -q tools/bpv1 tests/test_bpv1_execution_admission.py tests/test_bpv1_admission_scope.py
 
       - name: Validate exact preregistered plan digest
         run: |
           test "$(python tools/bpv1/plan_digest.py --repo .)" = "7fe8174c604678c6b79d3fdeae83d7c5ab0d2fb15bfe343d41659d05d9496ad0"
 
       - name: Self-test standalone oracle before subject exists
-        run: python -m unittest discover -s tests -p 'test_bpv1_execution_admission.py' -v
+        run: |
+          python -m unittest discover -s tests -p 'test_bpv1_execution_admission.py' -v
+          python -m unittest discover -s tests -p 'test_bpv1_admission_scope.py' -v
 
       - name: Validate execution-admission package
         run: python tools/bpv1/validate_execution_admission.py --repo .
 
       - name: Audit bounded admission scope
-        run: python tools/bpv1/audit_admission_scope.py --repo . --head HEAD
+        shell: bash
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            live_base="${{ github.event.pull_request.base.sha }}"
+          elif [ "${{ github.event_name }}" = "push" ]; then
+            live_base="${{ github.event.before }}"
+          else
+            live_base="$(git rev-parse HEAD^)"
+          fi
+          python tools/bpv1/audit_admission_scope.py --repo . --live-base "$live_base" --head HEAD
 
       - name: Validate admission EN/RU parity
         run: python tools/docs/validate_bilingual_parity.py --repo . --config tools/docs/bpv1-admission-bilingual-pair-v1.json
