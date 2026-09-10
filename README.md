@@ -261,7 +261,7 @@ python tools/ai_context/validate_architecture_freeze.py --repo .
 python tools/ai_context/validate_context.py --repo .
 ```
 
-For PostgreSQL/SQLite setup and the full P4/P5/C3/C4/C5 checks, use **[docs/QUICKSTART.md](docs/QUICKSTART.md)**.
+For PostgreSQL/SQLite setup and the full P4/P5/C3/C4/C5 checks, use **[docs/QUICKSTART.md](docs/QUICKSTART.md)**. For environment readiness, git/SQLite/PostgreSQL/Rust preconditions, and how to classify local PASS/SKIP/ERROR results, see **[docs/REPRODUCIBILITY.md](docs/REPRODUCIBILITY.md)**.
 
 > ⚠️ The current laboratory is an implementation profile. Passing it does not define the universal Kernel.
 

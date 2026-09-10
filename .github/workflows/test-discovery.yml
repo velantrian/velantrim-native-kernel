@@ -1,0 +1,47 @@
+name: Test discovery coverage
+
+on:
+  pull_request:
+    paths:
+      - "tests/**"
+      - ".github/workflows/**"
+      - "tools/ci/**"
+      - "tools/environment_doctor.py"
+  push:
+    branches: [main]
+    paths:
+      - "tests/**"
+      - ".github/workflows/**"
+      - "tools/ci/**"
+      - "tools/environment_doctor.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  discovery:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Check out exact commit with complete history
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Compile discovery guard
+        run: python -m compileall -q tools/ci tests/test_ci_test_discovery.py
+
+      - name: Assert every tests/test*.py module is invoked and path-triggered
+        run: python -m unittest discover -s tests -p 'test_ci_test_discovery.py' -v
+
+      - name: Authority boundary
+        run: |
+          echo 'Green discovery coverage does not execute H11, thaw runtime, promote Final Canon, or authorize production.'
+          echo 'It only proves that tests/test*.py modules are enumerated or covered by declared CI discovery.'
