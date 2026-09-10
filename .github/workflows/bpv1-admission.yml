@@ -13,6 +13,11 @@ on:
       - "tests/test_bpv1_execution_admission.py"
       - "tests/test_bpv1_admission_scope.py"
       - "project-state.json"
+      - "native_kernel/**"
+      - "contracts/**"
+      - "profiles/**"
+      - "migrations/**"
+      - "evidence/c5/**"
   push:
     branches: [main]
     paths:
@@ -26,6 +31,11 @@ on:
       - "tests/test_bpv1_execution_admission.py"
       - "tests/test_bpv1_admission_scope.py"
       - "project-state.json"
+      - "native_kernel/**"
+      - "contracts/**"
+      - "profiles/**"
+      - "migrations/**"
+      - "evidence/c5/**"
   workflow_dispatch:
 
 permissions:
