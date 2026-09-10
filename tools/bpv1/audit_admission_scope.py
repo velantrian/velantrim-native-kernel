@@ -12,6 +12,10 @@ Two distinct checks:
    supply an explicit live base for the current PR/push; already accepted
    repository history before that base is not reclassified as part of the
    current BPV1 change.
+
+Path enumeration deliberately disables rename detection. A move therefore
+appears as deletion of the old path plus addition of the new path, ensuring
+that moving a forbidden path into an allowed root cannot hide its source.
 """
 from __future__ import annotations
 
@@ -59,7 +63,13 @@ def _git(repo: Path, *args: str) -> str:
 def _changed_paths(repo: Path, base: str, head: str) -> list[str]:
     return [
         line.strip()
-        for line in _git(repo, "diff", "--name-only", f"{base}...{head}").splitlines()
+        for line in _git(
+            repo,
+            "diff",
+            "--no-renames",
+            "--name-only",
+            f"{base}...{head}",
+        ).splitlines()
         if line.strip()
     ]
 
