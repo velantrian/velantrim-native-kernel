@@ -1,18 +1,17 @@
 #!/usr/bin/env python3
 """Fail closed on BPV1-001 execution-admission scope violations.
 
-Two distinct, permanent checks:
+Two distinct checks:
 
 1. Historical: the merged execution-admission candidate package itself
    (BASE..ADMISSION_MERGE) touched only its declared admission-only paths.
    This range is immutable git history and this check always passes once
-   satisfied - it does not re-run against every future commit.
-2. Ongoing: no commit, ever, touches product/runtime/subject paths that
-   remain forbidden regardless of admission or status-sync activity. This
-   check runs against the live BASE..HEAD diff and applies to every commit
-   this workflow evaluates, including later status-sync checkpoints that
-   legitimately touch docs/tests/tools/project-state.json outside the
-   admission-only allowlist.
+   satisfied.
+2. Ongoing: the *evaluated change delta* must not touch product/runtime roots
+   that remain forbidden for BPV1 admission/status activity. The caller must
+   supply an explicit live base for the current PR/push; already accepted
+   repository history before that base is not reclassified as part of the
+   current BPV1 change.
 """
 from __future__ import annotations
 
@@ -34,6 +33,7 @@ ADMISSION_ALLOWED = (
     "tools/bpv1/**",
     "tools/docs/bpv1-admission-bilingual-pair-v1.json",
     "tests/test_bpv1_execution_admission.py",
+    "tests/test_bpv1_admission_scope.py",
 )
 FORBIDDEN_PREFIXES = (
     "native_kernel/",
@@ -42,27 +42,29 @@ FORBIDDEN_PREFIXES = (
     "migrations/",
     "evidence/c5/",
 )
-# The BPV1-001 subject path is intentionally not in FORBIDDEN_PREFIXES.
-# Unlike the product/runtime roots above, its prohibition was scoped to
-# "before the separate execution-admission checkpoint", not forever. That
-# checkpoint (PR #113) legitimately admitted subject implementation/
-# execution; whether the subject may exist now is governed by the live
-# bpv1_status check in validate_execution_admission.py, not by this
-# permanent live-diff guard.
 
 
 def _git(repo: Path, *args: str) -> str:
-    result = subprocess.run(["git", "-C", str(repo), *args], check=False, capture_output=True, text=True)
+    result = subprocess.run(
+        ["git", "-C", str(repo), *args],
+        check=False,
+        capture_output=True,
+        text=True,
+    )
     if result.returncode != 0:
         raise RuntimeError(result.stderr.strip() or f"git {' '.join(args)} failed")
     return result.stdout
 
 
 def _changed_paths(repo: Path, base: str, head: str) -> list[str]:
-    return [line.strip() for line in _git(repo, "diff", "--name-only", f"{base}...{head}").splitlines() if line.strip()]
+    return [
+        line.strip()
+        for line in _git(repo, "diff", "--name-only", f"{base}...{head}").splitlines()
+        if line.strip()
+    ]
 
 
-def audit(repo: Path, head: str = "HEAD") -> list[str]:
+def audit(repo: Path, *, live_base: str, head: str = "HEAD") -> list[str]:
     findings: list[str] = []
 
     historical_changed = _changed_paths(repo, BASE, ADMISSION_MERGE)
@@ -70,14 +72,16 @@ def audit(repo: Path, head: str = "HEAD") -> list[str]:
         findings.append("historical admission-package diff is empty")
     for path in historical_changed:
         if not any(fnmatch.fnmatch(path, pattern) for pattern in ADMISSION_ALLOWED):
-            findings.append(f"historical admission package touched a path outside its allowlist: {path}")
+            findings.append(
+                f"historical admission package touched a path outside its allowlist: {path}"
+            )
 
-    live_changed = _changed_paths(repo, BASE, head)
+    live_changed = _changed_paths(repo, live_base, head)
     if not live_changed:
-        findings.append("live diff since pre-admission base is empty")
+        findings.append("evaluated live delta is empty")
     for path in live_changed:
         if any(path.startswith(prefix) for prefix in FORBIDDEN_PREFIXES):
-            findings.append(f"forbidden product/subject path changed: {path}")
+            findings.append(f"forbidden product/runtime path changed in evaluated delta: {path}")
 
     return findings
 
@@ -85,10 +89,11 @@ def audit(repo: Path, head: str = "HEAD") -> list[str]:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--repo", type=Path, default=Path("."))
+    parser.add_argument("--live-base", required=True)
     parser.add_argument("--head", default="HEAD")
     args = parser.parse_args()
     try:
-        findings = audit(args.repo.resolve(), args.head)
+        findings = audit(args.repo.resolve(), live_base=args.live_base, head=args.head)
     except RuntimeError as exc:
         print(f"BPV1 admission scope audit ERROR: {exc}")
         return 2
@@ -97,8 +102,17 @@ def main() -> int:
             print(f"ERROR {finding}")
         print(f"BPV1 admission scope audit FAILED ({len(findings)} finding(s))")
         return 1
-    subject_state = "present" if (args.repo.resolve() / "experiments/bpv1/BPV1-001/subject").exists() else "absent"
-    print(f"BPV1 admission scope audit PASS; base={BASE}; admission_merge={ADMISSION_MERGE}; subject={subject_state}; product_roots=unchanged")
+    subject_state = (
+        "present"
+        if (args.repo.resolve() / "experiments/bpv1/BPV1-001/subject").exists()
+        else "absent"
+    )
+    print(
+        "BPV1 admission scope audit PASS; "
+        f"historical_base={BASE}; admission_merge={ADMISSION_MERGE}; "
+        f"live_base={args.live_base}; head={args.head}; subject={subject_state}; "
+        "evaluated_delta_product_roots=unchanged"
+    )
     return 0
 
 
