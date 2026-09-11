@@ -24,8 +24,12 @@ on:
       - "tools/ai_context/**"
       - "tools/bpv1/**"
       - "tools/docs/**"
+      - "tools/ci/**"
+      - "tools/environment_doctor.py"
       - "tools/evidence/**"
       - "tools/profiles/validate_c5_manifest.py"
+      - "tests/test_a2_ontology.py"
+      - "tests/test_a3_abstract_machine.py"
       - "tests/test_a4_semantic_laws.py"
       - "tests/test_a5_identity_time_change.py"
       - "tests/test_a6_knowledge_lifecycle.py"
@@ -54,6 +58,8 @@ on:
       - "tests/test_evidence_bundle.py"
       - "tests/test_c5_manifest.py"
       - "tests/test_validator_cli_integrity.py"
+      - "tests/test_environment_doctor.py"
+      - "tests/test_ci_test_discovery.py"
   push:
     branches: [main]
     paths:
@@ -78,8 +84,12 @@ on:
       - "tools/ai_context/**"
       - "tools/bpv1/**"
       - "tools/docs/**"
+      - "tools/ci/**"
+      - "tools/environment_doctor.py"
       - "tools/evidence/**"
       - "tools/profiles/validate_c5_manifest.py"
+      - "tests/test_a2_ontology.py"
+      - "tests/test_a3_abstract_machine.py"
       - "tests/test_a4_semantic_laws.py"
       - "tests/test_a5_identity_time_change.py"
       - "tests/test_a6_knowledge_lifecycle.py"
@@ -108,6 +118,8 @@ on:
       - "tests/test_evidence_bundle.py"
       - "tests/test_c5_manifest.py"
       - "tests/test_validator_cli_integrity.py"
+      - "tests/test_environment_doctor.py"
+      - "tests/test_ci_test_discovery.py"
   workflow_dispatch:
 
 permissions:
@@ -143,8 +155,12 @@ jobs:
             tools/ai_context \
             tools/bpv1 \
             tools/docs \
+            tools/ci \
+            tools/environment_doctor.py \
             tools/evidence \
             tools/profiles/validate_c5_manifest.py \
+            tests/test_a2_ontology.py \
+            tests/test_a3_abstract_machine.py \
             tests/test_a4_semantic_laws.py \
             tests/test_a5_identity_time_change.py \
             tests/test_a6_knowledge_lifecycle.py \
@@ -172,10 +188,14 @@ jobs:
             tests/test_reconciliation_state.py \
             tests/test_evidence_bundle.py \
             tests/test_c5_manifest.py \
-            tests/test_validator_cli_integrity.py
+            tests/test_validator_cli_integrity.py \
+            tests/test_environment_doctor.py \
+            tests/test_ci_test_discovery.py
 
       - name: Run continuity, evidence and documentation unit tests
         run: |
+          python -m unittest discover -s tests -p 'test_a2_ontology.py' -v
+          python -m unittest discover -s tests -p 'test_a3_abstract_machine.py' -v
           python -m unittest discover -s tests -p 'test_a4_semantic_laws.py' -v
           python -m unittest discover -s tests -p 'test_a5_identity_time_change.py' -v
           python -m unittest discover -s tests -p 'test_a6_knowledge_lifecycle.py' -v
@@ -204,6 +224,8 @@ jobs:
           python -m unittest discover -s tests -p 'test_evidence_bundle.py' -v
           python -m unittest discover -s tests -p 'test_c5_manifest.py' -v
           python -m unittest discover -s tests -p 'test_validator_cli_integrity.py' -v
+          python -m unittest discover -s tests -p 'test_environment_doctor.py' -v
+          python -m unittest discover -s tests -p 'test_ci_test_discovery.py' -v
 
       - name: Report BPV-1 authoritative plan SHA-256
         run: python tools/bpv1/plan_digest.py --repo .
