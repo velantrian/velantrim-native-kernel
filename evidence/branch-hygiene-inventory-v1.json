@@ -15,11 +15,9 @@
   "classification_counts": {
     "MERGED_PR_HEAD_PENDING_CITATION_CHECK": 126,
     "ANCESTOR_OF_MAIN_PENDING_CITATION_CHECK": 3,
-    "KEEP_CLOSED_UNMERGED_REVIEW": 4,
+    "KEEP_UNMERGED_UNIQUE_DELTA": 9,
     "KEEP_PROTECTED": 2,
-    "KEEP_ACTIVE_AUDIT": 1,
-    "UNKNOWN_NO_PR_ASSOCIATION": 4,
-    "KEEP_PR_ASSOCIATED_TIP_DRIFT": 1
+    "KEEP_ACTIVE_AUDIT": 1
   },
   "entries": [
     {
@@ -201,8 +199,8 @@
       "ref": "agent/cognitive-os-relations",
       "tip_sha": "d9aeb1cf3354df53225848764967abe4af2bd0db",
       "github_protected": false,
-      "classification": "KEEP_CLOSED_UNMERGED_REVIEW",
-      "reason": "Current tip exactly matches closed-unmerged PR head(s): #149."
+      "classification": "KEEP_UNMERGED_UNIQUE_DELTA",
+      "reason": "1 unique commit; adds ECOSYSTEM_RELATIONS.md (24 lines). Closed-unmerged PR #149. Preserve unless later content-equivalence/provenance review explicitly supersedes it."
     },
     {
       "ref": "agent/contracts-14-17",
@@ -460,8 +458,8 @@
       "ref": "agent/pr87-delayed-review-followups",
       "tip_sha": "705c4a38620a188eeaa3fa428fbcc83adb983b82",
       "github_protected": false,
-      "classification": "KEEP_CLOSED_UNMERGED_REVIEW",
-      "reason": "Current tip exactly matches closed-unmerged PR head(s): #90."
+      "classification": "KEEP_UNMERGED_UNIQUE_DELTA",
+      "reason": "3 unique commits; changes reconciliation validator/tests/known-risks. Closed-unmerged PR #90. Preserve unless later content-equivalence/provenance review explicitly supersedes it."
     },
     {
       "ref": "agent/pr89-post-merge-integrity-followups",
@@ -579,15 +577,15 @@
       "ref": "claude/audit-relationships-6866cw",
       "tip_sha": "cbd7960e0a8162f87f97090d1a879b476284af2c",
       "github_protected": false,
-      "classification": "UNKNOWN_NO_PR_ASSOCIATION",
-      "reason": "No PR association found in accessible PR history; preserve pending provenance/content review."
+      "classification": "KEEP_UNMERGED_UNIQUE_DELTA",
+      "reason": "3 unique commits; adds/changes ecosystem integration docs including ADR-0010. Preserve unless later content-equivalence/provenance review explicitly supersedes it."
     },
     {
       "ref": "claude/documentation-analysis-owkx58",
       "tip_sha": "f603f01512d8c4413a4add8a8e336fe67963aa40",
       "github_protected": false,
-      "classification": "UNKNOWN_NO_PR_ASSOCIATION",
-      "reason": "No PR association found in accessible PR history; preserve pending provenance/content review."
+      "classification": "KEEP_UNMERGED_UNIQUE_DELTA",
+      "reason": "1 unique commit; adds DOCUMENTATION_AUDIT_2026-08-23.md. Preserve unless later content-equivalence/provenance review explicitly supersedes it."
     },
     {
       "ref": "claude/h11-evidence-hardening-audit-6xcc0x",
@@ -600,8 +598,8 @@
       "ref": "claude/titan-native-kernel-audit-egbygd",
       "tip_sha": "81a5692411d50011321c7bee671cf243ee18c789",
       "github_protected": false,
-      "classification": "UNKNOWN_NO_PR_ASSOCIATION",
-      "reason": "No PR association found in accessible PR history; preserve pending provenance/content review."
+      "classification": "KEEP_UNMERGED_UNIQUE_DELTA",
+      "reason": "1 unique commit; adds 925-line TITAN/Native Kernel audit. Preserve unless later content-equivalence/provenance review explicitly supersedes it."
     },
     {
       "ref": "claude/velantrim-kernel-audit-x2m19f",
@@ -614,8 +612,8 @@
       "ref": "claude/velantrim-native-kernel-audit-18id3g",
       "tip_sha": "e88d04d2771a7cd75b257bed8d194999397812d5",
       "github_protected": false,
-      "classification": "UNKNOWN_NO_PR_ASSOCIATION",
-      "reason": "No PR association found in accessible PR history; preserve pending provenance/content review."
+      "classification": "KEEP_UNMERGED_UNIQUE_DELTA",
+      "reason": "1 unique commit; modifies validation/state/test surfaces and adds validator CLI integrity tests. Preserve unless later content-equivalence/provenance review explicitly supersedes it."
     },
     {
       "ref": "codex/a2-knowledge-memory-ontology",
@@ -642,8 +640,8 @@
       "ref": "cursor/audit-2026-09-08-82b1",
       "tip_sha": "75ceef3b2e2ebc896699664dead8c25ea3701e13",
       "github_protected": false,
-      "classification": "KEEP_CLOSED_UNMERGED_REVIEW",
-      "reason": "Current tip exactly matches closed-unmerged PR head(s): #181."
+      "classification": "KEEP_UNMERGED_UNIQUE_DELTA",
+      "reason": "1 unique commit; adds docs/AUDIT-2026-09-08.md. Closed-unmerged PR #181. Preserve unless later content-equivalence/provenance review explicitly supersedes it."
     },
     {
       "ref": "docs/a10-open-questions-falsification",
@@ -866,15 +864,15 @@
       "ref": "docs/readme-deep-explanation",
       "tip_sha": "85163c460faef85ce1b04f7d7a281f80c29e14c9",
       "github_protected": false,
-      "classification": "KEEP_CLOSED_UNMERGED_REVIEW",
-      "reason": "Current tip exactly matches closed-unmerged PR head(s): #4."
+      "classification": "KEEP_UNMERGED_UNIQUE_DELTA",
+      "reason": "1 unique commit; substantial README delta. Closed-unmerged PR #4. Preserve unless later content-equivalence/provenance review explicitly supersedes it."
     },
     {
       "ref": "docs/readme-visual-polish",
       "tip_sha": "a8f147a444c8f1846f6aaf2a4421eaaeb40f80a8",
       "github_protected": false,
-      "classification": "KEEP_PR_ASSOCIATED_TIP_DRIFT",
-      "reason": "Branch has PR association (#3) but current tip does not exactly match a recorded PR head; preserve pending review."
+      "classification": "KEEP_UNMERGED_UNIQUE_DELTA",
+      "reason": "3 unique commits; substantial README and Copilot-instructions delta; PR-associated tip drift. Preserve unless later content-equivalence/provenance review explicitly supersedes it."
     },
     {
       "ref": "docs/reconcile-adr0028-current-truth",
@@ -1015,6 +1013,7 @@
     "pr_association": "GitHub REST pull-request history; exact current tip SHA match required for merged/closed-unmerged classification.",
     "deletion_rule": "No classification in this snapshot authorizes deletion. MERGED_PR_HEAD_PENDING_CITATION_CHECK still requires citation/provenance/content review.",
     "squash_rule": "Commit ancestry alone is not treated as content-equivalence or deletion proof.",
-    "ancestry_rule": "branch->main compare with status=ahead and behind_by=0 is recorded as ancestor-of-main evidence only; it is not deletion authority."
+    "ancestry_rule": "branch->main compare with status=ahead and behind_by=0 is recorded as ancestor-of-main evidence only; it is not deletion authority.",
+    "unique_delta_rule": "For residual ambiguous refs, main->branch compare was inspected. Any ahead_by>0 delta is preserved as KEEP_UNMERGED_UNIQUE_DELTA unless a later explicit content-equivalence review supersedes it."
   }
 }
