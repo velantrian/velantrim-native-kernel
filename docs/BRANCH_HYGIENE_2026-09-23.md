@@ -44,6 +44,13 @@ H11, runtime, Canon, reducer semantics, and production authorization are unchang
 ## Pending deletion-evidence pass
 
 The 126 exact merged-PR heads and 3 confirmed ancestors of main are **not**
-declared safe to delete here. A later pass must prove they are not required by
-repository citations, evidence manifests, source-recovery records, or other
-durable provenance before deletion can be authorized.
+declared safe to delete here.
+
+A default-branch citation pass found 12 surviving refs referenced through the
+frozen evidence-anchor migration surfaces. Each of those 12 already has a
+DURABLE_MAIN_CHECKPOINT_RECORDED record, but the migration policy explicitly
+requires a separate owner action before branch deletion.
+
+For the other 117 candidates, exact ref-name code search on the default branch
+returned no match. This is bounded search evidence, not proof of global absence.
+They still require final provenance review and explicit deletion authority.
