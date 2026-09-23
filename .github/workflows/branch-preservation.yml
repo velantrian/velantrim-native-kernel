@@ -25,11 +25,15 @@ jobs:
         with:
           python-version: '3.12'
       - name: Compile preservation and migration validators/tests
-        run: python -m compileall -q tools/ai_context/validate_branch_preservation.py tools/ai_context/validate_evidence_anchor_migration.py tests/test_branch_preservation.py tests/test_evidence_anchor_migration.py
+        run: python -m compileall -q tools/ai_context/validate_branch_preservation.py tools/ai_context/validate_evidence_anchor_migration.py tools/ai_context/validate_branch_hygiene_inventory.py tests/test_branch_preservation.py tests/test_evidence_anchor_migration.py tests/test_branch_hygiene_inventory.py
       - name: Run preservation unit tests
         run: python -m unittest tests.test_branch_preservation -v
       - name: Run evidence-anchor migration unit tests
         run: python -m unittest tests.test_evidence_anchor_migration -v
+      - name: Run branch hygiene inventory unit tests
+        run: python -m unittest tests.test_branch_hygiene_inventory -v
+      - name: Validate branch hygiene inventory
+        run: python tools/ai_context/validate_branch_hygiene_inventory.py
       - name: Validate protected refs and declared historical anchors
         run: python tools/ai_context/validate_branch_preservation.py
       - name: Validate migrated historical anchors and durable main checkpoints
