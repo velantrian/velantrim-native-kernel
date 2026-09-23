@@ -76,12 +76,12 @@ jobs:
       NK_PYTHON_VERSION: ${{ matrix.python }}
       NK_POSTGRESQL_VERSION: ${{ matrix.postgresql }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5.6.0
         with:
           python-version: ${{ matrix.python }}
       - name: Install PostgreSQL integration driver
-        run: python -m pip install --upgrade pip -r profiles/postgresql-reference-v0/requirements-p2-ci.txt
+        run: python -m pip install -r profiles/postgresql-reference-v0/requirements-p2-ci.txt
       - name: Build pinned WAL-safe SQLite
         run: |
           tools/sqlite/build_safe_sqlite.sh "$RUNNER_TEMP/sqlite-3.51.3" python
@@ -131,7 +131,7 @@ jobs:
       - name: Compile implementation and tooling
         run: python -m compileall -q native_kernel tools/conformance tools/profiles
       - name: Upload P5 and C3 evidence
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: p5-c3-evidence-py${{ matrix.python }}-pg${{ matrix.postgresql }}
           path: |
