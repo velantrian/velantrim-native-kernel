@@ -92,7 +92,7 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
       - name: Install PostgreSQL integration driver
-        run: python -m pip install -r profiles/postgresql-reference-v0/requirements-p2-ci.txt
+        run: python -m pip install "psycopg[binary]==3.3.2"
       - name: Build pinned WAL-safe SQLite
         run: |
           tools/sqlite/build_safe_sqlite.sh "$RUNNER_TEMP/sqlite-3.51.3" python
