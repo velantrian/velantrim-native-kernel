@@ -13,523 +13,524 @@
     "auto_delete_authorized": false
   },
   "classification_counts": {
-    "UNKNOWN_PENDING_EVIDENCE": 129,
-    "KEEP_CLOSED_UNMERGED_REVIEW": 3,
+    "MERGED_PR_HEAD_PENDING_CITATION_CHECK": 126,
+    "UNKNOWN_NO_PR_ASSOCIATION": 6,
+    "KEEP_CLOSED_UNMERGED_REVIEW": 4,
     "KEEP_PROTECTED": 2,
-    "CONTENT_EQUIVALENT_CANDIDATE": 6,
-    "KEEP_ACTIVE_AUDIT": 1
+    "KEEP_ACTIVE_AUDIT": 1,
+    "KEEP_PR_ASSOCIATED_TIP_DRIFT": 2
   },
   "entries": [
     {
       "ref": "agent/a6-postmerge-truth-reconciliation",
       "tip_sha": "5e22065b0b739af9f406bceb627e0b34dda36c70",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #99. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/accept-contracts-11-14",
       "tip_sha": "5b003208d93774c1a79e770e8259dda99795eab7",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #38. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/accept-contracts-final-checkpoint",
       "tip_sha": "b0188fb2eefe49733130f30cd90ab713cf4b0eb0",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #39. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/add-ai-context-freshness-guard",
       "tip_sha": "535afefde53430452676f5ec52482d712be67b93",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #26. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/add-ai-context-pack",
       "tip_sha": "311577c3912dc6e0d13fda7852eb65df2dd2cfb6",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #24. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/adr0023-evidence-finalization",
       "tip_sha": "c9d3944627b40619002428d2a37b8621b2cbfe3b",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #70. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/adr0023-publication-finalization",
       "tip_sha": "2ad7481300c85d20830c4c96cce54f2df0588a05",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #71. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/architecture-refoundation-blueprint-first",
       "tip_sha": "4c85c162ed504d6a91bdee390d3763acca8b0319",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #89. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/bilingual-parity-validator-78",
       "tip_sha": "58036aeb4767d6ec45465d3bf8cee6cf1b0b68c4",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #79. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/bilingual-readme-adr-governance",
       "tip_sha": "10cc767ba5f22ca69c193f4afde311382b088c9a",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #6. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/bpv1-001-subject-implementation",
       "tip_sha": "6175ad508f85b339cac8948f2e07fa9ee95501e1",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #114. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/bpv1-d5-r1-evidence-qualification",
       "tip_sha": "68d4766baa0a7ba5c9e5171230fc3767f8d46053",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #115. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/bpv1-d5-r1-status",
       "tip_sha": "38253d27add5045be4ee7137da94a57d988e0bea",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #116. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/bpv1-d6-a10-classification",
       "tip_sha": "5a71a711fe93b73c3655169ecb93a5bcf8be17f1",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #117. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/bpv1-d6-status",
       "tip_sha": "030d0a0585bd061b27329a38e29708c11304701a",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "UNKNOWN_NO_PR_ASSOCIATION",
+      "reason": "No PR association found in accessible PR history; preserve pending provenance/content review."
     },
     {
       "ref": "agent/bpv1-d7-integrated-rereview",
       "tip_sha": "37c2fe5171b4024da01dc4941833d5ba2f136292",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #118. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/bpv1-d8-current-truth",
       "tip_sha": "fecbf4fc8402f8efd946f240878fd4002bd0770b",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #120. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/bpv1-d8-final-sync",
       "tip_sha": "ca8690742111a91dabe0709992248ffa1120e046",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #119. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/bpv1-execution-admission",
       "tip_sha": "36ba0ea4bebc972360fc62a1dfc8e9eded614c6f",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #112. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/bpv1-execution-admission-status",
       "tip_sha": "1b164a4787a9298a3f8de0ddfd35c37e56c097e1",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #113. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/bpv1-preregistration",
       "tip_sha": "e5af75e75f136bc540139080aaed4d9349a03e71",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #110. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/bpv1-status-sync",
       "tip_sha": "238eb5e8bbdf9aabea40037e7e5077467adaf257",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #111. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/c4-offline-shadow",
       "tip_sha": "b7786c088ef2cfd203c02625a5e0c40129cbf148",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #62. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/c5-evidence-state-reconciliation",
       "tip_sha": "72531a69f13f1d441b49ebff7a49dc4bac911a43",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #67. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/codex-review-integrity-followups",
       "tip_sha": "ebb6ac99e2051c01f0fb8e8effc7eaad6d4fe8da",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #72. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/cognitive-os-relations",
       "tip_sha": "d9aeb1cf3354df53225848764967abe4af2bd0db",
       "github_protected": false,
       "classification": "KEEP_CLOSED_UNMERGED_REVIEW",
-      "reason": "Closed-unmerged PR head; requires semantic/provenance review before any deletion."
+      "reason": "Current tip exactly matches closed-unmerged PR head(s): #149."
     },
     {
       "ref": "agent/contracts-14-17",
       "tip_sha": "270596d672f740cc9123d506af3b10f50e691ad6",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #35. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/contracts-14-17-checkpoint",
       "tip_sha": "b116abe8bc4a9dc1848c03b6f84d2b6633584532",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #36. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/contracts-14-17-final-record",
       "tip_sha": "51a932d39a741e850285f9120a8caed237763032",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #37. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/document-storage-profiles",
       "tip_sha": "f0abfe4d5599bd6b0b46d8b3dacdfc8a0fc502a8",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #21. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/documentation-standard-v1",
       "tip_sha": "498ef4b2a38ab40212bc4a62f0fbac3acb2a8516",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #136. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/final-adr0027-sync",
       "tip_sha": "e5971fb8669e2ad67845c5425292101119d96edd",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #123. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/finalize-ai-context-guard",
       "tip_sha": "c5893c613169fb7f0667d160019b9d2254acfda3",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #27. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/finalize-ai-context-sync",
       "tip_sha": "f07fbca4b745b7605676e0e7ea9ea95a744800a4",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #25. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/finalize-pr67-publication",
       "tip_sha": "fd19938fa1fc234e1b4fb6db114d44d14963eea2",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #68. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/finalize-pr72-review-followup",
       "tip_sha": "4cc7eb0fa29857b63792b88a20771510fe52efc0",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #73. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/finalize-pr75-proposal-publication",
       "tip_sha": "c876e7f054fd0be83f2664a0bacce2d24f8632ac",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #76. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/formal-authority-doc-model",
       "tip_sha": "936231a81c4d278dad4d029affcff4e035228d8e",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #143. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/foundational-contract-skeleton",
       "tip_sha": "f67e2b632772cab068207177514f1f873f074e4b",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #28. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/governance-curiosity-contracts",
       "tip_sha": "d9f3db0f1f2f60b307494d86f1fd4a82029d2f2d",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #12. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/handoff-write-gate-hardening",
       "tip_sha": "ac28d34eb5e449ffc31ebb676c46c9694dbe15d0",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #146. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/harden-stage1-source-recovery",
       "tip_sha": "cd0574fdfc0a69aa4af6ad150bd8423bd46fe08d",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #13. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/human-readable-truth-reconciliation",
       "tip_sha": "41a7a9694a42e212a5c6edcf1d46a193fd76246d",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #81. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/iar-1-review-request",
       "tip_sha": "3ca47783cf1b4bde46158bce5aa183ceed82d0f5",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #107. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/iar1-final-review-followup",
       "tip_sha": "d9cb7702b702b4bc2c2172d3641613c89c91818e",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #109. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/iar1-late-review-followup",
       "tip_sha": "157be487a6727cf0ec2a36988ad5ab203ba5e0b2",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #108. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/issues-notion-reconciliation",
       "tip_sha": "69004d9602d58c458bcbcd06ecd445ba98983e24",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #82. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/machine-readable-truth-reconciliation",
       "tip_sha": "cd7391034b720f85373be7d1b8611716080deb58",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #80. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/notion-descendant-checkpoint-reconciliation",
       "tip_sha": "7b9b6051f3b7fe0b8a22c646a55e2170a5729d1c",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #87. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/operator-decision-packages",
       "tip_sha": "57c14742f705f96e33e929e7e206f14169d42fc0",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #83. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/p1-semantic-core",
       "tip_sha": "273d9369e624d8e4c4033dc7842ebbcc46642668",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #44. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/p2-postgresql-append",
       "tip_sha": "36ddb1d0342914f0c06fe7f31171bac06565ee72",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #47. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/p4-conformance-adapter",
       "tip_sha": "0e7adf71475d37d5c096718762cbc08086c5e465",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #56. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/p5-sqlite-c3",
       "tip_sha": "6483c9a229aea7d49929745b7652e67f1c39949c",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #59. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/post-blueprint-option-d",
       "tip_sha": "564320d64994e09f28f06e7e1232d37ebbf11533",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #105. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/post-blueprint-option-d-followup",
       "tip_sha": "8f3b444f9b483e817543f9f0bad10be7622fd657",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #106. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/post-d8-operator-decision",
       "tip_sha": "c3593b0820ecbf458608e6bfac94c2deba378323",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #121. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/post-d8-operator-decision-truth",
       "tip_sha": "2e0858295d5581749009cd48ee95c9765ac9d41f",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #122. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/postgresql-reference-profile-rfc",
       "tip_sha": "ab0e80b0833e96ef98ef4feec9e92b4153176083",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #41. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/postgresql-rfc-final-checkpoint",
       "tip_sha": "a66bfa2a516ae28db71f88c94e58b0da5bc43f27",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #42. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/pr83-notion-reconciliation",
       "tip_sha": "9c5335d60e2382c510cbb0d762ddeca1317d525b",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #84. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/pr85-post-merge-review-fixes",
       "tip_sha": "c3b8695bf3d7207ac4c6b19dcb5e9e2bda92f764",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #86. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/pr87-delayed-review-followups",
       "tip_sha": "705c4a38620a188eeaa3fa428fbcc83adb983b82",
       "github_protected": false,
       "classification": "KEEP_CLOSED_UNMERGED_REVIEW",
-      "reason": "Closed-unmerged PR head; requires semantic/provenance review before any deletion."
+      "reason": "Current tip exactly matches closed-unmerged PR head(s): #90."
     },
     {
       "ref": "agent/pr89-post-merge-integrity-followups",
       "tip_sha": "63cc5602e9d7b52fbf2210d76be565684b4e31b7",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #91. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/readme-architecture-overview",
       "tip_sha": "cd6a007d615fde38d998f4ad8ab6dc2e0d0f43ae",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #5. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/reducer-referential-semantics-74",
       "tip_sha": "c34fe3384f9deba347462815833689848ad95978",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #75. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/reporting-evidence-guardrails",
       "tip_sha": "a81d14085fe06aaf4e24b644cd93d65ede1cbd81",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #147. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/residual-a10-plan-sync",
       "tip_sha": "d46d6674998136b09fb70cc491b576b0a92626c5",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #125. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/source-recovery-tooling",
       "tip_sha": "45c387c34c70e99dddaed528198e30b63b43b19d",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #19. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/sqlite-integrity-wal-safety",
       "tip_sha": "ab7a203ce7ed8ec46c341bc4da9063d56f023338",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #69. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/track-h-bootstrap-branch-resweep",
       "tip_sha": "24f4e3b963f3585b37354fdc1d6d3f183c43a422",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #85. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/velantrim-ecosystem-map",
       "tip_sha": "b9f2c5bcdd185e839e2d09221c138e207c76f81c",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #20. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "agent/visualize-storage-profiles-docs",
       "tip_sha": "c33dba295425d29747c859f7ad70dbc75a78f2b6",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #22. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "archive/bootstrap-v0.1.2.1-docs-lineage",
@@ -549,463 +550,469 @@
       "ref": "chore/adr0028-post-notion-sync",
       "tip_sha": "0319ceb0b786898d9cc7988406401aa31e0aaa94",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #159. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "chore/audit-ci-safety-20260829",
       "tip_sha": "85e84f72a97614e67dd7ca3f7c9244730e955023",
       "github_protected": false,
-      "classification": "CONTENT_EQUIVALENT_CANDIDATE",
-      "reason": "Prior audit confirmed relevant branch content already exists on main; still requires final evidence-citation check before deletion."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #172. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "chore/branch-hygiene-inventory-20260923",
-      "tip_sha": "7b938a76de9fd2778a4a08728be047ab7d4f960f",
+      "tip_sha": "69a742b9f58a566faf64ab8fbed3e20c779300ce",
       "github_protected": false,
       "classification": "KEEP_ACTIVE_AUDIT",
-      "reason": "Current NK-HYGIENE-01 audit branch; retain until this inventory PR is merged or deliberately closed."
+      "reason": "Current NK-HYGIENE-01 audit branch; retain until inventory PR is resolved."
     },
     {
       "ref": "chore/branch-preservation-contract-20260829",
       "tip_sha": "7d790603a70c086c433d9d58e6ffcec30f46971b",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #175. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "claude/audit-relationships-6866cw",
       "tip_sha": "cbd7960e0a8162f87f97090d1a879b476284af2c",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "UNKNOWN_NO_PR_ASSOCIATION",
+      "reason": "No PR association found in accessible PR history; preserve pending provenance/content review."
     },
     {
       "ref": "claude/documentation-analysis-owkx58",
       "tip_sha": "f603f01512d8c4413a4add8a8e336fe67963aa40",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "UNKNOWN_NO_PR_ASSOCIATION",
+      "reason": "No PR association found in accessible PR history; preserve pending provenance/content review."
     },
     {
       "ref": "claude/h11-evidence-hardening-audit-6xcc0x",
       "tip_sha": "e0d346ba8b061b57c43c55de373929c4f61f150e",
       "github_protected": false,
-      "classification": "CONTENT_EQUIVALENT_CANDIDATE",
-      "reason": "Prior audit confirmed relevant branch content already exists on main; still requires final evidence-citation check before deletion."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #138. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "claude/titan-native-kernel-audit-egbygd",
       "tip_sha": "81a5692411d50011321c7bee671cf243ee18c789",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "UNKNOWN_NO_PR_ASSOCIATION",
+      "reason": "No PR association found in accessible PR history; preserve pending provenance/content review."
     },
     {
       "ref": "claude/velantrim-kernel-audit-x2m19f",
       "tip_sha": "22e2fff276c594ea95b4539d16b8156800c37dfb",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #92. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "claude/velantrim-native-kernel-audit-18id3g",
       "tip_sha": "e88d04d2771a7cd75b257bed8d194999397812d5",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "UNKNOWN_NO_PR_ASSOCIATION",
+      "reason": "No PR association found in accessible PR history; preserve pending provenance/content review."
     },
     {
       "ref": "codex/a2-knowledge-memory-ontology",
       "tip_sha": "5b27c0c1bdf7e2f3377a88e191a66db2944f5b34",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #93. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "codex/a3-abstract-native-kernel-machine",
       "tip_sha": "b29ba88e4912848a5a1427c94180b62e8a72743c",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #94. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "codex/harden-h11-evidence-contract",
       "tip_sha": "362aac789db5fde36659f98541ff39818d0f110f",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #134. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "cursor/audit-2026-09-08-82b1",
       "tip_sha": "75ceef3b2e2ebc896699664dead8c25ea3701e13",
       "github_protected": false,
       "classification": "KEEP_CLOSED_UNMERGED_REVIEW",
-      "reason": "Closed-unmerged PR head; requires semantic/provenance review before any deletion."
+      "reason": "Current tip exactly matches closed-unmerged PR head(s): #181."
     },
     {
       "ref": "docs/a10-open-questions-falsification",
       "tip_sha": "2aaf4c797cbf9a067934cd9568d4f1d31ddd57b4",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #103. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "docs/a4-semantic-laws-and-invariants",
       "tip_sha": "a92cdf454e39c25365823dbf2aff88a86f1fea0b",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #96. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "docs/a5-identity-time-and-change",
       "tip_sha": "aa29cb6b908339dd6f497a4c585c48397c5c4a9c",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #97. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "docs/a6-knowledge-lifecycle",
       "tip_sha": "4dc2542fb01576ed53f3f69cc0d03f6d2aaa349d",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #98. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "docs/a7-conflict-uncertainty-revision",
       "tip_sha": "ba290c6d0255d7ca884cadd10c493697760ff425",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #100. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "docs/a8-substrate-independence-contract",
       "tip_sha": "67d069b85c760853c5fce4bc7939f648a82ac0a2",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #101. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "docs/a9-reference-laboratory-boundary",
       "tip_sha": "1923061b7fe7ce71b9182e6d9e58c0a4168e60bb",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #102. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "docs/adr-0024-operator-accept-with-changes",
       "tip_sha": "14e748d4759529db58c6b831bebe17136a1fc209",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #153. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "docs/adr-07-causal-links",
       "tip_sha": "50e4cf74e29b4c840fc5191c642cc3cd236ae3a6",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #11. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "docs/ai-future-work-ledger",
       "tip_sha": "c2c55a8c47dd84e98b3bbe1dc23360dc958595ff",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #148. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "docs/authority-resolution-current-history",
       "tip_sha": "e512640d4449751480afcefdb8774f31005f8e29",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #144. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "docs/clarify-ecosystem-roles",
       "tip_sha": "70a58e3cce8e14855ade33f2ce99fd7767f4a916",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #23. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "docs/comparison-matrix-orientation",
       "tip_sha": "f5f18d3f459c62ffe5e376144a9951fd8ee30530",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #140. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "docs/curiosity-core-rfc-0001",
       "tip_sha": "31096aaaad363e3aeba34b5180c7f14a07d574a2",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #10. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "docs/current-truth-surface-20260829",
       "tip_sha": "e47b130009e045e3ef375bc5b839e17e56fd2d63",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #173. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "docs/deepen-project-rationale",
       "tip_sha": "e519bfa963653c871006e7185f06329bc858d665",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #8. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "docs/eiti-current-research-transfer",
       "tip_sha": "a888c6020a0882938c28135e2c554a0e324d5e55",
       "github_protected": false,
-      "classification": "CONTENT_EQUIVALENT_CANDIDATE",
-      "reason": "Prior audit confirmed relevant branch content already exists on main; still requires final evidence-citation check before deletion."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #151. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "docs/experimental-routing-research",
       "tip_sha": "06fb7716d8865ddc24b7c5465598a659533b3bb1",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #9. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "docs/foundational-intent-conformance-adr",
       "tip_sha": "359291e122517fa1e1fb96492ef29d4421168c5e",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #7. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "docs/h11-current-overlay-hygiene",
       "tip_sha": "e62c307838b2545c6a5b4b0f94d9a639b85b64b0",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #133. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "docs/h11-positive-qualification-option-c",
       "tip_sha": "8d92f2d96c35d38ebcb533ee5931d50a0d943ff8",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #155. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "docs/h11-sa-02-known-risks",
       "tip_sha": "4d4a892200d51b3b82b6bdec5ca2972481b33aba",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #150. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "docs/human-documentation-architecture-v1",
       "tip_sha": "464c2b04e1f48691f767e880e89b4cf47c80bcc4",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #139. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "docs/human-operator-mode",
       "tip_sha": "b76c3aa0f76b8f764cba0d59b71d349fb7b16326",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #166. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "docs/human-operator-readme-route",
       "tip_sha": "880cf8a984d935c78bd87460d84566019b48692e",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #168. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "docs/human-operator-routing",
       "tip_sha": "f5404a889fa728cfa42cfe8120bedaff80f0291d",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #167. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "docs/integrated-a1-a10-review",
       "tip_sha": "df162f721892dc46a34321be859d50f54eba247b",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #104. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "docs/openclaw-conformance-specimen-v0.1",
       "tip_sha": "203e4315325f2cf958197359da6778ec4dd937c3",
       "github_protected": false,
-      "classification": "CONTENT_EQUIVALENT_CANDIDATE",
-      "reason": "Prior audit confirmed relevant branch content already exists on main; still requires final evidence-citation check before deletion."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #170. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "docs/post144-truth-surface-hygiene",
       "tip_sha": "7a98522f3e0924c249ef619242d4390543444ac9",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #145. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "docs/readme-comparison-hygiene-v1",
       "tip_sha": "74280e3a790727c55331e7e91f2ce0f5703cac5c",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #141. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "docs/readme-comparison-matrix-v2",
       "tip_sha": "b0f1b88c88f714d7a6a9814d1019e1383b8dab80",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #142. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "docs/readme-deep-explanation",
       "tip_sha": "85163c460faef85ce1b04f7d7a281f80c29e14c9",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "KEEP_CLOSED_UNMERGED_REVIEW",
+      "reason": "Current tip exactly matches closed-unmerged PR head(s): #4."
     },
     {
       "ref": "docs/readme-visual-polish",
       "tip_sha": "a8f147a444c8f1846f6aaf2a4421eaaeb40f80a8",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "KEEP_PR_ASSOCIATED_TIP_DRIFT",
+      "reason": "Branch has PR association (#3) but current tip does not exactly match a recorded PR head; preserve pending review."
     },
     {
       "ref": "docs/reconcile-adr0028-current-truth",
       "tip_sha": "dfecc96aba6ff49807645f2ab869a619d6ee81c6",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #157. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "docs/rvt-01-evidence-lineage-boundary",
       "tip_sha": "2638d538ca887252fadf10c003ed9aa38e3c2762",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #152. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "docs/substrate-neutral-ecosystem-bridge",
       "tip_sha": "1bb26abba51eeaca2a82ad0fa2117d163082fcd3",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #169. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "feat/adr0028-positive-qualification-evaluator",
       "tip_sha": "c730b149c09314213f959317bfed3d4774a8aee5",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #164. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "fix/a3-integrity-reconciliation",
       "tip_sha": "9125fd095e463ecf3ce6156a04e45b35de543ede",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #95. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "fix/operator-decision-ci-coverage",
       "tip_sha": "8ae4d4db39a2b299bcfb612ddf38a3f512759454",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "KEEP_PR_ASSOCIATED_TIP_DRIFT",
+      "reason": "Branch has PR association (#158) but current tip does not exactly match a recorded PR head; preserve pending review."
     },
     {
       "ref": "fix/restore-verified-adr0028-notion-8of8",
       "tip_sha": "f6edd6d8cc8524498025797e8d35b6ca22210ca7",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #162. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "refactor/current-surface-validator-20260829",
       "tip_sha": "adf86931242ec84668c4af8b05ce285f9e81623b",
       "github_protected": false,
-      "classification": "CONTENT_EQUIVALENT_CANDIDATE",
-      "reason": "Prior audit confirmed relevant branch content already exists on main; still requires final evidence-citation check before deletion."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #174. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "repair/world-epistemic-boundaries",
       "tip_sha": "b942fbb27240c7dac0f41f013c6e6869b9d8fb5d",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "UNKNOWN_NO_PR_ASSOCIATION",
+      "reason": "No PR association found in accessible PR history; preserve pending provenance/content review."
     },
     {
       "ref": "research/h11-execution-admission-blocked",
       "tip_sha": "702c36237389b43a4e8910c3a4e60cc8f67c6258",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #129. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "research/h11-family-selection",
       "tip_sha": "d9273a22c411467109112f1fc6ea263ed8819d1d",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #126. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "research/h11-preregistration",
       "tip_sha": "1dca13cdd2759c70d810f44977a227fe1147d4bb",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #127. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "research/memory-eval-protocol-v0",
       "tip_sha": "225509fd7e6123159d05f84d1f7fc6f67e1cbc8d",
       "github_protected": false,
-      "classification": "CONTENT_EQUIVALENT_CANDIDATE",
-      "reason": "Prior audit confirmed relevant branch content already exists on main; still requires final evidence-citation check before deletion."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #171. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "research/residual-a10-validation-plan",
       "tip_sha": "918ac46f4d93f085171b03564f9fbe30f543b200",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #124. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "state/adr0028-notion-sync-complete",
       "tip_sha": "c443867e2e4edea44f3302968468ec89fa20b70b",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #161. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "state/adr0028-positive-qualification-sync-complete",
       "tip_sha": "9be974f0ac6f0e8d701d61363044215f1aad382a",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #165. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "state/h11-execution-admission-blocked",
       "tip_sha": "6d01d4b22806a06e6f8b7f5cf88b8c64691b9b88",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #130. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "state/h11-post130-truth-reconciliation",
       "tip_sha": "6b710872663d5bffbb6f5a327c24c7cc7f998180",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #132. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     },
     {
       "ref": "state/h11-preregistration-sync",
       "tip_sha": "07c3cc151fdebd62a02467e7d0af48a85a135bff",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "MERGED_PR_HEAD_PENDING_CITATION_CHECK",
+      "reason": "Current tip exactly matches merged PR head(s): #128. Squash/rebase ancestry is not used as deletion proof; citation/provenance check still required."
     }
-  ]
+  ],
+  "observed_pull_request_count": 162,
+  "method": {
+    "pr_association": "GitHub REST pull-request history; exact current tip SHA match required for merged/closed-unmerged classification.",
+    "deletion_rule": "No classification in this snapshot authorizes deletion. MERGED_PR_HEAD_PENDING_CITATION_CHECK still requires citation/provenance/content review.",
+    "squash_rule": "Commit ancestry alone is not treated as content-equivalence or deletion proof."
+  }
 }
