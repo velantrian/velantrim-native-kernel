@@ -14,11 +14,12 @@
   },
   "classification_counts": {
     "MERGED_PR_HEAD_PENDING_CITATION_CHECK": 126,
-    "UNKNOWN_NO_PR_ASSOCIATION": 6,
+    "ANCESTOR_OF_MAIN_PENDING_CITATION_CHECK": 3,
     "KEEP_CLOSED_UNMERGED_REVIEW": 4,
     "KEEP_PROTECTED": 2,
     "KEEP_ACTIVE_AUDIT": 1,
-    "KEEP_PR_ASSOCIATED_TIP_DRIFT": 2
+    "UNKNOWN_NO_PR_ASSOCIATION": 4,
+    "KEEP_PR_ASSOCIATED_TIP_DRIFT": 1
   },
   "entries": [
     {
@@ -123,8 +124,8 @@
       "ref": "agent/bpv1-d6-status",
       "tip_sha": "030d0a0585bd061b27329a38e29708c11304701a",
       "github_protected": false,
-      "classification": "UNKNOWN_NO_PR_ASSOCIATION",
-      "reason": "No PR association found in accessible PR history; preserve pending provenance/content review."
+      "classification": "ANCESTOR_OF_MAIN_PENDING_CITATION_CHECK",
+      "reason": "GitHub compare branch->main reports main ahead with behind_by=0; current branch tip is in main ancestry. Ref deletion still requires citation/provenance check."
     },
     {
       "ref": "agent/bpv1-d7-integrated-rereview",
@@ -914,8 +915,8 @@
       "ref": "fix/operator-decision-ci-coverage",
       "tip_sha": "8ae4d4db39a2b299bcfb612ddf38a3f512759454",
       "github_protected": false,
-      "classification": "KEEP_PR_ASSOCIATED_TIP_DRIFT",
-      "reason": "Branch has PR association (#158) but current tip does not exactly match a recorded PR head; preserve pending review."
+      "classification": "ANCESTOR_OF_MAIN_PENDING_CITATION_CHECK",
+      "reason": "GitHub compare branch->main reports main ahead with behind_by=0; current branch tip is in main ancestry. Ref deletion still requires citation/provenance check."
     },
     {
       "ref": "fix/restore-verified-adr0028-notion-8of8",
@@ -935,8 +936,8 @@
       "ref": "repair/world-epistemic-boundaries",
       "tip_sha": "b942fbb27240c7dac0f41f013c6e6869b9d8fb5d",
       "github_protected": false,
-      "classification": "UNKNOWN_NO_PR_ASSOCIATION",
-      "reason": "No PR association found in accessible PR history; preserve pending provenance/content review."
+      "classification": "ANCESTOR_OF_MAIN_PENDING_CITATION_CHECK",
+      "reason": "GitHub compare branch->main reports main ahead with behind_by=0; current branch tip is in main ancestry. Ref deletion still requires citation/provenance check."
     },
     {
       "ref": "research/h11-execution-admission-blocked",
@@ -1013,6 +1014,7 @@
   "method": {
     "pr_association": "GitHub REST pull-request history; exact current tip SHA match required for merged/closed-unmerged classification.",
     "deletion_rule": "No classification in this snapshot authorizes deletion. MERGED_PR_HEAD_PENDING_CITATION_CHECK still requires citation/provenance/content review.",
-    "squash_rule": "Commit ancestry alone is not treated as content-equivalence or deletion proof."
+    "squash_rule": "Commit ancestry alone is not treated as content-equivalence or deletion proof.",
+    "ancestry_rule": "branch->main compare with status=ahead and behind_by=0 is recorded as ancestor-of-main evidence only; it is not deletion authority."
   }
 }
