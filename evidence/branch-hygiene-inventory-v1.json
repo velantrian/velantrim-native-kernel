@@ -13,10 +13,11 @@
     "auto_delete_authorized": false
   },
   "classification_counts": {
-    "UNKNOWN_PENDING_EVIDENCE": 130,
+    "UNKNOWN_PENDING_EVIDENCE": 129,
     "KEEP_CLOSED_UNMERGED_REVIEW": 3,
     "KEEP_PROTECTED": 2,
-    "CONTENT_EQUIVALENT_CANDIDATE": 6
+    "CONTENT_EQUIVALENT_CANDIDATE": 6,
+    "KEEP_ACTIVE_AUDIT": 1
   },
   "entries": [
     {
@@ -562,8 +563,8 @@
       "ref": "chore/branch-hygiene-inventory-20260923",
       "tip_sha": "7b938a76de9fd2778a4a08728be047ab7d4f960f",
       "github_protected": false,
-      "classification": "UNKNOWN_PENDING_EVIDENCE",
-      "reason": "No deletion decision without PR association, content-equivalence, evidence-citation, and preservation checks."
+      "classification": "KEEP_ACTIVE_AUDIT",
+      "reason": "Current NK-HYGIENE-01 audit branch; retain until this inventory PR is merged or deliberately closed."
     },
     {
       "ref": "chore/branch-preservation-contract-20260829",
