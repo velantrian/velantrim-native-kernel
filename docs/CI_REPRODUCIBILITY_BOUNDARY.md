@@ -11,7 +11,7 @@ Canon, H11 admission, reducer semantics, or production authorization.
 - Human-readable action release labels remain comments only.
 - Workflow runners use the explicit `ubuntu-24.04` label instead of `ubuntu-latest`.
 - PostgreSQL CI installs the declared driver without first upgrading pip.
-- The PostgreSQL CI driver is version-pinned.
+- PostgreSQL CI execution commands pin the driver to `psycopg[binary]==3.3.2` without changing the profile dependency contract.
 - `tools/ci/check_ci_reproducibility.py` fails closed on mutable action refs,
   `ubuntu-latest`, and workflow-level pip self-upgrade.
 
