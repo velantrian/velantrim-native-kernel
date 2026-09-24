@@ -284,5 +284,8 @@ jobs:
       - name: Validate bilingual documentation parity
         run: python tools/docs/validate_bilingual_parity.py --repo .
 
+      - name: Validate bilingual documentation coverage inventory
+        run: python tools/docs/validate_bilingual_coverage.py
+
       - name: Validate BPV-1 bilingual preregistration parity
         run: python tools/docs/validate_bilingual_parity.py --repo . --config tools/docs/bpv1-bilingual-pair-v1.json

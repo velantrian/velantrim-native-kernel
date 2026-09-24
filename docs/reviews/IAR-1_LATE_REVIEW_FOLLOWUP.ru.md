@@ -1,7 +1,7 @@
 # IAR-1 — Follow-up позднего review
 
 > **Record identity:** `nk-independent-architecture-review/IAR-1-late-followup-1`  
-> **Status:** `CORRECTIVE FOLLOW-UP ACTIVE`  
+> **Status:** `COMPLETED / HISTORICAL RECORD`  
 > **Parent review:** `IAR-1`  
 > **Parent reconciliation:** `IAR-1-R1`  
 > **Parent merge:** `845f2c8e9322c5353f9d6b421e44d1da71b82f58`  
@@ -67,4 +67,4 @@
 - Final Canon;
 - maturity или production promotion.
 
-Current next gate остаётся `BPV1_PLAN_AND_PREREGISTRATION`, а runtime expansion — `FROZEN`.
+На момент этого исторического follow-up следующим gate был `BPV1_PLAN_AND_PREREGISTRATION`. Этот gate и последующие стадии BPV1 позже завершились в своих зафиксированных границах. Текущий gate нужно определять через `project-state.json` и `docs/ai/CURRENT_STATE.md`. Runtime expansion остаётся `FROZEN`.

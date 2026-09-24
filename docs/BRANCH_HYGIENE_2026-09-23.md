@@ -54,3 +54,20 @@ requires a separate owner action before branch deletion.
 For the other 117 candidates, exact ref-name code search on the default branch
 returned no match. This is bounded search evidence, not proof of global absence.
 They still require final provenance review and explicit deletion authority.
+
+
+## Semantic review follow-up — 2026-09-24
+
+The nine `KEEP_UNMERGED_UNIQUE_DELTA` refs were reviewed against current main.
+None should be merged wholesale.
+
+Their bounded dispositions are recorded in
+`evidence/branch-semantic-disposition-v1.json`:
+
+- stale code / validator drafts that are superseded by stronger main remediation;
+- historical audit snapshots that remain provenance, not current truth;
+- closed research proposals that must not be silently promoted;
+- one documentation-audit branch whose still-live findings were revalidated and
+  selectively remediated rather than importing the stale audit snapshot.
+
+This semantic review still does **not** authorize branch deletion.

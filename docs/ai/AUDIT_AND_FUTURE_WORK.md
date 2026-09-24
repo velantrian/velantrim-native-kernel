@@ -190,27 +190,24 @@ Never reconstruct approximate code/tests and label them authentic.
 #### Exit criteria
 Authentic artifacts are admitted with provenance, or the operator makes an explicit decision about the failure branch.
 
-### NK-FW-004 — Reducer referential semantics / ADR-0024 boundary
+### NK-FW-004 — Reducer referential semantics / ADR-0024 implementation boundary
 
-**State:** `NEEDS_ARCHITECTURE_DECISION`  
+**State:** `DECISION_COMPLETE / IMPLEMENTATION_NOT_AUTHORIZED`  
 **Priority:** `P1`  
 **Implementation authorized:** `NO`  
-**Known issue:** #74
+**Known issue:** #74 `CLOSED / COMPLETED`
 
-#### Question
-Should a future reducer/policy version add stricter referential validation, and under what versioned semantic contract?
+#### Decision already established
+ADR-0024 is `ACCEPTED / OPERATOR APPROVED / ACCEPT_WITH_CHANGES`. Reducer v1 remains an immutable historical contract; existing P1–C5 evidence remains reducer-v1-bounded; reducer-v2 implementation is `NOT_STARTED` and reducer-v2 runtime is `NOT_AUTHORIZED`.
 
-#### Existing evidence
-Reducer v1 intentionally remains historical evidence and must not be modified in place.
-
-#### Required audit
-Reproduce the exact current referential gap, preserve v1 semantics, and identify candidate version/policy boundaries.
+#### Remaining work
+No architecture decision is currently missing. A future reducer-v2 implementation requires a **separate explicit implementation authorization**, versioned semantics, new fixtures/evidence identity, and no reinterpretation of reducer-v1 history.
 
 #### Non-goals
-No in-place reducer-v1 semantic rewrite.
+No in-place reducer-v1 semantic rewrite. No silent v1→v2 migration. No inference that ADR acceptance authorizes runtime.
 
 #### Exit criteria
-Explicit operator architecture/policy decision with acceptance criteria before implementation.
+A separate future authorization explicitly admits a bounded reducer-v2 implementation/evidence cycle, or the item remains intentionally not started.
 
 ### NK-FW-005 — License / contribution regime
 

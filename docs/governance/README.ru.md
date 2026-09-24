@@ -9,7 +9,7 @@
 | Решение | Issue | Состояние | Пакет |
 |---|---:|---|---|
 | License и publication terms | #18 | `PENDING_OPERATOR` | [`LICENSE_PUBLICATION_DECISION_OPTIONS.ru.md`](./LICENSE_PUBLICATION_DECISION_OPTIONS.ru.md) |
-| ADR-0024 reducer referential semantics | #74 | `PENDING_OPERATOR` | [`../adr/0024-operator-decision-package.ru.md`](../adr/0024-operator-decision-package.ru.md) |
+| ADR-0024 reducer referential semantics | #74 | `OPERATOR_APPROVED / ACCEPT_WITH_CHANGES` | [`../adr/0024-operator-decision-package.ru.md`](../adr/0024-operator-decision-package.ru.md) |
 
 Машиночитаемое состояние:
 
@@ -21,14 +21,14 @@
 license selected:             NO
 external contributions open: NO
 package publication allowed: NO
-ADR-0024 accepted:            NO
+ADR-0024 accepted:            YES / ACCEPT_WITH_CHANGES
 reducer-v2 runtime allowed:   NO
 production authorized:        NO
 ```
 
 ## Правило решения
 
-Только explicit operator decision может заменить `PENDING_OPERATOR`. Финальное решение должно указывать точный scope, rationale, effective checkpoint и необходимые follow-up PRs.
+Только explicit operator decision может заменить `PENDING_OPERATOR`. ADR-0024 уже прошёл этот gate как `ACCEPT_WITH_CHANGES`; Issue #18 остаётся pending. Любое будущее решение должно указывать точный scope, rationale, effective checkpoint и необходимые follow-up PRs.
 
 ```text
 decision package

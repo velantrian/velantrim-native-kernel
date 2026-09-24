@@ -16,6 +16,8 @@ ADR_RU = Path("docs/adr/0024-operator-decision-package.ru.md")
 ADR_NORMATIVE = Path("docs/adr/0024-version-reducer-referential-semantics.md")
 PROJECT_STATE = Path("project-state.json")
 CURRENT_STATE = Path("docs/ai/CURRENT_STATE.md")
+GOVERNANCE_EN = Path("docs/governance/README.md")
+GOVERNANCE_RU = Path("docs/governance/README.ru.md")
 ADR0024_OPERATOR_DECISION_REF = "issue-74-operator-decision-2026-08-22"
 ADR0024_DECISION_BLOCK = "ADR-0024: ACCEPT_WITH_CHANGES\nreducer v1: IMMUTABLE HISTORICAL CONTRACT\nreducer-v2 runtime: NOT AUTHORIZED"
 ADR0024_DECISION_BLOCK_SHA256 = hashlib.sha256(ADR0024_DECISION_BLOCK.encode("utf-8")).hexdigest()
@@ -100,6 +102,8 @@ def validate(repo: Path) -> None:
     adr_ru = _read(repo / ADR_RU)
     normative = _read(repo / ADR_NORMATIVE)
     current_state = _read(repo / CURRENT_STATE)
+    governance_en = _read(repo / GOVERNANCE_EN)
+    governance_ru = _read(repo / GOVERNANCE_RU)
     project_state = _load_json(repo / PROJECT_STATE)
 
     for text, label in ((license_en, "English license package"), (license_ru, "Russian license package")):
@@ -147,6 +151,11 @@ def validate(repo: Path) -> None:
         "NOT_AUTHORIZED",
     ):
         _require(marker in issue74_meaning, f"Issue #74 current-truth boundary drift: {marker}")
+
+    for text, label in ((governance_en, "English governance README"), (governance_ru, "Russian governance README")):
+        _require("OPERATOR_APPROVED / ACCEPT_WITH_CHANGES" in text, f"{label} ADR-0024 approved state missing")
+        _require("ADR-0024 accepted:            YES / ACCEPT_WITH_CHANGES" in text, f"{label} ADR-0024 accepted effect missing")
+        _require("ADR-0024 reducer referential semantics | #74 | `PENDING_OPERATOR`" not in text, f"{label} stale ADR-0024 pending state remains")
 
     for marker in (
         "adr_0024: ACCEPTED / ACCEPT_WITH_CHANGES",
