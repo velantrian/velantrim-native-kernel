@@ -9,7 +9,7 @@ This directory contains decision packages and machine-readable pending-decision 
 | Decision | Issue | State | Package |
 |---|---:|---|---|
 | License and publication terms | #18 | `PENDING_OPERATOR` | [`LICENSE_PUBLICATION_DECISION_OPTIONS.md`](./LICENSE_PUBLICATION_DECISION_OPTIONS.md) |
-| ADR-0024 reducer referential semantics | #74 | `PENDING_OPERATOR` | [`../adr/0024-operator-decision-package.md`](../adr/0024-operator-decision-package.md) |
+| ADR-0024 reducer referential semantics | #74 | `OPERATOR_APPROVED / ACCEPT_WITH_CHANGES` | [`../adr/0024-operator-decision-package.md`](../adr/0024-operator-decision-package.md) |
 
 Machine-readable state:
 
@@ -21,14 +21,14 @@ Machine-readable state:
 license selected:             NO
 external contributions open: NO
 package publication allowed: NO
-ADR-0024 accepted:            NO
+ADR-0024 accepted:            YES / ACCEPT_WITH_CHANGES
 reducer-v2 runtime allowed:   NO
 production authorized:        NO
 ```
 
 ## Decision rule
 
-Only an explicit operator decision may replace `PENDING_OPERATOR`. The resulting decision must identify its exact scope, rationale, effective checkpoint and required follow-up PRs.
+Only an explicit operator decision may replace `PENDING_OPERATOR`. ADR-0024 has already passed that gate as `ACCEPT_WITH_CHANGES`; Issue #18 remains pending. Any future decision must identify its exact scope, rationale, effective checkpoint and required follow-up PRs.
 
 ```text
 decision package
