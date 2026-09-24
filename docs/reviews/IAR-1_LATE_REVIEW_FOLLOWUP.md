@@ -1,7 +1,7 @@
 # IAR-1 Late Review Follow-up
 
 > **Record identity:** `nk-independent-architecture-review/IAR-1-late-followup-1`  
-> **Status:** `CORRECTIVE FOLLOW-UP ACTIVE`  
+> **Status:** `COMPLETED / HISTORICAL RECORD`  
 > **Parent review:** `IAR-1`  
 > **Parent reconciliation:** `IAR-1-R1`  
 > **Parent merge:** `845f2c8e9322c5353f9d6b421e44d1da71b82f58`  
@@ -67,4 +67,4 @@ This corrective follow-up does **not** authorize:
 - Final Canon;
 - maturity or production promotion.
 
-Current next gate remains `BPV1_PLAN_AND_PREREGISTRATION`, and runtime expansion remains `FROZEN`.
+At the time of this historical follow-up, the next gate was `BPV1_PLAN_AND_PREREGISTRATION`. That gate and later BPV1 stages subsequently completed for their recorded scope. Resolve the current gate through `project-state.json` and `docs/ai/CURRENT_STATE.md`. Runtime expansion remains `FROZEN`.
