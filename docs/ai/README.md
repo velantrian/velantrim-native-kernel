@@ -27,6 +27,8 @@ This directory is the mandatory continuity surface for AI agents, auditors and m
 15. [`../../README.md`](../../README.md), [`../../STATUS.md`](../../STATUS.md) and [`../../ROADMAP.md`](../../ROADMAP.md) for human orientation and chronology.
 16. Affected contracts, ADRs, runtime/tests/evidence, live PRs/issues/Actions/reviews, and corresponding existing Notion pages when synchronization is part of the task.
 
+Supplemental process references (not higher authority than the order above): [`DOCUMENTATION_STANDARD.md`](DOCUMENTATION_STANDARD.md) for documentation-role/sync rules and [`AUDIT_PLAYBOOK.md`](AUDIT_PLAYBOOK.md) for bounded audit procedure.
+
 Do not start from a handoff alone. Do not treat an older human/history `NEXT` marker as current authority without reconciling it against live GitHub and machine/current-state surfaces.
 
 The future-work ledger is a navigation and audit surface only. `future-work entry != implementation authorization`, `priority != authorization`, and the ledger never auto-selects the next milestone.
