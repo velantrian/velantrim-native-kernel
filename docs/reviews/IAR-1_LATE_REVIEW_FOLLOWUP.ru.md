@@ -1,7 +1,7 @@
 # IAR-1 — Follow-up позднего review
 
 > **Record identity:** `nk-independent-architecture-review/IAR-1-late-followup-1`  
-> **Status:** `CORRECTIVE FOLLOW-UP ACTIVE`  
+> **Status:** `COMPLETED / HISTORICAL RECORD`  
 > **Parent review:** `IAR-1`  
 > **Parent reconciliation:** `IAR-1-R1`  
 > **Parent merge:** `845f2c8e9322c5353f9d6b421e44d1da71b82f58`  
