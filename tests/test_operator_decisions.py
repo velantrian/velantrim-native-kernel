@@ -28,6 +28,8 @@ class OperatorDecisionTests(unittest.TestCase):
             module.ADR_NORMATIVE,
             module.PROJECT_STATE,
             module.CURRENT_STATE,
+            module.GOVERNANCE_EN,
+            module.GOVERNANCE_RU,
         ):
             source = ROOT / rel
             target = directory / rel
@@ -139,6 +141,20 @@ class OperatorDecisionTests(unittest.TestCase):
             h11["production_authorized"] = True
             path.write_text(json.dumps(state), encoding="utf-8")
             with self.assertRaisesRegex(module.OperatorDecisionError, "production authorization drift"):
+                module.validate(repo)
+
+    def test_stale_governance_readme_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as temp:
+            repo = Path(temp)
+            self._copy_fixture(repo)
+            path = repo / module.GOVERNANCE_EN
+            text = path.read_text(encoding="utf-8").replace(
+                "OPERATOR_APPROVED / ACCEPT_WITH_CHANGES",
+                "PENDING_OPERATOR",
+                1,
+            )
+            path.write_text(text, encoding="utf-8")
+            with self.assertRaisesRegex(module.OperatorDecisionError, "approved state missing"):
                 module.validate(repo)
 
 
