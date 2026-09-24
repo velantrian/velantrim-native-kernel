@@ -67,4 +67,4 @@
 - Final Canon;
 - maturity или production promotion.
 
-Current next gate остаётся `BPV1_PLAN_AND_PREREGISTRATION`, а runtime expansion — `FROZEN`.
+На момент этого исторического follow-up следующим gate был `BPV1_PLAN_AND_PREREGISTRATION`. Этот gate и последующие стадии BPV1 позже завершились в своих зафиксированных границах. Текущий gate нужно определять через `project-state.json` и `docs/ai/CURRENT_STATE.md`. Runtime expansion остаётся `FROZEN`.
