@@ -41,3 +41,15 @@ PASS
 The registry is intentionally explicit. Adding a pair or obligation changes the validation scope and must be reviewed like any other policy-bearing tooling change.
 
 Legacy pairs may use bounded marker checks without heading-outline equality until their structures have been independently reconciled. The validator never computes a translation score or length ratio.
+
+
+## Coverage inventory
+
+`bilingual-coverage-v1.json` inventories every committed `*.ru.md` document.
+`validate_bilingual_coverage.py` fails closed if a Russian document is neither:
+
+- bound to an existing parity configuration; nor
+- explicitly recorded as currently unvalidated with a reason.
+
+This is coverage accounting only. It does not certify translation quality,
+semantic equivalence, legal equivalence, Canon, runtime, or production.
