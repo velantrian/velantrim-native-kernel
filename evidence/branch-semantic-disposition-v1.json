@@ -1,0 +1,79 @@
+{
+  "protocol": "nk-branch-semantic-disposition/1",
+  "status": "BOUNDED_SEMANTIC_REVIEW_NO_DELETION_AUTHORITY",
+  "reviewed_against_main": "47d881461bc59e2bb000e0b7c040d9e5ab430f63",
+  "authority_boundary": {
+    "branch_deletion_authorized": false,
+    "auto_delete_authorized": false,
+    "runtime_authorized": false,
+    "canon_authorized": false,
+    "h11_outcome_changed": false,
+    "production_authorized": false
+  },
+  "dispositions": [
+    {
+      "ref": "agent/cognitive-os-relations",
+      "tip_sha": "d9aeb1cf3354df53225848764967abe4af2bd0db",
+      "disposition": "PRESERVE_CLOSED_RESEARCH_PROPOSAL",
+      "merge_whole_branch": false,
+      "rationale": "PR #149 was deliberately closed unmerged. Its Cognitive OS relationship note is an optional external-research link, not current Native Kernel authority. Current ecosystem/integration documents already enforce the broader cross-project authority boundary."
+    },
+    {
+      "ref": "agent/pr87-delayed-review-followups",
+      "tip_sha": "705c4a38620a188eeaa3fa428fbcc83adb983b82",
+      "disposition": "SUPERSEDED_BY_STRONGER_MAIN_VALIDATION",
+      "merge_whole_branch": false,
+      "rationale": "PR #90 closed after main advanced. Its reconciliation-validator direction was subsequently replaced by the current layered/runpy validation stack and later fail-closed regression work. Merging it would reintroduce stale current-state assumptions."
+    },
+    {
+      "ref": "claude/audit-relationships-6866cw",
+      "tip_sha": "cbd7960e0a8162f87f97090d1a879b476284af2c",
+      "disposition": "PRESERVE_HISTORICAL_RESEARCH_PROPOSAL",
+      "merge_whole_branch": false,
+      "rationale": "Contains a proposed Mentaury Soul external-input ADR named 0010, which now collides with the accepted current ADR-0010 foundational-contract-families identity. Current integration boundaries already preserve project independence. Do not merge or renumber this historical proposal implicitly."
+    },
+    {
+      "ref": "claude/documentation-analysis-owkx58",
+      "tip_sha": "f603f01512d8c4413a4add8a8e336fe67963aa40",
+      "disposition": "LIVE_FINDINGS_REVALIDATED_AND_EXTRACTED",
+      "merge_whole_branch": false,
+      "rationale": "Historical 2026-08-23 documentation audit. Current revalidation found a subset of live hygiene defects; this remediation extracts only those still true instead of importing the stale audit snapshot."
+    },
+    {
+      "ref": "claude/titan-native-kernel-audit-egbygd",
+      "tip_sha": "81a5692411d50011321c7bee671cf243ee18c789",
+      "disposition": "PRESERVE_HISTORICAL_CROSS_REPO_AUDIT",
+      "merge_whole_branch": false,
+      "rationale": "Large dated Titan/Native Kernel audit bound to old repository checkpoints. Useful as historical research provenance, unsafe as current truth."
+    },
+    {
+      "ref": "claude/velantrim-native-kernel-audit-18id3g",
+      "tip_sha": "e88d04d2771a7cd75b257bed8d194999397812d5",
+      "disposition": "SUPERSEDED_BY_MAIN_REMEDIATION",
+      "merge_whole_branch": false,
+      "rationale": "Its validator-CLI and BPV1 hardening concerns were subsequently implemented more strongly on main through PR #182/#185-era remediation. Current tests include the stronger runpy/no-exec regression surface; one compared BPV1 subject test blob is already identical."
+    },
+    {
+      "ref": "cursor/audit-2026-09-08-82b1",
+      "tip_sha": "75ceef3b2e2ebc896699664dead8c25ea3701e13",
+      "disposition": "PRESERVE_STALE_HISTORICAL_AUDIT",
+      "merge_whole_branch": false,
+      "rationale": "PR #181 was deliberately closed unmerged as a dated audit superseded by later fixes. Preserve as provenance only; findings require fresh revalidation before action."
+    },
+    {
+      "ref": "docs/readme-deep-explanation",
+      "tip_sha": "85163c460faef85ce1b04f7d7a281f80c29e14c9",
+      "disposition": "SUPERSEDED_STALE_README_DRAFT",
+      "merge_whole_branch": false,
+      "rationale": "Closed-unmerged PR #4 contains an early README model tied to DOCUMENTED_ONLY/prototype-import assumptions that no longer describe current main. Do not merge."
+    },
+    {
+      "ref": "docs/readme-visual-polish",
+      "tip_sha": "a8f147a444c8f1846f6aaf2a4421eaaeb40f80a8",
+      "disposition": "SUPERSEDED_STALE_README_AND_AGENT_GUIDANCE_DRAFT",
+      "merge_whole_branch": false,
+      "rationale": "Unique delta is an early README/Copilot-instructions draft. Current main has later architecture, H11, governance and evidence boundaries; merging this branch would regress current truth."
+    }
+  ],
+  "deletion_rule": "Semantic disposition is not ref-deletion authority. Historical/proposal refs remain preserved until an explicit archive/deletion policy and owner action say otherwise."
+}
