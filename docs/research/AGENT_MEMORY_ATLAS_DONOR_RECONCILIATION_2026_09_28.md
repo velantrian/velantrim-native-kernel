@@ -8,10 +8,10 @@ Source: https://neoneye.github.io/agent-memory-atlas/
 
 Record the narrow residual questions raised by Agent Memory Atlas **after** checking existing Velantrim coverage, without treating an external survey/pattern catalog as architecture authority.
 
-This is **not** the first Agent Memory Atlas intake into Velantrim, and it is **not** a new multi-principle package.
+This reconciliation builds on prior Atlas-related / pre-existing overlapping coverage, and it is **not** a new multi-principle package.
 
 ```text
-NEW ATLAS RECONCILIATION != FIRST ATLAS INTAKE INTO VELANTRIM
+NEW ATLAS RECONCILIATION != FIRST ATLAS-RELATED COVERAGE IN VELANTRIM
 THIS NOTE RECORDS ONLY RESIDUAL QUESTIONS BEYOND EXISTING COVERAGE.
 ```
 
