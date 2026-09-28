@@ -15,7 +15,7 @@ NEW ATLAS RECONCILIATION != FIRST ATLAS INTAKE INTO VELANTRIM
 THIS NOTE RECORDS ONLY RESIDUAL QUESTIONS BEYOND EXISTING COVERAGE.
 ```
 
-## Existing Velantrim coverage / prior intake
+## Existing Velantrim coverage / prior Atlas-related / pre-existing overlapping coverage
 
 | Surface | Existing coverage relevant to this donor |
 |---|---|
