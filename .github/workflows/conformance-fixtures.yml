@@ -54,7 +54,7 @@ jobs:
       - run: python -m unittest discover -s tests -p 'test_profile_manifest.py'
       - run: python tools/conformance/runner.py validate --output conformance-evidence.json
       - run: python tools/profiles/validate_manifest.py --output profile-manifest-evidence.json
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
           name: conformance-evidence-python-${{ matrix.python-version }}
           path: |

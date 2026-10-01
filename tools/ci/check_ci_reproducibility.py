@@ -10,8 +10,8 @@ import re
 from pathlib import Path
 
 WORKFLOWS = Path(".github/workflows")
-FULL_SHA_USE = re.compile(r"^\s*uses:\s*[^#\s]+@[0-9a-f]{40}(?:\s+#.*)?$", re.MULTILINE)
-USE_LINE = re.compile(r"^\s*uses:\s*([^#\s]+)@([^\s#]+)", re.MULTILINE)
+FULL_SHA_USE = re.compile(r"^\s*(?:-\s*)?uses:\s*[^#\s]+@[0-9a-f]{40}(?:\s+#.*)?$", re.MULTILINE)
+USE_LINE = re.compile(r"^\s*(?:-\s*)?uses:\s*([^#\s]+)@([^\s#]+)", re.MULTILINE)
 FORBIDDEN = (
     "runs-on: ubuntu-latest",
     "python -m pip install --upgrade pip",
