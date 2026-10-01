@@ -45,7 +45,9 @@ Legacy pairs may use bounded marker checks without heading-outline equality unti
 
 ## Coverage inventory
 
-`bilingual-coverage-v1.json` inventories every committed `*.ru.md` document.
+`bilingual-coverage-v1.json` inventories every committed `*.ru.md` document from
+the `HEAD` tree, not from a recursive working-tree scan. Ignored, untracked and
+staged-but-uncommitted Markdown files are outside that committed inventory.
 `validate_bilingual_coverage.py` fails closed if a Russian document is neither:
 
 - bound to an existing parity configuration; nor
