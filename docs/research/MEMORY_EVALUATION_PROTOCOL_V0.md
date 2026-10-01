@@ -173,6 +173,8 @@ This protocol may compose with independent stress profiles for:
 - valid-time vs knowledge/record-time behavior;
 - long-horizon recall and multi-hop retrieval.
 
+Documentation-only examples for the temporal and logical no-resurrection profiles are in [Memory Evaluation: Temporal and Logical No-Resurrection Specimens v0](MEMORY_EVALUATION_TEMPORAL_AND_NO_RESURRECTION_SPECIMENS_V0.md).
+
 Composing a benchmark does not grant that benchmark authority over system truth or Canon.
 
 ## 11. Efficiency reporting
