@@ -30,19 +30,27 @@ records:
     status: ARCHIVED
     effective_from: 2026-06-01
     record_time: 2026-02-10T09:00:00Z
+relations:
+  - type: supersedes
+    successor: correction-suspended-1
+    predecessor: fact-active-1
+    valid_time: [2026-02-01, 2026-02-20)
+    scope: fixture-local
 ```
 
 The three predicates are separate. `record_time <= cutoff` selects what was retained by the record-time cutoff; `valid_time contains date` selects the represented valid-time position. Exact timestamps make the record cutoffs explicit for this fixture.
 
+The `supersedes` relation is fixture-local: `correction-suspended-1` overrides `fact-active-1` only within `[2026-02-01, 2026-02-20)`. When both records are selected and the queried valid date is in that interval, the correction determines the represented status; this is not a universal priority rule or a new schema/API.
+
 | Query | Predicate and cutoff | Expected result |
 |---|---|---|
 | (a) What was known then? | `record_time <= 2026-02-15T23:59:59Z` and `valid_time contains 2026-02-15` | `ACTIVE`; the late correction is not yet in the selected record set. |
-| (b) What is now known about that past date? | `record_time <= 2026-03-02T23:59:59Z` and `valid_time contains 2026-02-15` | `SUSPENDED`; the scoped late correction is now included. |
+| (b) What is now known about that past date? | `record_time <= 2026-03-02T23:59:59Z` and `valid_time contains 2026-02-15` | `SUSPENDED`; the scoped late correction is now included and supersedes the overlapping `ACTIVE` record. |
 | (c) What valid-time position is represented for an earlier date? | `record_time <= 2026-03-02T23:59:59Z` and `valid_time contains 2026-01-15` | `ACTIVE`. This is the fixture's latest represented position for that date, not a claim of truth beyond its records. |
 
 The `ARCHIVED` entry remains a `PLAN`, not a fact. With the latest record cutoff above, a factual-status query for valid date `2026-06-01` returns `UNKNOWN`; a separate plan query may report `ARCHIVED` as planned. The fixture does not infer that the plan occurred.
 
-**Oracle.** `PASS` means the three results remain distinct as specified, the plan remains a plan, and factual status on the future date is `UNKNOWN`. `FAIL` means the record cutoff and retrospective/valid-time results collapse together, or the plan is returned as an established fact. `UNKNOWN` means a cutoff, interval, lineage, or fact-versus-plan distinction cannot be resolved, or the fixture is not executed. These are expected adjudication semantics only.
+**Oracle.** `PASS` means query (a) returns `ACTIVE`, query (b) returns `SUSPENDED` under the fixture-local scoped `supersedes` relation, query (c) returns `ACTIVE`, the plan remains a plan, and factual status on the future date is `UNKNOWN`. `FAIL` means the record cutoff and retrospective/valid-time results collapse together, the scoped supersession is not applied, or the plan is returned as an established fact. `UNKNOWN` means a cutoff, interval, lineage, or fact-versus-plan distinction cannot be resolved, or the fixture is not executed. These are expected adjudication semantics only.
 
 ## H06 logical no-resurrection specimen
 
