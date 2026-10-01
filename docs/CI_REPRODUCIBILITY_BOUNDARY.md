@@ -13,7 +13,7 @@ Canon, H11 admission, reducer semantics, or production authorization.
 - PostgreSQL CI installs the declared driver without first upgrading pip.
 - PostgreSQL CI execution commands pin the driver to `psycopg[binary]==3.3.2` without changing the profile dependency contract.
 - `tools/ci/check_ci_reproducibility.py` fails closed on mutable action refs,
-  `ubuntu-latest`, and workflow-level pip self-upgrade.
+  including ordinary YAML list-step form (`- uses:`), `ubuntu-latest`, and workflow-level pip self-upgrade.
 
 ## Explicitly not proven
 
