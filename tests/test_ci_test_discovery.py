@@ -14,6 +14,7 @@ from tools.ci.check_test_discovery import (
     parse_pull_request_paths,
     parse_unittest_invocations,
 )
+from tools.ci.check_ci_reproducibility import validate as validate_ci_reproducibility
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -128,6 +129,38 @@ class DiscoveryAuditFixtureTests(unittest.TestCase):
                       - run: python -m unittest discover -s tests -v
             """)
             self.assertEqual(audit_test_discovery(root), [])
+
+
+class CIReproducibilityGuardTests(unittest.TestCase):
+    def _write_workflow(self, root: Path, body: str) -> None:
+        workflows = root / ".github" / "workflows"
+        workflows.mkdir(parents=True)
+        (workflows / "ci.yml").write_text(textwrap.dedent(body).lstrip() + "\n", encoding="utf-8")
+
+    def test_list_form_mutable_action_ref_is_rejected(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            self._write_workflow(root, """
+                jobs:
+                  x:
+                    runs-on: ubuntu-24.04
+                    steps:
+                      - uses: actions/upload-artifact@v4
+            """)
+            gaps = validate_ci_reproducibility(root)
+            self.assertTrue(any("mutable/non-SHA action reference" in gap for gap in gaps), gaps)
+
+    def test_list_form_full_sha_action_ref_is_accepted(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            self._write_workflow(root, """
+                jobs:
+                  x:
+                    runs-on: ubuntu-24.04
+                    steps:
+                      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+            """)
+            self.assertEqual(validate_ci_reproducibility(root), [])
 
 
 class LiveRepositoryDiscoveryTests(unittest.TestCase):
