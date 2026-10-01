@@ -9,8 +9,8 @@
   },
   "counts": {
     "russian_documents": 43,
-    "validated_by_config": 19,
-    "explicitly_unvalidated": 24
+    "validated_by_config": 43,
+    "explicitly_unvalidated": 0
   },
   "validated": [
     {
@@ -107,104 +107,127 @@
       "path": "docs/research/BPV1_PREREGISTRATION.ru.md",
       "config": "tools/docs/bpv1-bilingual-pair-v1.json",
       "pair_id": "bpv1-preregistration"
-    }
-  ],
-  "explicitly_unvalidated": [
+    },
     {
       "path": "PROJECT_OVERVIEW.ru.md",
-      "reason": "Not currently registered in a bounded parity configuration; existence is inventoried so coverage debt cannot remain hidden."
+      "config": "tools/docs/bilingual-pairs-v1.json",
+      "pair_id": "coverage-project-overview"
     },
     {
       "path": "docs/COMPARISONS.ru.md",
-      "reason": "Not currently registered in a bounded parity configuration; existence is inventoried so coverage debt cannot remain hidden."
+      "config": "tools/docs/bilingual-pairs-v1.json",
+      "pair_id": "coverage-docs-comparisons"
     },
     {
       "path": "docs/FOUNDATIONAL_CONTRACT_SKELETON.ru.md",
-      "reason": "Not currently registered in a bounded parity configuration; existence is inventoried so coverage debt cannot remain hidden."
+      "config": "tools/docs/bilingual-pairs-v1.json",
+      "pair_id": "coverage-docs-foundational-contract-skeleton"
     },
     {
       "path": "docs/FOUNDATIONAL_INTENT.ru.md",
-      "reason": "Not currently registered in a bounded parity configuration; existence is inventoried so coverage debt cannot remain hidden."
+      "config": "tools/docs/bilingual-pairs-v1.json",
+      "pair_id": "coverage-docs-foundational-intent"
     },
     {
       "path": "docs/INTEGRATED_A1_A10_REVIEW.ru.md",
-      "reason": "Not currently registered in a bounded parity configuration; existence is inventoried so coverage debt cannot remain hidden."
+      "config": "tools/docs/bilingual-pairs-v1.json",
+      "pair_id": "coverage-docs-integrated-a1-a10-review"
     },
     {
       "path": "docs/ISSUE_1_IMPORT_SPEC.ru.md",
-      "reason": "Not currently registered in a bounded parity configuration; existence is inventoried so coverage debt cannot remain hidden."
+      "config": "tools/docs/bilingual-pairs-v1.json",
+      "pair_id": "coverage-docs-issue-1-import-spec"
     },
     {
       "path": "docs/adr/0024-operator-decision-package.ru.md",
-      "reason": "Not currently registered in a bounded parity configuration; existence is inventoried so coverage debt cannot remain hidden."
+      "config": "tools/docs/bilingual-pairs-v1.json",
+      "pair_id": "coverage-docs-adr-0024-operator-decision-package"
     },
     {
       "path": "docs/contracts/NORMATIVE_CONTRACTS_V1.ru.md",
-      "reason": "Not currently registered in a bounded parity configuration; existence is inventoried so coverage debt cannot remain hidden."
+      "config": "tools/docs/bilingual-pairs-v1.json",
+      "pair_id": "coverage-docs-contracts-normative-contracts-v1"
     },
     {
       "path": "docs/governance/LICENSE_PUBLICATION_DECISION_OPTIONS.ru.md",
-      "reason": "Not currently registered in a bounded parity configuration; existence is inventoried so coverage debt cannot remain hidden."
+      "config": "tools/docs/bilingual-pairs-v1.json",
+      "pair_id": "coverage-docs-governance-license-publication-decision-options"
     },
     {
       "path": "docs/governance/README.ru.md",
-      "reason": "Not currently registered in a bounded parity configuration; existence is inventoried so coverage debt cannot remain hidden."
+      "config": "tools/docs/bilingual-pairs-v1.json",
+      "pair_id": "coverage-docs-governance-readme"
     },
     {
       "path": "docs/research/BIO_INSPIRED_COMPUTATION_AND_KITARA.ru.md",
-      "reason": "Not currently registered in a bounded parity configuration; existence is inventoried so coverage debt cannot remain hidden."
+      "config": "tools/docs/bilingual-pairs-v1.json",
+      "pair_id": "coverage-docs-research-bio-inspired-computation-and-kitara"
     },
     {
       "path": "docs/research/BPV1_D5_R1_QUALIFICATION.ru.md",
-      "reason": "Not currently registered in a bounded parity configuration; existence is inventoried so coverage debt cannot remain hidden."
+      "config": "tools/docs/bilingual-pairs-v1.json",
+      "pair_id": "coverage-docs-research-bpv1-d5-r1-qualification"
     },
     {
       "path": "docs/research/BPV1_D6_A10_CLASSIFICATION.ru.md",
-      "reason": "Not currently registered in a bounded parity configuration; existence is inventoried so coverage debt cannot remain hidden."
+      "config": "tools/docs/bilingual-pairs-v1.json",
+      "pair_id": "coverage-docs-research-bpv1-d6-a10-classification"
     },
     {
       "path": "docs/research/BPV1_D7_INTEGRATED_REREVIEW.ru.md",
-      "reason": "Not currently registered in a bounded parity configuration; existence is inventoried so coverage debt cannot remain hidden."
+      "config": "tools/docs/bilingual-pairs-v1.json",
+      "pair_id": "coverage-docs-research-bpv1-d7-integrated-rereview"
     },
     {
       "path": "docs/research/BPV1_D8_CONSOLIDATED_SYNC.ru.md",
-      "reason": "Not currently registered in a bounded parity configuration; existence is inventoried so coverage debt cannot remain hidden."
+      "config": "tools/docs/bilingual-pairs-v1.json",
+      "pair_id": "coverage-docs-research-bpv1-d8-consolidated-sync"
     },
     {
       "path": "docs/research/H11_PREREGISTRATION.ru.md",
-      "reason": "Not currently registered in a bounded parity configuration; existence is inventoried so coverage debt cannot remain hidden."
+      "config": "tools/docs/bilingual-pairs-v1.json",
+      "pair_id": "coverage-docs-research-h11-preregistration"
     },
     {
       "path": "docs/research/PHYSARUM_ROUTING_EXPERIMENT.ru.md",
-      "reason": "Not currently registered in a bounded parity configuration; existence is inventoried so coverage debt cannot remain hidden."
+      "config": "tools/docs/bilingual-pairs-v1.json",
+      "pair_id": "coverage-docs-research-physarum-routing-experiment"
     },
     {
       "path": "docs/research/POST_D8_OPERATOR_DECISION.ru.md",
-      "reason": "Not currently registered in a bounded parity configuration; existence is inventoried so coverage debt cannot remain hidden."
+      "config": "tools/docs/bilingual-pairs-v1.json",
+      "pair_id": "coverage-docs-research-post-d8-operator-decision"
     },
     {
       "path": "docs/research/RESIDUAL_A10_VALIDATION_PLAN.ru.md",
-      "reason": "Not currently registered in a bounded parity configuration; existence is inventoried so coverage debt cannot remain hidden."
+      "config": "tools/docs/bilingual-pairs-v1.json",
+      "pair_id": "coverage-docs-research-residual-a10-validation-plan"
     },
     {
       "path": "docs/reviews/IAR-1_LATE_REVIEW_FOLLOWUP.ru.md",
-      "reason": "Not currently registered in a bounded parity configuration; existence is inventoried so coverage debt cannot remain hidden."
+      "config": "tools/docs/bilingual-pairs-v1.json",
+      "pair_id": "coverage-docs-reviews-iar-1-late-review-followup"
     },
     {
       "path": "docs/reviews/IAR-1_RECONCILIATION.ru.md",
-      "reason": "Not currently registered in a bounded parity configuration; existence is inventoried so coverage debt cannot remain hidden."
+      "config": "tools/docs/bilingual-pairs-v1.json",
+      "pair_id": "coverage-docs-reviews-iar-1-reconciliation"
     },
     {
       "path": "docs/reviews/IAR-1_RESULT.ru.md",
-      "reason": "Not currently registered in a bounded parity configuration; existence is inventoried so coverage debt cannot remain hidden."
+      "config": "tools/docs/bilingual-pairs-v1.json",
+      "pair_id": "coverage-docs-reviews-iar-1-result"
     },
     {
       "path": "docs/rfc/0001-curiosity-core-architecture.ru.md",
-      "reason": "Not currently registered in a bounded parity configuration; existence is inventoried so coverage debt cannot remain hidden."
+      "config": "tools/docs/bilingual-pairs-v1.json",
+      "pair_id": "coverage-docs-rfc-0001-curiosity-core-architecture"
     },
     {
       "path": "docs/rfc/0002-postgresql-reference-profile-v0.ru.md",
-      "reason": "Not currently registered in a bounded parity configuration; existence is inventoried so coverage debt cannot remain hidden."
+      "config": "tools/docs/bilingual-pairs-v1.json",
+      "pair_id": "coverage-docs-rfc-0002-postgresql-reference-profile-v0"
     }
-  ]
+  ],
+  "explicitly_unvalidated": []
 }

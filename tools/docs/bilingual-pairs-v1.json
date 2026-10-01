@@ -187,6 +187,297 @@
       "russian_literals": ["Compute и storage — независимые оси", "Выбор модели, процессора или способа вычисления не должен незаметно выбирать authoritative database."],
       "compare_heading_levels": false,
       "require_single_h1": true
+    },
+    {
+      "pair_id": "coverage-project-overview",
+      "english": "PROJECT_OVERVIEW.md",
+      "russian": "PROJECT_OVERVIEW.ru.md",
+      "selectors": [
+        "(./PROJECT_OVERVIEW.md)",
+        "(./PROJECT_OVERVIEW.ru.md)"
+      ],
+      "shared_literals": [],
+      "english_literals": [],
+      "russian_literals": [],
+      "compare_heading_levels": true,
+      "require_single_h1": true
+    },
+    {
+      "pair_id": "coverage-docs-comparisons",
+      "english": "docs/COMPARISONS.md",
+      "russian": "docs/COMPARISONS.ru.md",
+      "selectors": [],
+      "shared_literals": [],
+      "english_literals": [],
+      "russian_literals": [],
+      "compare_heading_levels": true,
+      "require_single_h1": true
+    },
+    {
+      "pair_id": "coverage-docs-foundational-contract-skeleton",
+      "english": "docs/FOUNDATIONAL_CONTRACT_SKELETON.md",
+      "russian": "docs/FOUNDATIONAL_CONTRACT_SKELETON.ru.md",
+      "selectors": [
+        "(./FOUNDATIONAL_CONTRACT_SKELETON.md)",
+        "(./FOUNDATIONAL_CONTRACT_SKELETON.ru.md)"
+      ],
+      "shared_literals": [],
+      "english_literals": [],
+      "russian_literals": [],
+      "compare_heading_levels": true,
+      "require_single_h1": false
+    },
+    {
+      "pair_id": "coverage-docs-foundational-intent",
+      "english": "docs/FOUNDATIONAL_INTENT.md",
+      "russian": "docs/FOUNDATIONAL_INTENT.ru.md",
+      "selectors": [
+        "(./FOUNDATIONAL_INTENT.md)",
+        "(./FOUNDATIONAL_INTENT.ru.md)"
+      ],
+      "shared_literals": [],
+      "english_literals": [],
+      "russian_literals": [],
+      "compare_heading_levels": true,
+      "require_single_h1": true
+    },
+    {
+      "pair_id": "coverage-docs-integrated-a1-a10-review",
+      "english": "docs/INTEGRATED_A1_A10_REVIEW.md",
+      "russian": "docs/INTEGRATED_A1_A10_REVIEW.ru.md",
+      "selectors": [],
+      "shared_literals": [],
+      "english_literals": [],
+      "russian_literals": [],
+      "compare_heading_levels": true,
+      "require_single_h1": true
+    },
+    {
+      "pair_id": "coverage-docs-issue-1-import-spec",
+      "english": "docs/ISSUE_1_IMPORT_SPEC.md",
+      "russian": "docs/ISSUE_1_IMPORT_SPEC.ru.md",
+      "selectors": [],
+      "shared_literals": [],
+      "english_literals": [],
+      "russian_literals": [],
+      "compare_heading_levels": true,
+      "require_single_h1": true
+    },
+    {
+      "pair_id": "coverage-docs-adr-0024-operator-decision-package",
+      "english": "docs/adr/0024-operator-decision-package.md",
+      "russian": "docs/adr/0024-operator-decision-package.ru.md",
+      "selectors": [
+        "(./0024-operator-decision-package.md)",
+        "(./0024-operator-decision-package.ru.md)"
+      ],
+      "shared_literals": [],
+      "english_literals": [],
+      "russian_literals": [],
+      "compare_heading_levels": true,
+      "require_single_h1": true
+    },
+    {
+      "pair_id": "coverage-docs-contracts-normative-contracts-v1",
+      "english": "docs/contracts/NORMATIVE_CONTRACTS_V1.md",
+      "russian": "docs/contracts/NORMATIVE_CONTRACTS_V1.ru.md",
+      "selectors": [],
+      "shared_literals": [],
+      "english_literals": [],
+      "russian_literals": [],
+      "compare_heading_levels": true,
+      "require_single_h1": false
+    },
+    {
+      "pair_id": "coverage-docs-governance-license-publication-decision-options",
+      "english": "docs/governance/LICENSE_PUBLICATION_DECISION_OPTIONS.md",
+      "russian": "docs/governance/LICENSE_PUBLICATION_DECISION_OPTIONS.ru.md",
+      "selectors": [
+        "(./LICENSE_PUBLICATION_DECISION_OPTIONS.md)",
+        "(./LICENSE_PUBLICATION_DECISION_OPTIONS.ru.md)"
+      ],
+      "shared_literals": [],
+      "english_literals": [],
+      "russian_literals": [],
+      "compare_heading_levels": true,
+      "require_single_h1": true
+    },
+    {
+      "pair_id": "coverage-docs-governance-readme",
+      "english": "docs/governance/README.md",
+      "russian": "docs/governance/README.ru.md",
+      "selectors": [
+        "(./README.md)",
+        "(./README.ru.md)"
+      ],
+      "shared_literals": [],
+      "english_literals": [],
+      "russian_literals": [],
+      "compare_heading_levels": true,
+      "require_single_h1": true
+    },
+    {
+      "pair_id": "coverage-docs-research-bio-inspired-computation-and-kitara",
+      "english": "docs/research/BIO_INSPIRED_COMPUTATION_AND_KITARA.md",
+      "russian": "docs/research/BIO_INSPIRED_COMPUTATION_AND_KITARA.ru.md",
+      "selectors": [
+        "(./BIO_INSPIRED_COMPUTATION_AND_KITARA.md)",
+        "(./BIO_INSPIRED_COMPUTATION_AND_KITARA.ru.md)"
+      ],
+      "shared_literals": [],
+      "english_literals": [],
+      "russian_literals": [],
+      "compare_heading_levels": true,
+      "require_single_h1": true
+    },
+    {
+      "pair_id": "coverage-docs-research-bpv1-d5-r1-qualification",
+      "english": "docs/research/BPV1_D5_R1_QUALIFICATION.md",
+      "russian": "docs/research/BPV1_D5_R1_QUALIFICATION.ru.md",
+      "selectors": [],
+      "shared_literals": [],
+      "english_literals": [],
+      "russian_literals": [],
+      "compare_heading_levels": true,
+      "require_single_h1": true
+    },
+    {
+      "pair_id": "coverage-docs-research-bpv1-d6-a10-classification",
+      "english": "docs/research/BPV1_D6_A10_CLASSIFICATION.md",
+      "russian": "docs/research/BPV1_D6_A10_CLASSIFICATION.ru.md",
+      "selectors": [],
+      "shared_literals": [],
+      "english_literals": [],
+      "russian_literals": [],
+      "compare_heading_levels": true,
+      "require_single_h1": true
+    },
+    {
+      "pair_id": "coverage-docs-research-bpv1-d7-integrated-rereview",
+      "english": "docs/research/BPV1_D7_INTEGRATED_REREVIEW.md",
+      "russian": "docs/research/BPV1_D7_INTEGRATED_REREVIEW.ru.md",
+      "selectors": [],
+      "shared_literals": [],
+      "english_literals": [],
+      "russian_literals": [],
+      "compare_heading_levels": true,
+      "require_single_h1": true
+    },
+    {
+      "pair_id": "coverage-docs-research-bpv1-d8-consolidated-sync",
+      "english": "docs/research/BPV1_D8_CONSOLIDATED_SYNC.md",
+      "russian": "docs/research/BPV1_D8_CONSOLIDATED_SYNC.ru.md",
+      "selectors": [],
+      "shared_literals": [],
+      "english_literals": [],
+      "russian_literals": [],
+      "compare_heading_levels": true,
+      "require_single_h1": true
+    },
+    {
+      "pair_id": "coverage-docs-research-h11-preregistration",
+      "english": "docs/research/H11_PREREGISTRATION.md",
+      "russian": "docs/research/H11_PREREGISTRATION.ru.md",
+      "selectors": [],
+      "shared_literals": [],
+      "english_literals": [],
+      "russian_literals": [],
+      "compare_heading_levels": true,
+      "require_single_h1": true
+    },
+    {
+      "pair_id": "coverage-docs-research-physarum-routing-experiment",
+      "english": "docs/research/PHYSARUM_ROUTING_EXPERIMENT.md",
+      "russian": "docs/research/PHYSARUM_ROUTING_EXPERIMENT.ru.md",
+      "selectors": [
+        "(./PHYSARUM_ROUTING_EXPERIMENT.md)",
+        "(./PHYSARUM_ROUTING_EXPERIMENT.ru.md)"
+      ],
+      "shared_literals": [],
+      "english_literals": [],
+      "russian_literals": [],
+      "compare_heading_levels": true,
+      "require_single_h1": true
+    },
+    {
+      "pair_id": "coverage-docs-research-post-d8-operator-decision",
+      "english": "docs/research/POST_D8_OPERATOR_DECISION.md",
+      "russian": "docs/research/POST_D8_OPERATOR_DECISION.ru.md",
+      "selectors": [],
+      "shared_literals": [],
+      "english_literals": [],
+      "russian_literals": [],
+      "compare_heading_levels": true,
+      "require_single_h1": true
+    },
+    {
+      "pair_id": "coverage-docs-research-residual-a10-validation-plan",
+      "english": "docs/research/RESIDUAL_A10_VALIDATION_PLAN.md",
+      "russian": "docs/research/RESIDUAL_A10_VALIDATION_PLAN.ru.md",
+      "selectors": [
+        "(./RESIDUAL_A10_VALIDATION_PLAN.md)",
+        "(./RESIDUAL_A10_VALIDATION_PLAN.ru.md)"
+      ],
+      "shared_literals": [],
+      "english_literals": [],
+      "russian_literals": [],
+      "compare_heading_levels": true,
+      "require_single_h1": true
+    },
+    {
+      "pair_id": "coverage-docs-reviews-iar-1-late-review-followup",
+      "english": "docs/reviews/IAR-1_LATE_REVIEW_FOLLOWUP.md",
+      "russian": "docs/reviews/IAR-1_LATE_REVIEW_FOLLOWUP.ru.md",
+      "selectors": [],
+      "shared_literals": [],
+      "english_literals": [],
+      "russian_literals": [],
+      "compare_heading_levels": true,
+      "require_single_h1": true
+    },
+    {
+      "pair_id": "coverage-docs-reviews-iar-1-reconciliation",
+      "english": "docs/reviews/IAR-1_RECONCILIATION.md",
+      "russian": "docs/reviews/IAR-1_RECONCILIATION.ru.md",
+      "selectors": [],
+      "shared_literals": [],
+      "english_literals": [],
+      "russian_literals": [],
+      "compare_heading_levels": false,
+      "require_single_h1": true
+    },
+    {
+      "pair_id": "coverage-docs-reviews-iar-1-result",
+      "english": "docs/reviews/IAR-1_RESULT.md",
+      "russian": "docs/reviews/IAR-1_RESULT.ru.md",
+      "selectors": [],
+      "shared_literals": [],
+      "english_literals": [],
+      "russian_literals": [],
+      "compare_heading_levels": true,
+      "require_single_h1": true
+    },
+    {
+      "pair_id": "coverage-docs-rfc-0001-curiosity-core-architecture",
+      "english": "docs/rfc/0001-curiosity-core-architecture.md",
+      "russian": "docs/rfc/0001-curiosity-core-architecture.ru.md",
+      "selectors": [],
+      "shared_literals": [],
+      "english_literals": [],
+      "russian_literals": [],
+      "compare_heading_levels": false,
+      "require_single_h1": true
+    },
+    {
+      "pair_id": "coverage-docs-rfc-0002-postgresql-reference-profile-v0",
+      "english": "docs/rfc/0002-postgresql-reference-profile-v0.md",
+      "russian": "docs/rfc/0002-postgresql-reference-profile-v0.ru.md",
+      "selectors": [],
+      "shared_literals": [],
+      "english_literals": [],
+      "russian_literals": [],
+      "compare_heading_levels": true,
+      "require_single_h1": true
     }
   ]
 }
