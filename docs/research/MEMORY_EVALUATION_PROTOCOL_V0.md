@@ -173,6 +173,8 @@ This protocol may compose with independent stress profiles for:
 - valid-time vs knowledge/record-time behavior;
 - long-horizon recall and multi-hop retrieval.
 
+Concrete inputs and expected observations for two research-only examples are listed in [Memory Evaluation Specimens v0.1](MEMORY_EVALUATION_SPECIMENS_V0_1.md). They instantiate these existing stress profiles and add no runtime behavior, invariant, or architecture authority.
+
 Composing a benchmark does not grant that benchmark authority over system truth or Canon.
 
 ## 11. Efficiency reporting
