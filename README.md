@@ -1,6 +1,15 @@
 <!-- H11_EXECUTION_ADMISSION_BLOCKED_CURRENT -->
 # 🧬 Velantrim Native Kernel
 
+> 🧬 **Preserving meaning and accountability when models, storage and software change.**
+>
+> **Why:** A fact may retain its text but lose essential context, uncertainty or provenance during migration. Native Kernel studies which semantic distinctions must survive and how to detect loss.
+>
+> **Example:** Moving a claim between storage systems should not silently turn an unsupported interpretation into trusted evidence.
+>
+> **Scope:** Technology-neutral research architecture with bounded lab evidence; production/runtime expansion is not authorized.
+
+
 **[English](./README.md) · [Русский](./README.ru.md)**
 
 ### A technology-neutral architecture for knowledge, memory, change, provenance, and accountable revision
