@@ -28,4 +28,4 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - name: Run synthetic read-only export comparisons
-        run: python -m unittest discover -s tests -p test_lab_state_transfer_probe.py -v
+        run: python -m unittest discover -s tests -p 'test_lab_state_transfer_probe.py' -v
