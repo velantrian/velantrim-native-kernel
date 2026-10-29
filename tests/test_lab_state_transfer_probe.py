@@ -28,6 +28,30 @@ class TransferProbeTests(unittest.TestCase):
         self.assertEqual(self.source, original)
         self.assertEqual(target, original)
 
+    def test_last_global_seq_only_change_passes_fails_and_blocks(self):
+        with tempfile.TemporaryDirectory() as directory:
+            source = Path(directory) / "source.json"
+            target = Path(directory) / "target.json"
+            source.write_text(json.dumps(self.source))
+            target.write_text(json.dumps(copy.deepcopy(self.source)))
+            self.assertEqual(probe.compare_files(source, target),
+                             {"status": "PASS", "scope": probe.SCOPE, "changed_fields": []})
+
+            changed = copy.deepcopy(self.source)
+            changed["last_global_seq"] += 1
+            target.write_text(json.dumps(changed))
+            before = source.read_bytes(), target.read_bytes()
+            self.assertEqual(probe.compare_files(source, target),
+                             {"status": "FAIL", "scope": probe.SCOPE,
+                              "changed_fields": ["last_global_seq"]})
+            self.assertEqual((source.read_bytes(), target.read_bytes()), before)
+
+            changed["last_global_seq"] = -1
+            target.write_text(json.dumps(changed))
+            blocked = probe.compare_files(source, target)
+            self.assertEqual(blocked["status"], "BLOCKED")
+            self.assertEqual(blocked["reason"], "invalid_target")
+
     def test_each_lost_state_dimension_fails_with_only_field_name(self):
         for field in ("stream_offsets", "admitted_claim_ids", "links", "utilization_counts",
                       "superseded_by", "erased_claim_ids"):
