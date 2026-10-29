@@ -9,12 +9,14 @@ with the existing `nk-p1-semantic-state/1` codec. Equal validated states report 
 different represented fields report FAIL with field names only. Unreadable,
 unsupported or malformed input reports BLOCKED. No inputs are rewritten.
 
-The tool checks represented stream offsets, admitted claim IDs, links, utilization
-counts, supersession and erased-claim IDs. Six unittest methods include paired
-positive/negative controls, one loss case for each of those six fields, malformed
-and duplicate-key JSON, non-finite constants, invalid UTF-8, excessive nesting,
-the 4 MiB input limit, unsupported exports, content-light reports and CLI exit codes.
-The existing 20 semantic-core tests and six new methods pass locally (Python 3.12.14).
+The tool checks represented last_global_seq, stream offsets, admitted claim IDs,
+links, utilization counts, supersession and erased-claim IDs. Seven unittest methods
+include a dedicated same/changed/invalid last_global_seq control, one loss case for
+each of the other six fields, malformed and duplicate-key JSON, non-finite constants,
+invalid UTF-8, excessive nesting, the 4 MiB input limit, unsupported exports,
+content-light reports and CLI exit codes. The initial 20 semantic-core tests and
+six probe methods passed locally (Python 3.12.14); the added regression is included
+in the focused Python 3.11/3.12 GitHub Actions suite.
 
 The focused `lab-state-transfer-probe.yml` workflow registers this test module on
 Python 3.11/3.12 with explicit path triggers. Existing discovery/integrity gates
