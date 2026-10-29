@@ -16,6 +16,10 @@ and duplicate-key JSON, non-finite constants, invalid UTF-8, excessive nesting,
 the 4 MiB input limit, unsupported exports, content-light reports and CLI exit codes.
 The existing 20 semantic-core tests and six new methods pass locally (Python 3.12.14).
 
+The focused `lab-state-transfer-probe.yml` workflow registers this test module on
+Python 3.11/3.12 with explicit path triggers. Existing discovery/integrity gates
+are preserved; no H11 experiment or new profile is executed by this workflow.
+
 ```bash
 python -m tools.lab.state_transfer_probe source-state.json target-state.json
 python -m unittest discover -s tests -p test_lab_state_transfer_probe.py -v
