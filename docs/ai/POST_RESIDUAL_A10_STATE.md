@@ -38,9 +38,11 @@ dependency_graph_execution_authorized: false
 semantic_adjudication_authorized: false
 runtime_expansion: FROZEN
 product_runtime_thaw: false
-Final Canon: DEFERRED / NOT AUTHORIZED
+Final Canon: DEFERRED / NOT_AUTHORIZED
 production: false
 ```
+
+Live Final Canon uses the machine token `DEFERRED / NOT_AUTHORIZED`. The D8 operator-decision checkpoint keeps its historical token `DEFERRED / NOT_AUTHORIZED_AT_THIS_CHECKPOINT` and must not be rewritten into current-only surfaces.
 
 `next_dependency` above is descriptive dependency metadata, **not** a new canonical gate name. The current repository-native gate remains `A10_H11_EXECUTION_ADMISSION`, and that gate is blocked.
 

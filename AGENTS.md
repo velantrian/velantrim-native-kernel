@@ -88,21 +88,26 @@ Do not manually assert `QUALIFIED` because a narrative matrix looks complete. Qu
 
 ## Current safety boundary
 
+Exact volatile tokens come from `project-state.json`. This card is the fail-closed operating projection only; do not invent a second live vocabulary.
+
 ```text
 RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY
 P1–C5: BOUNDED_REFERENCE_LABORATORY
 selected family: A10-H11
 current gate: A10_H11_EXECUTION_ADMISSION
-admission: BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER
+admission status: BLOCKED
+admission result: BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER
 reviewer/reproducer: NOT_ESTABLISHED
 H11: NOT_TESTED
 implementation/execution: NOT AUTHORIZED
 runtime expansion: FROZEN
 product runtime thaw: false
-Final Canon: DEFERRED / NOT AUTHORIZED
+Final Canon: DEFERRED / NOT_AUTHORIZED
 production: false
 Issue #88: OPEN
 ```
+
+`admission status: BLOCKED` and `admission result: BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER` are the same blocked gate expressed as machine `status` plus `admission_result`. Do not treat the short form as a different outcome.
 
 The frozen H11 plan is `H11-001-c5-lab-canon-separation-v1`, SHA-256 `60da649e675b79b3e70bf8a61cf03cb4d57bb989f4934b65ab8d50c925b19914`. Issue #178 is the current repository-visible external review/acquisition surface. PR #131 is a merged historical predecessor artifact; per ADR-0028 Basis 1, a candidate's authenticated declaration review is still made on PR #131 itself.
 
@@ -110,20 +115,7 @@ The committed H11 state-binding checkpoint is PR #130 / `e36b7f45410d74b8a65406b
 
 ## Architecture authority
 
-Do not treat A1–A10 first-draft wording as Final Canon or as the last interpretation when later reconciliation narrows it.
-
-```text
-ARCHITECTURE.md
-→ A1–A10 first-draft provenance
-→ Integrated A1–A10 Review
-→ IAR-1 qualifying challenge
-→ IAR-1-R1 reconciliation
-→ later accepted ADR / operator decisions for their explicit scope
-```
-
-Where first-draft wording conflicts with IAR-1-R1, the reconciliation is the current provisional interpretation unless a later accepted architecture authority explicitly supersedes that scope.
-
-Reference-laboratory mechanisms do not become universal architecture merely because current evidence depends on them.
+Do not treat A1–A10 first-draft wording as Final Canon or as the last interpretation when later reconciliation narrows it. Resolve meaning through the Formal Authority Core chain owned by `docs/ai/README.md` / `ARCHITECTURE.md` (`ARCHITECTURE.md` → A1–A10 first-draft provenance → Integrated Review → IAR-1 → IAR-1-R1 → later accepted ADR/operator decisions for their explicit scope). Where first-draft wording conflicts with IAR-1-R1, the reconciliation is the current provisional interpretation unless a later accepted architecture authority explicitly supersedes that scope.
 
 ```text
 reference laboratory ≠ Architecture authority
@@ -133,25 +125,15 @@ profile-specific mechanism ≠ universal semantic obligation
 
 ## Independent tracks
 
-Never collapse these tracks:
+Never collapse tracks H / C / R. Current compressed orientation:
 
 ```text
-H — Historical Recovery
-  OPEN / BLOCKED / operator-controlled source admission
-
-C — Clean Reference Implementation
-  P1–P5 + C4 + C5
-  PARTIAL / BOUNDED_REFERENCE_LABORATORY
-
-R — Architecture Re-foundation and post-blueprint research
-  A1–A10 first drafts complete / provisional
-  integrated review + IAR-1 + IAR-1-R1 complete
-  Option D / BPV-1 / D6–D8 complete for their recorded scope
-  ADR-0027 accepted
-  RAVP-001 complete
-  A10-H11 selected and preregistered
-  current admission BLOCKED pending genuine independent reviewer/reproducer evidence
+H — Historical Recovery: OPEN / BLOCKED / operator-controlled source admission
+C — Clean Reference Implementation: P1–C5 PARTIAL / BOUNDED_REFERENCE_LABORATORY
+R — Architecture Re-foundation / post-blueprint research: A10-H11 selected+preregistered; admission BLOCKED pending genuine independent reviewer/reproducer evidence
 ```
+
+Historical D5–D8 / ADR-0027 / RAVP chronology remains in `STATUS.md`, `ROADMAP.md`, `docs/research/**` and Git history; it is not a competing current gate.
 
 ## H11 fail-closed rules
 
@@ -238,22 +220,7 @@ If a historical document contains an old `NEXT`, `NOT_STARTED`, merge SHA or Not
 
 ## Verification
 
-At minimum for current truth / architecture-routing changes:
-
-```bash
-python tools/ai_context/validate_project_state.py --repo .
-python tools/ai_context/validate_architecture_freeze.py --repo .
-python tools/ai_context/validate_residual_a10_plan.py --repo .
-python tools/ai_context/validate_h11_family_selection.py --repo .
-python tools/ai_context/validate_h11_preregistration.py --repo .
-python tools/ai_context/validate_h11_execution_admission.py --repo .
-python tools/ai_context/validate_reconciliation.py --repo .
-python tools/ai_context/validate_context.py --repo .
-python tools/docs/validate_bilingual_parity.py --repo .
-python -m unittest discover -s tests -p 'test_ai_context_validator.py' -v
-```
-
-Run additional P4/P5/C3/C4/C5/BPV1 gates when changed-file scope triggers them. A skipped test is not PASS. An unavailable environment is `NOT_EXECUTED`.
+Use the command inventory under **Verification** in `docs/ai/README.md`. Do not maintain a second copy of that bash block here. A skipped test is not PASS. An unavailable environment is `NOT_EXECUTED`.
 
 ## Review discipline
 

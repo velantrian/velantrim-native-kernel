@@ -4,7 +4,7 @@
 This directory is the mandatory continuity surface for AI agents, auditors and maintainers.
 
 > [!IMPORTANT]
-> Resolve live GitHub state before mutation. The current repository-native gate is `A10_H11_EXECUTION_ADMISSION`; admission is `BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER`; the qualifying reviewer/reproducer is `NOT_ESTABLISHED`; H11: `NOT_TESTED`; runtime expansion: `FROZEN`; Final Canon remains `DEFERRED / NOT AUTHORIZED`; production remains `false`. Issue #178 is the open external review acquisition surface; PR #131 is a merged historical predecessor artifact. No documentation, CI, owner review, model agreement or Notion read-back may manufacture H11 independence.
+> Resolve live GitHub state before mutation. The current repository-native gate is `A10_H11_EXECUTION_ADMISSION`; admission status is `BLOCKED` with admission result `BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER`; the qualifying reviewer/reproducer is `NOT_ESTABLISHED`; H11: `NOT_TESTED`; runtime expansion: `FROZEN`; Final Canon remains `DEFERRED / NOT_AUTHORIZED`; production remains `false`. Issue #178 is the open external review acquisition surface; PR #131 is a merged historical predecessor artifact. No documentation, CI, owner review, model agreement or Notion read-back may manufacture H11 independence.
 
 ## Required reading order
 
@@ -70,12 +70,13 @@ NK-EPI: 0 SUPPORTED / 0 PARTIAL / 8 UNSUPPORTED / 0 FAILED
 P1–C5: BOUNDED_REFERENCE_LABORATORY
 selected family: A10-H11
 current gate: A10_H11_EXECUTION_ADMISSION
-admission: BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER
+admission status: BLOCKED
+admission result: BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER
 reviewer/reproducer: NOT_ESTABLISHED
 H11: NOT_TESTED
 implementation/execution: NOT AUTHORIZED
 runtime expansion: FROZEN
-Final Canon: DEFERRED / NOT AUTHORIZED
+Final Canon: DEFERRED / NOT_AUTHORIZED
 production: false
 ```
 

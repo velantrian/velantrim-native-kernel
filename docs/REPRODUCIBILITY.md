@@ -12,7 +12,7 @@ env ready ≠ runtime authorized
 env ready ≠ Final Canon
 ```
 
-Current authority (unchanged by this guide): H11 `NOT_TESTED`; reviewer/reproducer `NOT_ESTABLISHED`; admission `BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER`; runtime expansion `FROZEN`; Final Canon `DEFERRED / NOT AUTHORIZED`; production `false`.
+Current authority (unchanged by this guide): H11 `NOT_TESTED`; reviewer/reproducer `NOT_ESTABLISHED`; admission status `BLOCKED` / admission result `BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER`; runtime expansion `FROZEN`; Final Canon `DEFERRED / NOT_AUTHORIZED`; production `false`.
 
 Read-only environment probe:
 

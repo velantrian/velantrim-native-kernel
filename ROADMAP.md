@@ -13,7 +13,7 @@ execution_admission_state: BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER
 qualifying_reviewer_reproducer: NOT_ESTABLISHED
 h11_outcome: NOT_TESTED
 runtime_expansion: FROZEN
-final_canon: DEFERRED / NOT AUTHORIZED
+final_canon: DEFERRED / NOT_AUTHORIZED
 production_authorized: false
 ```
 

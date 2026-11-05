@@ -5,19 +5,24 @@ This file is the **active-risk register**. Historical defect chronology remains 
 
 ```yaml
 document_role: ACTIVE_RISKS
-status_as_of: 2026-08-23
+status_as_of: 2026-10-01
 authoritative_machine_source: ../../project-state.json
 repository_status: RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY
 selected_family: A10-H11
 current_gate: A10_H11_EXECUTION_ADMISSION
+admission_status: BLOCKED
+admission_result: BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER
 admission: BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER
 reviewer_reproducer: NOT_ESTABLISHED
 h11_outcome: NOT_TESTED
 positive_qualification_design: ADR-0028 / OPTION_C_HYBRID_TWO_BASIS
 positive_qualification_implementation: IMPLEMENTED / NO_CANDIDATE_EVALUATED
 runtime_expansion: FROZEN
+Final_Canon: DEFERRED / NOT_AUTHORIZED
 production_authorized: false
 ```
+
+`status_as_of` tracks the newest facts already recorded in this register (including ADR-0028 positive-qualification implementation with no candidate evaluated). It is a freshness stamp for the risk surface, not a new H11 or runtime authorization.
 
 ## Risk-state vocabulary
 
