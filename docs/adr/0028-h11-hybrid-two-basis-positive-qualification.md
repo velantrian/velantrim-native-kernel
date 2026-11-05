@@ -10,7 +10,7 @@
 - **A10_H11_EXECUTION_ADMISSION:** `BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER`
 - **H11:** `NOT_TESTED`
 - **Runtime:** `FROZEN`
-- **Final Canon:** `DEFERRED / NOT AUTHORIZED`
+- **Final Canon:** `DEFERRED / NOT_AUTHORIZED`
 - **Production:** `NOT AUTHORIZED`
 
 ## Current implementation overlay — 2026-08-23

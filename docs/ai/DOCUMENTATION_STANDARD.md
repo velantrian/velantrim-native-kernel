@@ -161,6 +161,16 @@ For volatile state:
 - `docs/ai/README.md` owns AI reading order;
 - evidence/contract records own their scoped observations and results.
 
+Live token binding for current H11 / Canon projections:
+
+```text
+h11_execution_admission.status           → BLOCKED
+h11_execution_admission.admission_result  → BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER
+h11_execution_admission.final_canon       → DEFERRED / NOT_AUTHORIZED
+```
+
+Do not invent a spaced live Final Canon token such as `DEFERRED / NOT AUTHORIZED`. Keep the historical D8 checkpoint token `DEFERRED / NOT_AUTHORIZED_AT_THIS_CHECKPOINT` only inside that checkpoint's provenance. When a surface needs the short admission status, pair it with the full `admission_result`; `BLOCKED` alone is not a different outcome. Prefer citing machine fields over copying a second full gate essay into every agent surface.
+
 For stable architecture meaning:
 
 - `ARCHITECTURE.md` and its named owning architecture documents are the formal entrypoint;

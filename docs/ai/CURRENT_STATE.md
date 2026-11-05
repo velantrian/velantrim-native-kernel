@@ -13,6 +13,8 @@ live_head_source: GitHub API or checked-out Git ref
 repository_status: RESEARCH / C5 BOUNDED OPERATIONAL REHEARSAL / NOT PRODUCTION-READY
 selected_family: A10-H11
 current_gate: A10_H11_EXECUTION_ADMISSION
+execution_admission_status: BLOCKED
+execution_admission_result: BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER
 execution_admission_state: BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER
 qualifying_reviewer_reproducer: NOT_ESTABLISHED
 h11_outcome: NOT_TESTED
@@ -25,7 +27,7 @@ previous_notion_sync_surfaces: 8
 runtime_expansion: FROZEN
 product_runtime_thaw: false
 production: false
-Final Canon: DEFERRED / NOT AUTHORIZED
+Final Canon: DEFERRED / NOT_AUTHORIZED
 open_review_surface: Issue #178
 historical_acquisition_artifact: PR #131 (MERGED / CLOSED, 2026-09-01)
 active_architecture_issue: 88
@@ -41,6 +43,20 @@ positive_qualification_request: nk-h11-positive-qualification-request/1
 positive_qualification_evaluator: nk-h11-positive-qualification-evaluation/1
 next_dependency: ESTABLISH_GENUINELY_EXTERNAL_CANDIDATE_THEN_EVALUATE_ADR0028_QUALIFICATION
 ```
+
+Machine vocabulary binding for this surface:
+
+```text
+execution_admission_status = project-state h11_execution_admission.status = BLOCKED
+execution_admission_result = project-state h11_execution_admission.admission_result
+                           = BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER
+execution_admission_state  = same token as admission_result (legacy projection alias)
+Final Canon                = project-state h11_execution_admission.final_canon
+                           = DEFERRED / NOT_AUTHORIZED
+D8 checkpoint Final Canon  = DEFERRED / NOT_AUTHORIZED_AT_THIS_CHECKPOINT (historical only)
+```
+
+`BLOCKED` alone is the admission status. It is not a different outcome from the full `admission_result` token.
 
 The ADR-0028 positive-qualification implementation projection has now been synchronized and read back across the same eight existing Native Kernel pages with zero new pages created. This synchronization records only repository-resident implementation status; no candidate was evaluated and no H11 authority changed. The preserved `notion_synchronized_through` SHA remains the historical H11 post-130 machine checkpoint; it is not redefined by this descendant synchronization.
 
@@ -82,7 +98,8 @@ frozen plan SHA-256: 60da649e675b79b3e70bf8a61cf03cb4d57bb989f4934b65ab8d50c925b
 frozen laboratory subject: native-kernel/c5/2026-08-08-adr0023
 required oracle: INDEPENDENT_SEMANTIC_ORACLE
 current gate: A10_H11_EXECUTION_ADMISSION
-admission: BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER
+admission status: BLOCKED
+admission result: BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER
 reviewer/reproducer: NOT_ESTABLISHED
 H11: NOT_TESTED
 positive qualification design: ADR-0028 / OPTION_C_HYBRID_TWO_BASIS
@@ -92,7 +109,7 @@ H11 execution: NOT AUTHORIZED
 dependency-graph execution: NOT AUTHORIZED
 semantic adjudication: NOT AUTHORIZED
 runtime expansion: FROZEN
-Final Canon: DEFERRED / NOT AUTHORIZED
+Final Canon: DEFERRED / NOT_AUTHORIZED
 production: false
 ```
 
@@ -148,9 +165,10 @@ Issue #163 — positive qualification implementation
   policy/schema/evaluator: IMPLEMENTED
   candidate evaluation: NONE
   qualifying reviewer/reproducer: NOT_ESTABLISHED
-  H11 execution admission: BLOCKED
+  H11 execution admission status: BLOCKED
+  H11 execution admission result: BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER
 Track H source admission: OPERATOR-CONTROLLED
-Final Canon: DEFERRED / NOT AUTHORIZED
+Final Canon: DEFERRED / NOT_AUTHORIZED
 runtime thaw: false
 production: false
 ```

@@ -49,7 +49,8 @@ Current research routing is fail-closed:
 ```text
 selected family: A10-H11
 gate: A10_H11_EXECUTION_ADMISSION
-admission: BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER
+admission status: BLOCKED
+admission result: BLOCKED_NO_QUALIFYING_INDEPENDENT_REVIEWER_REPRODUCER
 reviewer/reproducer: NOT_ESTABLISHED
 H11: NOT_TESTED
 implementation/execution: NOT AUTHORIZED
@@ -57,7 +58,7 @@ dependency-graph execution: NOT AUTHORIZED
 semantic adjudication: NOT AUTHORIZED
 runtime: FROZEN
 product runtime thaw: false
-Final Canon: DEFERRED / NOT AUTHORIZED
+Final Canon: DEFERRED / NOT_AUTHORIZED
 production: false
 ```
 

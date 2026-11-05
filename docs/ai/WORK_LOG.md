@@ -17,7 +17,7 @@ Frozen plan bytes/SHA:         UNCHANGED
 H11 execution:                 NOT AUTHORIZED / NOT PERFORMED
 H11 outcome:                   NOT_TESTED
 Runtime expansion:             FROZEN
-Final Canon:                   DEFERRED / NOT AUTHORIZED
+Final Canon:                   DEFERRED / NOT_AUTHORIZED
 Production:                    false
 Documentation impact:          GITHUB_AND_NOTION
 Notion:                        review-stage sync/read-back 7/7 complete; final merge sync pending; no new pages

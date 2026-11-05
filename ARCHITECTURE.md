@@ -27,7 +27,7 @@ ARCHITECTURE.md
 → later accepted ADR / operator decisions for their explicit scope
 ```
 
-`IAR-1-R1 reconciliation is the current provisional interpretation where it conflicts with first-draft wording`. A later accepted architecture decision may supersede only the scope it explicitly owns. Final Canon remains `DEFERRED / NOT AUTHORIZED`.
+`IAR-1-R1 reconciliation is the current provisional interpretation where it conflicts with first-draft wording`. A later accepted architecture decision may supersede only the scope it explicitly owns. Final Canon remains `DEFERRED / NOT_AUTHORIZED`.
 
 In particular, Event sourcing, append-only history, deterministic reduction, Claim serialization, and rebuildable projections remain binding for the existing P1–C5 reference laboratory and its versioned contracts. The reconciliation explicitly prevents those mechanisms from becoming universal substrate-neutral obligations merely because the laboratory depends on them.
 
